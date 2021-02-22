@@ -1,0 +1,31 @@
+.header {
+    width: 100%;
+    padding: 0px 80px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #0D74AF;
+    z-index: 1000;
+}
+
+.header .header--project {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.25;
+    padding: 24px 16px 24px 0;
+    color: #ffffff;
+}
+
+.header .header--links {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100px;  
+}
+
+.header .header--links .header--link {
+    text-decoration: none;
+    color: #ffffff;
+}

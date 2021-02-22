@@ -1,0 +1,2 @@
+class RubiconException(Exception):
+    pass

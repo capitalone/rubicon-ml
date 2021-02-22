@@ -1,0 +1,36 @@
+name: rubicon-dev
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7.6
+  - pip
+
+  - click>=7.1
+  - dask[dataframe]>=2.12.0
+  - fsspec=0.8.3
+  - intake>=0.5.2
+  - pyarrow>=0.16.0,<0.18.0
+  - pyyaml>=5.3.0,<5.4.0
+
+  # required for S3 backend
+  - s3fs>=0.5.1
+
+  # required for prefect workflows
+  - prefect>=0.12.0
+
+  # required for UI (including testing)
+  - dash>=1.14.0
+  - dash-bootstrap-components>=0.10.6
+  - selenium>=3.141.0
+  - beautifulsoup4>=4.8.2
+
+  # required for testing
+  - black=19.10b0
+  - flake8
+  - isort>=4.0.0,<5.0.0
+  - pytest
+  - pytest-cov
+
+  - pip:
+    # required for UI testing (not available on conda)
+    - percy>=2.0.2

@@ -1,0 +1,13 @@
+sources:
+  project_a:
+    driver: rubicon_project
+    args:
+      urlpath: '{{ CATALOG_DIR }}/data'
+      project_name: 'intake-rubicon unit testing'
+
+  experiment_a:
+    driver: rubicon_experiment
+    args:
+      urlpath: '{{ CATALOG_DIR }}/data'
+      project_name: 'intake-rubicon unit testing'
+      experiment_id: '5f6ca6a1-563f-4f34-a34b-b45997bc4a1f'

@@ -1,0 +1,45 @@
+.project-selection {
+    padding-left: 64px;
+}
+
+.project-selection .project-selection--header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 120px;
+    margin-bottom: 12px;
+}
+
+.project-selection .project-selection--label {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: #0d74af;
+}
+
+.project-selection .project-selection--list {
+    cursor: pointer;
+}
+
+.project-selection .project-selection--list ul li {
+    background-color: white;
+    margin-bottom: 10px;
+    border-radius: .25rem;
+    border-color: #0d74af;
+    border-top-width: thin;
+}
+
+.project-selection .project-selection--list ul li:hover{
+    color: #0a5783;
+    border-color: #0a5783;
+}
+
+#project-selection--refresh-projects-btn {
+    color: #0d74af;
+    cursor: pointer;
+}
+
+#project-selection--refresh-projects-btn:hover {
+    color: #0a5783;
+}

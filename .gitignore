@@ -1,0 +1,14 @@
+__pycache__
+docs/build
+docs/source/*.ipynb
+docs/source/out
+.coverage
+.coverage.*
+.cache/**
+.DS_Store
+*.py[cod]
+*.egg-info/**
+**/dask-worker-space/
+**/rubicon-root/
+**/.ipynb_checkpoints/
+**/.vscode/**

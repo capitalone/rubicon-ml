@@ -1,0 +1,162 @@
+/* Font Awesome Style Overrides */
+
+.fa-sync-alt {
+    color: #0D74AF;
+}
+
+.fa-chevron-down {
+    color: #0D74AF;
+}
+
+.fa-question-circle {
+    color: #0d74af82;
+    margin: auto 8px;
+}
+
+/* Shared components */
+
+a {
+    color: #0D74AF;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0a5783;
+    text-decoration: none;
+}
+
+.btn-group {
+    margin-bottom: 12px;
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-progressive {
+    box-shadow: none;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-family: Optimist, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #ffffff;
+    background-color: #0D74AF;
+    font-size: 14px;
+    line-height: 2;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    text-decoration: none;
+    margin: 0px;
+    outline: none;
+    padding: 0px 16px;
+    border-radius: 4px;
+}
+
+.btn-progressive:hover {
+    background: #0a5783;
+}
+
+.empty-view {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.empty-view img {
+    height: 200px;
+}
+
+.empty-view .empty-view--title {
+    height: 30px;
+    font-family: Optimist;
+    font-size: 20px;
+    line-height: 1.5;
+    color: rgb(39, 59, 73);
+}
+
+.empty-view .empty-view--instructions {
+    height: 24px;
+    font-family: Optimist;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgb(104, 118, 128);
+}
+
+/*
+Fixes a style issue on the dash datatable that
+was introduced from the dash bootstrap.min.css
+*/
+.dash-spreadsheet .row {
+    flex-wrap: nowrap;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+@-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fadein {
+      0% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 1;
+      }
+  }
+
+  @-webkit-keyframes fadein {
+      0% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 1;
+      }
+  }
+
+/*
+Styles for any dash dcc or html component when it is loading.
+The delays are added to ensure the loading indicator only
+renders after a given amount of time to avoid flashs for
+short data loads.
+*/
+*[data-dash-is-loading="true"] {
+    visibility: hidden;
+}
+
+*[data-dash-is-loading="true"]::before {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    content: "";
+    visibility: visible;
+    margin: 60px auto;
+    border-radius: 50%;
+    border-top: 4px solid #0D74AF;
+    border-right: 4px solid #0D74AF;
+    border-bottom: 4px solid #0D74AF;
+    border-left: 4px solid #ffffff;
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+    background-color: #ffffff;
+    -webkit-animation: fadein 1s linear forwards, spin 1.25s infinite linear;
+    animation: fadein 1s linear forwards, spin 1.25s infinite linear;
+    animation-delay: 1s;
+    -webkit-animation-delay: 1s;
+}

@@ -1,0 +1,17 @@
+repos:
+    -   repo: https://github.com/psf/black
+        rev: 19.10b0
+        hooks:
+        - id: black
+          language_version: python3.7
+    
+    -   repo: https://github.com/timothycrosley/isort
+        rev: cd9c2f6e70196bd429d0179635e0fac2d034ac5e
+        hooks:
+        - id: isort
+          args: ["-rc"]
+    
+    - repo: https://gitlab.com/pycqa/flake8
+      rev: 3.7.7
+      hooks:
+          - id: flake8
