@@ -1,0 +1,57 @@
+.group-detail-card {
+    margin-bottom: 8px;
+    border: none;
+}
+
+.group-detail-card-body {
+    padding-top: 0px;
+}
+
+.experiment-details-header {
+    margin: inherit;
+    display: flex;
+    flex-direction: row;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 11px;
+    color: #0d74af;
+}
+
+.experiment-comparison-header {
+    margin: 36px 0px 6px 0px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.group-preview-row {
+    justify-content: start;
+    margin: inherit;
+    border-top: 2px #dfdfdf solid;
+}
+
+.group-preview-title {
+    margin: auto 0px auto 4px;
+    padding: 16px 0px;
+}
+
+.group-preview-title-link {
+    margin: auto 0px auto 4px;
+}
+
+.group-preview-model-names {
+    margin: auto 0px;
+    padding-left: 48px;
+}
+
+.show-group-detail-collapsable-btn {
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0);
+    transform: rotate(180deg);
+    margin-left: auto;
+}
+
+.hide-group-detail-collapsable-btn {
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0);
+    margin-left: auto;
+}
