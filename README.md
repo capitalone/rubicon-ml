@@ -1,15 +1,11 @@
 # Rubicon
 
-`rubicon` is a model development and governance library that stores model
-inputs, analyses and results for quick, simple model iteration and
-reproducibility.
-
-With minimal effort, `rubicon` can integrate directly into Python model code:
+`rubicon` is a data science tool for capturing all information related to a model during its development. With minimal effort, Rubicon's Python library can integrate directly into your Python models:
 
 ```python
 from rubicon import Rubicon
 
-# Configure client object
+# Configure client object, automatically track git details
 rubicon = Rubicon(persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True)
 
 # Create a project to hold a collection of experiments
@@ -29,7 +25,7 @@ experiment.log_parameter("random_state", random_state)
 accuracy = rfc.score(X_test, y_test)
 experiment.log_metric("accuracy", accuracy)
 
-# Tag experiment data
+# Tag the data so it's easily filterable
 if accuracy >= .94:
     experiment.add_tags(["success"])
 ```
@@ -44,23 +40,23 @@ rubicon ui --root-dir /rubicon-root
 
 ## Purpose
 
-Rubicon is a lightweight Python library for model development and governance
-that can integrate directly into your model code. It’s useful for both model
-developers and model reviewers and offers the following features:
+Rubicon is a data science tool for capturing all information related to a model
+during its development. It allows data scientists to store model results
+over time and ensures full audibility and reproducibility.
+
+It offers the following features:
 
 * a Python library for storing and retrieving model inputs, ouputs, and analyses
   to filesystems (local, S3)
 
 * a dashboard for exploring, comparing, and visualizing logged data
 
-* a process for sharing a selected subset of logged data with collaborators and
-  reviewers
+* a process for sharing a selected subset of logged data with collaborators
 
-Rubicon is designed to enforce best practices, like automatically linking your
-logged results (experiments) to the corresponding model code. It supports
-concurrent logging, so you can log multiple results at a time and it also
-supports asynchronous communication with S3, so your network reads and writes
-won’t block.
+Rubicon is designed to enforce best practices, like automatically linking
+logged experiments (results) to their corresponding model code. And it supports
+concurrent logging, so multiple experiments can be logged in parallel and also
+asynchronous communication with S3, so network reads and writes don’t block.
 
 ## Documentation
 
