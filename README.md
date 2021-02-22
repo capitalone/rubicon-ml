@@ -1,15 +1,18 @@
 # Rubicon
 
-`rubicon` is a model development and governance library that stores model inputs, analyses and
-results for quick, simple model iteration and reproducibility.
+`rubicon` is a model development and governance library that stores model
+inputs, analyses and results for quick, simple model iteration and
+reproducibility.
 
-With minimal effort, rubicon can integrate directly into Python model code:
+With minimal effort, `rubicon` can integrate directly into Python model code:
 
 ```python
 from rubicon import Rubicon
 
-# Configure client object and create a project to hold a collection of experiments
+# Configure client object
 rubicon = Rubicon(persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True)
+
+# Create a project to hold a collection of experiments
 project = rubicon.create_project("Hello World", description="Using rubicon to track model results over time.")
 
 # Log experiment data
@@ -37,9 +40,33 @@ Explore and visualize Rubicon projects stored locally or in S3 with the CLI:
 rubicon ui --root-dir /rubicon-root
 ```
 
-For a full overview, visit the [docs](TODO).
+---
 
-If you have suggestions or find a bug, [please open an issue](https://github.com/capitalone/rubicon/issues/new/choose).
+## Purpose
+
+Rubicon is a lightweight Python library for model development and governance
+that can integrate directly into your model code. It’s useful for both model
+developers and model reviewers and offers the following features:
+
+* a Python library for storing and retrieving model inputs, ouputs, and analyses
+  to filesystems (local, S3)
+
+* a dashboard for exploring, comparing, and visualizing logged data
+
+* a process for sharing a selected subset of logged data with collaborators and
+  reviewers
+
+Rubicon is designed to enforce best practices, like automatically linking your
+logged results (experiments) to the corresponding model code. It supports
+concurrent logging, so you can log multiple results at a time and it also
+supports asynchronous communication with S3, so your network reads and writes
+won’t block.
+
+## Documentation
+
+For a full overview, visit the [docs](TODO). If you have suggestions or find a
+bug, [please open an
+issue](https://github.com/capitalone/rubicon/issues/new/choose).
 
 ## Install
 
@@ -53,21 +80,11 @@ or
 conda install -c conda-forge rubicon-ml
 ```
 
-## Purpose
-
-Rubicon is a lightweight Python library for model development and governance that can integrate directly into your model code. It’s useful for both model developers and model reviewers and offers the following features:
-
-* a Python library for storing and retrieving model inputs, ouputs, and analyses to filesystems (local, S3)
-
-* a dashboard for exploring, comparing, and visualizing logged data
-
-* a process for sharing a selected subset of logged data with collaborators and reviewers
-
-Rubicon is designed to enforce best practices, like automatically tieing your logged results (experiments) to the corresponding model code. It supports concurrent logging, so you can log multiple results at a time and it also supports asynchronous communication with S3, so your network reads and writes won’t block.
-
 ## Develop
 
-`rubicon` uses conda to manage environments. First, install [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html). Then use conda to setup a development environment:
+`rubicon` uses conda to manage environments. First, install
+[conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
+Then use conda to setup a development environment:
 
 ```bash
 conda env create -f ci/environment.yml
@@ -76,32 +93,45 @@ conda activate rubicon-dev
 
 ## Testing
 
-The tests are separated into unit and integration tests. They can be run directly in the activated dev environment via `pytest tests/unit` or `pytest tests/integration`. Or by simply running `pytest` to execute all of them.
+The tests are separated into unit and integration tests. They can be run
+directly in the activated dev environment via `pytest tests/unit` or `pytest
+tests/integration`. Or by simply running `pytest` to execute all of them.
 
-**Note**: some integration tests are intentionally `marked` to control when they are run (i.e. not during cicd). These tests include:
+**Note**: some integration tests are intentionally `marked` to control when they
+are run (i.e. not during cicd). These tests include:
 
-* Integration tests that connect to physical filesystems (local, S3). You'll want to configure the `root_dir` appropriately for these tests (tests/integration/test_async_rubicon.py, tests/integration/test_rubicon.py). And they can be run with:
+* Integration tests that connect to physical filesystems (local, S3). You'll
+  want to configure the `root_dir` appropriately for these tests
+  (tests/integration/test_async_rubicon.py, tests/integration/test_rubicon.py).
+  And they can be run with:
 
     ```
     pytest -m "physical_filesystem_test"
     ```
 
-* Integration tests for the dashboard. To run these integration tests locally, you'll need to install one of the WebDrivers. To do so, follow the `Install` instructions in the [Dash Testing Docs](https://dash.plotly.com/testing) or install via brew with `brew cask install chromedriver`. You may have to update your permissions in Security & Privacy to install with brew.
+* Integration tests for the dashboard. To run these integration tests locally,
+  you'll need to install one of the WebDrivers. To do so, follow the `Install`
+  instructions in the [Dash Testing Docs](https://dash.plotly.com/testing) or
+  install via brew with `brew cask install chromedriver`. You may have to update
+  your permissions in Security & Privacy to install with brew.
 
     ```
     pytest -m "dashboard_test"
     ```
-    
-    **Note**: The `--headless` flag can be added to run the dashboard tests in headless mode.
+
+    **Note**: The `--headless` flag can be added to run the dashboard tests in
+    headless mode.
 
 ## Code Formatting
 
-Install and configure [pre-commit](https://pre-commit.com/) to
-automatically run `black`, `flake8`, and `isort` during commits:
+Install and configure pre-commit to automatically run `black`, `flake8`, and
+`isort` during commits:
 * [install pre-commit](https://pre-commit.com/#installation)
 * run `pre-commit install` to set up the git hook scripts
 
-Now `pre-commit` will run automatically on git commit and will ensure consistent code format throughout the project. You can format without committing via `pre-commit run` or skip these checks with `git commit --no-verify`.
+Now `pre-commit` will run automatically on git commit and will ensure consistent
+code format throughout the project. You can format without committing via
+`pre-commit run` or skip these checks with `git commit --no-verify`.
 
 ## Contributors
 
