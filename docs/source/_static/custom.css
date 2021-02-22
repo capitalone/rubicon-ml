@@ -1,0 +1,13 @@
+/*
+    the ipython3 code blocks coming from the notebooks
+    were not getting the dark theme styles applied, so
+    manually overriding them
+*/
+@media (prefers-color-scheme: dark) {
+    .highlight-ipython3 {
+        border: none !important;
+        border-radius: 2px !important;
+        background: #202020 !important;
+        color: #d0d0d0 !important;
+    }
+}
