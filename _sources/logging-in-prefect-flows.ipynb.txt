@@ -1,0 +1,519 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Prefect Integration for Workflow Management\n",
+    "\n",
+    "[Prefect](https://www.prefect.io/) is an open source workflow management engine that `rubicon` can integrate directly into. In Prefect, a unit of work is called a **task**, and a collection of **tasks** makes up a **flow**. A **flow** represents your workflow pipeline.\n",
+    "\n",
+    "**Note**: Make sure you've installed `rubicon` with the `prefect` extra before you get started!\n",
+    "\n",
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll [run a Prefect server locally](https://docs.prefect.io/core/getting_started/installation.html#running-the-local-server-and-ui) for this example. If you already have Prefect and Docker installed, you can start a Prefect server and agent with these commands:\n",
+    "\n",
+    "```bash\n",
+    "prefect server start\n",
+    "prefect agent start\n",
+    "```\n",
+    "\n",
+    "For more context, check out the [workflow README on GitHub](https://github.com/capitalone/rubicon/tree/main/rubicon/workflow).\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**Setting up a Simple Flow**\n",
+    "\n",
+    "Now we can get started! Creating Prefect **tasks** is easy enough on its own, but we've added some simple ones to the `rubicon` library."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from rubicon.workflow.prefect import (\n",
+    "    get_or_create_project_task,\n",
+    "    create_experiment_task,\n",
+    "    log_artifact_task,\n",
+    "    log_dataframe_task,\n",
+    "    log_feature_task,\n",
+    "    log_metric_task,\n",
+    "    log_parameter_task,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll need a workflow to integrate `rubicon` logging into, so let's put together a simple one. To mimic a realistic example, we'll create tasks for loading data, splitting said data, extracting features, and training a model."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from prefect import task\n",
+    "\n",
+    "@task\n",
+    "def load_data():\n",
+    "    from sklearn.datasets import load_wine\n",
+    "    \n",
+    "    return load_wine()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@task\n",
+    "def split_data(dataset):\n",
+    "    from sklearn.model_selection import train_test_split\n",
+    "    from datetime import datetime\n",
+    "    \n",
+    "    X_train, X_test, y_train, y_test = train_test_split(\n",
+    "        dataset.data, dataset.target, test_size=0.50, random_state=int(datetime.utcnow().timestamp())\n",
+    "    )\n",
+    "\n",
+    "    return X_train, X_test, y_train, y_test"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@task\n",
+    "def get_feature_names(dataset):\n",
+    "    return dataset.feature_names"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@task\n",
+    "def fit_pred_model(train_test_split_result, n_components, n_neighbors, is_standardized):\n",
+    "    import numpy as np\n",
+    "    from datetime import datetime\n",
+    "    from sklearn import metrics\n",
+    "    from sklearn.decomposition import PCA\n",
+    "    from sklearn.neighbors import KNeighborsClassifier\n",
+    "    from sklearn.pipeline import make_pipeline\n",
+    "    from sklearn.preprocessing import StandardScaler\n",
+    "\n",
+    "    X_train, X_test, y_train, y_test = train_test_split_result\n",
+    "\n",
+    "    if is_standardized:\n",
+    "        classifier = make_pipeline(\n",
+    "            StandardScaler(),\n",
+    "            PCA(n_components=n_components),\n",
+    "            KNeighborsClassifier(n_neighbors=n_neighbors)\n",
+    "        )\n",
+    "    else:\n",
+    "        classifier = make_pipeline(\n",
+    "            PCA(n_components=n_components),\n",
+    "            KNeighborsClassifier(n_neighbors=n_neighbors)\n",
+    "        )\n",
+    "        \n",
+    "    classifier.fit(X_train, y_train)\n",
+    "    pred_test = classifier.predict(X_test)\n",
+    "    accuracy = metrics.accuracy_score(y_test, pred_test)\n",
+    "    \n",
+    "    return accuracy"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Without `rubicon`, here's what this simple **flow** would look like:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from prefect import Flow\n",
+    "\n",
+    "n_components = 2\n",
+    "n_neighbors = 5\n",
+    "is_standardized = True\n",
+    "\n",
+    "with Flow(\"Wine Classification\") as flow:\n",
+    "    wine_dataset = load_data()\n",
+    "    \n",
+    "    feature_names = get_feature_names(wine_dataset)\n",
+    "    train_test_split = split_data(wine_dataset)\n",
+    "    \n",
+    "    accuracy = fit_pred_model(train_test_split, n_components, n_neighbors, is_standardized)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "**Running a Flow and Viewing Results**\n",
+    "\n",
+    "Now we'll register our **flow** with the local server. The URL printed from the call to `flow.register` opens the local Prefect UI. We can use it to run and monitor our **flows**. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "flow_id = flow.register()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We could also put together a function to run our **flows** and wait for them to finish. That would look something like this:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import time\n",
+    "from prefect import Client\n",
+    "\n",
+    "prefect_client = Client()\n",
+    "\n",
+    "def run_flow(client, flow_id):\n",
+    "    flow_run_id = client.create_flow_run(flow_id=flow_id)\n",
+    "    \n",
+    "    is_finished = False\n",
+    "    while not is_finished:\n",
+    "        state = client.get_flow_run_info(flow_run_id).state\n",
+    "        print(f\"{state.message.strip('.')}. Waiting...\")\n",
+    "        \n",
+    "        time.sleep(3)\n",
+    "        \n",
+    "        is_finished = state.is_finished()\n",
+    "\n",
+    "    assert state.is_successful()\n",
+    "    print(f\"Flow run {flow_run_id} was successful!\")\n",
+    "    \n",
+    "    return flow_run_id\n",
+    "    \n",
+    "flow_run_id = run_flow(prefect_client, flow_id)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We assigned a few variables in our **flow**, most notably the result of `fit_pred_model`, `accuracy`. This accuracy metric is how we'll determine whether or not the model we trained is a success. However, retrieving state variables from **flows** is a bit cumbersome."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "info = prefect_client.get_flow_run_info(flow_run_id)\n",
+    "\n",
+    "slugs = [t.task_slug for t in info.task_runs]\n",
+    "index = slugs.index(accuracy.slug)\n",
+    "\n",
+    "result = info.task_runs[index].state._result.read(info.task_runs[index].state._result.location)\n",
+    "print(f\"accuracy: {result.value}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    " What's going on here isn't exactly intuitive, and all that only extracted one piece of data from one task."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "**This is Where Rubicon Comes In!**\n",
+    "\n",
+    "We can leverage the Prefect tasks within the `rubicon` library to log all the info we want about our model run. Then, we can use the standard `rubicon` logging library to retrieve and inspect our metrics and other logged data. This is much simpler than digging through the state of each executed **task** and extracting its results.\n",
+    "\n",
+    "Here's the same flow from above, this time with `rubicon` **tasks** integrated."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from prefect import unmapped\n",
+    "\n",
+    "n_components = 2\n",
+    "n_neighbors = 5\n",
+    "is_standardized = True\n",
+    "\n",
+    "with Flow(\"Wine Classification with Rubicon\") as flow:\n",
+    "    root_dir = \"./rubicon-root\"\n",
+    "    project = get_or_create_project_task(\n",
+    "        \"filesystem\", root_dir, \"Wine Classification with Prefect\"\n",
+    "    )\n",
+    "    experiment = create_experiment_task(project, name=\"example with Prefect\")\n",
+    "    \n",
+    "    wine_dataset = load_data()\n",
+    "    \n",
+    "    feature_names = get_feature_names(wine_dataset)\n",
+    "    train_test_split = split_data(wine_dataset)\n",
+    "    \n",
+    "    log_feature_task.map(unmapped(experiment), feature_names)\n",
+    "    log_parameter_task(experiment, \"n_components\", n_components)\n",
+    "    log_parameter_task(experiment, \"n_neighbors\", n_neighbors)\n",
+    "    log_parameter_task(experiment, \"is_standardized\", is_standardized)\n",
+    "    \n",
+    "    accuracy = fit_pred_model(train_test_split, n_components, n_neighbors, is_standardized)\n",
+    "    \n",
+    "    log_metric_task(experiment, \"accuracy\", accuracy)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Again, we'll register and run the **flow**."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "flow_with_rubicon_id = flow.register()\n",
+    "flow_run_with_rubicon_id = run_flow(prefect_client, flow_with_rubicon_id)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This time we can use `rubicon` to inspect our accuracy, among other things!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from rubicon import Rubicon\n",
+    "\n",
+    "rubicon = Rubicon(persistence=\"filesystem\", root_dir=root_dir)\n",
+    "project = rubicon.get_project(\"Wine Classification with Prefect\")\n",
+    "\n",
+    "experiment = project.experiments()[0]\n",
+    "\n",
+    "print(f\"features - {[f.name for f in experiment.features()]}\\n\")\n",
+    "\n",
+    "for parameter in experiment.parameters():\n",
+    "    print(f\"parameter - {parameter.name}: {parameter.value}\")\n",
+    "    \n",
+    "for metric in experiment.metrics():\n",
+    "    print(f\"metric - {metric.name}: {metric.value}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Extracting data from `rubicon` is much simpler than pulling it from the various tasks as they succeed. Especially in the case where we're running thousands of tasks in a flow.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**Concurrent Logging with Prefect**\n",
+    "\n",
+    "Prefect plays nicely with Dask in order to provide parallel computing when possible. The Prefect scheduler is smart enough to know which **tasks** do and do not depend on each other, so it can intelligently decide when to run independent **tasks** at the same time.\n",
+    "\n",
+    "Let's run the same **flow** as above, except this time we'll log eight different experiments with eight different feature sets and accuracy results.\n",
+    "\n",
+    "First, we'll need to use Dask to start a local cluster."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import dask.distributed\n",
+    "from prefect.engine.executors import DaskExecutor\n",
+    "from prefect.environments.execution import LocalEnvironment\n",
+    "\n",
+    "dask_client = dask.distributed.Client()\n",
+    "\n",
+    "dask_executor = DaskExecutor(address=dask_client.cluster.scheduler.address)\n",
+    "dask_environment = LocalEnvironment(executor=dask_executor)\n",
+    "\n",
+    "dask_client"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Before we look at the new **flow**, let's see how easy it is to make our own `rubicon` Prefect **tasks**. Currently, the `log_feature_task` logs one feature to one experiment. Let's say in this example, we want to log our entire feature set in one **task**. That's slightly different than what we currently have in the `log_feature_task`, so let's see how we can make a new one using the `rubicon` logging library."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@task\n",
+    "def log_feature_set(experiment, feature_names):\n",
+    "    \"\"\"log a set of features to a rubicon experiment\n",
+    "    \n",
+    "    Parameters\n",
+    "    ----------\n",
+    "    experiment : rubicon.Experiment\n",
+    "        the experiment to log the feature set to\n",
+    "    feature_names : list of str\n",
+    "        the names of the features to log to `experiment`\n",
+    "    \"\"\"\n",
+    "    features = []\n",
+    "    \n",
+    "    for name in feature_names:\n",
+    "        features.append(experiment.log_feature(name=name))\n",
+    "        \n",
+    "    return features"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Easy! Even though its so simple, this particular **task** is actually more in-depth than the ones you'll find in the library. The Prefect **tasks** in the library are simply wrappers around existing logging library functions, like `experiment.log_feature`.\n",
+    "\n",
+    "Now we can make our new **flow** to log multiple experiments in parallel."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "n_components =    [2,    2,     2,    2,     4,    4,     4,    4    ]\n",
+    "n_neighbors =     [5,    5,     10,   10,    5,    5,     10,   10   ]\n",
+    "is_standardized = [True, False, True, False, True, False, True, False]\n",
+    "\n",
+    "experiment_names = [f\"mapped run {i}\" for i in range(len(n_components))]\n",
+    "\n",
+    "with Flow(\"Wine Classification with Rubicon - Mapped\", environment=dask_environment) as mapped_flow:\n",
+    "    project = get_or_create_project_task(\n",
+    "        \"filesystem\", root_dir, \"Wine Classification with Prefect - Mapped\"\n",
+    "    )\n",
+    "    experiments = create_experiment_task.map(\n",
+    "        unmapped(project), name=experiment_names, description=unmapped(\"concurrent example with Prefect\")\n",
+    "    )\n",
+    "    \n",
+    "    wine_dataset = load_data()\n",
+    "    \n",
+    "    feature_names = get_feature_names(wine_dataset)\n",
+    "    train_test_split = split_data(wine_dataset)\n",
+    "    \n",
+    "    log_feature_set.map(experiments, unmapped(feature_names))\n",
+    "    log_parameter_task.map(experiments, unmapped(\"n_components\"), n_components)\n",
+    "    log_parameter_task.map(experiments, unmapped(\"n_neighbors\"), n_neighbors)\n",
+    "    log_parameter_task.map(experiments, unmapped(\"is_standardized\"), is_standardized)\n",
+    "    \n",
+    "    accuracies = fit_pred_model.map(\n",
+    "        unmapped(train_test_split), n_components, n_neighbors, is_standardized\n",
+    "    )\n",
+    " \n",
+    "    log_metric_task.map(experiments, unmapped(\"accuracy\"), accuracies)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's register and run one last **flow**. If you check out the Gantt chart for your completed **flows** on the UI linked by `mapped_flow.register`, you'll notice tasks executing at the same time now. Specifically, you'll see a maximum of four **tasks** running at once, since our local Dask cluster has four workers."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "flow_with_concurrent_rubicon_id = mapped_flow.register()\n",
+    "flow_run_with_concurrent_rubicon_id = run_flow(prefect_client, flow_with_concurrent_rubicon_id)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Retrieving all the results of a mapped **task** is even more cumbersome than the example of retrieving the accuracy above. We'll use the `rubicon` Dashboard to check out all the data we just logged."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from rubicon.ui import Dashboard\n",
+    "\n",
+    "Dashboard(persistence=\"filesystem\", root_dir=root_dir).run_server()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

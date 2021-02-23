@@ -1,0 +1,302 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Logging Training Metadata\n",
+    "\n",
+    "We can't train a model without a lot of data. Keeping track of where that data is and how to get it can be difficult.\n",
+    "`rubicon` isn't in the business of storing full training datasets, but it can store metadata about our training datasets on both **projects** (for high level datasource configuration) and **experiments** (for indiviual model runs). \n",
+    "\n",
+    "Below, we'll use `rubicon` to reference a dataset stored in S3."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "s3_config = {\n",
+    "    \"region_name\": \"us-west-2\",\n",
+    "    \"signature_version\": \"v4\",\n",
+    "    \"retries\": {\n",
+    "        \"max_attempts\": 10,\n",
+    "        \"mode\": \"standard\",\n",
+    "    }\n",
+    "}\n",
+    "\n",
+    "bucket_name = \"my-bucket\"\n",
+    "key = \"path/to/my/data.parquet\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We could use the following function to pull training data locally from S3.\n",
+    "\n",
+    "**Note:** We're reading the user's account credentials from an external source rather than exposing them in the `s3_config` we created. `rubicon` is **not** intended for storing secrets."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def read_from_s3(config, bucket, key, local_output_path):\n",
+    "    import boto3\n",
+    "    from botocore.config import Config\n",
+    "    \n",
+    "    config = Config(**config)\n",
+    "\n",
+    "    # assuming credentials are correct in `~/.aws` or set in environment variables\n",
+    "    client = boto3.client(\"s3\", config=config)\n",
+    "\n",
+    "    with open(local_output_path, \"wb\") as f:\n",
+    "        s3.download_fileobj(bucket, key, f)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "But we don't actually need to reach out to S3 for this example, so we'll use a no-op."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def read_from_s3(config, bucket, key, local_output_path):\n",
+    "    return None"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's create a **project** for the **experiments** we'll run."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from rubicon import Rubicon\n",
+    "\n",
+    "rubicon = Rubicon(persistence=\"memory\")\n",
+    "project = rubicon.get_or_create_project(\"Storing Training Metadata\")\n",
+    "\n",
+    "print(project)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Before we create an **experiment**, we'll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "training_metadata = (s3_config, bucket_name, key)\n",
+    "\n",
+    "experiment = project.log_experiment(\n",
+    "    training_metadata=training_metadata,\n",
+    "    tags=[\"S3\", \"training metadata\"]\n",
+    ")\n",
+    "# then run the experiment and log everything to rubicon!\n",
+    "\n",
+    "print(experiment)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can come back any time and use the **experiment's** training metadata to pull the same dataset."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "experiment = project.experiments(tags=[\"S3\", \"training metadata\"], qtype=\"and\")[0]\n",
+    "\n",
+    "training_metadata = experiment.training_metadata\n",
+    "print(training_metadata)\n",
+    "\n",
+    "read_from_s3(training_metadata[0], training_metadata[1], training_metadata[2], \"./data.parquet\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If we're referencing multiple keys within the bucket, we can send a list of training metadata."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "training_metadata = [\n",
+    "    (s3_config, bucket_name, \"path/to/my/data_0.parquet\"),\n",
+    "    (s3_config, bucket_name, \"path/to/my/data_1.parquet\"),\n",
+    "    (s3_config, bucket_name, \"path/to/my/data_2.parquet\"),\n",
+    "]\n",
+    "\n",
+    "experiment = project.log_experiment(training_metadata=training_metadata)\n",
+    "for training_metadata in experiment.training_metadata:\n",
+    "    print(training_metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "`training_metadata` is simply a tuple or an array of tuples, so we can decide how to best store our metadata. The config and prefix are the same for each piece of metadata, so no need to duplicate."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "training_metadata = (\n",
+    "    s3_config, bucket_name,\n",
+    "    [\"path/to/my/data_0.parquet\", \"path/to/my/data_1.parquet\", \"path/to/my/data_2.parquet\"]\n",
+    ")\n",
+    "\n",
+    "experiment = project.log_experiment(training_metadata=training_metadata)\n",
+    "print(experiment.training_metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Since it's just an array of tuples, we can even use a `namedtuple` to represent the structure we decide to go with."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from collections import namedtuple\n",
+    "\n",
+    "S3TrainingMetadata = namedtuple(\"S3TrainingMetadata\", \"config bucket keys\")\n",
+    "\n",
+    "training_metadata = S3TrainingMetadata(\n",
+    "    s3_config, bucket_name,\n",
+    "    [\"path/to/my/data_0.parquet\", \"path/to/my/data_1.parquet\", \"path/to/my/data_2.parquet\"]\n",
+    ")\n",
+    "\n",
+    "experiment = project.log_experiment(training_metadata=training_metadata)\n",
+    "print(training_metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Using projects for complex training metadata\n",
+    "\n",
+    "Each **experiment** on the *S3 Training Metadata* project below uses the same config to connect to S3, so no need to duplicate it. We'll only log it to the **project**. Then we'll run three experiments, with each one using a different key to load data from S3. We can represent that training metadata as a different `namedtuple` and log one to each experiment."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "S3Config = namedtuple(\"S3Config\", \"region_name signature_version retries\")\n",
+    "S3DatasetMetadata = namedtuple(\"S3DatasetMetadata\", \"bucket key\")\n",
+    "\n",
+    "project = rubicon.get_or_create_project(\"S3 Training Metadata\", training_metadata=S3Config(**s3_config))\n",
+    "\n",
+    "print(project.training_metadata)\n",
+    "\n",
+    "for key in [\"path/to/my/data_0.parquet\", \"path/to/my/data_1.parquet\", \"path/to/my/data_2.parquet\"]:\n",
+    "    experiment = project.log_experiment(\n",
+    "        training_metadata=S3DatasetMetadata(bucket=bucket_name, key=key)\n",
+    "    )\n",
+    "    # then run the experiment and log everything to rubicon!\n",
+    "    \n",
+    "    print(experiment.training_metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Later, we can use the **project** and **experiments** to reconnect to the same datasets."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "project = rubicon.get_project(\"S3 Training Metadata\")\n",
+    "s3_config = S3Config(*project.training_metadata)\n",
+    "\n",
+    "print(s3_config)\n",
+    "\n",
+    "for experiment in project.experiments():\n",
+    "    s3_dataset_metadata = S3DatasetMetadata(*experiment.training_metadata)\n",
+    "    \n",
+    "    print(s3_dataset_metadata)\n",
+    "    \n",
+    "    training_data = read_from_s3(\n",
+    "        s3_config._asdict(), s3_dataset_metadata.bucket, s3_dataset_metadata.key, \"./data.parquet\"\n",
+    "    )\n",
+    "    # then review the experiment with a quick reference to the data it was ran against!"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.8"
+  },
+  "nbsphinx": {
+   "execute": "always"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
