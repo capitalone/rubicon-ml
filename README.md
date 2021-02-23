@@ -60,8 +60,8 @@ asynchronous communication with S3, so network reads and writes don’t block.
 
 ## Documentation
 
-For a full overview, visit the [docs](TODO). If you have suggestions or find a
-bug, [please open an
+For a full overview, visit the [docs](https://capitalone.github.io/rubicon/). If
+you have suggestions or find a bug, [please open an
 issue](https://github.com/capitalone/rubicon/issues/new/choose).
 
 ## Install
