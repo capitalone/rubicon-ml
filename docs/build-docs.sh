@@ -1,4 +1,4 @@
-if [[ $(pwd) =~ .*/positron/docs$ ]]; then
+if [[ $(pwd) =~ .*/rubicon/docs$ ]]; then
     if [ "$1" != "--no-clone" ]; then
         rm -rf build
         mkdir build
@@ -13,5 +13,5 @@ if [[ $(pwd) =~ .*/positron/docs$ ]]; then
     open build/html/index.html
     echo "Opening $(pwd)/build/html/index.html..."
 else
-    echo "'build-docs.sh' must be run from positron/docs"
+    echo "'build-docs.sh' must be run from rubicon/docs"
 fi
