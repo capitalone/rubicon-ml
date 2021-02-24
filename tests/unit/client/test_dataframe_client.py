@@ -1,11 +1,5 @@
-import sys
-from unittest.mock import MagicMock, call, patch
-
-import pytest
-
 from rubicon import domain
 from rubicon.client import Dataframe
-from rubicon.exceptions import RubiconException
 
 
 def test_properties(project_client):

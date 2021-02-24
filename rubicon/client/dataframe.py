@@ -1,5 +1,4 @@
 from rubicon.client import Base, TagMixin
-from rubicon.exceptions import RubiconException
 
 
 class Dataframe(Base, TagMixin):

@@ -16,12 +16,12 @@ def make_header_layout():
                 children=[
                     html.A(
                         className="header--link",
-                        href=f"https://capitalone.github.io/rubicon",
+                        href="https://capitalone.github.io/rubicon",
                         children="Docs",
                     ),
                     html.A(
                         className="header--link",
-                        href=f"https://github.com/capitalone/rubicon",
+                        href="https://github.com/capitalone/rubicon",
                         children="Github",
                     ),
                 ],
