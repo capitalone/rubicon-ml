@@ -70,12 +70,6 @@ issue](https://github.com/capitalone/rubicon/issues/new/choose).
 pip install rubicon-ml
 ```
 
-or
-
-```
-conda install -c conda-forge rubicon-ml
-```
-
 ## Develop
 
 `rubicon` uses conda to manage environments. First, install
