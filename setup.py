@@ -22,7 +22,7 @@ extras_require = {
 }
 
 setup(
-    name="rubicon",
+    name="rubicon-ml",
     version="0.1.0",
     author="Joe Wolfe, Ryan Soley, Diane Lee, Mike McCarty, CapitalOne",
     license='Apache License, Version 2.0',
