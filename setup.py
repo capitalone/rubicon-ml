@@ -1,7 +1,5 @@
 from setuptools import find_packages, setup
 
-from rubicon.version import __version__
-
 install_requires = [
     "click>=7.1",
     "dask[dataframe]>=2.12.0",
@@ -25,7 +23,7 @@ extras_require = {
 
 setup(
     name="rubicon",
-    version=__version__,
+    version="0.1.0",
     author="Joe Wolfe, Ryan Soley, Diane Lee, Mike McCarty, CapitalOne",
     license='Apache License, Version 2.0',
     description="an ML library for model development and governance",
