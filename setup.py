@@ -1,7 +1,5 @@
 from setuptools import find_packages, setup
 
-from version import get_version
-
 install_requires = [
     "click>=7.1",
     "dask[dataframe]>=2.12.0",
@@ -25,9 +23,9 @@ extras_require = {
 
 setup(
     name="rubicon",
-    version=get_version(),
-    author="The Rubicon Team",
-    author_email="rubicon-developers@capitalone.com",
+    version="0.1.0",
+    author="Joe Wolfe, Ryan Soley, Diane Lee, Mike McCarty, CapitalOne",
+    license='Apache License, Version 2.0',
     description="an ML library for model development and governance",
     packages=find_packages(),
     include_package_data=True,
@@ -41,4 +39,27 @@ setup(
             "rubicon_experiment = rubicon.intake_rubicon.experiment:ExperimentSource",
         ],
     },
+    classifiers=[
+        # How mature is this project? Common values are
+        #   3 - Alpha
+        #   4 - Beta
+        #   5 - Production/Stable
+        'Development Status :: 4 - Beta',
+
+        # Indicate who your project is intended for
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+
+        'Topic :: Scientific/Engineering',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Software Development :: Build Tools',
+        'Topic :: Software Development :: Documentation',
+
+        # Pick your license as you wish (should match "license" above)
+        'License :: OSI Approved :: Apache Software License',
+
+        # Specify the Python versions you support here. In particular, ensure
+        # that you indicate whether you support Python 3 or both.
+        'Programming Language :: Python :: 3',
+    ],
 )
