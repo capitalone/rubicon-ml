@@ -1,0 +1,39 @@
+# This workflow installs the package dependencies, lints the package, and
+# executes the package tests.
+#
+# For more details: https://docs.github.com/en/actions/guides/building-and-testing-python
+name: Python package using conda
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        # install into base to make all packages available by default
+        # check if this is still an issue...
+        $CONDA/bin/conda env update --file ci/environment.yml --name base
+        $CONDA/bin/pip install -e .
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        $CONDA/bin/flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        $CONDA/bin/pytest
