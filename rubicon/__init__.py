@@ -9,7 +9,8 @@ from rubicon.client import (
     Rubicon,
 )
 
-__version__ = "4.5.0"
+from .version import __version__
+
 __all__ = [
     "Artifact",
     "Dataframe",
