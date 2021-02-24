@@ -461,7 +461,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Storing Training Metadata', id='69123fa8-f4a8-4672-b73b-cce96bb4e251', description=None, github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 2, 23, 18, 22, 10, 488993))
+Project(name='Storing Training Metadata', id='66e821c5-2ab6-41e1-b350-794c1d66237b', description=None, github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 2, 24, 21, 7, 35, 650899))
 </pre></div></div>
 </div>
 <p>Before we create an <strong>experiment</strong>, we’ll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later.</p>
@@ -487,7 +487,7 @@ Project(name='Storing Training Metadata', id='69123fa8-f4a8-4672-b73b-cce96bb4e2
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Experiment(project_name='Storing Training Metadata', id='6dd0312f-ae9a-4a41-850a-ef8aa7ebde99', name=None, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=[({'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, 'my-bucket', 'path/to/my/data.parquet')], tags=['S3', 'training metadata'], created_at=datetime.datetime(2021, 2, 23, 18, 22, 10, 494549))
+Experiment(project_name='Storing Training Metadata', id='42de728f-67ad-4c1a-aee8-5703501d10bd', name=None, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=[({'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, 'my-bucket', 'path/to/my/data.parquet')], tags=['S3', 'training metadata'], created_at=datetime.datetime(2021, 2, 24, 21, 7, 35, 656232))
 </pre></div></div>
 </div>
 <p>We can come back any time and use the <strong>experiment’s</strong> training metadata to pull the same dataset.</p>
@@ -659,8 +659,8 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
 <div class="highlight"><pre>
 S3Config(region_name='us-west-2', signature_version='v4', retries={'max_attempts': 10, 'mode': 'standard'})
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
-S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_0.parquet')
+S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
 </pre></div></div>
 </div>
 </div>
