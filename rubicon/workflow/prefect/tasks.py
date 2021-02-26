@@ -1,10 +1,11 @@
 from prefect import task
-
 from rubicon import Rubicon
 
 
 @task
-def get_or_create_project_task(persistence, root_dir, project_name, **kwargs):
+def get_or_create_project_task(
+    persistence, root_dir, project_name, auto_git_enabled=False, **kwargs
+):
     """Get or create a project within a `prefect` flow.
 
     This `prefect` task can be used within a flow to
@@ -22,6 +23,11 @@ def get_or_create_project_task(persistence, root_dir, project_name, **kwargs):
         `Rubicon` constructor.
     project_name : str
         The name of the project to get or create.
+    auto_git_enabled : bool, optional
+        True to use the `git` command to automatically log
+        relevant repository information to projects and
+        experiments logged with the client instance created
+        in this task, False otherwise. Defaults to False.
     kwargs : dict
         Additional keyword arguments to be passed to
         `Rubicon.create_project`.
@@ -31,7 +37,7 @@ def get_or_create_project_task(persistence, root_dir, project_name, **kwargs):
     rubicon.client.Project
         The project with name `project_name`.
     """
-    rubicon = Rubicon(persistence=persistence, root_dir=root_dir)
+    rubicon = Rubicon(persistence=persistence, root_dir=root_dir, auto_git_enabled=auto_git_enabled)
     project = rubicon.get_or_create_project(project_name, **kwargs)
 
     return project
