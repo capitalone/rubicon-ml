@@ -10,10 +10,6 @@ on:
   pull_request:
     branches: [ main ]
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -34,6 +30,7 @@ jobs:
       run: |
         cd docs
         sh build-docs.sh
+      shell: bash
     - name: Publish
       uses: JamesIves/github-pages-deploy-action@4.0.0
       with:
