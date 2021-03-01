@@ -44,6 +44,31 @@ def test_refresh_projects(dashboard_setup, dash_duo):
     assert len(project_options) == 2
     assert project_options[0].text == project.name
 
+@pytest.mark.dashboard_test
+def test_dashboard_project_view_without_metrics_and_parameters(dashboard_setup_without_parameters_or_metrics, dash_duo):
+    dash_duo.start_server(dashboard_setup_without_parameters_or_metrics._app)
+
+    project_selection_list = dash_duo.find_element("#project-selection--list")
+    project_options = project_selection_list.find_elements_by_class_name(
+        "project-selection--project"
+    )
+    first_project = project_options[0]
+    first_project.click()
+
+    dash_duo.wait_for_element("#grouped-project-explorer", timeout=3)
+
+    # check the experiments view
+    group_project_explorer = dash_duo.find_element("#grouped-project-explorer")
+    assert group_project_explorer
+
+    experiment_details_header = group_project_explorer.find_element_by_id(
+        "experiment-deatils-header"
+    )
+    assert experiment_details_header.text == "Test Project"
+
+    # the project is seeded with 1 different groupings based on commit
+    assert len(group_project_explorer.find_elements_by_class_name("group-preview-row")) == 1
+
 
 @pytest.mark.dashboard_test
 def test_select_project_view(dashboard_setup, dash_duo):

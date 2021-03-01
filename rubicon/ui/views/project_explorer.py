@@ -205,6 +205,7 @@ def _get_comparison_layout(id, rubicon_model, commit_hash):
     )
 
     anchor_options = rubicon_model.get_anchor_options(commit_hash)
+    anchor_value = anchor_options[-1]["value"] if len(anchor_options) > 0 else ""
 
     anchor_dropdown = dcc.Dropdown(
         id={"type": "anchor-dropdown", "index": id},
@@ -212,7 +213,7 @@ def _get_comparison_layout(id, rubicon_model, commit_hash):
         placeholder="Select an anchor metric",
         clearable=False,
         options=anchor_options,
-        value=anchor_options[-1]["value"],
+        value=anchor_value,
     )
 
     return html.Div([experiment_comparison_header, anchor_dropdown, experiment_comparison_plot])
