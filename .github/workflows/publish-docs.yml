@@ -3,13 +3,9 @@
 # For more details: https://github.com/marketplace/actions/deploy-to-github-pages
 name: Publish docs
 
-# on:
-#   release:
-#     types: [created]
-
 on:
-  pull_request:
-    branches: [ main ]
+  release:
+    types: [created]
 
 jobs:
   build-and-deploy:
