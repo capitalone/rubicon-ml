@@ -1,6 +1,5 @@
 # This workflow installs the package dependencies, lints the package, and
 # executes the package tests.
-#
 # For more details: https://docs.github.com/en/actions/guides/building-and-testing-python
 name: Run tests
 
