@@ -410,7 +410,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='42854ab2-fbb7-4255-a458-a6fdd85982c6', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 1, 18, 14, 52, 647040))
+Project(name='Concurrent Experiments', id='eeb659c2-58ed-481b-be9a-f4ebf0aac2fe', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 1, 18, 47, 10, 160020))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -557,17 +557,12 @@ Project(name='Concurrent Experiments', id='42854ab2-fbb7-4255-a458-a6fdd85982c6'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 24d25d05-6087-47c1-a50e-d566ea6e29b7 was successful using a KNeighborsClassifier
-experiment 254115dc-45b5-4148-ac79-f1c0c6270aeb was successful using a RandomForestClassifier
-experiment 36a4ea2f-282d-452c-8aed-803f82b4e2df was successful using a DecisionTreeClassifier
-experiment 4edf2797-a2e3-4233-8cbc-2ffe0636a8f1 was successful using a DecisionTreeClassifier
-experiment 58a107e6-f2b5-4462-b1b4-a6c98544dff4 was successful using a KNeighborsClassifier
-experiment 76c1da55-2833-41bc-a32c-4b98b0dcea2d was successful using a DecisionTreeClassifier
-experiment 78e2e129-8749-468f-8897-388a6aad876e was successful using a KNeighborsClassifier
-experiment 9e7da6d3-c613-4cfe-8fde-30a5de63d696 was successful using a RandomForestClassifier
-experiment a67b4fa6-9cb2-40c7-84d3-810413c7cca6 was successful using a DecisionTreeClassifier
-experiment e2b16b0b-b3f9-40e1-a057-36cc3f03632b was successful using a RandomForestClassifier
-experiment e30daf28-b9f7-4b3d-82f9-d8d9ae106153 was successful using a RandomForestClassifier
+experiment 39debc41-30cc-40ca-b969-d05cf1c62409 was successful using a RandomForestClassifier
+experiment 488e1f60-5fc6-40fe-91ea-3b26d8745186 was successful using a KNeighborsClassifier
+experiment 5436544d-791f-4dcf-8e27-5602eecd56f6 was successful using a KNeighborsClassifier
+experiment 67248252-2e61-410e-81f5-aebb64783424 was successful using a RandomForestClassifier
+experiment 6ab60b0b-4a2a-421c-8d4b-4f7dc31b6011 was successful using a RandomForestClassifier
+experiment caa8f632-b407-4b40-a9a4-245633b809d3 was successful using a RandomForestClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -598,17 +593,17 @@ experiment e30daf28-b9f7-4b3d-82f9-d8d9ae106153 was successful using a RandomFor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['success', 'KNeighborsClassifier']
+tags: ['failure', 'KNeighborsClassifier']
 parameters:
         n_features: 4
-        n_neighbors: 5
+        n_neighbors: 20
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 0.9736842105263158
+        accuracy: 0.9473684210526315
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
