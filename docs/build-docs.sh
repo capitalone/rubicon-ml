@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ $(pwd) =~ .*/rubicon/docs$ ]]; then
     if [ "$1" != "--no-clone" ]; then
         rm -rf build
