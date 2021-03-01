@@ -2,7 +2,7 @@
 # executes the package tests.
 #
 # For more details: https://docs.github.com/en/actions/guides/building-and-testing-python
-name: Tests
+name: Run tests
 
 on:
   pull_request:

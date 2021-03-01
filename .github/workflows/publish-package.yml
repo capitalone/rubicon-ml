@@ -1,4 +1,8 @@
-name: Publish python package
+# This workflow publishes the package to pypi.
+#
+# For more details: 
+# https://docs.github.com/en/actions/guides/building-and-testing-python#publishing-to-package-registries
+name: Publish
 
 on:
   release:
