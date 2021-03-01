@@ -23,7 +23,7 @@ extras_require = {
 
 setup(
     name="rubicon-ml",
-    version="0.1.0",
+    version="0.1.1",
     author="Joe Wolfe, Ryan Soley, Diane Lee, Mike McCarty, CapitalOne",
     license='Apache License, Version 2.0',
     description="an ML library for model development and governance",
