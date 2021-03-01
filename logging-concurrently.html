@@ -3,9 +3,9 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <meta name="generator" content="sphinx-3.0.4, furo 2021.02.21.beta25"/>
+    <meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
         <title>Logging Concurrently - rubicon documentation</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -410,7 +410,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='49d07972-6adf-4488-aa86-d2a627bbc1f6', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 2, 24, 21, 7, 28, 903760))
+Project(name='Concurrent Experiments', id='567930f7-a77d-45d3-83ec-84fe71985fbc', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 1, 16, 10, 53, 191102))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -557,12 +557,12 @@ Project(name='Concurrent Experiments', id='49d07972-6adf-4488-aa86-d2a627bbc1f6'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 100110d6-88e9-4a06-8449-0dbd162a542e was successful using a KNeighborsClassifier
-experiment 24585118-fa5d-424a-bad1-60dc32d994a6 was successful using a KNeighborsClassifier
-experiment 45526ee1-194f-4d38-a64b-9bebbeab6077 was successful using a DecisionTreeClassifier
-experiment 86126cf3-c606-46fa-b173-f2ae8a2ae6dd was successful using a DecisionTreeClassifier
-experiment e52b4287-5e9d-4e8e-a057-332bc0f6b83b was successful using a KNeighborsClassifier
-experiment ee5215d5-7b93-47a0-a3b5-4a9dc9e5bc76 was successful using a KNeighborsClassifier
+experiment 4ae63a24-3290-4aff-98ef-048739f2f98e was successful using a DecisionTreeClassifier
+experiment 7297a02e-ff11-4a2f-a68d-277e7d811f91 was successful using a KNeighborsClassifier
+experiment ac9921f1-a3e2-4cf0-8b40-8a4bb866c3d9 was successful using a DecisionTreeClassifier
+experiment b46f6705-f210-4e4b-b707-11a48a343ebb was successful using a KNeighborsClassifier
+experiment bbbe700f-c084-4a91-86a3-ea4a7204ee9b was successful using a KNeighborsClassifier
+experiment dcd1b282-50ad-4bef-8bbc-0d1e959c0e93 was successful using a KNeighborsClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -593,11 +593,12 @@ experiment ee5215d5-7b93-47a0-a3b5-4a9dc9e5bc76 was successful using a KNeighbor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['failure', 'RandomForestClassifier']
+tags: ['DecisionTreeClassifier', 'failure']
 parameters:
-        n_estimators: 30
+        criterion: gini
         n_features: 4
-        random_state: 1614218849
+        random_state: 1614615053
+        splitter: best
 features:
         petal length (cm)
         petal width (cm)
