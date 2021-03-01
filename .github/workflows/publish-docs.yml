@@ -28,6 +28,8 @@ jobs:
         conda env update --file docs/docs-environment.yml --name base
     - name: Build
       run: |
+        pwd
+        ls -lta 
         cd docs
         sh build-docs.sh
     - name: Publish
