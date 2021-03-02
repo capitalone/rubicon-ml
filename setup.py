@@ -2,6 +2,8 @@ import os
 
 from setuptools import find_packages, setup
 
+from version import get_version
+
 pwd = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(pwd, "README.md"), encoding="utf-8") as readme:
     long_description = readme.read()
@@ -29,7 +31,7 @@ extras_require = {
 
 setup(
     name="rubicon-ml",
-    version="0.1.2",
+    version=get_version(),
     author="Joe Wolfe, Ryan Soley, Diane Lee, Mike McCarty, CapitalOne",
     license="Apache License, Version 2.0",
     description="an ML library for model development and governance",
