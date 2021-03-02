@@ -6,10 +6,14 @@
 from rubicon import Rubicon
 
 # Configure client object, automatically track git details
-rubicon = Rubicon(persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True)
+rubicon = Rubicon(
+    persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True
+)
 
 # Create a project to hold a collection of experiments
-project = rubicon.create_project("Hello World", description="Using rubicon to track model results over time.")
+project = rubicon.create_project(
+    "Hello World", description="Using rubicon to track model results over time."
+)
 
 # Log experiment data
 experiment = project.log_experiment(
