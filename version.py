@@ -3,6 +3,6 @@ import subprocess
 
 def get_version():
     get_latest_git_tag_command = ["git", "describe", "--tags", "--abbrev=0"]
-    completed_subprocess = subprocess.run(get_latest_git_tag_command)
+    version = subprocess.check_output(get_latest_git_tag_command, encoding="utf-8").strip()
 
-    return completed_subprocess.stdout
+    return version
