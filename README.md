@@ -1,4 +1,4 @@
-## Rubicon
+# Rubicon
 
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
 [![Test Package](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml)
