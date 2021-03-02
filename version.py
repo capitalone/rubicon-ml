@@ -9,7 +9,7 @@ def _write_version_file(version):
     version_file = f"def get_version():\n    return '{version}'\n"
 
     with open(version_file_path, "w") as f:
-        f.write(version_file, encoding="utf-8")
+        f.write(version_file)
 
 
 def get_version(write_version_file=False):
