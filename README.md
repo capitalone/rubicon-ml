@@ -134,6 +134,25 @@ Now `pre-commit` will run automatically on git commit and will ensure consistent
 code format throughout the project. You can format without committing via
 `pre-commit run` or skip these checks with `git commit --no-verify`.
 
+## Releasing
+
+Releasing a new version of `rubicon` to PyPi is as simple as drafting a new
+release on GitHub:
+  * from this repo's [releases](https://github.com/capitalone/rubicon/releases)
+    page, select **Draft a new release**
+  * add the new version to the **Tag version** field in **x.x.x** format 
+    (`0.1.0`, `1.2.3`, etc.) and validate that `main` is the target branch
+  * make the title of the release **vx.x.x** (`v0.1.0`, `v1.2.3`, etc.)
+  * link PRs added since the last release under the appropriate header -
+    **changelog** or **bugfixes** - in the description
+  * let our [**Publish** action](.github/workflows/publish-package.yml) handle
+    the rest!
+
+The **Publish** action builds `rubicon` and uploads it to PyPi.
+During setup, [version.py](version.py) is responsible for getting the new
+version from the latest `git` tag and bundling an updated version of
+[rubicon/_version.py](rubicon/_version.py) with the released artifact.
+
 ## Contributors
 
 <table>
