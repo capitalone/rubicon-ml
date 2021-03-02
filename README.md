@@ -1,15 +1,26 @@
 # Rubicon
 
-`rubicon` is a data science tool for capturing all information related to a model during its development. With minimal effort, Rubicon's Python library can integrate directly into your Python models:
+[![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
+[![Test Package](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml)
+[![Publish Package](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml)
+[![Publish Docs](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml)
+
+`rubicon` is a data science tool for capturing all information related to a model
+during its development. With minimal effort, Rubicon's Python library can integrate
+directly into your Python models:
 
 ```python
 from rubicon import Rubicon
 
 # Configure client object, automatically track git details
-rubicon = Rubicon(persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True)
+rubicon = Rubicon(
+    persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True
+)
 
 # Create a project to hold a collection of experiments
-project = rubicon.create_project("Hello World", description="Using rubicon to track model results over time.")
+project = rubicon.create_project(
+    "Hello World", description="Using rubicon to track model results over time."
+)
 
 # Log experiment data
 experiment = project.log_experiment(
@@ -131,8 +142,11 @@ code format throughout the project. You can format without committing via
     width="100px;" alt=""/><br /><sub><b>Mike McCarty</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/srilatharanganathan"><img src="https://avatars.githubusercontent.com/u/31327886?v=4"
     width="100px;" alt=""/><br /><sub><b>Sri Ranganathan</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/joe-wolfe21"><img src="https://avatars.githubusercontent.com/u/10947704?v=4" width="100px;" alt=""/><br /><sub><b>Joe Wolfe</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/RyanSoley"><img src="https://avatars.githubusercontent.com/u/53409969?v=4" width="100px;" alt=""/><br /><sub><b>Ryan Soley</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/dianelee217"><img src="https://avatars.githubusercontent.com/u/67274829?v=4" width="100px;" alt=""/><br /><sub><b>Diane Lee</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/joe-wolfe21"><img src="https://avatars.githubusercontent.com/u/10947704?v=4"
+    width="100px;" alt=""/><br /><sub><b>Joe Wolfe</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/RyanSoley"><img src="https://avatars.githubusercontent.com/u/53409969?v=4"
+    width="100px;" alt=""/><br /><sub><b>Ryan Soley</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/dianelee217"><img src="https://avatars.githubusercontent.com/u/67274829?v=4"
+    width="100px;" alt=""/><br /><sub><b>Diane Lee</b></sub></a><br /></td>
   </tr>
 </table>

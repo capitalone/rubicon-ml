@@ -1,4 +1,10 @@
+import os
+
 from setuptools import find_packages, setup
+
+pwd = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(pwd, "README.md"), encoding="utf-8") as readme:
+    long_description = readme.read()
 
 install_requires = [
     "click>=7.1",
@@ -25,8 +31,10 @@ setup(
     name="rubicon-ml",
     version="0.1.1",
     author="Joe Wolfe, Ryan Soley, Diane Lee, Mike McCarty, CapitalOne",
-    license='Apache License, Version 2.0',
+    license="Apache License, Version 2.0",
     description="an ML library for model development and governance",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
     url="https://github.com/capitalone/rubicon",
@@ -44,22 +52,18 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
-
+        "Development Status :: 4 - Beta",
         # Indicate who your project is intended for
-        'Intended Audience :: Developers',
-        'Intended Audience :: Science/Research',
-
-        'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Software Development :: Build Tools',
-        'Topic :: Software Development :: Documentation',
-
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Scientific/Engineering :: Information Analysis",
+        "Topic :: Software Development :: Build Tools",
+        "Topic :: Software Development :: Documentation",
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: Apache Software License',
-
+        "License :: OSI Approved :: Apache Software License",
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 3 or both.
-        'Programming Language :: Python :: 3',
+        "Programming Language :: Python :: 3",
     ],
 )
