@@ -1,3 +1,4 @@
+from rubicon._version import get_version
 from rubicon.client import (
     Artifact,
     Dataframe,
@@ -9,7 +10,8 @@ from rubicon.client import (
     Rubicon,
 )
 
-__version__ = "0.1.2"
+__version__ = get_version()
+del get_version
 
 __all__ = [
     "Artifact",
