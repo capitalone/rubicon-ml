@@ -1,4 +1,8 @@
-# Rubicon
+<p align="center">
+  <img src="docs/source/_static/images/rubicon_logo_black.png">
+</p>
+
+---
 
 `rubicon` is a data science tool for capturing all information related to a model during its development. With minimal effort, Rubicon's Python library can integrate directly into your Python models:
 
