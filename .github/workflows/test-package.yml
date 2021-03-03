@@ -34,7 +34,7 @@ jobs:
         black --check .
     - name: Check imports with isort
       run: |
-        isort -c
+        isort -c .
     - name: Lint with flake8
       run: |
         flake8 .

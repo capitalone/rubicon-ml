@@ -1,9 +1,9 @@
 import os
 import sys
 
+import holoviews as hv
 import pandas as pd
 
-import holoviews as hv
 from rubicon import Rubicon
 from rubicon.exceptions import RubiconException
 
