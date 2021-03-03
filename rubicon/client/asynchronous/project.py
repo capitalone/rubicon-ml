@@ -126,7 +126,13 @@ class Project(ArtifactMixin, DataframeMixin, SyncProject):
             The created experiment.
         """
         experiment = self._create_experiment_domain(
-            name, description, model_name, branch_name, commit_hash, training_metadata, tags,
+            name,
+            description,
+            model_name,
+            branch_name,
+            commit_hash,
+            training_metadata,
+            tags,
         )
         await self.repository.create_experiment(experiment)
 

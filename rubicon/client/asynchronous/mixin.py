@@ -8,8 +8,7 @@ from rubicon.client.utils.tags import has_tag_requirements
 
 
 class ArtifactMixin(MultiParentMixin):
-    """Adds artifact support to an asynchronous client object.
-    """
+    """Adds artifact support to an asynchronous client object."""
 
     async def log_artifact(
         self, data_bytes=None, data_file=None, data_path=None, name=None, description=None
@@ -165,8 +164,7 @@ class ArtifactMixin(MultiParentMixin):
 
 
 class DataframeMixin(MultiParentMixin):
-    """Adds dataframe support to an asynchronous client object.
-    """
+    """Adds dataframe support to an asynchronous client object."""
 
     async def log_dataframe(self, df, description=None, tags=[]):
         """Overrides `rubicon.client.DataframeMixin.log_dataframe` to
@@ -263,8 +261,7 @@ class DataframeMixin(MultiParentMixin):
 
 
 class TagMixin:
-    """Adds tag support to an asynchronous client object.
-    """
+    """Adds tag support to an asynchronous client object."""
 
     async def add_tags(self, tags):
         """Overrides `rubicon.client.TagMixin.add_tags` to
@@ -305,7 +302,9 @@ class TagMixin:
         """
         project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
         tag_data = await self.repository.get_tags(
-            project_name, experiment_id=experiment_id, dataframe_id=dataframe_id,
+            project_name,
+            experiment_id=experiment_id,
+            dataframe_id=dataframe_id,
         )
 
         self._update_tags(tag_data)

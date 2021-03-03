@@ -2,8 +2,7 @@ import dash_html_components as html
 
 
 def make_header_layout():
-    """The html layout for the dashboard's header view.
-    """
+    """The html layout for the dashboard's header view."""
 
     return html.Div(
         id="header",

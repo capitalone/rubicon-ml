@@ -107,7 +107,10 @@ class RubiconModel:
                 values = clean_column.astype(int)
 
                 dimension = dict(
-                    label=column, ticktext=["False", "True"], tickvals=[0, 1], values=values,
+                    label=column,
+                    ticktext=["False", "True"],
+                    tickvals=[0, 1],
+                    values=values,
                 )
             else:
                 values = clean_column

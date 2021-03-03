@@ -30,8 +30,7 @@ class MultiParentMixin:
 
 
 class ArtifactMixin(MultiParentMixin):
-    """Adds artifact support to a client object.
-    """
+    """Adds artifact support to a client object."""
 
     def _validate_data(self, data_bytes, data_file, data_path, name):
         """Raises a `RubiconException` if the data to log as
@@ -224,8 +223,7 @@ class ArtifactMixin(MultiParentMixin):
 
 
 class DataframeMixin(MultiParentMixin):
-    """Adds dataframe support to a client object.
-    """
+    """Adds dataframe support to a client object."""
 
     def log_dataframe(self, df, description=None, tags=[]):
         """Log a dataframe to this client object.
@@ -313,8 +311,7 @@ class DataframeMixin(MultiParentMixin):
 
 
 class TagMixin:
-    """Adds tag support to a client object.
-    """
+    """Adds tag support to a client object."""
 
     def _get_taggable_identifiers(self):
         dataframe_id = None
@@ -367,11 +364,12 @@ class TagMixin:
 
     @property
     def tags(self):
-        """Get this client object's tags.
-        """
+        """Get this client object's tags."""
         project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
         tag_data = self.repository.get_tags(
-            project_name, experiment_id=experiment_id, dataframe_id=dataframe_id,
+            project_name,
+            experiment_id=experiment_id,
+            dataframe_id=dataframe_id,
         )
 
         self._update_tags(tag_data)

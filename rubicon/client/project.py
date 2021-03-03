@@ -48,10 +48,16 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return completed_process.stdout.decode("utf8").replace("\n", "")
 
     def _create_experiment_domain(
-        self, name, description, model_name, branch_name, commit_hash, training_metadata, tags,
+        self,
+        name,
+        description,
+        model_name,
+        branch_name,
+        commit_hash,
+        training_metadata,
+        tags,
     ):
-        """Instantiates and returns an experiment domain object.
-        """
+        """Instantiates and returns an experiment domain object."""
         if self._config.is_auto_git_enabled:
             if branch_name is None:
                 branch_name = self._get_branch_name()
@@ -210,7 +216,13 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             The created experiment.
         """
         experiment = self._create_experiment_domain(
-            name, description, model_name, branch_name, commit_hash, training_metadata, tags,
+            name,
+            description,
+            model_name,
+            branch_name,
+            commit_hash,
+            training_metadata,
+            tags,
         )
         self.repository.create_experiment(experiment)
 
@@ -298,32 +310,27 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
     @property
     def name(self):
-        """Get the project's name.
-        """
+        """Get the project's name."""
         return self._domain.name
 
     @property
     def id(self):
-        """Get the project's id.
-        """
+        """Get the project's id."""
         return self._domain.id
 
     @property
     def description(self):
-        """Get the project's description.
-        """
+        """Get the project's description."""
         return self._domain.description
 
     @property
     def github_url(self):
-        """Get the project's GitHub repository URL.
-        """
+        """Get the project's GitHub repository URL."""
         return self._domain.github_url
 
     @property
     def training_metadata(self):
-        """Get the project's training metadata.
-        """
+        """Get the project's training metadata."""
         training_metadata = self._domain.training_metadata.training_metadata
 
         if len(training_metadata) == 1:
@@ -333,6 +340,5 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
     @property
     def created_at(self):
-        """Get the time the project was created.
-        """
+        """Get the time the project was created."""
         return self._domain.created_at

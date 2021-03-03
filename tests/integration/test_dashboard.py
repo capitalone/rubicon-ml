@@ -44,8 +44,11 @@ def test_refresh_projects(dashboard_setup, dash_duo):
     assert len(project_options) == 2
     assert project_options[0].text == project.name
 
+
 @pytest.mark.dashboard_test
-def test_dashboard_project_view_without_metrics_and_parameters(dashboard_setup_without_parameters_or_metrics, dash_duo):
+def test_dashboard_project_view_without_metrics_and_parameters(
+    dashboard_setup_without_parameters_or_metrics, dash_duo
+):
     dash_duo.start_server(dashboard_setup_without_parameters_or_metrics._app)
 
     project_selection_list = dash_duo.find_element("#project-selection--list")

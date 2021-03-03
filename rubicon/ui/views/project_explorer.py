@@ -15,8 +15,7 @@ from rubicon.ui.app import app
 
 
 def _get_experiment_table(id, experiments_df):
-    """Get a Dash DataTable with the experiments in `experiments_df`.
-    """
+    """Get a Dash DataTable with the experiments in `experiments_df`."""
     return dash_table.DataTable(
         id={"type": "experiment-table", "index": id},
         columns=[{"name": i, "id": i, "selectable": True} for i in experiments_df.columns],
@@ -73,7 +72,8 @@ def make_individual_project_explorer_layout(rubicon_model, commit_hash):
     )
 
     group_store = dcc.Store(
-        id={"type": "group-store", "index": id}, data={"commit_hash": commit_hash},
+        id={"type": "group-store", "index": id},
+        data={"commit_hash": commit_hash},
     )
 
     group_preview_title = [
@@ -140,7 +140,9 @@ def make_individual_project_explorer_layout(rubicon_model, commit_hash):
                 className="btn-progressive",
             ),
             html.Button(
-                "Clear All", id={"type": "clear-all-btn", "index": id}, className="btn-progressive",
+                "Clear All",
+                id={"type": "clear-all-btn", "index": id},
+                className="btn-progressive",
             ),
         ],
     )
@@ -365,8 +367,7 @@ def _update_selected_experiment_table_rows(
 
 
 def make_empty_view(instructions):
-    """The html layout for the dashboard's empty view when no project is selected.
-    """
+    """The html layout for the dashboard's empty view when no project is selected."""
     title = "Nothing to see here..."
 
     return html.Div(

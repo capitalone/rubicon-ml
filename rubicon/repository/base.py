@@ -32,8 +32,7 @@ class BaseRepository:
         self.root_dir = root_dir.rstrip("/")
 
     def _ls_directories_only(self, path):
-        """Returns the names of all the directories at path `path`.
-        """
+        """Returns the names of all the directories at path `path`."""
         return [
             os.path.join(p.get("name"), "metadata.json")
             for p in self.filesystem.ls(path, detail=True)
@@ -390,21 +389,18 @@ class BaseRepository:
         return f"{dataframe_metadata_root}/{dataframe_id}/data"
 
     def _convert_to_dask_dataframe(self, df):
-        """Converts `df` to a Dask dataframe if it is not already one.
-        """
+        """Converts `df` to a Dask dataframe if it is not already one."""
         if not isinstance(df, dd.DataFrame):
             return dd.from_pandas(df, npartitions=1)
 
         return df
 
     def _persist_dataframe(self, df, path):
-        """Persists the `dask` dataframe `df` to the configured filesystem.
-        """
+        """Persists the `dask` dataframe `df` to the configured filesystem."""
         df.to_parquet(path, engine="pyarrow")
 
     def _read_dataframe(self, path):
-        """Reads the `dask` dataframe `df` from the configured filesystem.
-        """
+        """Reads the `dask` dataframe `df` from the configured filesystem."""
         return dd.read_parquet(path, engine="pyarrow")
 
     def create_dataframe(self, dataframe, data, project_name, experiment_id=None):

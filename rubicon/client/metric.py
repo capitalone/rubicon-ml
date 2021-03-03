@@ -25,36 +25,30 @@ class Metric(Base):
 
     @property
     def id(self):
-        """Get the metric's id.
-        """
+        """Get the metric's id."""
         return self._domain.id
 
     @property
     def name(self):
-        """Get the metric's name.
-        """
+        """Get the metric's name."""
         return self._domain.name
 
     @property
     def value(self):
-        """Get the metric's value.
-        """
+        """Get the metric's value."""
         return self._domain.value
 
     @property
     def directionality(self):
-        """Get the metric's directionality.
-        """
+        """Get the metric's directionality."""
         return self._domain.directionality
 
     @property
     def description(self):
-        """Get the metric's description.
-        """
+        """Get the metric's description."""
         return self._domain.description
 
     @property
     def created_at(self):
-        """Get the metric's created_at.
-        """
+        """Get the metric's created_at."""
         return self._domain.created_at

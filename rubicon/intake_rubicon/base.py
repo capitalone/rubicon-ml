@@ -29,10 +29,13 @@ class DataSourceMixin(base.DataSource):
         super().__init__(metadata=metadata)
 
     def _get_schema(self):
-        """Load the specified `rubicon` object.
-        """
+        """Load the specified `rubicon` object."""
         self._schema = base.Schema(
-            datashape=None, dtype=None, shape=None, npartitions=None, extra_metadata=self._metadata,
+            datashape=None,
+            dtype=None,
+            shape=None,
+            npartitions=None,
+            extra_metadata=self._metadata,
         )
 
         return self._schema

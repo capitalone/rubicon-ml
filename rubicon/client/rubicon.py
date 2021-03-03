@@ -41,8 +41,7 @@ class Rubicon:
         self.config.repository = value
 
     def _get_github_url(self):
-        """Returns the repository URL of the `git` repo it is called from.
-        """
+        """Returns the repository URL of the `git` repo it is called from."""
         completed_process = subprocess.run(["git", "remote", "-v"], capture_output=True)
         remotes = completed_process.stdout.decode("utf8").replace("\t", " ").split("\n")
 
@@ -55,8 +54,7 @@ class Rubicon:
         return github_url
 
     def _create_project_domain(self, name, description, github_url, training_metadata):
-        """Instantiates and returns a project domain object.
-        """
+        """Instantiates and returns a project domain object."""
         if self.config.is_auto_git_enabled and github_url is None:
             github_url = self._get_github_url()
 

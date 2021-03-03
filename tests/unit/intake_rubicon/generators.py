@@ -51,7 +51,9 @@ def log_rubicon(path):
         source_data = f.read()
 
     project.log_artifact(
-        data_bytes=source_data, name="plot.png", description="bar plot logged with bytes",
+        data_bytes=source_data,
+        name="plot.png",
+        description="bar plot logged with bytes",
     )
 
     with open(plot_path, "rb") as f:
