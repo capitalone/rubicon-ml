@@ -70,6 +70,14 @@ This would result in the local "Sync Demo" project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI ``sync`` method. So,
 you'd need to have the AWS CLI installed and ensure your credentials are set.
 
+Why does Rubicon offer a Prefect integration?
+=============================================
+
+`prefect <https://docs.prefect.io/>`_ is a popular workflow management system
+that can be used to create machine learning pipelines. Rubicon's prefect
+integration makes it easy to drop Rubicon logging tasks into existing flows and
+consolidate all model logging within Rubicon.
+
 Why was the dashboard built with Dash?
 ======================================
 
