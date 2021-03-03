@@ -3,6 +3,15 @@
 FAQs
 ****
 
+Why the name Rubicon?
+=====================
+
+The name rubicon comes from a historical context; it's a reference to Caeser
+crossing the rubicon, which nowadays is synonymous with "passing the point of no
+return". We chose the name to signify that by using Rubicon, you're making the
+decision to provide a repeatable and auditable model development process and
+there's no going back on that commitment!
+
 What is an `experiment`?
 ========================
 
