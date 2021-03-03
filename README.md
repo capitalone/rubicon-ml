@@ -17,7 +17,7 @@ dashboard makes it easy to explore, filter, visualize, and share recorded work.
 
 ---
 
-## Introduction
+## Components
 
 Rubicon is composed of three parts:
 
@@ -29,18 +29,20 @@ Rubicon is composed of three parts:
 * And a process for sharing a selected subset of logged data with collaborators
   or reviewers that leverages [intake](https://intake.readthedocs.io/en/latest/)
 
-The Rubicon library can be easily integrated into existing Python models or
-pipelines. It supports concurrent logging so multiple experiments can be logged
-in parallel and asynchronous communication with S3 so network reads and writes
-won’t block.
+## Workflow
 
-Use the Rubicon dashboard to identify trends within your logged data and to
-notice patterns in how model inputs are impacting model outputs -- using the
-power of visualizations to steer the model tweaking process in the right
-direction.
+Use the Rubicon library to capture model inputs and outputs overtime. It can be
+easily integrated into existing Python models or pipelines and supports both
+concurrent logging (so multiple experiments can be logged in parallel) and
+asynchronous communication with S3 (so network reads and writes won’t block).
 
-After the model has met its goals, use the collobaration process to share only
-the relevant subsets of logged data with model reviewers or stakeholders, giving
+Meanwhile, periodically review the logged data within the Rubicon dashboard to
+steer the model tweaking process in the right direction. The dashboard lets you
+quickly spot trends by exploring and filtering your logged results and
+visualizes how the model inputs impacted the model outputs.
+
+After the model has met its goals, use the collobaration process to share the
+relevant subsets of logged data with model reviewers or stakeholders, giving
 everyone the context necessary for a peace of mind model review and approval.
 
 ## Use

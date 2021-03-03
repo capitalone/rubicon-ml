@@ -4,19 +4,47 @@
 Rubicon
 =======
 
-Rubicon is a model development and governance library that can integrate directly into your Python code. It's
-designed for both model developers and model reviewers and offers the following features:
+Purpose
+=======
 
-    * a Python library for storing and retrieving model inputs, ouputs, and analyses to filesystems (local, S3)
-    * a dashboard for exploring, comparing, and visualizing logged data
-    * a process for sharing a selected subset of logged data with collaborators and reviewers
+Rubicon is a data science tool that captures and stores model training and
+execution information, like parameters and outcomes, in a repeatable and
+searchable way. Rubicon's git integration associates these inputs and outputs
+directly with the model code that produced them to ensure full auditability and
+reproducibility for both developers and stakeholders alike. And the Rubicon
+dashboard makes it easy to explore, filter, visualize, and share recorded work.
 
-Rubicon is designed to enforce best practices, like automatically linking your logged experiments to
-the corresponding model code through Rubicon's git integration.
+Components
+==========
 
-Rubicon is also designed to be lightweight and performant. It supports concurrent logging, so you can log
-multiple experiments at a time and it also supports asynchronous communication with S3, so your network
-reads and writes won't block.
+Rubicon is composed of three parts:
+
+* A Python library for storing and retrieving model inputs, outputs, and
+  analyses to filesystems that’s powered by
+  fsspec_
+* A dashboard for exploring, comparing, and visualizing logged data built with
+  dash_
+* And a process for sharing a selected subset of logged data with collaborators
+  or reviewers that leverages intake_
+
+Workflow
+========
+
+Use the Rubicon library to capture model inputs and outputs overtime. It can be
+easily integrated into existing Python models or pipelines and supports both
+concurrent logging (so multiple experiments can be logged in parallel) and
+asynchronous communication with S3 (so network reads and writes won’t block).
+
+Meanwhile, periodically review the logged data within the Rubicon dashboard to
+steer the model tweaking process in the right direction. The dashboard lets you
+quickly spot trends by exploring and filtering your logged results and
+visualizes how the model inputs impacted the model outputs.
+
+After the model has met its goals, use the collobaration process to share the
+relevant subsets of logged data with model reviewers or stakeholders, giving
+everyone the context necessary for a peace of mind model review and approval.
+
+---
 
 Visit the :ref:`glossary<glossary>` to explore Rubicon's terminology. And to see Rubicon
 in action, visit the :ref:`quick look<quick-look>`!
@@ -49,3 +77,7 @@ in action, visit the :ref:`quick look<quick-look>`!
    Feedback<https://github.com/capitalone/rubicon/issues/new/choose>
    GitHub<https://github.com/capitalone/rubicon>
    Changelog<https://github.com/capitalone/rubicon/releases>
+
+.. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
+.. _dash: https://dash.plotly.com/
+.. _intake: https://intake.readthedocs.io/en/latest/
