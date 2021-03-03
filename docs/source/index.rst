@@ -48,3 +48,4 @@ in action, visit the :ref:`quick look<quick-look>`!
    contributing.rst
    Feedback<https://github.com/capitalone/rubicon/issues/new/choose>
    GitHub<https://github.com/capitalone/rubicon>
+   Changelog<https://github.com/capitalone/rubicon/releases>

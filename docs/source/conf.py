@@ -23,7 +23,7 @@ from rubicon import __version__ as version  # noqa F401
 
 project = "rubicon"
 author = "rubicon developers"
-copyright = "2020, rubicon developers"
+copyright = "2021, rubicon developers"
 
 
 # -- General configuration ---------------------------------------------------
@@ -81,15 +81,11 @@ exclude_patterns = ["_build"]
 
 # The theme to use for HTML and HTML Help pages.
 html_theme = "furo"
-
+# hide rubicon because it's already in the logo, but will still get pulled into the tab
+html_title = f"<code class='hidden'>rubicon</code> <div class='version'> v{version}</div>"
 html_static_path = ["_static"]
-
+html_css_files = ["custom.css"]
 html_theme_options = {
     "light_logo": "images/rubicon_logo_black.png",
     "dark_logo": "images/rubicon_logo_white.png",
-    "sidebar_hide_name": True,
 }
-
-html_css_files = [
-    "custom.css",
-]
