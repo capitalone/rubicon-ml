@@ -410,7 +410,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='eeb659c2-58ed-481b-be9a-f4ebf0aac2fe', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 1, 18, 47, 10, 160020))
+Project(name='Concurrent Experiments', id='ebb8aa9b-cb90-4e0d-bb57-2f6f95a63edc', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 3, 14, 47, 27, 477545))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -542,7 +542,7 @@ Project(name='Concurrent Experiments', id='eeb659c2-58ed-481b-be9a-f4ebf0aac2fe'
 </pre></div></div>
 </div>
 <p>Let’s see which experiments we tagged as successful and what type of model they used.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
@@ -551,19 +551,6 @@ Project(name='Concurrent Experiments', id='eeb659c2-58ed-481b-be9a-f4ebf0aac2fe'
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> was successful using a </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-experiment 39debc41-30cc-40ca-b969-d05cf1c62409 was successful using a RandomForestClassifier
-experiment 488e1f60-5fc6-40fe-91ea-3b26d8745186 was successful using a KNeighborsClassifier
-experiment 5436544d-791f-4dcf-8e27-5602eecd56f6 was successful using a KNeighborsClassifier
-experiment 67248252-2e61-410e-81f5-aebb64783424 was successful using a RandomForestClassifier
-experiment 6ab60b0b-4a2a-421c-8d4b-4f7dc31b6011 was successful using a RandomForestClassifier
-experiment caa8f632-b407-4b40-a9a4-245633b809d3 was successful using a RandomForestClassifier
-</pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
 <div class="nbinput docutils container">
@@ -593,17 +580,18 @@ experiment caa8f632-b407-4b40-a9a4-245633b809d3 was successful using a RandomFor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['failure', 'KNeighborsClassifier']
+tags: ['failure', 'RandomForestClassifier']
 parameters:
+        n_estimators: 30
         n_features: 4
-        n_neighbors: 20
+        random_state: 1614782847
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 0.9473684210526315
+        accuracy: 0.9210526315789473
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
