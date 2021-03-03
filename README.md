@@ -6,28 +6,62 @@
 [![Publish Package](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml)
 [![Publish Docs](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml)
 
-`rubicon` is a data science tool for capturing all information related to a model
-during its development. With minimal effort, Rubicon's Python library can integrate
-directly into your Python models:
+## Purpose
+
+Rubicon is a data science tool that captures and stores model training and
+execution information, like parameters and outcomes, in a repeatable and
+searchable way. Rubicon's git integration associates these inputs and outputs
+directly with the model code that produced them to ensure full auditability and
+reproducibility for both developers and stakeholders alike. And the Rubicon
+dashboard makes it easy to explore, filter, visualize, and share recorded work.
+
+---
+
+## Introduction
+
+Rubicon is composed of three parts:
+
+* A Python library for storing and retrieving model inputs, outputs, and
+  analyses to filesystems that’s powered by
+  [fsspec](https://filesystem-spec.readthedocs.io/en/latest/?badge=latest)
+* A dashboard for exploring, comparing, and visualizing logged data built with
+  [dash](https://dash.plotly.com/)
+* And a process for sharing a selected subset of logged data with collaborators
+  or reviewers that leverages [intake](https://intake.readthedocs.io/en/latest/)
+
+The Rubicon library can be easily integrated into existing Python models or
+pipelines. It supports concurrent logging so multiple experiments can be logged
+in parallel and asynchronous communication with S3 so network reads and writes
+won’t block.
+
+Use the Rubicon dashboard to identify trends within your logged data and to
+notice patterns in how model inputs are impacting model outputs -- using the
+power of visualizations to steer the model tweaking process in the right
+direction.
+
+After the model has met its goals, use the collobaration process to share only
+the relevant subsets of logged data with model reviewers or stakeholders, giving
+everyone the context necessary for a peace of mind model review and approval.
+
+## Use
+
+Here's a simple example:
 
 ```python
 from rubicon import Rubicon
 
-# Configure client object, automatically track git details
 rubicon = Rubicon(
     persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True
 )
 
-# Create a project to hold a collection of experiments
 project = rubicon.create_project(
     "Hello World", description="Using rubicon to track model results over time."
 )
 
-# Log experiment data
 experiment = project.log_experiment(
     training_metadata=[SklearnTrainingMetadata("sklearn.datasets", "my-data-set")],
     model_name="My Model Name",
-    tags=["model"],
+    tags=["my_model_name"],
 )
 
 experiment.log_parameter("n_estimators", n_estimators)
@@ -36,39 +70,13 @@ experiment.log_parameter("random_state", random_state)
 
 accuracy = rfc.score(X_test, y_test)
 experiment.log_metric("accuracy", accuracy)
-
-# Tag the data so it's easily filterable
-if accuracy >= .94:
-    experiment.add_tags(["success"])
 ```
 
-Explore and visualize Rubicon projects stored locally or in S3 with the CLI:
+Then explore the project by running the dashboard:
 
 ```
 rubicon ui --root-dir /rubicon-root
 ```
-
----
-
-## Purpose
-
-Rubicon is a data science tool for capturing all information related to a model
-during its development. It allows data scientists to store model results
-over time and ensures full audibility and reproducibility.
-
-It offers the following features:
-
-* a Python library for storing and retrieving model inputs, ouputs, and analyses
-  to filesystems (local, S3)
-
-* a dashboard for exploring, comparing, and visualizing logged data
-
-* a process for sharing a selected subset of logged data with collaborators
-
-Rubicon is designed to enforce best practices, like automatically linking
-logged experiments (results) to their corresponding model code. And it supports
-concurrent logging, so multiple experiments can be logged in parallel and also
-asynchronous communication with S3, so network reads and writes don’t block.
 
 ## Documentation
 
