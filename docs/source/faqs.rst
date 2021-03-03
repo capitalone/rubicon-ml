@@ -12,15 +12,6 @@ return". We chose the name to signify that by using Rubicon, you're making the
 decision to provide a repeatable and auditable model development process and
 there's no going back on that commitment!
 
-What is an `experiment`?
-========================
-
-In most cases, an experiment represents a single model run. But ``rubicon`` is
-designed to be flexible! An experiment can represent any unit of work that you'd
-like to compare multiple runs of.
-
-Consult the :ref:`glossary<glossary>` to see all of Rubicon's terminology.
-
 How can I log my data to S3?
 ============================
 
@@ -78,6 +69,16 @@ Local logging can easily be synced with an S3 bucket using ``Rubicon.sync()``.
 This would result in the local "Sync Demo" project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI ``sync`` method. So,
 you'd need to have the AWS CLI installed and ensure your credentials are set.
+
+Could Rubicon be used outside of a machine learning workflow?
+=============================================================
+
+Yes. Rubicon's :ref:`terminology<glossary>` was designed for machine learning
+workflows, but Rubicon is flexible! An ``experiment`` can simply represent any
+unit of work that you'd like to compare multiple runs of. In fact, we've used
+Rubicon to capture performance benchmarks while developing the library so we
+could better evaluate areas of improvement and also have a record of the data
+supporting our decisions.
 
 Anything else?
 ==============
