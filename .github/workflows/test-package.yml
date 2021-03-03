@@ -31,10 +31,10 @@ jobs:
         pip install -e .
     - name: Check formatting with black
       run: |
-        black .
+        black --check .
     - name: Check imports with isort
       run: |
-        isort .
+        isort -c
     - name: Lint with flake8
       run: |
         flake8 .
