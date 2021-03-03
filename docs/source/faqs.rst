@@ -70,6 +70,22 @@ This would result in the local "Sync Demo" project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI ``sync`` method. So,
 you'd need to have the AWS CLI installed and ensure your credentials are set.
 
+Why was the dashboard built with Dash?
+======================================
+
+We decided to use `dash <https://dash.plotly.com/>`_ as our initial dashboarding
+solution for the following reasons:
+
+* low barrier to entry for Python developers
+* built in support for the plotly data visualization library
+* can be rendered inside Jupyter Notebooks or JupyterLab with minimal effort
+* can be easily deployed to static URL
+* compatible with the Python ecosystem (HoloViews)
+* compatible with React components
+
+We welcome suggestions to improve the dashboard or even contributions of
+additional dashboarding solutions!
+
 Could Rubicon be used outside of a machine learning workflow?
 =============================================================
 
