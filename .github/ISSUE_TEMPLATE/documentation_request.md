@@ -1,6 +1,6 @@
 ---
 name: Documentation Request
-about: Suggest new or updated documentation.
+about: Suggest new or updated Rubicon documentation
 title: ""
 labels: "documentation, needs triage"
 assignees: ""
