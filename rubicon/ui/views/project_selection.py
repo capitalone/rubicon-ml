@@ -6,8 +6,7 @@ from rubicon.ui.app import app
 
 
 def make_project_selection_layout():
-    """The html layout for the dashboard's project selection view.
-    """
+    """The html layout for the dashboard's project selection view."""
 
     return html.Div(
         id="project-selection",
@@ -34,8 +33,7 @@ def make_project_selection_layout():
     [Input("project-selection--refresh-projects-btn", "n_clicks")],
 )
 def _update_project_options(n_clicks):
-    """Use the Rubicon client to load the available projects.
-    """
+    """Use the Rubicon client to load the available projects."""
     app._rubicon_model.update_projects()
 
     return dbc.ListGroup(

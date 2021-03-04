@@ -20,8 +20,7 @@ class ProjectSource(DataSourceMixin):
     name = "rubicon_project"
 
     def _get_schema(self):
-        """Load the project named `self._project_name`.
-        """
+        """Load the project named `self._project_name`."""
         self._rubicon = Rubicon(persistence="filesystem", root_dir=self._urlpath)
         self._rubicon_object = self._rubicon.get_project(self._project_name)
 

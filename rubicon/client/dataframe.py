@@ -39,26 +39,22 @@ class Dataframe(Base, TagMixin):
         )
 
     def plot(self, kind="table", **kwargs):
-        """Render the dataframe using `mlviews`.
-        """
+        """Render the dataframe using `mlviews`."""
         raise NotImplementedError
 
     @property
     def id(self):
-        """Get the dataframe's id.
-        """
+        """Get the dataframe's id."""
         return self._domain.id
 
     @property
     def description(self):
-        """Get the dataframe's description.
-        """
+        """Get the dataframe's description."""
         return self._domain.description
 
     @property
     def created_at(self):
-        """Get the time this dataframe was created.
-        """
+        """Get the time this dataframe was created."""
         return self._domain.created_at
 
     @property
@@ -73,6 +69,5 @@ class Dataframe(Base, TagMixin):
 
     @property
     def parent(self):
-        """Get the dataframe's parent client object.
-        """
+        """Get the dataframe's parent client object."""
         return self._parent

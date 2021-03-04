@@ -29,8 +29,7 @@ def cli():
     "--debug", "-d", type=click.BOOL, help="Whether or not to run in debug mode.", default=False
 )
 def ui(root_dir, host, port, debug):
-    """Launch the Rubicon Dashboard.
-    """
+    """Launch the Rubicon Dashboard."""
     dashboard = Dashboard("filesystem", root_dir)
 
     server_kwargs = dict(debug=debug, port=port, host=host)

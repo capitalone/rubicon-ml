@@ -32,8 +32,7 @@ class Artifact(Base):
         self._parent = parent
 
     def _get_data(self):
-        """Loads the data associated with this artifact.
-        """
+        """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_parent_identifiers()
 
         self._data = self.repository.get_artifact_data(
@@ -65,32 +64,27 @@ class Artifact(Base):
 
     @property
     def id(self):
-        """Get the artifact's id.
-        """
+        """Get the artifact's id."""
         return self._domain.id
 
     @property
     def name(self):
-        """Get the artifact's name.
-        """
+        """Get the artifact's name."""
         return self._domain.name
 
     @property
     def description(self):
-        """Get the artifact's description.
-        """
+        """Get the artifact's description."""
         return self._domain.description
 
     @property
     def created_at(self):
-        """Get the time this dataframe was created.
-        """
+        """Get the time this dataframe was created."""
         return self._domain.created_at
 
     @property
     def data(self):
-        """Get the artifact's raw data.
-        """
+        """Get the artifact's raw data."""
         if self._data is None:
             self._get_data()
 
@@ -98,6 +92,5 @@ class Artifact(Base):
 
     @property
     def parent(self):
-        """Get the dataframe's parent client object.
-        """
+        """Get the dataframe's parent client object."""
         return self._parent

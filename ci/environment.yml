@@ -26,9 +26,9 @@ dependencies:
   - beautifulsoup4>=4.8.2
 
   # required for testing
-  - black=19.10b0
+  - black
   - flake8
-  - isort>=4.0.0,<5.0.0
+  - isort
   - pytest
   - pytest-cov
 

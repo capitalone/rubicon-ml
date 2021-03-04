@@ -159,44 +159,37 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
     @property
     def id(self):
-        """Get the experiment's id.
-        """
+        """Get the experiment's id."""
         return self._domain.id
 
     @property
     def name(self):
-        """Get the experiment's name.
-        """
+        """Get the experiment's name."""
         return self._domain.name
 
     @property
     def description(self):
-        """Get the experiment's description.
-        """
+        """Get the experiment's description."""
         return self._domain.description
 
     @property
     def model_name(self):
-        """Get the experiment's model name.
-        """
+        """Get the experiment's model name."""
         return self._domain.model_name
 
     @property
     def branch_name(self):
-        """Get the experiment's branch name.
-        """
+        """Get the experiment's branch name."""
         return self._domain.branch_name
 
     @property
     def commit_hash(self):
-        """Get the experiment's commit hash.
-        """
+        """Get the experiment's commit hash."""
         return self._domain.commit_hash
 
     @property
     def training_metadata(self):
-        """Get the project's training metadata.
-        """
+        """Get the project's training metadata."""
         training_metadata = self._domain.training_metadata.training_metadata
 
         if len(training_metadata) == 1:
@@ -206,8 +199,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
     @property
     def created_at(self):
-        """Get the time the experiment was created.
-        """
+        """Get the time the experiment was created."""
         return self._domain.created_at
 
     @property

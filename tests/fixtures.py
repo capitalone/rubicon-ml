@@ -166,6 +166,7 @@ def dashboard_setup(rubicon_and_project_client_with_experiments):
 
     return dashboard
 
+
 @pytest.fixture
 def dashboard_setup_without_parameters_or_metrics(rubicon_and_project_client):
     """Setup an instance of the rubicon dashboard with a default project and
@@ -177,7 +178,7 @@ def dashboard_setup_without_parameters_or_metrics(rubicon_and_project_client):
 
     for i in range(0, 3):
         project.log_experiment(f"exp-{i}")
-    
+
     dashboard = Dashboard(rubicon.config.persistence, rubicon.config.root_dir)
 
     return dashboard
@@ -185,18 +186,19 @@ def dashboard_setup_without_parameters_or_metrics(rubicon_and_project_client):
 
 @pytest.fixture
 def test_dataframe():
-    """Create a test dataframe which can be logged to a project or experiment.
-    """
+    """Create a test dataframe which can be logged to a project or experiment."""
     import pandas as pd
     from dask import dataframe as dd
 
-    return dd.from_pandas(pd.DataFrame.from_records([[0, 1]], columns=["a", "b"]), npartitions=1,)
+    return dd.from_pandas(
+        pd.DataFrame.from_records([[0, 1]], columns=["a", "b"]),
+        npartitions=1,
+    )
 
 
 @pytest.fixture
 def memory_repository():
-    """Setup an in-memory repository and clean it up afterwards.
-    """
+    """Setup an in-memory repository and clean it up afterwards."""
     root_dir = "/in-memory-root"
     repository = MemoryRepository(root_dir)
 

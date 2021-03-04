@@ -27,30 +27,25 @@ class Parameter(Base):
 
     @property
     def id(self):
-        """Get the parameter's id.
-        """
+        """Get the parameter's id."""
         return self._domain.id
 
     @property
     def name(self):
-        """Get the parameter's name.
-        """
+        """Get the parameter's name."""
         return self._domain.name
 
     @property
     def value(self):
-        """Get the parameter's value.
-        """
+        """Get the parameter's value."""
         return self._domain.value
 
     @property
     def description(self):
-        """Get the parameter's description.
-        """
+        """Get the parameter's description."""
         return self._domain.description
 
     @property
     def created_at(self):
-        """Get the time the parameter was created.
-        """
+        """Get the time the parameter was created."""
         return self._domain.created_at

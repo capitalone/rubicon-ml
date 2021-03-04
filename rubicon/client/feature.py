@@ -27,30 +27,25 @@ class Feature(Base):
 
     @property
     def id(self):
-        """Get the feature's id.
-        """
+        """Get the feature's id."""
         return self._domain.id
 
     @property
     def name(self):
-        """Get the feature's name.
-        """
+        """Get the feature's name."""
         return self._domain.name
 
     @property
     def description(self):
-        """Get the feature's description.
-        """
+        """Get the feature's description."""
         return self._domain.description
 
     @property
     def importance(self):
-        """Get the feature's importance.
-        """
+        """Get the feature's importance."""
         return self._domain.importance
 
     @property
     def created_at(self):
-        """Get the feature's created_at.
-        """
+        """Get the feature's created_at."""
         return self._domain.created_at

@@ -40,16 +40,14 @@ class Config:
         self.repository = self._get_repository()
 
     def _check_is_in_git_repo(self):
-        """Raise a `RubiconException` if not called from within a `git` repository.
-        """
+        """Raise a `RubiconException` if not called from within a `git` repository."""
         if subprocess.run(["git", "rev-parse", "--git-dir"], capture_output=True).returncode != 0:
             raise RubiconException(
                 "Not a `git` repo: Falied to locate the '.git' directory in this or any parent directories."
             )
 
     def _load_config(self, persistence, root_dir, is_auto_git_enabled):
-        """Get the configuration values.
-        """
+        """Get the configuration values."""
         persistence = os.environ.get("PERSISTENCE", persistence)
         if persistence not in self.PERSISTENCE_TYPES:
             raise ValueError(f"PERSISTENCE must be one of {self.PERSISTENCE_TYPES}.")
@@ -64,8 +62,7 @@ class Config:
         return (persistence, root_dir, is_auto_git_enabled)
 
     def _get_protocol(self):
-        """Get the file protocol of the configured root directory.
-        """
+        """Get the file protocol of the configured root directory."""
         if self.persistence == "memory":
             return "memory"
         elif self.persistence == "filesystem":
@@ -75,8 +72,7 @@ class Config:
                 return "local"
 
     def _get_repository(self):
-        """Get the repository for the configured persistence type.
-        """
+        """Get the repository for the configured persistence type."""
         protocol = self._get_protocol()
 
         repository_key = f"{self.persistence}-{protocol}"
