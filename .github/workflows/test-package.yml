@@ -39,6 +39,7 @@ jobs:
       run: |
         flake8 .
     - name: Validate build
+      run: |
         python setup.py sdist bdist_wheel
         pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
