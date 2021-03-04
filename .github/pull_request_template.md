@@ -1,4 +1,4 @@
-**closes: #<PR>**
+closes: #<ISSUE-NUMBER>
 
 ---
 
