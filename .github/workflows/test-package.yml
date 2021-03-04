@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file ci/environment.yml --name base
-        pip install -e .
+        pip install setuptools wheel
     - name: Check formatting with black
       run: |
         black --check .
@@ -38,6 +38,10 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8 .
+    - name: Validate build
+      run: |
+        python setup.py sdist bdist_wheel
+        pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
       run: |
         pytest
