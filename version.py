@@ -18,7 +18,7 @@ def _write_version_file(version):
     root_dir = os.path.dirname(os.path.abspath(__file__))
     version_file_path = os.path.join(root_dir, "rubicon", "_version.py")
 
-    version_file = f"def _get_version():\n    return '{version}'\n"
+    version_file = f'def _get_version():\n    return "{version}"\n'
 
     with open(version_file_path, "w") as f:
         f.write(version_file)
