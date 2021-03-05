@@ -1,24 +1,46 @@
 .. _install:
 
 Install
-=======
+*******
 
-``rubicon`` is available to install via ``pip``:
+``rubicon`` is available to install via ``conda`` and ``pip``. When using ``conda``,
+make sure to set the channel to ``conda-forge``. You should only need to do this once:
+
+.. code-block:: console
+
+    conda config --add channels conda-forge
+
+then...
+
+.. code-block:: console
+
+    conda install rubicon-ml
+
+Alternatively:
 
 .. code-block:: console
 
     pip install rubicon-ml
 
-**Extras**
+Extras
+======
 
-``rubicon`` has a few optional extras:
+``rubicon`` has a few optional extras. Each are available via both ``conda`` and ``pip``.
 
 The ``ui`` extra installs the requirements necessary for using ``rubicon``'s visualization tools.
 For a preview, take a look at the **dashboard** section of the :ref:`quick look<quick-look>`.
 
 .. code-block:: console
 
+    conda install rubicon-ml[ui]
+
+or
+
+.. code-block:: console
+
     pip install rubicon-ml[ui]
+
+|
 
 The ``prefect`` extra installs the requirements necessary for using the `Prefect <https://prefect.io>`_ 
 tasks in the ``rubicon.workflow`` module. Take a look at the **Prefect integration** :ref:`example<examples>` 
@@ -26,9 +48,23 @@ to see ``rubicon`` integrated into a simple Prefect flow.
 
 .. code-block:: console
 
+    conda install rubicon-ml[prefect]
+
+or
+
+.. code-block:: console
+
     pip install rubicon-ml[prefect]
 
+|
+
 To install all extra modules, use the ``all`` extra.
+
+.. code-block:: console
+
+    conda install rubicon-ml[all]
+
+or
 
 .. code-block:: console
 

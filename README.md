@@ -1,5 +1,6 @@
 # Rubicon
 
+[![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
 [![Test Package](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml)
 [![Publish Package](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml)
@@ -76,6 +77,15 @@ you have suggestions or find a bug, [please open an
 issue](https://github.com/capitalone/rubicon/issues/new/choose).
 
 ## Install
+
+`rubicon` is available on Conda Forge via `conda` and PyPi via `pip`.
+
+```
+conda config --add channels conda-forge
+conda install rubicon-ml
+```
+
+or
 
 ```
 pip install rubicon-ml
