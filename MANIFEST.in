@@ -1,2 +1,4 @@
 graft rubicon/ui/assets
 graft rubicon/ui/assets/css
+include versioneer.py
+include rubicon/_version.py
