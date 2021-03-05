@@ -4,6 +4,8 @@
 name: Publish docs
 
 on:
+  workflow_dispatch:
+    branch: main
   release:
     types: [created]
 
