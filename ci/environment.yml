@@ -32,6 +32,9 @@ dependencies:
   - pytest
   - pytest-cov
 
+  # required for versioning
+  - versioneer
+
   - pip:
     # required for UI testing (not available on conda)
     - percy>=2.0.2
