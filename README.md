@@ -1,7 +1,7 @@
 # Rubicon
 
-[![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
+[![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
 [![Test Package](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml)
 [![Publish Package](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml)
 [![Publish Docs](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml)
