@@ -25,16 +25,13 @@ Alternatively:
 Extras
 ======
 
-``rubicon`` has a few optional extras. Each are available via both ``conda`` and ``pip``.
+``rubicon`` has a few optional extras if you're installing with ``pip`` (these extras are all
+installed by default when using ``conda``).
+
+|
 
 The ``ui`` extra installs the requirements necessary for using ``rubicon``'s visualization tools.
 For a preview, take a look at the **dashboard** section of the :ref:`quick look<quick-look>`.
-
-.. code-block:: console
-
-    conda install rubicon-ml[ui]
-
-or
 
 .. code-block:: console
 
@@ -48,23 +45,11 @@ to see ``rubicon`` integrated into a simple Prefect flow.
 
 .. code-block:: console
 
-    conda install rubicon-ml[prefect]
-
-or
-
-.. code-block:: console
-
     pip install rubicon-ml[prefect]
 
 |
 
 To install all extra modules, use the ``all`` extra.
-
-.. code-block:: console
-
-    conda install rubicon-ml[all]
-
-or
 
 .. code-block:: console
 
