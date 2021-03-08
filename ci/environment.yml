@@ -2,7 +2,7 @@ name: rubicon-dev
 channels:
   - conda-forge
 dependencies:
-  - python=3.7.6
+  - python=3.8.0
   - pip
 
   - click>=7.1
