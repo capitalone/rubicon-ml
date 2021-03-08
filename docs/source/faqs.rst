@@ -3,14 +3,14 @@
 FAQs
 ****
 
-What is an `experiment`?
-========================
+Why the name Rubicon?
+=====================
 
-In most cases, an experiment represents a single model run. But ``rubicon`` is
-designed to be flexible! An experiment can represent any unit of work that you'd
-like to compare multiple runs of.
-
-Consult the :ref:`glossary<glossary>` to see all of Rubicon's terminology.
+The name Rubicon comes from a historical context; it's a reference to Caeser
+crossing the Rubicon, which nowadays is synonymous with "passing the point of no
+return". We chose the name to signify that by using Rubicon, you're making the
+decision to provide a repeatable and auditable model development process and
+there's no going back on that commitment!
 
 How can I log my data to S3?
 ============================
@@ -70,8 +70,36 @@ This would result in the local "Sync Demo" project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI ``sync`` method. So,
 you'd need to have the AWS CLI installed and ensure your credentials are set.
 
-Anything else?
-==============
+Why does Rubicon offer Prefect integration?
+===========================================
 
-If you have any other questions, open an issue! Maybe you'll see your question
-here one day!
+`prefect <https://docs.prefect.io/>`_ is a popular workflow management system
+that can be used to create machine learning pipelines. Rubicon's prefect
+integration makes it easy to drop Rubicon logging tasks into existing flows and
+consolidate all model logging within Rubicon.
+
+Why was the dashboard built with Dash?
+======================================
+
+We decided to use `dash <https://dash.plotly.com/>`_ as our initial dashboarding
+solution for the following reasons:
+
+* low barrier to entry for Python developers
+* built in support of the ``plotly`` data visualization library
+* can be rendered inside Jupyter Notebooks or JupyterLab with minimal effort
+* can be easily deployed to static URL
+* compatible with the Python ecosystem (HoloViews)
+* compatible with React components
+
+We welcome suggestions to improve the dashboard or even contributions of
+additional dashboarding solutions!
+
+Could Rubicon be used outside of a machine learning workflow?
+=============================================================
+
+Yes. Rubicon's :ref:`terminology<glossary>` was designed for machine learning
+workflows, but Rubicon is flexible! An ``experiment`` can simply represent any
+unit of work that you'd like to compare multiple runs of. In fact, we've used
+Rubicon to capture performance benchmarks while developing the library so we
+could better evaluate areas of improvement and also have a record of the data
+supporting our decisions.
