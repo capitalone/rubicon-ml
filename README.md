@@ -10,10 +10,11 @@
 
 Rubicon is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
-searchable way. Rubicon's git integration associates these inputs and outputs
+searchable way. Rubicon's `git` integration associates these inputs and outputs
 directly with the model code that produced them to ensure full auditability and
-reproducibility for both developers and stakeholders alike. And the Rubicon
-dashboard makes it easy to explore, filter, visualize, and share recorded work.
+reproducibility for both developers and stakeholders alike. While experimenting,
+the Rubicon dashboard makes it easy to explore, filter, visualize, and share
+recorded work.
 
 ---
 
@@ -23,15 +24,15 @@ Rubicon is composed of three parts:
 
 * A Python library for storing and retrieving model inputs, outputs, and
   analyses to filesystems that’s powered by
-  [fsspec](https://filesystem-spec.readthedocs.io/en/latest/?badge=latest)
+  [`fsspec`](https://filesystem-spec.readthedocs.io/en/latest/?badge=latest)
 * A dashboard for exploring, comparing, and visualizing logged data built with
-  [dash](https://dash.plotly.com/)
+  [`dash`](https://dash.plotly.com/)
 * And a process for sharing a selected subset of logged data with collaborators
-  or reviewers that leverages [intake](https://intake.readthedocs.io/en/latest/)
+  or reviewers that leverages [`intake`](https://intake.readthedocs.io/en/latest/)
 
 ## Workflow
 
-Use the Rubicon library to capture model inputs and outputs overtime. It can be
+Use the Rubicon library to capture model inputs and outputs over time. It can be
 easily integrated into existing Python models or pipelines and supports both
 concurrent logging (so multiple experiments can be logged in parallel) and
 asynchronous communication with S3 (so network reads and writes won’t block).

@@ -9,10 +9,11 @@ Purpose
 
 Rubicon is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
-searchable way. Rubicon's git integration associates these inputs and outputs
+searchable way. Rubicon's ``git`` integration associates these inputs and outputs
 directly with the model code that produced them to ensure full auditability and
-reproducibility for both developers and stakeholders alike. And the Rubicon
-dashboard makes it easy to explore, filter, visualize, and share recorded work.
+reproducibility for both developers and stakeholders alike. While experimenting,
+the Rubicon dashboard makes it easy to explore, filter, visualize, and share
+recorded work.
 
 Components
 ==========
@@ -30,7 +31,7 @@ Rubicon is composed of three parts:
 Workflow
 ========
 
-Use the Rubicon library to capture model inputs and outputs overtime. It can be
+Use the Rubicon library to capture model inputs and outputs over time. It can be
 easily integrated into existing Python models or pipelines and supports both
 concurrent logging (so multiple experiments can be logged in parallel) and
 asynchronous communication with S3 (so network reads and writes won’t block).

@@ -6,8 +6,8 @@ FAQs
 Why the name Rubicon?
 =====================
 
-The name rubicon comes from a historical context; it's a reference to Caeser
-crossing the rubicon, which nowadays is synonymous with "passing the point of no
+The name Rubicon comes from a historical context; it's a reference to Caeser
+crossing the Rubicon, which nowadays is synonymous with "passing the point of no
 return". We chose the name to signify that by using Rubicon, you're making the
 decision to provide a repeatable and auditable model development process and
 there's no going back on that commitment!
@@ -70,8 +70,8 @@ This would result in the local "Sync Demo" project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI ``sync`` method. So,
 you'd need to have the AWS CLI installed and ensure your credentials are set.
 
-Why does Rubicon offer a Prefect integration?
-=============================================
+Why does Rubicon offer Prefect integration?
+===========================================
 
 `prefect <https://docs.prefect.io/>`_ is a popular workflow management system
 that can be used to create machine learning pipelines. Rubicon's prefect
@@ -85,7 +85,7 @@ We decided to use `dash <https://dash.plotly.com/>`_ as our initial dashboarding
 solution for the following reasons:
 
 * low barrier to entry for Python developers
-* built in support for the plotly data visualization library
+* built in support of the ``plotly`` data visualization library
 * can be rendered inside Jupyter Notebooks or JupyterLab with minimal effort
 * can be easily deployed to static URL
 * compatible with the Python ecosystem (HoloViews)
