@@ -39,7 +39,7 @@ class Dataframe(Base, TagMixin):
         )
 
     def plot(self, kind="table", **kwargs):
-        """Render the dataframe using `mlviews`."""
+        """Render the dataframe."""
         raise NotImplementedError
 
     @property
