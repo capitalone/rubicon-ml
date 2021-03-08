@@ -13,8 +13,8 @@ install_requires = [
     "dask[dataframe]>=2.12.0",
     "fsspec>=0.8.3",
     "intake>=0.5.2",
-    "pyarrow>=0.16.0,<0.18.0",
-    "pyyaml>=3.12.0,<5.4.0",
+    "pyarrow>=0.18.0",
+    "pyyaml>=5.4.0",
     "s3fs>=0.5.1",
 ]
 
