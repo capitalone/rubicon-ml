@@ -1,4 +1,4 @@
-name: rubicon-dev
+name: rubicon-dev-test-2
 channels:
   - conda-forge
 dependencies:
@@ -8,7 +8,7 @@ dependencies:
   - click>=7.1
   - dask>=2.12.0
   - pandas>=1.0
-  - fsspec=0.8.3
+  - fsspec>=0.8.3
   - intake>=0.5.2
   - pyarrow>=0.18.0
   - pyyaml>=5.4.0
