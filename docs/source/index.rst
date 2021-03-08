@@ -41,9 +41,9 @@ steer the model tweaking process in the right direction. The dashboard lets you
 quickly spot trends by exploring and filtering your logged results and
 visualizes how the model inputs impacted the model outputs.
 
-After the model has met its goals, use the collobaration process to share the
-relevant subsets of logged data with model reviewers or stakeholders, giving
-everyone the context necessary for a peace of mind model review and approval.
+When the model is ready for review, Rubicon makes it easy to share specific
+subsets of the data with model reviewers and stakeholders, giving them the
+context necessary for a complete model review and approval.
 
 ---
 
@@ -75,9 +75,9 @@ in action, visit the :ref:`quick look<quick-look>`!
    :caption: Community:
 
    contributing.rst
+   Changelog<https://github.com/capitalone/rubicon/releases>
    Feedback<https://github.com/capitalone/rubicon/issues/new/choose>
    GitHub<https://github.com/capitalone/rubicon>
-   Changelog<https://github.com/capitalone/rubicon/releases>
 
 .. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
 .. _dash: https://dash.plotly.com/

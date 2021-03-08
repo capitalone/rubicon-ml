@@ -103,9 +103,3 @@ unit of work that you'd like to compare multiple runs of. In fact, we've used
 Rubicon to capture performance benchmarks while developing the library so we
 could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.
-
-Anything else?
-==============
-
-If you have any other questions, open an issue! Maybe you'll see your question
-here one day!
