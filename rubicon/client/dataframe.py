@@ -61,14 +61,13 @@ class Dataframe(Base, TagMixin):
         >>> # Log a line plot
         >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
         """
-        # data is a dask dataframe
-        if sys.modules.get("dask") is not None:
-            try:
-                import hvplot.dask  # noqa F401
-            except ImportError:
-                raise RubiconException(
-                    "`hvplot` is required for plotting. Install with `pip install hvplot`."
-                )
+        try:
+            # data is a dask dataframe
+            import hvplot.dask  # noqa F401
+        except ImportError:
+            raise RubiconException(
+                "`hvplot` is required for plotting. Install with `pip install hvplot`."
+            )
 
         return self.data.hvplot(**kwargs)
 
