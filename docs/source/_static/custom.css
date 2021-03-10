@@ -21,3 +21,8 @@
     font-size: 20px;
     margin-top: -14px;
 }
+
+/* unknown warning was showing, manually hiding */
+#Default-Plotting-Support .admonition.warning {
+    display: none;
+}
