@@ -1,4 +1,3 @@
-import os
 import pickle
 
 import fsspec
@@ -13,17 +12,6 @@ def test_initialization():
     assert memory_repo.PROTOCOL == "memory"
     assert memory_repo.root_dir == "/root"
     assert type(memory_repo.filesystem) == fsspec.implementations.memory.MemoryFileSystem
-
-
-def test_add_dirnames_to_pseudo_dirs():
-    path = "/memory/root/data.json"
-
-    memory_repo = MemoryRepository()
-    memory_repo._add_dirnames_to_pseudo_dirs(path)
-
-    while path != "" and path != "/":
-        path = os.path.dirname(path)
-        assert path in memory_repo.filesystem.pseudo_dirs
 
 
 def test_persist_dataframe():
