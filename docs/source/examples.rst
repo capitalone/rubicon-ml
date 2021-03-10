@@ -13,6 +13,7 @@ Rubicon Basics
 
    logging-basics
    logging-training-metadata
+   plotting-support
 
 Advanced Features
 -----------------

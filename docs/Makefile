@@ -20,6 +20,7 @@ prepare:
 	rm -rf ./source/rubicon-root ./source/*.ipynb
 	cp ../notebooks/git-integration.ipynb ./source
 	cp ../notebooks/logging-basics.ipynb ./source
+	cp ../notebooks/plotting-support.ipynb ./source
 	cp ../notebooks/logging-asynchronously.ipynb ./source
 	cp ../notebooks/logging-concurrently.ipynb ./source
 	cp ../notebooks/logging-training-metadata.ipynb ./source
