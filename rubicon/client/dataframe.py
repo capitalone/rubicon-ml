@@ -1,5 +1,3 @@
-import sys
-
 from rubicon.client import Base, TagMixin
 from rubicon.exceptions import RubiconException
 
