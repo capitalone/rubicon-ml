@@ -3,6 +3,7 @@ import sys
 from rubicon.client import Base, TagMixin
 from rubicon.exceptions import RubiconException
 
+
 class Dataframe(Base, TagMixin):
     """A client dataframe.
 
@@ -48,7 +49,7 @@ class Dataframe(Base, TagMixin):
         kwargs : dict
             Additional keyword arguments to be passed along to the
             `hvplot` function.
-        
+
         Notes
         -----
         For usage, visit: https://hvplot.holoviz.org/user_guide/Plotting.html
@@ -65,7 +66,9 @@ class Dataframe(Base, TagMixin):
             try:
                 import hvplot.dask  # noqa F401
             except ImportError:
-                raise RubiconException("`hvplot` is required for plotting. Install with `pip install hvplot`.")
+                raise RubiconException(
+                    "`hvplot` is required for plotting. Install with `pip install hvplot`."
+                )
 
         return self.data.hvplot(**kwargs)
 
