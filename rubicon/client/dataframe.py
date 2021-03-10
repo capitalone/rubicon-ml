@@ -45,9 +45,6 @@ class Dataframe(Base, TagMixin):
 
         Parameters
         ----------
-        kind : str
-            The type of plot to render. Can be 'table', 'line', or
-            'bar'. Defaults to 'table'.
         kwargs : dict
             Additional keyword arguments to be passed along to the
             `hvplot` function.

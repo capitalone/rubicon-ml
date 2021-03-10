@@ -82,6 +82,7 @@ exclude_patterns = ["_build"]
 # The theme to use for HTML and HTML Help pages.
 html_theme = "furo"
 # hide rubicon because it's already in the logo, but will still get pulled into the tab
+# strip the version down so we don't include dirty tags
 html_title = f"<div class='hidden'>rubicon</div> <div class='version'> v{version[:5]}</div>"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
