@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
     <meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
-        <title>Logging Concurrently - rubicon documentation</title>
+        <title>Logging Concurrently - rubicon v0.1.3</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -87,7 +87,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">rubicon  documentation</div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -105,6 +105,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_white.png" alt="Dark Logo"/>
   </div>
   
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -123,6 +124,7 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Concurrently</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
@@ -135,6 +137,7 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
 </ul>
@@ -410,7 +413,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='69ba1a1e-e61d-4c67-a6dd-2a6459955ad0', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 5, 18, 30, 1, 787611))
+Project(name='Concurrent Experiments', id='371f05d3-ae09-4123-92f2-ae8974c00339', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 11, 16, 27, 27, 48174))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -542,7 +545,7 @@ Project(name='Concurrent Experiments', id='69ba1a1e-e61d-4c67-a6dd-2a6459955ad0'
 </pre></div></div>
 </div>
 <p>Let’s see which experiments we tagged as successful and what type of model they used.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
@@ -551,6 +554,16 @@ Project(name='Concurrent Experiments', id='69ba1a1e-e61d-4c67-a6dd-2a6459955ad0'
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> was successful using a </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+experiment 0ef14122-a65f-4d0c-b220-acbfaf0611e2 was successful using a KNeighborsClassifier
+experiment 0f0920ee-686f-4e71-9591-6290e3780061 was successful using a KNeighborsClassifier
+experiment 492ca1cf-e0d3-462d-bf9b-3e948212d5e3 was successful using a KNeighborsClassifier
+</pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
 <div class="nbinput docutils container">
@@ -580,17 +593,17 @@ Project(name='Concurrent Experiments', id='69ba1a1e-e61d-4c67-a6dd-2a6459955ad0'
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['failure', 'KNeighborsClassifier']
+tags: ['success', 'KNeighborsClassifier']
 parameters:
         n_features: 4
-        n_neighbors: 15
+        n_neighbors: 10
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 0.9210526315789473
+        accuracy: 0.9736842105263158
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
@@ -623,7 +636,7 @@ metrics:
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2020, rubicon developers
+              Copyright &#169; 2021, rubicon developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and

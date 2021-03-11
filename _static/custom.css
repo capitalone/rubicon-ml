@@ -11,3 +11,18 @@
         color: #d0d0d0 !important;
     }
 }
+
+.hidden {
+    display: none;
+}
+
+.version {
+    text-align: right;
+    font-size: 20px;
+    margin-top: -14px;
+}
+
+/* unknown warning was showing, manually hiding */
+#Visualizing-Logged-Dataframes .admonition.warning {
+    display: none;
+}

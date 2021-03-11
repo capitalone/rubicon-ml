@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick Look" href="quick_look.html" />
 
     <meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
-        <title>Home - rubicon documentation</title>
+        <title>Home - rubicon v0.1.3</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -87,10 +87,10 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">rubicon  documentation</div></a>
+      <a href="#"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></div></a>
     </div>
     <div class="header-right">
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -105,6 +105,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_white.png" alt="Dark Logo"/>
   </div>
   
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -123,6 +124,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
@@ -135,6 +137,7 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
 </ul>
@@ -148,25 +151,48 @@
   <main class="main">
     <div class="content">
       <article role="main">
-        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
         <div class="section" id="rubicon">
 <span id="id1"></span><h1>Rubicon<a class="headerlink" href="#rubicon" title="Permalink to this headline">¶</a></h1>
-<p>Rubicon is a model development and governance library that can integrate directly into your Python code. It’s
-designed for both model developers and model reviewers and offers the following features:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>a Python library for storing and retrieving model inputs, ouputs, and analyses to filesystems (local, S3)</p></li>
-<li><p>a dashboard for exploring, comparing, and visualizing logged data</p></li>
-<li><p>a process for sharing a selected subset of logged data with collaborators and reviewers</p></li>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>Rubicon is a data science tool that captures and stores model training and
+execution information, like parameters and outcomes, in a repeatable and
+searchable way. Rubicon’s <code class="docutils literal notranslate"><span class="pre">git</span></code> integration associates these inputs and outputs
+directly with the model code that produced them to ensure full auditability and
+reproducibility for both developers and stakeholders alike. While experimenting,
+the Rubicon dashboard makes it easy to explore, filter, visualize, and share
+recorded work.</p>
+</div>
+<div class="section" id="components">
+<h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
+<p>Rubicon is composed of three parts:</p>
+<ul class="simple">
+<li><p>A Python library for storing and retrieving model inputs, outputs, and
+analyses to filesystems that’s powered by
+<a class="reference external" href="https://filesystem-spec.readthedocs.io/en/latest/?badge=latest">fsspec</a></p></li>
+<li><p>A dashboard for exploring, comparing, and visualizing logged data built with
+<a class="reference external" href="https://dash.plotly.com/">dash</a></p></li>
+<li><p>And a process for sharing a selected subset of logged data with collaborators
+or reviewers that leverages <a class="reference external" href="https://intake.readthedocs.io/en/latest/">intake</a></p></li>
 </ul>
-</div></blockquote>
-<p>Rubicon is designed to enforce best practices, like automatically linking your logged experiments to
-the corresponding model code through Rubicon’s git integration.</p>
-<p>Rubicon is also designed to be lightweight and performant. It supports concurrent logging, so you can log
-multiple experiments at a time and it also supports asynchronous communication with S3, so your network
-reads and writes won’t block.</p>
+</div>
+<div class="section" id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>Use the Rubicon library to capture model inputs and outputs over time. It can be
+easily integrated into existing Python models or pipelines and supports both
+concurrent logging (so multiple experiments can be logged in parallel) and
+asynchronous communication with S3 (so network reads and writes won’t block).</p>
+<p>Meanwhile, periodically review the logged data within the Rubicon dashboard to
+steer the model tweaking process in the right direction. The dashboard lets you
+quickly spot trends by exploring and filtering your logged results and
+visualizes how the model inputs impacted the model outputs.</p>
+<p>When the model is ready for review, Rubicon makes it easy to share specific
+subsets of the data with model reviewers and stakeholders, giving them the
+context necessary for a complete model review and approval.</p>
+<p>—</p>
 <p>Visit the <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">glossary</span></a> to explore Rubicon’s terminology. And to see Rubicon
 in action, visit the <a class="reference internal" href="quick_look.html#quick-look"><span class="std std-ref">quick look</span></a>!</p>
 <div class="toctree-wrapper compound">
@@ -174,6 +200,7 @@ in action, visit the <a class="reference internal" href="quick_look.html#quick-l
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
+</div>
 </div>
 </div>
 
@@ -194,7 +221,7 @@ in action, visit the <a class="reference internal" href="quick_look.html#quick-l
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2020, rubicon developers
+              Copyright &#169; 2021, rubicon developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -209,8 +236,31 @@ in action, visit the <a class="reference internal" href="quick_look.html#quick-l
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Rubicon</a><ul>
+<li><a class="reference internal" href="#purpose">Purpose</a></li>
+<li><a class="reference internal" href="#components">Components</a></li>
+<li><a class="reference internal" href="#workflow">Workflow</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
