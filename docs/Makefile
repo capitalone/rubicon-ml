@@ -26,7 +26,7 @@ prepare:
 	cp ../notebooks/logging-concurrently.ipynb ./source
 	cp ../notebooks/logging-training-metadata.ipynb ./source
 	cp ../notebooks/logging-in-prefect-flows.ipynb ./source
-	cp ../notebooks/plotting-support.ipynb ./source
+	cp ../notebooks/visualizing-logged-dataframes.ipynb ./source
 
 	# some notebooks require sample data
 	mkdir ./source/data

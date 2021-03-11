@@ -13,7 +13,7 @@ Rubicon Basics
 
    logging-basics
    logging-training-metadata
-   plotting-support
+   visualizing-logged-dataframes
 
 Advanced Features
 -----------------

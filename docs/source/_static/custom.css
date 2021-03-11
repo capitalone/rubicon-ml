@@ -23,6 +23,6 @@
 }
 
 /* unknown warning was showing, manually hiding */
-#Default-Plotting-Support .admonition.warning {
+#Visualizing-Logged-Dataframes .admonition.warning {
     display: none;
 }
