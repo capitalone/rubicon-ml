@@ -1,4 +1,5 @@
 from rubicon.client import Base, TagMixin
+from rubicon.exceptions import RubiconException
 
 
 class Dataframe(Base, TagMixin):
@@ -38,9 +39,35 @@ class Dataframe(Base, TagMixin):
             project_name, self.id, experiment_id=experiment_id
         )
 
-    def plot(self, kind="table", **kwargs):
-        """Render the dataframe."""
-        raise NotImplementedError
+    def plot(self, **kwargs):
+        """Render the dataframe using `hvplot`.
+
+        Parameters
+        ----------
+        kwargs : dict
+            Additional keyword arguments to be passed along to the
+            `hvplot` function.
+
+        Notes
+        -----
+        For usage, visit: https://hvplot.holoviz.org/user_guide/Plotting.html
+        For customizations, visit:
+        https://hvplot.holoviz.org/user_guide/Customization.html
+
+        Examples
+        --------
+        >>> # Log a line plot
+        >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
+        """
+        try:
+            # data is a dask dataframe
+            import hvplot.dask  # noqa F401
+        except ImportError:
+            raise RubiconException(
+                "`hvplot` is required for plotting. Install with `pip install hvplot`."
+            )
+
+        return self.data.hvplot(**kwargs)
 
     @property
     def id(self):
