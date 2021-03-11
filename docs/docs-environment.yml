@@ -14,6 +14,7 @@ dependencies:
   - jupyter_client
   - scikit-learn
   - hvplot
+  - pyyaml>=5.4.0
 
   - pip:
     - -e ../[all]
