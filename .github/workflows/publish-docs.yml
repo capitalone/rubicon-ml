@@ -3,10 +3,14 @@
 # For more details: https://github.com/marketplace/actions/deploy-to-github-pages
 name: Publish docs
 
+# on:
+#   release:
+#     types: [created]
+#   workflow_dispatch:
+
 on:
-  release:
-    types: [created]
-  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -27,13 +31,13 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file docs/docs-environment.yml --name base
-    - name: Build
-      run: |
-        cd docs
-        bash build-docs.sh
-      shell: bash
-    - name: Publish
-      uses: JamesIves/github-pages-deploy-action@4.0.0
-      with:
-        branch: gh-pages
-        folder: docs/build/html
+    # - name: Build
+    #   run: |
+    #     cd docs
+    #     bash build-docs.sh
+    #   shell: bash
+    # - name: Publish
+    #   uses: JamesIves/github-pages-deploy-action@4.0.0
+    #   with:
+    #     branch: gh-pages
+    #     folder: docs/build/html
