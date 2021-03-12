@@ -41,6 +41,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     url="https://github.com/capitalone/rubicon",
+    python_requires=">=3.7",
     install_requires=install_requires,
     extras_require=extras_require,
     entry_points={
