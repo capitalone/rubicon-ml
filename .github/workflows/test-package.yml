@@ -14,7 +14,9 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
-
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -24,8 +26,8 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: ${{ matrix.python-version }}
-        mamba-version: "*"
-        channels: conda-forge, defaults
+        miniforge-version: latest
+        channels: conda-forge
         channel-priority: true  
         activate-environment: rubicon-dev
         environment-file: ci/environment.yml
