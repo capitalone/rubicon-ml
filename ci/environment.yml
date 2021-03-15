@@ -7,7 +7,7 @@ dependencies:
   - click>=7.1
   - dask>=2.12.0
   - pandas>=1.0
-  - fsspec>=0.8.3
+  - fsspec>=0.8.7
   - intake>=0.5.2
   - pyarrow>=0.18.0
   - pyyaml>=5.4.0
@@ -19,10 +19,11 @@ dependencies:
   - prefect>=0.12.0
 
   # required for UI (including testing)
+  - beautifulsoup4>=4.8.2
   - dash>=1.14.0
   - dash-bootstrap-components>=0.10.6
+  - percy>=2.0.2
   - selenium>=3.141.0
-  - beautifulsoup4>=4.8.2
 
   # required for testing
   - black
@@ -30,11 +31,10 @@ dependencies:
   - isort
   - pytest
   - pytest-cov
-  - percy>=2.0.2
 
   # required for versioning
   - versioneer
 
   # packaging
-  - wheel
   - setuptools
+  - wheel
