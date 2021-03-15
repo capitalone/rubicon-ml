@@ -109,7 +109,8 @@ pip install rubicon-ml
 Then use conda to setup a development environment:
 
 ```bash
-conda env create -f ci/environment.yml
+conda create -n rubicon-dev python=3.8
+conda env update -f ci/environment.yml -n rubicon-dev
 conda activate rubicon-dev
 ```
 
