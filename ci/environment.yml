@@ -2,7 +2,6 @@ name: rubicon-dev
 channels:
   - conda-forge
 dependencies:
-  - python=3.8
   - pip
 
   - click>=7.1
@@ -31,10 +30,11 @@ dependencies:
   - isort
   - pytest
   - pytest-cov
+  - percy>=2.0.2
 
   # required for versioning
   - versioneer
 
-  - pip:
-    # required for UI testing (not available on conda)
-    - percy>=2.0.2
+  # packaging
+  - wheel
+  - setuptools
