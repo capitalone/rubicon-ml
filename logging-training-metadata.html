@@ -3,8 +3,8 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Visualizing Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Logging Basics" href="logging-basics.html" />
 
-    <meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
-        <title>Logging Training Metadata - rubicon v0.1.3</title>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
+        <title>Logging Training Metadata - rubicon v0.1.4</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -87,7 +87,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -101,11 +101,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -464,7 +464,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Storing Training Metadata', id='d17d138f-739b-418a-bb52-de770b5b3058', description=None, github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 11, 16, 27, 31, 439209))
+Project(name='Storing Training Metadata', id='1b1a4afb-56c3-489a-806d-35f59f3dc4d2', description=None, github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 15, 17, 53, 20, 972450))
 </pre></div></div>
 </div>
 <p>Before we create an <strong>experiment</strong>, we’ll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later.</p>
@@ -490,7 +490,7 @@ Project(name='Storing Training Metadata', id='d17d138f-739b-418a-bb52-de770b5b30
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Experiment(project_name='Storing Training Metadata', id='9e4efc6b-b95e-4362-bbbb-4c07750e3e95', name=None, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=[({'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, 'my-bucket', 'path/to/my/data.parquet')], tags=['S3', 'training metadata'], created_at=datetime.datetime(2021, 3, 11, 16, 27, 31, 448259))
+Experiment(project_name='Storing Training Metadata', id='d878301d-6b79-4725-a286-e25116858859', name=None, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=[({'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, 'my-bucket', 'path/to/my/data.parquet')], tags=['S3', 'training metadata'], created_at=datetime.datetime(2021, 3, 15, 17, 53, 20, 982275))
 </pre></div></div>
 </div>
 <p>We can come back any time and use the <strong>experiment’s</strong> training metadata to pull the same dataset.</p>
@@ -661,9 +661,9 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 S3Config(region_name='us-west-2', signature_version='v4', retries={'max_attempts': 10, 'mode': 'standard'})
-S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_0.parquet')
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
+S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
 </pre></div></div>
 </div>
 </div>

@@ -3,8 +3,8 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
-        <title>Logging Concurrently - rubicon v0.1.3</title>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
+        <title>Logging Concurrently - rubicon v0.1.4</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -87,7 +87,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -101,11 +101,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.3</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -413,7 +413,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='371f05d3-ae09-4123-92f2-ae8974c00339', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 11, 16, 27, 27, 48174))
+Project(name='Concurrent Experiments', id='ced611bf-84a7-41ca-b4d8-3f18ea08fd50', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 15, 17, 53, 16, 652110))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -560,9 +560,7 @@ Project(name='Concurrent Experiments', id='371f05d3-ae09-4123-92f2-ae8974c00339'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 0ef14122-a65f-4d0c-b220-acbfaf0611e2 was successful using a KNeighborsClassifier
-experiment 0f0920ee-686f-4e71-9591-6290e3780061 was successful using a KNeighborsClassifier
-experiment 492ca1cf-e0d3-462d-bf9b-3e948212d5e3 was successful using a KNeighborsClassifier
+experiment 719930aa-6575-4977-aab7-577670b47804 was successful using a KNeighborsClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -593,17 +591,18 @@ experiment 492ca1cf-e0d3-462d-bf9b-3e948212d5e3 was successful using a KNeighbor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['success', 'KNeighborsClassifier']
+tags: ['failure', 'RandomForestClassifier']
 parameters:
+        n_estimators: 10
         n_features: 4
-        n_neighbors: 10
+        random_state: 1615830797
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 0.9736842105263158
+        accuracy: 0.9210526315789473
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
