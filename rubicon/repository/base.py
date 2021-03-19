@@ -388,19 +388,12 @@ class BaseRepository:
 
         return f"{dataframe_metadata_root}/{dataframe_id}/data"
 
-    def _convert_to_dask_dataframe(self, df):
-        """Converts `df` to a Dask dataframe if it is not already one."""
-        if not isinstance(df, dd.DataFrame):
-            return dd.from_pandas(df, npartitions=1)
-
-        return df
-
     def _persist_dataframe(self, df, path):
-        """Persists the `dask` dataframe `df` to the configured filesystem."""
+        """Persists the dataframe `df` to the configured filesystem."""
         df.to_parquet(path, engine="pyarrow")
 
     def _read_dataframe(self, path):
-        """Reads the `dask` dataframe `df` from the configured filesystem."""
+        """Reads the dataframe `df` from the configured filesystem."""
         return dd.read_parquet(path, engine="pyarrow")
 
     def create_dataframe(self, dataframe, data, project_name, experiment_id=None):
@@ -419,8 +412,6 @@ class BaseRepository:
             The ID of the experiment this dataframe belongs to.
             Dataframes do not need to belong to an experiment.
         """
-        data = self._convert_to_dask_dataframe(data)
-
         dataframe_metadata_path = self._get_dataframe_metadata_path(
             project_name, experiment_id, dataframe.id
         )
