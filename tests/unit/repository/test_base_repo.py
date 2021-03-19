@@ -64,10 +64,10 @@ def _create_dask_dataframe(repository, project=None):
         project = _create_project(repository)
     
     df = pd.DataFrame([[0,1,'a'],[1,1,'b'],[2,2,'c'],[3,2,'d']], columns=['a', 'b', 'c'])
-    dd.from_pandas(df, npartitions=1)
+    ddf = dd.from_pandas(df, npartitions=1)
 
     dataframe = domain.Dataframe(parent_id=project.id)
-    repository.create_dataframe(dataframe, df, project.name)
+    repository.create_dataframe(dataframe, ddf, project.name)
 
     return dataframe
 
@@ -483,7 +483,7 @@ def test_get_dask_dataframe(memory_repository):
     dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
 
     data = repository.get_dataframe_data(project.name, written_dataframe.id)
-    assert not data.empty
+    assert not data.compute().empty
 
     assert dataframe.id == written_dataframe.id
     assert dataframe.parent_id == written_dataframe.parent_id
