@@ -50,7 +50,7 @@ def _create_pandas_dataframe(repository, project=None, dataframe_data=None, mult
         project = _create_project(repository)
 
     if dataframe_data is None:
-        dataframe_data = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
+        dataframe_data = pd.DataFrame([[0,1,'a'],[1,1,'b'],[2,2,'c'],[3,2,'d']], columns=['a', 'b', 'c'])
         if multi_index:
             dataframe_data = dataframe_data.set_index(['b', 'a']) # Set multiindex
 
@@ -63,7 +63,7 @@ def _create_dask_dataframe(repository, project=None):
     if project is None:
         project = _create_project(repository)
     
-    df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
+    df = pd.DataFrame([[0,1,'a'],[1,1,'b'],[2,2,'c'],[3,2,'d']], columns=['a', 'b', 'c'])
     dd.from_pandas(df, npartitions=1)
 
     dataframe = domain.Dataframe(parent_id=project.id)
@@ -456,15 +456,21 @@ def test_get_pandas_dataframe(memory_repository):
     written_dataframe = _create_pandas_dataframe(repository, project=project)
     dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
 
+    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    assert not data.empty
+
     assert dataframe.id == written_dataframe.id
     assert dataframe.parent_id == written_dataframe.parent_id
 
 
-def test_get_multi_index_dataframe(memory_repository):
+def test_get_pandas_multi_index_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_dataframe = _create_pandas_dataframe(repository, project=project, multi_index=True)
     dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+
+    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    assert not data.empty
 
     assert dataframe.id == written_dataframe.id
     assert dataframe.parent_id == written_dataframe.parent_id
@@ -475,6 +481,9 @@ def test_get_dask_dataframe(memory_repository):
     project = _create_project(repository)
     written_dataframe = _create_dask_dataframe(repository, project=project)
     dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+
+    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    assert not data.empty
 
     assert dataframe.id == written_dataframe.id
     assert dataframe.parent_id == written_dataframe.parent_id
