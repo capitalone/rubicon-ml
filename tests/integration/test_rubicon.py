@@ -100,8 +100,8 @@ def test_rubicon(rubicon, request):
     read_project_dataframes = read_project.dataframes()
     assert len(read_project_dataframes) == 1
     assert written_project_dataframe.id == read_project_dataframes[0].id
-    assert written_project_dataframe.data.compute().equals(
-        read_project_dataframes[0].data.compute()
+    assert written_project_dataframe.data.equals(
+        read_project_dataframes[0].data
     )
     assert written_project_dataframe.tags == read_project_dataframes[0].tags
 
@@ -111,8 +111,8 @@ def test_rubicon(rubicon, request):
     read_experiment_dataframes = read_experiment.dataframes()
     assert len(read_experiment_dataframes) == 1
     assert written_experiment_dataframe.id == read_experiment_dataframes[0].id
-    assert written_experiment_dataframe.data.compute().equals(
-        read_experiment_dataframes[0].data.compute()
+    assert written_experiment_dataframe.data.equals(
+        read_experiment_dataframes[0].data
     )
     assert written_experiment_dataframe.tags == read_experiment_dataframes[0].tags
 
