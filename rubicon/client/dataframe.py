@@ -31,7 +31,7 @@ class Dataframe(Base, TagMixin):
 
     def get_data(self, kind="pandas"):
         """Loads the data associated with this Dataframe
-        into a pandas or dask dataframe.
+        into a `pandas` or `dask` dataframe.
         """
         project_name, experiment_id = self.parent._get_parent_identifiers()
 

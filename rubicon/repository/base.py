@@ -395,8 +395,8 @@ class BaseRepository:
 
         Note
         ----
-        Dask dataframes will automatically be split into chunks by `dask.dataframe.to_parquet`.
-        Pandas dataframes, however, will be saved as a single file with the hope that users
+        `dask` dataframes will automatically be split into chunks by `dask.dataframe.to_parquet`.
+        `pandas` dataframes, however, will be saved as a single file with the hope that users
         would leverage dask for large dataframes.
         """
         if isinstance(df, pd.DataFrame):

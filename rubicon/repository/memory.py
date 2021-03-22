@@ -38,7 +38,7 @@ class MemoryRepository(LocalRepository):
             pickle.dump(df, f)
 
     def _read_dataframe(self, path, kind="pandas"):
-        """Reads the `dask` dataframe `df` from the in-memory
+        """Reads the dataframe from the in-memory
         path defined by `path`.
         """
         with self.filesystem.open(path, "rb") as f:
