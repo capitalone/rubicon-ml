@@ -36,7 +36,10 @@ class Dataframe(Base, TagMixin):
         project_name, experiment_id = self.parent._get_parent_identifiers()
 
         self._data = self.repository.get_dataframe_data(
-            project_name, self.id, experiment_id=experiment_id, kind=kind,
+            project_name,
+            self.id,
+            experiment_id=experiment_id,
+            kind=kind,
         )
 
         return self._data
@@ -88,8 +91,7 @@ class Dataframe(Base, TagMixin):
 
     @property
     def data(self):
-        """Get the dataframe's data as it was logged.
-        """
+        """Get the dataframe's data as it was logged."""
         if self._data is None:
             self.get_data()
 

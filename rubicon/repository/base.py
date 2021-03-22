@@ -1,9 +1,9 @@
 import os
+from pathlib import Path
 
 import fsspec
 import pandas as pd
 from dask import dataframe as dd
-from pathlib import Path
 
 from rubicon import domain
 from rubicon.exceptions import RubiconException
@@ -392,7 +392,7 @@ class BaseRepository:
 
     def _persist_dataframe(self, df, path):
         """Persists the dataframe `df` to the configured filesystem.
-        
+
         Note
         ----
         Dask dataframes will automatically be split into chunks by `dask.dataframe.to_parquet`.
@@ -539,7 +539,9 @@ class BaseRepository:
         try:
             df = self._read_dataframe(dataframe_data_path, kind)
         except FileNotFoundError:
-            raise RubiconException(f"No data for dataframe with id `{dataframe_id}` found. This might have happened if you forgot to set `kind='dask'` when trying to read dask dataframe.")
+            raise RubiconException(
+                f"No data for dataframe with id `{dataframe_id}` found. This might have happened if you forgot to set `kind='dask'` when trying to read dask dataframe."
+            )
 
         return df
 

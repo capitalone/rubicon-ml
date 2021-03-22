@@ -94,9 +94,7 @@ def test_rubicon(rubicon, request):
     read_project_dataframes = read_project.dataframes()
     assert len(read_project_dataframes) == 1
     assert written_project_dataframe.id == read_project_dataframes[0].id
-    assert written_project_dataframe.data.equals(
-        read_project_dataframes[0].data
-    )
+    assert written_project_dataframe.data.equals(read_project_dataframes[0].data)
     assert written_project_dataframe.tags == read_project_dataframes[0].tags
 
     read_project.delete_dataframes([read_project_dataframes[0].id])
