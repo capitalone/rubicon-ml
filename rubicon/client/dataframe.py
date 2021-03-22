@@ -39,6 +39,8 @@ class Dataframe(Base, TagMixin):
             project_name, self.id, experiment_id=experiment_id, kind=kind,
         )
 
+        return self._data
+
     def plot(self, **kwargs):
         """Render the dataframe using `hvplot`.
 
@@ -86,8 +88,7 @@ class Dataframe(Base, TagMixin):
 
     @property
     def data(self):
-        """Get the dataframe's raw data loaded into a
-        `dask.dataframe.DataFrame`.
+        """Get the dataframe's data as it was logged.
         """
         if self._data is None:
             self.get_data()
