@@ -29,14 +29,14 @@ class Dataframe(Base, TagMixin):
         self._data = None
         self._parent = parent
 
-    def _get_data(self):
+    def get_data(self, kind="pandas"):
         """Loads the data associated with this Dataframe
-        into a `dask.dataframe.DataFrame`.
+        into a pandas or dask dataframe.
         """
         project_name, experiment_id = self.parent._get_parent_identifiers()
 
         self._data = self.repository.get_dataframe_data(
-            project_name, self.id, experiment_id=experiment_id
+            project_name, self.id, experiment_id=experiment_id, kind=kind,
         )
 
     def plot(self, **kwargs):
@@ -90,7 +90,7 @@ class Dataframe(Base, TagMixin):
         `dask.dataframe.DataFrame`.
         """
         if self._data is None:
-            self._get_data()
+            self.get_data()
 
         return self._data
 

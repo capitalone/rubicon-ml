@@ -1,7 +1,9 @@
 import os
 
 import fsspec
+import pandas as pd
 from dask import dataframe as dd
+from pathlib import Path
 
 from rubicon import domain
 from rubicon.exceptions import RubiconException
@@ -390,11 +392,24 @@ class BaseRepository:
 
     def _persist_dataframe(self, df, path):
         """Persists the dataframe `df` to the configured filesystem."""
+        # ensure path exists before trying to write
+        # TODO - issue when using pandas, cannot read from dir
+        # Path(path).mkdir(parents=True, exist_ok=True)
         df.to_parquet(path, engine="pyarrow")
 
-    def _read_dataframe(self, path):
+    def _read_dataframe(self, path, kind="pandas"):
         """Reads the dataframe `df` from the configured filesystem."""
-        return dd.read_parquet(path, engine="pyarrow")
+        df = None
+        acceptable_kinds = ["pandas", "dask"]
+        if kind not in acceptable_kinds:
+            raise RubiconException(f"`kind` must be one of {acceptable_kinds}")
+
+        if kind == "pandas":
+            df = pd.read_parquet(path, engine="pyarrow")
+        else:
+            df = dd.read_parquet(path, engine="pyarrow")
+
+        return df
 
     def create_dataframe(self, dataframe, data, project_name, experiment_id=None):
         """Persist a dataframe to the configured filesystem.
@@ -488,7 +503,7 @@ class BaseRepository:
 
         return dataframes
 
-    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None):
+    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None, kind="pandas"):
         """Retrieve a dataframe's raw data.
 
         Parameters
@@ -513,7 +528,7 @@ class BaseRepository:
         )
 
         try:
-            df = self._read_dataframe(dataframe_data_path)
+            df = self._read_dataframe(dataframe_data_path, kind)
         except FileNotFoundError:
             raise RubiconException(f"No data for dataframe with id `{dataframe_id}` found.")
 

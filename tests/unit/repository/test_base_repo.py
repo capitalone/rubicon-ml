@@ -370,7 +370,7 @@ def test_persist_dataframe(mock_to_parquet, memory_repository):
 
     mock_to_parquet.assert_called_once_with(path, engine="pyarrow")
 
-@patch("dask.dataframe.read_parquet")
+@patch("pandas.read_parquet")
 def test_read_dataframe(mock_read_parquet, memory_repository):
     repository = memory_repository
     path = "/local/root"
