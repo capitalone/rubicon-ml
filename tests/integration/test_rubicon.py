@@ -50,15 +50,9 @@ def test_rubicon(rubicon, request):
     written_project_dataframe = written_project.log_dataframe(
         df=pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
     )
-    written_experiment_dataframe = written_experiment.log_dataframe(
-        df=pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
-    )
 
     written_project_dataframe.add_tags(["x", "y"])
     written_project_dataframe.remove_tags(["x"])
-
-    written_experiment_dataframe.add_tags(["x", "y"])
-    written_experiment_dataframe.remove_tags(["x"])
 
     read_project = rubicon.get_project(name=written_project.name)
     assert written_project.id == read_project.id
@@ -107,13 +101,5 @@ def test_rubicon(rubicon, request):
 
     read_project.delete_dataframes([read_project_dataframes[0].id])
     assert len(read_project.dataframes()) == 0
-
-    read_experiment_dataframes = read_experiment.dataframes()
-    assert len(read_experiment_dataframes) == 1
-    assert written_experiment_dataframe.id == read_experiment_dataframes[0].id
-    assert written_experiment_dataframe.data.equals(
-        read_experiment_dataframes[0].data
-    )
-    assert written_experiment_dataframe.tags == read_experiment_dataframes[0].tags
 
     rubicon.repository.filesystem.rm(rubicon.repository.root_dir, recursive=True)

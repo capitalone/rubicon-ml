@@ -363,22 +363,22 @@ def test_delete_artifact_throws_error_if_not_found(memory_repository):
 def test_persist_dataframe(mock_to_parquet, memory_repository):
     repository = memory_repository
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
-    path = "/local/root"
+    path = "./local/root"
 
     # calls `BaseRepository._persist_dataframe` despite class using `MemoryRepository`
     super(MemoryRepository, repository)._persist_dataframe(df, path)
 
-    mock_to_parquet.assert_called_once_with(path, engine="pyarrow")
+    mock_to_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
 
 @patch("pandas.read_parquet")
 def test_read_dataframe(mock_read_parquet, memory_repository):
     repository = memory_repository
-    path = "/local/root"
+    path = "./local/root"
 
     # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
     super(MemoryRepository, repository)._read_dataframe(path)
 
-    mock_read_parquet.assert_called_once_with(path, engine="pyarrow")
+    mock_read_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
 
 
 def test_get_dataframe_with_project_parent_root(memory_repository):
