@@ -391,10 +391,18 @@ class BaseRepository:
         return f"{dataframe_metadata_root}/{dataframe_id}/data"
 
     def _persist_dataframe(self, df, path):
-        """Persists the dataframe `df` to the configured filesystem."""
-        # ensure path exists before trying to write
-        # TODO - issue when using pandas, cannot read from dir
-        # Path(path).mkdir(parents=True, exist_ok=True)
+        """Persists the dataframe `df` to the configured filesystem.
+        
+        Note
+        ----
+        Dask dataframes will automatically be split into chunks by dask.dataframe.to_parquet.
+        Pandas, however, will be saved as a single file with the hope that users would leverage
+        dask for large dataframes.
+        """
+        if isinstance(df, pd.DataFrame):
+            Path(path).mkdir(parents=True, exist_ok=True)
+            path = f"{path}/data.parquet"
+
         df.to_parquet(path, engine="pyarrow")
 
     def _read_dataframe(self, path, kind="pandas"):
@@ -405,6 +413,7 @@ class BaseRepository:
             raise RubiconException(f"`kind` must be one of {acceptable_kinds}")
 
         if kind == "pandas":
+            path = f"{path}/data.parquet"
             df = pd.read_parquet(path, engine="pyarrow")
         else:
             df = dd.read_parquet(path, engine="pyarrow")

@@ -56,5 +56,5 @@ def test_filesystem_concurrency(rubicon_local_filesystem_client):
     assert len(experiment.features()) == 16
     assert len(experiment.parameters()) == 16
     assert len(experiment.artifacts()) == 16
-    assert len(experiment.dataframes()) == 16
+    assert len(experiment.dataframes()) == 32
     assert len(experiment.tags) == 16
