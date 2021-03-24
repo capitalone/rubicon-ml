@@ -1,3 +1,5 @@
+import warnings
+
 from rubicon.client import Base, TagMixin
 from rubicon.exceptions import RubiconException
 
@@ -44,7 +46,7 @@ class Dataframe(Base, TagMixin):
 
         return self._data
 
-    def plot(self, **kwargs):
+    def plot(self, kind="pandas", **kwargs):
         """Render the dataframe using `hvplot`.
 
         Parameters
@@ -65,14 +67,14 @@ class Dataframe(Base, TagMixin):
         >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
         """
         try:
-            # data is a dask dataframe
             import hvplot.dask  # noqa F401
+            import hvplot.pandas  # noqa F401
         except ImportError:
             raise RubiconException(
                 "`hvplot` is required for plotting. Install with `pip install hvplot`."
             )
 
-        return self.data.hvplot(**kwargs)
+        return self.get_data(kind=kind).hvplot(**kwargs)
 
     @property
     def id(self):
@@ -92,6 +94,10 @@ class Dataframe(Base, TagMixin):
     @property
     def data(self):
         """Get the dataframe's data as it was logged."""
+        warnings.warn(
+            "`data` is deprecated, use `get_data()` instead",
+            DeprecationWarning,
+        )
         if self._data is None:
             self.get_data()
 
