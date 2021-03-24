@@ -11,4 +11,4 @@ class BaseEstimatorLogger:
             for name, value in metrics.items():
                 self.experiment.log_metric(name=f"{self.estimator_name}__{name}", value=value)
         except Exception:
-            print(name, value, type(value))
+            print(self.estimator_name, name, value, type(value))
