@@ -1,6 +1,7 @@
 from rubicon.sklearn.base_logger import BaseEstimatorLogger
+from rubicon.sklearn.loggers import StandardScalerLogger
 
-_logger_mappings = {}
+_logger_mappings = {"StandardScaler": StandardScalerLogger}
 
 
 def get_logger(sklearn_class_name):

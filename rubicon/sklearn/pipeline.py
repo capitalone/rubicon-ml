@@ -16,10 +16,10 @@ class RubiconPipeline(Pipeline):
         for step_name, estimator in self.steps:
             print(f"Pipeline step: {step_name}")
             logger_cls = get_logger(estimator.__class__.__name__)
-            logger = logger_cls(self.experiment)
+            logger = logger_cls(self.experiment, step_name)
 
             print("log the relavant params...")
-            logger.log(prefix=step_name, parameters=estimator.get_params())
+            logger.log(parameters=estimator.get_params())
 
         return pipeline
 
