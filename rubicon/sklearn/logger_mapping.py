@@ -1,7 +1,10 @@
 from rubicon.sklearn.base_logger import BaseEstimatorLogger
 from rubicon.sklearn.loggers import StandardScalerLogger, CountVectorizerLogger
 
-_logger_mappings = {"StandardScaler": StandardScalerLogger, "CountVectorizer": CountVectorizerLogger}
+_logger_mappings = {
+    "StandardScaler": StandardScalerLogger,
+    "CountVectorizer": CountVectorizerLogger,
+}
 
 
 def get_logger(sklearn_class_name):

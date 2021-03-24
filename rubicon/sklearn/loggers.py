@@ -16,6 +16,7 @@ class StandardScalerLogger(BaseEstimatorLogger):
 
         super().log(parameters, metrics)
 
+
 class CountVectorizerLogger(BaseEstimatorLogger):
     """
     This is an example, remove before final PR.
