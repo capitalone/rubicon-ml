@@ -10,8 +10,14 @@ class RubiconPipeline(Pipeline):
 
         super().__init__(steps, memory=memory, verbose=verbose)
 
-    def fit(self, X, y=None, **fit_params):
+    def fit(self, X, y=None, tags=None, **fit_params):
         pipeline = super().fit(X, y, **fit_params)
+
+        # empty experiments are being logged during
+        # the grid search run so using tags to track
+        # the relevant data
+        if tags is not None:
+            self.experiment.add_tags(tags)
 
         for step_name, estimator in self.steps:
             logger_cls = get_logger(estimator.__class__.__name__)
