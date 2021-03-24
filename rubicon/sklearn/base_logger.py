@@ -4,8 +4,11 @@ class BaseEstimatorLogger:
         self.estimator_name = estimator_name
 
     def log(self, parameters={}, metrics={}):
-        for name, value in parameters.items():
-            self.experiment.log_parameter(name=f"{self.estimator_name}__{name}", value=value)
+        try:
+            for name, value in parameters.items():
+                self.experiment.log_parameter(name=f"{self.estimator_name}__{name}", value=value)
 
-        for name, value in metrics.items():
-            self.experiment.log_metric(name=f"{self.estimator_name}__{name}", value=value)
+            for name, value in metrics.items():
+                self.experiment.log_metric(name=f"{self.estimator_name}__{name}", value=value)
+        except Exception:
+            print(name, value, type(value))
