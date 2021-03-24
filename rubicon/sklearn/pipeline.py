@@ -30,6 +30,6 @@ class RubiconPipeline(Pipeline):
     def score(self, X, y=None, sample_weight=None):
         score = super().score(X, y, sample_weight)
 
-        self.experiment.log_metric("dunno", value=score)
+        self.experiment.log_metric("accuracy", value=score)
 
         return score
