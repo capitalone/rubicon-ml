@@ -1,9 +1,8 @@
 from rubicon.sklearn.base_logger import BaseEstimatorLogger
-from rubicon.sklearn.loggers import StandardScalerLogger, CountVectorizerLogger
+from rubicon.sklearn.loggers import StandardScalerLogger
 
 _logger_mappings = {
     "StandardScaler": StandardScalerLogger,
-    "CountVectorizer": CountVectorizerLogger,
 }
 
 
