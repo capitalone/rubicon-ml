@@ -4,8 +4,10 @@ from rubicon.sklearn import get_logger
 
 
 class RubiconPipeline(Pipeline):
-    def __init__(self, steps, project, memory=None, verbose=False):
+    def __init__(self, steps, project, user_defined_loggers={}, memory=None, verbose=False):
         self.project = project
+        self.user_defined_loggers = user_defined_loggers
+
         self.experiment = project.log_experiment("Logged from a RubiconPipeline")
 
         super().__init__(steps, memory=memory, verbose=verbose)
@@ -20,10 +22,16 @@ class RubiconPipeline(Pipeline):
             self.experiment.add_tags(tags)
 
         for step_name, estimator in self.steps:
-            logger_cls = get_logger(estimator.__class__.__name__)
-            logger = logger_cls(self.experiment, step_name)
+            user_defined_logger = self.user_defined_loggers.get(step_name)
 
-            logger.log(parameters=estimator.get_params())
+            if user_defined_logger is not None:
+                logger_cls, logger_kwargs = user_defined_logger
+            else:
+                logger_cls = get_logger(estimator.__class__.__name__)
+                logger_kwargs = {}
+
+            logger = logger_cls(self.experiment, step_name, estimator, **logger_kwargs)
+            logger.log_parameters()
 
         return pipeline
 

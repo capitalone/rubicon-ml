@@ -1,33 +1,23 @@
+import warnings
+
 from .base_logger import BaseEstimatorLogger
 
 
-class StandardScalerLogger(BaseEstimatorLogger):
-    """
-    This is an example, remove before final PR.
-    """
+class IgnoreLogger(BaseEstimatorLogger):
+    def __init__(self, experiment, step_name, estimator, ignore=[]):
+        self.ignore = ignore
 
-    def __init__(self, experiment, estimator_name):
-        super().__init__(experiment, estimator_name)
+        super().__init__(experiment, step_name, estimator)
 
-    def log(self, parameters={}, metrics={}):
-        ignore_params_list = ["copy"]
-        for ignore_param in ignore_params_list:
-            parameters.pop(ignore_param, None)
+    def log_parameters(self):
+        for name, value in self.estimator.get_params().items():
+            if name not in self.ignore:
+                try:
+                    self.experiment.log_parameter(name=f"{self.step_name}__{name}", value=value)
+                except Exception:
+                    warning = (
+                        f"step '{self.step_name}' failed to write parameter '{name}' with value {value} "
+                        f"of type {type(value)}. try using the `IgnoreLogger` with the parameter '{name}'"
+                    )
 
-        super().log(parameters, metrics)
-
-
-class CountVectorizerLogger(BaseEstimatorLogger):
-    """
-    This is an example, remove before final PR.
-    """
-
-    def __init__(self, experiment, estimator_name):
-        super().__init__(experiment, estimator_name)
-
-    def log(self, parameters={}, metrics={}):
-        ignore_params_list = ["dtype", "token_pattern"]
-        for ignore_param in ignore_params_list:
-            parameters.pop(ignore_param, None)
-
-        super().log(parameters, metrics)
+                    warnings.warn(warning)

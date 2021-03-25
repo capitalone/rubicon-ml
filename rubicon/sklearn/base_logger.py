@@ -1,14 +1,23 @@
+import warnings
+
+
 class BaseEstimatorLogger:
-    def __init__(self, experiment, estimator_name):
+    def __init__(self, experiment, step_name, estimator):
+        self.estimator = estimator
         self.experiment = experiment
-        self.estimator_name = estimator_name
+        self.step_name = step_name
 
-    def log(self, parameters={}, metrics={}):
-        try:
-            for name, value in parameters.items():
-                self.experiment.log_parameter(name=f"{self.estimator_name}__{name}", value=value)
+    def log_parameters(self):
+        for name, value in self.estimator.get_params().items():
+            try:
+                self.experiment.log_parameter(name=f"{self.step_name}__{name}", value=value)
+            except Exception:
+                warning = (
+                    f"step '{self.step_name}' failed to write parameter '{name}' with value {value} "
+                    f"of type {type(value)}. try using the `IgnoreLogger` with the parameter '{name}'"
+                )
 
-            for name, value in metrics.items():
-                self.experiment.log_metric(name=f"{self.estimator_name}__{name}", value=value)
-        except Exception:
-            print(self.estimator_name, name, value, type(value))
+                warnings.warn(warning)
+
+    def log_metrics(self):
+        pass
