@@ -1,6 +1,6 @@
 from sklearn.pipeline import Pipeline
 
-from rubicon.sklearn import get_logger
+from rubicon.sklearn.base_logger import BaseEstimatorLogger
 
 
 class RubiconPipeline(Pipeline):
@@ -27,7 +27,7 @@ class RubiconPipeline(Pipeline):
             if user_defined_logger is not None:
                 logger_cls, logger_kwargs = user_defined_logger
             else:
-                logger_cls = get_logger(estimator.__class__.__name__)
+                logger_cls = BaseEstimatorLogger
                 logger_kwargs = {}
 
             logger = logger_cls(self.experiment, step_name, estimator, **logger_kwargs)
