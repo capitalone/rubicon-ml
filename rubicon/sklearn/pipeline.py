@@ -22,15 +22,12 @@ class RubiconPipeline(Pipeline):
             self.experiment.add_tags(tags)
 
         for step_name, estimator in self.steps:
-            user_defined_logger = self.user_defined_loggers.get(step_name)
+            logger = self.user_defined_loggers.get(step_name) or BaseEstimatorLogger()
 
-            if user_defined_logger is not None:
-                logger_cls, logger_kwargs = user_defined_logger
-            else:
-                logger_cls = BaseEstimatorLogger
-                logger_kwargs = {}
+            logger.set_experiment(self.experiment)
+            logger.set_step_name(step_name)
+            logger.set_estimator(estimator)
 
-            logger = logger_cls(self.experiment, step_name, estimator, **logger_kwargs)
             logger.log_parameters()
 
         return pipeline
