@@ -1,7 +1,7 @@
-import pytest
 import uuid
 from unittest.mock import patch
 
+import pytest
 import s3fs
 
 from rubicon import domain

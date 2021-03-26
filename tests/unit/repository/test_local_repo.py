@@ -1,9 +1,9 @@
 import os
-import pytest
 import uuid
 from unittest.mock import patch
 
 import fsspec
+import pytest
 
 from rubicon import domain
 from rubicon.repository import LocalRepository
