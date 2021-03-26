@@ -10,7 +10,7 @@ class BaseEstimatorLogger:
     def _log_parameter_to_rubicon(self, name, value):
         try:
             self.experiment.log_parameter(name=f"{self.step_name}__{name}", value=value)
-        except Exception as e:
+        except Exception:
             warning = (
                 f"step '{self.step_name}' failed to write parameter '{name}' with value {value} "
                 f"of type {type(value)}. try using the `FilteredLogger` with `ignore='{name}'`"
