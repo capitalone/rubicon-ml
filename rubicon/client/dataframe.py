@@ -67,8 +67,10 @@ class Dataframe(Base, TagMixin):
         >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
         """
         try:
-            import hvplot.dask  # noqa F401
-            import hvplot.pandas  # noqa F401
+            if kind == "pandas":
+                import hvplot.pandas  # noqa F401
+            else:
+                import hvplot.dask  # noqa F401
         except ImportError:
             raise RubiconException(
                 "`hvplot` is required for plotting. Install with `pip install hvplot`."
