@@ -4,7 +4,7 @@ from rubicon.sklearn.base_logger import BaseEstimatorLogger
 
 
 class RubiconPipeline(Pipeline):
-    def __init__(self, steps, project, user_defined_loggers={}, memory=None, verbose=False):
+    def __init__(self, project, steps, user_defined_loggers={}, memory=None, verbose=False):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
 
