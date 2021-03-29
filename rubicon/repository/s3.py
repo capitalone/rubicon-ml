@@ -29,5 +29,7 @@ class S3Repository(BaseRepository):
         """Persists the Rubicon object `domain` to the S3
         bucket defined by `path`.
         """
+        json_domain = json.dumps(domain)
+
         with self.filesystem.open(path, "w") as f:
-            f.write(json.dumps(domain))
+            f.write(json_domain)

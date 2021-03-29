@@ -3,6 +3,7 @@ import uuid
 from unittest.mock import patch
 
 import fsspec
+import pytest
 
 from rubicon import domain
 from rubicon.repository import LocalRepository
@@ -40,3 +41,19 @@ def test_persist_domain(mock_mkdirs, mock_open):
 
     mock_mkdirs.assert_called_once_with(os.path.dirname(project_metadata_path), exist_ok=True)
     mock_open.assert_called_once_with(project_metadata_path, "w")
+
+
+@patch("fsspec.implementations.local.LocalFileSystem.open")
+@patch("fsspec.implementations.local.LocalFileSystem.mkdirs")
+def test_persist_domain_throws_error(mock_mkdirs, mock_open):
+    not_serializable = str
+
+    project = domain.Project(f"Test Project {uuid.uuid4()}", description=not_serializable)
+    project_metadata_path = f"/local/root/{slugify(project.name)}/metadata.json"
+
+    local_repo = LocalRepository(root_dir="/local/root")
+    with pytest.raises(TypeError):
+        local_repo._persist_domain(project, project_metadata_path)
+
+    mock_mkdirs.assert_not_called()
+    mock_open.assert_not_called()

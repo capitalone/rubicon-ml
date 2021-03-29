@@ -1,6 +1,7 @@
 import uuid
 from unittest.mock import patch
 
+import pytest
 import s3fs
 
 from rubicon import domain
@@ -35,3 +36,17 @@ def test_persist_domain(mock_open):
     s3_repo._persist_domain(project, project_metadata_path)
 
     mock_open.assert_called_once_with(project_metadata_path, "w")
+
+
+@patch("s3fs.core.S3FileSystem.open")
+def test_persist_domain_throws_error(mock_open):
+    not_serializable = str
+
+    project = domain.Project(f"Test Project {uuid.uuid4()}", description=not_serializable)
+    project_metadata_path = f"s3://bucket/root/{slugify(project.name)}/metadata.json"
+
+    s3_repo = S3Repository(root_dir="s3://bucket/root")
+    with pytest.raises(TypeError):
+        s3_repo._persist_domain(project, project_metadata_path)
+
+    mock_open.assert_not_called()

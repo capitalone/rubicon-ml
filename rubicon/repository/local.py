@@ -30,7 +30,9 @@ class LocalRepository(BaseRepository):
         """Persists the Rubicon object `domain` to the local
         path defined by `path`.
         """
+        json_domain = json.dumps(domain)
+
         self.filesystem.mkdirs(os.path.dirname(path), exist_ok=True)
 
         with self.filesystem.open(path, "w") as f:
-            f.write(json.dumps(domain))
+            f.write(json_domain)
