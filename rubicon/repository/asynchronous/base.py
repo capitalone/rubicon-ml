@@ -546,8 +546,6 @@ class AsynchronousBaseRepository(BaseRepository):
             The ID of the experiment this dataframe belongs to.
             Dataframes do not need to belong to an experiment.
         """
-        data = self._convert_to_dask_dataframe(data)
-
         dataframe_metadata_path = self._get_dataframe_metadata_path(
             project_name, experiment_id, dataframe.id
         )
