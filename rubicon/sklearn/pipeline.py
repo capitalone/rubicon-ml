@@ -1,6 +1,6 @@
 from sklearn.pipeline import Pipeline
 
-from rubicon.sklearn.base_logger import BaseEstimatorLogger
+from rubicon.sklearn.base_logger import BaseLogger
 
 
 class RubiconPipeline(Pipeline):
@@ -22,7 +22,7 @@ class RubiconPipeline(Pipeline):
             self.experiment.add_tags(tags)
 
         for step_name, estimator in self.steps:
-            logger = self.user_defined_loggers.get(step_name) or BaseEstimatorLogger()
+            logger = self.user_defined_loggers.get(step_name) or BaseLogger()
 
             logger.set_experiment(self.experiment)
             logger.set_step_name(step_name)

@@ -1,8 +1,8 @@
 from rubicon.exceptions import RubiconException
-from rubicon.sklearn.base_logger import BaseEstimatorLogger
+from rubicon.sklearn.base_logger import BaseLogger
 
 
-class FilteredLogger(BaseEstimatorLogger):
+class FilterLogger(BaseLogger):
     def __init__(self, select=[], ignore=[], ignore_all=False):
         if ignore and select:
             raise RubiconException("provide either `select` OR `ignore`, not both")

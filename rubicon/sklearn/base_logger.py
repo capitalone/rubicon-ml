@@ -1,7 +1,7 @@
 import warnings
 
 
-class BaseEstimatorLogger:
+class BaseLogger:
     def __init__(self):
         self.estimator = None
         self.experiment = None
