@@ -62,6 +62,6 @@ def test_df_read_error(rubicon_local_filesystem_client):
         read_dataframe.get_data()
 
     assert (
-        "This might have happened if you forgot to set `kind='dask'` when trying to read dask dataframe."
+        "This might have happened if you forgot to set `kind='dask'` when trying to read a `dask` dataframe."
         in str(e)
     )
