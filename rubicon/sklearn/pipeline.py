@@ -1,11 +1,13 @@
 from sklearn.pipeline import Pipeline
 
-from rubicon.sklearn import get_logger
+from rubicon.sklearn.base_logger import BaseLogger
 
 
 class RubiconPipeline(Pipeline):
-    def __init__(self, steps, project, memory=None, verbose=False):
+    def __init__(self, project, steps, user_defined_loggers={}, memory=None, verbose=False):
         self.project = project
+        self.user_defined_loggers = user_defined_loggers
+
         self.experiment = project.log_experiment("Logged from a RubiconPipeline")
 
         super().__init__(steps, memory=memory, verbose=verbose)
@@ -20,10 +22,13 @@ class RubiconPipeline(Pipeline):
             self.experiment.add_tags(tags)
 
         for step_name, estimator in self.steps:
-            logger_cls = get_logger(estimator.__class__.__name__)
-            logger = logger_cls(self.experiment, step_name)
+            logger = self.user_defined_loggers.get(step_name) or BaseLogger()
 
-            logger.log(parameters=estimator.get_params())
+            logger.set_experiment(self.experiment)
+            logger.set_step_name(step_name)
+            logger.set_estimator(estimator)
+
+            logger.log_parameters()
 
         return pipeline
 
