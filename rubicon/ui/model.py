@@ -60,7 +60,7 @@ class RubiconModel:
 
         return [{"label": a, "value": a} for a in anchors]
 
-    def get_dimensions(self, commit_hash, selected_experiment_ids, anchor):
+    def get_dimensions(self, commit_hash, selected_experiment_ids, hidden_columns, anchor):
         """Collects and cleans the data necessary to render the Dash parallel
         coordinates plot representing an experiment comparison plot.
 
@@ -72,6 +72,8 @@ class RubiconModel:
             The experiment ID's of the group of experiments to get dimensions
             for. Not all experiments in a group have to be shown on the
             comparison plot.
+        hidden_columns : List of columns ids of the columns that are currently
+            hidden.
         anchor : str
             The currently selected anchor metric. The anchor metric should be
             represented by the last dimension.
@@ -86,8 +88,10 @@ class RubiconModel:
         """
         dimensions = []
 
-        experiment_comparison_root_df = self.get_experiment_comparison_root_df(commit_hash)
-        experiment_comparison_df = experiment_comparison_root_df.loc[selected_experiment_ids]
+        root_df = self.get_experiment_comparison_root_df(commit_hash)
+        # ignore errors since some of the hidden cols could already be dropped, like `id`
+        root_dropped_hidden_df = root_df.drop(columns=hidden_columns, errors="ignore")
+        experiment_comparison_df = root_dropped_hidden_df.loc[selected_experiment_ids]
         experiment_comparison_df = experiment_comparison_df.compute().convert_dtypes()
 
         for column in experiment_comparison_df.columns:

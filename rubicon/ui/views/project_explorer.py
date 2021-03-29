@@ -18,7 +18,10 @@ def _get_experiment_table(id, experiments_df):
     """Get a Dash DataTable with the experiments in `experiments_df`."""
     return dash_table.DataTable(
         id={"type": "experiment-table", "index": id},
-        columns=[{"name": i, "id": i, "selectable": True} for i in experiments_df.columns],
+        columns=[
+            {"name": i, "id": i, "selectable": True, "hideable": True}
+            for i in experiments_df.columns
+        ],
         data=experiments_df.compute().to_dict("records"),
         page_size=10,
         filter_action="native",
@@ -260,12 +263,13 @@ def _toggle_experiment_group_collapsable(last_show_click, last_hide_click):
     [
         Input({"type": "experiment-table", "index": MATCH}, "derived_virtual_data"),
         Input({"type": "experiment-table", "index": MATCH}, "derived_virtual_selected_rows"),
+        Input({"type": "experiment-table", "index": MATCH}, "hidden_columns"),
         Input({"type": "anchor-dropdown", "index": MATCH}, "value"),
     ],
     [State({"type": "group-store", "index": MATCH}, "data")],
 )
 def _update_experiment_comparison_plot(
-    experiment_table_data, experiment_table_selected_rows, anchor, data
+    experiment_table_data, experiment_table_selected_rows, hidden_columns, anchor, data
 ):
     """The callback to render a new experiment comparison plot.
 
@@ -281,7 +285,7 @@ def _update_experiment_comparison_plot(
     ]
 
     anchor_data, dimensions = app._rubicon_model.get_dimensions(
-        commit_hash, selected_experiment_ids, anchor
+        commit_hash, selected_experiment_ids, hidden_columns, anchor
     )
 
     return [
