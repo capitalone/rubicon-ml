@@ -45,15 +45,32 @@ def _create_artifact(repository, project=None, artifact_data=None):
     return artifact
 
 
-def _create_dataframe(repository, project=None, dataframe_data=None):
+def _create_pandas_dataframe(repository, project=None, dataframe_data=None, multi_index=False):
     if project is None:
         project = _create_project(repository)
 
     if dataframe_data is None:
-        dataframe_data = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
+        dataframe_data = pd.DataFrame(
+            [[0, 1, "a"], [1, 1, "b"], [2, 2, "c"], [3, 2, "d"]], columns=["a", "b", "c"]
+        )
+        if multi_index:
+            dataframe_data = dataframe_data.set_index(["b", "a"])  # Set multiindex
 
     dataframe = domain.Dataframe(parent_id=project.id)
     repository.create_dataframe(dataframe, dataframe_data, project.name)
+
+    return dataframe
+
+
+def _create_dask_dataframe(repository, project=None):
+    if project is None:
+        project = _create_project(repository)
+
+    df = pd.DataFrame([[0, 1, "a"], [1, 1, "b"], [2, 2, "c"], [3, 2, "d"]], columns=["a", "b", "c"])
+    ddf = dd.from_pandas(df, npartitions=1)
+
+    dataframe = domain.Dataframe(parent_id=project.id)
+    repository.create_dataframe(dataframe, ddf, project.name)
 
     return dataframe
 
@@ -350,23 +367,23 @@ def test_delete_artifact_throws_error_if_not_found(memory_repository):
 def test_persist_dataframe(mock_to_parquet, memory_repository):
     repository = memory_repository
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
-    path = "/local/root"
+    path = "./local/root"
 
     # calls `BaseRepository._persist_dataframe` despite class using `MemoryRepository`
     super(MemoryRepository, repository)._persist_dataframe(df, path)
 
-    mock_to_parquet.assert_called_once_with(path, engine="pyarrow")
+    mock_to_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
 
 
-@patch("dask.dataframe.read_parquet")
+@patch("pandas.read_parquet")
 def test_read_dataframe(mock_read_parquet, memory_repository):
     repository = memory_repository
-    path = "/local/root"
+    path = "./local/root"
 
     # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
     super(MemoryRepository, repository)._read_dataframe(path)
 
-    mock_read_parquet.assert_called_once_with(path, engine="pyarrow")
+    mock_read_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
 
 
 def test_get_dataframe_with_project_parent_root(memory_repository):
@@ -389,10 +406,10 @@ def test_get_dataframe_with_experiment_parent_root(memory_repository):
     )
 
 
-def test_create_dataframe(memory_repository):
+def test_create_pandas_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    dataframe = _create_dataframe(repository, project=project)
+    dataframe = _create_pandas_dataframe(repository, project=project)
 
     dataframe_root = f"{repository.root_dir}/{slugify(project.name)}/dataframes/{dataframe.id}"
     dataframe_metadata_path = f"{dataframe_root}/metadata.json"
@@ -406,11 +423,74 @@ def test_create_dataframe(memory_repository):
     assert dataframe.id == dataframe_json["id"]
 
 
-def test_get_dataframe(memory_repository):
+def test_create_pandas_multi_index_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    written_dataframe = _create_dataframe(repository, project=project)
+    dataframe = _create_pandas_dataframe(repository, project=project, multi_index=True)
+
+    dataframe_root = f"{repository.root_dir}/{slugify(project.name)}/dataframes/{dataframe.id}"
+    dataframe_metadata_path = f"{dataframe_root}/metadata.json"
+    dataframe_data_path = f"{dataframe_root}/data"
+
+    open_file = repository.filesystem.open(dataframe_metadata_path)
+    with open_file as f:
+        dataframe_json = json.load(f)
+
+    assert repository.filesystem.exists(dataframe_data_path)
+    assert dataframe.id == dataframe_json["id"]
+
+
+def test_create_dask_dataframe(memory_repository):
+    repository = memory_repository
+    project = _create_project(repository)
+    dataframe = _create_dask_dataframe(repository, project=project)
+
+    dataframe_root = f"{repository.root_dir}/{slugify(project.name)}/dataframes/{dataframe.id}"
+    dataframe_metadata_path = f"{dataframe_root}/metadata.json"
+    dataframe_data_path = f"{dataframe_root}/data"
+
+    open_file = repository.filesystem.open(dataframe_metadata_path)
+    with open_file as f:
+        dataframe_json = json.load(f)
+
+    assert repository.filesystem.exists(dataframe_data_path)
+    assert dataframe.id == dataframe_json["id"]
+
+
+def test_get_pandas_dataframe(memory_repository):
+    repository = memory_repository
+    project = _create_project(repository)
+    written_dataframe = _create_pandas_dataframe(repository, project=project)
     dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+
+    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    assert not data.empty
+
+    assert dataframe.id == written_dataframe.id
+    assert dataframe.parent_id == written_dataframe.parent_id
+
+
+def test_get_pandas_multi_index_dataframe(memory_repository):
+    repository = memory_repository
+    project = _create_project(repository)
+    written_dataframe = _create_pandas_dataframe(repository, project=project, multi_index=True)
+    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+
+    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    assert not data.empty
+
+    assert dataframe.id == written_dataframe.id
+    assert dataframe.parent_id == written_dataframe.parent_id
+
+
+def test_get_dask_dataframe(memory_repository):
+    repository = memory_repository
+    project = _create_project(repository)
+    written_dataframe = _create_dask_dataframe(repository, project=project)
+    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+
+    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    assert not data.compute().empty
 
     assert dataframe.id == written_dataframe.id
     assert dataframe.parent_id == written_dataframe.parent_id
@@ -430,7 +510,9 @@ def test_get_dataframe_throws_error_if_not_found(memory_repository):
 def test_get_dataframes(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    written_dataframes = [_create_dataframe(repository, project=project) for _ in range(0, 3)]
+    written_dataframes = [
+        _create_pandas_dataframe(repository, project=project) for _ in range(0, 3)
+    ]
     dataframes = repository.get_dataframes_metadata(project.name)
 
     dataframe_ids = [d.id for d in written_dataframes]
@@ -453,7 +535,7 @@ def test_get_dataframe_data(memory_repository):
     dataframe_data = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
     dataframe_data = dd.from_pandas(dataframe_data, npartitions=1)
 
-    dataframe = _create_dataframe(repository, project=project, dataframe_data=dataframe_data)
+    dataframe = _create_pandas_dataframe(repository, project=project, dataframe_data=dataframe_data)
     data = repository.get_dataframe_data(project.name, dataframe.id)
 
     assert dataframe_data.compute().equals(data.compute())
@@ -473,7 +555,7 @@ def test_get_dataframe_data_throws_error_if_not_found(memory_repository):
 def test_delete_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    dataframe = _create_dataframe(repository, project=project)
+    dataframe = _create_pandas_dataframe(repository, project=project)
 
     repository.delete_dataframe(project.name, dataframe.id)
 
@@ -731,7 +813,7 @@ def test_get_experiment_tags_root(memory_repository):
 def test_get_dataframe_tags_with_project_parent_root(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    dataframe = _create_dataframe(repository, project=project)
+    dataframe = _create_pandas_dataframe(repository, project=project)
     dataframe_tags_root = repository._get_tag_metadata_root(project.name, dataframe_id=dataframe.id)
 
     assert (

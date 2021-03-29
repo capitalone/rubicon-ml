@@ -1,3 +1,5 @@
+import warnings
+
 from rubicon.client import Base, TagMixin
 from rubicon.exceptions import RubiconException
 
@@ -29,17 +31,22 @@ class Dataframe(Base, TagMixin):
         self._data = None
         self._parent = parent
 
-    def _get_data(self):
+    def get_data(self, kind="pandas"):
         """Loads the data associated with this Dataframe
-        into a `dask.dataframe.DataFrame`.
+        into a `pandas` or `dask` dataframe.
         """
         project_name, experiment_id = self.parent._get_parent_identifiers()
 
         self._data = self.repository.get_dataframe_data(
-            project_name, self.id, experiment_id=experiment_id
+            project_name,
+            self.id,
+            experiment_id=experiment_id,
+            kind=kind,
         )
 
-    def plot(self, **kwargs):
+        return self._data
+
+    def plot(self, kind="pandas", **kwargs):
         """Render the dataframe using `hvplot`.
 
         Parameters
@@ -60,14 +67,16 @@ class Dataframe(Base, TagMixin):
         >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
         """
         try:
-            # data is a dask dataframe
-            import hvplot.dask  # noqa F401
+            if kind == "pandas":
+                import hvplot.pandas  # noqa F401
+            else:
+                import hvplot.dask  # noqa F401
         except ImportError:
             raise RubiconException(
                 "`hvplot` is required for plotting. Install with `pip install hvplot`."
             )
 
-        return self.data.hvplot(**kwargs)
+        return self.get_data(kind=kind).hvplot(**kwargs)
 
     @property
     def id(self):
@@ -86,11 +95,13 @@ class Dataframe(Base, TagMixin):
 
     @property
     def data(self):
-        """Get the dataframe's raw data loaded into a
-        `dask.dataframe.DataFrame`.
-        """
+        """Get the dataframe's data as it was logged."""
+        warnings.warn(
+            "`data` is deprecated, use `get_data()` instead",
+            DeprecationWarning,
+        )
         if self._data is None:
-            self._get_data()
+            self.get_data()
 
         return self._data
 

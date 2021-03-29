@@ -1,6 +1,8 @@
 import os
+from pathlib import Path
 
 import fsspec
+import pandas as pd
 from dask import dataframe as dd
 
 from rubicon import domain
@@ -388,20 +390,35 @@ class BaseRepository:
 
         return f"{dataframe_metadata_root}/{dataframe_id}/data"
 
-    def _convert_to_dask_dataframe(self, df):
-        """Converts `df` to a Dask dataframe if it is not already one."""
-        if not isinstance(df, dd.DataFrame):
-            return dd.from_pandas(df, npartitions=1)
-
-        return df
-
     def _persist_dataframe(self, df, path):
-        """Persists the `dask` dataframe `df` to the configured filesystem."""
+        """Persists the dataframe `df` to the configured filesystem.
+
+        Note
+        ----
+        `dask` dataframes will automatically be split into chunks by `dask.dataframe.to_parquet`.
+        `pandas` dataframes, however, will be saved as a single file with the hope that users
+        would leverage dask for large dataframes.
+        """
+        if isinstance(df, pd.DataFrame):
+            Path(path).mkdir(parents=True, exist_ok=True)
+            path = f"{path}/data.parquet"
+
         df.to_parquet(path, engine="pyarrow")
 
-    def _read_dataframe(self, path):
-        """Reads the `dask` dataframe `df` from the configured filesystem."""
-        return dd.read_parquet(path, engine="pyarrow")
+    def _read_dataframe(self, path, kind="pandas"):
+        """Reads the dataframe `df` from the configured filesystem."""
+        df = None
+        acceptable_kinds = ["pandas", "dask"]
+        if kind not in acceptable_kinds:
+            raise RubiconException(f"`kind` must be one of {acceptable_kinds}")
+
+        if kind == "pandas":
+            path = f"{path}/data.parquet"
+            df = pd.read_parquet(path, engine="pyarrow")
+        else:
+            df = dd.read_parquet(path, engine="pyarrow")
+
+        return df
 
     def create_dataframe(self, dataframe, data, project_name, experiment_id=None):
         """Persist a dataframe to the configured filesystem.
@@ -419,8 +436,6 @@ class BaseRepository:
             The ID of the experiment this dataframe belongs to.
             Dataframes do not need to belong to an experiment.
         """
-        data = self._convert_to_dask_dataframe(data)
-
         dataframe_metadata_path = self._get_dataframe_metadata_path(
             project_name, experiment_id, dataframe.id
         )
@@ -497,7 +512,7 @@ class BaseRepository:
 
         return dataframes
 
-    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None):
+    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None, kind="pandas"):
         """Retrieve a dataframe's raw data.
 
         Parameters
@@ -522,9 +537,12 @@ class BaseRepository:
         )
 
         try:
-            df = self._read_dataframe(dataframe_data_path)
+            df = self._read_dataframe(dataframe_data_path, kind)
         except FileNotFoundError:
-            raise RubiconException(f"No data for dataframe with id `{dataframe_id}` found.")
+            raise RubiconException(
+                f"No data for dataframe with id `{dataframe_id}` found. This might have "
+                "happened if you forgot to set `kind='dask'` when trying to read a `dask` dataframe."
+            )
 
         return df
 

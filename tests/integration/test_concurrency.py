@@ -1,19 +1,20 @@
 import multiprocessing
 
 import pandas as pd
+from dask import dataframe as dd
 
 from rubicon.domain.utils import uuid
 
 
 def _log_all_to_experiment(experiment):
-    df = pd.DataFrame([0, 1], columns=["a"])
+    ddf = dd.from_pandas(pd.DataFrame([0, 1], columns=["a"]), npartitions=1)
 
     for _ in range(0, 4):
         experiment.log_metric(uuid.uuid4(), 0)
         experiment.log_feature(uuid.uuid4())
         experiment.log_parameter(uuid.uuid4(), 1)
         experiment.log_artifact(data_bytes=b"artifact bytes", name=uuid.uuid4())
-        experiment.log_dataframe(df)
+        experiment.log_dataframe(ddf)
         experiment.add_tags([uuid.uuid4()])
 
 
