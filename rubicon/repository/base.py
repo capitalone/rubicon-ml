@@ -540,7 +540,8 @@ class BaseRepository:
             df = self._read_dataframe(dataframe_data_path, kind)
         except FileNotFoundError:
             raise RubiconException(
-                f"No data for dataframe with id `{dataframe_id}` found. This might have happened if you forgot to set `kind='dask'` when trying to read dask dataframe."
+                f"No data for dataframe with id `{dataframe_id}` found. This might have "
+                "happened if you forgot to set `kind='dask'` when trying to read a `dask` dataframe."
             )
 
         return df
