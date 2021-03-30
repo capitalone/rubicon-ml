@@ -89,9 +89,10 @@ class RubiconModel:
         dimensions = []
 
         root_df = self.get_experiment_comparison_root_df(commit_hash)
-        # ignore errors since some of the hidden cols could already be dropped, like `id`
-        root_dropped_hidden_df = root_df.drop(columns=hidden_columns, errors="ignore")
-        experiment_comparison_df = root_dropped_hidden_df.loc[selected_experiment_ids]
+        if hidden_columns is not None:
+            # ignore errors since some of the hidden cols could already be dropped, like `id`
+            root_df = root_df.drop(columns=hidden_columns, errors="ignore")
+        experiment_comparison_df = root_df.loc[selected_experiment_ids]
         experiment_comparison_df = experiment_comparison_df.compute().convert_dtypes()
 
         for column in experiment_comparison_df.columns:
