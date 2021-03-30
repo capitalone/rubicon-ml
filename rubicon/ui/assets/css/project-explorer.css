@@ -55,3 +55,39 @@
     background-color: rgba(0, 0, 0, 0);
     margin-left: auto;
 }
+
+.dash-table-container {
+    /* make the action btns line up */
+    margin-top: -40px;
+}
+
+.show-hide {
+    box-shadow: none;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-family: Optimist, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #ffffff;
+    background-color: #0D74AF;
+    font-size: 14px;
+    line-height: 2;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    text-decoration: none;
+    margin: 0px;
+    outline: none;
+    padding: 0px 16px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.dash-spreadsheet-menu {
+    justify-content: flex-end;
+}
+
+.dash-spreadsheet-container .dash-spreadsheet {
+    margin-top: 8px;
+}
