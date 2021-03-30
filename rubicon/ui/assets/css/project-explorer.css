@@ -84,6 +84,12 @@
     margin-bottom: 6px;
 }
 
+.show-hide-menu .show-hide-menu-item, input {
+    margin-top: 6px;
+    margin-right: 6px;
+}
+
+
 .dash-spreadsheet-menu {
     justify-content: flex-end;
 }
