@@ -133,6 +133,7 @@ def test_individual_project_explorer_view(dashboard_setup, dash_duo):
     assert group_detail_view.find_element_by_class_name("experiment-comparison-header")
     assert group_detail_view.find_element_by_class_name("anchor-dropdown")
     assert group_detail_view.find_element_by_class_name("experiment-comparison-plot")
+    assert group_detail_view.find_element_by_class_name("show-hide")
 
     # click the select all btn
     action_btn_group = group_detail_view.find_element_by_class_name("btn-group")
