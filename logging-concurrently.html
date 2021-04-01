@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
-        <title>Logging Concurrently - rubicon v0.1.4</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
+        <title>Logging Concurrently - rubicon v0.1.6</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -105,7 +106,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -413,7 +414,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='ced611bf-84a7-41ca-b4d8-3f18ea08fd50', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 3, 15, 17, 53, 16, 652110))
+Project(name='Concurrent Experiments', id='2d71236a-026b-460e-937e-b6eed57455de', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 1, 14, 9, 18, 715230))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -560,7 +561,13 @@ Project(name='Concurrent Experiments', id='ced611bf-84a7-41ca-b4d8-3f18ea08fd50'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 719930aa-6575-4977-aab7-577670b47804 was successful using a KNeighborsClassifier
+experiment 1e7290e0-943c-4f9b-9315-0b1b751c7754 was successful using a KNeighborsClassifier
+experiment 20725b92-fcba-49d5-a856-a05c9961b68a was successful using a RandomForestClassifier
+experiment 223745e2-63cf-4a38-a7b6-fbe2779372c6 was successful using a KNeighborsClassifier
+experiment 5003a0ce-76a9-4794-8a79-3d84c082bf56 was successful using a KNeighborsClassifier
+experiment 92d63cf6-5543-4afb-83c2-bcc01211a43a was successful using a RandomForestClassifier
+experiment a386fb1a-cb2c-4678-a11e-3cf36dfa74dc was successful using a RandomForestClassifier
+experiment f851c65c-2313-488a-b293-65dcbe984dba was successful using a RandomForestClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -591,18 +598,17 @@ experiment 719930aa-6575-4977-aab7-577670b47804 was successful using a KNeighbor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['failure', 'RandomForestClassifier']
+tags: ['success', 'KNeighborsClassifier']
 parameters:
-        n_estimators: 10
         n_features: 4
-        random_state: 1615830797
+        n_neighbors: 5
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 0.9210526315789473
+        accuracy: 0.9736842105263158
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>

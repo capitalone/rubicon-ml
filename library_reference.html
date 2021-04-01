@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.02.28.beta28"/>
-        <title>Library Reference - rubicon v0.1.4</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=be5985a4059b5c2cd56ed0804790452beca62674">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
+        <title>Library Reference - rubicon v0.1.6</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -105,7 +106,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.4</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -1290,13 +1291,26 @@ logged to.</p>
 <dl class="py method">
 <dt id="rubicon.Dataframe.data">
 <em class="property">property </em><code class="sig-name descname">data</code><a class="headerlink" href="#rubicon.Dataframe.data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the dataframe’s raw data loaded into a
-<cite>dask.dataframe.DataFrame</cite>.</p>
+<dd><p>Get the dataframe’s data as it was logged.</p>
 </dd></dl>
 <dl class="py method">
 <dt id="rubicon.Dataframe.description">
 <em class="property">property </em><code class="sig-name descname">description</code><a class="headerlink" href="#rubicon.Dataframe.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframe’s description.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="rubicon.Dataframe.get_data">
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">df_type</span><span class="o">=</span><span class="default_value">'pandas'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.Dataframe.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the data associated with this Dataframe
+into a <cite>pandas</cite> or <cite>dask</cite> dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt id="rubicon.Dataframe.id">
@@ -1310,11 +1324,13 @@ logged to.</p>
 </dd></dl>
 <dl class="py method">
 <dt id="rubicon.Dataframe.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.Dataframe.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">df_type='pandas'</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.Dataframe.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Render the dataframe using <cite>hvplot</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.</p>
+</dd>
 <dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed along to the
 <cite>hvplot</cite> function.</p>
 </dd>
