@@ -39,7 +39,7 @@ def test_dask_df(rubicon_local_filesystem_client):
     assert len(read_dataframes) == 1
 
     assert read_dataframe.id == written_dataframe.id
-    assert read_dataframe.get_data(kind="dask").compute().equals(ddf.compute())
+    assert read_dataframe.get_data(df_type="dask").compute().equals(ddf.compute())
 
 
 def test_df_read_error(rubicon_local_filesystem_client):
@@ -57,11 +57,11 @@ def test_df_read_error(rubicon_local_filesystem_client):
 
     assert read_dataframe.id == written_dataframe.id
 
-    # simulate user forgetting to set `kind` to `dask` when reading a logged dask df
+    # simulate user forgetting to set `df_type` to `dask` when reading a logged dask df
     with pytest.raises(RubiconException) as e:
         read_dataframe.get_data()
 
     assert (
-        "This might have happened if you forgot to set `kind='dask'` when trying to read a `dask` dataframe."
+        "This might have happened if you forgot to set `df_type='dask'` when trying to read a `dask` dataframe."
         in str(e)
     )

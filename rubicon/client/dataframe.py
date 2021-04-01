@@ -31,9 +31,14 @@ class Dataframe(Base, TagMixin):
         self._data = None
         self._parent = parent
 
-    def get_data(self, kind="pandas"):
+    def get_data(self, df_type="pandas"):
         """Loads the data associated with this Dataframe
         into a `pandas` or `dask` dataframe.
+
+        Parameters
+        ----------
+        df_type : str, optional
+            The type of dataframe. Can be either `pandas` or `dask`.
         """
         project_name, experiment_id = self.parent._get_parent_identifiers()
 
@@ -41,16 +46,18 @@ class Dataframe(Base, TagMixin):
             project_name,
             self.id,
             experiment_id=experiment_id,
-            kind=kind,
+            df_type=df_type,
         )
 
         return self._data
 
-    def plot(self, kind="pandas", **kwargs):
+    def plot(self, df_type="pandas", **kwargs):
         """Render the dataframe using `hvplot`.
 
         Parameters
         ----------
+        df_type : str, optional
+            The type of dataframe. Can be either `pandas` or `dask`.
         kwargs : dict
             Additional keyword arguments to be passed along to the
             `hvplot` function.
@@ -67,7 +74,7 @@ class Dataframe(Base, TagMixin):
         >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
         """
         try:
-            if kind == "pandas":
+            if df_type == "pandas":
                 import hvplot.pandas  # noqa F401
             else:
                 import hvplot.dask  # noqa F401
@@ -76,7 +83,7 @@ class Dataframe(Base, TagMixin):
                 "`hvplot` is required for plotting. Install with `pip install hvplot`."
             )
 
-        return self.get_data(kind=kind).hvplot(**kwargs)
+        return self.get_data(df_type=df_type).hvplot(**kwargs)
 
     @property
     def id(self):
