@@ -405,14 +405,14 @@ class BaseRepository:
 
         df.to_parquet(path, engine="pyarrow")
 
-    def _read_dataframe(self, path, kind="pandas"):
+    def _read_dataframe(self, path, df_type="pandas"):
         """Reads the dataframe `df` from the configured filesystem."""
         df = None
-        acceptable_kinds = ["pandas", "dask"]
-        if kind not in acceptable_kinds:
-            raise RubiconException(f"`kind` must be one of {acceptable_kinds}")
+        acceptable_types = ["pandas", "dask"]
+        if df_type not in acceptable_types:
+            raise RubiconException(f"`df_type` must be one of {acceptable_types}")
 
-        if kind == "pandas":
+        if df_type == "pandas":
             path = f"{path}/data.parquet"
             df = pd.read_parquet(path, engine="pyarrow")
         else:
@@ -512,7 +512,7 @@ class BaseRepository:
 
         return dataframes
 
-    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None, kind="pandas"):
+    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None, df_type="pandas"):
         """Retrieve a dataframe's raw data.
 
         Parameters
@@ -526,6 +526,8 @@ class BaseRepository:
             The ID of the experiment the dataframe with ID
             `artifact_id` is logged to. Dataframes do not
             need to belong to an experiment.
+        df_type : str, optional
+            The type of dataframe. Can be either `pandas` or `dask`.
 
         Returns
         -------
@@ -537,11 +539,11 @@ class BaseRepository:
         )
 
         try:
-            df = self._read_dataframe(dataframe_data_path, kind)
+            df = self._read_dataframe(dataframe_data_path, df_type)
         except FileNotFoundError:
             raise RubiconException(
                 f"No data for dataframe with id `{dataframe_id}` found. This might have "
-                "happened if you forgot to set `kind='dask'` when trying to read a `dask` dataframe."
+                "happened if you forgot to set `df_type='dask'` when trying to read a `dask` dataframe."
             )
 
         return df
