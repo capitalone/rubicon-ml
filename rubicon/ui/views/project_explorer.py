@@ -23,7 +23,7 @@ def _get_experiment_table(id, experiments_df):
             for i in experiments_df.columns
         ],
         data=experiments_df.compute().to_dict("records"),
-        page_size=10,
+        page_size=app._page_size,
         filter_action="native",
         sort_action="native",
         sort_mode="multi",

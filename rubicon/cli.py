@@ -28,9 +28,16 @@ def cli():
 @click.option(
     "--debug", "-d", type=click.BOOL, help="Whether or not to run in debug mode.", default=False
 )
-def ui(root_dir, host, port, debug):
+@click.option(
+    "--page-size",
+    "-ps",
+    type=click.INT,
+    help="The number of rows that will be displayed on a page within the experiment table.",
+    default=10,
+)
+def ui(root_dir, host, port, debug, page_size):
     """Launch the Rubicon Dashboard."""
-    dashboard = Dashboard("filesystem", root_dir)
+    dashboard = Dashboard("filesystem", root_dir, page_size=page_size)
 
     server_kwargs = dict(debug=debug, port=port, host=host)
     server_kwargs = {k: v for k, v in server_kwargs.items() if v is not None}
