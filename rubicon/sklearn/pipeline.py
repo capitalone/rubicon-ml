@@ -4,13 +4,47 @@ from rubicon.sklearn.base_logger import BaseLogger
 
 
 class RubiconPipeline(Pipeline):
-    def __init__(self, project, steps, user_defined_loggers={}, memory=None, verbose=False):
+    """An extension of sklearn.pipeline.Pipeline that automatically
+    logs the pipeline's parameters and metrics to a Rubicon project.
+
+    Parameters
+    ----------
+    project : rubicon.client.Project
+        The rubicon project to log to
+    steps : list
+        List of (name, transform) tuples (implementing fit/transform) that are chained,
+        in the order in which they are chained, with the last object an estimator.
+    user_defined_loggers : dict, optional
+        A dict mapping the estimator name to a corresponding user defined logger.
+        See the example below for more details.
+    kwargs : dict
+        Additional keyword arguments to be passed to
+        `sklearn.pipeline.Pipeline`.
+
+    Example
+    -------
+    >>> pipeline = RubiconPipeline(
+    >>>     project,
+    >>>     [
+    >>>         ("vect", CountVectorizer()),
+    >>>         ("tfidf", TfidfTransformer()),
+    >>>         ("clf", SGDClassifier()),
+    >>>     ],
+    >>>     user_defined_loggers = {
+    >>>         "vect": FilterLogger(select=["input", "decode_error", "max_df"]),
+    >>>         "tfidf": FilterLogger(ignore_all=True),
+    >>>         "clf": FilterLogger(ignore=["alpha", "penalty"]),
+    >>>     }
+    >>> )
+    """
+
+    def __init__(self, project, steps, user_defined_loggers={}, **kwargs):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
         self.experiment = project.log_experiment("Logged from a RubiconPipeline")
         self.logger = BaseLogger()
 
-        super().__init__(steps, memory=memory, verbose=verbose)
+        super().__init__(steps, **kwargs)
 
     def fit(self, X, y=None, tags=None, **fit_params):
         pipeline = super().fit(X, y, **fit_params)
