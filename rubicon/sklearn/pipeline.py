@@ -7,7 +7,6 @@ class RubiconPipeline(Pipeline):
     def __init__(self, project, steps, user_defined_loggers={}, memory=None, verbose=False):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
-
         self.experiment = project.log_experiment("Logged from a RubiconPipeline")
 
         super().__init__(steps, memory=memory, verbose=verbose)
