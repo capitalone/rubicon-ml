@@ -3,7 +3,37 @@ from rubicon.sklearn.base_logger import BaseLogger
 
 
 class FilterLogger(BaseLogger):
-    def __init__(self, select=[], ignore=[], ignore_all=False):
+    """The filter logger for sklearn estimators. Use this
+    logger to either select or ignore specific parameters
+    for logging.
+
+    Parameters
+    ----------
+    estimator : a sklearn estimator, optional
+        The estimator
+    experiment : rubicon.client.Experiment, optional
+        The experiment to log the parameters and metrics to.
+    step_name : str, optional
+        The name of the pipeline step.
+    select : list, optional
+        The list of parameters on this estimator that you'd like
+        to log. All other parameters will be ignored.
+    ignore : list, optional
+        The list of parameters on this estimator that you'd like
+        to ignore by not logging. The other parameters will be logged.
+    ignore_all : bool, optional
+        Ignore all parameters if true.
+    """
+
+    def __init__(
+        self,
+        estimator=None,
+        experiment=None,
+        step_name=None,
+        select=[],
+        ignore=[],
+        ignore_all=False,
+    ):
         if ignore and select:
             raise RubiconException("provide either `select` OR `ignore`, not both")
 
@@ -11,7 +41,7 @@ class FilterLogger(BaseLogger):
         self.ignore_all = ignore_all
         self.select = select
 
-        super().__init__()
+        super().__init__(estimator=estimator, experiment=experiment, step_name=step_name)
 
     def log_parameters(self):
         if self.ignore_all:
