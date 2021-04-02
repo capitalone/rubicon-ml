@@ -35,8 +35,8 @@ class BaseLogger:
         for name, value in self.estimator.get_params().items():
             self._log_parameter_to_rubicon(name, value)
 
-    def log_metrics(self):
-        pass
+    def log_metric(self, name, value):
+        self.experiment.log_metric(name, value=value)
 
     def set_estimator(self, estimator):
         self.estimator = estimator

@@ -8,6 +8,7 @@ class RubiconPipeline(Pipeline):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
         self.experiment = project.log_experiment("Logged from a RubiconPipeline")
+        self.logger = BaseLogger()
 
         super().__init__(steps, memory=memory, verbose=verbose)
 
@@ -21,19 +22,23 @@ class RubiconPipeline(Pipeline):
             self.experiment.add_tags(tags)
 
         for step_name, estimator in self.steps:
-            logger = self.user_defined_loggers.get(step_name) or BaseLogger()
+            # dynamically update logger if user defined one for this estimator
+            if self.user_defined_loggers.get(step_name):
+                self.set_logger(self.user_defined_loggers.get(step_name))
 
-            logger.set_experiment(self.experiment)
-            logger.set_step_name(step_name)
-            logger.set_estimator(estimator)
+            self.logger.set_experiment(self.experiment)
+            self.logger.set_step_name(step_name)
+            self.logger.set_estimator(estimator)
 
-            logger.log_parameters()
+            self.logger.log_parameters()
 
         return pipeline
 
     def score(self, X, y=None, sample_weight=None):
         score = super().score(X, y, sample_weight)
-
-        self.experiment.log_metric("accuracy", value=score)
+        self.logger.log_metric("accuracy", score)
 
         return score
+
+    def set_logger(self, logger):
+        self.logger = logger
