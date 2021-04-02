@@ -20,6 +20,13 @@ def cli():
     required=True,
 )
 @click.option(
+    "--page-size",
+    "-ps",
+    type=click.INT,
+    help="The number of rows that will be displayed on a page within the experiment table.",
+    default=10,
+)
+@click.option(
     "--host", "-h", type=click.STRING, help="The host to serve the dashboard on.", default=None
 )
 @click.option(
@@ -27,13 +34,6 @@ def cli():
 )
 @click.option(
     "--debug", "-d", type=click.BOOL, help="Whether or not to run in debug mode.", default=False
-)
-@click.option(
-    "--page-size",
-    "-ps",
-    type=click.INT,
-    help="The number of rows that will be displayed on a page within the experiment table.",
-    default=10,
 )
 def ui(root_dir, host, port, debug, page_size):
     """Launch the Rubicon Dashboard."""
