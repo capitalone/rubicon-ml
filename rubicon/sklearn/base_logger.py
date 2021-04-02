@@ -2,10 +2,23 @@ import warnings
 
 
 class BaseLogger:
-    def __init__(self):
-        self.estimator = None
-        self.experiment = None
-        self.step_name = None
+    """The base logger for sklearn estimators. By default,
+    it will log all of the estimator's parameters.
+
+    Parameters
+    ----------
+    estimator : a sklearn estimator, optional
+        The estimator
+    experiment : rubicon.client.Experiment, optional
+        The experiment to log the parameters and metrics to.
+    step_name : str, optional
+        The name of the pipeline step.
+    """
+
+    def __init__(self, estimator=None, experiment=None, step_name=None):
+        self.estimator = estimator
+        self.experiment = experiment
+        self.step_name = step_name
 
     def _log_parameter_to_rubicon(self, name, value):
         try:
