@@ -2,10 +2,11 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Glossary" href="glossary.html" /><link rel="prev" title="Rubicon" href="index.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Glossary" href="glossary.html" /><link rel="prev" title="Rubicon" href="index.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Quick Look - rubicon v0.1.6</title>
+        <title>Quick Look - rubicon v0.1.7</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,26 +107,25 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">Getting Started:</span></p>
+  <p><span class="caption-text">Getting Started:</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Guide:</span></p>
+<p><span class="caption-text">User Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
@@ -135,7 +135,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community:</span></p>
+<p><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -155,18 +155,18 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="quick-look">
+        <section id="quick-look">
 <span id="id1"></span><h1>Quick Look<a class="headerlink" href="#quick-look" title="Permalink to this headline">¶</a></h1>
 <p>Rubicon has two main components, both powered by open source projects. The first component is the Python library,
 which is powered by Intake’s <a class="reference external" href="https://github.com/intake/filesystem_spec">filesystem specification</a>
 (<code class="docutils literal notranslate"><span class="pre">fsspec</span></code>) for filesystem logging and <a class="reference external" href="https://github.com/intake/intake">Intake</a> itself
 for the collaboration and sharing process. The second component is the dashboard,
 powered by <a class="reference external" href="https://dash.plotly.com/">Dash</a>.</p>
-<div class="section" id="python-library">
+<section id="python-library">
 <h2>Python Library<a class="headerlink" href="#python-library" title="Permalink to this headline">¶</a></h2>
 <p>The library provides an API for storing model inputs, outputs, and other related data and offers a
 process for sharing a selected subset of logged data with collaborators and reviewers.</p>
-<div class="section" id="logging">
+<section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h3>
 <p>The logging library supports three types of persistence:</p>
 <blockquote>
@@ -285,8 +285,8 @@ time. For this reason, Rubicon
 without blocking.</p>
 <p>As noted above, Rubicon logging is threadsafe so you can use external tools like Dask
 and Prefect to speed up your logging.</p>
-</div>
-<div class="section" id="collaborating-and-sharing">
+</section>
+<section id="collaborating-and-sharing">
 <h3>Collaborating and Sharing<a class="headerlink" href="#collaborating-and-sharing" title="Permalink to this headline">¶</a></h3>
 <p>Once you have a Rubicon project stored in S3, anyone with access to that bucket can
 use the Python library to pull down your project and explore the data themselves or
@@ -332,9 +332,9 @@ installed with the library.</p>
 <p class="admonition-title">Note</p>
 <p>Loading a catalog does not physically copy any data.</p>
 </div>
-</div>
-</div>
-<div class="section" id="dashboard">
+</section>
+</section>
+<section id="dashboard">
 <h2>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h2>
 <p>Rubicon comes with a UI add-on (installable as <code class="docutils literal notranslate"><span class="pre">rubicon[ui]</span></code>) that allows you to
 explore, visualize, and compare data within your Rubicon projects. If you have
@@ -345,8 +345,8 @@ by commit automatically and link you directly to the corresponding model code.</
 </pre></div>
 </div>
 <img alt="Rubicon dashboard" src="_images/dashboard.png"/>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>

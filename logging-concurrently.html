@@ -2,10 +2,11 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Logging Concurrently - rubicon v0.1.6</title>
+        <title>Logging Concurrently - rubicon v0.1.7</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -106,26 +107,25 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">Getting Started:</span></p>
+  <p><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quick_look.html">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Guide:</span></p>
+<p><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Concurrently</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
@@ -135,7 +135,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community:</span></p>
+<p><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -390,7 +390,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/logging-concurrently.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
-<div class="section" id="Logging-Concurrently">
+<section id="Logging-Concurrently">
 <h1>Logging Concurrently<a class="headerlink" href="#Logging-Concurrently" title="Permalink to this headline">¶</a></h1>
 <p>Once we’ve got the hang of using <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>, we can expand on our project from the <em>Iris Classifier</em> example. Let’s see how a few other popular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> models perform with the Iris dataset. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging is totally thread-safe, so we can test a lot of model configurations at once.</p>
 <div class="nbinput docutils container">
@@ -414,7 +414,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='2d71236a-026b-460e-937e-b6eed57455de', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 1, 14, 9, 18, 715230))
+Project(name='Concurrent Experiments', id='4e8ba1ae-ecf8-4976-9650-9ba3701a4fc3', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 5, 18, 15, 16, 189837))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -561,13 +561,16 @@ Project(name='Concurrent Experiments', id='2d71236a-026b-460e-937e-b6eed57455de'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 1e7290e0-943c-4f9b-9315-0b1b751c7754 was successful using a KNeighborsClassifier
-experiment 20725b92-fcba-49d5-a856-a05c9961b68a was successful using a RandomForestClassifier
-experiment 223745e2-63cf-4a38-a7b6-fbe2779372c6 was successful using a KNeighborsClassifier
-experiment 5003a0ce-76a9-4794-8a79-3d84c082bf56 was successful using a KNeighborsClassifier
-experiment 92d63cf6-5543-4afb-83c2-bcc01211a43a was successful using a RandomForestClassifier
-experiment a386fb1a-cb2c-4678-a11e-3cf36dfa74dc was successful using a RandomForestClassifier
-experiment f851c65c-2313-488a-b293-65dcbe984dba was successful using a RandomForestClassifier
+experiment 05424cbd-beb4-4171-b75b-bfda5c6ba729 was successful using a RandomForestClassifier
+experiment 1cd670e8-745a-40de-89db-66d7704fb885 was successful using a RandomForestClassifier
+experiment 2bdb17d3-3c08-4245-b918-a0267db14c34 was successful using a RandomForestClassifier
+experiment 3ac29a9f-6043-4239-bc36-5cba4b64be11 was successful using a KNeighborsClassifier
+experiment 7334f1e3-129e-4681-a23e-0f41ae810535 was successful using a DecisionTreeClassifier
+experiment a12d8518-9d53-4b80-84ab-22be1f8b24e8 was successful using a RandomForestClassifier
+experiment b1940343-6c58-41f2-939b-05c2448ee94f was successful using a DecisionTreeClassifier
+experiment cee36678-90b2-46e1-b6be-e52b88871f1c was successful using a KNeighborsClassifier
+experiment ed3cba7a-da3d-4184-991d-58c03222d290 was successful using a KNeighborsClassifier
+experiment f15b95c9-4dfa-4b9a-9c89-8d703c9f2f0e was successful using a KNeighborsClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -598,10 +601,11 @@ experiment f851c65c-2313-488a-b293-65dcbe984dba was successful using a RandomFor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['success', 'KNeighborsClassifier']
+tags: ['RandomForestClassifier', 'success']
 parameters:
+        n_estimators: 20
         n_features: 4
-        n_neighbors: 5
+        random_state: 1617646516
 features:
         petal length (cm)
         petal width (cm)
@@ -612,7 +616,7 @@ metrics:
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
-</div>
+</section>
 
       </article>
       <footer>

@@ -2,10 +2,11 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="FAQs" href="faqs.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Contributing - rubicon v0.1.6</title>
+        <title>Contributing - rubicon v0.1.7</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,26 +107,25 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">Getting Started:</span></p>
+  <p><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quick_look.html">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Guide:</span></p>
+<p><span class="caption-text">User Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
@@ -135,7 +135,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community:</span></p>
+<p><span class="caption-text">Community:</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -155,10 +155,10 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="contributing">
+        <section id="contributing">
 <h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
 <p>Thanks for helping us build Rubicon!</p>
-<div class="section" id="cloning-the-repository">
+<section id="cloning-the-repository">
 <h2>Cloning the Repository<a class="headerlink" href="#cloning-the-repository" title="Permalink to this headline">¶</a></h2>
 <p>Make a fork of the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> repo and clone the fork:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/&lt;your-github-username&gt;/rubicon
@@ -170,23 +170,23 @@ as an upstream remote:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git remote add upstream https://github.com/capitalone/rubicon
 </pre></div>
 </div>
-</div>
-<div class="section" id="creating-a-development-environment">
+</section>
+<section id="creating-a-development-environment">
 <h2>Creating a Development Environment<a class="headerlink" href="#creating-a-development-environment" title="Permalink to this headline">¶</a></h2>
 <p>We have a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment YAML file with all the necessary dependencies
 in the <code class="docutils literal notranslate"><span class="pre">ci</span></code> directory.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda env create -f ci/environment.yml
 </pre></div>
 </div>
-</div>
-<div class="section" id="building-rubicon">
+</section>
+<section id="building-rubicon">
 <h2>Building <code class="docutils literal notranslate"><span class="pre">rubicon</span></code><a class="headerlink" href="#building-rubicon" title="Permalink to this headline">¶</a></h2>
 <p>After you’ve cloned the repository, use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> locally:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python -m pip install -e .
 </pre></div>
 </div>
-</div>
-<div class="section" id="style">
+</section>
+<section id="style">
 <h2>Style<a class="headerlink" href="#style" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> uses <a class="reference external" href="http://black.readthedocs.io/en/stable/">black</a> for formatting,
 <a class="reference external" href="http://flake8.pycqa.org/en/latest/">flake8</a> for linting, and
@@ -200,16 +200,16 @@ isort -rc rubicon tests
 <p>Install and configure <a class="reference external" href="https://pre-commit.com/">pre-commit</a> to automatically run
 each of these tools before committing. Once installed, run <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">install</span></code>
 to set up <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s git hooks.</p>
-</div>
-<div class="section" id="running-tests">
+</section>
+<section id="running-tests">
 <h2>Running Tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> uses <a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a> for testing.
 Run the tests from the root <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> directory as follows:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python -m pytest
 </pre></div>
 </div>
-</div>
-<div class="section" id="documentation">
+</section>
+<section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>We follow <a class="reference external" href="http://numpydoc.readthedocs.io/en/latest/format.html">numpydoc</a>
 formatting for our docstrings. This lets us use <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> to automatically
@@ -228,8 +228,8 @@ sh build-docs.sh
 </div>
 <p>Never commit built documentation code directly to Rubicon. Our CICD handles
 deploying documentation.</p>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>

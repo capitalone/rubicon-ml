@@ -2,10 +2,11 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Install" href="install.html" /><link rel="prev" title="Quick Look" href="quick_look.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Install" href="install.html" /><link rel="prev" title="Quick Look" href="quick_look.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Glossary - rubicon v0.1.6</title>
+        <title>Glossary - rubicon v0.1.7</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,26 +107,25 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">Getting Started:</span></p>
+  <p><span class="caption-text">Getting Started:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quick_look.html">Quick Look</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Guide:</span></p>
+<p><span class="caption-text">User Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
@@ -135,7 +135,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community:</span></p>
+<p><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -155,9 +155,9 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="glossary">
+        <section id="glossary">
 <span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="project-rubicon-project">
+<section id="project-rubicon-project">
 <h2>Project (<a class="reference internal" href="library_reference.html#library-reference-project"><span class="std std-ref">rubicon.Project</span></a>)<a class="headerlink" href="#project-rubicon-project" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>project</strong> is a collection of <strong>experiments</strong>, <strong>dataframes</strong>, and <strong>artifacts</strong>
 identified by a unique name.</p>
@@ -167,8 +167,8 @@ identified by a unique name.</p>
 <span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Glossary"</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="experiment-rubicon-experiment">
+</section>
+<section id="experiment-rubicon-experiment">
 <h2>Experiment (<a class="reference internal" href="library_reference.html#library-reference-experiment"><span class="std std-ref">rubicon.Experiment</span></a>)<a class="headerlink" href="#experiment-rubicon-experiment" title="Permalink to this headline">¶</a></h2>
 <p>An <strong>experiment</strong> represents a model run and is identified by its <code class="docutils literal notranslate"><span class="pre">created_at</span></code> time.
 It can have <strong>metrics</strong>, <strong>parameters</strong>, <strong>features</strong>, <strong>dataframes</strong>, and <strong>artifacts</strong>
@@ -177,8 +177,8 @@ logged to it.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"glossary"</span><span class="p">])</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="parameter-rubicon-parameter">
+</section>
+<section id="parameter-rubicon-parameter">
 <h2>Parameter (<a class="reference internal" href="library_reference.html#library-reference-parameter"><span class="std std-ref">rubicon.Parameter</span></a>)<a class="headerlink" href="#parameter-rubicon-parameter" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>parameter</strong> is an input to an <strong>experiment</strong> (model run) that depends on the type
 of model being used. It affects the model’s predictions.</p>
@@ -188,8 +188,8 @@ of trees in the forest) could be a <strong>parameter</strong>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="s2">"n_estimators"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="feature-rubicon-feature">
+</section>
+<section id="feature-rubicon-feature">
 <h2>Feature (<a class="reference internal" href="library_reference.html#library-reference-feature"><span class="std std-ref">rubicon.Feature</span></a>)<a class="headerlink" href="#feature-rubicon-feature" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>feature</strong> is an input to an <strong>experiment</strong> (model run) that’s an independent,
 measurable property of a phenomenon being observed. It affects the model’s predictions.</p>
@@ -200,8 +200,8 @@ Possible <strong>features</strong> could be <code class="docutils literal notran
 <span class="n">experiment</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="s2">"credit score"</span><span class="p">,</span> <span class="n">importance</span><span class="o">=</span><span class="mf">0.250</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="metric-rubicon-metric">
+</section>
+<section id="metric-rubicon-metric">
 <h2>Metric (<a class="reference internal" href="library_reference.html#library-reference-metric"><span class="std std-ref">rubicon.Metric</span></a>)<a class="headerlink" href="#metric-rubicon-metric" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>metric</strong> is a single-value output of an <strong>experiment</strong> that helps evaluate the
 quality of the model’s predictions.</p>
@@ -210,8 +210,8 @@ quality of the model’s predictions.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">"accuracy"</span><span class="p">,</span> <span class="mf">0.933</span><span class="p">,</span> <span class="n">directionality</span><span class="o">=</span><span class="s2">"score"</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="dataframe-rubicon-dataframe">
+</section>
+<section id="dataframe-rubicon-dataframe">
 <h2>Dataframe (<a class="reference internal" href="library_reference.html#library-reference-dataframe"><span class="std std-ref">rubicon.Dataframe</span></a>)<a class="headerlink" href="#dataframe-rubicon-dataframe" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>dataframe</strong> is a two-dimensional, tabular dataset with labeled axes (rows and
 columns) that provides value to the model developer and/or reviewer when visualized.</p>
@@ -224,8 +224,8 @@ all be logged as a <strong>dataframe</strong>.</p>
 <span class="n">experiment</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="artifact-rubicon-artifact">
+</section>
+<section id="artifact-rubicon-artifact">
 <h2>Artifact (<a class="reference internal" href="library_reference.html#library-reference-artifact"><span class="std std-ref">rubicon.Artifact</span></a>)<a class="headerlink" href="#artifact-rubicon-artifact" title="Permalink to this headline">¶</a></h2>
 <p>An <strong>artifact</strong> is a catch-all for any other type of data that can be logged to a file.</p>
 <p>For example, a snapshot of a trained model (.pkl) can be logged to the <strong>experiment</strong>
@@ -235,8 +235,8 @@ a <strong>project</strong> when leveraging transfer learning.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">"path/to/data.pkl"</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>
