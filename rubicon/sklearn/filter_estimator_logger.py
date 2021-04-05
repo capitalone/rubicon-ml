@@ -2,7 +2,7 @@ from rubicon.exceptions import RubiconException
 from rubicon.sklearn.estimator_logger import EstimatorLogger
 
 
-class FilterLogger(EstimatorLogger):
+class FilterEstimatorLogger(EstimatorLogger):
     """The filter logger for sklearn estimators. Use this
     logger to either select or ignore specific parameters
     for logging.

@@ -39,9 +39,9 @@ class RubiconPipeline(Pipeline):
     >>>         ("clf", SGDClassifier()),
     >>>     ],
     >>>     user_defined_loggers = {
-    >>>         "vect": FilterLogger(select=["input", "decode_error", "max_df"]),
-    >>>         "tfidf": FilterLogger(ignore_all=True),
-    >>>         "clf": FilterLogger(ignore=["alpha", "penalty"]),
+    >>>         "vect": FilterEstimatorLogger(select=["input", "decode_error", "max_df"]),
+    >>>         "tfidf": FilterEstimatorLogger(ignore_all=True),
+    >>>         "clf": FilterEstimatorLogger(ignore=["alpha", "penalty"]),
     >>>     }
     >>> )
     """
