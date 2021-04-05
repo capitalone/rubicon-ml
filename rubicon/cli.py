@@ -22,7 +22,7 @@ def cli():
 @click.option(
     "--page-size",
     "-ps",
-    type=click.INT,
+    type=click.IntRange(min=1),
     help="The number of rows that will be displayed on a page within the experiment table.",
     default=10,
 )
