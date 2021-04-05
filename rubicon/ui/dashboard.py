@@ -20,10 +20,14 @@ class Dashboard:
         Absolute or relative filepath of the root directory holding Rubicon data.
         Use absolute path for best performance. Defaults to the local filesystem.
         Prefix with s3:// to use s3 instead.
+    page_size : int, optional
+        The number of rows that will be displayed on a page within the
+        experiment table.
     """
 
-    def __init__(self, persistence, root_dir=None):
+    def __init__(self, persistence, root_dir=None, page_size=10):
         self._app = app
+        self._app._page_size = page_size
         self.rubicon_model = RubiconModel(persistence, root_dir)
         self._app._rubicon_model = self.rubicon_model
 
