@@ -4,7 +4,7 @@ import pytest
 
 from rubicon import domain
 from rubicon.client.experiment import Experiment
-from rubicon.sklearn.base_logger import BaseLogger
+from rubicon.sklearn.estimator_logger import EstimatorLogger
 
 
 def test_log_parameters_triggers_experiment_log_parameter(project_client, fake_estimator_cls):
@@ -12,7 +12,7 @@ def test_log_parameters_triggers_experiment_log_parameter(project_client, fake_e
     experiment = Experiment(domain.Experiment(project_name=project.name), project)
     estimator = fake_estimator_cls()
 
-    base_logger = BaseLogger(estimator=estimator, experiment=experiment, step_name="vect")
+    base_logger = EstimatorLogger(estimator=estimator, experiment=experiment, step_name="vect")
 
     with patch.object(Experiment, "log_parameter", return_value=None) as mock_log_parameter:
         base_logger.log_parameters()
@@ -28,7 +28,7 @@ def test_log_unserializable_param_triggers_exception(project_client, fake_estima
     experiment = Experiment(domain.Experiment(project_name=project.name), project)
     estimator = fake_estimator_cls(params={"unserializable": b"not serializable"})
 
-    base_logger = BaseLogger(estimator=estimator, experiment=experiment, step_name="vect")
+    base_logger = EstimatorLogger(estimator=estimator, experiment=experiment, step_name="vect")
 
     with patch.object(Experiment, "log_parameter", side_effect=Exception("test")):
         with pytest.warns(Warning):

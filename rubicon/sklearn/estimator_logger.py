@@ -1,14 +1,14 @@
 import warnings
 
 
-class BaseLogger:
+class EstimatorLogger:
     """The base logger for sklearn estimators. By default,
     it will log all of the estimator's parameters.
 
     Parameters
     ----------
     estimator : a sklearn estimator, optional
-        The estimator
+        The estimator.
     experiment : rubicon.client.Experiment, optional
         The experiment to log the parameters and metrics to.
     step_name : str, optional

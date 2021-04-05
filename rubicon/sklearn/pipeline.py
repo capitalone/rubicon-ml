@@ -1,6 +1,6 @@
 from sklearn.pipeline import Pipeline
 
-from rubicon.sklearn.base_logger import BaseLogger
+from rubicon.sklearn.estimator_logger import EstimatorLogger
 
 
 class RubiconPipeline(Pipeline):
@@ -93,7 +93,7 @@ class RubiconPipeline(Pipeline):
         """Get a logger for the estimator. By default, the logger will
         have the current experiment set.
         """
-        logger = self.user_defined_loggers.get(step_name) or BaseLogger()
+        logger = self.user_defined_loggers.get(step_name) or EstimatorLogger()
 
         logger.set_experiment(self.experiment)
 
