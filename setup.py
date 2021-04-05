@@ -15,7 +15,7 @@ install_requires = [
     "intake>=0.5.2",
     "pyarrow>=0.18.0",
     "pyyaml>=5.4.0",
-    "s3fs>=0.5.1",
+    "s3fs>=0.4",
 ]
 
 prefect_requires = ["prefect>=0.12.0"]
