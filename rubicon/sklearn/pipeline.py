@@ -4,22 +4,30 @@ from rubicon.sklearn.base_logger import BaseLogger
 
 
 class RubiconPipeline(Pipeline):
-    """An extension of sklearn.pipeline.Pipeline that automatically
-    logs the pipeline's parameters and metrics to a Rubicon project.
+    """An extension of `sklearn.pipeline.Pipeline` that automatically
+    creates a Rubicon `experiment` under the provided `project` and logs
+    the pipeline's `parameters` and `metrics` to it.
+    
+    A single pipeline run will result in a single `experiment` logged with
+    its corresponding `parameters` and `metrics` pulled from the pipeline's
+    estimators.
 
     Parameters
     ----------
     project : rubicon.client.Project
-        The rubicon project to log to
+        The rubicon project to log to.
     steps : list
         List of (name, transform) tuples (implementing fit/transform) that are chained,
         in the order in which they are chained, with the last object an estimator.
     user_defined_loggers : dict, optional
         A dict mapping the estimator name to a corresponding user defined logger.
         See the example below for more details.
+    experiment_kwargs : dict, optional
+        Additional keyword arguments to be passed to
+        `project.log_experiment()`.
     kwargs : dict
         Additional keyword arguments to be passed to
-        `sklearn.pipeline.Pipeline`.
+        `sklearn.pipeline.Pipeline()`.
 
     Example
     -------
@@ -38,10 +46,12 @@ class RubiconPipeline(Pipeline):
     >>> )
     """
 
-    def __init__(self, project, steps, user_defined_loggers={}, **kwargs):
+    def __init__(self, project, steps, user_defined_loggers={}, experiment_kwargs={'name': 'RubiconPipeline experiment'}, **kwargs):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
-        self.experiment = project.log_experiment("Logged from a RubiconPipeline")
+        self.experiment_kwargs = experiment_kwargs
+
+        self.experiment = project.log_experiment(**self.experiment_kwargs)
         self.logger = BaseLogger()
 
         super().__init__(steps, **kwargs)
