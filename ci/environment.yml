@@ -13,7 +13,7 @@ dependencies:
   - pyyaml>=5.4.0
 
   # required for S3 backend
-  - s3fs>=0.5.1
+  - s3fs>=0.4
 
   # required for prefect workflows
   - prefect>=0.12.0
