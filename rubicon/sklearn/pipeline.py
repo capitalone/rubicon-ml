@@ -83,7 +83,7 @@ class RubiconPipeline(Pipeline):
         log the results to Rubicon.
         """
         score = super().score(X, y, sample_weight)
-        
+
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
 
@@ -91,7 +91,7 @@ class RubiconPipeline(Pipeline):
 
     def get_estimator_logger(self, step_name=None, estimator=None):
         """Get a logger for the estimator. By default, the logger will
-        have the current experiment set. 
+        have the current experiment set.
         """
         logger = self.user_defined_loggers.get(step_name) or BaseLogger()
 
@@ -99,8 +99,8 @@ class RubiconPipeline(Pipeline):
 
         if step_name:
             logger.set_step_name(step_name)
-        
+
         if estimator:
             logger.set_estimator(estimator)
-        
+
         return logger
