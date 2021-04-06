@@ -75,7 +75,9 @@ class AsynchronousBaseRepository(BaseRepository):
 
     def __init__(self, root_dir, loop=None, **storage_options):
         self.root_dir = root_dir
-        self.filesystem = fsspec.filesystem(self.PROTOCOL, asynchronous=True, loop=loop, **storage_options)
+        self.filesystem = fsspec.filesystem(
+            self.PROTOCOL, asynchronous=True, loop=loop, **storage_options
+        )
 
         self._is_connected = False
 

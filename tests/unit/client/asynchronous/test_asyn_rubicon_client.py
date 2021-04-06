@@ -4,16 +4,16 @@ from unittest.mock import call
 
 import dask.dataframe as dd
 
-from rubicon.client.asynchronous import Rubicon
 from rubicon import domain
+from rubicon.client.asynchronous import Rubicon
 from rubicon.exceptions import RubiconException
 
 
 def test_repository_storage_options():
-    storage_options = {'key': 'secret'}
+    storage_options = {"key": "secret"}
     rubicon_s3 = Rubicon(persistence="filesystem", root_dir="s3://nothing", **storage_options)
 
-    assert rubicon_s3.config.repository.filesystem.storage_options['key'] == 'secret'
+    assert rubicon_s3.config.repository.filesystem.storage_options["key"] == "secret"
 
 
 def test_create_project(asyn_client_w_mock_repo):

@@ -32,7 +32,9 @@ class Rubicon:
         are passed directly to the underlying filesystem class.
     """
 
-    def __init__(self, persistence="filesystem", root_dir=None, auto_git_enabled=False, **storage_options):
+    def __init__(
+        self, persistence="filesystem", root_dir=None, auto_git_enabled=False, **storage_options
+    ):
         self.config = Config(persistence, root_dir, auto_git_enabled, **storage_options)
 
     @property

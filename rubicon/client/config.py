@@ -35,7 +35,9 @@ class Config:
         "filesystem-s3": S3Repository,
     }
 
-    def __init__(self, persistence=None, root_dir=None, is_auto_git_enabled=False, **storage_options):
+    def __init__(
+        self, persistence=None, root_dir=None, is_auto_git_enabled=False, **storage_options
+    ):
         self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
             persistence, root_dir, is_auto_git_enabled
         )
