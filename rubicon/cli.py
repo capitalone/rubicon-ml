@@ -12,7 +12,11 @@ def cli():
 # Top level CLI commands
 
 
-@cli.command()
+@cli.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    )
+)
 @click.option(
     "--root-dir",
     type=click.STRING,
@@ -35,9 +39,15 @@ def cli():
 @click.option(
     "--debug", "-d", type=click.BOOL, help="Whether or not to run in debug mode.", default=False
 )
-def ui(root_dir, host, port, debug, page_size):
+@click.argument("storage_options", nargs=-1, type=click.UNPROCESSED)
+def ui(root_dir, host, port, debug, page_size, storage_options):
     """Launch the Rubicon Dashboard."""
-    dashboard = Dashboard("filesystem", root_dir, page_size=page_size)
+    # convert the additional storage options into a dict
+    # coming in as: ('--key1', 'one', '--key2', 'two')
+    storage_options_dict = {
+        storage_options[i][2:]: storage_options[i + 1] for i in range(0, len(storage_options), 2)
+    }
+    dashboard = Dashboard("filesystem", root_dir, page_size=page_size, **storage_options_dict)
 
     server_kwargs = dict(debug=debug, port=port, host=host)
     server_kwargs = {k: v for k, v in server_kwargs.items() if v is not None}
