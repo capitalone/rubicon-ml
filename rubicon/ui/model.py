@@ -18,11 +18,14 @@ class RubiconModel:
         Absolute or relative filepath of the root directory holding Rubicon data.
         Use absolute path for best performance. Defaults to the local filesystem.
         Prefix with s3:// to use s3 instead.
+    storage_options : dict, optional
+        Additional keyword arguments specific to the protocol being chosen. They
+        are passed directly to the underlying filesystem class.
     """
 
-    def __init__(self, persistence, root_dir):
+    def __init__(self, persistence, root_dir, **storage_options):
         self._rubicon_cls = AsynRubicon if root_dir.startswith("s3") else Rubicon
-        self._rubicon = self._rubicon_cls(persistence, root_dir)
+        self._rubicon = self._rubicon_cls(persistence, root_dir, **storage_options)
 
         self._projects = []
         self._selected_project = None
