@@ -23,6 +23,9 @@ class Config:
         True to use the `git` command to automatically log relevant repository
         information to projects and experiments logged with this client instance,
         False otherwise. Defaults to False.
+    storage_options : dict, optional
+        Additional keyword arguments specific to the protocol being chosen. They
+        are passed directly to the underlying filesystem class.
     """
 
     PERSISTENCE_TYPES = ["filesystem", "memory"]
@@ -32,10 +35,11 @@ class Config:
         "filesystem-s3": S3Repository,
     }
 
-    def __init__(self, persistence=None, root_dir=None, is_auto_git_enabled=False):
+    def __init__(self, persistence=None, root_dir=None, is_auto_git_enabled=False, **storage_options):
         self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
             persistence, root_dir, is_auto_git_enabled
         )
+        self.storage_options = storage_options
 
         self.repository = self._get_repository()
 
@@ -85,4 +89,4 @@ class Config:
                 + f"`protocol` (from `root_dir`): {protocol}"
             )
 
-        return repository(self.root_dir)
+        return repository(self.root_dir, **self.storage_options)

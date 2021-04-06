@@ -20,12 +20,15 @@ class MemoryRepository(LocalRepository):
         the in-memory filesystem. This does not need to be
         specified unless interacting with an already created
         in-memory filesystem.
+    storage_options : dict, optional
+        Additional keyword arguments that are passed directly to
+        the underlying filesystem class.
     """
 
     PROTOCOL = "memory"
 
-    def __init__(self, root_dir=None):
-        self.filesystem = fsspec.filesystem(self.PROTOCOL)
+    def __init__(self, root_dir=None, **storage_options):
+        self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/") if root_dir is not None else "/root"
 
         self.filesystem.mkdir(self.root_dir)

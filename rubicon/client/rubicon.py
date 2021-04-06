@@ -27,10 +27,13 @@ class Rubicon:
         True to use the `git` command to automatically log relevant repository
         information to projects and experiments logged with this client instance,
         False otherwise. Defaults to False.
+    storage_options : dict, optional
+        Additional keyword arguments specific to the protocol being chosen. They
+        are passed directly to the underlying filesystem class.
     """
 
-    def __init__(self, persistence="filesystem", root_dir=None, auto_git_enabled=False):
-        self.config = Config(persistence, root_dir, auto_git_enabled)
+    def __init__(self, persistence="filesystem", root_dir=None, auto_git_enabled=False, **storage_options):
+        self.config = Config(persistence, root_dir, auto_git_enabled, **storage_options)
 
     @property
     def repository(self):

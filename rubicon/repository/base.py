@@ -27,10 +27,13 @@ class BaseRepository:
     root_dir : str
         Absolute path to the root directory to persist Rubicon
         data to.
+    storage_options : dict, optional
+        Additional keyword arguments that are passed directly to
+        the underlying filesystem class.
     """
 
-    def __init__(self, root_dir):
-        self.filesystem = fsspec.filesystem(self.PROTOCOL)
+    def __init__(self, root_dir, **storage_options):
+        self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/")
 
     def _ls_directories_only(self, path):
