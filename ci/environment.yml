@@ -18,6 +18,9 @@ dependencies:
   # required for prefect workflows
   - prefect>=0.12.0
 
+  # required for scikit-learn integration
+  - scikit-learn
+
   # required for UI (including testing)
   - beautifulsoup4>=4.8.2
   - dash>=1.14.0

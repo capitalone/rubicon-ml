@@ -1,5 +1,6 @@
 from sklearn.pipeline import Pipeline
 
+from rubicon.exceptions import RubiconException
 from rubicon.sklearn.estimator_logger import EstimatorLogger
 
 
@@ -58,7 +59,7 @@ class RubiconPipeline(Pipeline):
         self.user_defined_loggers = user_defined_loggers
         self.experiment_kwargs = experiment_kwargs
 
-        self.experiment = project.log_experiment(**self.experiment_kwargs)
+        self.experiment = None
 
         super().__init__(steps, **kwargs)
 
@@ -69,6 +70,7 @@ class RubiconPipeline(Pipeline):
         """
         pipeline = super().fit(X, y, **fit_params)
 
+        self.experiment = self.project.log_experiment(**self.experiment_kwargs)
         if tags is not None:
             self.experiment.add_tags(tags)
 
@@ -78,11 +80,22 @@ class RubiconPipeline(Pipeline):
 
         return pipeline
 
-    def score(self, X, y=None, sample_weight=None):
+    def score(self, X, y=None, sample_weight=None, experiment=None):
         """Score with the final estimator and automatically
         log the results to Rubicon.
+
+        Parameters
+        ----------
+        experiment : rubicon.client.Experiment, optional
+            The rubicon experiment to log the score metric to. If
+            None, `self.experiment` will be used if available. Only
+            necessary if this instance of `RubiconPipeline` has not
+            been fit.
         """
         score = super().score(X, y, sample_weight)
+
+        if experiment is not None:
+            self.experiment = experiment
 
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
@@ -93,6 +106,14 @@ class RubiconPipeline(Pipeline):
         """Get a logger for the estimator. By default, the logger will
         have the current experiment set.
         """
+        if self.experiment is None:
+            error_message = (
+                "This instance of `RubiconPipeline` has no associated experiment. "
+                "Fit this pipeline to generate one, or provide the `experiment` "
+                "kwarg to the offending function call."
+            )
+            raise RubiconException(error_message)
+
         logger = self.user_defined_loggers.get(step_name) or EstimatorLogger()
 
         logger.set_experiment(self.experiment)
