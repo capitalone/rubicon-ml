@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Library Reference - rubicon v0.1.7</title>
+        <title>Library Reference - rubicon v0.1.8</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -161,7 +161,7 @@
 <h2>Rubicon<a class="headerlink" href="#rubicon" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="rubicon.Rubicon">
-<em class="property">class </em><code class="sig-prename descclassname">rubicon.</code><code class="sig-name descname">Rubicon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span><span class="o">=</span><span class="default_value">'filesystem'</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_git_enabled</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.Rubicon" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rubicon.</code><code class="sig-name descname">Rubicon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span><span class="o">=</span><span class="default_value">'filesystem'</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_git_enabled</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">storage_options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.Rubicon" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <cite>rubicon</cite> client’s entry point.</p>
 <p>Creates a <cite>Config</cite> and injects it into the client level
 objects at run-time.</p>
@@ -177,6 +177,9 @@ Defaults to the local filesystem. Prefix with s3:// to use s3 instead.</p>
 <dt><strong>auto_git_enabled</strong><span class="classifier">bool, optional</span></dt><dd><p>True to use the <cite>git</cite> command to automatically log relevant repository
 information to projects and experiments logged with this client instance,
 False otherwise. Defaults to False.</p>
+</dd>
+<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
+are passed directly to the underlying filesystem class.</p>
 </dd>
 </dl>
 </dd>
@@ -1451,7 +1454,7 @@ and each function <strong>returns a coroutine</strong> rather than its standard
 return value.</p>
 <dl class="py class">
 <dt id="rubicon.client.asynchronous.Rubicon">
-<em class="property">class </em><code class="sig-prename descclassname">rubicon.client.asynchronous.</code><code class="sig-name descname">Rubicon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span><span class="o">=</span><span class="default_value">'filesystem'</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_git_enabled</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.client.asynchronous.Rubicon" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rubicon.client.asynchronous.</code><code class="sig-name descname">Rubicon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span><span class="o">=</span><span class="default_value">'filesystem'</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_git_enabled</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">storage_options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.client.asynchronous.Rubicon" title="Permalink to this definition">¶</a></dt>
 <dd><p>The asynchronous <cite>rubicon</cite> client’s entry point.</p>
 <p>Creates a <cite>Config</cite> and injects it into the client level
 objects at run-time.</p>
@@ -1467,6 +1470,9 @@ paths are supported asynchronously.</p>
 information to projects and experiments logged with this client instance,
 False otherwise. Defaults to False.</p>
 </dd>
+<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
+are passed directly to the underlying filesystem class.</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1478,7 +1484,7 @@ False otherwise. Defaults to False.</p>
 in addition to the CLI.</p>
 <dl class="py class">
 <dt id="rubicon.ui.Dashboard">
-<em class="property">class </em><code class="sig-prename descclassname">rubicon.ui.</code><code class="sig-name descname">Dashboard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rubicon.ui.</code><code class="sig-name descname">Dashboard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">page_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">storage_options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Rubicon Dashboard.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1488,6 +1494,12 @@ in addition to the CLI.</p>
 <dt><strong>root_dir</strong><span class="classifier">str, optional</span></dt><dd><p>Absolute or relative filepath of the root directory holding Rubicon data.
 Use absolute path for best performance. Defaults to the local filesystem.
 Prefix with s3:// to use s3 instead.</p>
+</dd>
+<dt><strong>page_size</strong><span class="classifier">int, optional</span></dt><dd><p>The number of rows that will be displayed on a page within the
+experiment table.</p>
+</dd>
+<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
+are passed directly to the underlying filesystem class.</p>
 </dd>
 </dl>
 </dd>

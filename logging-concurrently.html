@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Logging Concurrently - rubicon v0.1.7</title>
+        <title>Logging Concurrently - rubicon v0.1.8</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.7</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -414,7 +414,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='4e8ba1ae-ecf8-4976-9650-9ba3701a4fc3', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 5, 18, 15, 16, 189837))
+Project(name='Concurrent Experiments', id='f1f03f82-6d41-4d57-b733-07ea8954061e', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 7, 13, 25, 16, 91674))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -561,16 +561,18 @@ Project(name='Concurrent Experiments', id='4e8ba1ae-ecf8-4976-9650-9ba3701a4fc3'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 05424cbd-beb4-4171-b75b-bfda5c6ba729 was successful using a RandomForestClassifier
-experiment 1cd670e8-745a-40de-89db-66d7704fb885 was successful using a RandomForestClassifier
-experiment 2bdb17d3-3c08-4245-b918-a0267db14c34 was successful using a RandomForestClassifier
-experiment 3ac29a9f-6043-4239-bc36-5cba4b64be11 was successful using a KNeighborsClassifier
-experiment 7334f1e3-129e-4681-a23e-0f41ae810535 was successful using a DecisionTreeClassifier
-experiment a12d8518-9d53-4b80-84ab-22be1f8b24e8 was successful using a RandomForestClassifier
-experiment b1940343-6c58-41f2-939b-05c2448ee94f was successful using a DecisionTreeClassifier
-experiment cee36678-90b2-46e1-b6be-e52b88871f1c was successful using a KNeighborsClassifier
-experiment ed3cba7a-da3d-4184-991d-58c03222d290 was successful using a KNeighborsClassifier
-experiment f15b95c9-4dfa-4b9a-9c89-8d703c9f2f0e was successful using a KNeighborsClassifier
+experiment 06083a1a-8d01-4afd-b0ef-369927a050c0 was successful using a KNeighborsClassifier
+experiment 081c5770-d5c2-45ea-bc6d-178b351b78f4 was successful using a RandomForestClassifier
+experiment 0ec0abe6-474d-4a6c-982c-d12c98a1e8fa was successful using a RandomForestClassifier
+experiment 11dc8dfe-4ce2-4bb8-bfb2-974f0533f1a1 was successful using a RandomForestClassifier
+experiment 27f7e6b3-3abf-444d-99ae-055934e327af was successful using a KNeighborsClassifier
+experiment 41508b92-c978-45f1-8112-b36af3058d63 was successful using a DecisionTreeClassifier
+experiment 416bf002-824f-4567-93bf-49e0ff931fd3 was successful using a RandomForestClassifier
+experiment 4cd0c9ab-ad01-4512-83d8-18159daa6572 was successful using a KNeighborsClassifier
+experiment 83526856-8f62-4308-b455-b3aa263dafd1 was successful using a DecisionTreeClassifier
+experiment a49df240-fb65-4bc8-b1a6-616b23d7cf26 was successful using a KNeighborsClassifier
+experiment b56e835e-0a05-47e5-9295-8c8a2e100537 was successful using a DecisionTreeClassifier
+experiment eef0c762-124d-4171-a52d-b01f1631d92f was successful using a DecisionTreeClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -601,18 +603,17 @@ experiment f15b95c9-4dfa-4b9a-9c89-8d703c9f2f0e was successful using a KNeighbor
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['RandomForestClassifier', 'success']
+tags: ['success', 'KNeighborsClassifier']
 parameters:
-        n_estimators: 20
         n_features: 4
-        random_state: 1617646516
+        n_neighbors: 5
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 0.9736842105263158
+        accuracy: 1.0
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
