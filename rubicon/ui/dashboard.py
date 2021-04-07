@@ -23,12 +23,15 @@ class Dashboard:
     page_size : int, optional
         The number of rows that will be displayed on a page within the
         experiment table.
+    storage_options : dict, optional
+        Additional keyword arguments specific to the protocol being chosen. They
+        are passed directly to the underlying filesystem class.
     """
 
-    def __init__(self, persistence, root_dir=None, page_size=10):
+    def __init__(self, persistence, root_dir=None, page_size=10, **storage_options):
         self._app = app
         self._app._page_size = page_size
-        self.rubicon_model = RubiconModel(persistence, root_dir)
+        self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
         self._app._rubicon_model = self.rubicon_model
 
         self._app.layout = html.Div(

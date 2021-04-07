@@ -37,6 +37,15 @@ def test_set_repository(rubicon_client):
     assert rubicon.config.repository == test_repo
 
 
+def test_repository_storage_options():
+    storage_options = {"key": "secret"}
+    rubicon_memory = Rubicon(persistence="memory", root_dir="./", **storage_options)
+    rubicon_s3 = Rubicon(persistence="filesystem", root_dir="s3://nothing", **storage_options)
+
+    assert rubicon_memory.config.repository.filesystem.storage_options["key"] == "secret"
+    assert rubicon_s3.config.repository.filesystem.storage_options["key"] == "secret"
+
+
 def test_get_github_url(rubicon_client, mock_completed_process_git):
     rubicon = rubicon_client
 

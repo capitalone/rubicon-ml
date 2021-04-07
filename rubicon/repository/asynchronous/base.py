@@ -66,13 +66,18 @@ class AsynchronousBaseRepository(BaseRepository):
         The event loop the asynchronous calling program is running on.
         It should not be necessary to provide this parameter in
         standard asynchronous operating cases.
+    storage_options : dict, optional
+        Additional keyword arguments that are passed directly to
+        the underlying filesystem class.
     """
 
     PROTOCOL = None
 
-    def __init__(self, root_dir, loop=None):
+    def __init__(self, root_dir, loop=None, **storage_options):
         self.root_dir = root_dir
-        self.filesystem = fsspec.filesystem(self.PROTOCOL, asynchronous=True, loop=loop)
+        self.filesystem = fsspec.filesystem(
+            self.PROTOCOL, asynchronous=True, loop=loop, **storage_options
+        )
 
         self._is_connected = False
 
