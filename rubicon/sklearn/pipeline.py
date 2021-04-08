@@ -106,14 +106,6 @@ class RubiconPipeline(Pipeline):
         """Get a logger for the estimator. By default, the logger will
         have the current experiment set.
         """
-        if self.experiment is None:
-            error_message = (
-                "This instance of `RubiconPipeline` has no associated experiment. "
-                "Fit this pipeline to generate one, or provide the `experiment` "
-                "kwarg to the offending function call."
-            )
-            raise RubiconException(error_message)
-
         logger = self.user_defined_loggers.get(step_name) or EstimatorLogger()
 
         logger.set_experiment(self.experiment)

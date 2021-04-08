@@ -222,4 +222,7 @@ def fake_estimator_cls():
         def get_params(self):
             return self.params
 
+        def fit(self):
+            pass
+
     return FakeEstimator
