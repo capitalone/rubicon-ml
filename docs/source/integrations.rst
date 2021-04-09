@@ -3,8 +3,9 @@
 Integrations
 ************
 
-``rubicon`` was designed to be an extensible and pluggable library to ensure it could be easily integrated
-into other tools and products, especially within the PyData ecosystem.
+``rubicon`` was designed to be an extensible and pluggable library that can easily
+be integrated into other tools and products, especially within the PyData ecosystem.
+Listed below are the currently offered ``rubicon`` integrations.
 
 Supported Integrations
 ----------------------
