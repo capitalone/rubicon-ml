@@ -1,6 +1,5 @@
 from sklearn.pipeline import Pipeline
 
-from rubicon.exceptions import RubiconException
 from rubicon.sklearn.estimator_logger import EstimatorLogger
 
 
@@ -67,6 +66,18 @@ class RubiconPipeline(Pipeline):
         """Fit the model and automatically log the `fit_params`
         to Rubicon. Optionally, pass `tags` to update the experiment's
         tags.
+
+        Parameters
+        ----------
+        X : iterable
+            Training data. Must fulfill input requirements of first step of the pipeline.
+        y : iterable, optional
+            Training targets. Must fulfill label requirements for all steps of the pipeline.
+        tags : list, optional
+            Additional tags to add to the experiment during the fit.
+        fit_params : dict
+            Additional keyword arguments to be passed to
+            `sklearn.pipeline.Pipeline.fit()`.
         """
         pipeline = super().fit(X, y, **fit_params)
 
@@ -80,22 +91,21 @@ class RubiconPipeline(Pipeline):
 
         return pipeline
 
-    def score(self, X, y=None, sample_weight=None, experiment=None):
+    def score(self, X, y=None, sample_weight=None):
         """Score with the final estimator and automatically
         log the results to Rubicon.
 
         Parameters
         ----------
-        experiment : rubicon.client.Experiment, optional
-            The rubicon experiment to log the score metric to. If
-            None, `self.experiment` will be used if available. Only
-            necessary if this instance of `RubiconPipeline` has not
-            been fit.
+        X : iterable
+            Data to predict on. Must fulfill input requirements of first step of the pipeline.
+        y : iterable, optional
+            Targets used for scoring. Must fulfill label requirements for all steps of the pipeline.
+        sample_weight : list, optional
+            If not None, this argument is passed as sample_weight keyword argument to the
+            score method of the final estimator.
         """
         score = super().score(X, y, sample_weight)
-
-        if experiment is not None:
-            self.experiment = experiment
 
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
@@ -106,14 +116,6 @@ class RubiconPipeline(Pipeline):
         """Get a logger for the estimator. By default, the logger will
         have the current experiment set.
         """
-        if self.experiment is None:
-            error_message = (
-                "This instance of `RubiconPipeline` has no associated experiment. "
-                "Fit this pipeline to generate one, or provide the `experiment` "
-                "kwarg to the offending function call."
-            )
-            raise RubiconException(error_message)
-
         logger = self.user_defined_loggers.get(step_name) or EstimatorLogger()
 
         logger.set_experiment(self.experiment)
