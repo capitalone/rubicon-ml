@@ -66,6 +66,7 @@ in action, visit the :ref:`quick look<quick-look>`!
 
    library_reference.rst
    examples.rst
+   integrations.rst
    dashboard.rst
    faqs.rst
 

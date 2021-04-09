@@ -5,8 +5,8 @@ Examples
 
 These examples provide a more in-depth look into the details of the ``rubicon`` logging library.
 
-Rubicon Basics
---------------
+Basics
+------
 
 .. toctree::
    :maxdepth: 1
@@ -15,20 +15,11 @@ Rubicon Basics
    logging-training-metadata
    visualizing-logged-dataframes
 
-Advanced Features
------------------
+Advanced
+--------
 
 .. toctree::
    :maxdepth: 1
 
    logging-asynchronously
    logging-concurrently
-
-Integrations
-------------
-
-.. toctree::
-   :maxdepth: 1
-
-   git-integration
-   logging-in-prefect-flows
