@@ -23,17 +23,23 @@ class Dashboard:
     page_size : int, optional
         The number of rows that will be displayed on a page within the
         experiment table.
+    mode : str, optional
+        Where to run the dashboard. Can be one of
+        ["external", "jupyterlab", "inline"]. Defaults to "external".
     storage_options : dict, optional
         Additional keyword arguments specific to the protocol being chosen. They
         are passed directly to the underlying filesystem class.
     """
 
-    def __init__(self, persistence, root_dir=None, page_size=10, **storage_options):
+    def __init__(
+        self, persistence, root_dir=None, page_size=10, mode="external", **storage_options
+    ):
+        self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
+        self._mode = mode
+
         self._app = app
         self._app._page_size = page_size
-        self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
         self._app._rubicon_model = self.rubicon_model
-
         self._app.layout = html.Div(
             [
                 dbc.Row(make_header_layout()),
@@ -63,4 +69,9 @@ class Dashboard:
         kwargs : dict
             Arguments passed to dash.run_server()
         """
+        kwargs.update({"mode": self._mode})
+
+        if kwargs.get("debug") is None:
+            kwargs.update({"debug": False})
+
         self._app.run_server(**kwargs)

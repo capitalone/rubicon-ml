@@ -1,3 +1,3 @@
-import dash
+from jupyter_dash import JupyterDash
 
-app = dash.Dash(__name__, title="Rubicon")
+app = JupyterDash(__name__, title="Rubicon")
