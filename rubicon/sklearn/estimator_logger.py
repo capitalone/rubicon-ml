@@ -26,7 +26,7 @@ class EstimatorLogger:
         except Exception:
             warning = (
                 f"step '{self.step_name}' failed to write parameter '{name}' with value {value} "
-                f"of type {type(value)}. try using the `FilteredLogger` with `ignore='{name}'`"
+                f"of type {type(value)}. try using the `FilterEstimatorLogger` with `ignore=['{name}']`"
             )
 
             warnings.warn(warning)
