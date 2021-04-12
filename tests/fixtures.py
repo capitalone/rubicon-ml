@@ -204,3 +204,25 @@ def memory_repository():
 
     yield repository
     repository.filesystem.rm(root_dir, recursive=True)
+
+
+@pytest.fixture
+def fake_estimator_cls():
+    """A fake estimator that exposes the same API as a sklearn
+    estimator so we can test without relying on sklearn.
+    """
+
+    class FakeEstimator:
+        def __init__(self, params=None):
+            if params is None:
+                params = {"max_df": 0.75, "lowercase": True, "ngram_range": (1, 2)}
+
+            self.params = params
+
+        def get_params(self):
+            return self.params
+
+        def fit(self):
+            pass
+
+    return FakeEstimator
