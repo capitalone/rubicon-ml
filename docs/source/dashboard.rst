@@ -3,11 +3,13 @@
 Dashboard
 *********
 
-Rubicon's dashboard is powered by `Dash <https://dash.plotly.com>`_ and
-`Plotly <https://plotly.com/>`_. It provides a UI for exploring and visualizing
-Rubicon projects stored locally or in S3. The dashboard can be run locally
-in the browser or within JupyterLab, and with a little extra work, it could be deployed
-to a static URL.
+Rubicon's dashboard is powered by `Plotly <https://plotly.com/>`_ and
+`Dash <https://dash.plotly.com>`_ - specifically
+`JupyterDash <https://medium.com/plotly/introducing-jupyterdash-811f1f57c02e>`_.
+It provides a UI for exploring and visualizing Rubicon projects stored locally
+or in S3. The dashboard can be run in the browser (no Jupyter required!) or
+within Jupyter lab or notebooks. With a little extra work, it could even be
+deployed to a static URL.
 
 Usage
 =====
@@ -35,6 +37,19 @@ properly locate and load the in-memory projects and experiments.
   from rubicon.ui import Dashboard
 
   Dashboard(persistence="memory", root_dir="/rubicon-root").run_server()
+
+The above launches the dashboard on ``localhost:8050`` and will run from any
+Python interpreter. If you're working in a Jupyter environment, you can launch
+the dashboard inline in a notebook or in a new JupyterLab window by passing the
+``mode`` keyword argument.
+
+.. code-block:: python
+
+  Dashboard(persistence="memory", root_dir="/rubicon-root", mode="inline").run_server()
+
+.. code-block:: python
+
+  Dashboard(persistence="memory", root_dir="/rubicon-root", mode="jupyterlab").run_server()
 
 Features
 ========
