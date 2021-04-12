@@ -27,6 +27,7 @@ prepare:
 	cp ../notebooks/logging-examples/visualizing-logged-dataframes.ipynb ./source
 	cp ../notebooks/integrations/integration-git.ipynb ./source
 	cp ../notebooks/integrations/integration-prefect-workflows.ipynb ./source
+	cp ../notebooks/integrations/integration-sklearn.ipynb ./source
 
 	# some notebooks require sample data
 	mkdir ./source/data

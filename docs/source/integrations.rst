@@ -15,3 +15,4 @@ Supported Integrations
 
    integration-git
    integration-prefect-workflows
+   integration-sklearn
