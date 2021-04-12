@@ -3,11 +3,11 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Prefect Integration for Workflow Management" href="logging-in-prefect-flows.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integration-sklearn.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Dashboard - rubicon v0.1.8</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+        <title>Dashboard - rubicon v0.2.0</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -128,8 +128,12 @@
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-in-prefect-flows.html">Prefect Integration for Workflow Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Dashboard</a></li>
@@ -157,11 +161,13 @@
         </label>
         <section id="dashboard">
 <span id="id1"></span><h1>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h1>
-<p>Rubicon’s dashboard is powered by <a class="reference external" href="https://dash.plotly.com">Dash</a> and
-<a class="reference external" href="https://plotly.com/">Plotly</a>. It provides a UI for exploring and visualizing
-Rubicon projects stored locally or in S3. The dashboard can be run locally
-in the browser or within JupyterLab, and with a little extra work, it could be deployed
-to a static URL.</p>
+<p>Rubicon’s dashboard is powered by <a class="reference external" href="https://plotly.com/">Plotly</a> and
+<a class="reference external" href="https://dash.plotly.com">Dash</a> - specifically
+<a class="reference external" href="https://medium.com/plotly/introducing-jupyterdash-811f1f57c02e">JupyterDash</a>.
+It provides a UI for exploring and visualizing Rubicon projects stored locally
+or in S3. The dashboard can be run in the browser (no Jupyter required!) or
+within Jupyter lab or notebooks. With a little extra work, it could even be
+deployed to a static URL.</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Install the necessary requirements with the UI extra as detailed in the
@@ -180,6 +186,16 @@ properly locate and load the in-memory projects and experiments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The above launches the dashboard on <code class="docutils literal notranslate"><span class="pre">localhost:8050</span></code> and will run from any
+Python interpreter. If you’re working in a Jupyter environment, you can launch
+the dashboard inline in a notebook or in a new JupyterLab window by passing the
+<code class="docutils literal notranslate"><span class="pre">mode</span></code> keyword argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"inline"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"jupyterlab"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -219,14 +235,14 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="logging-in-prefect-flows.html">
+          <a class="prev-page" href="integration-sklearn.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Prefect Integration for Workflow Management</div>
+                <div class="title">Scikit-learn</div>
                 
               </div>
             </a>

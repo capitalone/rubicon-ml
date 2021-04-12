@@ -5,9 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Library Reference - rubicon v0.1.8</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+        <title>Library Reference - rubicon v0.2.0</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -128,8 +128,12 @@
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-in-prefect-flows.html">Prefect Integration for Workflow Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
@@ -1484,7 +1488,7 @@ are passed directly to the underlying filesystem class.</p>
 in addition to the CLI.</p>
 <dl class="py class">
 <dt id="rubicon.ui.Dashboard">
-<em class="property">class </em><code class="sig-prename descclassname">rubicon.ui.</code><code class="sig-name descname">Dashboard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">page_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">storage_options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rubicon.ui.</code><code class="sig-name descname">Dashboard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">persistence</span></em>, <em class="sig-param"><span class="n">root_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">page_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'external'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">storage_options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Rubicon Dashboard.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1497,6 +1501,9 @@ Prefix with s3:// to use s3 instead.</p>
 </dd>
 <dt><strong>page_size</strong><span class="classifier">int, optional</span></dt><dd><p>The number of rows that will be displayed on a page within the
 experiment table.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>Where to run the dashboard. Can be one of
+[“external”, “jupyterlab”, “inline”]. Defaults to “external”.</p>
 </dd>
 <dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
 are passed directly to the underlying filesystem class.</p>

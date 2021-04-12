@@ -3,11 +3,11 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Integration" href="git-integration.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Integrations" href="integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Logging Concurrently - rubicon v0.1.8</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+        <title>Logging Concurrently - rubicon v0.2.0</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -128,8 +128,12 @@
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-in-prefect-flows.html">Prefect Integration for Workflow Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
@@ -414,7 +418,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Concurrent Experiments', id='f1f03f82-6d41-4d57-b733-07ea8954061e', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 7, 13, 25, 16, 91674))
+Project(name='Concurrent Experiments', id='35271be9-6eae-4376-96e5-09a8bc950e35', description='Training multiple models in parallel', github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 12, 19, 7, 1, 627617))
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the Iris dataset, check out <code class="docutils literal notranslate"><span class="pre">iris.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">iris.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -561,18 +565,9 @@ Project(name='Concurrent Experiments', id='f1f03f82-6d41-4d57-b733-07ea8954061e'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 06083a1a-8d01-4afd-b0ef-369927a050c0 was successful using a KNeighborsClassifier
-experiment 081c5770-d5c2-45ea-bc6d-178b351b78f4 was successful using a RandomForestClassifier
-experiment 0ec0abe6-474d-4a6c-982c-d12c98a1e8fa was successful using a RandomForestClassifier
-experiment 11dc8dfe-4ce2-4bb8-bfb2-974f0533f1a1 was successful using a RandomForestClassifier
-experiment 27f7e6b3-3abf-444d-99ae-055934e327af was successful using a KNeighborsClassifier
-experiment 41508b92-c978-45f1-8112-b36af3058d63 was successful using a DecisionTreeClassifier
-experiment 416bf002-824f-4567-93bf-49e0ff931fd3 was successful using a RandomForestClassifier
-experiment 4cd0c9ab-ad01-4512-83d8-18159daa6572 was successful using a KNeighborsClassifier
-experiment 83526856-8f62-4308-b455-b3aa263dafd1 was successful using a DecisionTreeClassifier
-experiment a49df240-fb65-4bc8-b1a6-616b23d7cf26 was successful using a KNeighborsClassifier
-experiment b56e835e-0a05-47e5-9295-8c8a2e100537 was successful using a DecisionTreeClassifier
-experiment eef0c762-124d-4171-a52d-b01f1631d92f was successful using a DecisionTreeClassifier
+experiment 6b22efcc-76a9-45b4-bc42-0e5ac8b5aa5b was successful using a KNeighborsClassifier
+experiment 6d4710c2-ec33-409b-9863-48a98bb2125e was successful using a KNeighborsClassifier
+experiment 914920b1-c899-4886-b85c-12c071ff8a08 was successful using a KNeighborsClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -603,17 +598,17 @@ experiment eef0c762-124d-4171-a52d-b01f1631d92f was successful using a DecisionT
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 training_metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_iris')
-tags: ['success', 'KNeighborsClassifier']
+tags: ['failure', 'KNeighborsClassifier']
 parameters:
         n_features: 4
-        n_neighbors: 5
+        n_neighbors: 20
 features:
         petal length (cm)
         petal width (cm)
         sepal length (cm)
         sepal width (cm)
 metrics:
-        accuracy: 1.0
+        accuracy: 0.9473684210526315
 </pre></div></div>
 </div>
 <p>Model developers can take advantage of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s thread-safety to test tons of models at once and collect results in a standardized format to analyze which ones performed the best. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can even be run in more advanced distributed setups, like on a <em>Dask</em> cluster.</p>
@@ -623,12 +618,12 @@ metrics:
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="git-integration.html">
+          <a class="next-page" href="integrations.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Git Integration</div>
+                <div class="title">Integrations</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>

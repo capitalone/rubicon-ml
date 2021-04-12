@@ -5,9 +5,9 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="&lt;no title&gt;" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Logging Basics" href="logging-basics.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.03.20.beta30"/>
-        <title>Logging Training Metadata - rubicon v0.1.8</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+        <title>Logging Training Metadata - rubicon v0.2.0</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.1.8</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -128,8 +128,12 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Training Metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git-integration.html">Git Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-in-prefect-flows.html">Prefect Integration for Workflow Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
@@ -465,7 +469,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Project(name='Storing Training Metadata', id='b8c4315b-28c5-4bdf-8f7b-2cfc0687a3a8', description=None, github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 7, 13, 25, 20, 619548))
+Project(name='Storing Training Metadata', id='4622d8c8-59b8-41f4-9651-b26a5dc65083', description=None, github_url=None, training_metadata=None, created_at=datetime.datetime(2021, 4, 12, 19, 7, 6, 870892))
 </pre></div></div>
 </div>
 <p>Before we create an <strong>experiment</strong>, we’ll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later.</p>
@@ -491,7 +495,7 @@ Project(name='Storing Training Metadata', id='b8c4315b-28c5-4bdf-8f7b-2cfc0687a3
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Experiment(project_name='Storing Training Metadata', id='3fd473c5-cb91-4657-aef5-e037cab64966', name=None, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=[({'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, 'my-bucket', 'path/to/my/data.parquet')], tags=['S3', 'training metadata'], created_at=datetime.datetime(2021, 4, 7, 13, 25, 20, 629007))
+Experiment(project_name='Storing Training Metadata', id='6b95c025-c06c-4a68-b78f-ffc8b3afc8e7', name=None, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=[({'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, 'my-bucket', 'path/to/my/data.parquet')], tags=['S3', 'training metadata'], created_at=datetime.datetime(2021, 4, 12, 19, 7, 6, 880818))
 </pre></div></div>
 </div>
 <p>We can come back any time and use the <strong>experiment’s</strong> training metadata to pull the same dataset.</p>
@@ -662,8 +666,8 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 S3Config(region_name='us-west-2', signature_version='v4', retries={'max_attempts': 10, 'mode': 'standard'})
-S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_0.parquet')
+S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
 </pre></div></div>
 </div>

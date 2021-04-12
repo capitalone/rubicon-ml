@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="FAQs" href="faqs.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git" href="integration-git.html" /><link rel="prev" title="Logging Concurrently" href="logging-concurrently.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
-        <title>Contributing - rubicon v0.2.0</title>
+        <title>Integrations - rubicon v0.2.0</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -121,7 +121,7 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
 <p><span class="caption-text">User Guide:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
@@ -130,7 +130,7 @@
 <li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Integrations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
@@ -140,8 +140,8 @@
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
 <p><span class="caption-text">Community:</span></p>
-<ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Contributing</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
@@ -159,79 +159,20 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <section id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
-<p>Thanks for helping us build Rubicon!</p>
-<section id="cloning-the-repository">
-<h2>Cloning the Repository<a class="headerlink" href="#cloning-the-repository" title="Permalink to this headline">¶</a></h2>
-<p>Make a fork of the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> repo and clone the fork:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/&lt;your-github-username&gt;/rubicon
-<span class="nb">cd</span> rubicon
-</pre></div>
+        <section id="integrations">
+<span id="id1"></span><h1>Integrations<a class="headerlink" href="#integrations" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> was designed to be an extensible and pluggable library that can easily
+be integrated into other tools and products, especially within the PyData ecosystem.
+Listed below are the currently offered <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> integrations.</p>
+<section id="supported-integrations">
+<h2>Supported Integrations<a class="headerlink" href="#supported-integrations" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integration-git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
+</ul>
 </div>
-<p>You may want to add <code class="docutils literal notranslate"><span class="pre">https://github.com/capitalone/rubicon/</span></code>
-as an upstream remote:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git remote add upstream https://github.com/capitalone/rubicon
-</pre></div>
-</div>
-</section>
-<section id="creating-a-development-environment">
-<h2>Creating a Development Environment<a class="headerlink" href="#creating-a-development-environment" title="Permalink to this headline">¶</a></h2>
-<p>We have a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment YAML file with all the necessary dependencies
-in the <code class="docutils literal notranslate"><span class="pre">ci</span></code> directory.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda env create -f ci/environment.yml
-</pre></div>
-</div>
-</section>
-<section id="building-rubicon">
-<h2>Building <code class="docutils literal notranslate"><span class="pre">rubicon</span></code><a class="headerlink" href="#building-rubicon" title="Permalink to this headline">¶</a></h2>
-<p>After you’ve cloned the repository, use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> locally:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python -m pip install -e .
-</pre></div>
-</div>
-</section>
-<section id="style">
-<h2>Style<a class="headerlink" href="#style" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> uses <a class="reference external" href="http://black.readthedocs.io/en/stable/">black</a> for formatting,
-<a class="reference external" href="http://flake8.pycqa.org/en/latest/">flake8</a> for linting, and
-<a class="reference external" href="https://pycqa.github.io/isort/">isort</a> for standardizing imports. If you installed
-<code class="docutils literal notranslate"><span class="pre">rubicon</span></code> using <code class="docutils literal notranslate"><span class="pre">conda</span></code>, these tools will already be in your environment.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>black rubicon tests
-flake8 rubicon tests
-isort -rc rubicon tests
-</pre></div>
-</div>
-<p>Install and configure <a class="reference external" href="https://pre-commit.com/">pre-commit</a> to automatically run
-each of these tools before committing. Once installed, run <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">install</span></code>
-to set up <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s git hooks.</p>
-</section>
-<section id="running-tests">
-<h2>Running Tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> uses <a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a> for testing.
-Run the tests from the root <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> directory as follows:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python -m pytest
-</pre></div>
-</div>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>We follow <a class="reference external" href="http://numpydoc.readthedocs.io/en/latest/format.html">numpydoc</a>
-formatting for our docstrings. This lets us use <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> to automatically
-generate a library reference.</p>
-<p>To build the docs locally, use the environment YAML file in the <code class="docutils literal notranslate"><span class="pre">docs</span></code>
-directory to create a new <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment with all necessary tools:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda env create -f docs/docs-environment.yml
-</pre></div>
-</div>
-<p>Activate the new environment and use the <code class="docutils literal notranslate"><span class="pre">build-docs.sh</span></code> script in the
-<code class="docutils literal notranslate"><span class="pre">docs</span></code> directory to build the documentation locally. The newly built
-documentation will open in a browser window.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda activate rubicon-docs
-sh build-docs.sh
-</pre></div>
-</div>
-<p>Never commit built documentation code directly to Rubicon. Our CICD handles
-deploying documentation.</p>
 </section>
 </section>
 
@@ -239,15 +180,23 @@ deploying documentation.</p>
       <footer>
         
         <div class="related-pages">
-          
-          <a class="prev-page" href="faqs.html">
+          <a class="next-page" href="integration-git.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Git</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="logging-concurrently.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">FAQs</div>
+                <div class="title">Logging Concurrently</div>
                 
               </div>
             </a>
@@ -261,7 +210,7 @@ deploying documentation.</p>
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="_sources/contributing.rst.txt"
+            <a class="muted-link" href="_sources/integrations.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -281,13 +230,8 @@ deploying documentation.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Contributing</a><ul>
-<li><a class="reference internal" href="#cloning-the-repository">Cloning the Repository</a></li>
-<li><a class="reference internal" href="#creating-a-development-environment">Creating a Development Environment</a></li>
-<li><a class="reference internal" href="#building-rubicon">Building <code class="docutils literal notranslate"><span class="pre">rubicon</span></code></a></li>
-<li><a class="reference internal" href="#style">Style</a></li>
-<li><a class="reference internal" href="#running-tests">Running Tests</a></li>
-<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#">Integrations</a><ul>
+<li><a class="reference internal" href="#supported-integrations">Supported Integrations</a></li>
 </ul>
 </li>
 </ul>
