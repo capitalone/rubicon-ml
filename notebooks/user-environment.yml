@@ -2,11 +2,11 @@ name: rubicon
 channels:
   - conda-forge
 dependencies:
-  - python=3.7.*
+  - python>=3.7
   - pip
 
-  - jupyter
-  - scikit-learn
+  - jupyterlab
+  - rubicon-ml
 
-  - pip:
-    - -e ../[all]
+  # for building the lab extension
+  - nodejs

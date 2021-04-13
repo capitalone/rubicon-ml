@@ -2,6 +2,7 @@ name: rubicon-dev
 channels:
   - conda-forge
 dependencies:
+  - python>=3.7
   - pip
 
   - click>=7.1
@@ -11,17 +12,15 @@ dependencies:
   - intake>=0.5.2
   - pyarrow>=0.18.0
   - pyyaml>=5.4.0
-
-  # required for S3 backend
   - s3fs>=0.4
 
-  # required for prefect workflows
+  # for prefect workflows
   - prefect>=0.12.0
 
-  # required for scikit-learn integration
+  # for scikit-learn integration
   - scikit-learn
 
-  # required for UI (including testing)
+  # for UI (including testing)
   - beautifulsoup4>=4.8.2
   - dash>=1.14.0
   - dash-bootstrap-components>=0.10.6
@@ -29,16 +28,20 @@ dependencies:
   - percy>=2.0.2
   - selenium>=3.141.0
 
-  # required for testing
+  # for testing
   - black
   - flake8
   - isort
   - pytest
   - pytest-cov
 
-  # required for versioning
+  # for example development
+  - jupyterlab
+  - nodejs
+
+  # for versioning
   - versioneer
 
-  # packaging
+  # for packaging
   - setuptools
   - wheel
