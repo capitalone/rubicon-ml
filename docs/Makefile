@@ -20,6 +20,7 @@ prepare:
 	rm -rf ./source/rubicon-root ./source/*.ipynb
 	rm -rf ./source/data
 
+	cp ../notebooks/quick-look.ipynb ./source
 	cp ../notebooks/logging-examples/logging-basics.ipynb ./source
 	cp ../notebooks/logging-examples/logging-asynchronously.ipynb ./source
 	cp ../notebooks/logging-examples/logging-concurrently.ipynb ./source

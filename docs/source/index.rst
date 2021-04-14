@@ -15,6 +15,8 @@ reproducibility for both developers and stakeholders alike. While experimenting,
 the Rubicon dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
 
+Visit the :ref:`Glossary<glossary>` to explore Rubicon's terminology.
+
 Components
 ==========
 
@@ -27,6 +29,8 @@ Rubicon is composed of three parts:
   dash_
 * And a process for sharing a selected subset of logged data with collaborators
   or reviewers that leverages intake_
+
+To see each of these parts in action, visit the `Quick Look`_!
 
 Workflow
 ========
@@ -45,17 +49,12 @@ When the model is ready for review, Rubicon makes it easy to share specific
 subsets of the data with model reviewers and stakeholders, giving them the
 context necessary for a complete model review and approval.
 
----
-
-Visit the :ref:`glossary<glossary>` to explore Rubicon's terminology. And to see Rubicon
-in action, visit the :ref:`quick look<quick-look>`!
-
 .. toctree::
    :maxdepth: 2
    :hidden:
    :caption: Getting Started:
 
-   quick_look.rst
+   quick-look
    glossary.rst
    install.rst
 
@@ -83,3 +82,4 @@ in action, visit the :ref:`quick look<quick-look>`!
 .. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
 .. _dash: https://dash.plotly.com/
 .. _intake: https://intake.readthedocs.io/en/latest/
+.. _Quick Look: ./quick-look.html
