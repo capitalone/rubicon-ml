@@ -12,6 +12,18 @@
     }
 }
 
+@media (prefers-color-scheme: dark) {
+    tr:nth-child(odd) {
+	background-color: #202020 !important;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .dataframe {
+	color: white !important;
+    }
+}
+
 .hidden {
     display: none;
 }
