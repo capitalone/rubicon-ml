@@ -13,6 +13,6 @@ Supported Integrations
 .. toctree::
    :maxdepth: 1
 
-   integration-git
-   integration-prefect-workflows
-   integration-sklearn
+   integrations/integration-git
+   integrations/integration-prefect-workflows
+   integrations/integration-sklearn

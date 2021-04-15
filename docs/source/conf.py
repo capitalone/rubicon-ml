@@ -48,6 +48,8 @@ extensions = [
 # See: https://nbsphinx.readthedocs.io/en/0.2.15/never-execute.html#Explicitly-Dis-/
 nbsphinx_execute = "never"
 nbsphinx_prolog = """
+|
+
 `View this notebook on GitHub <https://github.com/capitalone/rubicon/tree/main/notebooks/{{ env.doc2path(env.docname, base=None) }}>`_
 
 ----

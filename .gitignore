@@ -1,8 +1,7 @@
 __pycache__
 docs/build
-docs/source/*.ipynb
-docs/source/out
-docs/source/data
+docs/source/**/*.ipynb
+docs/source/**/data
 .coverage
 .coverage.*
 .cache/**
