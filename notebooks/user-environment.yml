@@ -8,5 +8,8 @@ dependencies:
   - jupyterlab
   - rubicon-ml
 
+  # for dataframe visualization examples
+  - hvplot
+
   # for building the lab extension
   - nodejs

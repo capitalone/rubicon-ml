@@ -20,6 +20,9 @@ dependencies:
   # for scikit-learn integration
   - scikit-learn
 
+  # for dataframe visualization
+  - hvplot
+
   # for UI (including testing)
   - beautifulsoup4>=4.8.2
   - dash>=1.14.0
