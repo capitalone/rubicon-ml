@@ -17,8 +17,9 @@ locally](https://docs.prefect.io/core/getting_started/installation.html#running-
 or follow the quick steps below:
 
 
-* Ensure Docker Desktop is running with the proxy configured:
-    * Docker Desktop > Preferences > Proxies > Manual proxy configuration
+* Ensure Docker Desktop is running with your proxy configured if
+  necessary:
+    * Docker Desktop > Preferences > Resources > Proxies
 
 * Set the Prefect Orchestration to Local and start the server:
 
@@ -28,7 +29,8 @@ or follow the quick steps below:
     prefect server start
     ```
 
-* In another terminal window, start at least one agent to handle incoming flows:
+* In another terminal window, start at least one agent to handle
+  incoming flows:
 
     ```
     prefect agent start
