@@ -41,6 +41,7 @@ prepare:
 	cp ../notebooks/logging-examples/data/revenue_data.csv ./source/logging-examples/data
 
 	# some notebooks have images
+	cp ../notebooks/quick-look-dashboard.png ./source
 	cp ../notebooks/integrations/integration-git-dashboard.png ./source/integrations
 
 # Catch-all target: route all unknown targets to Sphinx using the new
