@@ -24,7 +24,7 @@ class RubiconModel:
     """
 
     def __init__(self, persistence, root_dir, **storage_options):
-        self._rubicon_cls = AsynRubicon if root_dir.startswith("s3") else Rubicon
+        self._rubicon_cls = AsynRubicon if root_dir and root_dir.startswith("s3") else Rubicon
         self._rubicon = self._rubicon_cls(persistence, root_dir, **storage_options)
 
         self._projects = []
