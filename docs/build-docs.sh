@@ -11,9 +11,7 @@ if [[ $(pwd) =~ .*/rubicon/docs$ ]]; then
         rm -rf build/html
         mkdir build/html
     fi
-    make html
-    open build/html/index.html
-    echo "Opening $(pwd)/build/html/index.html..."
+    make html && echo "Open with 'open $(pwd)/build/html/index.html'"
 else
     echo "'build-docs.sh' must be run from rubicon/docs"
 fi
