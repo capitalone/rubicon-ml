@@ -87,7 +87,7 @@ class AsynchronousBaseRepository(BaseRepository):
         """
         return [
             os.path.join(p.get("name"), "metadata.json")
-            for p in await self.filesystem._ls(path)
+            for p in await self.filesystem._ls(path, detail=True)
             if p.get("type", p.get("StorageClass")).lower() == "directory"
         ]
 

@@ -28,16 +28,12 @@ Extras
 ``rubicon`` has a few optional extras if you're installing with ``pip`` (these extras are all
 installed by default when using ``conda``).
 
-|
-
 The ``ui`` extra installs the requirements necessary for using ``rubicon``'s visualization tools.
-For a preview, take a look at the **dashboard** section of the :ref:`quick look<quick-look>`.
+For a preview, take a look at the :ref:`dashboard<dashboard>` section of the docs.
 
 .. code-block:: console
 
     pip install rubicon-ml[ui]
-
-|
 
 The ``prefect`` extra installs the requirements necessary for using the `Prefect <https://prefect.io>`_ 
 tasks in the ``rubicon.workflow`` module. Take a look at the **Prefect integration** :ref:`example<examples>` 
@@ -46,8 +42,6 @@ to see ``rubicon`` integrated into a simple Prefect flow.
 .. code-block:: console
 
     pip install rubicon-ml[prefect]
-
-|
 
 To install all extra modules, use the ``all`` extra.
 
