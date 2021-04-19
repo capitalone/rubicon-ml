@@ -1,0 +1,370 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "overall-windsor",
+   "metadata": {},
+   "source": [
+    "# Scikit-learn\n",
+    "\n",
+    "This example shows how you can integrate ``rubicon`` into your Scikit-learn pipelines\n",
+    "to enable automatic logging of **parameters** and **metrics** as you fit and score your models!\n",
+    "\n",
+    "### Simple pipeline run\n",
+    "\n",
+    "Using ``rubicon``'s ``RubiconPipeline`` class, you can set up a enhanced Scikit-learn\n",
+    "pipeline with automated logging."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "inside-moore",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "RubiconPipeline(project=<rubicon.client.project.Project object at 0x10c004c10>,\n",
+       "                steps=[('scaler', StandardScaler()), ('svc', SVC())])"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from sklearn.svm import SVC\n",
+    "from sklearn.preprocessing import StandardScaler\n",
+    "from sklearn.datasets import make_classification\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "from sklearn.pipeline import Pipeline\n",
+    "\n",
+    "from rubicon import Rubicon\n",
+    "from rubicon.sklearn import RubiconPipeline\n",
+    "\n",
+    "\n",
+    "rubicon = Rubicon(persistence=\"memory\")\n",
+    "project = rubicon.get_or_create_project(\"Rubicon Pipeline Example\")\n",
+    "\n",
+    "X, y = make_classification(random_state=0)\n",
+    "X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)\n",
+    "\n",
+    "pipe = RubiconPipeline(\n",
+    "    project,\n",
+    "    [('scaler', StandardScaler()), ('svc', SVC())],\n",
+    ")\n",
+    "pipe"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "excellent-tuesday",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "RubiconPipeline(project=<rubicon.client.project.Project object at 0x10c004c10>,\n",
+       "                steps=[('scaler', StandardScaler()), ('svc', SVC())])"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pipe.fit(X_train, y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "characteristic-malawi",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.88"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pipe.score(X_test, y_test)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "tutorial-bulletin",
+   "metadata": {},
+   "source": [
+    "During the pipeline run, an **experiment** was automatically created and the corresponding\n",
+    "**parameters** and **metrics** logged to it. Afterwards, you can use the ``rubicon`` library\n",
+    "to pull these experiments back or view them by running the dashboard."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "3562b1b5-aa58-4880-9fd6-190cd00c3a9d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "experiment 41b6afda-430d-423f-8d08-0b5ab773339c\n",
+      "parameters: [('scaler__copy', True), ('scaler__with_mean', True), ('scaler__with_std', True), ('svc__break_ties', False), ('svc__C', 1.0), ('svc__cache_size', 200), ('svc__class_weight', None), ('svc__coef0', 0.0), ('svc__decision_function_shape', 'ovr'), ('svc__degree', 3), ('svc__gamma', 'scale'), ('svc__kernel', 'rbf'), ('svc__max_iter', -1), ('svc__probability', False), ('svc__random_state', None), ('svc__shrinking', True), ('svc__tol', 0.001), ('svc__verbose', False)]\n",
+      "metrics: [('score', 0.88)]\n"
+     ]
+    }
+   ],
+   "source": [
+    "experiment = project.experiments()[0]\n",
+    "\n",
+    "parameters = [(p.name, p.value) for p in experiment.parameters()]\n",
+    "metrics = [(m.name, m.value) for m in experiment.metrics()]\n",
+    "\n",
+    "print(\n",
+    "    f\"experiment {experiment.id}\\n\"\n",
+    "    f\"parameters: {parameters}\\nmetrics: {metrics}\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "finite-rescue",
+   "metadata": {},
+   "source": [
+    "By default, ``rubicon``'s logging is very verbose. It captures each **parameter** passed\n",
+    "to each stage of your pipeline. In the next example we'll see how to target our logging\n",
+    "a bit more.\n",
+    "\n",
+    "### A more realistic example using GridSearch\n",
+    "\n",
+    "``GridSearch`` is commonly used to test many different parameters across an estimator or\n",
+    "pipeline in the hopes of finding the optimal parameter set. The ``RubiconPipeline`` fits the\n",
+    "Scikit-learn estimator specificaion, so it can be passed to Scikit-learn's ``GridSearchCV``\n",
+    "to automatically log each set of parameters tried in the grid search to an individual\n",
+    "experiment. Then, all of these experiments can be explored with the dashboard!\n",
+    "\n",
+    "This example is adapted from \n",
+    "[this Scikit-learn example](https://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#sphx-glr-auto-examples-model-selection-grid-search-text-feature-extraction-py)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "sapphire-standing",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.datasets import fetch_20newsgroups\n",
+    "from sklearn.feature_extraction.text import CountVectorizer\n",
+    "from sklearn.feature_extraction.text import TfidfTransformer\n",
+    "from sklearn.linear_model import SGDClassifier\n",
+    "from sklearn.model_selection import GridSearchCV\n",
+    "\n",
+    "\n",
+    "categories = [\"alt.atheism\", \"talk.religion.misc\"]\n",
+    "data = fetch_20newsgroups(subset='train', categories=categories)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fatal-heritage",
+   "metadata": {},
+   "source": [
+    "You can pass user-defined loggers to the ``RubiconPipeline`` to have more control over exactly which\n",
+    "parameters are logged for specific estimators. For example, you can use the ``FilteredLogger`` class\n",
+    "to select or ignore parameters on any estimator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "physical-radio",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "\n",
+    "from rubicon import Rubicon\n",
+    "from rubicon.sklearn import FilterEstimatorLogger, RubiconPipeline\n",
+    "\n",
+    "\n",
+    "root_dir=f\"{os.path.dirname(os.getcwd())}/rubicon-root\"\n",
+    "\n",
+    "rubicon = Rubicon(persistence=\"filesystem\", root_dir=root_dir)\n",
+    "project = rubicon.get_or_create_project(\"Grid Search\")\n",
+    "\n",
+    "pipeline = RubiconPipeline(\n",
+    "    project,\n",
+    "    [\n",
+    "        (\"vect\", CountVectorizer()),\n",
+    "        (\"tfidf\", TfidfTransformer()),\n",
+    "        (\"clf\", SGDClassifier()),\n",
+    "    ],\n",
+    "    user_defined_loggers = {\n",
+    "        \"vect\": FilterEstimatorLogger(select=[\"max_df\"]),\n",
+    "        \"tfidf\": FilterEstimatorLogger(ignore_all=True),\n",
+    "        \"clf\": FilterEstimatorLogger(select=[\"max_iter\", \"alpha\", \"penalty\"]),\n",
+    "    },\n",
+    "    experiment_kwargs={\n",
+    "        \"name\": \"logged from a RubiconPipeline\",\n",
+    "        \"model_name\": SGDClassifier.__name__,\n",
+    "    },\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2e24c5cd-b0ba-4378-82b0-2a4428659086",
+   "metadata": {},
+   "source": [
+    "Let's define a parameter grid and run some experiments!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "agricultural-ratio",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "GridSearchCV(cv=2,\n",
+       "             estimator=RubiconPipeline(experiment_kwargs={'model_name': 'SGDClassifier',\n",
+       "                                                          'name': 'logged from '\n",
+       "                                                                  'a '\n",
+       "                                                                  'RubiconPipeline'},\n",
+       "                                       project=<rubicon.client.project.Project object at 0x10c070e80>,\n",
+       "                                       steps=[('vect', CountVectorizer()),\n",
+       "                                              ('tfidf', TfidfTransformer()),\n",
+       "                                              ('clf', SGDClassifier())],\n",
+       "                                       user_defined_loggers={'clf': <rubicon.sklearn.filter_estimator_logger....\n",
+       "                                                             'tfidf': <rubicon.sklearn.filter_estimator_logger.FilterEstimatorLogger object at 0x15f31b3a0>,\n",
+       "                                                             'vect': <rubicon.sklearn.filter_estimator_logger.FilterEstimatorLogger object at 0x15f31b310>}),\n",
+       "             n_jobs=-1,\n",
+       "             param_grid={'clf__alpha': (1e-05, 1e-06),\n",
+       "                         'clf__max_iter': (10, 20),\n",
+       "                         'clf__penalty': ('l2', 'elasticnet'),\n",
+       "                         'vect__max_df': (0.5, 0.75, 1.0),\n",
+       "                         'vect__ngram_range': ((1, 1), (1, 2))},\n",
+       "             refit=False)"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "parameters = {\n",
+    "    \"vect__max_df\": (0.5, 0.75, 1.0),\n",
+    "    \"vect__ngram_range\": ((1, 1), (1, 2)),\n",
+    "    \"clf__max_iter\": (10, 20),\n",
+    "    \"clf__alpha\": (0.00001, 0.000001),\n",
+    "    \"clf__penalty\": (\"l2\", \"elasticnet\"),\n",
+    "}\n",
+    "\n",
+    "grid_search = GridSearchCV(pipeline, parameters, cv=2, n_jobs=-1, refit=False)\n",
+    "grid_search.fit(data.data, data.target)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "honest-breach",
+   "metadata": {},
+   "source": [
+    "Fetching the best parameters from the ``GridSearchCV`` object involves digging into the\n",
+    "object's properties and doesn't easily paint a full picture of our of the experimentation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "green-locking",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Best score: 0.9276681262662572\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Best score: {grid_search.best_score_}\")\n",
+    "full_results = grid_search.cv_results_"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "greater-gross",
+   "metadata": {},
+   "source": [
+    "With ``rubicon``'s dashboard, we can view all of the experiments and easily compare them!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "apart-consequence",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      " * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)\n",
+      "127.0.0.1 - - [16/Apr/2021 16:04:20] \"\u001b[37mGET /_alive_6db69162-e624-4856-9277-470869342b0b HTTP/1.1\u001b[0m\" 200 -\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dash app running on http://127.0.0.1:8050/\n"
+     ]
+    }
+   ],
+   "source": [
+    "from rubicon.ui import Dashboard\n",
+    "\n",
+    "Dashboard(persistence=\"filesystem\", root_dir=root_dir).run_server()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

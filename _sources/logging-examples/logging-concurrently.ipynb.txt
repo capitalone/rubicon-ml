@@ -1,0 +1,633 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Logging Concurrently\n",
+    " \n",
+    "Let's see how a few other popular ``scikit-learn`` models perform with the\n",
+    "wine dataset. ``rubicon`` logging is totally thread-safe, so we can test a\n",
+    "lot of model configurations at once."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<rubicon.client.project.Project at 0x15f6c5d00>"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import os\n",
+    "\n",
+    "from rubicon import Rubicon\n",
+    "\n",
+    "\n",
+    "root_dir = f\"{os.path.dirname(os.getcwd())}/rubicon-root\"\n",
+    "\n",
+    "rubicon = Rubicon(persistence=\"filesystem\", root_dir=root_dir)\n",
+    "project = rubicon.get_or_create_project(\n",
+    "    \"Concurrent Experiments\",\n",
+    "    description=\"training multiple models in parallel\",\n",
+    ")\n",
+    "\n",
+    "project"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For a recap of the contents of the wine dataset, check out ``wine.DESCR``\n",
+    "and ``wine.data``. We'll put together a training dataset using a subset of the data."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.datasets import load_wine\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "\n",
+    "\n",
+    "wine = load_wine()\n",
+    "wine_feature_names = wine.feature_names\n",
+    "wine_datasets = train_test_split(\n",
+    "    wine[\"data\"],\n",
+    "    wine[\"target\"],\n",
+    "    test_size=0.25,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll use this ``run_experiment`` function to log a new **experiment** to\n",
+    "the provided **project** then train, run and log a model of type ``classifier_cls`` using\n",
+    "the training and testing data in ``wine_datasets``."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from collections import namedtuple\n",
+    "\n",
+    "\n",
+    "SklearnTrainingMetadata = namedtuple(\"SklearnTrainingMetadata\", \"module_name method\")\n",
+    "\n",
+    "def run_experiment(project, classifier_cls, wine_datasets, feature_names, **kwargs):\n",
+    "    X_train, X_test, y_train, y_test = wine_datasets\n",
+    "    \n",
+    "    experiment = project.log_experiment(\n",
+    "        training_metadata=[\n",
+    "            SklearnTrainingMetadata(\"sklearn.datasets\", \"load_wine\"),\n",
+    "        ],\n",
+    "        model_name=classifier_cls.__name__,\n",
+    "        tags=[classifier_cls.__name__],\n",
+    "    )\n",
+    "    \n",
+    "    for key, value in kwargs.items():\n",
+    "        experiment.log_parameter(key, value)\n",
+    "    \n",
+    "    for name in feature_names:\n",
+    "        experiment.log_feature(name)\n",
+    "        \n",
+    "    classifier = classifier_cls(**kwargs)\n",
+    "    classifier.fit(X_train, y_train)\n",
+    "    classifier.predict(X_test)\n",
+    "    \n",
+    "    accuracy = classifier.score(X_test, y_test)\n",
+    "    \n",
+    "    experiment.log_metric(\"accuracy\", accuracy)\n",
+    "\n",
+    "    if accuracy >= .95:\n",
+    "        experiment.add_tags([\"success\"])\n",
+    "    else:\n",
+    "        experiment.add_tags([\"failure\"])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This time we'll take a look at three classifiers - ``RandomForestClassifier``, ``DecisionTreeClassifier``, and\n",
+    "``KNeighborsClassifier`` - to see which performs best. Each classifier will be run across four sets of parameters\n",
+    "(provided as ``kwargs`` to ``run_experiment``), for a total of 12 experiments. Here, we'll build up a list of\n",
+    "processes that will run each experiment in parallel."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import multiprocessing\n",
+    "\n",
+    "from sklearn.ensemble import RandomForestClassifier\n",
+    "from sklearn.neighbors import KNeighborsClassifier\n",
+    "from sklearn.tree import DecisionTreeClassifier\n",
+    "\n",
+    "\n",
+    "processes = []\n",
+    "\n",
+    "for n_estimators in [10, 20, 30, 40]:\n",
+    "    processes.append(multiprocessing.Process(\n",
+    "        target=run_experiment,\n",
+    "        args=[project, RandomForestClassifier, wine_datasets, wine_feature_names],\n",
+    "        kwargs={\"n_estimators\": n_estimators},\n",
+    "    ))   \n",
+    "\n",
+    "for n_neighbors in [5, 10, 15, 20]:\n",
+    "    processes.append(multiprocessing.Process(\n",
+    "        target=run_experiment,\n",
+    "        args=[project, KNeighborsClassifier, wine_datasets, wine_feature_names],\n",
+    "        kwargs={\"n_neighbors\": n_neighbors},\n",
+    "    ))\n",
+    "\n",
+    "for criterion in [\"gini\", \"entropy\"]:\n",
+    "    for splitter in [\"best\", \"random\"]:\n",
+    "        processes.append(multiprocessing.Process(\n",
+    "            target=run_experiment,\n",
+    "            args=[project, DecisionTreeClassifier, wine_datasets, wine_feature_names],\n",
+    "            kwargs={\n",
+    "                \"criterion\": criterion,\n",
+    "                \"splitter\": splitter,\n",
+    "            },\n",
+    "        ))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's run all our experiments in parallel!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for process in processes:\n",
+    "    process.start()\n",
+    "    \n",
+    "for process in processes:\n",
+    "    process.join()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If you're playing along at home, you'll realize that Python's ``multiprocessing`` doesn't\n",
+    "work well in iPython. The above won't actually spawn the ``run_experiment`` processes unless\n",
+    "we're running it from a ``__main__`` process, so lets use this script to actually write our data.\n",
+    "It contains the exact same code defined in the cells above."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%run ./logging-concurrently.py"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we can validate that we successfully logged all 12 experiments to our project."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "12"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "len(project.experiments())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's see which experiments we tagged as successful and what type of model they used."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "experiment 25e04cff was successful using a RandomForestClassifier\n",
+      "experiment 98e20ab6 was successful using a RandomForestClassifier\n",
+      "experiment e89050d5 was successful using a RandomForestClassifier\n",
+      "experiment fcb26efe was successful using a RandomForestClassifier\n"
+     ]
+    }
+   ],
+   "source": [
+    "for e in project.experiments(tags=[\"success\"]):    \n",
+    "    print(f\"experiment {e.id[:8]} was successful using a {e.model_name}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also take a deeper look at any of our experiments."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "experiment 0321ae46-9845-41e9-97a4-49637736ebbb\n",
+      "training metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_wine')\n",
+      "tags: ['DecisionTreeClassifier', 'failure']\n",
+      "parameters: [('criterion', 'entropy'), ('splitter', 'best')]\n",
+      "metrics: [('accuracy', 0.8666666666666667)]\n"
+     ]
+    }
+   ],
+   "source": [
+    "first_experiment = project.experiments()[0]\n",
+    "\n",
+    "training_metadata = SklearnTrainingMetadata(*first_experiment.training_metadata)\n",
+    "tags = first_experiment.tags\n",
+    "\n",
+    "parameters = [(p.name, p.value) for p in first_experiment.parameters()]\n",
+    "metrics = [(m.name, m.value) for m in first_experiment.metrics()]\n",
+    "    \n",
+    "print(\n",
+    "    f\"experiment {first_experiment.id}\\n\"\n",
+    "    f\"training metadata: {training_metadata}\\ntags: {tags}\\n\"\n",
+    "    f\"parameters: {parameters}\\nmetrics: {metrics}\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Or we could grab the project's data as a dataframe!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>id</th>\n",
+       "      <th>name</th>\n",
+       "      <th>description</th>\n",
+       "      <th>model_name</th>\n",
+       "      <th>commit_hash</th>\n",
+       "      <th>tags</th>\n",
+       "      <th>created_at</th>\n",
+       "      <th>n_estimators</th>\n",
+       "      <th>n_neighbors</th>\n",
+       "      <th>criterion</th>\n",
+       "      <th>splitter</th>\n",
+       "      <th>accuracy</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>2c64f744-b4d6-4d63-bc78-6e297dfd1f64</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>DecisionTreeClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[DecisionTreeClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.849734</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>entropy</td>\n",
+       "      <td>random</td>\n",
+       "      <td>0.933333</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>d08469d4-ca8f-4e30-bad5-d7171a5f0892</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>DecisionTreeClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[DecisionTreeClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.816129</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>gini</td>\n",
+       "      <td>random</td>\n",
+       "      <td>0.911111</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>98685436-93a6-41ef-bdd8-ab5c731e377b</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>DecisionTreeClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[DecisionTreeClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.784963</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>gini</td>\n",
+       "      <td>best</td>\n",
+       "      <td>0.866667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0321ae46-9845-41e9-97a4-49637736ebbb</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>DecisionTreeClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[DecisionTreeClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.777539</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>entropy</td>\n",
+       "      <td>best</td>\n",
+       "      <td>0.866667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0f34115e-a912-416b-8798-25ad8c632649</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>KNeighborsClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[KNeighborsClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.688498</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>10.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0.800000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>87b8c62d-b2dd-4174-b467-2666409045e3</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>KNeighborsClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[KNeighborsClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.601041</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>15.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0.777778</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>25e04cff-1e65-44fc-abf2-fb80cbed8b1d</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>RandomForestClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[success, RandomForestClassifier]</td>\n",
+       "      <td>2021-04-16 14:26:02.548160</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>fcb26efe-7f92-4e71-a9b3-a3050eba0d06</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>RandomForestClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[success, RandomForestClassifier]</td>\n",
+       "      <td>2021-04-16 14:26:02.452911</td>\n",
+       "      <td>10.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0.955556</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>fbe7e8d6-3b19-4739-b12c-4da54434d9e4</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>KNeighborsClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[KNeighborsClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.449763</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>20.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0.755556</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>87de17d7-ef18-4eee-aac7-31fdce6041a0</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>KNeighborsClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[KNeighborsClassifier, failure]</td>\n",
+       "      <td>2021-04-16 14:26:02.417662</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0.755556</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10</th>\n",
+       "      <td>e89050d5-9d89-42d0-9af3-875308cf7160</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>RandomForestClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[success, RandomForestClassifier]</td>\n",
+       "      <td>2021-04-16 14:26:02.271157</td>\n",
+       "      <td>40.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0.955556</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11</th>\n",
+       "      <td>98e20ab6-862b-4e23-96a5-f2689bf34462</td>\n",
+       "      <td>None</td>\n",
+       "      <td>None</td>\n",
+       "      <td>RandomForestClassifier</td>\n",
+       "      <td>None</td>\n",
+       "      <td>[success, RandomForestClassifier]</td>\n",
+       "      <td>2021-04-16 14:26:02.205468</td>\n",
+       "      <td>20.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1.000000</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                      id  name description  \\\n",
+       "0   2c64f744-b4d6-4d63-bc78-6e297dfd1f64  None        None   \n",
+       "1   d08469d4-ca8f-4e30-bad5-d7171a5f0892  None        None   \n",
+       "2   98685436-93a6-41ef-bdd8-ab5c731e377b  None        None   \n",
+       "3   0321ae46-9845-41e9-97a4-49637736ebbb  None        None   \n",
+       "4   0f34115e-a912-416b-8798-25ad8c632649  None        None   \n",
+       "5   87b8c62d-b2dd-4174-b467-2666409045e3  None        None   \n",
+       "6   25e04cff-1e65-44fc-abf2-fb80cbed8b1d  None        None   \n",
+       "7   fcb26efe-7f92-4e71-a9b3-a3050eba0d06  None        None   \n",
+       "8   fbe7e8d6-3b19-4739-b12c-4da54434d9e4  None        None   \n",
+       "9   87de17d7-ef18-4eee-aac7-31fdce6041a0  None        None   \n",
+       "10  e89050d5-9d89-42d0-9af3-875308cf7160  None        None   \n",
+       "11  98e20ab6-862b-4e23-96a5-f2689bf34462  None        None   \n",
+       "\n",
+       "                model_name commit_hash                               tags  \\\n",
+       "0   DecisionTreeClassifier        None  [DecisionTreeClassifier, failure]   \n",
+       "1   DecisionTreeClassifier        None  [DecisionTreeClassifier, failure]   \n",
+       "2   DecisionTreeClassifier        None  [DecisionTreeClassifier, failure]   \n",
+       "3   DecisionTreeClassifier        None  [DecisionTreeClassifier, failure]   \n",
+       "4     KNeighborsClassifier        None    [KNeighborsClassifier, failure]   \n",
+       "5     KNeighborsClassifier        None    [KNeighborsClassifier, failure]   \n",
+       "6   RandomForestClassifier        None  [success, RandomForestClassifier]   \n",
+       "7   RandomForestClassifier        None  [success, RandomForestClassifier]   \n",
+       "8     KNeighborsClassifier        None    [KNeighborsClassifier, failure]   \n",
+       "9     KNeighborsClassifier        None    [KNeighborsClassifier, failure]   \n",
+       "10  RandomForestClassifier        None  [success, RandomForestClassifier]   \n",
+       "11  RandomForestClassifier        None  [success, RandomForestClassifier]   \n",
+       "\n",
+       "                   created_at  n_estimators  n_neighbors criterion splitter  \\\n",
+       "0  2021-04-16 14:26:02.849734           NaN          NaN   entropy   random   \n",
+       "1  2021-04-16 14:26:02.816129           NaN          NaN      gini   random   \n",
+       "2  2021-04-16 14:26:02.784963           NaN          NaN      gini     best   \n",
+       "3  2021-04-16 14:26:02.777539           NaN          NaN   entropy     best   \n",
+       "4  2021-04-16 14:26:02.688498           NaN         10.0       NaN      NaN   \n",
+       "5  2021-04-16 14:26:02.601041           NaN         15.0       NaN      NaN   \n",
+       "6  2021-04-16 14:26:02.548160          30.0          NaN       NaN      NaN   \n",
+       "7  2021-04-16 14:26:02.452911          10.0          NaN       NaN      NaN   \n",
+       "8  2021-04-16 14:26:02.449763           NaN         20.0       NaN      NaN   \n",
+       "9  2021-04-16 14:26:02.417662           NaN          5.0       NaN      NaN   \n",
+       "10 2021-04-16 14:26:02.271157          40.0          NaN       NaN      NaN   \n",
+       "11 2021-04-16 14:26:02.205468          20.0          NaN       NaN      NaN   \n",
+       "\n",
+       "    accuracy  \n",
+       "0   0.933333  \n",
+       "1   0.911111  \n",
+       "2   0.866667  \n",
+       "3   0.866667  \n",
+       "4   0.800000  \n",
+       "5   0.777778  \n",
+       "6   1.000000  \n",
+       "7   0.955556  \n",
+       "8   0.755556  \n",
+       "9   0.755556  \n",
+       "10  0.955556  \n",
+       "11  1.000000  "
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ddf = rubicon.get_project_as_dask_df(\"Concurrent Experiments\")\n",
+    "ddf.compute()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

@@ -2,11 +2,11 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick Look" href="quick_look.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick Look" href="quick-look.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
-        <title>Home - rubicon v0.2.0</title>
+        <title>Home - rubicon v0.2.1</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -89,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></div></a>
+      <a href="#"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.1</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -107,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.0</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.1</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -116,7 +116,7 @@
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
   <p><span class="caption-text">Getting Started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="quick_look.html">Quick Look</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-look.html">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
@@ -124,16 +124,16 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-basics.html">Logging Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations/integration-git.html">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations/integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations/integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
@@ -170,6 +170,7 @@ directly with the model code that produced them to ensure full auditability and
 reproducibility for both developers and stakeholders alike. While experimenting,
 the Rubicon dashboard makes it easy to explore, filter, visualize, and share
 recorded work.</p>
+<p>Visit the <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">Glossary</span></a> to explore Rubicon’s terminology.</p>
 </section>
 <section id="components">
 <h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
@@ -183,6 +184,7 @@ analyses to filesystems that’s powered by
 <li><p>And a process for sharing a selected subset of logged data with collaborators
 or reviewers that leverages <a class="reference external" href="https://intake.readthedocs.io/en/latest/">intake</a></p></li>
 </ul>
+<p>To see each of these parts in action, visit the <a class="reference external" href="./quick-look.html">Quick Look</a>!</p>
 </section>
 <section id="workflow">
 <h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
@@ -197,9 +199,6 @@ visualizes how the model inputs impacted the model outputs.</p>
 <p>When the model is ready for review, Rubicon makes it easy to share specific
 subsets of the data with model reviewers and stakeholders, giving them the
 context necessary for a complete model review and approval.</p>
-<p>—</p>
-<p>Visit the <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">glossary</span></a> to explore Rubicon’s terminology. And to see Rubicon
-in action, visit the <a class="reference internal" href="quick_look.html#quick-look"><span class="std std-ref">quick look</span></a>!</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -213,7 +212,7 @@ in action, visit the <a class="reference internal" href="quick_look.html#quick-l
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="quick_look.html">
+          <a class="next-page" href="quick-look.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>

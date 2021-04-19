@@ -11,9 +11,9 @@ Basics
 .. toctree::
    :maxdepth: 1
 
-   logging-basics
-   logging-training-metadata
-   visualizing-logged-dataframes
+   logging-examples/logging-basics
+   logging-examples/logging-training-metadata
+   logging-examples/visualizing-logged-dataframes
 
 Advanced
 --------
@@ -21,5 +21,5 @@ Advanced
 .. toctree::
    :maxdepth: 1
 
-   logging-asynchronously
-   logging-concurrently
+   logging-examples/logging-asynchronously
+   logging-examples/logging-concurrently

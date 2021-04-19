@@ -24,11 +24,11 @@ Creating a Development Environment
 ==================================
 
 We have a ``conda`` environment YAML file with all the necessary dependencies
-in the ``ci`` directory.
+at the root of the repository.
 
 .. code-block:: shell
 
-   conda env create -f ci/environment.yml
+   conda env create -f environment.yml
 
 Building ``rubicon``
 ====================
@@ -37,7 +37,7 @@ After you've cloned the repository, use ``pip`` to install ``rubicon`` locally:
 
 .. code-block:: shell
 
-   python -m pip install -e .
+   python -m pip install -e .[all]
 
 Style
 =====

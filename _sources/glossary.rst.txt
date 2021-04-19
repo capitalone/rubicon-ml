@@ -89,7 +89,10 @@ A **dataframe** is logged to a **project** or an **experiment**.
 
   import pandas as pd
 
-  confusion_matrix = pd.DataFrame([[5, 0, 0], [0, 5, 1], [0, 0, 4]], columns=["x", "y", "z"])
+  confusion_matrix = pd.DataFrame(
+      [[5, 0, 0], [0, 5, 1], [0, 0, 4]],
+      columns=["x", "y", "z"],
+  )
   experiment.log_dataframe(confusion_matrix)
 
 Artifact (:ref:`rubicon.Artifact<library-reference-artifact>`)
