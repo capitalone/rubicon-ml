@@ -1,4 +1,4 @@
-name: new-rubicon-docs
+name: rubicon-docs
 channels:
   - conda-forge
 dependencies:
