@@ -1,13 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
         <title>Prefect - rubicon v0.2.1</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -114,18 +112,19 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p><span class="caption-text">Getting Started:</span></p>
+  <p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 </ul>
-<p><span class="caption-text">User Guide:</span></p>
+<p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging-examples/visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
 </ul>
@@ -139,7 +138,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p><span class="caption-text">Community:</span></p>
+<p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -164,21 +163,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -279,7 +292,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -345,6 +358,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -397,7 +411,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/integrations/integration-prefect-workflows.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
-<section id="Prefect">
+<div class="section" id="Prefect">
 <h1>Prefect<a class="headerlink" href="#Prefect" title="Permalink to this headline">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> offers an integration with <a class="reference external" href="https://www.prefect.io/">Prefect</a>, an open source workflow management engine used heavily within the Python ecosystem. In Prefect, a unit of work is called a <strong>task</strong>, and a collection of <strong>tasks</strong> makes up a <strong>flow</strong>. A <strong>flow</strong> represents your workflow pipeline. You can integrate <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> into your workflows to persist metadata about your experimentation.</p>
 <p>We’ll <a class="reference external" href="https://docs.prefect.io/core/getting_started/installation.html#running-the-local-server-and-ui">run a Prefect server locally</a> for this example. If you already have Prefect and Docker installed, you can start a Prefect server and agent with these commands:</p>
@@ -409,7 +423,7 @@ prefect agent start
 </pre></div>
 </div>
 <p>For more context, check out the <a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/rubicon/workflow">workflow README on GitHub</a>.</p>
-<section id="Setting-up-a-simple-flow">
+<div class="section" id="Setting-up-a-simple-flow">
 <h2>Setting up a simple flow<a class="headerlink" href="#Setting-up-a-simple-flow" title="Permalink to this headline">¶</a></h2>
 <p>Now we can get started! Creating Prefect <strong>tasks</strong> is easy enough on its own, but we’ve added some simple ones to the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> library.</p>
 <div class="nbinput nblast docutils container">
@@ -544,8 +558,8 @@ prefect agent start
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Running-a-flow-and-viewing-results">
+</div>
+<div class="section" id="Running-a-flow-and-viewing-results">
 <h2>Running a flow and viewing results<a class="headerlink" href="#Running-a-flow-and-viewing-results" title="Permalink to this headline">¶</a></h2>
 <p>Now we’ll register our <strong>flow</strong> with the local server. First, we’ll have to use the <code class="docutils literal notranslate"><span class="pre">prefect</span></code> CLI one more time to create a project.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prefect create project <span class="s1">'Wine Classification'</span>
@@ -644,8 +658,8 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 </pre></div></div>
 </div>
 <p>What’s going on here isn’t exactly intuitive, and all that only extracted one piece of data from one task.</p>
-</section>
-<section id="Adding-Rubicon-to-your-flow">
+</div>
+<div class="section" id="Adding-Rubicon-to-your-flow">
 <h2>Adding Rubicon to your flow<a class="headerlink" href="#Adding-Rubicon-to-your-flow" title="Permalink to this headline">¶</a></h2>
 <p>We can leverage the Prefect tasks within the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> library to log all the info we want about our model run. Then, we can use the standard <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging library to retrieve and inspect our metrics and other logged data. This is much simpler than digging through the state of each executed <strong>task</strong> and extracting its results.</p>
 <p>Here’s the same flow from above, this time with <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> <strong>tasks</strong> integrated.</p>
@@ -762,8 +776,8 @@ metrics: [('accuracy', 1.0)]
 </pre></div></div>
 </div>
 <p>Extracting data from <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> is much simpler than pulling it from the various <strong>tasks</strong> as they succeed. Especially in the case where we’re running thousands of <strong>tasks</strong> in a <strong>flow</strong>.</p>
-</section>
-<section id="Concurrent-Logging-with-Dask">
+</div>
+<div class="section" id="Concurrent-Logging-with-Dask">
 <h2>Concurrent Logging with Dask<a class="headerlink" href="#Concurrent-Logging-with-Dask" title="Permalink to this headline">¶</a></h2>
 <p>Prefect plays nicely with Dask in order to provide parallel computing when possible. The Prefect scheduler is smart enough to know which <strong>tasks</strong> do and do not depend on each other, so it can intelligently decide when to run independent <strong>tasks</strong> at the same time.</p>
 <p>Let’s run the same <strong>flow</strong> as above, except this time we’ll log eight different experiments with eight different feature sets and accuracy results. First, we’ll need to use Dask to start a local cluster.</p>
@@ -921,8 +935,8 @@ Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!
 Dash app running on http://127.0.0.1:8050/
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
       </article>
       <footer>
@@ -999,7 +1013,6 @@ Dash app running on http://127.0.0.1:8050/
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

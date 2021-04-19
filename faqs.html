@@ -1,13 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="Dashboard" href="dashboard.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="Dashboard" href="dashboard.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
         <title>FAQs - rubicon v0.2.1</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -114,18 +112,19 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p><span class="caption-text">Getting Started:</span></p>
+  <p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quick-look.html">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 </ul>
-<p><span class="caption-text">User Guide:</span></p>
+<p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging-examples/visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
 </ul>
@@ -139,7 +138,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">FAQs</a></li>
 </ul>
-<p><span class="caption-text">Community:</span></p>
+<p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -159,17 +158,17 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <section id="faqs">
+        <div class="section" id="faqs">
 <span id="id1"></span><h1>FAQs<a class="headerlink" href="#faqs" title="Permalink to this headline">¶</a></h1>
-<section id="why-the-name-rubicon">
+<div class="section" id="why-the-name-rubicon">
 <h2>Why the name Rubicon?<a class="headerlink" href="#why-the-name-rubicon" title="Permalink to this headline">¶</a></h2>
 <p>The name Rubicon comes from a historical context; it’s a reference to Caeser
 crossing the Rubicon, which nowadays is synonymous with “passing the point of no
 return”. We chose the name to signify that by using Rubicon, you’re making the
 decision to provide a repeatable and auditable model development process and
 there’s no going back on that commitment!</p>
-</section>
-<section id="how-can-i-log-my-data-to-s3">
+</div>
+<div class="section" id="how-can-i-log-my-data-to-s3">
 <h2>How can I log my data to S3?<a class="headerlink" href="#how-can-i-log-my-data-to-s3" title="Permalink to this headline">¶</a></h2>
 <p>Data can be logged either <strong>directly to S3</strong> or to the local filesystem first,
 and then <strong>synced with S3</strong>.</p>
@@ -214,15 +213,15 @@ actions allowed for your S3 bucket:</p>
 <p>This would result in the local “Sync Demo” project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI <code class="docutils literal notranslate"><span class="pre">sync</span></code> method. So,
 you’d need to have the AWS CLI installed and ensure your credentials are set.</p>
-</section>
-<section id="why-does-rubicon-offer-prefect-integration">
+</div>
+<div class="section" id="why-does-rubicon-offer-prefect-integration">
 <h2>Why does Rubicon offer Prefect integration?<a class="headerlink" href="#why-does-rubicon-offer-prefect-integration" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://docs.prefect.io/">prefect</a> is a popular workflow management system
 that can be used to create machine learning pipelines. Rubicon’s prefect
 integration makes it easy to drop Rubicon logging tasks into existing flows and
 consolidate all model logging within Rubicon.</p>
-</section>
-<section id="why-was-the-dashboard-built-with-dash">
+</div>
+<div class="section" id="why-was-the-dashboard-built-with-dash">
 <h2>Why was the dashboard built with Dash?<a class="headerlink" href="#why-was-the-dashboard-built-with-dash" title="Permalink to this headline">¶</a></h2>
 <p>We decided to use <a class="reference external" href="https://dash.plotly.com/">dash</a> as our initial dashboarding
 solution for the following reasons:</p>
@@ -236,8 +235,8 @@ solution for the following reasons:</p>
 </ul>
 <p>We welcome suggestions to improve the dashboard or even contributions of
 additional dashboarding solutions!</p>
-</section>
-<section id="could-rubicon-be-used-outside-of-a-machine-learning-workflow">
+</div>
+<div class="section" id="could-rubicon-be-used-outside-of-a-machine-learning-workflow">
 <h2>Could Rubicon be used outside of a machine learning workflow?<a class="headerlink" href="#could-rubicon-be-used-outside-of-a-machine-learning-workflow" title="Permalink to this headline">¶</a></h2>
 <p>Yes. Rubicon’s <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">terminology</span></a> was designed for machine learning
 workflows, but Rubicon is flexible! An <code class="docutils literal notranslate"><span class="pre">experiment</span></code> can simply represent any
@@ -245,8 +244,8 @@ unit of work that you’d like to compare multiple runs of. In fact, we’ve use
 Rubicon to capture performance benchmarks while developing the library so we
 could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.</p>
-</section>
-</section>
+</div>
+</div>
 
       </article>
       <footer>
@@ -324,7 +323,6 @@ supporting our decisions.</p>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

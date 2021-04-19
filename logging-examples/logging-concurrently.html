@@ -1,13 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="../integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="../integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.0.4, furo 2021.04.11.beta34"/>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
         <title>Logging Concurrently - rubicon v0.2.1</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -114,18 +112,19 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p><span class="caption-text">Getting Started:</span></p>
+  <p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 </ul>
-<p><span class="caption-text">User Guide:</span></p>
+<p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Concurrently</a></li>
 </ul>
@@ -139,7 +138,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p><span class="caption-text">Community:</span></p>
+<p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
@@ -164,21 +163,35 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
 }
 
 /* avoid gaps between output lines */
@@ -279,7 +292,7 @@ div.nboutput.container div.output_area {
 div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
@@ -345,6 +358,7 @@ div.nboutput.container div.output_area.rendered_html,
 div.nboutput.container div.output_area > div.output_javascript,
 div.nboutput.container div.output_area:not(.rendered_html) > img{
     padding: 5px;
+    margin: 0;
 }
 
 /* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
@@ -397,7 +411,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/logging-examples/logging-concurrently.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
-<section id="Logging-Concurrently">
+<div class="section" id="Logging-Concurrently">
 <h1>Logging Concurrently<a class="headerlink" href="#Logging-Concurrently" title="Permalink to this headline">¶</a></h1>
 <p>Let’s see how a few other popular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> models perform with the wine dataset. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging is totally thread-safe, so we can test a lot of model configurations at once.</p>
 <div class="nbinput docutils container">
@@ -869,7 +883,7 @@ metrics: [('accuracy', 0.8666666666666667)]
 </table></div>
 </div></div>
 </div>
-</section>
+</div>
 
       </article>
       <footer>
@@ -924,7 +938,6 @@ metrics: [('accuracy', 0.8666666666666667)]
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
