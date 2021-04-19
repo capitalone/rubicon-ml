@@ -5,7 +5,7 @@ documentation.
 
 ### Running the notebooks
 
-To ensure these examples work with your version of `rubicon`, clone this repo
+To ensure these examples work with your version of `rubicon`, clone this repository
 at the tag corresponding to the verison of `rubicon` you'll be using by replacing
 `X.X.X` in the command below with that version.
 
@@ -44,7 +44,7 @@ jupyter lab build
 ### Development
 
 When developing examples off the latest on the `main` branch, use the `rubicon-dev`
-environment in `envrionment.yml` at the root of the `rubicon` repository.
+environment in `environment.yml` at the root of the `rubicon` repository.
 
 ```
 conda env create -f environment.yml

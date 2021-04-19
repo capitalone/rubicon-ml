@@ -24,7 +24,7 @@ Creating a Development Environment
 ==================================
 
 We have a ``conda`` environment YAML file with all the necessary dependencies
-at the root of the repo.
+at the root of the repository.
 
 .. code-block:: shell
 

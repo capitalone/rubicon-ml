@@ -43,3 +43,7 @@
 #Visualizing-Logged-Dataframes .admonition.warning {
     display: none;
 }
+
+div.output_area.stderr {
+    display: none;
+}
