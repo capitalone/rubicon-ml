@@ -1675,6 +1675,9 @@
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
    "version": "3.9.2"
+  },
+  "nbsphinx": {
+    "execute": "always"
   }
  },
  "nbformat": 4,
