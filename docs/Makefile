@@ -22,7 +22,6 @@ prepare:
 	rm -rf ./source/logging-examples
 	rm -rf ./source/integrations
 	rm -f ./source/*.ipynb
-	rm ./source/not-here
 
 	mkdir ./source/logging-examples
 	mkdir ./source/logging-examples/data
