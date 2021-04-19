@@ -5,6 +5,7 @@ dependencies:
   - python=3.7.*
   - pip
 
+  - nbformat=5.1.2
   - nbsphinx=0.7.*
   - numpydoc=0.9.*
   - sphinx=3.0.*
