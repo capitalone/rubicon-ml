@@ -14,4 +14,5 @@ if [[ $(pwd) =~ .*/rubicon/docs$ ]]; then
     make html && echo "Open with 'open $(pwd)/build/html/index.html'"
 else
     echo "'build-docs.sh' must be run from rubicon/docs"
+    exit 1
 fi
