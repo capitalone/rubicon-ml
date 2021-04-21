@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from nbconvert.preprocessors import ExecutePreprocessor
 
 from tests.notebooks.utils import get_notebook_filenames, read_notebook_file
 
@@ -44,3 +45,23 @@ def test_notebook_is_executed_in_order(notebook_filename):
     )
     if not is_cell_execution_ordered:
         pytest.fail("code cells are executed out of order")
+
+
+IGNORE_EXECUTE_NOTEBOOK_FILENAMES = [
+    "integration-prefect-workflows.ipynb",
+    "logging-asynchronously.ipynb",
+    "logging-concurrently.ipynb",
+]
+EXECUTE_NOTEBOOK_FILENAMES = [
+    n for n in NOTEBOOK_FILENAMES if os.path.split(n)[-1] not in IGNORE_EXECUTE_NOTEBOOK_FILENAMES
+]
+
+
+@pytest.mark.notebook_test
+@pytest.mark.parametrize("notebook_filename", EXECUTE_NOTEBOOK_FILENAMES)
+def test_notebooks_execute_without_error(notebook_filename):
+    notebook = read_notebook_file(notebook_filename)
+    resources = {"metadata": {"path": os.path.dirname(notebook_filename)}}
+
+    preprocessor = ExecutePreprocessor(kernel_name="python3", timeout=60)
+    preprocessor.preprocess(notebook, resources=resources)
