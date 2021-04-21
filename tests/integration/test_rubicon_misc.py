@@ -5,7 +5,7 @@ from pathlib import Path
 def test_rubicon_with_misc_folders_at_project_level(rubicon_local_filesystem_client_with_project):
     rubicon, project = rubicon_local_filesystem_client_with_project
 
-    os.makedirs(os.path.join(rubicon.config.root_dir, project.name, ".ipynb_checkpoints"))
+    os.makedirs(os.path.join(rubicon.config.root_dir, "test-project", ".ipynb_checkpoints"))
     os.makedirs(os.path.join(rubicon.config.root_dir, "test"))
 
     assert len(rubicon.projects()) == 1
