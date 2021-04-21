@@ -157,11 +157,14 @@ class AsynchronousBaseRepository(BaseRepository):
         """
         try:
             project_metadata_paths = await self._ls_directories_only(self.root_dir)
+            cat = await self.filesystem._cat(project_metadata_paths, on_error="return")
+
             projects = [
-                domain.Project(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in project_metadata_paths]
-                )
+                domain.Project(**json.loads(metadata))
+                for metadata in cat.values()
+                # skip FileNotFound errors rather than raising them and preventing the rest of the
+                # files to be read by rubicon
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
@@ -236,11 +239,12 @@ class AsynchronousBaseRepository(BaseRepository):
 
         try:
             experiment_metadata_paths = await self._ls_directories_only(experiment_metadata_root)
+            cat = await self.filesystem._cat(experiment_metadata_paths, on_error="return")
+
             experiments = [
-                domain.Experiment(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in experiment_metadata_paths]
-                )
+                domain.Experiment(**json.loads(metadata))
+                for metadata in cat.values()
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
@@ -331,11 +335,12 @@ class AsynchronousBaseRepository(BaseRepository):
 
         try:
             feature_metadata_paths = await self._ls_directories_only(feature_metadata_root)
+            cat = await self.filesystem._cat(feature_metadata_paths, on_error="return")
+
             features = [
-                domain.Feature(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in feature_metadata_paths]
-                )
+                domain.Feature(**json.loads(metadata))
+                for metadata in cat.values()
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
@@ -425,11 +430,12 @@ class AsynchronousBaseRepository(BaseRepository):
 
         try:
             parameter_metadata_paths = await self._ls_directories_only(parameter_metadata_root)
+            cat = await self.filesystem._cat(parameter_metadata_paths, on_error="return")
+
             parameters = [
-                domain.Parameter(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in parameter_metadata_paths]
-                )
+                domain.Parameter(**json.loads(metadata))
+                for metadata in cat.values()
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
@@ -519,11 +525,12 @@ class AsynchronousBaseRepository(BaseRepository):
 
         try:
             metric_metadata_paths = await self._ls_directories_only(metric_metadata_root)
+            cat = await self.filesystem._cat(metric_metadata_paths, on_error="return")
+
             metrics = [
-                domain.Metric(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in metric_metadata_paths]
-                )
+                domain.Metric(**json.loads(metadata))
+                for metadata in cat.values()
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
@@ -620,11 +627,12 @@ class AsynchronousBaseRepository(BaseRepository):
 
         try:
             dataframe_metadata_paths = await self._ls_directories_only(dataframe_metadata_root)
+            cat = await self.filesystem._cat(dataframe_metadata_paths, on_error="return")
+
             dataframes = [
-                domain.Dataframe(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in dataframe_metadata_paths]
-                )
+                domain.Dataframe(**json.loads(metadata))
+                for metadata in cat.values()
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
@@ -745,11 +753,12 @@ class AsynchronousBaseRepository(BaseRepository):
 
         try:
             artifact_metadata_paths = await self._ls_directories_only(artifact_metadata_root)
+            cat = await self.filesystem._cat(artifact_metadata_paths, on_error="return")
+
             artifacts = [
-                domain.Artifact(**json.loads(data))
-                for data in await asyncio.gather(
-                    *[self.filesystem._cat_file(path) for path in artifact_metadata_paths]
-                )
+                domain.Artifact(**json.loads(metadata))
+                for metadata in cat.values()
+                if not isinstance(metadata, FileNotFoundError)
             ]
         except FileNotFoundError:
             return []
