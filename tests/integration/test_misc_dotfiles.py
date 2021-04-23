@@ -1,14 +1,13 @@
 import os
-from pathlib import Path
 
 
 def test_rubicon_with_misc_folders_at_project_level(rubicon_local_filesystem_client_with_project):
     rubicon, project = rubicon_local_filesystem_client_with_project
 
-    os.makedirs(os.path.join(rubicon.config.root_dir, "test-project", ".ipynb_checkpoints"))
-    os.makedirs(os.path.join(rubicon.config.root_dir, "test"))
+    os.makedirs(os.path.join(rubicon.config.root_dir, ".ipynb_checkpoints"))
 
     assert len(rubicon.projects()) == 1
+
 
 def test_rubicon_with_misc_folders_at_sublevel_level(rubicon_local_filesystem_client_with_project):
     rubicon, project = rubicon_local_filesystem_client_with_project
@@ -21,6 +20,7 @@ def test_rubicon_with_misc_folders_at_sublevel_level(rubicon_local_filesystem_cl
     )
 
     assert len(project.experiments()) == 2
+
 
 def test_rubicon_with_misc_folders_at_deeper_sublevel_level(
     rubicon_local_filesystem_client_with_project,

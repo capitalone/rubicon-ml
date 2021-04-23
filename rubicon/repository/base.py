@@ -44,7 +44,22 @@ class BaseRepository:
             if p.get("type", p.get("StorageClass")).lower() == "directory"
         ]
 
+        # TODO - discuss changing this to ignore directories that have dotfiles in their paths
+        # rather than catching all possible FileNotFound errors
+
         return directories
+
+    def _cat_paths(self, metadata_paths):
+        """Cat `metadata_paths` to get the list of files to include.
+        Ignore FileNotFoundErrors to avoid misc file errors, like hidden
+        dotfiles.
+        """
+        files = []
+        for metadata in self.filesystem.cat(metadata_paths, on_error="return").values():
+            if not isinstance(metadata, FileNotFoundError):
+                files.append(metadata)
+
+        return files
 
     # -------- Projects --------
 
@@ -90,18 +105,6 @@ class BaseRepository:
             raise RubiconException(f"No project with name '{project_name}' found.")
 
         return domain.Project(**project)
-
-    def _cat_paths(self, metadata_paths):
-        """Cat `metadata_paths` to get the list of files to include.
-        Ignore FileNotFoundErrors to avoid misc file errors, like hidden
-        dotfiles.
-        """
-        files = []
-        for metadata in self.filesystem.cat(metadata_paths, on_error="return").values():
-            if not isinstance(metadata, FileNotFoundError):
-                files.append(metadata)
-
-        return files
 
     def get_projects(self):
         """Get the list of projects from the filesystem.
