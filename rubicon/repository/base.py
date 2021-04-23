@@ -38,11 +38,13 @@ class BaseRepository:
 
     def _ls_directories_only(self, path):
         """Returns the names of all the directories at path `path`."""
-        return [
+        directories = [
             os.path.join(p.get("name"), "metadata.json")
             for p in self.filesystem.ls(path, detail=True)
             if p.get("type", p.get("StorageClass")).lower() == "directory"
         ]
+
+        return directories
 
     # -------- Projects --------
 
@@ -89,6 +91,18 @@ class BaseRepository:
 
         return domain.Project(**project)
 
+    def _cat_paths(self, metadata_paths):
+        """Cat `metadata_paths` to get the list of files to include.
+        Ignore FileNotFoundErrors to avoid misc file errors, like hidden
+        dotfiles.
+        """
+        files = []
+        for metadata in self.filesystem.cat(metadata_paths, on_error="return").values():
+            if not isinstance(metadata, FileNotFoundError):
+                files.append(metadata)
+
+        return files
+
     def get_projects(self):
         """Get the list of projects from the filesystem.
 
@@ -101,7 +115,7 @@ class BaseRepository:
             project_metadata_paths = self._ls_directories_only(self.root_dir)
             projects = [
                 domain.Project(**json.loads(metadata))
-                for metadata in self.filesystem.cat(project_metadata_paths).values()
+                for metadata in self._cat_paths(project_metadata_paths)
             ]
         except FileNotFoundError:
             return []
@@ -187,8 +201,8 @@ class BaseRepository:
         try:
             experiment_metadata_paths = self._ls_directories_only(experiment_metadata_root)
             experiments = [
-                domain.Experiment(**json.loads(data))
-                for data in self.filesystem.cat(experiment_metadata_paths).values()
+                domain.Experiment(**json.loads(metadata))
+                for metadata in self._cat_paths(experiment_metadata_paths)
             ]
         except FileNotFoundError:
             return []
@@ -305,8 +319,8 @@ class BaseRepository:
         try:
             artifact_metadata_paths = self._ls_directories_only(artifact_metadata_root)
             artifacts = [
-                domain.Artifact(**json.loads(data))
-                for data in self.filesystem.cat(artifact_metadata_paths).values()
+                domain.Artifact(**json.loads(metadata))
+                for metadata in self._cat_paths(artifact_metadata_paths)
             ]
         except FileNotFoundError:
             return []
@@ -507,8 +521,8 @@ class BaseRepository:
         try:
             dataframe_metadata_paths = self._ls_directories_only(dataframe_metadata_root)
             dataframes = [
-                domain.Dataframe(**json.loads(data))
-                for data in self.filesystem.cat(dataframe_metadata_paths).values()
+                domain.Dataframe(**json.loads(metadata))
+                for metadata in self._cat_paths(dataframe_metadata_paths)
             ]
         except FileNotFoundError:
             return []
@@ -670,8 +684,8 @@ class BaseRepository:
         try:
             feature_metadata_paths = self._ls_directories_only(feature_metadata_root)
             features = [
-                domain.Feature(**json.loads(data))
-                for data in self.filesystem.cat(feature_metadata_paths).values()
+                domain.Feature(**json.loads(metadata))
+                for metadata in self._cat_paths(feature_metadata_paths)
             ]
         except FileNotFoundError:
             return []
@@ -775,8 +789,8 @@ class BaseRepository:
         try:
             metric_metadata_paths = self._ls_directories_only(metric_metadata_root)
             metrics = [
-                domain.Metric(**json.loads(data))
-                for data in self.filesystem.cat(metric_metadata_paths).values()
+                domain.Metric(**json.loads(metadata))
+                for metadata in self._cat_paths(metric_metadata_paths)
             ]
         except FileNotFoundError:
             return []
@@ -879,8 +893,8 @@ class BaseRepository:
         try:
             parameter_metadata_paths = self._ls_directories_only(parameter_metadata_root)
             parameters = [
-                domain.Parameter(**json.loads(data))
-                for data in self.filesystem.cat(parameter_metadata_paths).values()
+                domain.Parameter(**json.loads(metadata))
+                for metadata in self._cat_paths(parameter_metadata_paths)
             ]
         except FileNotFoundError:
             return []
