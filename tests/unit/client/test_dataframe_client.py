@@ -20,4 +20,4 @@ def test_get_data(project_client, test_dataframe):
     df = test_dataframe
     logged_df = parent.log_dataframe(df)
 
-    assert logged_df.data.compute().equals(df.compute())
+    assert logged_df.get_data().compute().equals(df.compute())

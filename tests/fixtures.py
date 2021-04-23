@@ -103,6 +103,16 @@ def rubicon_local_filesystem_client():
 
 
 @pytest.fixture
+def rubicon_local_filesystem_client_with_project(rubicon_local_filesystem_client):
+    rubicon = rubicon_local_filesystem_client
+
+    project_name = "Test Project"
+    project = rubicon.get_or_create_project(project_name, description="testing")
+
+    return rubicon, project
+
+
+@pytest.fixture
 def project_client(rubicon_client):
     """Setup an instance of rubicon configured to log to memory
     with a default project and clean it up afterwards.
