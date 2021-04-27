@@ -1,4 +1,5 @@
 import os
+import warnings
 
 
 def test_rubicon_with_misc_folders_at_project_level(rubicon_local_filesystem_client_with_project):
@@ -19,7 +20,11 @@ def test_rubicon_with_misc_folders_at_sublevel_level(rubicon_local_filesystem_cl
         os.path.join(rubicon.config.root_dir, "test-project", "experiments", ".ipynb_checkpoints")
     )
 
-    assert len(project.experiments()) == 2
+    with warnings.catch_warnings(record=True) as w:
+        experiments = project.experiments()
+
+        assert len(experiments) == 2
+        assert "not found" in str(w[-1].message)
 
 
 def test_rubicon_with_misc_folders_at_deeper_sublevel_level(

@@ -1,4 +1,5 @@
 import os
+import warnings
 from pathlib import Path
 
 import fsspec
@@ -44,9 +45,6 @@ class BaseRepository:
             if p.get("type", p.get("StorageClass")).lower() == "directory"
         ]
 
-        # TODO - discuss changing this to ignore directories that have dotfiles in their paths
-        # rather than catching all possible FileNotFound errors
-
         return directories
 
     def _cat_paths(self, metadata_paths):
@@ -56,7 +54,10 @@ class BaseRepository:
         """
         files = []
         for metadata in self.filesystem.cat(metadata_paths, on_error="return").values():
-            if not isinstance(metadata, FileNotFoundError):
+            if isinstance(metadata, FileNotFoundError):
+                warning = f"{metadata} not found. Was this file unintentionally created?"
+                warnings.warn(warning)
+            else:
                 files.append(metadata)
 
         return files
