@@ -71,9 +71,10 @@ def test_get_projects(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in project_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(e) for e in written_projects
-    ]
+
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(p) for p in written_projects]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     projects = asyncio.run(asyn_repo_w_mock_filesystem.get_projects())
 
@@ -161,9 +162,9 @@ def test_get_experiments(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in experiment_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(e) for e in written_experiments
-    ]
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(e) for e in written_experiments]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     experiments = asyncio.run(asyn_repo_w_mock_filesystem.get_experiments(project.name))
 
@@ -271,9 +272,9 @@ def test_get_features(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in feature_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(f) for f in written_features
-    ]
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(f) for f in written_features]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     features = asyncio.run(
         asyn_repo_w_mock_filesystem.get_features(experiment.project_name, experiment.id)
@@ -390,9 +391,9 @@ def test_get_parameters(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in parameter_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(p) for p in written_parameters
-    ]
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(p) for p in written_parameters]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     parameters = asyncio.run(
         asyn_repo_w_mock_filesystem.get_parameters(experiment.project_name, experiment.id)
@@ -504,9 +505,9 @@ def test_get_metrics(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in metric_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(m) for m in written_metrics
-    ]
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(m) for m in written_metrics]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     metrics = asyncio.run(
         asyn_repo_w_mock_filesystem.get_metrics(experiment.project_name, experiment.id)
@@ -598,9 +599,9 @@ def test_get_artifacts_metadata(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in artifact_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(a) for a in written_artifacts
-    ]
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(a) for a in written_artifacts]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     artifacts = asyncio.run(asyn_repo_w_mock_filesystem.get_artifacts_metadata(project.name))
 
@@ -740,9 +741,9 @@ def test_get_dataframes_metadata(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._ls.return_value = [
         {"name": path, "StorageClass": "DIRECTORY"} for path in dataframe_dirs
     ]
-    asyn_repo_w_mock_filesystem.filesystem._cat_file.side_effect = [
-        json.dumps(d) for d in written_dataframes
-    ]
+    mock_cat = MagicMock()
+    mock_cat.values.return_value = [json.dumps(d) for d in written_dataframes]
+    asyn_repo_w_mock_filesystem.filesystem._cat.return_value = mock_cat
 
     dataframes = asyncio.run(asyn_repo_w_mock_filesystem.get_dataframes_metadata(project.name))
 
