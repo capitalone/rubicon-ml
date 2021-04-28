@@ -117,7 +117,9 @@ def test_rubicon(rubicon, request):
 
         assert len(read_experiment_dataframes) == 1
         assert written_experiment_dataframe.id == read_experiment_dataframes[0].id
-        assert written_experiment_dataframe.data.equals(read_experiment_dataframes[0].data)
+        assert written_experiment_dataframe.get_data().equals(
+            read_experiment_dataframes[0].get_data()
+        )
         assert await written_experiment_dataframe.tags == await read_experiment_dataframes[0].tags
 
         await rubicon.repository.filesystem._rm(rubicon.repository.root_dir, recursive=True)
