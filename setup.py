@@ -11,7 +11,7 @@ with open(os.path.join(pwd, "README.md"), encoding="utf-8") as readme:
 install_requires = [
     "click>=7.1",
     "dask[dataframe]>=2.12.0",
-    "fsspec",
+    "fsspec>=2021.4.0",
     "intake>=0.5.2",
     "pyarrow>=0.18.0",
     "pyyaml>=5.4.0",
