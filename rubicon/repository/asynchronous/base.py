@@ -652,7 +652,7 @@ class AsynchronousBaseRepository(BaseRepository):
         dataframe_metadata_root = self._get_dataframe_metadata_root(project_name, experiment_id)
 
         try:
-            self.filesystem.rm(f"{dataframe_metadata_root}/{dataframe_id}", recursive=True)
+            await self.filesystem._rm(f"{dataframe_metadata_root}/{dataframe_id}", recursive=True)
         except FileNotFoundError:
             raise RubiconException(f"No dataframe with id `{dataframe_id}` found.")
 
@@ -808,7 +808,7 @@ class AsynchronousBaseRepository(BaseRepository):
         artifact_metadata_root = self._get_artifact_metadata_root(project_name, experiment_id)
 
         try:
-            self.filesystem.rm(f"{artifact_metadata_root}/{artifact_id}", recursive=True)
+            await self.filesystem._rm(f"{artifact_metadata_root}/{artifact_id}", recursive=True)
         except FileNotFoundError:
             raise RubiconException(f"No artifact with id `{artifact_id}` found.")
 

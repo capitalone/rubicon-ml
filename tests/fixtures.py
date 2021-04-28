@@ -20,10 +20,6 @@ def asyn_repo_w_mock_filesystem():
     asyn_repo._persist_domain = AsynchronousMock()
     asyn_repo.filesystem = AsynchronousMock()
 
-    # Necessary because we are using the synchronous `rm` due to some
-    # bugs/missing features in the asynchronous `fsspec._rm_file`.
-    asyn_repo.filesystem.rm = MagicMock()
-
     # Necessary because we are using the synchronous `invalidate_cache`
     # as `fsspec`'s async S3 repo doesn't seem to do it on its own.
     asyn_repo.filesystem.invalidate_cache = MagicMock()

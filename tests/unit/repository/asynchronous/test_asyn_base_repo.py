@@ -655,13 +655,13 @@ def test_delete_artifact(asyn_repo_w_mock_filesystem):
 
     asyncio.run(asyn_repo_w_mock_filesystem.delete_artifact(project.name, artifact.id))
 
-    filesystem_expected = [call.rm(artifact_dir, recursive=True), call.invalidate_cache()]
+    filesystem_expected = [call._rm(artifact_dir, recursive=True), call.invalidate_cache()]
 
     assert asyn_repo_w_mock_filesystem.filesystem.mock_calls == filesystem_expected
 
 
 def test_delete_artifact_throws_error_if_not_found(asyn_repo_w_mock_filesystem):
-    asyn_repo_w_mock_filesystem.filesystem.rm.side_effect = FileNotFoundError()
+    asyn_repo_w_mock_filesystem.filesystem._rm.side_effect = FileNotFoundError()
 
     project = domain.Project(f"Test Project {uuid.uuid4()}")
     missing_artifact_id = uuid.uuid4()
@@ -772,13 +772,13 @@ def test_delete_dataframe(asyn_repo_w_mock_filesystem):
 
     asyncio.run(asyn_repo_w_mock_filesystem.delete_dataframe(project.name, dataframe.id))
 
-    filesystem_expected = [call.rm(dataframe_dir, recursive=True), call.invalidate_cache()]
+    filesystem_expected = [call._rm(dataframe_dir, recursive=True), call.invalidate_cache()]
 
     assert asyn_repo_w_mock_filesystem.filesystem.mock_calls == filesystem_expected
 
 
 def test_delete_dataframe_throws_error_if_not_found(asyn_repo_w_mock_filesystem):
-    asyn_repo_w_mock_filesystem.filesystem.rm.side_effect = FileNotFoundError()
+    asyn_repo_w_mock_filesystem.filesystem._rm.side_effect = FileNotFoundError()
 
     project = domain.Project(f"Test Project {uuid.uuid4()}")
     missing_dataframe_id = uuid.uuid4()
