@@ -1,5 +1,7 @@
 import os
+from unittest import mock
 
+import fsspec
 import pytest
 from nbconvert.preprocessors import ExecutePreprocessor
 
@@ -56,6 +58,7 @@ EXECUTE_NOTEBOOK_FILENAMES = [
 ]
 
 
+@mock.patch.dict(os.environ, {"RUBICON_ROOT": "test-rubicon-root"})
 @pytest.mark.notebook_test
 @pytest.mark.parametrize("notebook_filename", EXECUTE_NOTEBOOK_FILENAMES)
 def test_notebooks_execute_without_error(notebook_filename):
@@ -64,3 +67,12 @@ def test_notebooks_execute_without_error(notebook_filename):
 
     preprocessor = ExecutePreprocessor(kernel_name="python3", timeout=60)
     preprocessor.preprocess(notebook, resources=resources)
+
+    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    notebook_output_dir = os.path.join(repo_root, "notebooks", "test-rubicon-root")
+
+    fs = fsspec.filesystem("file")
+    try:
+        fs.rm(notebook_output_dir, recursive=True)
+    except FileNotFoundError:
+        pass  # some notebooks don't write output
