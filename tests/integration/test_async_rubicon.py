@@ -109,9 +109,7 @@ def test_rubicon(rubicon, request):
 
         assert len(read_project_dataframes) == 1
         assert written_project_dataframe.id == read_project_dataframes[0].id
-        assert written_project_dataframe.data.compute().equals(
-            read_project_dataframes[0].data.compute()
-        )
+        assert written_project_dataframe.get_data().equals(read_project_dataframes[0].get_data())
         assert await written_project_dataframe.tags == await read_project_dataframes[0].tags
 
         await read_project.delete_dataframes([read_project_dataframes[0].id])
@@ -119,12 +117,12 @@ def test_rubicon(rubicon, request):
 
         assert len(read_experiment_dataframes) == 1
         assert written_experiment_dataframe.id == read_experiment_dataframes[0].id
-        assert written_experiment_dataframe.data.compute().equals(
-            read_experiment_dataframes[0].data.compute()
+        assert written_experiment_dataframe.get_data().equals(
+            read_experiment_dataframes[0].get_data()
         )
         assert await written_experiment_dataframe.tags == await read_experiment_dataframes[0].tags
 
-        rubicon.repository.filesystem.rm(rubicon.repository.root_dir, recursive=True)
+        await rubicon.repository.filesystem._rm(rubicon.repository.root_dir, recursive=True)
         await rubicon.repository.filesystem._s3.close()
 
     if "change-me" in rubicon.repository.root_dir:
@@ -135,4 +133,5 @@ def test_rubicon(rubicon, request):
 
         rubicon.repository.root_dir = root_dir
 
-    asyncio.run(_test_rubicon(rubicon))
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(_test_rubicon(rubicon))
