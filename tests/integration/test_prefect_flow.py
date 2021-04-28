@@ -92,7 +92,7 @@ def test_flow():
     dataframes = experiment.dataframes()
     assert len(dataframes) == 1
     assert dataframes[0].description == "a test df"
-    assert df.equals(dataframes[0].data)
+    assert df.equals(dataframes[0].get_data())
 
     # artifacts
     artifacts = experiment.artifacts()

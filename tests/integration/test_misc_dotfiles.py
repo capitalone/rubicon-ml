@@ -7,7 +7,11 @@ def test_rubicon_with_misc_folders_at_project_level(rubicon_local_filesystem_cli
 
     os.makedirs(os.path.join(rubicon.config.root_dir, ".ipynb_checkpoints"))
 
-    assert len(rubicon.projects()) == 1
+    with warnings.catch_warnings(record=True) as w:
+        projects = rubicon.projects()
+
+        assert len(projects) == 1
+        assert "not found" in str(w[-1].message)
 
 
 def test_rubicon_with_misc_folders_at_sublevel_level(rubicon_local_filesystem_client_with_project):
@@ -46,4 +50,8 @@ def test_rubicon_with_misc_folders_at_deeper_sublevel_level(
         )
     )
 
-    assert len(exp.parameters()) == 1
+    with warnings.catch_warnings(record=True) as w:
+        parameters = exp.parameters()
+
+        assert len(parameters) == 1
+        assert "not found" in str(w[-1].message)
