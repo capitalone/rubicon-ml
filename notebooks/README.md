@@ -1,7 +1,8 @@
 # `rubicon` notebooks
 
 The `rubicon` notebooks are interactive versions of the examples found in our
-documentation.
+documentation. You can clone the repo and run the examples on your own, or just
+take a look at their outputs here!
 
 ### Running the notebooks
 
@@ -43,7 +44,11 @@ jupyter lab build
 
 ### Development
 
-When developing examples off the latest on the `main` branch, use the `rubicon-dev`
+When developing `rubicon` exmples, make sure to commit any notebooks with their
+cells executed in order. These example notebooks are rendered as-is within the
+[documentation](https://capitalone.github.io/rubicon/examples.html).
+
+To developing examples off the latest on the `main` branch, use the `rubicon-dev`
 environment in `environment.yml` at the root of the `rubicon` repository.
 
 ```
