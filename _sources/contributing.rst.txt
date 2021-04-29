@@ -74,8 +74,14 @@ We follow `numpydoc <http://numpydoc.readthedocs.io/en/latest/format.html>`_
 formatting for our docstrings. This lets us use ``sphinx`` to automatically
 generate a library reference.
 
-To build the docs locally, use the environment YAML file in the ``docs``
-directory to create a new ``conda`` environment with all necessary tools:
+We also use `nbsphinx <https://nbsphinx.readthedocs.io/>`_ to render our
+example notebooks directly from our repo. To reduce the complexity of our
+documentation builds, we only commit executed notebooks to the repo so
+``nbsphinx`` doesn't have to spend time executing them itself.
+
+To build the documentation locally, use the environment YAML file in the
+``docs`` directory to create a new ``conda`` environment with all necessary
+tools:
 
 .. code-block:: shell
 
@@ -88,7 +94,9 @@ documentation will open in a browser window.
 .. code-block:: shell
 
    conda activate rubicon-docs
+   cd docs/
    sh build-docs.sh
 
-Never commit built documentation code directly to Rubicon. Our CICD handles
-deploying documentation.
+Never commit built documentation code directly to Rubicon, only the source.
+Our ``.gitignore`` should handle keeping built docs out of the repo, and
+our CICD handles deploying newly committed documentation.

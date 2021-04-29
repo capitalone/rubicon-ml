@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="../integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Logging Concurrently - rubicon v0.2.1</title>
+        <title>Logging Concurrently - rubicon v0.2.2</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
@@ -87,7 +87,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -105,7 +105,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.1</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -413,7 +413,8 @@ div.rendered_html tbody tr:hover {
 <hr class="docutils"/>
 <div class="section" id="Logging-Concurrently">
 <h1>Logging Concurrently<a class="headerlink" href="#Logging-Concurrently" title="Permalink to this headline">¶</a></h1>
-<p>Let’s see how a few other popular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> models perform with the wine dataset. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging is totally thread-safe, so we can test a lot of model configurations at once.</p>
+<p>Let’s see how a few other popular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> models perform with the wine dataset. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s filesystem logging is totally thread-safe, so we can test a lot of model configurations at once.</p>
+<p><strong>Note</strong>: <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s in-memory logging is inherently not threadsafe as each thread has its own memory.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -424,9 +425,10 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
-<span class="n">root_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/rubicon-root"</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">"</span>
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_dir</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span>
     <span class="s2">"Concurrent Experiments"</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">"training multiple models in parallel"</span><span class="p">,</span>
@@ -442,7 +444,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.project.Project at 0x15f6c5d00&gt;
+&lt;rubicon.client.project.Project at 0x155660d00&gt;
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the wine dataset, check out <code class="docutils literal notranslate"><span class="pre">wine.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">wine.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -471,8 +473,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 
 
 <span class="n">SklearnTrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"SklearnTrainingMetadata"</span><span class="p">,</span> <span class="s2">"module_name method"</span><span class="p">)</span>
@@ -509,9 +510,19 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>This time we’ll take a look at three classifiers - <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code>, <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code>, and <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> - to see which performs best. Each classifier will be run across four sets of parameters (provided as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> to <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code>), for a total of 12 experiments. Here, we’ll build up a list of processes that will run each experiment in parallel.</p>
+<p>If you’re familiar with trying to use the <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> library in iPython 3, you’ll know the two don’t play along well. In order for the <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> library to locate the <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code> function, we’ll need to import it from a separate file. <code class="docutils literal notranslate"><span class="pre">./logging_concurrently.py</span></code> defines the same <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code> function as above.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">logging_concurrently</span> <span class="kn">import</span> <span class="n">run_experiment</span>
+</pre></div>
+</div>
+</div>
+<p>This time we’ll take a look at three classifiers - <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code>, <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code>, and <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> - to see which performs best. Each classifier will be run across four sets of parameters (provided as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> to <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code>), for a total of 12 experiments. Here, we’ll build up a list of processes that will run each experiment in parallel.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -553,7 +564,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Let’s run all our experiments in parallel!</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -562,16 +573,6 @@ div.rendered_html tbody tr:hover {
 
 <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
     <span class="n">process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<p>If you’re playing along at home, you’ll realize that Python’s <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> doesn’t work well in iPython. The above won’t actually spawn the <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code> processes unless we’re running it from a <code class="docutils literal notranslate"><span class="pre">__main__</span></code> process, so lets use this script to actually write our data. It contains the exact same code defined in the cells above.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">run</span> ./logging-concurrently.py
 </pre></div>
 </div>
 </div>
@@ -610,10 +611,10 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 25e04cff was successful using a RandomForestClassifier
-experiment 98e20ab6 was successful using a RandomForestClassifier
-experiment e89050d5 was successful using a RandomForestClassifier
-experiment fcb26efe was successful using a RandomForestClassifier
+experiment 3a144831 was successful using a RandomForestClassifier
+experiment 67961ac9 was successful using a RandomForestClassifier
+experiment 712564c0 was successful using a RandomForestClassifier
+experiment f143ea43 was successful using a RandomForestClassifier
 </pre></div></div>
 </div>
 <p>We can also take a deeper look at any of our experiments.</p>
@@ -643,11 +644,11 @@ experiment fcb26efe was successful using a RandomForestClassifier
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-experiment 0321ae46-9845-41e9-97a4-49637736ebbb
+experiment 0b6b8114-fe72-49af-813b-23e1667c1486
 training metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_wine')
-tags: ['DecisionTreeClassifier', 'failure']
-parameters: [('criterion', 'entropy'), ('splitter', 'best')]
-metrics: [('accuracy', 0.8666666666666667)]
+tags: ['KNeighborsClassifier', 'failure']
+parameters: [('n_neighbors', 10)]
+metrics: [('accuracy', 0.7111111111111111)]
 </pre></div></div>
 </div>
 <p>Or we could grab the project’s data as a dataframe!</p>
@@ -691,193 +692,193 @@ metrics: [('accuracy', 0.8666666666666667)]
 <th>commit_hash</th>
 <th>tags</th>
 <th>created_at</th>
+<th>splitter</th>
+<th>criterion</th>
 <th>n_estimators</th>
 <th>n_neighbors</th>
-<th>criterion</th>
-<th>splitter</th>
 <th>accuracy</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
-<td>2c64f744-b4d6-4d63-bc78-6e297dfd1f64</td>
+<td>aa4faa9b-3051-454d-915d-54b5c16f6e34</td>
 <td>None</td>
 <td>None</td>
 <td>DecisionTreeClassifier</td>
 <td>None</td>
 <td>[DecisionTreeClassifier, failure]</td>
-<td>2021-04-16 14:26:02.849734</td>
+<td>2021-04-28 12:45:27.759817</td>
+<td>best</td>
+<td>gini</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>entropy</td>
-<td>random</td>
 <td>0.933333</td>
 </tr>
 <tr>
 <th>1</th>
-<td>d08469d4-ca8f-4e30-bad5-d7171a5f0892</td>
+<td>7aec1e7b-c7dd-43e7-b20c-a400b2141d23</td>
 <td>None</td>
 <td>None</td>
 <td>DecisionTreeClassifier</td>
 <td>None</td>
 <td>[DecisionTreeClassifier, failure]</td>
-<td>2021-04-16 14:26:02.816129</td>
+<td>2021-04-28 12:45:27.752157</td>
+<td>best</td>
+<td>entropy</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>gini</td>
-<td>random</td>
-<td>0.911111</td>
+<td>0.933333</td>
 </tr>
 <tr>
 <th>2</th>
-<td>98685436-93a6-41ef-bdd8-ab5c731e377b</td>
+<td>3a144831-b093-4dc3-85a6-71bc7a4e26a4</td>
 <td>None</td>
 <td>None</td>
-<td>DecisionTreeClassifier</td>
+<td>RandomForestClassifier</td>
 <td>None</td>
-<td>[DecisionTreeClassifier, failure]</td>
-<td>2021-04-16 14:26:02.784963</td>
+<td>[RandomForestClassifier, success]</td>
+<td>2021-04-28 12:45:27.715676</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>gini</td>
-<td>best</td>
-<td>0.866667</td>
+<td>20.0</td>
+<td>NaN</td>
+<td>1.000000</td>
 </tr>
 <tr>
 <th>3</th>
-<td>0321ae46-9845-41e9-97a4-49637736ebbb</td>
+<td>7503bcf0-2daa-4c66-9b45-a75863d446a5</td>
 <td>None</td>
 <td>None</td>
 <td>DecisionTreeClassifier</td>
 <td>None</td>
 <td>[DecisionTreeClassifier, failure]</td>
-<td>2021-04-16 14:26:02.777539</td>
+<td>2021-04-28 12:45:27.714952</td>
+<td>random</td>
+<td>gini</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>entropy</td>
-<td>best</td>
-<td>0.866667</td>
+<td>0.911111</td>
 </tr>
 <tr>
 <th>4</th>
-<td>0f34115e-a912-416b-8798-25ad8c632649</td>
+<td>f143ea43-d780-4639-a082-5c81b850f1e0</td>
 <td>None</td>
 <td>None</td>
-<td>KNeighborsClassifier</td>
+<td>RandomForestClassifier</td>
 <td>None</td>
-<td>[KNeighborsClassifier, failure]</td>
-<td>2021-04-16 14:26:02.688498</td>
+<td>[RandomForestClassifier, success]</td>
+<td>2021-04-28 12:45:27.636078</td>
+<td>NaN</td>
 <td>NaN</td>
 <td>10.0</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>0.800000</td>
+<td>0.977778</td>
 </tr>
 <tr>
 <th>5</th>
-<td>87b8c62d-b2dd-4174-b467-2666409045e3</td>
+<td>67961ac9-4bd5-4916-925c-fd38844d78c6</td>
 <td>None</td>
 <td>None</td>
-<td>KNeighborsClassifier</td>
+<td>RandomForestClassifier</td>
 <td>None</td>
-<td>[KNeighborsClassifier, failure]</td>
-<td>2021-04-16 14:26:02.601041</td>
-<td>NaN</td>
-<td>15.0</td>
+<td>[RandomForestClassifier, success]</td>
+<td>2021-04-28 12:45:27.635968</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>0.777778</td>
+<td>30.0</td>
+<td>NaN</td>
+<td>0.977778</td>
 </tr>
 <tr>
 <th>6</th>
-<td>25e04cff-1e65-44fc-abf2-fb80cbed8b1d</td>
+<td>8b6b9b9a-1e06-4e0a-af2e-9649d79872e3</td>
 <td>None</td>
 <td>None</td>
-<td>RandomForestClassifier</td>
+<td>KNeighborsClassifier</td>
 <td>None</td>
-<td>[success, RandomForestClassifier]</td>
-<td>2021-04-16 14:26:02.548160</td>
-<td>30.0</td>
+<td>[KNeighborsClassifier, failure]</td>
+<td>2021-04-28 12:45:27.619764</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>1.000000</td>
+<td>15.0</td>
+<td>0.733333</td>
 </tr>
 <tr>
 <th>7</th>
-<td>fcb26efe-7f92-4e71-a9b3-a3050eba0d06</td>
+<td>3c679288-1402-4ffb-bbb1-23fcfd0b1415</td>
 <td>None</td>
 <td>None</td>
-<td>RandomForestClassifier</td>
+<td>DecisionTreeClassifier</td>
 <td>None</td>
-<td>[success, RandomForestClassifier]</td>
-<td>2021-04-16 14:26:02.452911</td>
-<td>10.0</td>
+<td>[DecisionTreeClassifier, failure]</td>
+<td>2021-04-28 12:45:27.615204</td>
+<td>random</td>
+<td>entropy</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>0.955556</td>
+<td>0.888889</td>
 </tr>
 <tr>
 <th>8</th>
-<td>fbe7e8d6-3b19-4739-b12c-4da54434d9e4</td>
+<td>38aa6e7b-efcc-4ee5-9950-5449ef8681ff</td>
 <td>None</td>
 <td>None</td>
 <td>KNeighborsClassifier</td>
 <td>None</td>
 <td>[KNeighborsClassifier, failure]</td>
-<td>2021-04-16 14:26:02.449763</td>
+<td>2021-04-28 12:45:27.585590</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>NaN</td>
 <td>20.0</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>0.755556</td>
+<td>0.711111</td>
 </tr>
 <tr>
 <th>9</th>
-<td>87de17d7-ef18-4eee-aac7-31fdce6041a0</td>
+<td>0b6b8114-fe72-49af-813b-23e1667c1486</td>
 <td>None</td>
 <td>None</td>
 <td>KNeighborsClassifier</td>
 <td>None</td>
 <td>[KNeighborsClassifier, failure]</td>
-<td>2021-04-16 14:26:02.417662</td>
-<td>NaN</td>
-<td>5.0</td>
+<td>2021-04-28 12:45:27.583647</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>0.755556</td>
+<td>NaN</td>
+<td>10.0</td>
+<td>0.711111</td>
 </tr>
 <tr>
 <th>10</th>
-<td>e89050d5-9d89-42d0-9af3-875308cf7160</td>
+<td>a0b7e295-6047-45da-81e6-08dc8288a2eb</td>
 <td>None</td>
 <td>None</td>
-<td>RandomForestClassifier</td>
+<td>KNeighborsClassifier</td>
 <td>None</td>
-<td>[success, RandomForestClassifier]</td>
-<td>2021-04-16 14:26:02.271157</td>
-<td>40.0</td>
+<td>[KNeighborsClassifier, failure]</td>
+<td>2021-04-28 12:45:27.564990</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>0.955556</td>
+<td>5.0</td>
+<td>0.733333</td>
 </tr>
 <tr>
 <th>11</th>
-<td>98e20ab6-862b-4e23-96a5-f2689bf34462</td>
+<td>712564c0-e113-42ea-b59c-90a5ce0cf37b</td>
 <td>None</td>
 <td>None</td>
 <td>RandomForestClassifier</td>
 <td>None</td>
-<td>[success, RandomForestClassifier]</td>
-<td>2021-04-16 14:26:02.205468</td>
-<td>20.0</td>
+<td>[RandomForestClassifier, success]</td>
+<td>2021-04-28 12:45:27.511807</td>
 <td>NaN</td>
 <td>NaN</td>
+<td>40.0</td>
 <td>NaN</td>
-<td>1.000000</td>
+<td>0.955556</td>
 </tr>
 </tbody>
 </table></div>

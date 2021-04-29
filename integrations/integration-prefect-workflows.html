@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Prefect - rubicon v0.2.1</title>
+        <title>Prefect - rubicon v0.2.2</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
@@ -87,7 +87,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -105,7 +105,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.1</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -673,6 +673,9 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">unmapped</span>
 
 
+<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">"</span>
+
 <span class="n">n_components</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">is_standardized</span> <span class="o">=</span> <span class="kc">True</span>
@@ -680,7 +683,7 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 <span class="k">with</span> <span class="n">Flow</span><span class="p">(</span><span class="s2">"Wine Classification with Rubicon"</span><span class="p">)</span> <span class="k">as</span> <span class="n">flow</span><span class="p">:</span>
     <span class="n">project</span> <span class="o">=</span> <span class="n">get_or_create_project_task</span><span class="p">(</span>
         <span class="s2">"filesystem"</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/rubicon-root"</span><span class="p">,</span>
+        <span class="n">root_path</span><span class="p">,</span>
         <span class="s2">"Wine Classification with Prefect"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">create_experiment_task</span><span class="p">(</span>
@@ -744,10 +747,7 @@ Flow run 29cef175-c115-4da2-a9f7-40f79bdb6104 was successful!
 <span></span><span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span>
-    <span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span>
-    <span class="n">root_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/rubicon-root"</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">"Wine Classification with Prefect"</span><span class="p">)</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
@@ -840,7 +840,7 @@ metrics: [('accuracy', 1.0)]
 <span class="p">)</span> <span class="k">as</span> <span class="n">mapped_flow</span><span class="p">:</span>
     <span class="n">project</span> <span class="o">=</span> <span class="n">get_or_create_project_task</span><span class="p">(</span>
         <span class="s2">"filesystem"</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/rubicon-root"</span><span class="p">,</span>
+        <span class="n">root_path</span><span class="p">,</span>
         <span class="s2">"Wine Classification with Prefect - Mapped"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="n">create_experiment_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
@@ -913,8 +913,7 @@ Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!
 <span></span><span class="kn">from</span> <span class="nn">rubicon.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 
-<span class="n">root_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/rubicon-root"</span>
-<span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_dir</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+<span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
