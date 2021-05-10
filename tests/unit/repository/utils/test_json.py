@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from rubicon.domain.utils import TrainingMetadata
-from rubicon.repository.utils import json
+from rubicon_ml.domain.utils import TrainingMetadata
+from rubicon_ml.repository.utils import json
 
 
 def test_can_serialize_datetime():

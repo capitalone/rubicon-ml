@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, call, patch
 
 from dask import dataframe as dd
 
-from rubicon import domain
-from rubicon.client.asynchronous import ArtifactMixin, DataframeMixin, TagMixin
+from rubicon_ml import domain
+from rubicon_ml.client.asynchronous import ArtifactMixin, DataframeMixin, TagMixin
 
 
 def test_log_dataframe(asyn_client_w_mock_repo):

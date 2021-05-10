@@ -1,5 +1,5 @@
-from rubicon import domain
-from rubicon.client import Parameter
+from rubicon_ml import domain
+from rubicon_ml.client import Parameter
 
 
 def test_properties():

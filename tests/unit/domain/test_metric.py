@@ -1,6 +1,6 @@
 import pytest
 
-from rubicon.domain import Metric
+from rubicon_ml.domain import Metric
 
 
 def test_metric_throws_error_if_invalid_directionality():

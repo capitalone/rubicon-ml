@@ -2,7 +2,7 @@ import os
 
 import intake
 
-from rubicon.intake_rubicon.project import ProjectSource
+from rubicon_ml.intake_rubicon.project import ProjectSource
 
 intake.register_driver("rubicon_project", ProjectSource)
 

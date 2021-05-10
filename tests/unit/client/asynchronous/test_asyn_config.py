@@ -1,8 +1,8 @@
 import pytest
 
-from rubicon.client.asynchronous import Config
-from rubicon.exceptions import RubiconException
-from rubicon.repository.asynchronous import S3Repository
+from rubicon_ml.client.asynchronous import Config
+from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository.asynchronous import S3Repository
 
 
 def test_get_asyn_s3_repository():

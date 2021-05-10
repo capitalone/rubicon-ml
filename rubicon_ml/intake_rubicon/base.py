@@ -17,7 +17,7 @@ class DataSourceMixin(base.DataSource):
     version = __version__
 
     container = "python"
-    name = "rubicon"
+    name = "rubicon_ml"
 
     def __init__(self, urlpath, project_name, metadata=None, storage_options=None, **kwargs):
         self._urlpath = urlpath

@@ -4,7 +4,7 @@ import uuid
 import pandas as pd
 import pytest
 
-from rubicon.client.asynchronous import Rubicon
+from rubicon_ml.client.asynchronous import Rubicon
 
 filesystems = [
     pytest.param(

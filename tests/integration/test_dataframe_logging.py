@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from dask import dataframe as dd
 
-from rubicon.exceptions import RubiconException
+from rubicon_ml.exceptions import RubiconException
 
 
 def test_pandas_df(rubicon_local_filesystem_client):

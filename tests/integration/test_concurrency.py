@@ -3,7 +3,7 @@ import multiprocessing
 import pandas as pd
 from dask import dataframe as dd
 
-from rubicon.domain.utils import uuid
+from rubicon_ml.domain.utils import uuid
 
 
 def _log_all_to_experiment(experiment):

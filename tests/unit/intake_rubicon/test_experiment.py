@@ -2,7 +2,7 @@ import os
 
 import intake
 
-from rubicon.intake_rubicon.experiment import ExperimentSource
+from rubicon_ml.intake_rubicon.experiment import ExperimentSource
 
 intake.register_driver("rubicon_experiment", ExperimentSource)
 

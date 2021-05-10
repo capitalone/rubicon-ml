@@ -4,9 +4,9 @@ from unittest.mock import call
 
 import dask.dataframe as dd
 
-from rubicon import domain
-from rubicon.client.asynchronous import Rubicon
-from rubicon.exceptions import RubiconException
+from rubicon_ml import domain
+from rubicon_ml.client.asynchronous import Rubicon
+from rubicon_ml.exceptions import RubiconException
 
 
 def test_repository_storage_options():

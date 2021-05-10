@@ -1,8 +1,8 @@
 import os
 from unittest.mock import MagicMock, patch
 
-from rubicon import domain
-from rubicon.client import Artifact
+from rubicon_ml import domain
+from rubicon_ml.client import Artifact
 
 
 def test_properties(project_client):

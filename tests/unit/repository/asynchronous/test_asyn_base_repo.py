@@ -5,9 +5,9 @@ from unittest.mock import ANY, MagicMock, call
 import pytest
 from dask import dataframe as dd
 
-from rubicon import domain
-from rubicon.exceptions import RubiconException
-from rubicon.repository.utils import json, slugify
+from rubicon_ml import domain
+from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository.utils import json, slugify
 
 # -------- Projects --------
 

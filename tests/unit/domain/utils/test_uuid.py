@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from rubicon.domain.utils import uuid
+from rubicon_ml.domain.utils import uuid
 
 
 def test_returns_valid_uuid():

@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from rubicon.workflow.prefect import _check_for_prefect_extras
+from rubicon_ml.workflow.prefect import _check_for_prefect_extras
 
 
 def test_missing_prefect_extra_raises_error():

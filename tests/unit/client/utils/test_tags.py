@@ -1,4 +1,4 @@
-from rubicon.client.utils.tags import has_tag_requirements
+from rubicon_ml.client.utils.tags import has_tag_requirements
 
 
 def test_or_single_success():
