@@ -11,6 +11,6 @@ def _check_for_ui_extras():
 
 _check_for_ui_extras()
 
-from rubicon.ui.dashboard import Dashboard  # noqa E402
+from rubicon_ml.ui.dashboard import Dashboard  # noqa E402
 
 __all__ = ["Dashboard"]

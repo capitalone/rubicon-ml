@@ -1,5 +1,4 @@
-from rubicon import __version__  # noqa: F401
-from rubicon.client import (
+from rubicon_ml.client import (
     Artifact,
     Dataframe,
     Experiment,
@@ -9,6 +8,11 @@ from rubicon.client import (
     Project,
     Rubicon,
 )
+
+from ._version import get_versions
+
+__version__ = get_versions()["version"]
+del get_versions
 
 __all__ = [
     "Artifact",

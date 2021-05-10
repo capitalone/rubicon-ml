@@ -1,6 +1,5 @@
 import intake  # noqa F401
 
-from rubicon.intake_rubicon.experiment import ExperimentSource
-from rubicon.intake_rubicon.project import ProjectSource
+from rubicon_ml.intake_rubicon import ExperimentSource, ProjectSource
 
 __all__ = ["ExperimentSource", "ProjectSource"]

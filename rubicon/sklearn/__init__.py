@@ -1,4 +1,3 @@
-from rubicon.sklearn.filter_estimator_logger import FilterEstimatorLogger
-from rubicon.sklearn.pipeline import RubiconPipeline
+from rubicon_ml.sklearn import FilterEstimatorLogger, RubiconPipeline
 
 __all__ = ["FilterEstimatorLogger", "RubiconPipeline"]

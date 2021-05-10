@@ -10,7 +10,7 @@ def _check_for_prefect_extras():
 
 _check_for_prefect_extras()
 
-from rubicon.workflow.prefect.tasks import (  # noqa E402
+from rubicon_ml.workflow.prefect.tasks import (  # noqa E402
     create_experiment_task,
     get_or_create_project_task,
     log_artifact_task,

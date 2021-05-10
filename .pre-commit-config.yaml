@@ -1,8 +1,9 @@
 repos:
     -   repo: https://github.com/psf/black
-        rev: 21.4b1
+        rev: 21.5b0
         hooks:
         - id: black
+          exclude: (versioneer.py|_version.py)
     
     -   repo: https://github.com/timothycrosley/isort
         rev: 5.8.0
