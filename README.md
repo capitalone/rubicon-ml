@@ -16,6 +16,8 @@ reproducibility for both developers and stakeholders alike. While experimenting,
 the Rubicon dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
 
+p.s. If you're looking for Rubicon, the Java/ObjC Python bridge, visit [this](https://pypi.org/project/rubicon/) instead.
+
 ---
 
 ## Components

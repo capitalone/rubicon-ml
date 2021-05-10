@@ -11,7 +11,7 @@ identified by a unique name.
 
 .. code-block:: python
 
-  from rubicon import Rubicon
+  from rubicon_ml import Rubicon
 
   rubicon = Rubicon(persistence="memory")
   project = rubicon.create_project(name="Glossary")

@@ -24,7 +24,7 @@ Configure the ``Rubicon`` object to log to S3:
 
 .. code-block:: python
 
-    from rubicon import Rubicon
+    from rubicon_ml import Rubicon
 
     rubicon = Rubicon(persistence="filesystem", root_dir="s3://my-bucket/path/to/rubicon-root")
 

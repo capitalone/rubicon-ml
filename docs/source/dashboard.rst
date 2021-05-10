@@ -34,7 +34,7 @@ properly locate and load the in-memory projects and experiments.
 
 .. code-block:: python
 
-  from rubicon.ui import Dashboard
+  from rubicon_ml.ui import Dashboard
 
   Dashboard(persistence="memory", root_dir="/rubicon-root").run_server()
 

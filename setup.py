@@ -45,7 +45,7 @@ setup(
     install_requires=install_requires,
     extras_require=extras_require,
     entry_points={
-        "console_scripts": ["rubicon_ml=rubicon_ml.cli:cli"],
+        "console_scripts": ["rubicon=rubicon_ml.cli:cli"],
         "intake.drivers": [
             "rubicon_project = rubicon_ml.intake_rubicon.project:ProjectSource",
             "rubicon_experiment = rubicon_ml.intake_rubicon.experiment:ExperimentSource",
