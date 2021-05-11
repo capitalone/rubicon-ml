@@ -1,7 +1,7 @@
 .. _rubicon:
 
 ===========
-rubicon_ml
+rubicon-ml
 ===========
 
 Purpose
