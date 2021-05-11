@@ -3,7 +3,7 @@
 Dashboard
 *********
 
-Rubicon's dashboard is powered by `Plotly <https://plotly.com/>`_ and
+The dashboard is powered by `Plotly <https://plotly.com/>`_ and
 `Dash <https://dash.plotly.com>`_ - specifically
 `JupyterDash <https://medium.com/plotly/introducing-jupyterdash-811f1f57c02e>`_.
 It provides a UI for exploring and visualizing Rubicon projects stored locally
@@ -16,7 +16,7 @@ Usage
 
 Install the necessary requirements with the UI extra as detailed in the
 :ref:`installation section<install>`. Then, the dashboard can invoked via the
-Rubicon CLI:
+CLI:
 
 .. code-block:: shell
 
@@ -29,7 +29,7 @@ Use the ``--help`` flag for full usage details:
   rubicon_ml ui --help
 
 The dashboard can also be launched directly from python code. If you're using
-Rubicon's in-memory persistence, this is the only way to get the dashboard to
+the in-memory persistence, this is the only way to get the dashboard to
 properly locate and load the in-memory projects and experiments.
 
 .. code-block:: python
