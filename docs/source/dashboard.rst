@@ -20,13 +20,13 @@ Rubicon CLI:
 
 .. code-block:: shell
 
-  rubicon ui --root-dir /rubicon-root
+  rubicon_ml ui --root-dir /rubicon-root
 
 Use the ``--help`` flag for full usage details:
 
 .. code-block:: shell
 
-  rubicon ui --help
+  rubicon_ml ui --help
 
 The dashboard can also be launched directly from python code. If you're using
 Rubicon's in-memory persistence, this is the only way to get the dashboard to

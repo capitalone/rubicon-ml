@@ -221,7 +221,7 @@ class Rubicon:
 
         project = self.get_project(project_name)
         project_catalog = {
-            "driver": "rubicon_project",
+            "driver": "rubicon_ml_project",
             "args": {"urlpath": self.repository.root_dir, "project_name": project.name},
         }
 
@@ -238,7 +238,7 @@ class Rubicon:
 
         for e in experiments:
             experiment_catalog = {
-                "driver": "rubicon_experiment",
+                "driver": "rubicon_ml_experiment",
                 "args": {
                     "urlpath": self.repository.root_dir,
                     "project_name": project.name,

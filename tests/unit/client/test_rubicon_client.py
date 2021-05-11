@@ -132,7 +132,7 @@ def test_publish(rubicon_and_project_client):
 
     assert f"project_{project.id.replace('-', '_')}" in catalog["sources"]
     assert (
-        "rubicon_project" == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["driver"]
+        "rubicon_ml_project" == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["driver"]
     )
     assert (
         project.repository.root_dir
@@ -144,7 +144,7 @@ def test_publish(rubicon_and_project_client):
     )
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
     assert (
-        "rubicon_experiment"
+        "rubicon_ml_experiment"
         == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["driver"]
     )
     assert (
