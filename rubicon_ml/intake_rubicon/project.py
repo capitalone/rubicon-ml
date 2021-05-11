@@ -17,7 +17,7 @@ class ProjectSource(DataSourceMixin):
     version = __version__
 
     container = "python"
-    name = "rubicon_project"
+    name = "rubicon_ml_project"
 
     def _get_schema(self):
         """Load the project named `self._project_name`."""

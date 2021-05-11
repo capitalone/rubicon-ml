@@ -16,6 +16,8 @@ reproducibility for both developers and stakeholders alike. While experimenting,
 the Rubicon dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
 
+p.s. If you're looking for Rubicon, the Java/ObjC Python bridge, visit [this](https://pypi.org/project/rubicon/) instead.
+
 ---
 
 ## Components
@@ -51,7 +53,7 @@ context necessary for a complete model review and approval.
 Here's a simple example:
 
 ```python
-from rubicon import Rubicon
+from rubicon_ml import Rubicon
 
 rubicon = Rubicon(
     persistence="filesystem", root_dir="/rubicon-root", auto_git_enabled=True
@@ -78,7 +80,7 @@ experiment.log_metric("accuracy", accuracy)
 Then explore the project by running the dashboard:
 
 ```
-rubicon ui --root-dir /rubicon-root
+rubicon_ml ui --root-dir /rubicon-root
 ```
 
 ## Documentation
@@ -89,7 +91,7 @@ issue](https://github.com/capitalone/rubicon/issues/new/choose).
 
 ## Install
 
-`rubicon` is available on Conda Forge via `conda` and PyPi via `pip`.
+`rubicon_ml` is available on Conda Forge via `conda` and PyPi via `pip`.
 
 ```
 conda config --add channels conda-forge
@@ -104,14 +106,14 @@ pip install rubicon-ml
 
 ## Develop
 
-`rubicon` uses conda to manage environments. First, install
+`rubicon_ml` uses conda to manage environments. First, install
 [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
 Then use conda to setup a development environment:
 
 ```bash
-conda create -n rubicon-dev python=3.8
-conda env update -f environment.yml -n rubicon-dev
-conda activate rubicon-dev
+conda create -n rubicon-ml-dev python=3.8
+conda env update -f environment.yml -n rubicon-ml-dev
+conda activate rubicon-ml-dev
 ```
 
 ## Testing

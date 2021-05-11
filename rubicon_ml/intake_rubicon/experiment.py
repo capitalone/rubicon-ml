@@ -19,7 +19,7 @@ class ExperimentSource(DataSourceMixin):
     version = __version__
 
     container = "python"
-    name = "rubicon_experiment"
+    name = "rubicon_ml_experiment"
 
     def __init__(
         self, urlpath, project_name, experiment_id, metadata=None, storage_options=None, **kwargs

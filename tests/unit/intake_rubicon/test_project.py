@@ -4,7 +4,7 @@ import intake
 
 from rubicon_ml.intake_rubicon.project import ProjectSource
 
-intake.register_driver("rubicon_project", ProjectSource)
+intake.register_driver("rubicon_ml_project", ProjectSource)
 
 root = os.path.dirname(__file__)
 project_name = "intake-rubicon unit testing"

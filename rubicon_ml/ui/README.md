@@ -12,10 +12,10 @@ The Rubicon Dashboard (powered by [Dash](https://dash.plotly.com/introduction)) 
 
     ```bash
     # usage
-    rubicon ui --help
+    rubicon_ml ui --help
 
     # run
-    rubicon ui --root-dir "/path/to/root" --project-name "Example"
+    rubicon_ml ui --root-dir "/path/to/root" --project-name "Example"
     ```
 
 * view the dashboard at `http://127.0.0.1:8050/`

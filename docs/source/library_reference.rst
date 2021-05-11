@@ -75,7 +75,7 @@ differences are that the asycnhronous client is **for S3 logging only**
 and each function **returns a coroutine** rather than its standard
 return value.
 
-.. autoclass:: rubicon.client.asynchronous.Rubicon
+.. autoclass:: rubicon_ml.client.asynchronous.Rubicon
 
 .. _library-reference-ui:
 
