@@ -6,7 +6,7 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-from rubicon import __version__ as version  # noqa F401
+from rubicon_ml import __version__ as version  # noqa F401
 
 # -- Path setup --------------------------------------------------------------
 
@@ -21,9 +21,9 @@ from rubicon import __version__ as version  # noqa F401
 
 # -- Project information -----------------------------------------------------
 
-project = "rubicon"
-author = "rubicon developers"
-copyright = "2021, rubicon developers"
+project = "rubicon-ml"
+author = "rubicon-ml developers"
+copyright = "2021, rubicon-ml developers"
 
 
 # -- General configuration ---------------------------------------------------
