@@ -29,7 +29,7 @@ Use the ``--help`` flag for full usage details:
   rubicon_ml ui --help
 
 The dashboard can also be launched directly from python code. If you're using
-the in-memory persistence, this is the only way to get the dashboard to
+in-memory persistence, this is the only way to get the dashboard to
 properly locate and load the in-memory projects and experiments.
 
 .. code-block:: python

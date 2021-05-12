@@ -9,7 +9,7 @@ Purpose
 
 rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
-searchable way. It's git integration associates these inputs and outputs
+searchable way. Its git integration associates these inputs and outputs
 directly with the model code that produced them to ensure full auditability and
 reproducibility for both developers and stakeholders alike. And while experimenting,
 the dashboard makes it easy to explore, filter, visualize, and share
@@ -35,8 +35,8 @@ To see each of these parts in action, visit the `Quick Look`_!
 Workflow
 ========
 
-Use the library, ``rubicon_ml``, to capture model inputs and outputs over time. 
-It can be easily integrated into existing Python models or pipelines and supports both
+Use ``rubicon_ml`` to capture model inputs and outputs over time. 
+It easily integrates into existing Python models or pipelines and supports both
 concurrent logging (so multiple experiments can be logged in parallel) and
 asynchronous communication with S3 (so network reads and writes won’t block).
 
