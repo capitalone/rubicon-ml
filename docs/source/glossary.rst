@@ -4,7 +4,7 @@ Glossary
 ********
 
 Project (:ref:`rubicon_ml.Project<library-reference-project>`)
-===========================================================
+==============================================================
 
 A **project** is a collection of **experiments**, **dataframes**, and **artifacts**
 identified by a unique name.
@@ -17,7 +17,7 @@ identified by a unique name.
   project = rubicon.create_project(name="Glossary")
 
 Experiment (:ref:`rubicon_ml.Experiment<library-reference-experiment>`)
-====================================================================
+=======================================================================
 
 An **experiment** represents a model run and is identified by its ``created_at`` time.
 It can have **metrics**, **parameters**, **features**, **dataframes**, and **artifacts**
@@ -30,7 +30,7 @@ An **experiment** is logged to a **project**.
   experiment = project.log_experiment(tags=["glossary"])
 
 Parameter (:ref:`rubicon_ml.Parameter<library-reference-parameter>`)
-=================================================================
+====================================================================
 
 A **parameter** is an input to an **experiment** (model run) that depends on the type
 of model being used. It affects the model's predictions.
@@ -45,7 +45,7 @@ A **parameter** is logged to an **experiment**.
   experiment.log_parameter("n_estimators", 20)
 
 Feature (:ref:`rubicon_ml.Feature<library-reference-feature>`)
-===========================================================
+==============================================================
 
 A **feature** is an input to an **experiment** (model run) that's an independent,
 measurable property of a phenomenon being observed. It affects the model's predictions.
@@ -61,7 +61,7 @@ A **feature** is logged to an **experiment**.
   experiment.log_feature("credit score", importance=0.250)
 
 Metric (:ref:`rubicon_ml.Metric<library-reference-metric>`)
-========================================================
+===========================================================
 
 A **metric** is a single-value output of an **experiment** that helps evaluate the
 quality of the model's predictions.
@@ -75,7 +75,7 @@ A **metric** is logged to an **experiment**.
   experiment.log_metric("accuracy", 0.933, directionality="score")
 
 Dataframe (:ref:`rubicon_ml.Dataframe<library-reference-dataframe>`)
-=================================================================
+====================================================================
 
 A **dataframe** is a two-dimensional, tabular dataset with labeled axes (rows and
 columns) that provides value to the model developer and/or reviewer when visualized. 
@@ -96,7 +96,7 @@ A **dataframe** is logged to a **project** or an **experiment**.
   experiment.log_dataframe(confusion_matrix)
 
 Artifact (:ref:`rubicon_ml.Artifact<library-reference-artifact>`)
-==============================================================
+=================================================================
 
 An **artifact** is a catch-all for any other type of data that can be logged to a file.
 
