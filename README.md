@@ -1,4 +1,4 @@
-# Rubicon
+# rubicon-ml
 
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
@@ -8,21 +8,22 @@
 
 ## Purpose
 
-Rubicon is a data science tool that captures and stores model training and
+rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
-searchable way. Rubicon's `git` integration associates these inputs and outputs
+searchable way. Its `git` integration associates these inputs and outputs
 directly with the model code that produced them to ensure full auditability and
 reproducibility for both developers and stakeholders alike. While experimenting,
-the Rubicon dashboard makes it easy to explore, filter, visualize, and share
+the dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
 
-p.s. If you're looking for Rubicon, the Java/ObjC Python bridge, visit [this](https://pypi.org/project/rubicon/) instead.
+p.s. If you're looking for Rubicon, the Java/ObjC Python bridge, visit
+[this](https://pypi.org/project/rubicon/) instead.
 
 ---
 
 ## Components
 
-Rubicon is composed of three parts:
+rubicon-ml is composed of three parts:
 
 * A Python library for storing and retrieving model inputs, outputs, and
   analyses to filesystems that’s powered by
@@ -34,7 +35,7 @@ Rubicon is composed of three parts:
 
 ## Workflow
 
-Use the Rubicon library to capture model inputs and outputs over time. It can be
+Use `rubicon_ml` to capture model inputs and outputs over time. It can be
 easily integrated into existing Python models or pipelines and supports both
 concurrent logging (so multiple experiments can be logged in parallel) and
 asynchronous communication with S3 (so network reads and writes won’t block).
@@ -91,7 +92,8 @@ issue](https://github.com/capitalone/rubicon/issues/new/choose).
 
 ## Install
 
-`rubicon_ml` is available on Conda Forge via `conda` and PyPi via `pip`.
+The Python library, `rubicon_ml`, is available on Conda Forge via `conda` and PyPi
+via `pip`.
 
 ```
 conda config --add channels conda-forge
@@ -106,14 +108,19 @@ pip install rubicon-ml
 
 ## Develop
 
-`rubicon_ml` uses conda to manage environments. First, install
+The project uses conda to manage environments. First, install
 [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
 Then use conda to setup a development environment:
 
 ```bash
-conda create -n rubicon-ml-dev python=3.8
-conda env update -f environment.yml -n rubicon-ml-dev
+conda env create -f environment.yml
 conda activate rubicon-ml-dev
+```
+
+Finally, install `rubicon_ml` locally into the newly created environment.
+
+```bash
+pip install -e ".[all]"
 ```
 
 ## Testing
@@ -123,7 +130,7 @@ directly in the activated dev environment via `pytest tests/unit` or `pytest
 tests/integration`. Or by simply running `pytest` to execute all of them.
 
 **Note**: some integration tests are intentionally `marked` to control when they
-are run (i.e. not during cicd). These tests include:
+are run (i.e. not during CICD). These tests include:
 
 * Integration tests that connect to physical filesystems (local, S3). You'll
   want to configure the `root_dir` appropriately for these tests
