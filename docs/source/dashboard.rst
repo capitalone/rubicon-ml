@@ -6,7 +6,7 @@ Dashboard
 The dashboard is powered by `Plotly <https://plotly.com/>`_ and
 `Dash <https://dash.plotly.com>`_ - specifically
 `JupyterDash <https://medium.com/plotly/introducing-jupyterdash-811f1f57c02e>`_.
-It provides a UI for exploring and visualizing Rubicon projects stored locally
+It provides a UI for exploring and visualizing projects stored locally
 or in S3. The dashboard can be run in the browser (no Jupyter required!) or
 within Jupyter lab or notebooks. With a little extra work, it could even be
 deployed to a static URL.

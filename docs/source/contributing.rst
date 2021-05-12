@@ -6,7 +6,7 @@ Thanks for helping us build Rubicon!
 Cloning the Repository
 ======================
 
-Make a fork of the ``rubicon`` repo and clone the fork:
+Make a fork of the rubicon-ml repo and clone the fork:
 
 .. code-block:: shell
 
@@ -30,10 +30,10 @@ at the root of the repository.
 
    conda env create -f environment.yml
 
-Building ``rubicon``
-====================
+Building ``rubicon_ml``
+=======================
 
-After you've cloned the repository, use ``pip`` to install ``rubicon`` locally:
+After you've cloned the repository, use ``pip`` to install ``rubicon_ml`` locally:
 
 .. code-block:: shell
 
@@ -42,26 +42,26 @@ After you've cloned the repository, use ``pip`` to install ``rubicon`` locally:
 Style
 =====
 
-``rubicon`` uses `black <http://black.readthedocs.io/en/stable/>`_ for formatting,
+``rubicon_ml`` uses `black <http://black.readthedocs.io/en/stable/>`_ for formatting,
 `flake8 <http://flake8.pycqa.org/en/latest/>`_ for linting, and
 `isort <https://pycqa.github.io/isort/>`_ for standardizing imports. If you installed
-``rubicon`` using ``conda``, these tools will already be in your environment.
+``rubicon_ml`` using ``conda``, these tools will already be in your environment.
 
 .. code-block:: shell
 
-    black rubicon tests
-    flake8 rubicon tests
-    isort -rc rubicon tests
+    black rubicon_ml tests
+    flake8 rubicon_ml tests
+    isort -rc rubicon_ml tests
 
 Install and configure `pre-commit <https://pre-commit.com/>`_ to automatically run
 each of these tools before committing. Once installed, run ``pre-commit install``
-to set up ``rubicon``'s git hooks.
+to set up the git hooks.
 
 Running Tests
 =============
 
-``rubicon`` uses `pytest <https://docs.pytest.org/en/latest/>`_ for testing.
-Run the tests from the root ``rubicon`` directory as follows:
+``rubicon_ml`` uses `pytest <https://docs.pytest.org/en/latest/>`_ for testing.
+Run the tests from the root ``rubicon_ml`` directory as follows:
 
 .. code-block:: shell
 
@@ -93,10 +93,10 @@ documentation will open in a browser window.
 
 .. code-block:: shell
 
-   conda activate rubicon-docs
+   conda activate rubicon-ml-docs
    cd docs/
    sh build-docs.sh
 
-Never commit built documentation code directly to Rubicon, only the source.
+Never commit built documentation code directly, only the source.
 Our ``.gitignore`` should handle keeping built docs out of the repo, and
 our CICD handles deploying newly committed documentation.
