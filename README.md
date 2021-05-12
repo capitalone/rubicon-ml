@@ -92,8 +92,7 @@ issue](https://github.com/capitalone/rubicon/issues/new/choose).
 
 ## Install
 
-The Python library, `rubicon_ml`, is available on Conda Forge via `conda` and PyPi
-via `pip`.
+The Python library is available on Conda Forge via `conda` and PyPi via `pip`.
 
 ```
 conda config --add channels conda-forge
