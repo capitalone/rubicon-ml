@@ -90,6 +90,6 @@ html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_favicon = "_static/images/rubicon_logo_favicon.png"
 html_theme_options = {
-    "light_logo": "images/rubicon_logo_offset_black.png",
-    "dark_logo": "images/rubicon_logo_offset_white.png",
+    "light_logo": "images/rubicon_ml_logo_light.svg",
+    "dark_logo": "images/rubicon_ml_logo_dark.svg",
 }

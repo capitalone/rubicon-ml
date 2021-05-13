@@ -1,9 +1,5 @@
 .. _rubicon:
 
-===========
-rubicon-ml
-===========
-
 Purpose
 =======
 
