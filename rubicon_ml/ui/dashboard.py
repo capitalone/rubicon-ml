@@ -10,7 +10,7 @@ from rubicon_ml.ui.views.project_selection import make_project_selection_layout
 
 
 class Dashboard:
-    """The Rubicon Dashboard.
+    """The dashboard for exploring logged data.
 
     Parameters
     ----------

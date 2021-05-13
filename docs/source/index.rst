@@ -71,9 +71,9 @@ context necessary for a complete model review and approval.
    :caption: Community:
 
    contributing.rst
-   Changelog<https://github.com/capitalone/rubicon/releases>
-   Feedback<https://github.com/capitalone/rubicon/issues/new/choose>
-   GitHub<https://github.com/capitalone/rubicon>
+   Changelog<https://github.com/capitalone/rubicon-ml/releases>
+   Feedback<https://github.com/capitalone/rubicon-ml/issues/new/choose>
+   GitHub<https://github.com/capitalone/rubicon-ml>
 
 .. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
 .. _dash: https://dash.plotly.com/

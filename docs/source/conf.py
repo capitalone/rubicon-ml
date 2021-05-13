@@ -50,7 +50,7 @@ nbsphinx_execute = "never"
 nbsphinx_prolog = """
 |
 
-`View this notebook on GitHub <https://github.com/capitalone/rubicon/tree/main/notebooks/{{ env.doc2path(env.docname, base=None) }}>`_
+`View this notebook on GitHub <https://github.com/capitalone/rubicon-ml/tree/main/notebooks/{{ env.doc2path(env.docname, base=None) }}>`_
 
 ----
 """

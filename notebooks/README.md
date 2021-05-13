@@ -11,7 +11,7 @@ at the tag corresponding to the verison of rubicon-ml you'll be using by replaci
 `X.X.X` in the command below with that version.
 
 ```
-git clone https://github.com/capitalone/rubicon.git --branch X.X.X --single-branch
+git clone https://github.com/capitalone/rubicon-ml.git --branch X.X.X --single-branch
 ```
 
 Then, create and activate the `conda` environment in the `notebooks` directory.
@@ -46,7 +46,7 @@ jupyter lab build
 
 When adding examples, make sure to commit any notebooks with their
 cells executed in order. These example notebooks are rendered as-is within the
-[documentation](https://capitalone.github.io/rubicon/examples.html).
+[documentation](https://capitalone.github.io/rubicon-ml/examples.html).
 
 To developing examples off the latest on the `main` branch, use the `rubicon-ml-dev`
 environment in `environment.yml` at the root of the rubicon-ml repository.

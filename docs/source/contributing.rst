@@ -13,12 +13,12 @@ Make a fork of the rubicon-ml repo and clone the fork:
    git clone https://github.com/<your-github-username>/rubicon
    cd rubicon
 
-You may want to add ``https://github.com/capitalone/rubicon/``
+You may want to add ``https://github.com/capitalone/rubicon-ml/``
 as an upstream remote:
 
 .. code-block:: shell
 
-   git remote add upstream https://github.com/capitalone/rubicon
+   git remote add upstream https://github.com/capitalone/rubicon-ml
 
 Creating a Development Environment
 ==================================

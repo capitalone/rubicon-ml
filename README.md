@@ -2,9 +2,9 @@
 
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
-[![Test Package](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/test-package.yml)
-[![Publish Package](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-package.yml)
-[![Publish Docs](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/capitalone/rubicon/actions/workflows/publish-docs.yml)
+[![Test Package](https://github.com/capitalone/rubicon-ml/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/test-package.yml)
+[![Publish Package](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-package.yml)
+[![Publish Docs](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-docs.yml)
 
 ## Purpose
 
@@ -86,9 +86,9 @@ rubicon_ml ui --root-dir /rubicon-root
 
 ## Documentation
 
-For a full overview, visit the [docs](https://capitalone.github.io/rubicon/). If
+For a full overview, visit the [docs](https://capitalone.github.io/rubicon-ml/). If
 you have suggestions or find a bug, [please open an
-issue](https://github.com/capitalone/rubicon/issues/new/choose).
+issue](https://github.com/capitalone/rubicon-ml/issues/new/choose).
 
 ## Install
 
