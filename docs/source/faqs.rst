@@ -26,7 +26,10 @@ Configure the ``Rubicon`` object to log to S3:
 
     from rubicon_ml import Rubicon
 
-    rubicon = Rubicon(persistence="filesystem", root_dir="s3://my-bucket/path/to/rubicon-root")
+    rubicon = Rubicon(
+        persistence="filesystem",
+        root_dir="s3://my-bucket/path/to/rubicon-root",
+    )
 
 If you're logging from your local machine, be sure to 
 `configure your AWS credentials <https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html>`_.
@@ -63,7 +66,8 @@ Local logging can easily be synced with an S3 bucket using ``Rubicon.sync()``.
     local_project = local_rubicon.get_project("Sync Example")
 
     local_rubicon.sync(
-        project_name=local_project.name, s3_root_dir="s3://my-bucket/path/to/rubicon-root"
+        project_name=local_project.name,
+        s3_root_dir="s3://my-bucket/path/to/rubicon-root",
     )
 
 This would result in the local "Sync Demo" project being copied to the

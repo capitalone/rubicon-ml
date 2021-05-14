@@ -10,8 +10,8 @@ Make a fork of the rubicon-ml repo and clone the fork:
 
 .. code-block:: shell
 
-   git clone https://github.com/<your-github-username>/rubicon
-   cd rubicon
+   git clone https://github.com/<your-github-username>/rubicon-ml
+   cd rubicon-ml
 
 You may want to add ``https://github.com/capitalone/rubicon-ml/``
 as an upstream remote:
@@ -85,7 +85,8 @@ tools:
 
 .. code-block:: shell
 
-   conda env create -f docs/docs-environment.yml
+   cd docs/
+   conda env create -f docs-environment.yml
 
 Activate the new environment and use the ``build-docs.sh`` script in the
 ``docs`` directory to build the documentation locally. The newly built
@@ -94,7 +95,6 @@ documentation will open in a browser window.
 .. code-block:: shell
 
    conda activate rubicon-ml-docs
-   cd docs/
    sh build-docs.sh
 
 Never commit built documentation code directly, only the source.
