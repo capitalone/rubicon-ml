@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Prefect" href="integration-prefect-workflows.html" /><link rel="prev" title="Integrations" href="../integrations.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Prefect" href="integration-prefect-workflows.html" /><link rel="prev" title="Integrations" href="../integrations.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Git - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Git - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -409,18 +410,18 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/integrations/integration-git.ipynb">View this notebook on GitHub</a></p>
+<p><a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-git.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
 <div class="section" id="Git">
 <h1>Git<a class="headerlink" href="#Git" title="Permalink to this headline">¶</a></h1>
-<p>Rubicon’s <code class="docutils literal notranslate"><span class="pre">git</span></code> integration allows you to automatically track relevant version control information like branches and commits during your model iteration process. Use this integration when you are developing within a <code class="docutils literal notranslate"><span class="pre">git</span></code> repository to seamlessly tie your Rubicon experiments directly to the model code that produced them - an audit and governance must have!</p>
-<p>To enable this feature, instantiate the <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object with <code class="docutils literal notranslate"><span class="pre">auto_git_enabled=True</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s <code class="docutils literal notranslate"><span class="pre">git</span></code> integration allows you to automatically track relevant version control information like branches and commits during your model iteration process. Use this integration when you are developing within a <code class="docutils literal notranslate"><span class="pre">git</span></code> repository to seamlessly tie your <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> experiments directly to the model code that produced them - an audit and governance must have!</p>
+<p>To enable this feature, instantiate the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> object with <code class="docutils literal notranslate"><span class="pre">auto_git_enabled=True</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">auto_git_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -445,7 +446,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-'https://github.com/capitalone/rubicon.git'
+'https://github.com/capitalone/rubicon-ml.git'
 </pre></div></div>
 </div>
 <p><strong>Experiments</strong> will have the current active branch name and last commit hash populated in the <code class="docutils literal notranslate"><span class="pre">branch_name</span></code> and <code class="docutils literal notranslate"><span class="pre">commit_hash</span></code> fields, respectively.</p>
@@ -466,7 +467,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-('73-revisit-examples', '608f29ea59858d3bfd08649fd2a86bb11a397078')
+('rubicon-ml', '6a55d2f8384ee03f231521e247b351386f8b3cd1')
 </pre></div></div>
 </div>
 <p>These properties can help easily associate <strong>projects</strong> and <strong>experiments</strong> with the exact branches and commits they were run against so we can go back and reference the code later.</p>
@@ -475,7 +476,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
@@ -488,7 +489,7 @@ div.rendered_html tbody tr:hover {
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
  * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
-127.0.0.1 - - [16/Apr/2021 10:59:23] "<span class="ansi-white-fg">GET /_alive_bec47650-b0c8-449a-beed-56d8e9dee966 HTTP/1.1</span>" 200 -
+127.0.0.1 - - [14/May/2021 11:58:45] "GET /_alive_e9483f78-700c-4852-a59e-f027a3b5caf7 HTTP/1.1" 200 -
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -499,7 +500,7 @@ div.rendered_html tbody tr:hover {
 Dash app running on http://127.0.0.1:8050/
 </pre></div></div>
 </div>
-<p>Within the Rubicon dashboard, your experiments will be grouped by commit hash, which will link directly to the commit on GitHub.</p>
+<p>Within the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> dashboard, your experiments will be grouped by commit hash, which will link directly to the commit on GitHub.</p>
 <img alt="dashboard" src="../_images/integration-git-dashboard.png"/>
 </div>
 
@@ -530,7 +531,7 @@ Dash app running on http://127.0.0.1:8050/
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -559,5 +560,7 @@ Dash app running on http://127.0.0.1:8050/
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

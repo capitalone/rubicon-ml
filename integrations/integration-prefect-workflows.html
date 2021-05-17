@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Prefect - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Prefect - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -409,11 +410,11 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/integrations/integration-prefect-workflows.ipynb">View this notebook on GitHub</a></p>
+<p><a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-prefect-workflows.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
 <div class="section" id="Prefect">
 <h1>Prefect<a class="headerlink" href="#Prefect" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> offers an integration with <a class="reference external" href="https://www.prefect.io/">Prefect</a>, an open source workflow management engine used heavily within the Python ecosystem. In Prefect, a unit of work is called a <strong>task</strong>, and a collection of <strong>tasks</strong> makes up a <strong>flow</strong>. A <strong>flow</strong> represents your workflow pipeline. You can integrate <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> into your workflows to persist metadata about your experimentation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers an integration with <a class="reference external" href="https://www.prefect.io/">Prefect</a>, an open source workflow management engine used heavily within the Python ecosystem. In Prefect, a unit of work is called a <strong>task</strong>, and a collection of <strong>tasks</strong> makes up a <strong>flow</strong>. A <strong>flow</strong> represents your workflow pipeline. You can integrate <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> into your workflows to persist metadata about your experimentation.</p>
 <p>We’ll <a class="reference external" href="https://docs.prefect.io/core/getting_started/installation.html#running-the-local-server-and-ui">run a Prefect server locally</a> for this example. If you already have Prefect and Docker installed, you can start a Prefect server and agent with these commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prefect backend server
 prefect server start
@@ -422,16 +423,16 @@ prefect server start
 prefect agent start
 </pre></div>
 </div>
-<p>For more context, check out the <a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/rubicon/workflow">workflow README on GitHub</a>.</p>
+<p>For more context, check out the <a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/rubicon/workflow">workflow README on GitHub</a>.</p>
 <div class="section" id="Setting-up-a-simple-flow">
 <h2>Setting up a simple flow<a class="headerlink" href="#Setting-up-a-simple-flow" title="Permalink to this headline">¶</a></h2>
-<p>Now we can get started! Creating Prefect <strong>tasks</strong> is easy enough on its own, but we’ve added some simple ones to the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> library.</p>
+<p>Now we can get started! Creating Prefect <strong>tasks</strong> is easy enough on its own, but we’ve added some simple ones to the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> library.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon.workflow.prefect</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">from</span> <span class="nn">rubicon_ml.workflow.prefect</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_or_create_project_task</span><span class="p">,</span>
     <span class="n">create_experiment_task</span><span class="p">,</span>
     <span class="n">log_artifact_task</span><span class="p">,</span>
@@ -443,7 +444,7 @@ prefect agent start
 </pre></div>
 </div>
 </div>
-<p>We’ll need a workflow to integrate <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging into, so let’s put together a simple one. To mimic a realistic example, we’ll create tasks for loading data, splitting said data, extracting features, and training a model.</p>
+<p>We’ll need a workflow to integrate <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> logging into, so let’s put together a simple one. To mimic a realistic example, we’ll create tasks for loading data, splitting said data, extracting features, and training a model.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -530,7 +531,7 @@ prefect agent start
 </pre></div>
 </div>
 </div>
-<p>Without <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>, here’s what this simple <strong>flow</strong> would look like:</p>
+<p>Without <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>, here’s what this simple <strong>flow</strong> would look like:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -661,8 +662,8 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 </div>
 <div class="section" id="Adding-Rubicon-to-your-flow">
 <h2>Adding Rubicon to your flow<a class="headerlink" href="#Adding-Rubicon-to-your-flow" title="Permalink to this headline">¶</a></h2>
-<p>We can leverage the Prefect tasks within the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> library to log all the info we want about our model run. Then, we can use the standard <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging library to retrieve and inspect our metrics and other logged data. This is much simpler than digging through the state of each executed <strong>task</strong> and extracting its results.</p>
-<p>Here’s the same flow from above, this time with <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> <strong>tasks</strong> integrated.</p>
+<p>We can leverage the Prefect tasks within the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> library to log all the info we want about our model run. Then, we can use the standard <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> logging library to retrieve and inspect our metrics and other logged data. This is much simpler than digging through the state of each executed <strong>task</strong> and extracting its results.</p>
+<p>Here’s the same flow from above, this time with <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> <strong>tasks</strong> integrated.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -738,13 +739,13 @@ All reference tasks succeeded. Waiting...
 Flow run 29cef175-c115-4da2-a9f7-40f79bdb6104 was successful!
 </pre></div></div>
 </div>
-<p>This time we can use <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> to inspect our accuracy, among other things!</p>
+<p>This time we can use <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to inspect our accuracy, among other things!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
@@ -775,7 +776,7 @@ parameters: [('is_standardized', True), ('n_components', 2), ('n_neighbors', 5)]
 metrics: [('accuracy', 1.0)]
 </pre></div></div>
 </div>
-<p>Extracting data from <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> is much simpler than pulling it from the various <strong>tasks</strong> as they succeed. Especially in the case where we’re running thousands of <strong>tasks</strong> in a <strong>flow</strong>.</p>
+<p>Extracting data from <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> is much simpler than pulling it from the various <strong>tasks</strong> as they succeed. Especially in the case where we’re running thousands of <strong>tasks</strong> in a <strong>flow</strong>.</p>
 </div>
 <div class="section" id="Concurrent-Logging-with-Dask">
 <h2>Concurrent Logging with Dask<a class="headerlink" href="#Concurrent-Logging-with-Dask" title="Permalink to this headline">¶</a></h2>
@@ -795,7 +796,7 @@ metrics: [('accuracy', 1.0)]
 </pre></div>
 </div>
 </div>
-<p>Before we look at the new <strong>flow</strong>, let’s see how easy it is to make our own <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> Prefect <strong>tasks</strong>. Currently, the <code class="docutils literal notranslate"><span class="pre">log_feature_task</span></code> logs one feature to one experiment. Let’s say in this example, we want to log our entire feature set in one <strong>task</strong>. That’s slightly different than what we currently have in the <code class="docutils literal notranslate"><span class="pre">log_feature_task</span></code>, so let’s see how we can make a new one using the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> logging library.</p>
+<p>Before we look at the new <strong>flow</strong>, let’s see how easy it is to make our own <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> Prefect <strong>tasks</strong>. Currently, the <code class="docutils literal notranslate"><span class="pre">log_feature_task</span></code> logs one feature to one experiment. Let’s say in this example, we want to log our entire feature set in one <strong>task</strong>. That’s slightly different than what we currently have in the <code class="docutils literal notranslate"><span class="pre">log_feature_task</span></code>, so let’s see how we can make a new one using the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> logging library.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -904,13 +905,13 @@ All reference tasks succeeded. Waiting...
 Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!
 </pre></div></div>
 </div>
-<p>Retrieving all the results of a mapped <strong>task</strong> is even more cumbersome than retrieving just the accuracy above. We’ll simply use the <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> Dashboard to check out all the data we just logged!</p>
+<p>Retrieving all the results of a mapped <strong>task</strong> is even more cumbersome than retrieving just the accuracy above. We’ll simply use the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> Dashboard to check out all the data we just logged!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
@@ -964,7 +965,7 @@ Dash app running on http://127.0.0.1:8050/
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -1015,5 +1016,7 @@ Dash app running on http://127.0.0.1:8050/
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

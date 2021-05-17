@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="Dashboard" href="dashboard.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="Dashboard" href="dashboard.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>FAQs - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>FAQs - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -160,11 +161,11 @@
         </label>
         <div class="section" id="faqs">
 <span id="id1"></span><h1>FAQs<a class="headerlink" href="#faqs" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="why-the-name-rubicon">
-<h2>Why the name Rubicon?<a class="headerlink" href="#why-the-name-rubicon" title="Permalink to this headline">¶</a></h2>
-<p>The name Rubicon comes from a historical context; it’s a reference to Caeser
+<div class="section" id="why-the-name">
+<h2>Why the name?<a class="headerlink" href="#why-the-name" title="Permalink to this headline">¶</a></h2>
+<p>The name comes from a historical context; it’s a reference to Caeser
 crossing the Rubicon, which nowadays is synonymous with “passing the point of no
-return”. We chose the name to signify that by using Rubicon, you’re making the
+return”. We chose the name to signify that by using the library, you’re making the
 decision to provide a repeatable and auditable model development process and
 there’s no going back on that commitment!</p>
 </div>
@@ -174,9 +175,12 @@ there’s no going back on that commitment!</p>
 and then <strong>synced with S3</strong>.</p>
 <p><strong>Direct S3 Logging</strong></p>
 <p>Configure the <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object to log to S3:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"s3://my-bucket/path/to/rubicon-root"</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span>
+    <span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span>
+    <span class="n">root_dir</span><span class="o">=</span><span class="s2">"s3://my-bucket/path/to/rubicon-root"</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>If you’re logging from your local machine, be sure to
@@ -206,7 +210,8 @@ actions allowed for your S3 bucket:</p>
 <span class="n">local_project</span> <span class="o">=</span> <span class="n">local_rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">"Sync Example"</span><span class="p">)</span>
 
 <span class="n">local_rubicon</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span>
-    <span class="n">project_name</span><span class="o">=</span><span class="n">local_project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">s3_root_dir</span><span class="o">=</span><span class="s2">"s3://my-bucket/path/to/rubicon-root"</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="n">local_project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+    <span class="n">s3_root_dir</span><span class="o">=</span><span class="s2">"s3://my-bucket/path/to/rubicon-root"</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -214,12 +219,11 @@ actions allowed for your S3 bucket:</p>
 specified S3 bucket. Under-the-hood, it uses the AWS CLI <code class="docutils literal notranslate"><span class="pre">sync</span></code> method. So,
 you’d need to have the AWS CLI installed and ensure your credentials are set.</p>
 </div>
-<div class="section" id="why-does-rubicon-offer-prefect-integration">
-<h2>Why does Rubicon offer Prefect integration?<a class="headerlink" href="#why-does-rubicon-offer-prefect-integration" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://docs.prefect.io/">prefect</a> is a popular workflow management system
-that can be used to create machine learning pipelines. Rubicon’s prefect
-integration makes it easy to drop Rubicon logging tasks into existing flows and
-consolidate all model logging within Rubicon.</p>
+<div class="section" id="why-does-rubicon-ml-offer-prefect-integration">
+<h2>Why does rubicon-ml offer Prefect integration?<a class="headerlink" href="#why-does-rubicon-ml-offer-prefect-integration" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://docs.prefect.io/">Prefect</a> is a popular workflow management system
+that can be used to create machine learning pipelines. The Prefect
+integration makes it easy to drop logging tasks into existing flows.</p>
 </div>
 <div class="section" id="why-was-the-dashboard-built-with-dash">
 <h2>Why was the dashboard built with Dash?<a class="headerlink" href="#why-was-the-dashboard-built-with-dash" title="Permalink to this headline">¶</a></h2>
@@ -236,12 +240,12 @@ solution for the following reasons:</p>
 <p>We welcome suggestions to improve the dashboard or even contributions of
 additional dashboarding solutions!</p>
 </div>
-<div class="section" id="could-rubicon-be-used-outside-of-a-machine-learning-workflow">
-<h2>Could Rubicon be used outside of a machine learning workflow?<a class="headerlink" href="#could-rubicon-be-used-outside-of-a-machine-learning-workflow" title="Permalink to this headline">¶</a></h2>
-<p>Yes. Rubicon’s <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">terminology</span></a> was designed for machine learning
-workflows, but Rubicon is flexible! An <code class="docutils literal notranslate"><span class="pre">experiment</span></code> can simply represent any
+<div class="section" id="could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow">
+<h2>Could rubicon-ml be used outside of a machine learning workflow?<a class="headerlink" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow" title="Permalink to this headline">¶</a></h2>
+<p>Yes. The <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">terminology</span></a> was designed for machine learning
+workflows, but the library is flexible! An <code class="docutils literal notranslate"><span class="pre">experiment</span></code> can simply represent any
 unit of work that you’d like to compare multiple runs of. In fact, we’ve used
-Rubicon to capture performance benchmarks while developing the library so we
+<code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to capture performance benchmarks while developing the library so we
 could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.</p>
 </div>
@@ -274,7 +278,7 @@ supporting our decisions.</p>
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -302,11 +306,11 @@ supporting our decisions.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">FAQs</a><ul>
-<li><a class="reference internal" href="#why-the-name-rubicon">Why the name Rubicon?</a></li>
+<li><a class="reference internal" href="#why-the-name">Why the name?</a></li>
 <li><a class="reference internal" href="#how-can-i-log-my-data-to-s3">How can I log my data to S3?</a></li>
-<li><a class="reference internal" href="#why-does-rubicon-offer-prefect-integration">Why does Rubicon offer Prefect integration?</a></li>
+<li><a class="reference internal" href="#why-does-rubicon-ml-offer-prefect-integration">Why does rubicon-ml offer Prefect integration?</a></li>
 <li><a class="reference internal" href="#why-was-the-dashboard-built-with-dash">Why was the dashboard built with Dash?</a></li>
-<li><a class="reference internal" href="#could-rubicon-be-used-outside-of-a-machine-learning-workflow">Could Rubicon be used outside of a machine learning workflow?</a></li>
+<li><a class="reference internal" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow">Could rubicon-ml be used outside of a machine learning workflow?</a></li>
 </ul>
 </li>
 </ul>

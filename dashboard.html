@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Dashboard - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Dashboard - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -160,10 +161,10 @@
         </label>
         <div class="section" id="dashboard">
 <span id="id1"></span><h1>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h1>
-<p>Rubicon’s dashboard is powered by <a class="reference external" href="https://plotly.com/">Plotly</a> and
+<p>The dashboard is powered by <a class="reference external" href="https://plotly.com/">Plotly</a> and
 <a class="reference external" href="https://dash.plotly.com">Dash</a> - specifically
 <a class="reference external" href="https://medium.com/plotly/introducing-jupyterdash-811f1f57c02e">JupyterDash</a>.
-It provides a UI for exploring and visualizing Rubicon projects stored locally
+It provides a UI for exploring and visualizing projects stored locally
 or in S3. The dashboard can be run in the browser (no Jupyter required!) or
 within Jupyter lab or notebooks. With a little extra work, it could even be
 deployed to a static URL.</p>
@@ -171,18 +172,18 @@ deployed to a static URL.</p>
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Install the necessary requirements with the UI extra as detailed in the
 <a class="reference internal" href="install.html#install"><span class="std std-ref">installation section</span></a>. Then, the dashboard can invoked via the
-Rubicon CLI:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon ui --root-dir /rubicon-root
+CLI:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --root-dir /rubicon-root
 </pre></div>
 </div>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">--help</span></code> flag for full usage details:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon ui --help
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --help
 </pre></div>
 </div>
 <p>The dashboard can also be launched directly from python code. If you’re using
-Rubicon’s in-memory persistence, this is the only way to get the dashboard to
+in-memory persistence, this is the only way to get the dashboard to
 properly locate and load the in-memory projects and experiments.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
 </pre></div>
@@ -248,7 +249,7 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and

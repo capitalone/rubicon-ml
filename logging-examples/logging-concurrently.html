@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="../integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="../integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Logging Concurrently - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Logging Concurrently - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -409,12 +410,12 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/logging-examples/logging-concurrently.ipynb">View this notebook on GitHub</a></p>
+<p><a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-concurrently.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
 <div class="section" id="Logging-Concurrently">
 <h1>Logging Concurrently<a class="headerlink" href="#Logging-Concurrently" title="Permalink to this headline">¶</a></h1>
-<p>Let’s see how a few other popular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> models perform with the wine dataset. <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s filesystem logging is totally thread-safe, so we can test a lot of model configurations at once.</p>
-<p><strong>Note</strong>: <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s in-memory logging is inherently not threadsafe as each thread has its own memory.</p>
+<p>Let’s see how a few other popular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> models perform with the wine dataset. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s filesystem logging is totally thread-safe, so we can test a lot of model configurations at once.</p>
+<p><strong>Note</strong>: <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s in-memory logging is inherently not threadsafe as each thread has its own memory.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -422,7 +423,7 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
 <span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
@@ -444,7 +445,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.project.Project at 0x155660d00&gt;
+&lt;rubicon_ml.client.project.Project at 0x155660d00&gt;
 </pre></div></div>
 </div>
 <p>For a recap of the contents of the wine dataset, check out <code class="docutils literal notranslate"><span class="pre">wine.DESCR</span></code> and <code class="docutils literal notranslate"><span class="pre">wine.data</span></code>. We’ll put together a training dataset using a subset of the data.</p>
@@ -503,7 +504,7 @@ div.rendered_html tbody tr:hover {
 
     <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">"accuracy"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">95</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="mf">.95</span><span class="p">:</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">"success"</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">"failure"</span><span class="p">])</span>
@@ -913,7 +914,7 @@ metrics: [('accuracy', 0.7111111111111111)]
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -942,5 +943,7 @@ metrics: [('accuracy', 0.7111111111111111)]
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

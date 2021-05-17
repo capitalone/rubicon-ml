@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Glossary" href="glossary.html" /><link rel="prev" title="Rubicon" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Glossary" href="glossary.html" /><link rel="prev" title="Purpose" href="index.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Quick Look - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Quick Look - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -409,13 +410,13 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/quick-look.ipynb">View this notebook on GitHub</a></p>
+<p><a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/quick-look.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
 <div class="section" id="Quick-Look">
 <h1>Quick Look<a class="headerlink" href="#Quick-Look" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple classification example based on <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html#sphx-glr-auto-examples-preprocessing-plot-scaling-importance-py">this Scikit-learn example</a>. The wine dataset used in this example classifies different Italian wines by the cultivators that produced them based on 13 features describing their chemical makeup. More infomation on this dataset can be found by running <code class="docutils literal notranslate"><span class="pre">print(wine.DESCR)</span></code> after the dataset has
 been loaded.</p>
-<p>We’ll use this example to take a quick look at each of Rubicon’s core components - logging, the dashboard, and our sharing process.</p>
+<p>We’ll use this example to take a quick look at each of <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s core components - logging, the dashboard, and our sharing process.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -442,7 +443,7 @@ been loaded.</p>
 <li><p><strong>S3</strong>: for collaborating, sharing, and backing up local work</p></li>
 <li><p><strong>in-memory</strong>: for testing and development - no need to clean up after yourself!</p></li>
 </ul>
-<p>Within <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>, the implementations of these filesystems are very lightweight, with most functionality coming directly from <code class="docutils literal notranslate"><span class="pre">fsspec</span></code>. In fact, <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s persistence layer is designed to be easily extensible and could be extended to support any other type of persistence that <code class="docutils literal notranslate"><span class="pre">fsspec</span></code> supports.</p>
+<p>Within <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>, the implementations of these filesystems are very lightweight, with most functionality coming directly from <code class="docutils literal notranslate"><span class="pre">fsspec</span></code>. In fact, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s persistence layer is designed to be easily extensible and could be extended to support any other type of persistence that <code class="docutils literal notranslate"><span class="pre">fsspec</span></code> supports.</p>
 <div class="section" id="Local-Logging">
 <h3>Local Logging<a class="headerlink" href="#Local-Logging" title="Permalink to this headline">¶</a></h3>
 <p>First, we’ll configure our <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object and create a project.</p>
@@ -453,7 +454,7 @@ been loaded.</p>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
 <span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
@@ -472,10 +473,10 @@ been loaded.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.project.Project at 0x1564249d0&gt;
+&lt;rubicon_ml.client.project.Project at 0x15ac30370&gt;
 </pre></div></div>
 </div>
-<p>We’ll also create a <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code> function to abstract our Rubicon logging into a single spot. This isn’t necessary - <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> is designed to be flexible and fit into your workflow however you see fit!</p>
+<p>We’ll also create a <code class="docutils literal notranslate"><span class="pre">run_experiment</span></code> function to abstract our logging into a single spot. This isn’t necessary - <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> is designed to be flexible and fit into your workflow however you see fit!</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -529,7 +530,7 @@ been loaded.</p>
         <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"confusion matrix"</span><span class="p">],</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">9</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="mf">.9</span><span class="p">:</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">"success"</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">"failure"</span><span class="p">])</span>
@@ -573,13 +574,13 @@ been loaded.</p>
 </div>
 <div class="section" id="Dashboard">
 <h2>Dashboard<a class="headerlink" href="#Dashboard" title="Permalink to this headline">¶</a></h2>
-<p>Rubicon comes with a UI add-on (installable as rubicon[ui] if you’re using <code class="docutils literal notranslate"><span class="pre">pip</span></code> to manage your Python environment) that allows you to explore, visualize, and compare data within your Rubicon projects. If you have <code class="docutils literal notranslate"><span class="pre">git</span></code> integration enabled, the dashboard will group your experiments by commit automatically and link you directly to the corresponding model code.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> comes with a UI add-on (installable as rubicon-ml[ui] if you’re using <code class="docutils literal notranslate"><span class="pre">pip</span></code> to manage your Python environment) that allows you to explore, visualize, and compare data within your projects. If you have <code class="docutils literal notranslate"><span class="pre">git</span></code> integration enabled, the dashboard will group your experiments by commit automatically and link you directly to the corresponding model code.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
@@ -592,7 +593,7 @@ been loaded.</p>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
  * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
-127.0.0.1 - - [16/Apr/2021 16:16:52] "<span class="ansi-white-fg">GET /_alive_9b02c60c-199d-480a-b2bf-dfb9e9e1dd69 HTTP/1.1</span>" 200 -
+127.0.0.1 - - [12/May/2021 09:58:14] "<span class="ansi-white-fg">GET /_alive_10a36bff-b1c3-4f41-951e-b57ddc890f93 HTTP/1.1</span>" 200 -
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -605,18 +606,18 @@ Dash app running on http://127.0.0.1:8050/
 </div>
 <img alt="dashboard" src="_images/quick-look-dashboard.png"/>
 <p>By default, the dashboard launches on your localhost’s port 8050. To view the dashboard inline in a notebook or in a new JupyterLab window, instantiate the <code class="docutils literal notranslate"><span class="pre">Dashboard</span></code> object with <code class="docutils literal notranslate"><span class="pre">mode="inline"</span></code> or <code class="docutils literal notranslate"><span class="pre">mode="jupyterlab"</span></code>, respectively.</p>
-<p>You don’t even have to launch the dashboard from a Python interpreter. Rubicon comes packaged with a CLI that can launch the dashboard from your terminal.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rubicon ui --root-dir ./rubicon-root
+<p>You don’t even have to launch the dashboard from a Python interpreter. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> comes packaged with a CLI that can launch the dashboard from your terminal.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --root-dir ./rubicon-root
 </pre></div>
 </div>
 </div>
 <div class="section" id="Publishing-&amp;-Sharing">
 <h2>Publishing &amp; Sharing<a class="headerlink" href="#Publishing-&amp;-Sharing" title="Permalink to this headline">¶</a></h2>
-<p>Once you have a Rubicon project stored in S3, anyone with access to that bucket can use the Python library to pull down your project and explore the data themselves or they can visualize the project within the dashboard.</p>
-<p>Additionally, Rubicon offers a process to share a selected subset of your logged data via publishing and consuming custom <a class="reference external" href="https://github.com/intake/intake">Intake</a> catalogs.</p>
+<p>Once you have a project stored in S3, anyone with access to that bucket can use the Python library to pull down your project and explore the data themselves or they can visualize the project within the dashboard.</p>
+<p>Additionally, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers a process to share a selected subset of your logged data via publishing and consuming custom <a class="reference external" href="https://github.com/intake/intake">Intake</a> catalogs.</p>
 <div class="section" id="Publishing">
 <h3>Publishing<a class="headerlink" href="#Publishing" title="Permalink to this headline">¶</a></h3>
-<p>Here, we’ll publish some experiments by generating an Intake catalog. The catalog file, generated as YAML, simply points to the actual Rubicon data and can be shared and versioned independently of your Rubicon project data.</p>
+<p>Here, we’ll publish some experiments by generating an Intake catalog. The catalog file, generated as YAML, simply points to the actual data and can be shared and versioned independently of your <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project data.</p>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">experiment_tags</span></code> parameter to publish experiments with specific tags, like <strong>success</strong>. The resulting file will have a root <code class="docutils literal notranslate"><span class="pre">sources</span></code> key, followed by a number of sources representing experiments and/or projects. In this example, you’ll notice the <code class="docutils literal notranslate"><span class="pre">urlpaths</span></code> are all local since we’re using a local filesystem. Publishing is most useful when refrencing remote data in S3. That’s because publishing does not change or move the data - it only references it’s location.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -646,18 +647,18 @@ Dash app running on http://127.0.0.1:8050/
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 sources:
-  experiment_0f04fb64_419c_4c17_b937_42ad7af999dd:
+  experiment_54d24e34_c0af_4565_909d_65b5900ba0e0:
     args:
-      experiment_id: 0f04fb64-419c-4c17-b937-42ad7af999dd
+      experiment_id: 54d24e34-c0af-4565-909d-65b5900ba0e0
       project_name: Wine Classification
-      urlpath: /Users/nvd215/oss/rubicon/notebooks/rubicon-root
-    driver: rubicon_experiment
+      urlpath: /Users/ryan/oss/rubicon/notebooks/rubicon-root
+    driver: rubicon_ml_experiment
 </pre></div></div>
 </div>
 </div>
 <div class="section" id="Consuming-Published-Projects-&amp;-Experiments">
 <h3>Consuming Published Projects &amp; Experiments<a class="headerlink" href="#Consuming-Published-Projects-&amp;-Experiments" title="Permalink to this headline">¶</a></h3>
-<p>If you’ve been given a catalog of published experiments, you can easily load these with <code class="docutils literal notranslate"><span class="pre">intake</span></code> and the custom <code class="docutils literal notranslate"><span class="pre">rubicon.intake_rubicon</span></code> driver, which both come packaged with the Python library.</p>
+<p>If you’ve been given a catalog of published experiments, you can easily load these with <code class="docutils literal notranslate"><span class="pre">intake</span></code> and the custom <code class="docutils literal notranslate"><span class="pre">rubicon_ml.intake_rubicon</span></code> driver, which both come packaged with the Python library.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -670,7 +671,7 @@ sources:
 </pre></div>
 </div>
 </div>
-<p>Then, you can use the <code class="docutils literal notranslate"><span class="pre">catalog</span></code> object to load the published projects or experiments into memory. From there, you’ll have a <code class="docutils literal notranslate"><span class="pre">rubicon.Project</span></code> or <code class="docutils literal notranslate"><span class="pre">rubicon.Experiment</span></code> object you can use as you normally would!</p>
+<p>Then, you can use the <code class="docutils literal notranslate"><span class="pre">catalog</span></code> object to load the published projects or experiments into memory. From there, you’ll have a <code class="docutils literal notranslate"><span class="pre">rubicon_ml.Project</span></code> or <code class="docutils literal notranslate"><span class="pre">rubicon_ml.Experiment</span></code> object you can use as you normally would!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -689,7 +690,7 @@ sources:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.experiment.Experiment at 0x15abe7160&gt;
+&lt;rubicon_ml.client.experiment.Experiment at 0x15f5437c0&gt;
 </pre></div></div>
 </div>
 <p>Since this catalog doesn’t point to any remote data, its not super useful. Let’s clean up after ourselves and get rid of it.</p>
@@ -733,7 +734,7 @@ sources:
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -792,5 +793,7 @@ sources:
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <script src="_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

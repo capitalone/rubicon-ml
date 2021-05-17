@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Training Metadata" href="logging-training-metadata.html" /><link rel="prev" title="Examples" href="../examples.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Training Metadata" href="logging-training-metadata.html" /><link rel="prev" title="Examples" href="../examples.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Logging Basics - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Logging Basics - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -409,11 +410,11 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<p><a class="reference external" href="https://github.com/capitalone/rubicon/tree/main/notebooks/logging-examples/logging-basics.ipynb">View this notebook on GitHub</a></p>
+<p><a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-basics.ipynb">View this notebook on GitHub</a></p>
 <hr class="docutils"/>
 <div class="section" id="Logging-Basics">
 <h1>Logging Basics<a class="headerlink" href="#Logging-Basics" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> can help us create an optimal machine learning model by logging the details of each experiment we run along the way. To illustrate, we’ll train a classification model using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_wine.html">wine dataset</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> can help us create an optimal machine learning model by logging the details of each experiment we run along the way. To illustrate, we’ll train a classification model using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_wine.html">wine dataset</a>.</p>
 <p>Let’s load the dataset and take a quick look at it’s contents.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -619,7 +620,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </pre></div>
 </div>
 </div>
-<p>With <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>, we can create a <strong>project</strong> to store as many <strong>experiments</strong> as we’d like to run. Each of these <strong>experiments</strong> can hold important metadata about your model run - like our varied values of <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code>.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>, we can create a <strong>project</strong> to store as many <strong>experiments</strong> as we’d like to run. Each of these <strong>experiments</strong> can hold important metadata about your model run - like our varied values of <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -627,7 +628,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">rubicon</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
 <span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
@@ -652,7 +653,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.project.Project at 0x164189640&gt;
+&lt;rubicon_ml.client.project.Project at 0x164189640&gt;
 </pre></div></div>
 </div>
 <p>Let’s get started with our first <strong>experiment</strong>! We can provide some basic info here like the name of the model we’re using, some metadata around where our training data came from, and tags to easily filter our experiments later.</p>
@@ -676,7 +677,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.experiment.Experiment at 0x119ab1670&gt;
+&lt;rubicon_ml.client.experiment.Experiment at 0x119ab1670&gt;
 </pre></div></div>
 </div>
 <p>We’re mainly interested in how <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> affects our accuracy, so let’s choose a starting value to test and log it as a <strong>parameter</strong>.</p>
@@ -698,10 +699,10 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.parameter.Parameter at 0x111368ee0&gt;
+&lt;rubicon_ml.client.parameter.Parameter at 0x111368ee0&gt;
 </pre></div></div>
 </div>
-<p>We can log the list of <strong>features</strong> in the training dataset to <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> as well.</p>
+<p>We can log the list of <strong>features</strong> in the training dataset to <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> as well.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -720,19 +721,19 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;rubicon.client.feature.Feature at 0x1649ce220&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce280&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce2e0&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce340&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce3a0&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce400&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce460&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce4c0&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce520&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce580&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce5e0&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce640&gt;,
- &lt;rubicon.client.feature.Feature at 0x1649ce6a0&gt;]
+[&lt;rubicon_ml.client.feature.Feature at 0x1649ce220&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce280&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce2e0&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce340&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce3a0&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce400&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce460&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce4c0&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce520&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce580&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce5e0&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce640&gt;,
+ &lt;rubicon_ml.client.feature.Feature at 0x1649ce6a0&gt;]
 </pre></div></div>
 </div>
 <p>Now we’re ready to train and score our classifier - let’s see how it does with <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> set to 1!</p>
@@ -755,7 +756,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 0.8888888888888888
 </pre></div></div>
 </div>
-<p>Finally, we can log our accuracy to <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> as a <strong>metric</strong>.</p>
+<p>Finally, we can log our accuracy as a <strong>metric</strong>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -772,7 +773,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon.client.metric.Metric at 0x111336070&gt;
+&lt;rubicon_ml.client.metric.Metric at 0x111336070&gt;
 </pre></div></div>
 </div>
 <p><strong>Experiments</strong> can be tagged after the fact as well. We can define some kind of “success” criteria and tag accordingly.</p>
@@ -813,7 +814,7 @@ Via Brigata Salerno, 16147 Genoa, Italy.
 </pre></div>
 </div>
 </div>
-<p>Now we can pull all our metadata back out of <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> to inspect the results!</p>
+<p>Now we can pull all our metadata back out of <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to inspect the results!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -839,8 +840,8 @@ n_estimators: 01        accuracy: 0.8888888888888888
 n_estimators: 05        accuracy: 0.9333333333333333
 </pre></div></div>
 </div>
-<p>A quick look at our logged data shows that all the values of <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> above 1 meet our success criteria! While this is a simple example, it shows how we can use <code class="docutils literal notranslate"><span class="pre">rubicon</span></code> to track our model’s performance over time as we try different <strong>parameters</strong> to optimize our <strong>metrics</strong>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon</span></code> supports even more logging capabilities, like logging <a class="reference external" href="https://capitalone.github.io/rubicon/glossary.html#artifact-rubicon-artifact">artifacts</a> and <a class="reference external" href="https://capitalone.github.io/rubicon/glossary.html#dataframe-rubicon-dataframe">dataframes</a>, to ensure complete reproducibility. We can also use <code class="docutils literal notranslate"><span class="pre">rubicon</span></code>’s <a class="reference external" href="https://capitalone.github.io/rubicon/dashboard.html">dashboard</a> for better visual representation of your logged data.</p>
+<p>A quick look at our logged data shows that all the values of <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> above 1 meet our success criteria! While this is a simple example, it shows how we can use rubicon-ml to track our model’s performance over time as we try different <strong>parameters</strong> to optimize our <strong>metrics</strong>.</p>
+<p>rubicon-ml supports even more logging capabilities, like logging <a class="reference external" href="https://capitalone.github.io/rubicon-ml/glossary.html#artifact-rubicon-artifact">artifacts</a> and <a class="reference external" href="https://capitalone.github.io/rubicon-ml/glossary.html#dataframe-rubicon-dataframe">dataframes</a>, to ensure complete reproducibility. And includes a <a class="reference external" href="https://capitalone.github.io/rubicon-ml/dashboard.html">dashboard</a> for better visual representation of your logged data.</p>
 </div>
 
       </article>
@@ -870,7 +871,7 @@ n_estimators: 05        accuracy: 0.9333333333333333
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -899,5 +900,7 @@ n_estimators: 05        accuracy: 0.9333333333333333
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

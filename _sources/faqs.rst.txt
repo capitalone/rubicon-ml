@@ -3,12 +3,12 @@
 FAQs
 ****
 
-Why the name Rubicon?
-=====================
+Why the name?
+=============
 
-The name Rubicon comes from a historical context; it's a reference to Caeser
+The name comes from a historical context; it's a reference to Caeser
 crossing the Rubicon, which nowadays is synonymous with "passing the point of no
-return". We chose the name to signify that by using Rubicon, you're making the
+return". We chose the name to signify that by using the library, you're making the
 decision to provide a repeatable and auditable model development process and
 there's no going back on that commitment!
 
@@ -24,9 +24,12 @@ Configure the ``Rubicon`` object to log to S3:
 
 .. code-block:: python
 
-    from rubicon import Rubicon
+    from rubicon_ml import Rubicon
 
-    rubicon = Rubicon(persistence="filesystem", root_dir="s3://my-bucket/path/to/rubicon-root")
+    rubicon = Rubicon(
+        persistence="filesystem",
+        root_dir="s3://my-bucket/path/to/rubicon-root",
+    )
 
 If you're logging from your local machine, be sure to 
 `configure your AWS credentials <https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html>`_.
@@ -63,20 +66,20 @@ Local logging can easily be synced with an S3 bucket using ``Rubicon.sync()``.
     local_project = local_rubicon.get_project("Sync Example")
 
     local_rubicon.sync(
-        project_name=local_project.name, s3_root_dir="s3://my-bucket/path/to/rubicon-root"
+        project_name=local_project.name,
+        s3_root_dir="s3://my-bucket/path/to/rubicon-root",
     )
 
 This would result in the local "Sync Demo" project being copied to the
 specified S3 bucket. Under-the-hood, it uses the AWS CLI ``sync`` method. So,
 you'd need to have the AWS CLI installed and ensure your credentials are set.
 
-Why does Rubicon offer Prefect integration?
-===========================================
+Why does rubicon-ml offer Prefect integration?
+==============================================
 
-`prefect <https://docs.prefect.io/>`_ is a popular workflow management system
-that can be used to create machine learning pipelines. Rubicon's prefect
-integration makes it easy to drop Rubicon logging tasks into existing flows and
-consolidate all model logging within Rubicon.
+`Prefect <https://docs.prefect.io/>`_ is a popular workflow management system
+that can be used to create machine learning pipelines. The Prefect
+integration makes it easy to drop logging tasks into existing flows.
 
 Why was the dashboard built with Dash?
 ======================================
@@ -94,12 +97,12 @@ solution for the following reasons:
 We welcome suggestions to improve the dashboard or even contributions of
 additional dashboarding solutions!
 
-Could Rubicon be used outside of a machine learning workflow?
-=============================================================
+Could rubicon-ml be used outside of a machine learning workflow?
+================================================================
 
-Yes. Rubicon's :ref:`terminology<glossary>` was designed for machine learning
-workflows, but Rubicon is flexible! An ``experiment`` can simply represent any
+Yes. The :ref:`terminology<glossary>` was designed for machine learning
+workflows, but the library is flexible! An ``experiment`` can simply represent any
 unit of work that you'd like to compare multiple runs of. In fact, we've used
-Rubicon to capture performance benchmarks while developing the library so we
+``rubicon_ml`` to capture performance benchmarks while developing the library so we
 could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.

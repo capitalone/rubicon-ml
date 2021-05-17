@@ -1,11 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick Look" href="quick-look.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick Look" href="quick-look.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.02.21.beta25"/>
-        <title>Home - rubicon v0.2.2</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Home - rubicon-ml v0.2.3</title>
+      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -87,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></div></a>
+      <a href="#"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -101,11 +102,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/images/rubicon_logo_offset_black.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/images/rubicon_logo_offset_white.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/images/rubicon_ml_logo_offset_light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon</div> <div class='version'> v0.2.2</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.3</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -141,9 +142,9 @@
 <p class="caption"><span class="caption-text">Community:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/releases">Changelog</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon/issues/new/choose">Feedback</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
 </ul>
 
 </div>
@@ -158,22 +159,20 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="rubicon">
-<span id="id1"></span><h1>Rubicon<a class="headerlink" href="#rubicon" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="purpose">
-<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
-<p>Rubicon is a data science tool that captures and stores model training and
+        <div class="section" id="purpose">
+<span id="rubicon"></span><h1>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h1>
+<p>rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
-searchable way. Rubicon’s <code class="docutils literal notranslate"><span class="pre">git</span></code> integration associates these inputs and outputs
+searchable way. Its <code class="docutils literal notranslate"><span class="pre">git</span></code> integration associates these inputs and outputs
 directly with the model code that produced them to ensure full auditability and
-reproducibility for both developers and stakeholders alike. While experimenting,
-the Rubicon dashboard makes it easy to explore, filter, visualize, and share
+reproducibility for both developers and stakeholders alike. And while experimenting,
+the dashboard makes it easy to explore, filter, visualize, and share
 recorded work.</p>
-<p>Visit the <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">Glossary</span></a> to explore Rubicon’s terminology.</p>
+<p>Visit the <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">glossary</span></a> to explore the terminology.</p>
 </div>
 <div class="section" id="components">
-<h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
-<p>Rubicon is composed of three parts:</p>
+<h1>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h1>
+<p>rubicon-ml is composed of three parts:</p>
 <ul class="simple">
 <li><p>A Python library for storing and retrieving model inputs, outputs, and
 analyses to filesystems that’s powered by
@@ -186,16 +185,16 @@ or reviewers that leverages <a class="reference external" href="https://intake.r
 <p>To see each of these parts in action, visit the <a class="reference external" href="./quick-look.html">Quick Look</a>!</p>
 </div>
 <div class="section" id="workflow">
-<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
-<p>Use the Rubicon library to capture model inputs and outputs over time. It can be
-easily integrated into existing Python models or pipelines and supports both
+<h1>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h1>
+<p>Use <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to capture model inputs and outputs over time.
+It easily integrates into existing Python models or pipelines and supports both
 concurrent logging (so multiple experiments can be logged in parallel) and
 asynchronous communication with S3 (so network reads and writes won’t block).</p>
-<p>Meanwhile, periodically review the logged data within the Rubicon dashboard to
+<p>Meanwhile, periodically review the logged data within the dashboard to
 steer the model tweaking process in the right direction. The dashboard lets you
 quickly spot trends by exploring and filtering your logged results and
 visualizes how the model inputs impacted the model outputs.</p>
-<p>When the model is ready for review, Rubicon makes it easy to share specific
+<p>When the model is ready for review, rubicon-ml makes it easy to share specific
 subsets of the data with model reviewers and stakeholders, giving them the
 context necessary for a complete model review and approval.</p>
 <div class="toctree-wrapper compound">
@@ -203,7 +202,6 @@ context necessary for a complete model review and approval.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
@@ -224,7 +222,7 @@ context necessary for a complete model review and approval.</p>
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon developers
+              Copyright &#169; 2021, rubicon-ml developers
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -251,12 +249,9 @@ context necessary for a complete model review and approval.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Rubicon</a><ul>
-<li><a class="reference internal" href="#purpose">Purpose</a></li>
+<li><a class="reference internal" href="#">Purpose</a></li>
 <li><a class="reference internal" href="#components">Components</a></li>
 <li><a class="reference internal" href="#workflow">Workflow</a><ul>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
