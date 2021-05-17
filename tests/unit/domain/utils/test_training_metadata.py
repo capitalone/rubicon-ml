@@ -1,7 +1,7 @@
 import pytest
 
-from rubicon.domain.utils import TrainingMetadata
-from rubicon.exceptions import RubiconException
+from rubicon_ml.domain.utils import TrainingMetadata
+from rubicon_ml.exceptions import RubiconException
 
 
 def test_init_throws_validation_error():

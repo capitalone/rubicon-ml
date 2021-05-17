@@ -5,9 +5,9 @@ from unittest.mock import patch
 import fsspec
 import pytest
 
-from rubicon import domain
-from rubicon.repository import LocalRepository
-from rubicon.repository.utils import slugify
+from rubicon_ml import domain
+from rubicon_ml.repository import LocalRepository
+from rubicon_ml.repository.utils import slugify
 
 
 def test_initialization():

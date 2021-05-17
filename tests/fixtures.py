@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from rubicon.repository import MemoryRepository
+from rubicon_ml.repository import MemoryRepository
 
 
 class AsynchronousMock(MagicMock):
@@ -13,7 +13,7 @@ class AsynchronousMock(MagicMock):
 
 @pytest.fixture
 def asyn_repo_w_mock_filesystem():
-    from rubicon.repository.asynchronous import AsynchronousBaseRepository
+    from rubicon_ml.repository.asynchronous import AsynchronousBaseRepository
 
     asyn_repo = AsynchronousBaseRepository("s3://test-bucket")
     asyn_repo._persist_bytes = AsynchronousMock()
@@ -29,7 +29,7 @@ def asyn_repo_w_mock_filesystem():
 
 @pytest.fixture
 def asyn_s3_repo_w_mock_filesystem():
-    from rubicon.repository.asynchronous import S3Repository
+    from rubicon_ml.repository.asynchronous import S3Repository
 
     asyn_s3_repo = S3Repository("s3://test-bucket")
     asyn_s3_repo.filesystem = AsynchronousMock()
@@ -39,7 +39,7 @@ def asyn_s3_repo_w_mock_filesystem():
 
 @pytest.fixture
 def asyn_client_w_mock_repo():
-    from rubicon.client.asynchronous import Rubicon
+    from rubicon_ml.client.asynchronous import Rubicon
 
     rubicon = Rubicon(persistence="filesystem", root_dir="s3://test-bucket")
     rubicon.repository = AsynchronousMock()
@@ -72,7 +72,7 @@ def rubicon_client():
     """Setup an instance of rubicon configured to log to memory
     and clean it up afterwards.
     """
-    from rubicon import Rubicon
+    from rubicon_ml import Rubicon
 
     rubicon = Rubicon(persistence="memory", root_dir="./")
 
@@ -86,7 +86,7 @@ def rubicon_local_filesystem_client():
     """Setup an instance of rubicon configured to log to the
     filesystem and clean it up afterwards.
     """
-    from rubicon import Rubicon
+    from rubicon_ml import Rubicon
 
     rubicon = Rubicon(
         persistence="filesystem",
@@ -165,7 +165,7 @@ def dashboard_setup(rubicon_and_project_client_with_experiments):
     """Setup an instance of the rubicon dashboard with a default project
     and experiment data.
     """
-    from rubicon.ui.dashboard import Dashboard
+    from rubicon_ml.ui.dashboard import Dashboard
 
     rubicon, project = rubicon_and_project_client_with_experiments
     dashboard = Dashboard(rubicon.config.persistence, rubicon.config.root_dir)
@@ -178,7 +178,7 @@ def dashboard_setup_without_parameters_or_metrics(rubicon_and_project_client):
     """Setup an instance of the rubicon dashboard with a default project and
     the bare minimum experiment data.
     """
-    from rubicon.ui.dashboard import Dashboard
+    from rubicon_ml.ui.dashboard import Dashboard
 
     rubicon, project = rubicon_and_project_client
 

@@ -2,8 +2,8 @@ from unittest import mock
 
 import pytest
 
-from rubicon import domain
-from rubicon.client import Project, Rubicon
+from rubicon_ml import domain
+from rubicon_ml.client import Project, Rubicon
 
 
 class MockCompletedProcess:

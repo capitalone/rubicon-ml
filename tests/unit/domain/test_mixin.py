@@ -1,4 +1,4 @@
-from rubicon.domain.mixin import TagMixin
+from rubicon_ml.domain.mixin import TagMixin
 
 
 class Taggable(TagMixin):

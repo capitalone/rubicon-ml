@@ -5,7 +5,7 @@ Library Reference
 
 Rubicon
 =======
-.. autoclass:: rubicon.Rubicon
+.. autoclass:: rubicon_ml.Rubicon
    :members:
    :inherited-members:
 
@@ -13,7 +13,7 @@ Rubicon
 
 Project
 =======
-.. autoclass:: rubicon.Project
+.. autoclass:: rubicon_ml.Project
    :members:
    :inherited-members:
 
@@ -21,7 +21,7 @@ Project
 
 Experiment
 ==========
-.. autoclass:: rubicon.Experiment
+.. autoclass:: rubicon_ml.Experiment
    :members:
    :inherited-members:
 
@@ -29,7 +29,7 @@ Experiment
 
 Parameter
 =========
-.. autoclass:: rubicon.Parameter
+.. autoclass:: rubicon_ml.Parameter
    :members:
    :inherited-members:
 
@@ -37,7 +37,7 @@ Parameter
 
 Feature
 =======
-.. autoclass:: rubicon.Feature
+.. autoclass:: rubicon_ml.Feature
    :members:
    :inherited-members:
 
@@ -45,7 +45,7 @@ Feature
 
 Metric
 ======
-.. autoclass:: rubicon.Metric
+.. autoclass:: rubicon_ml.Metric
    :members:
    :inherited-members:
 
@@ -53,7 +53,7 @@ Metric
 
 Dataframe
 =========
-.. autoclass:: rubicon.Dataframe
+.. autoclass:: rubicon_ml.Dataframe
    :members:
    :inherited-members:
 
@@ -61,45 +61,45 @@ Dataframe
 
 Artifact
 ========
-.. autoclass:: rubicon.Artifact
+.. autoclass:: rubicon_ml.Artifact
    :members:
    :inherited-members:
 
 .. _library-reference-async:
 
-asynchronous.Rubicon
-====================
-``rubicon`` also exposes an asynchronous client that itself exposes
+asynchronous
+============
+``rubicon_ml`` also exposes an asynchronous client that itself exposes
 all the same functions as the standard client detailed above. The only
 differences are that the asycnhronous client is **for S3 logging only**
 and each function **returns a coroutine** rather than its standard
 return value.
 
-.. autoclass:: rubicon.client.asynchronous.Rubicon
+.. autoclass:: rubicon_ml.client.asynchronous.Rubicon
 
 .. _library-reference-ui:
 
-ui.Dashboard
-============
-The ``rubicon`` dashboard can be launched directly from python code
-in addition to the CLI.
+ui
+==
+The ``rubicon_ml`` dashboard can be launched directly from Python code
+or the CLI.
 
-.. autoclass:: rubicon.ui.Dashboard
-.. autofunction:: rubicon.ui.Dashboard.run_server
+.. autoclass:: rubicon_ml.ui.Dashboard
+.. autofunction:: rubicon_ml.ui.Dashboard.run_server
 
 .. _library-reference-workflow:
 
 workflow.prefect
 ================
-``rubicon`` contains wrappers for the workflow management engine
-**Prefect**. These **tasks** represent a Prefect-ified ``rubicon``
+``rubicon_ml`` contains wrappers for the workflow management engine
+**Prefect**. These **tasks** represent a Prefect-ified ``rubicon_ml``
 client.
 
-.. automodule:: rubicon.workflow.prefect
-.. autofunction:: rubicon.workflow.prefect.create_experiment_task
-.. autofunction:: rubicon.workflow.prefect.get_or_create_project_task
-.. autofunction:: rubicon.workflow.prefect.log_artifact_task
-.. autofunction:: rubicon.workflow.prefect.log_dataframe_task
-.. autofunction:: rubicon.workflow.prefect.log_feature_task
-.. autofunction:: rubicon.workflow.prefect.log_metric_task
-.. autofunction:: rubicon.workflow.prefect.log_parameter_task
+.. automodule:: rubicon_ml.workflow.prefect
+.. autofunction:: rubicon_ml.workflow.prefect.create_experiment_task
+.. autofunction:: rubicon_ml.workflow.prefect.get_or_create_project_task
+.. autofunction:: rubicon_ml.workflow.prefect.log_artifact_task
+.. autofunction:: rubicon_ml.workflow.prefect.log_dataframe_task
+.. autofunction:: rubicon_ml.workflow.prefect.log_feature_task
+.. autofunction:: rubicon_ml.workflow.prefect.log_metric_task
+.. autofunction:: rubicon_ml.workflow.prefect.log_parameter_task

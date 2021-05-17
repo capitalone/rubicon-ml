@@ -4,9 +4,9 @@ from unittest.mock import patch
 import pytest
 import s3fs
 
-from rubicon import domain
-from rubicon.repository import S3Repository
-from rubicon.repository.utils import slugify
+from rubicon_ml import domain
+from rubicon_ml.repository import S3Repository
+from rubicon_ml.repository.utils import slugify
 
 
 def test_initialization():

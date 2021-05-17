@@ -1,5 +1,5 @@
-from rubicon import domain
-from rubicon.client import Dataframe
+from rubicon_ml import domain
+from rubicon_ml.client import Dataframe
 
 
 def test_properties(project_client):

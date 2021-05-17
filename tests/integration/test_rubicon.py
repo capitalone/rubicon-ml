@@ -3,7 +3,7 @@ import uuid
 import pandas as pd
 import pytest
 
-from rubicon import Rubicon
+from rubicon_ml import Rubicon
 
 filesystems = [
     pytest.param(Rubicon(persistence="memory")),

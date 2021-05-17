@@ -1,4 +1,4 @@
-name: rubicon-docs
+name: rubicon-ml-docs
 channels:
   - conda-forge
 dependencies:

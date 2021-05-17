@@ -2,10 +2,10 @@ from unittest.mock import patch
 
 import pytest
 
-from rubicon import domain
-from rubicon.client.experiment import Experiment
-from rubicon.exceptions import RubiconException
-from rubicon.sklearn.filter_estimator_logger import FilterEstimatorLogger
+from rubicon_ml import domain
+from rubicon_ml.client.experiment import Experiment
+from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.sklearn.filter_estimator_logger import FilterEstimatorLogger
 
 
 def test_select_and_ignore_exception():

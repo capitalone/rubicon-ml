@@ -6,7 +6,7 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-from rubicon import __version__ as version  # noqa F401
+from rubicon_ml import __version__ as version  # noqa F401
 
 # -- Path setup --------------------------------------------------------------
 
@@ -21,9 +21,9 @@ from rubicon import __version__ as version  # noqa F401
 
 # -- Project information -----------------------------------------------------
 
-project = "rubicon"
-author = "rubicon developers"
-copyright = "2021, rubicon developers"
+project = "rubicon-ml"
+author = "rubicon-ml developers"
+copyright = "2021, rubicon-ml developers"
 
 
 # -- General configuration ---------------------------------------------------
@@ -50,7 +50,7 @@ nbsphinx_execute = "never"
 nbsphinx_prolog = """
 |
 
-`View this notebook on GitHub <https://github.com/capitalone/rubicon/tree/main/notebooks/{{ env.doc2path(env.docname, base=None) }}>`_
+`View this notebook on GitHub <https://github.com/capitalone/rubicon-ml/tree/main/notebooks/{{ env.doc2path(env.docname, base=None) }}>`_
 
 ----
 """
@@ -85,11 +85,11 @@ exclude_patterns = ["_build"]
 html_theme = "furo"
 # hide rubicon because it's already in the logo, but will still get pulled into the tab
 # strip the version down so we don't include dirty tags
-html_title = f"<div class='hidden'>rubicon</div> <div class='version'> v{version[:5]}</div>"
+html_title = f"<div class='hidden'>rubicon-ml</div> <div class='version'> v{version[:5]}</div>"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_favicon = "_static/images/rubicon_logo_favicon.png"
 html_theme_options = {
-    "light_logo": "images/rubicon_logo_offset_black.png",
-    "dark_logo": "images/rubicon_logo_offset_white.png",
+    "light_logo": "images/rubicon_ml_logo_offset_light.svg",
+    "dark_logo": "images/rubicon_ml_logo_offset_dark.svg",
 }

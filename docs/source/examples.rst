@@ -3,7 +3,7 @@
 Examples
 ********
 
-These examples provide a more in-depth look into the details of the ``rubicon`` logging library.
+These examples provide a more in-depth look into the details of the ``rubicon_ml`` logging library.
 
 Basics
 ------

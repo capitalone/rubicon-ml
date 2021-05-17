@@ -1,4 +1,4 @@
-from rubicon.repository.utils import slugify
+from rubicon_ml.repository.utils import slugify
 
 
 def test_can_slugify():

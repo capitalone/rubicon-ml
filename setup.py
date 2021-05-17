@@ -40,15 +40,15 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
-    url="https://github.com/capitalone/rubicon",
+    url="https://github.com/capitalone/rubicon-ml",
     python_requires=">=3.7",
     install_requires=install_requires,
     extras_require=extras_require,
     entry_points={
-        "console_scripts": ["rubicon=rubicon.cli:cli"],
+        "console_scripts": ["rubicon_ml=rubicon_ml.cli:cli"],
         "intake.drivers": [
-            "rubicon_project = rubicon.intake_rubicon.project:ProjectSource",
-            "rubicon_experiment = rubicon.intake_rubicon.experiment:ExperimentSource",
+            "rubicon_ml_project = rubicon_ml.intake_rubicon.project:ProjectSource",
+            "rubicon_ml_experiment = rubicon_ml.intake_rubicon.experiment:ExperimentSource",
         ],
     },
     classifiers=[

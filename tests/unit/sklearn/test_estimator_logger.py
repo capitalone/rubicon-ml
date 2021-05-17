@@ -2,9 +2,9 @@ from unittest.mock import patch
 
 import pytest
 
-from rubicon import domain
-from rubicon.client.experiment import Experiment
-from rubicon.sklearn.estimator_logger import EstimatorLogger
+from rubicon_ml import domain
+from rubicon_ml.client.experiment import Experiment
+from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
 
 
 def test_log_parameters_triggers_experiment_log_parameter(project_client, fake_estimator_cls):

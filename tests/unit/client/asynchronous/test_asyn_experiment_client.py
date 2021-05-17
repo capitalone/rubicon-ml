@@ -2,7 +2,7 @@ import asyncio
 import uuid
 from unittest.mock import call
 
-from rubicon import domain
+from rubicon_ml import domain
 
 
 def test_log_feature(asyn_client_w_mock_repo):

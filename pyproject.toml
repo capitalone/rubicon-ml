@@ -1,8 +1,3 @@
 [tool.black]
 line-length = 100
-exclude = """
-(
-  versioneer.py |
-  rubicon/_version.py
-)
-"""
+exclude = "(versioneer.py|_version.py)"

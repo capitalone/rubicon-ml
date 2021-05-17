@@ -4,8 +4,8 @@ import sys
 import holoviews as hv
 import pandas as pd
 
-from rubicon import Rubicon
-from rubicon.exceptions import RubiconException
+from rubicon_ml import Rubicon
+from rubicon_ml.exceptions import RubiconException
 
 
 def get_or_create_project(rubicon, name):

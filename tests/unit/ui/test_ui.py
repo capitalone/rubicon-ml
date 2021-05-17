@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from rubicon.ui import _check_for_ui_extras
+from rubicon_ml.ui import _check_for_ui_extras
 
 
 def test_missing_ui_extra_raises_error():

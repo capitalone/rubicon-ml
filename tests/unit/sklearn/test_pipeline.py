@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from rubicon.sklearn import RubiconPipeline
-from rubicon.sklearn.estimator_logger import EstimatorLogger
-from rubicon.sklearn.filter_estimator_logger import FilterEstimatorLogger
-from rubicon.sklearn.pipeline import Pipeline
+from rubicon_ml.sklearn import RubiconPipeline
+from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
+from rubicon_ml.sklearn.filter_estimator_logger import FilterEstimatorLogger
+from rubicon_ml.sklearn.pipeline import Pipeline
 
 
 def test_get_default_estimator_logger(project_client, fake_estimator_cls):

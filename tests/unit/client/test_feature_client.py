@@ -1,5 +1,5 @@
-from rubicon import domain
-from rubicon.client import Feature
+from rubicon_ml import domain
+from rubicon_ml.client import Feature
 
 
 def test_properties():

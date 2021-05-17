@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from prefect import Flow
 
-from rubicon import Rubicon
-from rubicon.client import (
+from rubicon_ml import Rubicon
+from rubicon_ml.client import (
     Artifact,
     Dataframe,
     Experiment,
@@ -12,7 +12,7 @@ from rubicon.client import (
     Parameter,
     Project,
 )
-from rubicon.workflow.prefect import (
+from rubicon_ml.workflow.prefect import (
     create_experiment_task,
     get_or_create_project_task,
     log_artifact_task,

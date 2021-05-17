@@ -3,13 +3,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from rubicon.client.mixin import (
+from rubicon_ml.client.mixin import (
     ArtifactMixin,
     DataframeMixin,
     MultiParentMixin,
     TagMixin,
 )
-from rubicon.exceptions import RubiconException
+from rubicon_ml.exceptions import RubiconException
 
 
 def test_get_project_identifiers(project_client):

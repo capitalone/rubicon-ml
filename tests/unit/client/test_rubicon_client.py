@@ -6,9 +6,9 @@ import fsspec
 import pytest
 import yaml
 
-from rubicon import client, domain
-from rubicon.client import Rubicon
-from rubicon.exceptions import RubiconException
+from rubicon_ml import client, domain
+from rubicon_ml.client import Rubicon
+from rubicon_ml.exceptions import RubiconException
 
 
 class TestRepository:
@@ -132,7 +132,8 @@ def test_publish(rubicon_and_project_client):
 
     assert f"project_{project.id.replace('-', '_')}" in catalog["sources"]
     assert (
-        "rubicon_project" == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["driver"]
+        "rubicon_ml_project"
+        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["driver"]
     )
     assert (
         project.repository.root_dir
@@ -144,7 +145,7 @@ def test_publish(rubicon_and_project_client):
     )
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
     assert (
-        "rubicon_experiment"
+        "rubicon_ml_experiment"
         == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["driver"]
     )
     assert (
@@ -214,7 +215,7 @@ def test_sync_from_memory(rubicon_and_project_client):
 
 
 @mock.patch("subprocess.run")
-@mock.patch("rubicon.client.Rubicon.get_project")
+@mock.patch("rubicon_ml.client.Rubicon.get_project")
 def test_sync_from_local(mock_get_project, mock_run):
     rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
     project_name = "Sync Test Project"
@@ -228,7 +229,7 @@ def test_sync_from_local(mock_get_project, mock_run):
 
 
 @mock.patch("subprocess.run")
-@mock.patch("rubicon.client.Rubicon.get_project")
+@mock.patch("rubicon_ml.client.Rubicon.get_project")
 def test_sync_from_local_error(mock_get_project, mock_run):
     rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
     project_name = "Sync Test Project"
