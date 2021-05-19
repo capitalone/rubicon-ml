@@ -13,5 +13,7 @@ docs/source/**/data
 **/rubicon-root/
 **/.ipynb_checkpoints/
 **/.vscode/**
+build/**
+dist/**
 
 !docs/source/_static/images/**/*.png
