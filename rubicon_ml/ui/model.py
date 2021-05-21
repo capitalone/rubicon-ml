@@ -192,7 +192,7 @@ class RubiconModel:
         """
         self._selected_project, *_ = [p for p in self._projects if p.name == selected_project_name]
 
-        # reset the experiment data when another project is selected 
+        # reset the experiment data when another project is selected
         self._experiment_table_dfs = {}
 
         grouped_experiment_dfs = self._maybe_run_async(
