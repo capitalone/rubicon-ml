@@ -1,0 +1,13 @@
+name: rubicon-ml-binder
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.7
+
+  - rubicon-ml
+
+  # for dataframe visualization examples
+  - hvplot
+
+  # for scikit-learn examples
+  - scikit-learn
