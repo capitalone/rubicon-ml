@@ -3,13 +3,15 @@ channels:
   - conda-forge
 dependencies:
   - python>=3.7
-  - pip
 
   - jupyterlab
   - rubicon-ml
 
   # for dataframe visualization examples
   - hvplot
+
+  # for scikit-learn examples
+  - scikit-learn
 
   # for building the lab extension
   - nodejs
