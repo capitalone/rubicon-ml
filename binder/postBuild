@@ -1,5 +1,3 @@
 #!/bin/bash
 
 jupyter lab workspaces import binder/workspace.json
-
-exec "$@"
