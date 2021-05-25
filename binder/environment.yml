@@ -4,10 +4,6 @@ channels:
 dependencies:
   - python>=3.7
 
-  - rubicon-ml
-
-  # for dataframe visualization examples
   - hvplot
-
-  # for scikit-learn examples
+  - rubicon-ml
   - scikit-learn

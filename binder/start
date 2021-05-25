@@ -1,0 +1,8 @@
+#!/bin/bash
+
+git clone -b rubicon-logs https://github.com/ryanSoley/experimenting-with-rubicon.git binder/
+
+jupyter lab build  # rebuild for JupyterDash
+jupyter lab workspaces import binder/workspace.json
+
+exec "$@"

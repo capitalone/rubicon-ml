@@ -1,3 +1,0 @@
-git clone -b rubicon-logs https://github.com/ryanSoley/experimenting-with-rubicon.git binder/
-
-jupyter lab workspaces import binder/workspace.json
