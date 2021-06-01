@@ -5,7 +5,7 @@ dependencies:
   - python>=3.7
 
   - jupyter-server-proxy
-  - notebook==6.0.3
+  - notebook
 
   - hvplot
   - rubicon-ml
