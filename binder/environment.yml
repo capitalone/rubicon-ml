@@ -5,6 +5,5 @@ dependencies:
   - python>=3.7
 
   - hvplot
-  - jupyter-server-proxy
   - rubicon-ml
   - scikit-learn
