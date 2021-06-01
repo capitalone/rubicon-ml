@@ -52,6 +52,9 @@ context necessary for a complete model review and approval.
 
 ## Use
 
+Check out the [interactive notebooks in this Binder](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=binder%2Fwelcome.ipynb)
+to try `rubicon_ml` for yourself.
+
 Here's a simple example:
 
 ```python
