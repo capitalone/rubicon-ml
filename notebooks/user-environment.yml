@@ -11,5 +11,8 @@ dependencies:
   # for dataframe visualization examples
   - hvplot
 
+  # for scikit-learn examples
+  - scikit-learn
+
   # for building the lab extension
   - nodejs
