@@ -12,11 +12,11 @@ help:
 
 .PHONY: help Makefile
 
-html: prepare
+html: pre-build build-docs post-build
 
-# Clear the examples directory and then copy the advanced example 
-# notebooks to the source folder so nbsphinx can build docs off of them
-prepare:
+# Clear any existing sources and copy over up to date ones from the root
+# of the `rubicon_ml` repo.
+pre-build:
 	rm -rf ./source/rubicon-root
 
 	rm -rf ./source/logging-examples
@@ -37,11 +37,15 @@ prepare:
 	cp ../notebooks/integrations/integration-prefect-workflows.ipynb ./source/integrations
 	cp ../notebooks/integrations/integration-sklearn.ipynb ./source/integrations
 
-	# some notebooks have images
 	cp ../notebooks/quick-look-dashboard.png ./source
 	cp ../notebooks/integrations/integration-git-dashboard.png ./source/integrations
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+# Build the html docs.
+build-docs:
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+# Manually update underscore-js to deal with Whitesource vulnerability.
+# I have no idea where the original dependency is coming from.
+post-build:
+	cp ./source/_static/underscore.js ./build/html/_static/underscore.js
+	rm ./build/html/_static/underscore-1.12.0.js
