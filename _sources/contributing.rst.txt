@@ -88,14 +88,21 @@ tools:
    cd docs/
    conda env create -f docs-environment.yml
 
-Activate the new environment and use the ``build-docs.sh`` script in the
-``docs`` directory to build the documentation locally. The newly built
-documentation will open in a browser window.
+Activate the new environment, install a local copy of ``rubicon_ml``, and
+use the ``make html`` command from the ``docs`` directory to build the
+documentation locally.
 
 .. code-block:: shell
 
    conda activate rubicon-ml-docs
-   sh build-docs.sh
+   pip install --no-deps -e ../
+   make html
+
+The newly built documentation can be opened in a browser.
+
+.. code-block:: shell
+
+   open ./build/html/index.html
 
 Never commit built documentation code directly, only the source.
 Our ``.gitignore`` should handle keeping built docs out of the repo, and

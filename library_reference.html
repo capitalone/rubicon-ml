@@ -1482,6 +1482,131 @@ are passed directly to the underlying filesystem class.</p>
 </dl>
 </dd></dl>
 </div>
+<div class="section" id="sklearn">
+<span id="library-reference-sklearn"></span><h2>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers direct integration with Scikit-learn via our
+own pipeline object.</p>
+<dl class="py class">
+<dt id="rubicon_ml.sklearn.RubiconPipeline">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.</span></code><code class="sig-name descname"><span class="pre">RubiconPipeline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_defined_loggers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'name':</span> <span class="pre">'RubiconPipeline</span> <span class="pre">experiment'}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>An extension of <cite>sklearn.pipeline.Pipeline</cite> that automatically
+creates a Rubicon <cite>experiment</cite> under the provided <cite>project</cite> and logs
+the pipeline’s <cite>parameters</cite> and <cite>metrics</cite> to it.</p>
+<p>A single pipeline run will result in a single <cite>experiment</cite> logged with
+its corresponding <cite>parameters</cite> and <cite>metrics</cite> pulled from the pipeline’s
+estimators.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>project</strong><span class="classifier">rubicon.client.Project</span></dt><dd><p>The rubicon project to log to.</p>
+</dd>
+<dt><strong>steps</strong><span class="classifier">list</span></dt><dd><p>List of (name, transform) tuples (implementing fit/transform) that are chained,
+in the order in which they are chained, with the last object an estimator.</p>
+</dd>
+<dt><strong>user_defined_loggers</strong><span class="classifier">dict, optional</span></dt><dd><p>A dict mapping the estimator name to a corresponding user defined logger.
+See the example below for more details.</p>
+</dd>
+<dt><strong>experiment_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>project.log_experiment()</cite>.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>sklearn.pipeline.Pipeline()</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">RubiconPipeline</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">project</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">"vect"</span><span class="p">,</span> <span class="n">CountVectorizer</span><span class="p">()),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">"tfidf"</span><span class="p">,</span> <span class="n">TfidfTransformer</span><span class="p">()),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">"clf"</span><span class="p">,</span> <span class="n">SGDClassifier</span><span class="p">()),</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span>    <span class="n">user_defined_loggers</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">"vect"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"decode_error"</span><span class="p">,</span> <span class="s2">"max_df"</span><span class="p">]),</span>
+<span class="gp">... </span>        <span class="s2">"tfidf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">ignore_all</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="s2">"clf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"penalty"</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="rubicon_ml.sklearn.RubiconPipeline.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fit_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model and automatically log the <cite>fit_params</cite>
+to Rubicon. Optionally, pass <cite>tags</cite> to update the experiment’s
+tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Training data. Must fulfill input requirements of first step of the pipeline.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">iterable, optional</span></dt><dd><p>Training targets. Must fulfill label requirements for all steps of the pipeline.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list, optional</span></dt><dd><p>Additional tags to add to the experiment during the fit.</p>
+</dd>
+<dt><strong>fit_params</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>sklearn.pipeline.Pipeline.fit()</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="rubicon_ml.sklearn.RubiconPipeline.get_estimator_logger">
+<code class="sig-name descname"><span class="pre">get_estimator_logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline.get_estimator_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a logger for the estimator. By default, the logger will
+have the current experiment set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="rubicon_ml.sklearn.RubiconPipeline.score">
+<code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Score with the final estimator and automatically
+log the results to Rubicon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Data to predict on. Must fulfill input requirements of first step of the pipeline.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">iterable, optional</span></dt><dd><p>Targets used for scoring. Must fulfill label requirements for all steps of the pipeline.</p>
+</dd>
+<dt><strong>sample_weight</strong><span class="classifier">list, optional</span></dt><dd><p>If not None, this argument is passed as sample_weight keyword argument to the
+score method of the final estimator.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="rubicon_ml.sklearn.FilterEstimatorLogger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.</span></code><code class="sig-name descname"><span class="pre">FilterEstimatorLogger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.FilterEstimatorLogger" title="Permalink to this definition">¶</a></dt>
+<dd><p>The filter logger for sklearn estimators. Use this
+logger to either select or ignore specific parameters
+for logging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>estimator</strong><span class="classifier">a sklearn estimator, optional</span></dt><dd><p>The estimator</p>
+</dd>
+<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment, optional</span></dt><dd><p>The experiment to log the parameters and metrics to.</p>
+</dd>
+<dt><strong>step_name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the pipeline step.</p>
+</dd>
+<dt><strong>select</strong><span class="classifier">list, optional</span></dt><dd><p>The list of parameters on this estimator that you’d like
+to log. All other parameters will be ignored.</p>
+</dd>
+<dt><strong>ignore</strong><span class="classifier">list, optional</span></dt><dd><p>The list of parameters on this estimator that you’d like
+to ignore by not logging. The other parameters will be logged.</p>
+</dd>
+<dt><strong>ignore_all</strong><span class="classifier">bool, optional</span></dt><dd><p>Ignore all parameters if true.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+</div>
 <div class="section" id="ui">
 <span id="library-reference-ui"></span><h2>ui<a class="headerlink" href="#ui" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> dashboard can be launched directly from Python code
@@ -1796,6 +1921,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#dataframe">Dataframe</a></li>
 <li><a class="reference internal" href="#artifact">Artifact</a></li>
 <li><a class="reference internal" href="#asynchronous">asynchronous</a></li>
+<li><a class="reference internal" href="#sklearn">sklearn</a></li>
 <li><a class="reference internal" href="#ui">ui</a></li>
 <li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a></li>
 </ul>

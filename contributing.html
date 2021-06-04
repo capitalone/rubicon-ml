@@ -229,11 +229,16 @@ tools:</p>
 conda env create -f docs-environment.yml
 </pre></div>
 </div>
-<p>Activate the new environment and use the <code class="docutils literal notranslate"><span class="pre">build-docs.sh</span></code> script in the
-<code class="docutils literal notranslate"><span class="pre">docs</span></code> directory to build the documentation locally. The newly built
-documentation will open in a browser window.</p>
+<p>Activate the new environment, install a local copy of <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>, and
+use the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> command from the <code class="docutils literal notranslate"><span class="pre">docs</span></code> directory to build the
+documentation locally.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda activate rubicon-ml-docs
-sh build-docs.sh
+pip install --no-deps -e ../
+make html
+</pre></div>
+</div>
+<p>The newly built documentation can be opened in a browser.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>open ./build/html/index.html
 </pre></div>
 </div>
 <p>Never commit built documentation code directly, only the source.
