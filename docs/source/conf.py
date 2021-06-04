@@ -6,7 +6,11 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-from rubicon_ml import __version__ as version  # noqa F401
+import re
+
+from rubicon_ml import __version__
+
+version = re.search(r"([\d.]+)", __version__).group(1)
 
 # -- Path setup --------------------------------------------------------------
 
@@ -24,7 +28,6 @@ from rubicon_ml import __version__ as version  # noqa F401
 project = "rubicon-ml"
 author = "rubicon-ml developers"
 copyright = "2021, rubicon-ml developers"
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -85,7 +88,7 @@ exclude_patterns = ["_build"]
 html_theme = "furo"
 # hide rubicon because it's already in the logo, but will still get pulled into the tab
 # strip the version down so we don't include dirty tags
-html_title = f"<div class='hidden'>rubicon-ml</div> <div class='version'> v{version[:5]}</div>"
+html_title = f"<div class='hidden'>rubicon-ml</div> <div class='version'> v{version}</div>"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_favicon = "_static/images/rubicon_logo_favicon.png"
