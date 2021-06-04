@@ -5,30 +5,24 @@ repository.
 
 ### Development
 
-Create and activate the ``conda`` environment from the ``rubicon/docs``
-directory:
+Create and activate the `conda` environment in the `rubicon/docs`
+directory and install a local copy of `rubicon_ml`.
 
 ```
-conda env create -f docs-environment.yml
-conda activate rubicon-docs
+conda env create -f docs/docs-environment.yml
+conda activate rubicon-ml-docs
+pip install --no-deps -e ../
 ```
 
-The included `build-docs.sh` script pulls the most recent version of the
-documentation from the `gh-pages` branch and builds any changes into the
-`rubicon/docs/build/html` directory. Then it opens the index locally to review
-your changes.
+*Note:* We're using the `--no-deps` flag because `docs-environment.yml`
+already installed the `rubicon_ml` dependencies we need to build the docs.
+
+Use the provided Makefile to build the docs locally.
 
 ```
-bash build-docs.sh
+cd docs/
+make html
 ```
 
-When actively developing, run the script with the `--no-clone` option to skip
-cloning the `gh-pages` branch every build. You only need to clone the repo right
-before you push your source changes to avoid and resolve any conflicts.
-
-```
-bash build-docs.sh --no-clone
-```
-
-Never commit built documentation code directly to Rubicon. Our CICD handles
-deploying documentation.
+Never commit built documentation code directly to the `gh-pages` branch.
+Our CICD handles building and deploying documentation.
