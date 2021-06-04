@@ -6,26 +6,23 @@ SPHINXBUILD   = sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
+.PHONY: help clean pre-build build-docs post-build html
+
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile
-
-html: pre-build build-docs post-build
-
-# Clear any existing sources and copy over up to date ones from the root
-# of the `rubicon_ml` repo.
-pre-build:
-	rm -rf ./source/rubicon-root
-
+# Clear any existing, outdated sources.
+clean:
+	rm -rf ./build/html
 	rm -rf ./source/logging-examples
 	rm -rf ./source/integrations
-	rm -f ./source/*.ipynb
 
-	mkdir ./source/logging-examples
-	mkdir ./source/logging-examples/data
-	mkdir ./source/integrations
+# Copy over up to date sources from the root of the `rubicon_ml` repo.
+pre-build:
+	mkdir -p ./build/html
+	mkdir -p ./source/logging-examples
+	mkdir -p ./source/integrations
 
 	cp ../notebooks/quick-look.ipynb ./source
 	cp ../notebooks/logging-examples/logging-basics.ipynb ./source/logging-examples
@@ -40,7 +37,7 @@ pre-build:
 	cp ../notebooks/quick-look-dashboard.png ./source
 	cp ../notebooks/integrations/integration-git-dashboard.png ./source/integrations
 
-# Build the html docs.
+# Run the Sphinx command to build the docs as html.
 build-docs:
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
@@ -49,3 +46,7 @@ build-docs:
 post-build:
 	rm -f ./build/html/_static/underscore*.js
 	cp ./source/_static/underscore.js ./build/html/_static/underscore.js
+
+	$(info open with 'open ./build/html/index.html')
+
+html: clean pre-build build-docs post-build

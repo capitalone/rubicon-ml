@@ -27,6 +27,7 @@ dependencies:
   - pyarrow>=0.18.0
   - pyyaml>=5.4.0
   - s3fs>=0.4
+  - scikit-learn
 
   - pip:
     - ../
