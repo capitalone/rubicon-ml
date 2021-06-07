@@ -29,21 +29,21 @@ class RubiconPipeline(Pipeline):
         Additional keyword arguments to be passed to
         `sklearn.pipeline.Pipeline()`.
 
-    Example
-    -------
+    Examples
+    --------
     >>> pipeline = RubiconPipeline(
-    >>>     project,
-    >>>     [
-    >>>         ("vect", CountVectorizer()),
-    >>>         ("tfidf", TfidfTransformer()),
-    >>>         ("clf", SGDClassifier()),
-    >>>     ],
-    >>>     user_defined_loggers = {
-    >>>         "vect": FilterEstimatorLogger(select=["input", "decode_error", "max_df"]),
-    >>>         "tfidf": FilterEstimatorLogger(ignore_all=True),
-    >>>         "clf": FilterEstimatorLogger(ignore=["alpha", "penalty"]),
-    >>>     }
-    >>> )
+    ...     project,
+    ...     [
+    ...         ("vect", CountVectorizer()),
+    ...         ("tfidf", TfidfTransformer()),
+    ...         ("clf", SGDClassifier()),
+    ...     ],
+    ...     user_defined_loggers = {
+    ...         "vect": FilterEstimatorLogger(select=["input", "decode_error", "max_df"]),
+    ...         "tfidf": FilterEstimatorLogger(ignore_all=True),
+    ...         "clf": FilterEstimatorLogger(ignore=["alpha", "penalty"]),
+    ...     }
+    ... )
     """
 
     def __init__(

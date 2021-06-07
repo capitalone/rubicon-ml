@@ -77,6 +77,19 @@ return value.
 
 .. autoclass:: rubicon_ml.client.asynchronous.Rubicon
 
+.. _library-reference-sklearn:
+
+sklearn
+=======
+``rubicon_ml`` offers direct integration with Scikit-learn via our
+own pipeline object.
+
+.. autoclass:: rubicon_ml.sklearn.RubiconPipeline
+   :members:
+
+.. autoclass:: rubicon_ml.sklearn.FilterEstimatorLogger
+   :members:
+
 .. _library-reference-ui:
 
 ui

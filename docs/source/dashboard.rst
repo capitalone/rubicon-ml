@@ -73,5 +73,5 @@ and low values for ``clf__alpha`` correlate to high ``accuracy`` values.
     The y-axes can be dragged and rearranged to reorder the plot. And you can highlight
     subsets of the plot by clicking and dragging across a subset of the y-axis.
 
-.. image:: _static/images/dashboard-comparison.png
-  :alt: Rubicon dashboard
+.. image:: _static/images/dashboard.png
+  :alt: rubicon-ml dashboard

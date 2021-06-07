@@ -3,7 +3,6 @@ channels:
   - conda-forge
 dependencies:
   - python>=3.7
-  - pip
 
   # for building the docs
   - furo
@@ -13,20 +12,12 @@ dependencies:
   - sphinx
   - sphinx-copybutton
 
-  # so pip doesn't actually install
-  # the rubicon dependencies
-  - click>=7.1
+  # only install necessary rubicon-ml dependencies
   - dash>=1.14.0
   - dash-bootstrap-components>=0.10.6
   - dask>=2.12.0
   - jupyter-dash
   - pandas>=1.0
   - fsspec>=2021.4.0
-  - intake>=0.5.2
   - prefect>=0.12.0
-  - pyarrow>=0.18.0
-  - pyyaml>=5.4.0
-  - s3fs>=0.4
-
-  - pip:
-    - ../
+  - scikit-learn

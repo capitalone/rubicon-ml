@@ -27,10 +27,11 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file docs/docs-environment.yml --name base
+        pip install --no-deps .
     - name: Build
       run: |
         cd docs
-        bash build-docs.sh
+        make html
       shell: bash
     - name: Publish
       uses: JamesIves/github-pages-deploy-action@4.0.0
