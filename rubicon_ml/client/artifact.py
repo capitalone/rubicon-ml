@@ -1,3 +1,5 @@
+import os
+
 import fsspec
 
 from rubicon_ml.client import Base
@@ -54,12 +56,12 @@ class Artifact(Base):
             Defaults to the artifact's given name when logged.
         """
         if location is None:
-            location = "."
+            location = os.getcwd()
 
         if name is None:
             name = self._domain.name
 
-        with fsspec.open(f"{location.rstrip('/')}/{name}", "wb", auto_mkdir=False) as f:
+        with fsspec.open(os.path.join(location, name), "wb", auto_mkdir=False) as f:
             f.write(self.data)
 
     @property
