@@ -38,7 +38,7 @@ def test_download_cwd(mock_open, project_client):
 
     artifact.download()
 
-    mock_open.assert_called_once_with(f"{os.getcwd()}/{artifact.name}", mode="wb")
+    mock_open.assert_called_once_with(os.path.join(os.getcwd(), artifact.name), mode="wb")
     mock_file().write.assert_called_once_with(data)
 
 

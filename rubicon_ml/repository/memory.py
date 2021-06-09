@@ -31,7 +31,8 @@ class MemoryRepository(LocalRepository):
         self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/") if root_dir is not None else "/root"
 
-        self.filesystem.mkdir(self.root_dir)
+        if not self.filesystem.exists(self.root_dir):
+            self.filesystem.mkdir(self.root_dir)
 
     def _persist_dataframe(self, df, path):
         """Persists the `dask` dataframe `df` to the in-memory
