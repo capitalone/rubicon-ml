@@ -1,6 +1,6 @@
 import dataclasses
 import json
-from datetime import datetime
+from datetime import date, datetime
 
 from rubicon_ml.domain.utils import TrainingMetadata
 
@@ -13,6 +13,8 @@ class DomainJSONEncoder(json.JSONEncoder):
         """
         if isinstance(obj, datetime):
             return {"_type": "datetime", "value": str(obj)}
+        if isinstance(obj, date):
+            return {"_type": "date", "value": str(obj)}
         if isinstance(obj, set):
             return {"_type": "set", "value": list(obj)}
         if isinstance(obj, TrainingMetadata):
@@ -30,6 +32,8 @@ class DomainJSONDecoder(json.JSONDecoder):
     def object_hook(self, obj):
         if obj.get("_type") == "datetime":
             return datetime.strptime(obj.get("value"), "%Y-%m-%d %H:%M:%S.%f")
+        if obj.get("_type") == "date":
+            return date.fromisoformat(obj.get("value"))
         if obj.get("_type") == "set":
             return set(obj.get("value"))
         if obj.get("_type") == "training_metadata":

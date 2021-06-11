@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from rubicon_ml.domain.utils import TrainingMetadata
 from rubicon_ml.repository.utils import json
@@ -19,6 +19,23 @@ def test_can_deserialize_datetime():
     deserialized = json.loads(to_deserialize)
 
     assert deserialized["date"] == now
+
+
+def test_can_serialize_date():
+    a_date = date(2021, 1, 1)
+    to_serialize = {"date": a_date, "other": None}
+    serialized = json.dumps(to_serialize)
+
+    assert "date" in serialized
+    assert str(a_date) in serialized
+
+
+def test_can_deserialize_date():
+    a_date = date(2021, 1, 1)
+    to_deserialize = '{"date": {"_type": "date", "value": "' + str(a_date) + '"}}'
+    deserialized = json.loads(to_deserialize)
+
+    assert deserialized["date"] == a_date
 
 
 def test_can_serialize_set():
