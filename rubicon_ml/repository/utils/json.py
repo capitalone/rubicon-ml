@@ -1,7 +1,6 @@
 import dataclasses
 import json
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime
 
 from rubicon_ml.domain.utils import TrainingMetadata
 
