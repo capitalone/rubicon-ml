@@ -1,3 +1,5 @@
+Enable CLA Assistant.
+
 # rubicon-ml
 
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
