@@ -12,9 +12,9 @@ class DomainJSONEncoder(json.JSONEncoder):
         within dataclasses, we need to leverage asdict()
         """
         if isinstance(obj, datetime):
-            return {"_type": "datetime", "value": str(obj)}
+            return {"_type": "datetime", "value": obj.strftime("%Y-%m-%d %H:%M:%S.%f")}
         if isinstance(obj, date):
-            return {"_type": "date", "value": str(obj)}
+            return {"_type": "date", "value": obj.isoformat()}
         if isinstance(obj, set):
             return {"_type": "set", "value": list(obj)}
         if isinstance(obj, TrainingMetadata):
