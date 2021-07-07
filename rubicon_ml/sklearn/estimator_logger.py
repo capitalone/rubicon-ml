@@ -1,4 +1,4 @@
-import warnings
+from rubicon_ml.sklearn.utils import log_parameter_with_warning
 
 
 class EstimatorLogger:
@@ -20,20 +20,9 @@ class EstimatorLogger:
         self.experiment = experiment
         self.step_name = step_name
 
-    def _log_parameter_to_rubicon(self, name, value):
-        try:
-            self.experiment.log_parameter(name=f"{self.step_name}__{name}", value=value)
-        except Exception:
-            warning = (
-                f"step '{self.step_name}' failed to write parameter '{name}' with value {value} "
-                f"of type {type(value)}. try using the `FilterEstimatorLogger` with `ignore=['{name}']`"
-            )
-
-            warnings.warn(warning)
-
     def log_parameters(self):
         for name, value in self.estimator.get_params().items():
-            self._log_parameter_to_rubicon(name, value)
+            log_parameter_with_warning(self.experiment, f"{self.step_name}__{name}", value)
 
     def log_metric(self, name, value):
         self.experiment.log_metric(name, value=value)
