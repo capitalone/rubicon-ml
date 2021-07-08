@@ -45,6 +45,25 @@ def test_fit_logs_parameters(project_client, fake_estimator_cls):
     mock_log_parameters.assert_called_once()
 
 
+def test_fit_logs_fit_parameters(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
+    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+
+    with patch.object(Pipeline, "fit", return_value=None):
+        with patch.object(FilterEstimatorLogger, "log_parameters", return_value=None):
+            pipeline.fit(["fake data"], est__test_fit_param="test_value")
+
+    parameters = pipeline.experiment.parameters()
+    assert len(parameters) == 1
+
+    parameter = parameters[0]
+    assert parameter.name == "est__test_fit_param"
+    assert parameter.value == "test_value"
+
+
 def test_score_logs_metric(project_client, fake_estimator_cls):
     project = project_client
     estimator = fake_estimator_cls()

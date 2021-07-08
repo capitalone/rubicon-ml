@@ -1,6 +1,7 @@
 from sklearn.pipeline import Pipeline
 
 from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
+from rubicon_ml.sklearn.utils import log_parameter_with_warning
 
 
 class RubiconPipeline(Pipeline):
@@ -62,7 +63,7 @@ class RubiconPipeline(Pipeline):
 
         super().__init__(steps, **kwargs)
 
-    def fit(self, X, y=None, tags=None, **fit_params):
+    def fit(self, X, y=None, tags=None, log_fit_params=True, **fit_params):
         """Fit the model and automatically log the `fit_params`
         to Rubicon. Optionally, pass `tags` to update the experiment's
         tags.
@@ -75,7 +76,10 @@ class RubiconPipeline(Pipeline):
             Training targets. Must fulfill label requirements for all steps of the pipeline.
         tags : list, optional
             Additional tags to add to the experiment during the fit.
-        fit_params : dict
+        log_fit_params : bool, optional
+            True to log the values passed as `fit_params` to this pipeline's experiment.
+            Defaults to True.
+        fit_params : dict, optional
             Additional keyword arguments to be passed to
             `sklearn.pipeline.Pipeline.fit()`.
         """
@@ -88,6 +92,10 @@ class RubiconPipeline(Pipeline):
         for step_name, estimator in self.steps:
             logger = self.get_estimator_logger(step_name, estimator)
             logger.log_parameters()
+
+        if log_fit_params:
+            for name, value in fit_params.items():
+                log_parameter_with_warning(self.experiment, name, value)
 
         return pipeline
 

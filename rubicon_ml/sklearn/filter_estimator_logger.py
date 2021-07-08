@@ -1,5 +1,6 @@
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
+from rubicon_ml.sklearn.utils import log_parameter_with_warning
 
 
 class FilterEstimatorLogger(EstimatorLogger):
@@ -49,4 +50,4 @@ class FilterEstimatorLogger(EstimatorLogger):
 
         for name, value in self.estimator.get_params().items():
             if (self.ignore and name not in self.ignore) or (self.select and name in self.select):
-                self._log_parameter_to_rubicon(name, value)
+                log_parameter_with_warning(self.experiment, f"{self.step_name}__{name}", value)

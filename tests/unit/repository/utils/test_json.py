@@ -10,12 +10,14 @@ def test_can_serialize_datetime():
     serialized = json.dumps(to_serialize)
 
     assert "datetime" in serialized
-    assert str(now) in serialized
+    assert now.strftime("%Y-%m-%d %H:%M:%S.%f") in serialized
 
 
 def test_can_deserialize_datetime():
     now = datetime.utcnow()
-    to_deserialize = '{"date": {"_type": "datetime", "value": "' + str(now) + '"}}'
+    to_deserialize = (
+        '{"date": {"_type": "datetime", "value": "' + now.strftime("%Y-%m-%d %H:%M:%S.%f") + '"}}'
+    )
     deserialized = json.loads(to_deserialize)
 
     assert deserialized["date"] == now
@@ -27,12 +29,12 @@ def test_can_serialize_date():
     serialized = json.dumps(to_serialize)
 
     assert "date" in serialized
-    assert str(a_date) in serialized
+    assert a_date.isoformat() in serialized
 
 
 def test_can_deserialize_date():
     a_date = date(2021, 1, 1)
-    to_deserialize = '{"date": {"_type": "date", "value": "' + str(a_date) + '"}}'
+    to_deserialize = '{"date": {"_type": "date", "value": "' + a_date.isoformat() + '"}}'
     deserialized = json.loads(to_deserialize)
 
     assert deserialized["date"] == a_date
@@ -43,7 +45,7 @@ def test_can_serialize_set():
     to_serialize = {"tags": set(tags), "other": None}
     serialized = json.dumps(to_serialize)
 
-    assert "tags" in serialized
+    assert "set" in serialized
     assert "tag-a" in serialized
     assert "tag-b" in serialized
 
