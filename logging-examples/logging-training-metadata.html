@@ -2,13 +2,16 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizing Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Logging Basics" href="logging-basics.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizing Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Logging Basics" href="logging-basics.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
-        <title>Logging Training Metadata - rubicon-ml v0.2.6</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
-    <link rel="stylesheet" href="../_static/pygments.css">
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.0.3, furo 2021.07.05.beta38"/>
+        <title>Logging Training Metadata - rubicon-ml v0.2.7</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
 
 
@@ -37,9 +40,7 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style><link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+</style><link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -412,7 +413,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-training-metadata.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/logging-examples/logging-training-metadata.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils"/>
-<div class="section" id="Logging-Training-Metadata">
+<section id="Logging-Training-Metadata">
 <h1>Logging Training Metadata<a class="headerlink" href="#Logging-Training-Metadata" title="Permalink to this headline">¶</a></h1>
 <p>We can’t train a model without a lot of data. Keeping track of where that data is and how to get it can be difficult. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> isn’t in the business of storing full training datasets, but it can store metadata about our training datasets on both <strong>projects</strong> (for high level datasource configuration) and <strong>experiments</strong> (for indiviual model runs).</p>
 <p>Below, we’ll use <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to reference a dataset stored in S3.</p>
@@ -492,7 +493,7 @@ div.rendered_html tbody tr:hover {
 &lt;rubicon_ml.client.project.Project at 0x1065a1be0&gt;
 </pre></div></div>
 </div>
-<div class="section" id="Experiment-level-training-metadata">
+<section id="Experiment-level-training-metadata">
 <h2>Experiment level training metadata<a class="headerlink" href="#Experiment-level-training-metadata" title="Permalink to this headline">¶</a></h2>
 <p>Before we create an <strong>experiment</strong>, we’ll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later.</p>
 <div class="nbinput docutils container">
@@ -655,8 +656,8 @@ div.rendered_html tbody tr:hover {
 S3TrainingMetadata(config={'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, bucket='my-bucket', keys=['path/to/my/data_0.parquet', 'path/to/my/data_1.parquet', 'path/to/my/data_2.parquet'])
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Projects-for-complex-training-metadata">
+</section>
+<section id="Projects-for-complex-training-metadata">
 <h2>Projects for complex training metadata<a class="headerlink" href="#Projects-for-complex-training-metadata" title="Permalink to this headline">¶</a></h2>
 <p>Each <strong>experiment</strong> on the <em>S3 Training Metadata</em> project below uses the same config to connect to S3, so no need to duplicate it. We’ll only log it to the <strong>project</strong>. Then we’ll run three experiments, with each one using a different key to load data from S3. We can represent that training metadata as a different <code class="docutils literal notranslate"><span class="pre">namedtuple</span></code> and log one to each experiment.</p>
 <div class="nbinput nblast docutils container">
@@ -720,8 +721,8 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_0.parquet')
 S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
 </pre></div></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>
@@ -791,15 +792,15 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
       
     </aside>
   </main>
-</div>
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    </body>
 </html>

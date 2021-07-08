@@ -2,13 +2,16 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Glossary" href="glossary.html" /><link rel="prev" title="Purpose" href="index.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Glossary" href="glossary.html" /><link rel="prev" title="Purpose" href="index.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
-        <title>Quick Look - rubicon-ml v0.2.6</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
-    <link rel="stylesheet" href="_static/pygments.css">
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.0.3, furo 2021.07.05.beta38"/>
+        <title>Quick Look - rubicon-ml v0.2.7</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
 
 
@@ -37,9 +40,7 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style><link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-    <link rel="stylesheet" href="_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+</style><link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -412,7 +413,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/quick-look.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/quick-look.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils"/>
-<div class="section" id="Quick-Look">
+<section id="Quick-Look">
 <h1>Quick Look<a class="headerlink" href="#Quick-Look" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple classification example based on <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html#sphx-glr-auto-examples-preprocessing-plot-scaling-importance-py">this Scikit-learn example</a>. The wine dataset used in this example classifies different Italian wines by the cultivators that produced them based on 13 features describing their chemical makeup. More infomation on this dataset can be found by running <code class="docutils literal notranslate"><span class="pre">print(wine.DESCR)</span></code> after the dataset has
 been loaded.</p>
@@ -435,7 +436,7 @@ been loaded.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="Logging-Library">
+<section id="Logging-Library">
 <h2>Logging Library<a class="headerlink" href="#Logging-Library" title="Permalink to this headline">¶</a></h2>
 <p>The logging library provides an API for storing and retrieving model inputs, outputs, and analyses. Using <code class="docutils literal notranslate"><span class="pre">fsspec</span></code>, it supports three types of persistence:</p>
 <ul class="simple">
@@ -444,7 +445,7 @@ been loaded.</p>
 <li><p><strong>in-memory</strong>: for testing and development - no need to clean up after yourself!</p></li>
 </ul>
 <p>Within <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>, the implementations of these filesystems are very lightweight, with most functionality coming directly from <code class="docutils literal notranslate"><span class="pre">fsspec</span></code>. In fact, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s persistence layer is designed to be easily extensible and could be extended to support any other type of persistence that <code class="docutils literal notranslate"><span class="pre">fsspec</span></code> supports.</p>
-<div class="section" id="Local-Logging">
+<section id="Local-Logging">
 <h3>Local Logging<a class="headerlink" href="#Local-Logging" title="Permalink to this headline">¶</a></h3>
 <p>First, we’ll configure our <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object and create a project.</p>
 <div class="nbinput docutils container">
@@ -553,8 +554,8 @@ been loaded.</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="S3-Logging">
+</section>
+<section id="S3-Logging">
 <h3>S3 Logging<a class="headerlink" href="#S3-Logging" title="Permalink to this headline">¶</a></h3>
 <p>Logging to S3 is as simple as changing the <code class="docutils literal notranslate"><span class="pre">root_dir</span></code> when instantiating the <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span>
@@ -563,16 +564,16 @@ been loaded.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="In-memory-Logging">
+</section>
+<section id="In-memory-Logging">
 <h3>In-memory Logging<a class="headerlink" href="#In-memory-Logging" title="Permalink to this headline">¶</a></h3>
 <p>The same is true of in-memory logging! In-memory logging doesn’t require a <code class="docutils literal notranslate"><span class="pre">root_dir</span></code>, but if you’re working with other in-memory <code class="docutils literal notranslate"><span class="pre">fsspec</span></code> filesystems you can still provide one.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="Dashboard">
+</section>
+</section>
+<section id="Dashboard">
 <h2>Dashboard<a class="headerlink" href="#Dashboard" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> comes with a UI add-on (installable as rubicon-ml[ui] if you’re using <code class="docutils literal notranslate"><span class="pre">pip</span></code> to manage your Python environment) that allows you to explore, visualize, and compare data within your projects. If you have <code class="docutils literal notranslate"><span class="pre">git</span></code> integration enabled, the dashboard will group your experiments by commit automatically and link you directly to the corresponding model code.</p>
 <div class="nbinput docutils container">
@@ -610,12 +611,12 @@ Dash app running on http://127.0.0.1:8050/
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --root-dir ./rubicon-root
 </pre></div>
 </div>
-</div>
-<div class="section" id="Publishing-&amp;-Sharing">
+</section>
+<section id="Publishing-&amp;-Sharing">
 <h2>Publishing &amp; Sharing<a class="headerlink" href="#Publishing-&amp;-Sharing" title="Permalink to this headline">¶</a></h2>
 <p>Once you have a project stored in S3, anyone with access to that bucket can use the Python library to pull down your project and explore the data themselves or they can visualize the project within the dashboard.</p>
 <p>Additionally, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers a process to share a selected subset of your logged data via publishing and consuming custom <a class="reference external" href="https://github.com/intake/intake">Intake</a> catalogs.</p>
-<div class="section" id="Publishing">
+<section id="Publishing">
 <h3>Publishing<a class="headerlink" href="#Publishing" title="Permalink to this headline">¶</a></h3>
 <p>Here, we’ll publish some experiments by generating an Intake catalog. The catalog file, generated as YAML, simply points to the actual data and can be shared and versioned independently of your <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project data.</p>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">experiment_tags</span></code> parameter to publish experiments with specific tags, like <strong>success</strong>. The resulting file will have a root <code class="docutils literal notranslate"><span class="pre">sources</span></code> key, followed by a number of sources representing experiments and/or projects. In this example, you’ll notice the <code class="docutils literal notranslate"><span class="pre">urlpaths</span></code> are all local since we’re using a local filesystem. Publishing is most useful when refrencing remote data in S3. That’s because publishing does not change or move the data - it only references it’s location.</p>
@@ -655,8 +656,8 @@ sources:
     driver: rubicon_ml_experiment
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Consuming-Published-Projects-&amp;-Experiments">
+</section>
+<section id="Consuming-Published-Projects-&amp;-Experiments">
 <h3>Consuming Published Projects &amp; Experiments<a class="headerlink" href="#Consuming-Published-Projects-&amp;-Experiments" title="Permalink to this headline">¶</a></h3>
 <p>If you’ve been given a catalog of published experiments, you can easily load these with <code class="docutils literal notranslate"><span class="pre">intake</span></code> and the custom <code class="docutils literal notranslate"><span class="pre">rubicon_ml.intake_rubicon</span></code> driver, which both come packaged with the Python library.</p>
 <div class="nbinput nblast docutils container">
@@ -703,9 +704,9 @@ sources:
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
       </article>
       <footer>
@@ -785,15 +786,15 @@ sources:
       
     </aside>
   </main>
-</div>
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    <script src="_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    </body>
 </html>

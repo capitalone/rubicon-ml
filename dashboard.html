@@ -2,13 +2,16 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
-        <title>Dashboard - rubicon-ml v0.2.6</title>
-      <link rel="stylesheet" href="_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
-    <link rel="stylesheet" href="_static/pygments.css">
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.0.3, furo 2021.07.05.beta38"/>
+        <title>Dashboard - rubicon-ml v0.2.7</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
 
 
@@ -37,9 +40,7 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style><link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-    <link rel="stylesheet" href="_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+</style><link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -159,7 +160,7 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="dashboard">
+        <section id="dashboard">
 <span id="id1"></span><h1>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h1>
 <p>The dashboard is powered by <a class="reference external" href="https://plotly.com/">Plotly</a> and
 <a class="reference external" href="https://dash.plotly.com">Dash</a> - specifically
@@ -168,7 +169,7 @@ It provides a UI for exploring and visualizing projects stored locally
 or in S3. The dashboard can be run in the browser (no Jupyter required!) or
 within Jupyter lab or notebooks. With a little extra work, it could even be
 deployed to a static URL.</p>
-<div class="section" id="usage">
+<section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Install the necessary requirements with the UI extra as detailed in the
 <a class="reference internal" href="install.html#install"><span class="std std-ref">installation section</span></a>. Then, the dashboard can invoked via the
@@ -198,8 +199,8 @@ the dashboard inline in a notebook or in a new JupyterLab window by passing the
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"jupyterlab"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="features">
+</section>
+<section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <p>Once a project is selected within the project selection view, you’ll see
 a high level grouping of its experiments. This works best if you’ve been
@@ -219,8 +220,8 @@ and low values for <code class="docutils literal notranslate"><span class="pre">
 subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
 </div>
 <img alt="rubicon-ml dashboard" src="_images/dashboard.png"/>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>
@@ -290,13 +291,13 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
       
     </aside>
   </main>
-</div>
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    </body>
 </html>

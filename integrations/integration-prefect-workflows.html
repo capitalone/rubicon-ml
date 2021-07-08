@@ -2,13 +2,16 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
-        <title>Prefect - rubicon-ml v0.2.6</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
-    <link rel="stylesheet" href="../_static/pygments.css">
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.0.3, furo 2021.07.05.beta38"/>
+        <title>Prefect - rubicon-ml v0.2.7</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
 
 
@@ -37,9 +40,7 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style><link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+</style><link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -412,7 +413,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-prefect-workflows.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/integrations/integration-prefect-workflows.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils"/>
-<div class="section" id="Prefect">
+<section id="Prefect">
 <h1>Prefect<a class="headerlink" href="#Prefect" title="Permalink to this headline">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers an integration with <a class="reference external" href="https://www.prefect.io/">Prefect</a>, an open source workflow management engine used heavily within the Python ecosystem. In Prefect, a unit of work is called a <strong>task</strong>, and a collection of <strong>tasks</strong> makes up a <strong>flow</strong>. A <strong>flow</strong> represents your workflow pipeline. You can integrate <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> into your workflows to persist metadata about your experimentation.</p>
 <p>We’ll <a class="reference external" href="https://docs.prefect.io/core/getting_started/installation.html#running-the-local-server-and-ui">run a Prefect server locally</a> for this example. If you already have Prefect and Docker installed, you can start a Prefect server and agent with these commands:</p>
@@ -424,7 +425,7 @@ prefect agent start
 </pre></div>
 </div>
 <p>For more context, check out the <a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/rubicon/workflow">workflow README on GitHub</a>.</p>
-<div class="section" id="Setting-up-a-simple-flow">
+<section id="Setting-up-a-simple-flow">
 <h2>Setting up a simple flow<a class="headerlink" href="#Setting-up-a-simple-flow" title="Permalink to this headline">¶</a></h2>
 <p>Now we can get started! Creating Prefect <strong>tasks</strong> is easy enough on its own, but we’ve added some simple ones to the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> library.</p>
 <div class="nbinput nblast docutils container">
@@ -559,8 +560,8 @@ prefect agent start
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Running-a-flow-and-viewing-results">
+</section>
+<section id="Running-a-flow-and-viewing-results">
 <h2>Running a flow and viewing results<a class="headerlink" href="#Running-a-flow-and-viewing-results" title="Permalink to this headline">¶</a></h2>
 <p>Now we’ll register our <strong>flow</strong> with the local server. First, we’ll have to use the <code class="docutils literal notranslate"><span class="pre">prefect</span></code> CLI one more time to create a project.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prefect create project <span class="s1">'Wine Classification'</span>
@@ -659,8 +660,8 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 </pre></div></div>
 </div>
 <p>What’s going on here isn’t exactly intuitive, and all that only extracted one piece of data from one task.</p>
-</div>
-<div class="section" id="Adding-Rubicon-to-your-flow">
+</section>
+<section id="Adding-Rubicon-to-your-flow">
 <h2>Adding Rubicon to your flow<a class="headerlink" href="#Adding-Rubicon-to-your-flow" title="Permalink to this headline">¶</a></h2>
 <p>We can leverage the Prefect tasks within the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> library to log all the info we want about our model run. Then, we can use the standard <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> logging library to retrieve and inspect our metrics and other logged data. This is much simpler than digging through the state of each executed <strong>task</strong> and extracting its results.</p>
 <p>Here’s the same flow from above, this time with <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> <strong>tasks</strong> integrated.</p>
@@ -777,8 +778,8 @@ metrics: [('accuracy', 1.0)]
 </pre></div></div>
 </div>
 <p>Extracting data from <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> is much simpler than pulling it from the various <strong>tasks</strong> as they succeed. Especially in the case where we’re running thousands of <strong>tasks</strong> in a <strong>flow</strong>.</p>
-</div>
-<div class="section" id="Concurrent-Logging-with-Dask">
+</section>
+<section id="Concurrent-Logging-with-Dask">
 <h2>Concurrent Logging with Dask<a class="headerlink" href="#Concurrent-Logging-with-Dask" title="Permalink to this headline">¶</a></h2>
 <p>Prefect plays nicely with Dask in order to provide parallel computing when possible. The Prefect scheduler is smart enough to know which <strong>tasks</strong> do and do not depend on each other, so it can intelligently decide when to run independent <strong>tasks</strong> at the same time.</p>
 <p>Let’s run the same <strong>flow</strong> as above, except this time we’ll log eight different experiments with eight different feature sets and accuracy results. First, we’ll need to use Dask to start a local cluster.</p>
@@ -935,8 +936,8 @@ Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!
 Dash app running on http://127.0.0.1:8050/
 </pre></div></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>
@@ -1008,15 +1009,15 @@ Dash app running on http://127.0.0.1:8050/
       
     </aside>
   </main>
-</div>
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    </body>
 </html>

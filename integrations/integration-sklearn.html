@@ -2,13 +2,16 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Dashboard" href="../dashboard.html" /><link rel="prev" title="Prefect" href="integration-prefect-workflows.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Dashboard" href="../dashboard.html" /><link rel="prev" title="Prefect" href="integration-prefect-workflows.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
-        <title>Scikit-learn - rubicon-ml v0.2.6</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
-    <link rel="stylesheet" href="../_static/pygments.css">
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.0.3, furo 2021.07.05.beta38"/>
+        <title>Scikit-learn - rubicon-ml v0.2.7</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
 
 
@@ -37,9 +40,7 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style><link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+</style><link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -88,7 +89,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -106,7 +107,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
@@ -412,10 +413,10 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-sklearn.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/integrations/integration-sklearn.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils"/>
-<div class="section" id="Scikit-learn">
+<section id="Scikit-learn">
 <h1>Scikit-learn<a class="headerlink" href="#Scikit-learn" title="Permalink to this headline">¶</a></h1>
 <p>This example shows how you can integrate <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> into your Scikit-learn pipelines to enable automatic logging of <strong>parameters</strong> and <strong>metrics</strong> as you fit and score your models!</p>
-<div class="section" id="Simple-pipeline-run">
+<section id="Simple-pipeline-run">
 <h2>Simple pipeline run<a class="headerlink" href="#Simple-pipeline-run" title="Permalink to this headline">¶</a></h2>
 <p>Using the <code class="docutils literal notranslate"><span class="pre">RubiconPipeline</span></code> class, you can set up a enhanced Scikit-learn pipeline with automated logging.</p>
 <div class="nbinput docutils container">
@@ -523,8 +524,8 @@ metrics: [('score', 0.88)]
 </pre></div></div>
 </div>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s logging is very verbose. It captures each <strong>parameter</strong> passed to each stage of your pipeline. In the next example we’ll see how to target our logging a bit more.</p>
-</div>
-<div class="section" id="A-more-realistic-example-using-GridSearch">
+</section>
+<section id="A-more-realistic-example-using-GridSearch">
 <h2>A more realistic example using GridSearch<a class="headerlink" href="#A-more-realistic-example-using-GridSearch" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">GridSearch</span></code> is commonly used to test many different parameters across an estimator or pipeline in the hopes of finding the optimal parameter set. The <code class="docutils literal notranslate"><span class="pre">RubiconPipeline</span></code> fits the Scikit-learn estimator specificaion, so it can be passed to Scikit-learn’s <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> to automatically log each set of parameters tried in the grid search to an individual experiment. Then, all of these experiments can be explored with the dashboard!</p>
 <p>This example is adapted from <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#sphx-glr-auto-examples-model-selection-grid-search-text-feature-extraction-py">this Scikit-learn example</a>.</p>
@@ -677,8 +678,8 @@ Best score: 0.9276681262662572
 Dash app running on http://127.0.0.1:8050/
 </pre></div></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>
@@ -748,15 +749,15 @@ Dash app running on http://127.0.0.1:8050/
       
     </aside>
   </main>
-</div>
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    </body>
 </html>
