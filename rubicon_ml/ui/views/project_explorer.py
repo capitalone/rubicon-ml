@@ -70,6 +70,17 @@ def make_individual_project_explorer_layout(rubicon_model, commit_hash):
     id = str(uuid.uuid4())
 
     experiment_table_df = rubicon_model.get_experiment_table_df(commit_hash)
+
+    # coerce param/metric cols to string to allow for filtering/sorting
+    # and to avoid render issues if value is dict
+    cols_to_coerce = []
+    for col in experiment_table_df.columns:
+        if col not in ["id", "model_name", "commit_hash", "tags"]:
+            cols_to_coerce.append(col)
+
+    for col in cols_to_coerce:
+        experiment_table_df = experiment_table_df.astype({col: "string"})
+
     github_commit_url = _get_github_commit_url(
         rubicon_model.selected_project.github_url, commit_hash
     )
