@@ -304,6 +304,9 @@ def test_get_artifacts(memory_repository):
         assert artifact.id in artifact_ids
         artifact_ids.remove(artifact.id)
 
+    assert artifacts[0].created_at < artifacts[1].created_at
+    assert artifacts[1].created_at < artifacts[2].created_at
+
 
 def test_get_artifacts_no_results(memory_repository):
     repository = memory_repository
