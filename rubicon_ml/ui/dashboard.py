@@ -82,4 +82,6 @@ class Dashboard:
 
         from IPython.display import IFrame
 
-        return IFrame(os.path.join(host, app.config["requests_pathname_prefix"]), **kwargs)
+        return IFrame(
+            os.path.join(host, app.config["requests_pathname_prefix"].lstrip("/")), **kwargs
+        )
