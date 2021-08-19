@@ -1,3 +1,5 @@
+import os
+
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 
@@ -23,19 +25,13 @@ class Dashboard:
     page_size : int, optional
         The number of rows that will be displayed on a page within the
         experiment table.
-    mode : str, optional
-        Where to run the dashboard. Can be one of
-        ["external", "jupyterlab", "inline"]. Defaults to "external".
     storage_options : dict, optional
         Additional keyword arguments specific to the protocol being chosen. They
         are passed directly to the underlying filesystem class.
     """
 
-    def __init__(
-        self, persistence, root_dir=None, page_size=10, mode="external", **storage_options
-    ):
+    def __init__(self, persistence, root_dir=None, page_size=10, **storage_options):
         self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
-        self._mode = mode
 
         self._app = app
         self._app._page_size = page_size
@@ -62,16 +58,28 @@ class Dashboard:
         )
 
     def run_server(self, **kwargs):
-        """Serve the dash app.
+        """Serve the dash app on an external web page.
+
+        Parameters
+        kwargs : dict
+            Additional arguments to be passed to `dash.run_server`.
+        """
+        self._app.run_server(**kwargs)
+
+    def run_server_inline(self, host=None, **kwargs):
+        """Serve the dash app inline in a Jupyter notebook.
 
         Parameters
         ----------
+        host : str
+            The base URL of the Jupyter session to run in.
         kwargs : dict
-            Arguments passed to dash.run_server()
+            Additional arguments to be passed to `IPython.display.IFrame`.
         """
-        kwargs.update({"mode": self._mode})
+        # TODO: find a way to set a reasonable default for `host`
+        if host is None:
+            raise ValueError("`host` can not be None")
 
-        if kwargs.get("debug") is None:
-            kwargs.update({"debug": False})
+        from IPython.display import IFrame
 
-        self._app.run_server(**kwargs)
+        return IFrame(os.path.join(host, app.config["requests_pathname_prefix"]), **kwargs)
