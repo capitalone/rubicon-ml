@@ -326,6 +326,7 @@ class BaseRepository:
                 domain.Artifact(**json.loads(metadata))
                 for metadata in self._cat_paths(artifact_metadata_paths)
             ]
+            artifacts.sort(key=lambda a: a.created_at)
         except FileNotFoundError:
             return []
 
