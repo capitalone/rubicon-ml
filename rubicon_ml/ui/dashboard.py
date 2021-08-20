@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 
 import dash_bootstrap_components as dbc
@@ -66,22 +67,31 @@ class Dashboard:
         """
         self._app.run_server(**kwargs)
 
-    def run_server_inline(self, host=None, **kwargs):
+    def run_server_inline(self, i_frame_kwargs={"height": 800, "width": "100%"}, **kwargs):
         """Serve the dash app inline in a Jupyter notebook.
 
         Parameters
         ----------
-        host : str
-            The base URL of the Jupyter session to run in.
-        kwargs : dict
+        i_frame_kwargs : dict
             Additional arguments to be passed to `IPython.display.IFrame`.
+        kwargs : dict
+            Additional arguments to be passed to `dash.run_server`.
         """
-        # TODO: find a way to set a reasonable default for `host`
-        if host is None:
-            raise ValueError("`host` can not be None")
-
         from IPython.display import IFrame
 
-        return IFrame(
-            os.path.join(host, app.config["requests_pathname_prefix"].lstrip("/")), **kwargs
+        if "proxy" in kwargs:
+            host = kwargs["proxy"].split("::")[-1]
+        else:
+            host = "localhost"
+
+        running_server_process = multiprocessing.Process(
+            name="run_server",
+            target=self.run_server,
+            kwargs=kwargs,
         )
+        running_server_process.daemon = True
+        running_server_process.start()
+
+        proxied_host = os.path.join(host, app.config["requests_pathname_prefix"].lstrip("/"))
+
+        return IFrame(proxied_host, **i_frame_kwargs)
