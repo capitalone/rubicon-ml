@@ -1,6 +1,6 @@
 import click
 
-from rubicon_ml.ui import Dashboard
+from rubicon_ml.ui.dashboard import Dashboard
 
 
 @click.group()
