@@ -68,7 +68,7 @@ class Dashboard:
         """
         self._app.run_server(**kwargs)
 
-    def run_server_inline(self, i_frame_kwargs={"height": 800, "width": "100%"}, **kwargs):
+    def run_server_inline(self, i_frame_kwargs={}, **kwargs):
         """Serve the dash app inline in a Jupyter notebook.
 
         Parameters
@@ -88,6 +88,12 @@ class Dashboard:
 
         if "dev_tools_silence_routes_logging" not in kwargs:
             kwargs["dev_tools_silence_routes_logging"] = True
+
+        if "height" not in i_frame_kwargs:
+            i_frame_kwargs["height"] = 800
+
+        if "width" not in i_frame_kwargs:
+            i_frame_kwargs["width"] = "100%"
 
         running_server_thread = threading.Thread(
             name="run_server",
