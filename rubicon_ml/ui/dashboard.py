@@ -1,5 +1,5 @@
-import multiprocessing
 import os
+import threading
 
 import dash_bootstrap_components as dbc
 import dash_html_components as html
@@ -62,6 +62,7 @@ class Dashboard:
         """Serve the dash app on an external web page.
 
         Parameters
+        ----------
         kwargs : dict
             Additional arguments to be passed to `dash.run_server`.
         """
@@ -80,20 +81,21 @@ class Dashboard:
         from IPython.display import IFrame
 
         if "proxy" in kwargs:
-            host = kwargs["proxy"].split("::")[-1]
+            host = kwargs.get("proxy").split("::")[-1]
         else:
-            host = "localhost"
+            port = kwargs.get("port") if "port" in kwargs else 8050
+            host = f"http://localhost:{port}"
 
         if "dev_tools_silence_routes_logging" not in kwargs:
             kwargs["dev_tools_silence_routes_logging"] = True
 
-        running_server_process = multiprocessing.Process(
+        running_server_thread = threading.Thread(
             name="run_server",
             target=self.run_server,
             kwargs=kwargs,
         )
-        running_server_process.daemon = True
-        running_server_process.start()
+        running_server_thread.daemon = True
+        running_server_thread.start()
 
         proxied_host = os.path.join(host, app.config["requests_pathname_prefix"].lstrip("/"))
 
