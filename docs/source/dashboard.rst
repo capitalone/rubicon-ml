@@ -34,22 +34,17 @@ properly locate and load the in-memory projects and experiments.
 
 .. code-block:: python
 
-  from rubicon_ml.ui import Dashboard
+  from rubicon_ml.ui.dashboard import Dashboard
 
   Dashboard(persistence="memory", root_dir="/rubicon-root").run_server()
 
 The above launches the dashboard on ``localhost:8050`` and will run from any
 Python interpreter. If you're working in a Jupyter environment, you can launch
-the dashboard inline in a notebook or in a new JupyterLab window by passing the
-``mode`` keyword argument.
+the dashboard inline in a notebook with `run_server_inline`:
 
 .. code-block:: python
 
-  Dashboard(persistence="memory", root_dir="/rubicon-root", mode="inline").run_server()
-
-.. code-block:: python
-
-  Dashboard(persistence="memory", root_dir="/rubicon-root", mode="jupyterlab").run_server()
+  Dashboard(persistence="memory", root_dir="/rubicon-root").run_server_inline()
 
 Features
 ========
