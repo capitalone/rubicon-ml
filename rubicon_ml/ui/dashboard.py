@@ -84,6 +84,9 @@ class Dashboard:
         else:
             host = "localhost"
 
+        if "dev_tools_silence_routes_logging" not in kwargs:
+            kwargs["dev_tools_silence_routes_logging"] = True
+
         running_server_process = multiprocessing.Process(
             name="run_server",
             target=self.run_server,
