@@ -3,8 +3,11 @@ import threading
 
 import dash_bootstrap_components as dbc
 import dash_html_components as html
+from dash import Dash
 
-from rubicon_ml.ui.app import app
+from rubicon_ml.ui.callbacks.project_explorer import set_project_explorer_callbacks
+from rubicon_ml.ui.callbacks.project_selection import set_project_selection_callbacks
+# from rubicon_ml.ui.app import app
 from rubicon_ml.ui.model import RubiconModel
 from rubicon_ml.ui.views.footer import make_footer_layout
 from rubicon_ml.ui.views.header import make_header_layout
@@ -31,10 +34,19 @@ class Dashboard:
         are passed directly to the underlying filesystem class.
     """
 
-    def __init__(self, persistence, root_dir=None, page_size=10, **storage_options):
+    def __init__(
+        self,
+        persistence,
+        root_dir=None,
+        page_size=10,
+        requests_pathname_prefix="/",
+        **storage_options,
+    ):
         self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
 
-        self._app = app
+        self._app = Dash(
+            __name__, title="Rubicon", requests_pathname_prefix=requests_pathname_prefix
+        )
         self._app._page_size = page_size
         self._app._rubicon_model = self.rubicon_model
         self._app.layout = html.Div(
@@ -57,6 +69,9 @@ class Dashboard:
                 dbc.Row(make_footer_layout()),
             ]
         )
+
+        set_project_selection_callbacks(self._app)
+        set_project_explorer_callbacks(self._app)
 
     def run_server(self, **kwargs):
         """Serve the dash app on an external web page.
@@ -103,6 +118,6 @@ class Dashboard:
         running_server_thread.daemon = True
         running_server_thread.start()
 
-        proxied_host = os.path.join(host, app.config["requests_pathname_prefix"].lstrip("/"))
+        proxied_host = os.path.join(host, self._app.config["requests_pathname_prefix"].lstrip("/"))
 
         return IFrame(proxied_host, **i_frame_kwargs)

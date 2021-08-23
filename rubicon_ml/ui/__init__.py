@@ -1,3 +1,6 @@
+from rubicon_ml.ui.dashboard import Dashboard
+
+
 def _check_for_ui_extras():
     try:
         import dash  # noqa F401
@@ -11,6 +14,4 @@ def _check_for_ui_extras():
 
 _check_for_ui_extras()
 
-from rubicon_ml.ui.app import configure_dash_app  # noqa E402
-
-__all__ = ["configure_dash_app"]
+__all__ = ["Dashboard"]
