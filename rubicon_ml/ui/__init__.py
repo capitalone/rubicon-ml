@@ -1,6 +1,3 @@
-from rubicon_ml.ui.dashboard import Dashboard
-
-
 def _check_for_ui_extras():
     try:
         import dash  # noqa F401
@@ -11,6 +8,8 @@ def _check_for_ui_extras():
 
         raise ImportError(message)
 
+
+from rubicon_ml.ui.dashboard import Dashboard  # noqa F401
 
 _check_for_ui_extras()
 

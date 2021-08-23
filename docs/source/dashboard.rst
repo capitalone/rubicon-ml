@@ -57,7 +57,12 @@ If you need to configure the Dash proxy, that can also be done with a few extra 
 
   from rubicon_ml.ui import Dashboard
 
-  Dashboard(persistence="memory", requests_pathname_prefix="/proxy/8050").run_server(proxy="http://127.0.0.1:8050::https://my-jupyterhub-server.com/")
+  dash_options = {
+      "requests_pathname_prefix": "/proxy/8050"
+  }
+
+  Dashboard(persistence="memory", dash_options=dash_options).run_server(proxy="http://127.0.0.1:8050::https://my-jupyterhub-server.com/")
+
 
 Features
 ========
