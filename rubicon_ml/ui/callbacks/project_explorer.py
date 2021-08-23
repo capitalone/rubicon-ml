@@ -129,7 +129,7 @@ def set_project_explorer_callbacks(app):
             ]
 
         _project_explorers = [
-            make_individual_project_explorer_layout(app._rubicon_model, group)
+            make_individual_project_explorer_layout(app._rubicon_model, group, app._page_size)
             for group, _ in experiment_groups
         ]
 

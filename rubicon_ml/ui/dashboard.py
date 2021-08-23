@@ -5,7 +5,10 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash import Dash
 
-from rubicon_ml.ui.callbacks import set_project_explorer_callbacks, set_project_selection_callbacks
+from rubicon_ml.ui.callbacks import (
+    set_project_explorer_callbacks,
+    set_project_selection_callbacks,
+)
 from rubicon_ml.ui.model import RubiconModel
 from rubicon_ml.ui.views import (
     make_footer_layout,

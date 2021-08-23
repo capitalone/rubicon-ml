@@ -8,7 +8,7 @@ import dash_table
 # INDIVIDUAL PROJECT EXPLORER VIEW
 
 
-def _get_experiment_table(id, experiments_df):
+def _get_experiment_table(id, experiments_df, page_size):
     """Get a Dash DataTable with the experiments in `experiments_df`."""
     return dash_table.DataTable(
         id={"type": "experiment-table", "index": id},
@@ -17,7 +17,7 @@ def _get_experiment_table(id, experiments_df):
             for i in experiments_df.columns
         ],
         data=experiments_df.compute().to_dict("records"),
-        page_size=20,  # app._page_size, # TODO fix
+        page_size=page_size,
         filter_action="native",
         sort_action="native",
         sort_mode="multi",
@@ -53,7 +53,7 @@ def _get_github_commit_url(github_url, commit_hash):
     return github_commit_url
 
 
-def make_individual_project_explorer_layout(rubicon_model, commit_hash):
+def make_individual_project_explorer_layout(rubicon_model, commit_hash, page_size):
     """The html layout for an individual project explorer view determined by
     `commit_hash` in the dashboard.
 
@@ -164,7 +164,7 @@ def make_individual_project_explorer_layout(rubicon_model, commit_hash):
                 className="group-detail-card-body",
                 children=[
                     experiment_table_bulk_action_button_group,
-                    _get_experiment_table(id, experiment_table_df),
+                    _get_experiment_table(id, experiment_table_df, page_size),
                     _get_comparison_layout(id, rubicon_model, commit_hash),
                 ],
             )
