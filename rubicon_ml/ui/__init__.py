@@ -9,8 +9,8 @@ def _check_for_ui_extras():
         raise ImportError(message)
 
 
+from rubicon_ml.ui.dashboard import Dashboard  # noqa F401
+
 _check_for_ui_extras()
 
-from rubicon_ml.ui.app import configure_dash_app  # noqa E402
-
-__all__ = ["configure_dash_app"]
+__all__ = ["Dashboard"]
