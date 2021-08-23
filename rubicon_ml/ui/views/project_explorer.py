@@ -232,7 +232,7 @@ def _get_comparison_layout(id, rubicon_model, commit_hash):
 # GROUPED PROJECT EXPLORER VIEW
 
 
-def make_empty_view(instructions):
+def make_empty_view(instructions, asset_url):
     """The html layout for the dashboard's empty view when no project is selected."""
     title = "Nothing to see here..."
 
@@ -240,7 +240,7 @@ def make_empty_view(instructions):
         id="empty-view",
         className="empty-view",
         children=[
-            # html.Img(src=app.get_asset_url("search-icon.svg"), style={"marginBottom": "20px"}), TODO
+            html.Img(src=asset_url, style={"marginBottom": "20px"}),
             html.P(className="empty-view--title", children=title),
             html.P(className="empty-view--instructions", children=instructions),
         ],

@@ -105,7 +105,9 @@ def set_project_explorer_callbacks(app):
                 is_waiting_for_first_click = False
 
         if is_waiting_for_first_click:
-            return make_empty_view("Please select a project to view.")
+            return make_empty_view(
+                "Please select a project to view.", app.get_asset_url("search-icon.svg")
+            )
 
         # use `dash.callback_context` to get the id of the clicked project list item
         selected_id = callback_context.triggered[0]["prop_id"].split(".")[0]
@@ -125,7 +127,9 @@ def set_project_explorer_callbacks(app):
         if len(experiment_groups) == 0:
             return [
                 project_explorer_header,
-                make_empty_view("Log some experiments to this project!"),
+                make_empty_view(
+                    "Log some experiments to this project!", app.get_asset_url("search-icon.svg")
+                ),
             ]
 
         _project_explorers = [
