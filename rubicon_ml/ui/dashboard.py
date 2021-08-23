@@ -5,14 +5,14 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash import Dash
 
-from rubicon_ml.ui.callbacks.project_explorer import set_project_explorer_callbacks
-from rubicon_ml.ui.callbacks.project_selection import set_project_selection_callbacks
-# from rubicon_ml.ui.app import app
+from rubicon_ml.ui.callbacks import set_project_explorer_callbacks, set_project_selection_callbacks
 from rubicon_ml.ui.model import RubiconModel
-from rubicon_ml.ui.views.footer import make_footer_layout
-from rubicon_ml.ui.views.header import make_header_layout
-from rubicon_ml.ui.views.project_explorer import make_project_explorer_layout
-from rubicon_ml.ui.views.project_selection import make_project_selection_layout
+from rubicon_ml.ui.views import (
+    make_footer_layout,
+    make_header_layout,
+    make_project_explorer_layout,
+    make_project_selection_layout,
+)
 
 
 class Dashboard:
@@ -29,6 +29,11 @@ class Dashboard:
     page_size : int, optional
         The number of rows that will be displayed on a page within the
         experiment table.
+    dash_options: dict, optional
+        Additional arguments specific to the Dash app. Visit the
+        `docs <https://dash.plotly.com/reference>`_ to see what's
+        available. Note, `requests_pathname_prefix` is useful for proxy
+        troubles.
     storage_options : dict, optional
         Additional keyword arguments specific to the protocol being chosen. They
         are passed directly to the underlying filesystem class.
@@ -39,16 +44,14 @@ class Dashboard:
         persistence,
         root_dir=None,
         page_size=10,
-        requests_pathname_prefix="/",
+        dash_options={},
         **storage_options,
     ):
         self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
 
-        self._app = Dash(
-            __name__, title="Rubicon", requests_pathname_prefix=requests_pathname_prefix
-        )
-        self._app._page_size = page_size
+        self._app = Dash(__name__, title="Rubicon", **dash_options)
         self._app._rubicon_model = self.rubicon_model
+        self._app._page_size = page_size
         self._app.layout = html.Div(
             [
                 dbc.Row(make_header_layout()),
