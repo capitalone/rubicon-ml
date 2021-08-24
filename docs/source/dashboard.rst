@@ -39,7 +39,7 @@ locate and load the in-memory projects and experiments.
 
 .. code-block:: python
 
-  from rubicon_ml.ui.dashboard import Dashboard
+  from rubicon_ml.ui import Dashboard
 
   Dashboard(persistence="memory", root_dir="/rubicon-root").run_server()
 
@@ -61,8 +61,13 @@ If you need to configure the Dash proxy, that can also be done with a few extra 
       "requests_pathname_prefix": "/proxy/8050"
   }
 
-  Dashboard(persistence="memory", dash_options=dash_options).run_server(proxy="http://127.0.0.1:8050::https://my-jupyterhub-server.com/")
+  Dashboard(
+      persistence="memory",
+      dash_options=dash_options,
+  ).run_server(proxy="http://127.0.0.1:8050::https://my-jupyterhub-server.com/")
 
+More info on configuring proxies and additional ``dash_options`` can be found in the
+`Dash API Reference <https://dash.plotly.com/reference>`_.
 
 Features
 ========
