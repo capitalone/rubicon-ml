@@ -19,7 +19,7 @@ install_requires = [
 ]
 
 prefect_requires = ["prefect>=0.12.0"]
-ui_requires = ["dash>=1.14.0", "dash-bootstrap-components>=0.10.6", "jupyter-dash"]
+ui_requires = ["dash>=1.14.0", "dash-bootstrap-components>=0.10.6"]
 
 all_requires = prefect_requires + ui_requires
 
