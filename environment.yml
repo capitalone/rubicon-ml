@@ -27,7 +27,6 @@ dependencies:
   - beautifulsoup4>=4.8.2
   - dash>=1.14.0
   - dash-bootstrap-components>=0.10.6
-  - jupyter-dash
   - percy>=2.0.2
   - selenium>=3.141.0
 

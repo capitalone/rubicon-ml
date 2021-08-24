@@ -1,12 +1,21 @@
+import os
+import threading
+
 import dash_bootstrap_components as dbc
 import dash_html_components as html
+from dash import Dash
 
-from rubicon_ml.ui.app import app
+from rubicon_ml.ui.callbacks import (
+    set_project_explorer_callbacks,
+    set_project_selection_callbacks,
+)
 from rubicon_ml.ui.model import RubiconModel
-from rubicon_ml.ui.views.footer import make_footer_layout
-from rubicon_ml.ui.views.header import make_header_layout
-from rubicon_ml.ui.views.project_explorer import make_project_explorer_layout
-from rubicon_ml.ui.views.project_selection import make_project_selection_layout
+from rubicon_ml.ui.views import (
+    make_footer_layout,
+    make_header_layout,
+    make_project_explorer_layout,
+    make_project_selection_layout,
+)
 
 
 class Dashboard:
@@ -23,23 +32,29 @@ class Dashboard:
     page_size : int, optional
         The number of rows that will be displayed on a page within the
         experiment table.
-    mode : str, optional
-        Where to run the dashboard. Can be one of
-        ["external", "jupyterlab", "inline"]. Defaults to "external".
+    dash_options: dict, optional
+        Additional arguments specific to the Dash app. Visit the
+        `docs <https://dash.plotly.com/reference>`_ to see what's
+        available. Note, `requests_pathname_prefix` is useful for proxy
+        troubles.
     storage_options : dict, optional
         Additional keyword arguments specific to the protocol being chosen. They
         are passed directly to the underlying filesystem class.
     """
 
     def __init__(
-        self, persistence, root_dir=None, page_size=10, mode="external", **storage_options
+        self,
+        persistence,
+        root_dir=None,
+        page_size=10,
+        dash_options={},
+        **storage_options,
     ):
         self.rubicon_model = RubiconModel(persistence, root_dir, **storage_options)
-        self._mode = mode
 
-        self._app = app
-        self._app._page_size = page_size
+        self._app = Dash(__name__, title="Rubicon", **dash_options)
         self._app._rubicon_model = self.rubicon_model
+        self._app._page_size = page_size
         self._app.layout = html.Div(
             [
                 dbc.Row(make_header_layout()),
@@ -61,17 +76,54 @@ class Dashboard:
             ]
         )
 
+        set_project_selection_callbacks(self._app)
+        set_project_explorer_callbacks(self._app)
+
     def run_server(self, **kwargs):
-        """Serve the dash app.
+        """Serve the dash app on an external web page.
 
         Parameters
         ----------
         kwargs : dict
-            Arguments passed to dash.run_server()
+            Additional arguments to be passed to `dash.run_server`.
         """
-        kwargs.update({"mode": self._mode})
-
-        if kwargs.get("debug") is None:
-            kwargs.update({"debug": False})
-
         self._app.run_server(**kwargs)
+
+    def run_server_inline(self, i_frame_kwargs={}, **kwargs):
+        """Serve the dash app inline in a Jupyter notebook.
+
+        Parameters
+        ----------
+        i_frame_kwargs : dict
+            Additional arguments to be passed to `IPython.display.IFrame`.
+        kwargs : dict
+            Additional arguments to be passed to `dash.run_server`.
+        """
+        from IPython.display import IFrame
+
+        if "proxy" in kwargs:
+            host = kwargs.get("proxy").split("::")[-1]
+        else:
+            port = kwargs.get("port") if "port" in kwargs else 8050
+            host = f"http://localhost:{port}"
+
+        if "dev_tools_silence_routes_logging" not in kwargs:
+            kwargs["dev_tools_silence_routes_logging"] = True
+
+        if "height" not in i_frame_kwargs:
+            i_frame_kwargs["height"] = 800
+
+        if "width" not in i_frame_kwargs:
+            i_frame_kwargs["width"] = "100%"
+
+        running_server_thread = threading.Thread(
+            name="run_server",
+            target=self.run_server,
+            kwargs=kwargs,
+        )
+        running_server_thread.daemon = True
+        running_server_thread.start()
+
+        proxied_host = os.path.join(host, self._app.config["requests_pathname_prefix"].lstrip("/"))
+
+        return IFrame(proxied_host, **i_frame_kwargs)
