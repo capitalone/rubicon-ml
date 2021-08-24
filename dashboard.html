@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.1.2, furo 2021.08.17.beta43"/>
-        <title>Dashboard - rubicon-ml v0.2.9</title>
+        <title>Dashboard - rubicon-ml v0.2.10</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=910ac4ccc9d7c023151c34010d7b500fb9777a51" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.9</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.10</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +150,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.9</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.10</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -217,18 +217,17 @@
         </div>
         <section id="dashboard">
 <span id="id1"></span><h1>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h1>
-<p>The dashboard is powered by <a class="reference external" href="https://plotly.com/">Plotly</a> and
-<a class="reference external" href="https://dash.plotly.com">Dash</a> - specifically
-<a class="reference external" href="https://medium.com/plotly/introducing-jupyterdash-811f1f57c02e">JupyterDash</a>.
-It provides a UI for exploring and visualizing projects stored locally
-or in S3. The dashboard can be run in the browser (no Jupyter required!) or
-within Jupyter lab or notebooks. With a little extra work, it could even be
+<p>The dashboard is powered by <a class="reference external" href="https://dash.plotly.com">Dash</a> and <a class="reference external" href="https://plotly.com/">Plotly</a>. It provides a UI for exploring and visualizing projects
+stored locally or in S3. The dashboard can be run in the browser or within
+Jupyter Notebook, JupyterLab or JupyterHub. With some extra work, it could be
 deployed to a static URL.</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Install the necessary requirements with the UI extra as detailed in the
-<a class="reference internal" href="install.html#install"><span class="std std-ref">installation section</span></a>. Then, the dashboard can invoked via the
-CLI:</p>
+<p>First, install the UI extra as detailed in the <a class="reference internal" href="install.html#install"><span class="std std-ref">installation
+section</span></a>. Then decide how you’d like to run the dashboard.</p>
+<section id="cli">
+<h3>CLI<a class="headerlink" href="#cli" title="Permalink to this headline">¶</a></h3>
+<p>Run the dashboard via the rubicon_ml CLI:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --root-dir /rubicon-root
 </pre></div>
 </div>
@@ -236,9 +235,12 @@ CLI:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --help
 </pre></div>
 </div>
+</section>
+<section id="programmatically">
+<h3>Programmatically<a class="headerlink" href="#programmatically" title="Permalink to this headline">¶</a></h3>
 <p>The dashboard can also be launched directly from python code. If you’re using
-in-memory persistence, this is the only way to get the dashboard to
-properly locate and load the in-memory projects and experiments.</p>
+in-memory persistence, this is the only way to get the dashboard to properly
+locate and load the in-memory projects and experiments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
@@ -246,29 +248,41 @@ properly locate and load the in-memory projects and experiments.</p>
 </div>
 <p>The above launches the dashboard on <code class="docutils literal notranslate"><span class="pre">localhost:8050</span></code> and will run from any
 Python interpreter. If you’re working in a Jupyter environment, you can launch
-the dashboard inline in a notebook or in a new JupyterLab window by passing the
-<code class="docutils literal notranslate"><span class="pre">mode</span></code> keyword argument.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"inline"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+the dashboard inline in a notebook with <cite>run_server_inline</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server_inline</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"jupyterlab"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+<p>If you need to configure the Dash proxy, that can also be done with a few extra params:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+
+<span class="n">dash_options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"requests_pathname_prefix"</span><span class="p">:</span> <span class="s2">"/proxy/8050"</span>
+<span class="p">}</span>
+
+<span class="n">Dashboard</span><span class="p">(</span>
+    <span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span>
+    <span class="n">dash_options</span><span class="o">=</span><span class="n">dash_options</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">proxy</span><span class="o">=</span><span class="s2">"http://127.0.0.1:8050::https://my-jupyterhub-server.com/"</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>More info on configuring proxies and additional <code class="docutils literal notranslate"><span class="pre">dash_options</span></code> can be found in the
+<a class="reference external" href="https://dash.plotly.com/reference">Dash API Reference</a>.</p>
+</section>
 </section>
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
-<p>Once a project is selected within the project selection view, you’ll see
-a high level grouping of its experiments. This works best if you’ve been
-using the built in git integration. Select a grouping to view the experiments underneath
-it and sort/filter the data directly within the experiment table. Optionally, compare
-experiments by selecting them within the experiment table and viewing the comparison
-plot below.</p>
-<p>The experiment comparison chart is a
-<a class="reference external" href="https://en.wikipedia.org/wiki/Parallel_coordinates">parallel coordinates plot</a>
-with each parameter and metric plotted on a standardized axis. It’s useful to draw
-insights on how certain values of parameters affect key metrics.</p>
-<p>For example, in the image below, you can see that true values of the <code class="docutils literal notranslate"><span class="pre">tfidf__use_idf</span></code>
-and low values for <code class="docutils literal notranslate"><span class="pre">clf__alpha</span></code> correlate to high <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> values.</p>
+<p>Once a project is selected within the project selection view, you’ll see a high
+level grouping of its experiments. This works best if you’ve been using the
+built in git integration. Select a grouping to view the experiments underneath
+it and <em>sort/filter</em> the data directly within the experiment table. Optionally,
+compare experiments by selecting them within the experiment table and viewing
+the comparison plot below.</p>
+<p>The experiment comparison chart is a <a class="reference external" href="https://en.wikipedia.org/wiki/Parallel_coordinates">parallel coordinates plot</a> with each parameter and
+metric plotted on a standardized axis. It’s useful to draw insights on how
+certain values of parameters affect key metrics.</p>
+<p>For example, in the image below, you can see that true values of the
+<code class="docutils literal notranslate"><span class="pre">tfidf__use_idf</span></code> and low values for <code class="docutils literal notranslate"><span class="pre">clf__alpha</span></code> correlate to high
+<code class="docutils literal notranslate"><span class="pre">accuracy</span></code> values.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The y-axes can be dragged and rearranged to reorder the plot. And you can highlight
@@ -333,7 +347,11 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Dashboard</a><ul>
-<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#cli">CLI</a></li>
+<li><a class="reference internal" href="#programmatically">Programmatically</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#features">Features</a></li>
 </ul>
 </li>

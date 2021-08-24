@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.1.2, furo 2021.08.17.beta43"/>
-        <title>Library Reference - rubicon-ml v0.2.9</title>
+        <title>Library Reference - rubicon-ml v0.2.10</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=910ac4ccc9d7c023151c34010d7b500fb9777a51" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.9</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.10</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +150,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.9</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.10</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -1672,7 +1672,7 @@ to ignore by not logging. The other parameters will be logged.</p>
 or the CLI.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.ui.Dashboard">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.ui.</span></span><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.ui.</span></span><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
 <dd><p>The dashboard for exploring logged data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1686,8 +1686,10 @@ Prefix with s3:// to use s3 instead.</p>
 <dt><strong>page_size</strong><span class="classifier">int, optional</span></dt><dd><p>The number of rows that will be displayed on a page within the
 experiment table.</p>
 </dd>
-<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>Where to run the dashboard. Can be one of
-[“external”, “jupyterlab”, “inline”]. Defaults to “external”.</p>
+<dt><strong>dash_options: dict, optional</strong></dt><dd><p>Additional arguments specific to the Dash app. Visit the
+<a class="reference external" href="https://dash.plotly.com/reference">docs</a> to see what’s
+available. Note, <cite>requests_pathname_prefix</cite> is useful for proxy
+troubles.</p>
 </dd>
 <dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
 are passed directly to the underlying filesystem class.</p>
@@ -1699,11 +1701,11 @@ are passed directly to the underlying filesystem class.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.ui.Dashboard.run_server">
 <span class="sig-prename descclassname"><span class="pre">rubicon_ml.ui.Dashboard.</span></span><span class="sig-name descname"><span class="pre">run_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.ui.Dashboard.run_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Serve the dash app.</p>
+<dd><p>Serve the dash app on an external web page.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Arguments passed to dash.run_server()</p>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional arguments to be passed to <cite>dash.run_server</cite>.</p>
 </dd>
 </dl>
 </dd>
