@@ -47,7 +47,9 @@ def ui(root_dir, host, port, debug, page_size, storage_options):
     storage_options_dict = {
         storage_options[i][2:]: storage_options[i + 1] for i in range(0, len(storage_options), 2)
     }
-    dashboard = Dashboard("filesystem", root_dir, page_size=page_size, **storage_options_dict)
+    dashboard = Dashboard(
+        persistence="filesystem", root_dir=root_dir, page_size=page_size, **storage_options_dict
+    )
 
     server_kwargs = dict(debug=debug, port=port, host=host)
     server_kwargs = {k: v for k, v in server_kwargs.items() if v is not None}
