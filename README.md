@@ -167,20 +167,3 @@ Install and configure pre-commit to automatically run `black`, `flake8`, and
 Now `pre-commit` will run automatically on git commit and will ensure consistent
 code format throughout the project. You can format without committing via
 `pre-commit run` or skip these checks with `git commit --no-verify`.
-
-## Contributors
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/mmccarty"><img src="https://avatars.githubusercontent.com/u/625946?v=4"
-    width="100px;" alt=""/><br /><sub><b>Mike McCarty</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/srilatharanganathan"><img src="https://avatars.githubusercontent.com/u/31327886?v=4"
-    width="100px;" alt=""/><br /><sub><b>Sri Ranganathan</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/joe-wolfe21"><img src="https://avatars.githubusercontent.com/u/10947704?v=4"
-    width="100px;" alt=""/><br /><sub><b>Joe Wolfe</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/RyanSoley"><img src="https://avatars.githubusercontent.com/u/53409969?v=4"
-    width="100px;" alt=""/><br /><sub><b>Ryan Soley</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/dianelee217"><img src="https://avatars.githubusercontent.com/u/67274829?v=4"
-    width="100px;" alt=""/><br /><sub><b>Diane Lee</b></sub></a><br /></td>
-  </tr>
-</table>

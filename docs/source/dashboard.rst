@@ -41,6 +41,8 @@ locate and load the in-memory projects and experiments.
 
   from rubicon_ml.ui import Dashboard
 
+  Dashboard(rubicon=rubicon) # if you already have a configured instance of Rubicon
+  # OR
   Dashboard(persistence="memory", root_dir="/rubicon-root").run_server()
 
 The above launches the dashboard on ``localhost:8050`` and will run from any

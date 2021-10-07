@@ -3,7 +3,6 @@ import asyncio
 import numpy as np
 import pandas as pd
 
-from rubicon_ml import Rubicon
 from rubicon_ml.client.asynchronous import Rubicon as AsynRubicon
 
 
@@ -12,20 +11,13 @@ class RubiconModel:
 
     Parameters
     ----------
-    persistence : str
-        The persistence type. Can be one of ["filesystem", "memory"].
-    root_dir : str, optional
-        Absolute or relative filepath of the root directory holding Rubicon data.
-        Use absolute path for best performance. Defaults to the local filesystem.
-        Prefix with s3:// to use s3 instead.
-    storage_options : dict, optional
-        Additional keyword arguments specific to the protocol being chosen. They
-        are passed directly to the underlying filesystem class.
+    rubicon : rubicon_ml.Rubicon or rubicon_ml.client.asynchronous.Rubicon, optional
+        A top level Rubicon instance which holds the configuration for
+        the data you wish to visualize.
     """
 
-    def __init__(self, persistence, root_dir, **storage_options):
-        self._rubicon_cls = AsynRubicon if root_dir and root_dir.startswith("s3") else Rubicon
-        self._rubicon = self._rubicon_cls(persistence, root_dir, **storage_options)
+    def __init__(self, rubicon):
+        self._rubicon = rubicon
 
         self._projects = []
         self._selected_project = None
@@ -37,7 +29,7 @@ class RubiconModel:
         """Runs `rubicon_func` asynchronously if logging to S3,
         synchronously otherwise.
         """
-        if self._rubicon_cls == AsynRubicon:
+        if isinstance(self._rubicon, AsynRubicon):
             return asyncio.run_coroutine_threadsafe(
                 rubicon_func(*args, **kwargs), loop=self._rubicon.repository.filesystem.loop
             ).result()
