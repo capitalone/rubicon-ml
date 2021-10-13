@@ -1,0 +1,10 @@
+#version-row {
+    margin-top: -1.5rem;
+    padding-left: 5rem;
+    position: absolute;
+    z-index: 101;
+}
+
+#version-text {
+    color: rgb(40, 60, 70);
+}

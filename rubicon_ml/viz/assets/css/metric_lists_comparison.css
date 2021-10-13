@@ -1,0 +1,40 @@
+.dropdown-toggle {
+    font-size: 1rem !important;
+    padding: .5rem !important;
+}
+
+#graph {
+    margin-top: -4rem;
+}
+
+#graph-container {
+    height: 25rem;
+    overflow: scroll;
+}
+
+#header-dropdown-col {
+    padding: 0rem;
+}
+
+#header-left-col {
+    padding: 0rem .25rem 0rem 0rem;
+}
+
+#header-right-col {
+    padding: 0rem 0rem 0rem .25rem;
+}
+
+#header-row {
+    margin: 0rem;
+    padding: 1rem 0rem 0rem 5.25rem;
+    width: 100%;
+}
+
+.header-text {
+    color: rgb(40, 60, 70);
+    padding-top: .7rem;
+}
+
+#layout-container {
+    width: 100%;
+}
