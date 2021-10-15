@@ -1,18 +1,18 @@
 import copy
 import json
 
-import dash_bootstrap_components as dbc
 import numpy as np
 import plotly.figure_factory as ff
 from dash import callback_context, dcc, html
 from dash.dependencies import ALL, Input, Output, State
 
-from rubicon_ml.viz.assets.colors import light_blue
 from rubicon_ml.viz.base import VizBase
+from rubicon_ml.viz.colors import light_blue, plot_background_blue
+from rubicon_ml.viz.common import dropdown_header
 
 
 class CompareMetricLists(VizBase):
-    def __init__(self, experiments, selected_metric=None, column_names=None, dash_kwargs={}):
+    def __init__(self, experiments, selected_metric, column_names=None, dash_kwargs={}):
         super().__init__(dash_kwargs=dash_kwargs, dash_title="rubicon-ml: compare metric lists")
 
         self.column_names = column_names
@@ -44,76 +44,41 @@ class CompareMetricLists(VizBase):
         _register_callbacks(self.app)
 
     def _build_layout(self):
-        storage = self._to_store(ignore_attributes=["app", "experiments"])
-
-        select_metric_dropdown_menu = dbc.DropdownMenu(
-            [
-                dbc.DropdownMenuItem(
-                    metric_name,
-                    id={
-                        "type": "metric-name-dropdown-button",
-                        "index": metric_name,
-                    },
-                )
-                for metric_name in self.list_metrics.keys()
-            ],
-            bs_size="lg",
-            id="metric-name-dropdown",
-            label=self.selected_metric,
-        )
-
-        compare_metric_list_header = dbc.Row(
-            [
-                dbc.Col(
-                    html.H5("comparing metric ", className="header-text"),
-                    id="header-left-col",
-                    width="auto",
-                ),
-                dbc.Col(
-                    select_metric_dropdown_menu,
-                    id="header-dropdown-col",
-                    width="auto",
-                ),
-                dbc.Col(
-                    html.H5(
-                        className="header-text",
-                        id="header-right-text",
-                    ),
-                    id="header-right-col",
-                ),
-            ],
-            id="header-row",
-        )
-
         return html.Div(
             [
-                storage,
-                compare_metric_list_header,
+                self._to_store(ignore_attributes=["app", "experiments"]),
+                dropdown_header(
+                    self.list_metrics.keys(),
+                    self.selected_metric,
+                    "comparing metric ",
+                    f" over {len(self.experiment_ids)} experiments",
+                    "metric",
+                ),
                 dcc.Loading(
                     html.Div(
                         dcc.Graph(
-                            id="graph",
+                            id="metric-heatmap",
                         ),
-                        id="graph-container",
+                        id="metric-heatmap-container",
                     ),
                     color=light_blue,
                 ),
             ],
-            id="layout-container",
+            id="metric-heatmap-layout-container",
         )
 
 
 def _register_callbacks(app):
     @app.callback(
         [
-            Output("graph", "figure"),
-            Output("graph", "style"),
-            Output("header-right-text", "children"),
-            Output("metric-name-dropdown", "label"),
+            Output("metric-heatmap", "figure"),
+            Output("metric-heatmap", "style"),
+            Output("metric-header-right-text", "children"),
+            Output("metric-dropdown", "label"),
         ],
-        Input({"type": "metric-name-dropdown-button", "index": ALL}, "n_clicks"),
+        Input({"type": "metric-dropdown-button", "index": ALL}, "n_clicks"),
         [
-            State("graph", "style"),
+            State("metric-heatmap", "style"),
             State("memory-store", "data"),
         ],
     )
@@ -155,6 +120,11 @@ def _register_callbacks(app):
             x=column_names if len(column_names) == len(heatmap_data[0]) else None,
             y=experiment_ids,
         )
+        heatmap.update_layout(
+            margin_b=30, margin_t=30, modebar_orientation="v", plot_bgcolor=plot_background_blue
+        )
+        heatmap.update_xaxes(gridcolor="white")
+        heatmap.update_yaxes(gridcolor="white")
 
         heatmap_cell_rem = 6
         heatmap_height = 12 + (len(heatmap_data) * (heatmap_cell_rem / 2))
@@ -168,18 +138,18 @@ def _register_callbacks(app):
 
 def compare_metric_lists(
     experiments,
-    selected_metric=None,
+    selected_metric,
     column_names=None,
     dash_kwargs={},
     i_frame_kwargs={},
     run_server_kwargs={},
 ):
     if "height" not in i_frame_kwargs:
-        i_frame_kwargs.update({"height": "530px"})
+        i_frame_kwargs["height"] = "600px"
 
     return CompareMetricLists(
         experiments,
-        selected_metric=selected_metric,
+        selected_metric,
         column_names=column_names,
         dash_kwargs=dash_kwargs,
     ).run_server_inline(

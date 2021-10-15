@@ -1,3 +1,12 @@
+#frame {
+    padding: 1rem 1rem 0rem 1rem;
+}
+
+#rubicon-logo-img {
+    height: 3.5rem;
+    padding-left: 1rem;
+}
+
 #version-row {
     margin-top: -1.5rem;
     padding-left: 5rem;

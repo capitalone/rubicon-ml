@@ -1,0 +1,8 @@
+#metric-heatmap-container {
+    height: 28rem;
+    overflow: scroll;
+}
+
+#metric-heatmap-layout-container {
+    width: 100%;
+}

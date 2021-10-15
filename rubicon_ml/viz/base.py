@@ -1,10 +1,13 @@
 import os
 import threading
+import time
 
 import dash_bootstrap_components as dbc
 from dash import Dash, dcc, html
 
 from rubicon_ml import __version__ as rubicon_ml_version
+
+_next_available_port = 8050
 
 
 class VizBase:
@@ -25,15 +28,14 @@ class VizBase:
                         [
                             html.Img(
                                 id="rubicon-logo-img",
-                                src=self.app.get_asset_url("rubicon-logo-dark.png"),
-                                style={"height": "3.5rem", "padding-left": "1rem"},
+                                src=self.app.get_asset_url("images/rubicon-logo-dark.png"),
                             ),
                         ],
                     ),
                     dbc.Row(html.P(rubicon_ml_version, id="verision-text"), id="version-row"),
                     dbc.Row([layout]),
                 ],
-                style={"padding": "1rem 1rem 0rem 1rem"},
+                id="frame",
             ),
         )
 
@@ -49,29 +51,35 @@ class VizBase:
     def run_server_inline(self, i_frame_kwargs={}, **kwargs):
         from IPython.display import IFrame
 
-        if "proxy" in kwargs:
-            host = kwargs.get("proxy").split("::")[-1]
+        global _next_available_port
+
+        run_server_kwargs = {
+            "dev_tools_silence_routes_logging": True,
+            "port": _next_available_port,
+        }
+        run_server_kwargs.update(kwargs)
+
+        _next_available_port = run_server_kwargs["port"] + 1
+
+        if "proxy" in run_server_kwargs:
+            host = run_server_kwargs.get("proxy").split("::")[-1]
         else:
-            port = kwargs.get("port") if "port" in kwargs else 8050
+            port = run_server_kwargs.get("port")
             host = f"http://localhost:{port}"
-
-        if "dev_tools_silence_routes_logging" not in kwargs:
-            kwargs["dev_tools_silence_routes_logging"] = True
-
-        if "height" not in i_frame_kwargs:
-            i_frame_kwargs["height"] = 500
-
-        if "width" not in i_frame_kwargs:
-            i_frame_kwargs["width"] = "100%"
 
         running_server_thread = threading.Thread(
             name="run_server",
             target=self.app.run_server,
-            kwargs=kwargs,
+            kwargs=run_server_kwargs,
         )
         running_server_thread.daemon = True
         running_server_thread.start()
 
+        time.sleep(0.1)  # wait for thread to see if requested port is available
+        if not running_server_thread.is_alive():
+            raise RuntimeError(f"port {port} is already in use")
+
+        i_frame_kwargs["width"] = "100%"
         proxied_host = os.path.join(host, self.app.config["requests_pathname_prefix"].lstrip("/"))
 
         return IFrame(proxied_host, **i_frame_kwargs)
