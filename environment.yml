@@ -1,4 +1,4 @@
-name: rubicon-ml-dev-dash
+name: rubicon-ml-dev
 channels:
   - conda-forge
 dependencies:
