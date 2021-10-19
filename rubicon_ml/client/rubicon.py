@@ -100,13 +100,15 @@ class Rubicon:
 
         return Project(project, self.config)
 
-    def get_project(self, name):
+    def get_project(self, name=None, id=None):
         """Get a project.
 
         Parameters
         ----------
-        name : str
+        name : str, optional
             The name of the project to get.
+        id : str, optional
+            The id of the project to get.
 
         Returns
         -------
