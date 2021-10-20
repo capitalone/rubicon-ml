@@ -100,20 +100,28 @@ class Rubicon:
 
         return Project(project, self.config)
 
-    def get_project(self, name):
+    def get_project(self, name=None, id=None):
         """Get a project.
 
         Parameters
         ----------
-        name : str
+        name : str, optional
             The name of the project to get.
+        id : str, optional
+            The id of the project to get.
 
         Returns
         -------
         rubicon.client.Project
-            The project with name `name`.
+            The project with name `name` or id `id`.
         """
-        project = self.repository.get_project(name)
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        if name is not None:
+            project = self.repository.get_project(name)
+        else:
+            project = [p for p in self.projects() if p.id == id][0]
 
         return Project(project, self.config)
 

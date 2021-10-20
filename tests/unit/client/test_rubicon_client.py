@@ -95,10 +95,17 @@ def test_create_project_with_auto_git(mock_completed_process_git):
     rubicon.repository.filesystem.store = {}
 
 
-def test_get_project(rubicon_and_project_client):
+def test_get_project_by_name(rubicon_and_project_client):
     rubicon, project = rubicon_and_project_client
 
     assert "Test Project" == rubicon.get_project("Test Project").name
+
+
+def test_get_project_by_id(rubicon_and_project_client):
+    rubicon, project = rubicon_and_project_client
+    project_id = project.id
+
+    assert project_id == rubicon.get_project(id=project_id).id
 
 
 def test_get_projects(rubicon_client):
