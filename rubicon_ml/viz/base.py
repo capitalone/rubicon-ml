@@ -21,6 +21,9 @@ class VizBase:
         )
 
     def _build_frame(self, layout):
+        if not isinstance(layout, list):
+            layout = [layout]
+
         return dbc.Card(
             dbc.CardBody(
                 [
@@ -33,7 +36,7 @@ class VizBase:
                         ],
                     ),
                     dbc.Row(html.P(rubicon_ml_version, id="verision-text"), id="version-row"),
-                    dbc.Row([layout]),
+                    dbc.Row(layout),
                 ],
                 id="frame",
             ),

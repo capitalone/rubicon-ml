@@ -6,7 +6,7 @@ from rubicon_ml.viz.colors import light_blue, plot_background_blue
 from rubicon_ml.viz.common import dropdown_header
 
 
-class ComparePlots(VizBase):
+class DataframePlot(VizBase):
     def __init__(
         self,
         experiments,
@@ -17,7 +17,7 @@ class ComparePlots(VizBase):
         dash_kwargs={},
         plotting_func_kwargs={},
     ):
-        super().__init__(dash_kwargs=dash_kwargs, dash_title="rubicon-ml: compare plots")
+        super().__init__(dash_kwargs=dash_kwargs, dash_title="rubicon-ml: plot dataframes")
 
         self.experiments = experiments
         self.plotting_func = plotting_func
@@ -85,7 +85,7 @@ def _register_callbacks(app):
         pass
 
 
-def compare_dataframe_plots(
+def plot_dataframes(
     experiments,
     selected_dataframe,
     x,
@@ -99,7 +99,7 @@ def compare_dataframe_plots(
     if "height" not in i_frame_kwargs:
         i_frame_kwargs["height"] = "600px"
 
-    return ComparePlots(
+    return DataframePlot(
         experiments,
         plotting_func,
         selected_dataframe,

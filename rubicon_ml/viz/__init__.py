@@ -1,4 +1,5 @@
+from rubicon_ml.viz.artifact_plot import plot_artifacts
+from rubicon_ml.viz.dataframe_plot import plot_dataframes
 from rubicon_ml.viz.metric_lists_comparison import compare_metric_lists
-from rubicon_ml.viz.plots_comparison import compare_dataframe_plots
 
-__all__ = ["compare_dataframe_plots", "compare_metric_lists"]
+__all__ = ["compare_metric_lists", "plot_artifacts", "plot_dataframes"]
