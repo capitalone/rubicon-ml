@@ -30,7 +30,7 @@ jupyter notebook notebooks/
 ```
 
 ```
-jupyter lab noteboooks/
+jupyter lab notebooks/
 ```
 
 **Note**: The first time you use JupyterLab you should be prompted to re-build

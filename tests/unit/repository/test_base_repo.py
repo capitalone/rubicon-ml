@@ -156,10 +156,11 @@ def test_get_projects(memory_repository):
     projects = repository.get_projects()
 
     assert len(projects) == 3
-
     project_ids = [p.id for p in written_projects]
     for project in projects:
         assert project.id in project_ids
+    assert projects[0].created_at < projects[1].created_at
+    assert projects[1].created_at < projects[2].created_at
 
 
 def test_get_projects_with_no_results(memory_repository):
@@ -220,6 +221,8 @@ def test_get_experiments(memory_repository):
     for experiment in experiments:
         assert experiment.id in experiment_ids
         experiment_ids.remove(experiment.id)
+    assert experiments[0].created_at < experiments[1].created_at
+    assert experiments[1].created_at < experiments[2].created_at
 
 
 def test_get_experiments_with_no_results(memory_repository):
@@ -522,6 +525,9 @@ def test_get_dataframes(memory_repository):
     for dataframe in dataframes:
         assert dataframe.id in dataframe_ids
         dataframe_ids.remove(dataframe.id)
+    assert len(dataframes) == 3
+    assert dataframes[0].created_at < dataframes[1].created_at
+    assert dataframes[1].created_at < dataframes[2].created_at
 
 
 def test_get_dataframes_no_results(memory_repository):
@@ -642,6 +648,9 @@ def test_get_features(memory_repository):
         assert feature.id in feature_ids
         feature_ids.remove(feature.id)
 
+    assert features[0].created_at < features[1].created_at
+    assert features[1].created_at < features[2].created_at
+
 
 def test_get_features_with_no_results(memory_repository):
     repository = memory_repository
@@ -713,6 +722,8 @@ def test_get_metrics(memory_repository):
     for metric in metrics:
         assert metric.id in metric_ids
         metric_ids.remove(metric.id)
+    assert metrics[0].created_at < metrics[1].created_at
+    assert metrics[1].created_at < metrics[2].created_at
 
 
 def test_get_metrics_with_no_results(memory_repository):
@@ -787,6 +798,8 @@ def test_get_parameters(memory_repository):
     for parameter in parameters:
         assert parameter.id in parameter_ids
         parameter_ids.remove(parameter.id)
+    assert parameters[0].created_at < parameters[1].created_at
+    assert parameters[1].created_at < parameters[2].created_at
 
 
 def test_get_parameters_with_no_results(memory_repository):
