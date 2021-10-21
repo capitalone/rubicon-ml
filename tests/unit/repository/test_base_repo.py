@@ -156,6 +156,7 @@ def test_get_projects(memory_repository):
     projects = repository.get_projects()
 
     assert len(projects) == 3
+
     project_ids = [p.id for p in written_projects]
     for project in projects:
         assert project.id in project_ids

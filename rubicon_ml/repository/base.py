@@ -210,7 +210,6 @@ class BaseRepository:
                 for metadata in self._cat_paths(experiment_metadata_paths)
             ]
             experiments.sort(key=lambda a: a.created_at)
-
         except FileNotFoundError:
             return []
 
@@ -803,7 +802,6 @@ class BaseRepository:
                 for metadata in self._cat_paths(metric_metadata_paths)
             ]
             metrics.sort(key=lambda a: a.created_at)
-
         except FileNotFoundError:
             return []
 
@@ -909,7 +907,6 @@ class BaseRepository:
                 for metadata in self._cat_paths(parameter_metadata_paths)
             ]
             parameters.sort(key=lambda a: a.created_at)
-
         except FileNotFoundError:
             return []
 
