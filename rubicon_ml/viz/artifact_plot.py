@@ -59,10 +59,6 @@ class ArtifactPlot(VizBase):
             artifact = [a for a in experiment.artifacts() if a.name == selected_artifact][0]
 
             plot_figure = pickle.loads(artifact.data)
-            plot = plot_figure.data[0]
-
-            plot.name = experiment.id
-            plot.showlegend = True
 
             if stack_plots:
                 col = 1
@@ -71,7 +67,12 @@ class ArtifactPlot(VizBase):
                 col = (i % self.columns) + 1
                 row = math.ceil((i + 1) / self.columns)
 
-            self.plots_figure.add_trace(plot, col=col, row=row)
+            for i, trace in enumerate(plot_figure.data):
+                if i == 0:
+                    trace.name = experiment.id
+                    trace.showlegend = True
+
+                self.plots_figure.add_trace(trace, col=col, row=row)
 
         self.app.layout = self._build_frame(self._build_layout())
 
