@@ -129,8 +129,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         Returns
         -------
-        rubicon.client.Project
-            The project with name `name` or id `id`.
+        rubicon.client.Feature
+            The feature with name `name` or id `id`.
         """
         if (name is None and id is None) or (name is not None and id is not None):
             raise ValueError("`name` OR `id` required.")
