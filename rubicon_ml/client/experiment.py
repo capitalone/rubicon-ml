@@ -136,11 +136,11 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            feature = self.repository.get_feature(name)
+            feature = self.repository.get_feature(self.project.name, self.id, name)
         else:
             feature = [f for f in self.features() if f.id == id][0]
 
-        return Feature(feature, self.config)
+        return Feature(feature, self._config)
 
     def log_parameter(self, name, value=None, description=None):
         """Create a parameter under the experiment.
