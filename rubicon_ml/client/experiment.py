@@ -79,6 +79,31 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return self._metrics
 
+    def metric(self, name=None, id=None):
+        """Get a metric.
+
+        Parameters
+        ----------
+            name : str, optional
+                The name of the metric to get.
+            name : id, optional
+                The id of the metric to get.
+
+        Returns
+        -------
+        rubicon.client.Metric
+            The metric with name `name` or id `id`.
+        """
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        if name is not None:
+            metric = self.repository.get_metric(self.project.name, self.id, name)
+        else:
+            metric = [m for m in self.metrics() if m.id == id][0]
+
+        return Metric(metric, self._config)
+
     def log_feature(self, name, description=None, importance=None):
         """Create a feature under the experiment.
 
