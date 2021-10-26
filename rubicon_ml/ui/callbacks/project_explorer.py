@@ -179,9 +179,9 @@ def set_project_explorer_callbacks(app):
         experiment_table_cols,
     ):
 
-        """The callback to select or deselect all rows in the experiment table.
+        """The callback to select or deselect all columns in the experiment table.
 
-        Triggered when the select all or clear all button is clicked.
+        Triggered when the select all columns or clear all columns button is clicked.
         """
 
         last_select_col_click = last_select_col_click if last_select_col_click else 0
