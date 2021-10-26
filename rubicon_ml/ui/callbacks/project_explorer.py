@@ -161,6 +161,7 @@ def set_project_explorer_callbacks(app):
         # "select all" is clicked: return all row indicies
         if int(last_select_click) > int(last_clear_click):
             return experiment_table_indices
+
         # "clear all" or nothing yet is clicked: return no row indicies
         return []
 
