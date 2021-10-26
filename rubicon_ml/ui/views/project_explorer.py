@@ -152,6 +152,16 @@ def make_individual_project_explorer_layout(rubicon_model, commit_hash, page_siz
                 id={"type": "clear-all-btn", "index": id},
                 className="btn-progressive",
             ),
+            html.Button(
+                "Select All Columns",
+                id={"type": "select-all-col-btn", "index": id},
+                className="btn-progressive",
+            ),
+            html.Button(
+                "Clear All Columns",
+                id={"type": "clear-all-col-btn", "index": id},
+                className="btn-progressive",
+            ),
         ],
     )
 

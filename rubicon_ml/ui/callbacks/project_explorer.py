@@ -98,6 +98,7 @@ def set_project_explorer_callbacks(app):
 
         Triggered when a project is selected in the project selection list.
         """
+
         # if all values are 0, the user hasn't clicked a project yet
         is_waiting_for_first_click = True
         for value in values:
@@ -160,6 +161,34 @@ def set_project_explorer_callbacks(app):
         # "select all" is clicked: return all row indicies
         if int(last_select_click) > int(last_clear_click):
             return experiment_table_indices
-
         # "clear all" or nothing yet is clicked: return no row indicies
         return []
+
+    @app.callback(
+        Output({"type": "experiment-table", "index": MATCH}, "hidden_columns"),
+        [
+            Input({"type": "select-all-col-btn", "index": MATCH}, "n_clicks_timestamp"),
+            Input({"type": "clear-all-col-btn", "index": MATCH}, "n_clicks_timestamp"),
+        ],
+        [State({"type": "experiment-table", "index": MATCH}, "columns")],
+    )
+    def _update_selected_experiment_table_cols(
+        last_select_col_click,
+        last_clear_col_click,
+        experiment_table_cols,
+    ):
+
+        """The callback to select or deselect all rows in the experiment table.
+
+        Triggered when the select all or clear all button is clicked.
+        """
+
+        last_select_col_click = last_select_col_click if last_select_col_click else 0
+        last_clear_col_click = last_clear_col_click if last_clear_col_click else 0
+
+        if int(last_select_col_click) >= int(last_clear_col_click):
+            return []
+        # "clear all" or nothing yet is clicked: return no row indicies
+        return [i["id"] for i in experiment_table_cols]
+        # "clear all" or nothing yet is clicked: return no row indicies
+        # return experiment_table_cols
