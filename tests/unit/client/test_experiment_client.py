@@ -56,6 +56,25 @@ def test_get_metrics(project_client):
     assert metrics[0].value == metric["value"]
 
 
+def test_get_metric_by_name(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_metric("accuracy", 100)
+
+    metric = experiment.metric(name="accuracy").name
+    assert metric == "accuracy"
+
+
+def test_get_metric_by_id(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_metric("accuracy", 100)
+    metric_id = experiment.metric("accuracy").id
+
+    metric = experiment.metric(id=metric_id).name
+    assert metric == "accuracy"
+
+
 def test_log_feature(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
@@ -76,6 +95,25 @@ def test_get_features(project_client):
     assert len(features) == 2
     assert features[0].name == "age"
     assert features[1].name == "credit score"
+
+
+def test_get_feature_by_name(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_feature("age")
+
+    feature = experiment.feature(name="age").name
+    assert feature == "age"
+
+
+def test_get_feature_by_id(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_feature("age")
+    feature_id = experiment.feature("age").id
+
+    feature = experiment.feature(id=feature_id).name
+    assert feature == "age"
 
 
 def test_log_parameter(project_client):
