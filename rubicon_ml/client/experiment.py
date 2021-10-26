@@ -207,6 +207,31 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return self._parameters
 
+    def parameter(self, name=None, id=None):
+        """Get a parameter.
+
+        Parameters
+        ----------
+            name : str, optional
+                The name of the parameter to get.
+            name : id, optional
+                The id of the parameter to get.
+
+        Returns
+        -------
+        rubicon.client.Parameter
+            The parameter with name `name` or id `id`.
+        """
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        if name is not None:
+            parameter = self.repository.get_parameter(self.project.name, self.id, name)
+        else:
+            parameter = [p for p in self.parameters() if p.id == id][0]
+
+        return Parameter(parameter, self._config)
+
     @property
     def id(self):
         """Get the experiment's id."""
