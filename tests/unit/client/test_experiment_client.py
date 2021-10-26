@@ -138,3 +138,22 @@ def test_parameters(project_client):
     assert len(parameters) == 2
     assert parameter_a.id in [p.id for p in parameters]
     assert parameter_b.id in [p.id for p in parameters]
+
+
+def test_get_parameter_by_name(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_parameter("n_estimators", "estimator")
+
+    parameter = experiment.parameter(name="n_estimators").name
+    assert parameter == "n_estimators"
+
+
+def test_get_parameter_by_id(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_parameter("n_estimators", "estimator")
+    parameter_id = experiment.parameter("n_estimators").id
+
+    parameter = experiment.parameter(id=parameter_id).name
+    assert parameter == "n_estimators"
