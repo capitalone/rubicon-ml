@@ -190,6 +190,7 @@ def set_project_explorer_callbacks(app):
         if int(last_select_col_click) >= int(last_clear_col_click):
             return []
         # "clear all" or nothing yet is clicked: return no row indicies
-        return [i["id"] for i in experiment_table_cols]
+        ret = [i["id"] for i in experiment_table_cols if i["id"] != "id"]
+        return ret
         # "clear all" or nothing yet is clicked: return no row indicies
         # return experiment_table_cols
