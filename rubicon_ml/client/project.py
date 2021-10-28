@@ -1,4 +1,5 @@
 import subprocess
+import warnings
 
 import dask.dataframe as dd
 import pandas as pd
@@ -6,6 +7,7 @@ import pandas as pd
 from rubicon_ml import domain
 from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.tags import has_tag_requirements
+from rubicon_ml.exceptions import RubiconException
 
 
 class Project(Base, ArtifactMixin, DataframeMixin):
@@ -228,20 +230,36 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return Experiment(experiment, self)
 
-    def experiment(self, id):
-        """Get an experiment logged to this project by id.
+    def experiment(self, name=None, id=None):
+        """Get an experiment logged to this project by id or name.
 
         Parameters
         ----------
+        name : str
+            The name of the experiment to get.
         id : str
             The id of the experiment to get.
 
         Returns
         -------
         rubicon.client.Experiment
-            The experiment logged to this project with id `id`.
+            The experiment logged to this project with id `id` or name 'name'.
         """
-        experiment = Experiment(self.repository.get_experiment(self.name, id), self)
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        if name is not None:
+            experiments = [e for e in self.experiments() if e.name == name]
+            if len(experiments) == 0:
+                raise RubiconException(f"No experiment found with name {name}.")
+            elif len(experiments) > 1:
+                warnings.warn(
+                    f"Multiple experiments found with name {name}."
+                    " Returning most recently logged."
+                )
+            experiment = experiments[0]
+        else:
+            experiment = Experiment(self.repository.get_experiment(self.name, id), self)
 
         return experiment
 
@@ -260,7 +278,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         else:
             self._experiments = experiments
 
-    def experiments(self, tags=[], qtype="or"):
+    def experiments(self, tags=[], qtype="or", name=None):
         """Get the experiments logged to this project.
 
         Parameters
@@ -270,6 +288,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         qtype : str, optional
             The query type to filter results on. Can be 'or' or
             'and'. Defaults to 'or'.
+        name:
+            The name of the experiment(s) to filter results on.
 
         Returns
         -------
