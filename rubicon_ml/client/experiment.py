@@ -84,10 +84,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         Parameters
         ----------
-            name : str, optional
-                The name of the metric to get.
-            id : str, optional
-                The id of the metric to get.
+        name : str, optional
+            The name of the metric to get.
+        id : str, optional
+            The id of the metric to get.
 
         Returns
         -------
@@ -147,10 +147,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         Parameters
         ----------
-            name : str, optional
-                The name of the feature to get.
-            id : str, optional
-                The id of the feature to get.
+        name : str, optional
+            The name of the feature to get.
+        id : str, optional
+            The id of the feature to get.
 
         Returns
         -------
@@ -212,10 +212,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         Parameters
         ----------
-            name : str, optional
-                The name of the parameter to get.
-            id : str, optional
-                The id of the parameter to get.
+        name : str, optional
+            The name of the parameter to get.
+        id : str, optional
+            The id of the parameter to get.
 
         Returns
         -------
