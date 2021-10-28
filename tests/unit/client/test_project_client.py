@@ -100,6 +100,14 @@ def test_experiment_by_id(rubicon_and_project_client):
     assert experiment.id == _experiment.id
 
 
+def test_experiment_by_name(project_client):
+    project = project_client
+    project.log_experiment(name="exp1")
+    experiment = project.experiment(name="exp1")
+
+    assert experiment.name == "exp1"
+
+
 def test_experiments_tagged_and(project_client):
     project = project_client
     experiment = project.log_experiment(tags=["x", "y"])
