@@ -263,9 +263,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return experiment
 
-    def _filter_experiments(self, experiments, tags, qtype):
+    def _filter_experiments(self, experiments, tags, qtype, name):
         """Filters the provided experiments by `tags` using
-        query type `qtype`.
+        query type `qtype` and by `name`.
         """
         if len(tags) > 0:
             filtered_experiments = []
@@ -274,6 +274,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 for e in experiments
                 if has_tag_requirements(e.tags, tags, qtype)
             ]
+            if name is not None:
+                filtered_experiments = [e for e in filtered_experiments if e.name == name]
             self._experiments = filtered_experiments
         else:
             self._experiments = experiments
@@ -297,7 +299,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             The experiments previously logged to this project.
         """
         experiments = [Experiment(e, self) for e in self.repository.get_experiments(self.name)]
-        self._filter_experiments(experiments, tags, qtype)
+        self._filter_experiments(experiments, tags, qtype, name)
 
         return self._experiments
 
