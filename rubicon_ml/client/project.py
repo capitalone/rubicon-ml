@@ -235,10 +235,10 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         Parameters
         ----------
-        name : str
-            The name of the experiment to get.
         id : str
             The id of the experiment to get.
+        name : str
+            The name of the experiment to get.
 
         Returns
         -------

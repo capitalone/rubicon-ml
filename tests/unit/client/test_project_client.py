@@ -95,7 +95,7 @@ def test_experiment_by_id(rubicon_and_project_client):
     _experiment = project.log_experiment(tags=["x"])
     project.log_experiment(tags=["y"])
 
-    experiment = project.experiment(_experiment.id)
+    experiment = project.experiment(id=_experiment.id)
 
     assert experiment.id == _experiment.id
 
