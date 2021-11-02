@@ -230,7 +230,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return Experiment(experiment, self)
 
-    def experiment(self, name=None, id=None):
+    def experiment(self, id=None, name=None):
         """Get an experiment logged to this project by id or name.
 
         Parameters
@@ -257,7 +257,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     f"Multiple experiments found with name {name}."
                     " Returning most recently logged."
                 )
-            experiment = experiments[0]
+            experiment = experiments[-1]
         else:
             experiment = Experiment(self.repository.get_experiment(self.name, id), self)
 
@@ -267,6 +267,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         """Filters the provided experiments by `tags` using
         query type `qtype` and by `name`.
         """
+        filtered_experiments = experiments
         if len(tags) > 0:
             filtered_experiments = []
             [
@@ -274,11 +275,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 for e in experiments
                 if has_tag_requirements(e.tags, tags, qtype)
             ]
-            if name is not None:
-                filtered_experiments = [e for e in filtered_experiments if e.name == name]
-            self._experiments = filtered_experiments
-        else:
-            self._experiments = experiments
+        if name is not None:
+            filtered_experiments = [e for e in filtered_experiments if e.name == name]
+        self._experiments = filtered_experiments
 
     def experiments(self, tags=[], qtype="or", name=None):
         """Get the experiments logged to this project.
