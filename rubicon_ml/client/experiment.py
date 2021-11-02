@@ -101,8 +101,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             metric = self.repository.get_metric(self.project.name, self.id, name)
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
+            metric = Metric(metric, self._config)
 
-        return Metric(metric, self._config)
+        return metric
 
     def log_feature(self, name, description=None, importance=None):
         """Create a feature under the experiment.
