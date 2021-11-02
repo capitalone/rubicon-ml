@@ -165,8 +165,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             feature = self.repository.get_feature(self.project.name, self.id, name)
         else:
             feature = [f for f in self.features() if f.id == id][0]
+            feature = Feature(feature, self._config)
 
-        return Feature(feature, self._config)
+        return feature
 
     def log_parameter(self, name, value=None, description=None):
         """Create a parameter under the experiment.
