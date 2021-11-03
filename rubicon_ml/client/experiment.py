@@ -101,8 +101,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             metric = self.repository.get_metric(self.project.name, self.id, name)
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
+            metric = Metric(metric, self._config)
 
-        return Metric(metric, self._config)
+        return metric
 
     def log_feature(self, name, description=None, importance=None):
         """Create a feature under the experiment.
@@ -164,8 +165,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             feature = self.repository.get_feature(self.project.name, self.id, name)
         else:
             feature = [f for f in self.features() if f.id == id][0]
+            feature = Feature(feature, self._config)
 
-        return Feature(feature, self._config)
+        return feature
 
     def log_parameter(self, name, value=None, description=None):
         """Create a parameter under the experiment.
@@ -229,8 +231,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             parameter = self.repository.get_parameter(self.project.name, self.id, name)
         else:
             parameter = [p for p in self.parameters() if p.id == id][0]
+            parameter = Parameter(parameter, self._config)
 
-        return Parameter(parameter, self._config)
+        return parameter
 
     @property
     def id(self):

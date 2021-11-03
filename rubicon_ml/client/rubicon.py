@@ -122,6 +122,7 @@ class Rubicon:
             project = self.repository.get_project(name)
         else:
             project = [p for p in self.projects() if p.id == id][0]
+            project = Project(project, self.config)
 
         return Project(project, self.config)
 
