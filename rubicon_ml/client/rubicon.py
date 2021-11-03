@@ -238,7 +238,7 @@ class Rubicon:
         if experiment_ids is not None:
             experiments = []
             for e_id in experiment_ids:
-                experiments.append(project.experiment(e_id))
+                experiments.append(project.experiment(id=e_id))
         elif experiment_tags is not None:
             experiments = project.experiments(tags=experiment_tags, qtype=experiment_qtype)
         else:

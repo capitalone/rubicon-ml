@@ -4,6 +4,7 @@ import pytest
 
 from rubicon_ml import domain
 from rubicon_ml.client import Project, Rubicon
+from rubicon_ml.exceptions import RubiconException
 
 
 class MockCompletedProcess:
@@ -95,9 +96,25 @@ def test_experiment_by_id(rubicon_and_project_client):
     _experiment = project.log_experiment(tags=["x"])
     project.log_experiment(tags=["y"])
 
-    experiment = project.experiment(_experiment.id)
+    experiment = project.experiment(id=_experiment.id)
 
     assert experiment.id == _experiment.id
+
+
+def test_experiment_by_name(project_client):
+    project = project_client
+    project.log_experiment(name="exp1")
+    experiment = project.experiment(name="exp1")
+
+    assert experiment.name == "exp1"
+
+
+def test_experiment_name_not_found_error(project_client):
+    project = project_client
+    with pytest.raises(RubiconException) as e:
+        project.experiment(name="exp1")
+
+    assert "No experiment found with name exp1." in str(e)
 
 
 def test_experiments_tagged_and(project_client):
