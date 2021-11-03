@@ -99,9 +99,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             metric = self.repository.get_metric(self.project.name, self.id, name)
+            metric = Metric(metric, self._config)
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
-            metric = Metric(metric, self._config)
 
         return metric
 
@@ -163,9 +163,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             feature = self.repository.get_feature(self.project.name, self.id, name)
+            feature = Feature(feature, self._config)
         else:
             feature = [f for f in self.features() if f.id == id][0]
-            feature = Feature(feature, self._config)
 
         return feature
 

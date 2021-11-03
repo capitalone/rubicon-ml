@@ -120,9 +120,9 @@ class Rubicon:
 
         if name is not None:
             project = self.repository.get_project(name)
+            project = Project(project, self.config)
         else:
             project = [p for p in self.projects() if p.id == id][0]
-            project = Project(project, self.config)
 
         return Project(project, self.config)
 
