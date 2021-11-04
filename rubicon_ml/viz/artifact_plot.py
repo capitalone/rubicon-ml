@@ -34,7 +34,7 @@ class ArtifactPlot(VizBase):
             self.rows = rows
 
             if self.columns is None and self.rows is None:
-                self.columns = 3
+                self.columns = 3 if len(self.experiments) > 3 else len(self.experiments)
 
             if self.columns is None and self.rows is not None:
                 self.columns = math.ceil(len(self.experiments) / self.rows)
