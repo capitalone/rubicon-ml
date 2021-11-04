@@ -229,9 +229,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             parameter = self.repository.get_parameter(self.project.name, self.id, name)
+            parameter = Parameter(parameter, self._config)
         else:
             parameter = [p for p in self.parameters() if p.id == id][0]
-            parameter = Parameter(parameter, self._config)
 
         return parameter
 
