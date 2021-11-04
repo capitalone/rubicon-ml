@@ -124,7 +124,7 @@ class Rubicon:
         else:
             project = [p for p in self.projects() if p.id == id][0]
 
-        return Project(project, self.config)
+        return project
 
     def get_project_as_dask_df(self, name, group_by=None):
         """Get a dask dataframe representation of a project.
