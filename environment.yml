@@ -25,11 +25,8 @@ dependencies:
 
   # for UI (including testing)
   - beautifulsoup4>=4.8.2
-  - dash>=1.14.0
-  - dash-bootstrap-components>=0.10.6
-  - dash-core-components
-  - dash-html-components
-  - dash-table
+  - dash>=2.0.0
+  - dash-bootstrap-components>=1.0.0
   - percy>=2.0.2
   - selenium>=3.141.0
 

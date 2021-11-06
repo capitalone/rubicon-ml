@@ -35,7 +35,7 @@ class VizBase:
                             ),
                         ],
                     ),
-                    dbc.Row(html.P(rubicon_ml_version, id="verision-text"), id="version-row"),
+                    dbc.Row(html.P(rubicon_ml_version, id="version-text"), id="version-row"),
                     dbc.Row(layout),
                 ],
                 id="frame",

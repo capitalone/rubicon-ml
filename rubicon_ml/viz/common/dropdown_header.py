@@ -14,9 +14,10 @@ def dropdown_header(dropdown_items, selected_item, left_header_text, right_heade
             )
             for item in dropdown_items
         ],
-        bs_size="lg",
+        color="secondary",
         id=f"{id_prefix}-dropdown",
         label=selected_item,
+        size="lg",
     )
 
     return dbc.Row(

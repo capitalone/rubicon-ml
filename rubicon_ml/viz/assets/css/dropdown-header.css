@@ -4,7 +4,7 @@
 }
 
 .header-dropdown-col {
-    padding: 0rem;
+    padding: 0rem 0rem .25rem 0rem;
 }
 
 .header-left-col {
@@ -12,12 +12,12 @@
 }
 
 .header-right-col {
-    padding: 0rem 0rem 0rem .25rem;
+    padding: 0rem 0rem 0rem .5rem;
 }
 
 .header-row {
     margin: 0rem;
-    padding: 1rem 0rem 0rem 5.25rem;
+    padding: 1rem 0rem 0rem .25rem;
     width: 100%;
 }
 

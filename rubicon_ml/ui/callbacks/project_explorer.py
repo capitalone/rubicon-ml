@@ -1,10 +1,8 @@
 import json
 
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
 import plotly.graph_objects as go
-from dash import callback_context
+from dash import callback_context, dcc, html
 from dash.dependencies import ALL, MATCH, Input, Output, State
 
 from rubicon_ml.ui.views.project_explorer import (
