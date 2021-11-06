@@ -1,4 +1,16 @@
+.column-dropdown-checkbox {
+    margin-right: 0.5rem;
+}
+
+.column-dropdown-label {
+    width: 100%;
+}
+
 #experiment-table {
     width: 100%;
     padding: 1rem;
+}
+
+.show-hide {
+    display: none;
 }
