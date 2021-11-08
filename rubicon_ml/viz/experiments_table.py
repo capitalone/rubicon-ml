@@ -3,25 +3,30 @@ from dash import dash_table, dcc, html
 from dash.dependencies import ALL, Input, Output, State
 
 from rubicon_ml.viz.base import VizBase
-from rubicon_ml.viz.colors import plot_background_blue
+from rubicon_ml.viz.colors import light_blue, plot_background_blue
 
 
 class ExperimentsTable(VizBase):
-    def __init__(self, experiments, dash_kwargs={}):
+    def __init__(self, experiments, is_selectable=True, dash_kwargs={}):
         super().__init__(dash_kwargs=dash_kwargs, dash_title="rubicon-ml: experiment table")
 
         self.experiments = experiments
+        self.is_selectable = is_selectable
 
+        self.commit_hash = None
         self.experiment_records = []
+        self.github_url = None
         self.metric_names = set()
         self.parameter_names = set()
         self.all_columns = ["id", "name", "created_at", "model_name", "commit_hash", "tags"]
         self.hidden_columns = []
 
+        commit_hashes = set()
         show_columns = {"id", "created_at"}
 
         for experiment in self.experiments:
             if experiment.commit_hash is not None:
+                commit_hashes.add(experiment.commit_hash)
                 show_columns.add("commit_hash")
 
             if experiment.model_name is not None:
@@ -64,6 +69,13 @@ class ExperimentsTable(VizBase):
             if column not in list(show_columns) + self.metric_names + self.parameter_names
         ]
 
+        if len(commit_hashes) == 1:
+            github_url_root = self.experiments[0].project.github_url[:-4]
+            commit_hash = list(commit_hashes)[0]
+
+            self.commit_hash = commit_hash[:7]
+            self.github_url = f"{github_url_root}/tree/{commit_hash}"
+
         self.app.layout = self._build_frame(self._build_layout())
 
         _register_callbacks(self.app)
@@ -71,36 +83,69 @@ class ExperimentsTable(VizBase):
     def _build_layout(self):
         bulk_select_buttons = [
             dbc.Button(
-                "select all",
+                "select all experiments",
+                color="primary",
+                disabled=not self.is_selectable,
                 id="select-all-button",
+                outline=True,
             ),
             dbc.Button(
-                "clear all",
+                "clear all experiments",
+                color="primary",
+                disabled=not self.is_selectable,
                 id="clear-all-button",
+                outline=True,
             ),
         ]
 
         experiment_table = dash_table.DataTable(
-            id="experiment-table",
-            data=self.experiment_records,
             columns=[
-                {"name": column, "id": column, "selectable": True, "hideable": True}
+                {"name": column, "id": column, "selectable": self.is_selectable}
                 for column in self.all_columns
             ],
-            hidden_columns=self.hidden_columns,
+            data=self.experiment_records,
             filter_action="native",
             fixed_columns={"headers": True, "data": 1},
+            hidden_columns=self.hidden_columns,
+            id="experiment-table",
             page_size=10,
-            row_selectable="multi",
+            row_selectable="multi" if self.is_selectable else False,
+            selected_rows=[],
             sort_action="native",
             sort_mode="multi",
-            selected_rows=[],
+            style_cell={"overflow": "hidden", "textOverflow": "ellipsis"},
             style_data_conditional=[
                 {"if": {"row_index": "odd"}, "backgroundColor": plot_background_blue}
             ],
             style_header={"fontWeight": 700},
-            style_cell={"overflow": "hidden", "textOverflow": "ellipsis"},
             style_table={"minWidth": "100%"},
+        )
+
+        header_text = (
+            f"showing {len(self.experiments)} experiments "
+            f"{'at commit ' if self.commit_hash is not None else ''}"
+        )
+
+        header = html.H5(
+            [
+                html.P(
+                    header_text,
+                    className="experiment-table-header-text",
+                    style={"float": "left"} if self.commit_hash is not None else {},
+                ),
+                html.A(
+                    html.P(
+                        [
+                            self.commit_hash,
+                            html.I(className="bi bi-box-arrow-up-right external-link-icon"),
+                        ]
+                    ),
+                    href=self.github_url,
+                    style={"display": "none"} if self.commit_hash is None else {},
+                    target="_blank",
+                ),
+            ],
+            className="header-text",
         )
 
         toggle_columns_dropdown = dbc.DropdownMenu(
@@ -131,6 +176,7 @@ class ExperimentsTable(VizBase):
                     for column in self.all_columns
                 ],
             ],
+            color="secondary",
             id="column-selection-dropdown",
             label="toggle columns",
         )
@@ -138,20 +184,15 @@ class ExperimentsTable(VizBase):
         return html.Div(
             [
                 self._to_store(ignore_attributes=["app", "experiments"]),
-                html.Div(
-                    html.H5(
-                        f"showing {len(self.experiments)} experiments", className="header-text"
-                    ),
-                    className="header-row",
-                ),
+                html.Div(header, className="header-row"),
                 dbc.Row(
                     [
-                        *[dbc.Col(button) for button in bulk_select_buttons],
+                        *[dbc.Col(button, width="auto") for button in bulk_select_buttons],
                         dbc.Col(toggle_columns_dropdown),
                     ],
                     className="button-group",
                 ),
-                experiment_table,
+                dcc.Loading(experiment_table, color=light_blue),
             ],
             style={"width": "100%"},
         )
@@ -226,3 +267,15 @@ def _register_callbacks(app):
             return experiment_table_indices
 
         return []
+
+
+def view_experiments_table(experiments, dash_kwargs={}, i_frame_kwargs={}, run_server_kwargs={}):
+    if "height" not in i_frame_kwargs:
+        i_frame_kwargs["height"] = "640px"
+
+    return ExperimentsTable(
+        experiments, is_selectable=False, dash_kwargs=dash_kwargs
+    ).run_server_inline(
+        i_frame_kwargs=i_frame_kwargs,
+        **run_server_kwargs,
+    )

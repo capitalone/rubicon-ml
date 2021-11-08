@@ -17,7 +17,10 @@ class VizBase:
         dash_title="rubicon-ml",
     ):
         self.app = Dash(
-            __name__, external_stylesheets=[dbc.themes.LUX], title=dash_title, **dash_kwargs
+            __name__,
+            external_stylesheets=[dbc.themes.LUX, dbc.icons.BOOTSTRAP],
+            title=dash_title,
+            **dash_kwargs,
         )
 
     def _build_frame(self, layout):
