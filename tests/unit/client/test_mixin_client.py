@@ -153,6 +153,14 @@ def test_artifacts_by_name(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
+def test_artifacts_name_not_found_error(project_client):
+    project = project_client
+    with pytest.raises(RubiconException) as e:
+        ArtifactMixin.artifacts(project, name="test.txt")
+
+    assert "No artifacts found with name test.txt." in str(e)
+
+
 def test_artifact_by_name(project_client):
     project = project_client
     data = b"content"
@@ -170,14 +178,6 @@ def test_artifact_by_id(project_client):
     artifact_name = ArtifactMixin.artifact(project, id=artifact.id).name
 
     assert artifact_name == "test.txt"
-
-
-def test_artifact_name_not_found_error(project_client):
-    project = project_client
-    with pytest.raises(RubiconException) as e:
-        ArtifactMixin.artifact(project, name="test.txt")
-
-    assert "No artifact found with name test.txt." in str(e)
 
 
 def test_delete_artifacts(project_client):

@@ -200,13 +200,16 @@ class ArtifactMixin(MultiParentMixin):
         project_name, experiment_id = self._get_parent_identifiers()
 
         if name is not None:
-            self._artifacts = [
+            artifacts = [
                 client.Artifact(a, self)
                 for a in self.repository.get_artifacts_metadata(
                     project_name, experiment_id=experiment_id
                 )
                 if a.name == name
             ]
+            if len(artifacts) == 0:
+                raise RubiconException(f"No artifacts found with name {name}.")
+            self._artifacts = artifacts
         else:
             self._artifacts = [
                 client.Artifact(a, self)
@@ -237,12 +240,9 @@ class ArtifactMixin(MultiParentMixin):
 
         if name is not None:
             artifacts = [a for a in self.artifacts() if a.name == name]
-            if len(artifacts) == 0:
-                raise RubiconException(f"No artifact found with name {name}.")
-            elif len(artifacts) > 1:
+            if len(artifacts) > 1:
                 warnings.warn(
-                    f"Multiple experiments found with name {name}."
-                    " Returning most recently logged."
+                    f"Multiple artifacts found with name {name}." " Returning most recently logged."
                 )
             artifact = artifacts[-1]
         else:
