@@ -158,6 +158,14 @@ def test_artifact_by_id(project_client):
     assert artifact_name == "test.txt"
 
 
+def test_artifact_name_not_found_error(project_client):
+    project = project_client
+    with pytest.raises(RubiconException) as e:
+        ArtifactMixin.artifact(project, name="test.txt")
+
+    assert "No artifact found with name test.txt." in str(e)
+
+
 def test_delete_artifacts(project_client):
     project = project_client
     artifact = ArtifactMixin.log_artifact(project, data_bytes=b"content", name="test.txt")
