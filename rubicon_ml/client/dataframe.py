@@ -91,6 +91,11 @@ class Dataframe(Base, TagMixin):
         return self._domain.id
 
     @property
+    def name(self):
+        """Get the dataframe's name."""
+        return self._domain.name
+
+    @property
     def description(self):
         """Get the dataframe's description."""
         return self._domain.description

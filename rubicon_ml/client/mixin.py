@@ -1,5 +1,6 @@
 import os
 import subprocess
+import warnings
 from datetime import datetime
 
 import fsspec
@@ -225,7 +226,7 @@ class ArtifactMixin(MultiParentMixin):
 class DataframeMixin(MultiParentMixin):
     """Adds dataframe support to a client object."""
 
-    def log_dataframe(self, df, description=None, tags=[]):
+    def log_dataframe(self, df, description=None, name=None, tags=[]):
         """Log a dataframe to this client object.
 
         Parameters
@@ -243,7 +244,12 @@ class DataframeMixin(MultiParentMixin):
         rubicon.client.Dataframe
             The new dataframe.
         """
-        dataframe = domain.Dataframe(parent_id=self._domain.id, description=description, tags=tags)
+        dataframe = domain.Dataframe(
+            parent_id=self._domain.id,
+            description=description,
+            name=name,
+            tags=tags,
+        )
 
         project_name, experiment_id = self._get_parent_identifiers()
         self.repository.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
@@ -292,6 +298,33 @@ class DataframeMixin(MultiParentMixin):
         self._filter_dataframes(dataframes, tags, qtype)
 
         return self._dataframes
+
+    def dataframe(self, name=None, id=None):
+
+        if (name is None and id is None) or (name is not None and id is not None):
+            print("hello")
+            print(name)
+            print(id)
+            raise ValueError("`name` OR `id` required.")
+
+        elif name is not None:
+
+            dataframes = [df for df in self.dataframes() if df.name == name]
+            if len(dataframes) == 0:
+                raise RubiconException(f"No dataframe found with name {name}.")
+            elif len(dataframes) > 1:
+                warnings.warn(
+                    f"Multiple dataframes found with name {name}."
+                    " Returning most recently logged."
+                )
+            dataframes = dataframes[-1]
+        else:
+            project_name, experiment_id = self._get_parent_identifiers()
+            dataframes = self.repository.get_dataframe_metadata(
+                project_name, experiment_id=experiment_id, dataframe_id=id
+            )
+
+        return dataframes
 
     def delete_dataframes(self, ids):
         """Delete the dataframes with ids `ids` logged to

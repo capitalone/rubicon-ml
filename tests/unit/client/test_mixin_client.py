@@ -154,7 +154,10 @@ def test_delete_artifacts(project_client):
 def test_log_dataframe(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
-    dataframe = DataframeMixin.log_dataframe(project, df, tags=["x"])
+    name = "test name"
+    dataframe = DataframeMixin.log_dataframe(project, df, name=name, tags=["x"])
+
+    assert dataframe.name == name
 
     assert dataframe.id in [df.id for df in project.dataframes()]
 
@@ -170,6 +173,30 @@ def test_dataframes(project_client, test_dataframe):
     assert len(dataframes) == 2
     assert dataframe_a.id in [d.id for d in dataframes]
     assert dataframe_b.id in [d.id for d in dataframes]
+
+
+def test_dataframe_by_name(project_client, test_dataframe):
+    project = project_client
+    df = test_dataframe
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
+
+    dataframe_b = DataframeMixin.dataframe(project, name="test_df")
+
+    # assert len(dataframes) == 1
+    assert dataframe_a.name == dataframe_b.name
+
+    # assert dataframe_a.id in [d.id for d in dataframes]
+
+
+def test_dataframe_by_id(project_client, test_dataframe):
+    project = project_client
+    df = test_dataframe
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
+    id = dataframe_a.id
+    dataframe_b = DataframeMixin.dataframe(project, id=id)
+
+    # assert len(dataframes) == 1
+    assert dataframe_a.id == dataframe_b.id
 
 
 def test_dataframes_tagged_and(project_client, test_dataframe):
