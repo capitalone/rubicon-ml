@@ -139,6 +139,25 @@ def test_artifacts(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
+def test_artifact_by_name(project_client):
+    project = project_client
+    data = b"content"
+    ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+    artifact = ArtifactMixin.artifact(project, name="test.txt")
+
+    assert artifact.name == "test.txt"
+
+
+def test_artifact_by_id(project_client):
+    project = project_client
+    data = b"content"
+    ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+    artifact = ArtifactMixin.artifact(project, name="test.txt")
+    artifact_name = ArtifactMixin.artifact(project, id=artifact.id).name
+
+    assert artifact_name == "test.txt"
+
+
 def test_delete_artifacts(project_client):
     project = project_client
     artifact = ArtifactMixin.log_artifact(project, data_bytes=b"content", name="test.txt")

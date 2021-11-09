@@ -237,8 +237,9 @@ class ArtifactMixin(MultiParentMixin):
                 )
             artifact = artifacts[-1]
         else:
+            project_name, experiment_id = self._get_parent_identifiers()
             artifact = client.Artifact(
-                self.repository.get_artifact_metadata(self.project.name, id, self.id), self
+                self.repository.get_artifact_metadata(project_name, id, experiment_id), self
             )
         return artifact
 
