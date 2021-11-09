@@ -189,7 +189,7 @@ class ArtifactMixin(MultiParentMixin):
 
         return artifact
 
-    def artifacts(self):
+    def artifacts(self, name=None):
         """Get the artifacts logged to this client object.
 
         Returns
@@ -199,12 +199,21 @@ class ArtifactMixin(MultiParentMixin):
         """
         project_name, experiment_id = self._get_parent_identifiers()
 
-        self._artifacts = [
-            client.Artifact(a, self)
-            for a in self.repository.get_artifacts_metadata(
-                project_name, experiment_id=experiment_id
-            )
-        ]
+        if name is not None:
+            self._artifacts = [
+                client.Artifact(a, self)
+                for a in self.repository.get_artifacts_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+                if a.name == name
+            ]
+        else:
+            self._artifacts = [
+                client.Artifact(a, self)
+                for a in self.repository.get_artifacts_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+            ]
 
         return self._artifacts
 
