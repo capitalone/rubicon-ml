@@ -238,7 +238,7 @@ class ArtifactMixin(MultiParentMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            artifacts = [a for a in self.artifacts() if a.name == name]
+            artifacts = self.artifacts(name=name)
             if len(artifacts) > 1:
                 warnings.warn(
                     f"Multiple artifacts found with name {name}." " Returning most recently logged."
