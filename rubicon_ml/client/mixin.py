@@ -1,5 +1,6 @@
 import os
 import subprocess
+import warnings
 from datetime import datetime
 
 import fsspec
@@ -206,6 +207,40 @@ class ArtifactMixin(MultiParentMixin):
         ]
 
         return self._artifacts
+
+    def artifact(self, name=None, id=None):
+        """Get an artifact logged to this project by id or name.
+
+        Parameters
+        ----------
+        id : str
+            The id of the artifact to get.
+        name : str
+            The name of the artifact to get.
+
+        Returns
+        -------
+        rubicon.client.Artifact
+            The artifact logged to this project with id `id` or name 'name'.
+        """
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        if name is not None:
+            artifacts = [a for a in self.artifacts() if a.name == name]
+            if len(artifacts) == 0:
+                raise RubiconException(f"No artifact found with name {name}.")
+            elif len(artifacts) > 1:
+                warnings.warn(
+                    f"Multiple experiments found with name {name}."
+                    " Returning most recently logged."
+                )
+            artifact = artifacts[-1]
+        else:
+            artifact = client.Artifact(
+                self.repository.get_artifact_metadata(self.project.name, id, self.id), self
+            )
+        return artifact
 
     def delete_artifacts(self, ids):
         """Delete the artifacts logged to with client object
