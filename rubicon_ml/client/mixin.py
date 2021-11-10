@@ -192,6 +192,11 @@ class ArtifactMixin(MultiParentMixin):
     def artifacts(self, name=None):
         """Get the artifacts logged to this client object.
 
+        Parameters
+        ----------
+        name : str, optional
+            The name value to filter results on.
+
         Returns
         -------
         list of rubicon.client.Artifact
