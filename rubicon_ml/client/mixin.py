@@ -276,6 +276,8 @@ class DataframeMixin(MultiParentMixin):
 
         Parameters
         ----------
+        name : str, optional
+            The name value to filter results on.
         tags : list of str, optional
             The tag values to filter results on.
         qtype : str, optional
@@ -308,7 +310,20 @@ class DataframeMixin(MultiParentMixin):
         return self._dataframes
 
     def dataframe(self, name=None, id=None):
+        """
+        Get the dataframe logged to this client object.
 
+        Parameters
+        ----------
+        id : str
+            The id of the artifact to get.
+        name : str
+            The name of the artifact to get.
+        Returns
+        -------
+        rubicon.client.Dataframe
+            The dataframe logged to this project with id `id` or name 'name'.
+        """
         if (name is None and id is None) or (name is not None and id is not None):
             raise ValueError("`name` OR `id` required.")
 

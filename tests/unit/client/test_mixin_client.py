@@ -214,7 +214,6 @@ def test_dataframe_warning(project_client, test_dataframe):
 
     with warnings.catch_warnings(record=True) as w:
         dataframe_c = DataframeMixin.dataframe(project, name="test_df")
-        print(w[0].message)
         assert (
             "Multiple dataframes found with name test_df. Returning most recently logged"
         ) in str(w[0].message)

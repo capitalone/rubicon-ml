@@ -315,6 +315,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         recursive : bool, optional
             If true, get the dataframes logged to this project's
             experiments as well. Defaults to false.
+        name : str
+            The name value to filter results on.
 
         Returns
         -------
