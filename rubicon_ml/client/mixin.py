@@ -189,7 +189,7 @@ class ArtifactMixin(MultiParentMixin):
 
         return artifact
 
-    def artifacts(self):
+    def artifacts(self, name=None):
         """Get the artifacts logged to this client object.
 
         Returns
@@ -199,14 +199,57 @@ class ArtifactMixin(MultiParentMixin):
         """
         project_name, experiment_id = self._get_parent_identifiers()
 
-        self._artifacts = [
-            client.Artifact(a, self)
-            for a in self.repository.get_artifacts_metadata(
-                project_name, experiment_id=experiment_id
-            )
-        ]
+        if name is not None:
+            self._artifacts = [
+                client.Artifact(a, self)
+                for a in self.repository.get_artifacts_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+                if a.name == name
+            ]
+            if len(self._artifacts) == 0:
+                raise RubiconException(f"No artifacts found with name {name}.")
+        else:
+            self._artifacts = [
+                client.Artifact(a, self)
+                for a in self.repository.get_artifacts_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+            ]
 
         return self._artifacts
+
+    def artifact(self, name=None, id=None):
+        """Get an artifact logged to this project by id or name.
+
+        Parameters
+        ----------
+        id : str
+            The id of the artifact to get.
+        name : str
+            The name of the artifact to get.
+
+        Returns
+        -------
+        rubicon.client.Artifact
+            The artifact logged to this project with id `id` or name 'name'.
+        """
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        if name is not None:
+            artifacts = self.artifacts(name=name)
+            if len(artifacts) > 1:
+                warnings.warn(
+                    f"Multiple artifacts found with name {name}." " Returning most recently logged."
+                )
+            artifact = artifacts[-1]
+        else:
+            project_name, experiment_id = self._get_parent_identifiers()
+            artifact = client.Artifact(
+                self.repository.get_artifact_metadata(project_name, id, experiment_id), self
+            )
+        return artifact
 
     def delete_artifacts(self, ids):
         """Delete the artifacts logged to with client object
