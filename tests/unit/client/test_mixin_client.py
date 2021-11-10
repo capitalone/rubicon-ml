@@ -1,4 +1,5 @@
 import subprocess
+import warnings
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -175,17 +176,25 @@ def test_dataframes(project_client, test_dataframe):
     assert dataframe_b.id in [d.id for d in dataframes]
 
 
+def test_dataframes_by_name(project_client, test_dataframe):
+    project = project_client
+    df = test_dataframe
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
+    dataframe_b = DataframeMixin.log_dataframe(project, df, name="test_df")
+
+    dataframes = DataframeMixin.dataframes(project, name="test_df")
+
+    assert len(dataframes) == 2
+    assert dataframe_a.id in [d.id for d in dataframes]
+    assert dataframe_b.id in [d.id for d in dataframes]
+
+
 def test_dataframe_by_name(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
     dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
-
     dataframe_b = DataframeMixin.dataframe(project, name="test_df")
-
-    # assert len(dataframes) == 1
-    assert dataframe_a.name == dataframe_b.name
-
-    # assert dataframe_a.id in [d.id for d in dataframes]
+    assert dataframe_a.id == dataframe_b.id
 
 
 def test_dataframe_by_id(project_client, test_dataframe):
@@ -194,9 +203,30 @@ def test_dataframe_by_id(project_client, test_dataframe):
     dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
     id = dataframe_a.id
     dataframe_b = DataframeMixin.dataframe(project, id=id)
-
-    # assert len(dataframes) == 1
     assert dataframe_a.id == dataframe_b.id
+
+
+def test_dataframe_warning(project_client, test_dataframe):
+    project = project_client
+    df = test_dataframe
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
+    dataframe_b = DataframeMixin.log_dataframe(project, df, name="test_df")
+
+    with warnings.catch_warnings(record=True) as w:
+        dataframe_c = DataframeMixin.dataframe(project, name="test_df")
+        print(w[0].message)
+        assert (
+            "Multiple dataframes found with name test_df. Returning most recently logged"
+        ) in str(w[0].message)
+    assert dataframe_c.id != dataframe_a.id
+    assert dataframe_c.id == dataframe_b.id
+
+
+def test_dataframe_by_name_not_found(project_client, test_dataframe):
+    project = project_client
+    with pytest.raises(RubiconException) as e:
+        DataframeMixin.dataframe(project, name="test_df")
+        assert "No dataframe found with name test_Df." == str(e.value)
 
 
 def test_dataframes_tagged_and(project_client, test_dataframe):

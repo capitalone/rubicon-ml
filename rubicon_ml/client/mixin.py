@@ -271,7 +271,7 @@ class DataframeMixin(MultiParentMixin):
         else:
             self._dataframes = dataframes
 
-    def dataframes(self, tags=[], qtype="or"):
+    def dataframes(self, name=None, tags=[], qtype="or"):
         """Get the dataframes logged to this client object.
 
         Parameters
@@ -288,13 +288,21 @@ class DataframeMixin(MultiParentMixin):
             The dataframes previously logged to this client object.
         """
         project_name, experiment_id = self._get_parent_identifiers()
-        dataframes = [
-            client.Dataframe(d, self)
-            for d in self.repository.get_dataframes_metadata(
-                project_name, experiment_id=experiment_id
-            )
-        ]
-
+        if name is not None:
+            dataframes = [
+                client.Dataframe(d, self)
+                for d in self.repository.get_dataframes_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+                if d.name == name
+            ]
+        else:
+            dataframes = [
+                client.Dataframe(d, self)
+                for d in self.repository.get_dataframes_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+            ]
         self._filter_dataframes(dataframes, tags, qtype)
 
         return self._dataframes
@@ -302,14 +310,10 @@ class DataframeMixin(MultiParentMixin):
     def dataframe(self, name=None, id=None):
 
         if (name is None and id is None) or (name is not None and id is not None):
-            print("hello")
-            print(name)
-            print(id)
             raise ValueError("`name` OR `id` required.")
 
         elif name is not None:
-
-            dataframes = [df for df in self.dataframes() if df.name == name]
+            dataframes = self.dataframes(name=name)
             if len(dataframes) == 0:
                 raise RubiconException(f"No dataframe found with name {name}.")
             elif len(dataframes) > 1:
