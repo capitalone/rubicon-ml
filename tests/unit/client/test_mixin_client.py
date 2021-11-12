@@ -196,10 +196,10 @@ def test_delete_artifacts(project_client):
 def test_log_dataframe(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
-    name = "test name"
-    dataframe = DataframeMixin.log_dataframe(project, df, name=name, tags=["x"])
-
-    assert dataframe.name == name
+    test_df_name = "test_df"
+    dataframe = DataframeMixin.log_dataframe(project, df, name=test_df_name, tags=["x"])
+    DataframeMixin.log_dataframe(project, df, name="secondary test df", tags=["x"])
+    assert dataframe.name == test_df_name
 
     assert dataframe.id in [df.id for df in project.dataframes()]
 
@@ -220,10 +220,11 @@ def test_dataframes(project_client, test_dataframe):
 def test_dataframes_by_name(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
-    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
-    dataframe_b = DataframeMixin.log_dataframe(project, df, name="test_df")
+    test_df_name = "test_df"
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name=test_df_name)
+    dataframe_b = DataframeMixin.log_dataframe(project, df, name=test_df_name)
 
-    dataframes = DataframeMixin.dataframes(project, name="test_df")
+    dataframes = DataframeMixin.dataframes(project, name=test_df_name)
 
     assert len(dataframes) == 2
     assert dataframe_a.id in [d.id for d in dataframes]
@@ -233,15 +234,16 @@ def test_dataframes_by_name(project_client, test_dataframe):
 def test_dataframe_by_name(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
-    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
-    dataframe_b = DataframeMixin.dataframe(project, name="test_df")
+    test_df_name = "test_df"
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name=test_df_name)
+    dataframe_b = DataframeMixin.dataframe(project, name=test_df_name)
     assert dataframe_a.id == dataframe_b.id
 
 
 def test_dataframe_by_id(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
-    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
+    dataframe_a = DataframeMixin.log_dataframe(project, df)
     id = dataframe_a.id
     dataframe_b = DataframeMixin.dataframe(project, id=id)
     assert dataframe_a.id == dataframe_b.id
@@ -250,11 +252,12 @@ def test_dataframe_by_id(project_client, test_dataframe):
 def test_dataframe_warning(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
-    dataframe_a = DataframeMixin.log_dataframe(project, df, name="test_df")
-    dataframe_b = DataframeMixin.log_dataframe(project, df, name="test_df")
+    test_df_name = "test_df"
+    dataframe_a = DataframeMixin.log_dataframe(project, df, name=test_df_name)
+    dataframe_b = DataframeMixin.log_dataframe(project, df, name=test_df_name)
 
     with warnings.catch_warnings(record=True) as w:
-        dataframe_c = DataframeMixin.dataframe(project, name="test_df")
+        dataframe_c = DataframeMixin.dataframe(project, name=test_df_name)
         assert (
             "Multiple dataframes found with name test_df. Returning most recently logged"
         ) in str(w[0].message)
@@ -264,9 +267,18 @@ def test_dataframe_warning(project_client, test_dataframe):
 
 def test_dataframe_by_name_not_found(project_client, test_dataframe):
     project = project_client
+    test_df_name = "test_df"
     with pytest.raises(RubiconException) as e:
-        DataframeMixin.dataframe(project, name="test_df")
-        assert "No dataframe found with name test_Df." == str(e.value)
+        DataframeMixin.dataframe(project, name=test_df_name)
+    assert "No dataframe found with name test_df." in str(e.value)
+
+
+def test_dataframes_by_name_not_found(project_client, test_dataframe):
+    project = project_client
+    test_df_name = "test_df"
+    with pytest.raises(RubiconException) as e:
+        DataframeMixin.dataframes(project, name=test_df_name)
+    assert "No dataframe found with name test_df." in str(e.value)
 
 
 def test_dataframes_tagged_and(project_client, test_dataframe):

@@ -346,6 +346,8 @@ class DataframeMixin(MultiParentMixin):
                 )
                 if d.name == name
             ]
+            if len(dataframes) == 0:
+                raise RubiconException(f"No dataframe found with name {name}.")
         else:
             dataframes = [
                 client.Dataframe(d, self)
@@ -364,9 +366,9 @@ class DataframeMixin(MultiParentMixin):
         Parameters
         ----------
         id : str
-            The id of the artifact to get.
+            The id of the dataframe to get.
         name : str
-            The name of the artifact to get.
+            The name of the dataframe to get.
         Returns
         -------
         rubicon.client.Dataframe
@@ -377,21 +379,22 @@ class DataframeMixin(MultiParentMixin):
 
         elif name is not None:
             dataframes = self.dataframes(name=name)
-            if len(dataframes) == 0:
-                raise RubiconException(f"No dataframe found with name {name}.")
-            elif len(dataframes) > 1:
+            if len(dataframes) > 1:
                 warnings.warn(
                     f"Multiple dataframes found with name {name}."
                     " Returning most recently logged."
                 )
-            dataframes = dataframes[-1]
+            dataframe = dataframes[-1]
         else:
             project_name, experiment_id = self._get_parent_identifiers()
-            dataframes = self.repository.get_dataframe_metadata(
-                project_name, experiment_id=experiment_id, dataframe_id=id
+            dataframe = client.Dataframe(
+                self.repository.get_dataframe_metadata(
+                    project_name, experiment_id=experiment_id, dataframe_id=id
+                ),
+                self,
             )
 
-        return dataframes
+        return dataframe
 
     def delete_dataframes(self, ids):
         """Delete the dataframes with ids `ids` logged to
