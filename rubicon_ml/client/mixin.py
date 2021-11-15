@@ -192,6 +192,11 @@ class ArtifactMixin(MultiParentMixin):
     def artifacts(self, name=None):
         """Get the artifacts logged to this client object.
 
+        Parameters
+        ----------
+        name : str, optional
+            The name value to filter results on.
+
         Returns
         -------
         list of rubicon.client.Artifact
@@ -269,7 +274,7 @@ class ArtifactMixin(MultiParentMixin):
 class DataframeMixin(MultiParentMixin):
     """Adds dataframe support to a client object."""
 
-    def log_dataframe(self, df, description=None, tags=[]):
+    def log_dataframe(self, df, description=None, name=None, tags=[]):
         """Log a dataframe to this client object.
 
         Parameters
@@ -287,7 +292,12 @@ class DataframeMixin(MultiParentMixin):
         rubicon.client.Dataframe
             The new dataframe.
         """
-        dataframe = domain.Dataframe(parent_id=self._domain.id, description=description, tags=tags)
+        dataframe = domain.Dataframe(
+            parent_id=self._domain.id,
+            description=description,
+            name=name,
+            tags=tags,
+        )
 
         project_name, experiment_id = self._get_parent_identifiers()
         self.repository.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
@@ -309,11 +319,13 @@ class DataframeMixin(MultiParentMixin):
         else:
             self._dataframes = dataframes
 
-    def dataframes(self, tags=[], qtype="or"):
+    def dataframes(self, name=None, tags=[], qtype="or"):
         """Get the dataframes logged to this client object.
 
         Parameters
         ----------
+        name : str, optional
+            The name value to filter results on.
         tags : list of str, optional
             The tag values to filter results on.
         qtype : str, optional
@@ -326,16 +338,63 @@ class DataframeMixin(MultiParentMixin):
             The dataframes previously logged to this client object.
         """
         project_name, experiment_id = self._get_parent_identifiers()
-        dataframes = [
-            client.Dataframe(d, self)
-            for d in self.repository.get_dataframes_metadata(
-                project_name, experiment_id=experiment_id
-            )
-        ]
-
+        if name is not None:
+            dataframes = [
+                client.Dataframe(d, self)
+                for d in self.repository.get_dataframes_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+                if d.name == name
+            ]
+            if len(dataframes) == 0:
+                raise RubiconException(f"No dataframe found with name {name}.")
+        else:
+            dataframes = [
+                client.Dataframe(d, self)
+                for d in self.repository.get_dataframes_metadata(
+                    project_name, experiment_id=experiment_id
+                )
+            ]
         self._filter_dataframes(dataframes, tags, qtype)
 
         return self._dataframes
+
+    def dataframe(self, name=None, id=None):
+        """
+        Get the dataframe logged to this client object.
+
+        Parameters
+        ----------
+        id : str
+            The id of the dataframe to get.
+        name : str
+            The name of the dataframe to get.
+        Returns
+        -------
+        rubicon.client.Dataframe
+            The dataframe logged to this project with id `id` or name 'name'.
+        """
+        if (name is None and id is None) or (name is not None and id is not None):
+            raise ValueError("`name` OR `id` required.")
+
+        elif name is not None:
+            dataframes = self.dataframes(name=name)
+            if len(dataframes) > 1:
+                warnings.warn(
+                    f"Multiple dataframes found with name {name}."
+                    " Returning most recently logged."
+                )
+            dataframe = dataframes[-1]
+        else:
+            project_name, experiment_id = self._get_parent_identifiers()
+            dataframe = client.Dataframe(
+                self.repository.get_dataframe_metadata(
+                    project_name, experiment_id=experiment_id, dataframe_id=id
+                ),
+                self,
+            )
+
+        return dataframe
 
     def delete_dataframes(self, ids):
         """Delete the dataframes with ids `ids` logged to

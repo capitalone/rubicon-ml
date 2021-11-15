@@ -302,7 +302,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return self._experiments
 
-    def dataframes(self, tags=[], qtype="or", recursive=False):
+    def dataframes(self, tags=[], qtype="or", recursive=False, name=None):
         """Get the dataframes logged to this project.
 
         Parameters
@@ -315,17 +315,19 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         recursive : bool, optional
             If true, get the dataframes logged to this project's
             experiments as well. Defaults to false.
+        name : str
+            The name value to filter results on.
 
         Returns
         -------
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
-        super().dataframes(tags=tags, qtype=qtype)
+        super().dataframes(tags=tags, qtype=qtype, name=name)
 
         if recursive is True:
             for experiment in self.experiments():
-                self._dataframes.extend(experiment.dataframes(tags=tags, qtype=qtype))
+                self._dataframes.extend(experiment.dataframes(tags=tags, qtype=qtype, name=name))
 
         return self._dataframes
 

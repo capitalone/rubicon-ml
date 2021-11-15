@@ -11,6 +11,7 @@ from rubicon_ml.domain.utils import uuid
 @dataclass
 class Dataframe(TagMixin):
     id: str = field(default_factory=uuid.uuid4)
+    name: str = None
     description: str = None
     tags: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.utcnow)

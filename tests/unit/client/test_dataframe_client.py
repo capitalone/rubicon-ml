@@ -5,11 +5,14 @@ from rubicon_ml.client import Dataframe
 def test_properties(project_client):
     parent = project_client
 
-    domain_dataframe = domain.Dataframe(description="some description", tags=["x"])
+    domain_dataframe = domain.Dataframe(
+        description="some description", tags=["x"], name="test title"
+    )
     dataframe = Dataframe(domain_dataframe, parent)
 
     assert dataframe.id == domain_dataframe.id
-    assert dataframe.description == "some description"
+    assert dataframe.name == domain_dataframe.name
+    assert dataframe.description == domain_dataframe.description
     assert dataframe.tags == domain_dataframe.tags
     assert dataframe.created_at == domain_dataframe.created_at
     assert dataframe.parent == parent
