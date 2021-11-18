@@ -5,7 +5,7 @@ from rubicon_ml import Rubicon
 
 @task
 def get_or_create_project_task(
-    persistence, root_dir, project_name, auto_git_enabled=False, **kwargs
+    persistence, root_dir, project_name, auto_git_enabled=False, storage_options={}, **kwargs
 ):
     """Get or create a project within a `prefect` flow.
 
@@ -29,6 +29,9 @@ def get_or_create_project_task(
         relevant repository information to projects and
         experiments logged with the client instance created
         in this task, False otherwise. Defaults to False.
+    storage_options : dict, optional
+        Additional keyword arguments specific to the protocol being chosen. They
+        are passed directly to the underlying filesystem class.
     kwargs : dict
         Additional keyword arguments to be passed to
         `Rubicon.create_project`.
@@ -38,7 +41,12 @@ def get_or_create_project_task(
     rubicon.client.Project
         The project with name `project_name`.
     """
-    rubicon = Rubicon(persistence=persistence, root_dir=root_dir, auto_git_enabled=auto_git_enabled)
+    rubicon = Rubicon(
+        persistence=persistence,
+        root_dir=root_dir,
+        auto_git_enabled=auto_git_enabled,
+        **storage_options,
+    )
     project = rubicon.get_or_create_project(project_name, **kwargs)
 
     return project
