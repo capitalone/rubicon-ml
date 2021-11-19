@@ -154,6 +154,21 @@ def test_artifacts_by_name(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
+def test_artifact_warning(project_client, test_dataframe):
+    project = project_client
+    data = b"content"
+    artifact_a = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+    artifact_b = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+
+    with warnings.catch_warnings(record=True) as w:
+        artifact_c = ArtifactMixin.artifact(project, name="test.txt")
+        assert (
+            "Multiple artifacts found with name 'test.txt'. Returning most recently logged"
+        ) in str(w[0].message)
+    assert artifact_c.id != artifact_a.id
+    assert artifact_c.id == artifact_b.id
+
+
 def test_artifact_name_not_found_error(project_client):
     project = project_client
     with pytest.raises(RubiconException) as e:

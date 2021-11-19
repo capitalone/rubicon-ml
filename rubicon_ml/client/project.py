@@ -250,13 +250,15 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         if name is not None:
             experiments = [e for e in self.experiments() if e.name == name]
+
             if len(experiments) == 0:
-                raise RubiconException(f"No experiment found with name {name}.")
+                raise RubiconException(f"No experiment found with name '{name}'.")
             elif len(experiments) > 1:
                 warnings.warn(
-                    f"Multiple experiments found with name {name}."
+                    f"Multiple experiments found with name '{name}'."
                     " Returning most recently logged."
                 )
+
             experiment = experiments[-1]
         else:
             experiment = Experiment(self.repository.get_experiment(self.name, id), self)
