@@ -1,6 +1,5 @@
 import os
 import warnings
-from pathlib import Path
 
 import fsspec
 import pandas as pd
@@ -424,7 +423,7 @@ class BaseRepository:
         would leverage dask for large dataframes.
         """
         if isinstance(df, pd.DataFrame):
-            Path(path).mkdir(parents=True, exist_ok=True)
+            self.filesystem.mkdir(path, parents=True, exist_ok=True)
             path = f"{path}/data.parquet"
 
         df.to_parquet(path, engine="pyarrow")
