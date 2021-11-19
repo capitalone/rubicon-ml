@@ -268,6 +268,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         query type `qtype` and by `name`.
         """
         filtered_experiments = experiments
+
         if len(tags) > 0:
             filtered_experiments = []
             [
@@ -277,6 +278,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             ]
         if name is not None:
             filtered_experiments = [e for e in filtered_experiments if e.name == name]
+
         self._experiments = filtered_experiments
 
     def experiments(self, tags=[], qtype="or", name=None):

@@ -203,24 +203,15 @@ class ArtifactMixin(MultiParentMixin):
             The artifacts previously logged to this client object.
         """
         project_name, experiment_id = self._get_parent_identifiers()
+        self._artifacts = [
+            client.Artifact(a, self)
+            for a in self.repository.get_artifacts_metadata(
+                project_name, experiment_id=experiment_id
+            )
+        ]
 
         if name is not None:
-            self._artifacts = [
-                client.Artifact(a, self)
-                for a in self.repository.get_artifacts_metadata(
-                    project_name, experiment_id=experiment_id
-                )
-                if a.name == name
-            ]
-            if len(self._artifacts) == 0:
-                raise RubiconException(f"No artifacts found with name {name}.")
-        else:
-            self._artifacts = [
-                client.Artifact(a, self)
-                for a in self.repository.get_artifacts_metadata(
-                    project_name, experiment_id=experiment_id
-                )
-            ]
+            self._artifacts = [a for a in self._artifacts if a.name == name]
 
         return self._artifacts
 
@@ -244,16 +235,21 @@ class ArtifactMixin(MultiParentMixin):
 
         if name is not None:
             artifacts = self.artifacts(name=name)
+
+            if len(artifacts) == 0:
+                raise RubiconException(f"No artifact found with name '{name}'.")
             if len(artifacts) > 1:
                 warnings.warn(
-                    f"Multiple artifacts found with name {name}." " Returning most recently logged."
+                    f"Multiple artifacts found with name '{name}'. Returning most recently logged."
                 )
+
             artifact = artifacts[-1]
         else:
             project_name, experiment_id = self._get_parent_identifiers()
             artifact = client.Artifact(
                 self.repository.get_artifact_metadata(project_name, id, experiment_id), self
             )
+
         return artifact
 
     def delete_artifacts(self, ids):
@@ -304,10 +300,12 @@ class DataframeMixin(MultiParentMixin):
 
         return client.Dataframe(dataframe, self)
 
-    def _filter_dataframes(self, dataframes, tags, qtype):
+    def _filter_dataframes(self, dataframes, tags, qtype, name):
         """Filters the provided dataframes by `tags` using
         query type `qtype`.
         """
+        filtered_dataframes = dataframes
+
         if len(tags) > 0:
             filtered_dataframes = []
             [
@@ -315,9 +313,10 @@ class DataframeMixin(MultiParentMixin):
                 for d in dataframes
                 if has_tag_requirements(d.tags, tags, qtype)
             ]
-            self._dataframes = filtered_dataframes
-        else:
-            self._dataframes = dataframes
+        if name is not None:
+            filtered_dataframes = [d for d in filtered_dataframes if d.name == name]
+
+        self._dataframes = filtered_dataframes
 
     def dataframes(self, name=None, tags=[], qtype="or"):
         """Get the dataframes logged to this client object.
@@ -338,24 +337,14 @@ class DataframeMixin(MultiParentMixin):
             The dataframes previously logged to this client object.
         """
         project_name, experiment_id = self._get_parent_identifiers()
-        if name is not None:
-            dataframes = [
-                client.Dataframe(d, self)
-                for d in self.repository.get_dataframes_metadata(
-                    project_name, experiment_id=experiment_id
-                )
-                if d.name == name
-            ]
-            if len(dataframes) == 0:
-                raise RubiconException(f"No dataframe found with name {name}.")
-        else:
-            dataframes = [
-                client.Dataframe(d, self)
-                for d in self.repository.get_dataframes_metadata(
-                    project_name, experiment_id=experiment_id
-                )
-            ]
-        self._filter_dataframes(dataframes, tags, qtype)
+        dataframes = [
+            client.Dataframe(d, self)
+            for d in self.repository.get_dataframes_metadata(
+                project_name, experiment_id=experiment_id
+            )
+        ]
+
+        self._filter_dataframes(dataframes, tags, qtype, name)
 
         return self._dataframes
 
@@ -379,11 +368,15 @@ class DataframeMixin(MultiParentMixin):
 
         elif name is not None:
             dataframes = self.dataframes(name=name)
-            if len(dataframes) > 1:
+
+            if len(dataframes) == 0:
+                raise RubiconException(f"No dataframe found with name '{name}'.")
+            elif len(dataframes) > 1:
                 warnings.warn(
-                    f"Multiple dataframes found with name {name}."
+                    f"Multiple dataframes found with name '{name}'."
                     " Returning most recently logged."
                 )
+
             dataframe = dataframes[-1]
         else:
             project_name, experiment_id = self._get_parent_identifiers()
