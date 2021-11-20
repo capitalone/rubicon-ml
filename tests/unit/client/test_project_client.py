@@ -1,3 +1,4 @@
+import warnings
 from unittest import mock
 
 import pytest
@@ -109,12 +110,26 @@ def test_experiment_by_name(project_client):
     assert experiment.name == "exp1"
 
 
+def test_experiment_warning(project_client, test_dataframe):
+    project = project_client
+    experiment_a = project.log_experiment(name="exp1")
+    experiment_b = project.log_experiment(name="exp1")
+
+    with warnings.catch_warnings(record=True) as w:
+        experiment_c = project.experiment(name="exp1")
+        assert (
+            "Multiple experiments found with name 'exp1'. Returning most recently logged"
+        ) in str(w[0].message)
+    assert experiment_c.id != experiment_a.id
+    assert experiment_c.id == experiment_b.id
+
+
 def test_experiment_name_not_found_error(project_client):
     project = project_client
     with pytest.raises(RubiconException) as e:
         project.experiment(name="exp1")
 
-    assert "No experiment found with name exp1." in str(e)
+    assert "No experiment found with name 'exp1'." in str(e)
 
 
 def test_experiments_tagged_and(project_client):

@@ -154,12 +154,34 @@ def test_artifacts_by_name(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
-def test_artifacts_name_not_found_error(project_client):
+def test_artifact_warning(project_client, test_dataframe):
+    project = project_client
+    data = b"content"
+    artifact_a = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+    artifact_b = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+
+    with warnings.catch_warnings(record=True) as w:
+        artifact_c = ArtifactMixin.artifact(project, name="test.txt")
+        assert (
+            "Multiple artifacts found with name 'test.txt'. Returning most recently logged"
+        ) in str(w[0].message)
+    assert artifact_c.id != artifact_a.id
+    assert artifact_c.id == artifact_b.id
+
+
+def test_artifact_name_not_found_error(project_client):
     project = project_client
     with pytest.raises(RubiconException) as e:
-        ArtifactMixin.artifacts(project, name="test.txt")
+        ArtifactMixin.artifact(project, name="test.txt")
 
-    assert "No artifacts found with name test.txt." in str(e)
+    assert "No artifact found with name 'test.txt'." in str(e)
+
+
+def test_artifacts_name_not_found_error(project_client):
+    project = project_client
+    artifacts = ArtifactMixin.artifacts(project, name="test.txt")
+
+    assert artifacts == []
 
 
 def test_artifact_by_name(project_client):
@@ -259,7 +281,7 @@ def test_dataframe_warning(project_client, test_dataframe):
     with warnings.catch_warnings(record=True) as w:
         dataframe_c = DataframeMixin.dataframe(project, name=test_df_name)
         assert (
-            "Multiple dataframes found with name test_df. Returning most recently logged"
+            "Multiple dataframes found with name 'test_df'. Returning most recently logged"
         ) in str(w[0].message)
     assert dataframe_c.id != dataframe_a.id
     assert dataframe_c.id == dataframe_b.id
@@ -270,15 +292,14 @@ def test_dataframe_by_name_not_found(project_client, test_dataframe):
     test_df_name = "test_df"
     with pytest.raises(RubiconException) as e:
         DataframeMixin.dataframe(project, name=test_df_name)
-    assert "No dataframe found with name test_df." in str(e.value)
+    assert "No dataframe found with name 'test_df'." in str(e.value)
 
 
 def test_dataframes_by_name_not_found(project_client, test_dataframe):
     project = project_client
     test_df_name = "test_df"
-    with pytest.raises(RubiconException) as e:
-        DataframeMixin.dataframes(project, name=test_df_name)
-    assert "No dataframe found with name test_df." in str(e.value)
+    dataframes = DataframeMixin.dataframes(project, name=test_df_name)
+    assert dataframes == []
 
 
 def test_dataframes_tagged_and(project_client, test_dataframe):

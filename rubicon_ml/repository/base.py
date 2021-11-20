@@ -120,7 +120,7 @@ class BaseRepository:
                 domain.Project(**json.loads(metadata))
                 for metadata in self._cat_paths(project_metadata_paths)
             ]
-            projects.sort(key=lambda a: a.created_at)
+            projects.sort(key=lambda p: p.created_at)
         except FileNotFoundError:
             return []
 
@@ -208,7 +208,7 @@ class BaseRepository:
                 domain.Experiment(**json.loads(metadata))
                 for metadata in self._cat_paths(experiment_metadata_paths)
             ]
-            experiments.sort(key=lambda a: a.created_at)
+            experiments.sort(key=lambda e: e.created_at)
         except FileNotFoundError:
             return []
 
@@ -530,7 +530,7 @@ class BaseRepository:
                 domain.Dataframe(**json.loads(metadata))
                 for metadata in self._cat_paths(dataframe_metadata_paths)
             ]
-            dataframes.sort(key=lambda a: a.created_at)
+            dataframes.sort(key=lambda d: d.created_at)
         except FileNotFoundError:
             return []
 
@@ -694,7 +694,7 @@ class BaseRepository:
                 domain.Feature(**json.loads(metadata))
                 for metadata in self._cat_paths(feature_metadata_paths)
             ]
-            features.sort(key=lambda a: a.created_at)
+            features.sort(key=lambda f: f.created_at)
         except FileNotFoundError:
             return []
 
@@ -800,7 +800,7 @@ class BaseRepository:
                 domain.Metric(**json.loads(metadata))
                 for metadata in self._cat_paths(metric_metadata_paths)
             ]
-            metrics.sort(key=lambda a: a.created_at)
+            metrics.sort(key=lambda m: m.created_at)
         except FileNotFoundError:
             return []
 
@@ -905,7 +905,7 @@ class BaseRepository:
                 domain.Parameter(**json.loads(metadata))
                 for metadata in self._cat_paths(parameter_metadata_paths)
             ]
-            parameters.sort(key=lambda a: a.created_at)
+            parameters.sort(key=lambda p: p.created_at)
         except FileNotFoundError:
             return []
 
