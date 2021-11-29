@@ -6,6 +6,7 @@ name: Publish
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -15,6 +16,10 @@ jobs:
       with:
         # fetch all tags so `versioneer` can properly determine current version
         fetch-depth: 0
+    - name: Check if current commit is tagged
+      # fails and cancels release if the current commit is not tagged
+      run: |
+        git describe --exact-match --tags
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
