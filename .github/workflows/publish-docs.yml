@@ -37,7 +37,6 @@ jobs:
         mamba info -e
         cd docs
         make html
-      shell: bash
     - name: Publish
       uses: JamesIves/github-pages-deploy-action@4.0.0
       with:
