@@ -17,16 +17,16 @@ jobs:
         # fetch all tags so `versioneer` can properly determine current version
         fetch-depth: 0
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: conda-incubator/setup-miniconda@v2
       with:
-        python-version: '3.8'
-    - name: Add conda to system path
+        python-version: "3.8"
+        mamba-version: "*"
+        channels: conda-forge
+        channel-priority: true
+        activate-environment: rubicon-ml-docs
+        environment-file: docs/docs-environment.yml
+    - name: Install rubicon-ml
       run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        conda env update --file docs/docs-environment.yml --name base
         pip install --no-deps .
     - name: Build
       run: |
