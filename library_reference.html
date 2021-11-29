@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.1.2, furo 2021.08.17.beta43"/>
-        <title>Library Reference - rubicon-ml v0.2.10</title>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.3.1, furo 2021.10.09"/>
+        <title>Library Reference - rubicon-ml v0.2.11</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=910ac4ccc9d7c023151c34010d7b500fb9777a51" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
@@ -34,9 +34,11 @@
   
     }
   }
-</style>
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css"></head>
+</style></head>
   <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
@@ -123,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.10</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.11</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.10</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.2.11</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -200,7 +202,7 @@
   </aside>
   <div class="main">
     <div class="content">
-      <article role="main">
+      <div class="article-container">
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
@@ -215,13 +217,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <section id="library-reference">
+        <article role="main">
+          <section id="library-reference">
 <span id="id1"></span><h1>Library Reference<a class="headerlink" href="#library-reference" title="Permalink to this headline">¶</a></h1>
 <section id="rubicon">
 <h2>Rubicon<a class="headerlink" href="#rubicon" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <cite>rubicon</cite> client’s entry point.</p>
 <p>Creates a <cite>Config</cite> and injects it into the client level
 objects at run-time.</p>
@@ -296,18 +299,20 @@ used across each experiment in this project.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.get_project">
-<span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_project" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the project to get.</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the project to get.</p>
+</dd>
+<dt><strong>id</strong><span class="classifier">str, optional</span></dt><dd><p>The id of the project to get.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Project</dt><dd><p>The project with name <cite>name</cite>.</p>
+<dt>rubicon.client.Project</dt><dd><p>The project with name <cite>name</cite> or id <cite>id</cite>.</p>
 </dd>
 </dl>
 </dd>
@@ -417,7 +422,7 @@ is on.</p>
 <span id="library-reference-project"></span><h2>Project<a class="headerlink" href="#project" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Project">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client project.</p>
 <p>A <cite>project</cite> is a collection of <cite>experiments</cite>,
 <cite>dataframes</cite>, and <cite>artifacts</cite> identified by a unique name.</p>
@@ -432,12 +437,39 @@ is on.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.artifact">
+<span class="sig-name descname"><span class="pre">artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.artifact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an artifact logged to this project by id or name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>id</strong><span class="classifier">str</span></dt><dd><p>The id of the artifact to get.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the artifact to get.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Artifact</dt><dd><p>The artifact logged to this project with id <cite>id</cite> or name ‘name’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.artifacts">
-<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.artifacts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.artifacts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the artifacts logged to this client object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Artifact</dt><dd><p>The artifacts previously logged to this client object.</p>
 </dd>
 </dl>
@@ -446,12 +478,31 @@ is on.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Project.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Project.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the time the project was created.</p>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.dataframe">
+<span class="sig-name descname"><span class="pre">dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dataframe logged to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>id</strong><span class="classifier">str</span></dt><dd><p>The id of the dataframe to get.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the dataframe to get.</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——-</strong></dt><dd></dd>
+<dt><strong>rubicon.client.Dataframe</strong></dt><dd><p>The dataframe logged to this project with id <cite>id</cite> or name ‘name’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.dataframes">
-<span class="sig-name descname"><span class="pre">dataframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.dataframes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dataframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.dataframes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframes logged to this project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -463,6 +514,8 @@ is on.</p>
 </dd>
 <dt><strong>recursive</strong><span class="classifier">bool, optional</span></dt><dd><p>If true, get the dataframes logged to this project’s
 experiments as well. Defaults to false.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name value to filter results on.</p>
 </dd>
 </dl>
 </dd>
@@ -504,23 +557,25 @@ this client object.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Project.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Project.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project’s description.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.experiment">
-<span class="sig-name descname"><span class="pre">experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.experiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an experiment logged to this project by id.</p>
+<span class="sig-name descname"><span class="pre">experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an experiment logged to this project by id or name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>id</strong><span class="classifier">str</span></dt><dd><p>The id of the experiment to get.</p>
 </dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the experiment to get.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Experiment</dt><dd><p>The experiment logged to this project with id <cite>id</cite>.</p>
+<dt>rubicon.client.Experiment</dt><dd><p>The experiment logged to this project with id <cite>id</cite> or name ‘name’.</p>
 </dd>
 </dl>
 </dd>
@@ -528,7 +583,7 @@ this client object.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.experiments">
-<span class="sig-name descname"><span class="pre">experiments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.experiments" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">experiments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.experiments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiments logged to this project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -537,6 +592,8 @@ this client object.</p>
 </dd>
 <dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
 ‘and’. Defaults to ‘or’.</p>
+</dd>
+<dt><strong>name:</strong></dt><dd><p>The name of the experiment(s) to filter results on.</p>
 </dd>
 </dl>
 </dd>
@@ -550,12 +607,12 @@ this client object.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.github_url">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">github_url</span></span><a class="headerlink" href="#rubicon_ml.Project.github_url" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">github_url</span></span><a class="headerlink" href="#rubicon_ml.Project.github_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project’s GitHub repository URL.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Project.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Project.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project’s id.</p>
 </dd></dl>
 <dl class="py method">
@@ -637,7 +694,7 @@ Useful for recreating your exact environment at a later date.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.log_dataframe">
-<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.log_dataframe" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.log_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log a dataframe to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -723,7 +780,7 @@ Useful for recreating your exact environment at a later date.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Project.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Project.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project’s name.</p>
 </dd></dl>
 <dl class="py method">
@@ -751,7 +808,7 @@ data grouped by <cite>group_by</cite>.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.training_metadata">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">training_metadata</span></span><a class="headerlink" href="#rubicon_ml.Project.training_metadata" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">training_metadata</span></span><a class="headerlink" href="#rubicon_ml.Project.training_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project’s training metadata.</p>
 </dd></dl>
 </dd></dl>
@@ -760,7 +817,7 @@ data grouped by <cite>group_by</cite>.</p>
 <span id="library-reference-experiment"></span><h2>Experiment<a class="headerlink" href="#experiment" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client experiment.</p>
 <p>An <cite>experiment</cite> represents a model run and is identified by
 its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</cite>,
@@ -790,12 +847,39 @@ its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</c
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.artifact">
+<span class="sig-name descname"><span class="pre">artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.artifact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an artifact logged to this project by id or name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>id</strong><span class="classifier">str</span></dt><dd><p>The id of the artifact to get.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the artifact to get.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Artifact</dt><dd><p>The artifact logged to this project with id <cite>id</cite> or name ‘name’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.artifacts">
-<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.artifacts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.artifacts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the artifacts logged to this client object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Artifact</dt><dd><p>The artifacts previously logged to this client object.</p>
 </dd>
 </dl>
@@ -804,26 +888,47 @@ its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</c
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.branch_name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">branch_name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.branch_name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">branch_name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.branch_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiment’s branch name.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.commit_hash">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">commit_hash</span></span><a class="headerlink" href="#rubicon_ml.Experiment.commit_hash" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commit_hash</span></span><a class="headerlink" href="#rubicon_ml.Experiment.commit_hash" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiment’s commit hash.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Experiment.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Experiment.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the time the experiment was created.</p>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.dataframe">
+<span class="sig-name descname"><span class="pre">dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dataframe logged to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>id</strong><span class="classifier">str</span></dt><dd><p>The id of the dataframe to get.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the dataframe to get.</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——-</strong></dt><dd></dd>
+<dt><strong>rubicon.client.Dataframe</strong></dt><dd><p>The dataframe logged to this project with id <cite>id</cite> or name ‘name’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.dataframes">
-<span class="sig-name descname"><span class="pre">dataframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.dataframes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dataframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.dataframes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframes logged to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
 <dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tag values to filter results on.</p>
 </dd>
 <dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
@@ -869,8 +974,29 @@ this client object.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Experiment.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Experiment.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiment’s description.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.feature">
+<span class="sig-name descname"><span class="pre">feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a feature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the feature to get.</p>
+</dd>
+<dt><strong>id</strong><span class="classifier">str, optional</span></dt><dd><p>The id of the feature to get.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Feature</dt><dd><p>The feature with name <cite>name</cite> or id <cite>id</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.features">
@@ -887,7 +1013,7 @@ this client object.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Experiment.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Experiment.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiment’s id.</p>
 </dd></dl>
 <dl class="py method">
@@ -969,7 +1095,7 @@ Useful for recreating your exact environment at a later date.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_dataframe">
-<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_dataframe" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log a dataframe to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1091,6 +1217,27 @@ Useful for recreating your exact environment at a later date.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.metric">
+<span class="sig-name descname"><span class="pre">metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the metric to get.</p>
+</dd>
+<dt><strong>id</strong><span class="classifier">str, optional</span></dt><dd><p>The id of the metric to get.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Metric</dt><dd><p>The metric with name <cite>name</cite> or id <cite>id</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.metrics">
 <span class="sig-name descname"><span class="pre">metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metrics logged to this experiment.</p>
@@ -1105,13 +1252,34 @@ Useful for recreating your exact environment at a later date.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.model_name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">model_name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.model_name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model_name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.model_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiment’s model name.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the experiment’s name.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.parameter">
+<span class="sig-name descname"><span class="pre">parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the parameter to get.</p>
+</dd>
+<dt><strong>id</strong><span class="classifier">str, optional</span></dt><dd><p>The id of the parameter to get.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Parameter</dt><dd><p>The parameter with name <cite>name</cite> or id <cite>id</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.parameters">
@@ -1128,7 +1296,7 @@ Useful for recreating your exact environment at a later date.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.project">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">project</span></span><a class="headerlink" href="#rubicon_ml.Experiment.project" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">project</span></span><a class="headerlink" href="#rubicon_ml.Experiment.project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project client object that this experiment
 belongs to.</p>
 </dd></dl>
@@ -1147,12 +1315,12 @@ belongs to.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.tags">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Experiment.tags" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Experiment.tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get this client object’s tags.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.training_metadata">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">training_metadata</span></span><a class="headerlink" href="#rubicon_ml.Experiment.training_metadata" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">training_metadata</span></span><a class="headerlink" href="#rubicon_ml.Experiment.training_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the project’s training metadata.</p>
 </dd></dl>
 </dd></dl>
@@ -1161,7 +1329,7 @@ belongs to.</p>
 <span id="library-reference-parameter"></span><h2>Parameter<a class="headerlink" href="#parameter" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client parameter.</p>
 <p>A <cite>parameter</cite> is an input to an <cite>experiment</cite> (model run)
 that depends on the type of model being used. It affects
@@ -1182,27 +1350,27 @@ be a parameter.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Parameter.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Parameter.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the time the parameter was created.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Parameter.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Parameter.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the parameter’s description.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Parameter.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Parameter.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the parameter’s id.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Parameter.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Parameter.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the parameter’s name.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.value">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#rubicon_ml.Parameter.value" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#rubicon_ml.Parameter.value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the parameter’s value.</p>
 </dd></dl>
 </dd></dl>
@@ -1211,7 +1379,7 @@ be a parameter.</p>
 <span id="library-reference-feature"></span><h2>Feature<a class="headerlink" href="#feature" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Feature">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client feature.</p>
 <p>A <cite>feature</cite> is an input to an <cite>experiment</cite> (model run)
 that’s an independent, measurable property of a phenomenon
@@ -1232,27 +1400,27 @@ customer is to pay back a loan. Possible features could be
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Feature.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Feature.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the feature’s created_at.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Feature.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Feature.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the feature’s description.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Feature.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Feature.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the feature’s id.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.importance">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">importance</span></span><a class="headerlink" href="#rubicon_ml.Feature.importance" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">importance</span></span><a class="headerlink" href="#rubicon_ml.Feature.importance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the feature’s importance.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Feature.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Feature.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the feature’s name.</p>
 </dd></dl>
 </dd></dl>
@@ -1261,7 +1429,7 @@ customer is to pay back a loan. Possible features could be
 <span id="library-reference-metric"></span><h2>Metric<a class="headerlink" href="#metric" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Metric">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client metric.</p>
 <p>A <cite>metric</cite> is a single-value output of an <cite>experiment</cite> that
 helps evaluate the quality of the model’s predictions.</p>
@@ -1280,32 +1448,32 @@ a ‘loss’ (value to minimize).</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Metric.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Metric.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metric’s created_at.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Metric.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Metric.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metric’s description.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.directionality">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">directionality</span></span><a class="headerlink" href="#rubicon_ml.Metric.directionality" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">directionality</span></span><a class="headerlink" href="#rubicon_ml.Metric.directionality" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metric’s directionality.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Metric.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Metric.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metric’s id.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Metric.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Metric.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metric’s name.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.value">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#rubicon_ml.Metric.value" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#rubicon_ml.Metric.value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the metric’s value.</p>
 </dd></dl>
 </dd></dl>
@@ -1314,7 +1482,7 @@ a ‘loss’ (value to minimize).</p>
 <span id="library-reference-dataframe"></span><h2>Dataframe<a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client dataframe.</p>
 <p>A <cite>dataframe</cite> is a two-dimensional, tabular dataset with
 labeled axes (rows and columns) that provides value to the
@@ -1348,17 +1516,17 @@ logged to.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the time this dataframe was created.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.data">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.data" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframe’s data as it was logged.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframe’s description.</p>
 </dd></dl>
 <dl class="py method">
@@ -1377,12 +1545,17 @@ into a <cite>pandas</cite> or <cite>dask</cite> dataframe.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframe’s id.</p>
 </dd></dl>
 <dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dataframe’s name.</p>
+</dd></dl>
+<dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.parent">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.parent" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.parent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframe’s parent client object.</p>
 </dd></dl>
 <dl class="py method">
@@ -1425,7 +1598,7 @@ For customizations, visit:
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.tags">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.tags" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get this client object’s tags.</p>
 </dd></dl>
 </dd></dl>
@@ -1434,7 +1607,7 @@ For customizations, visit:
 <span id="library-reference-artifact"></span><h2>Artifact<a class="headerlink" href="#artifact" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact" title="Permalink to this definition">¶</a></dt>
 <dd><p>A client artifact.</p>
 <p>An <cite>artifact</cite> is a catch-all for any other type of
 data that can be logged to a file.</p>
@@ -1456,17 +1629,17 @@ logged to.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.created_at">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Artifact.created_at" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Artifact.created_at" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the time this dataframe was created.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.data">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#rubicon_ml.Artifact.data" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#rubicon_ml.Artifact.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the artifact’s raw data.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Artifact.description" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Artifact.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the artifact’s description.</p>
 </dd></dl>
 <dl class="py method">
@@ -1490,17 +1663,17 @@ Defaults to the artifact’s given name when logged.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.id">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Artifact.id" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Artifact.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the artifact’s id.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Artifact.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Artifact.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the artifact’s name.</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.parent">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Artifact.parent" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Artifact.parent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the dataframe’s parent client object.</p>
 </dd></dl>
 </dd></dl>
@@ -1514,7 +1687,7 @@ and each function <strong>returns a coroutine</strong> rather than its standard
 return value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.client.asynchronous.Rubicon">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.client.asynchronous.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.client.asynchronous.Rubicon" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.client.asynchronous.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.client.asynchronous.Rubicon" title="Permalink to this definition">¶</a></dt>
 <dd><p>The asynchronous <cite>rubicon</cite> client’s entry point.</p>
 <p>Creates a <cite>Config</cite> and injects it into the client level
 objects at run-time.</p>
@@ -1544,7 +1717,7 @@ are passed directly to the underlying filesystem class.</p>
 own pipeline object.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.sklearn.RubiconPipeline">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.</span></span><span class="sig-name descname"><span class="pre">RubiconPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_defined_loggers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'name':</span> <span class="pre">'RubiconPipeline</span> <span class="pre">experiment'}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.</span></span><span class="sig-name descname"><span class="pre">RubiconPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_defined_loggers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'name':</span> <span class="pre">'RubiconPipeline</span> <span class="pre">experiment'}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>An extension of <cite>sklearn.pipeline.Pipeline</cite> that automatically
 creates a Rubicon <cite>experiment</cite> under the provided <cite>project</cite> and logs
 the pipeline’s <cite>parameters</cite> and <cite>metrics</cite> to it.</p>
@@ -1640,7 +1813,7 @@ score method of the final estimator.</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.sklearn.FilterEstimatorLogger">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.</span></span><span class="sig-name descname"><span class="pre">FilterEstimatorLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.FilterEstimatorLogger" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.</span></span><span class="sig-name descname"><span class="pre">FilterEstimatorLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.FilterEstimatorLogger" title="Permalink to this definition">¶</a></dt>
 <dd><p>The filter logger for sklearn estimators. Use this
 logger to either select or ignore specific parameters
 for logging.</p>
@@ -1670,47 +1843,6 @@ to ignore by not logging. The other parameters will be logged.</p>
 <span id="library-reference-ui"></span><h2>ui<a class="headerlink" href="#ui" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> dashboard can be launched directly from Python code
 or the CLI.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="rubicon_ml.ui.Dashboard">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.ui.</span></span><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.ui.Dashboard" title="Permalink to this definition">¶</a></dt>
-<dd><p>The dashboard for exploring logged data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>persistence</strong><span class="classifier">str</span></dt><dd><p>The persistence type. Can be one of [“filesystem”, “memory”].</p>
-</dd>
-<dt><strong>root_dir</strong><span class="classifier">str, optional</span></dt><dd><p>Absolute or relative filepath of the root directory holding Rubicon data.
-Use absolute path for best performance. Defaults to the local filesystem.
-Prefix with s3:// to use s3 instead.</p>
-</dd>
-<dt><strong>page_size</strong><span class="classifier">int, optional</span></dt><dd><p>The number of rows that will be displayed on a page within the
-experiment table.</p>
-</dd>
-<dt><strong>dash_options: dict, optional</strong></dt><dd><p>Additional arguments specific to the Dash app. Visit the
-<a class="reference external" href="https://dash.plotly.com/reference">docs</a> to see what’s
-available. Note, <cite>requests_pathname_prefix</cite> is useful for proxy
-troubles.</p>
-</dd>
-<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
-are passed directly to the underlying filesystem class.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.ui.Dashboard.run_server">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.ui.Dashboard.</span></span><span class="sig-name descname"><span class="pre">run_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.ui.Dashboard.run_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Serve the dash app on an external web page.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional arguments to be passed to <cite>dash.run_server</cite>.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
 </section>
 <section id="workflow-prefect">
 <span id="library-reference-workflow"></span><h2>workflow.prefect<a class="headerlink" href="#workflow-prefect" title="Permalink to this headline">¶</a></h2>
@@ -1719,7 +1851,7 @@ are passed directly to the underlying filesystem class.</p>
 client.</p>
 <span class="target" id="module-rubicon_ml.workflow.prefect"></span><dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.create_experiment_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">create_experiment_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.create_experiment_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">create_experiment_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.create_experiment_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an experiment within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 create a new experiment under an existing project.</p>
@@ -1743,7 +1875,7 @@ create a new experiment under an existing project.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.get_or_create_project_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">get_or_create_project_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.get_or_create_project_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">get_or_create_project_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.get_or_create_project_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or create a project within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 create a new project or get an existing one. It should
@@ -1765,6 +1897,9 @@ relevant repository information to projects and
 experiments logged with the client instance created
 in this task, False otherwise. Defaults to False.</p>
 </dd>
+<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
+are passed directly to the underlying filesystem class.</p>
+</dd>
 <dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
 <cite>Rubicon.create_project</cite>.</p>
 </dd>
@@ -1780,7 +1915,7 @@ in this task, False otherwise. Defaults to False.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_artifact_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_artifact_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_artifact_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_artifact_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_artifact_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log an artifact within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 log an artifact to an existing project or experiment.</p>
@@ -1804,7 +1939,7 @@ log an artifact to an existing project or experiment.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_dataframe_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_dataframe_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_dataframe_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_dataframe_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_dataframe_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log a dataframe within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 log a dataframe to an existing project or experiment.</p>
@@ -1830,7 +1965,7 @@ log a dataframe to an existing project or experiment.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_feature_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_feature_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_feature_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_feature_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_feature_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log a feature within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 log a feature to an existing experiment.</p>
@@ -1857,7 +1992,7 @@ log a feature to an existing experiment.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_metric_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_metric_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_metric_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_metric_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_metric_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log a metric within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 log a metric to an existing experiment.</p>
@@ -1887,7 +2022,7 @@ log a metric to an existing experiment.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_parameter_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_parameter_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Flow</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_parameter_task" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_parameter_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Flow</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Task</span></span></span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_parameter_task" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log a parameter within a <cite>prefect</cite> flow.</p>
 <p>This <cite>prefect</cite> task can be used within a flow to
 log a parameter to an existing experiment.</p>
@@ -1918,7 +2053,8 @@ log a parameter to an existing experiment.</p>
 </section>
 </section>
 
-      </article>
+        </article>
+      </div>
       <footer>
         
         <div class="related-pages">
@@ -1945,13 +2081,11 @@ log a parameter to an existing experiment.</p>
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, rubicon-ml developers
-            |
+              Copyright &#169; 2021, rubicon-ml developers |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            |
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
             <a class="muted-link" href="_sources/library_reference.rst.txt"
                rel="nofollow">
               Show Source
