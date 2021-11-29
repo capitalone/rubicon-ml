@@ -30,9 +30,11 @@ jobs:
         environment-file: docs/docs-environment.yml
     - name: Install rubicon-ml
       run: |
+        mamba info -e
         pip install --no-deps .
     - name: Build
       run: |
+        mamba info -e
         cd docs
         make html
       shell: bash
