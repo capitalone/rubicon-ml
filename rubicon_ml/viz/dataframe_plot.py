@@ -2,7 +2,11 @@ import plotly.express as px
 from dash import dcc, html
 
 from rubicon_ml.viz.base import VizBase
-from rubicon_ml.viz.colors import light_blue, plot_background_blue
+from rubicon_ml.viz.colors import (
+    get_rubicon_colorscale,
+    light_blue,
+    plot_background_blue,
+)
 from rubicon_ml.viz.common import dropdown_header
 
 
@@ -49,8 +53,8 @@ class DataframePlot(VizBase):
         if "color" not in self.plotting_func_kwargs:
             self.plotting_func_kwargs["color"] = "experiment_id"
         if "color_discrete_sequence" not in self.plotting_func_kwargs:
-            self.plotting_func_kwargs["color_discrete_sequence"] = px.colors.sample_colorscale(
-                "Blues", len(self.experiments), low=0.33
+            self.plotting_func_kwargs["color_discrete_sequence"] = get_rubicon_colorscale(
+                len(self.experiments),
             )
 
         figure = self.plotting_func(
