@@ -88,6 +88,7 @@ class ExperimentsTable(VizBase):
                 disabled=not self.is_selectable,
                 id="select-all-button",
                 outline=True,
+                style={"display": "none"} if not self.is_selectable else {},
             ),
             dbc.Button(
                 "clear all experiments",
@@ -95,6 +96,7 @@ class ExperimentsTable(VizBase):
                 disabled=not self.is_selectable,
                 id="clear-all-button",
                 outline=True,
+                style={"display": "none"} if not self.is_selectable else {},
             ),
         ]
 
@@ -184,7 +186,11 @@ class ExperimentsTable(VizBase):
         return html.Div(
             [
                 self._to_store(ignore_attributes=["app", "experiments"]),
-                html.Div(header, className="header-row"),
+                html.Div(
+                    header,
+                    className="header-row",
+                    style={"margin-bottom": "-3.5rem"} if not self.is_selectable else {},
+                ),
                 dbc.Row(
                     [
                         *[dbc.Col(button, width="auto") for button in bulk_select_buttons],
