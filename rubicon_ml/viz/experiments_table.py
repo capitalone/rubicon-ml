@@ -82,21 +82,25 @@ class ExperimentsTable(VizBase):
 
     def _build_layout(self):
         bulk_select_buttons = [
-            dbc.Button(
-                "select all experiments",
-                color="primary",
-                disabled=not self.is_selectable,
-                id="select-all-button",
-                outline=True,
-                style={"display": "none"} if not self.is_selectable else {},
+            html.Div(
+                dbc.Button(
+                    "select all experiments",
+                    color="primary",
+                    disabled=not self.is_selectable,
+                    id="select-all-button",
+                    outline=True,
+                ),
+                className="bulk-select-button-container",
             ),
-            dbc.Button(
-                "clear all experiments",
-                color="primary",
-                disabled=not self.is_selectable,
-                id="clear-all-button",
-                outline=True,
-                style={"display": "none"} if not self.is_selectable else {},
+            html.Div(
+                dbc.Button(
+                    "clear all experiments",
+                    color="primary",
+                    disabled=not self.is_selectable,
+                    id="clear-all-button",
+                    outline=True,
+                ),
+                className="bulk-select-button-container",
             ),
         ]
 
@@ -183,13 +187,11 @@ class ExperimentsTable(VizBase):
             label="toggle columns",
         )
 
-        return html.Div(
-            [
-                self._to_store(ignore_attributes=["app", "experiments"]),
+        if self.is_selectable:
+            header_row = [
                 html.Div(
                     header,
                     className="header-row",
-                    style={"margin-bottom": "-3.5rem"} if not self.is_selectable else {},
                 ),
                 dbc.Row(
                     [
@@ -198,6 +200,28 @@ class ExperimentsTable(VizBase):
                     ],
                     className="button-group",
                 ),
+            ]
+        else:
+            header_row = [
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            html.Div(
+                                header,
+                                className="header-row",
+                            ),
+                            width=8,
+                        ),
+                        dbc.Col(toggle_columns_dropdown),
+                    ],
+                    className="button-group",
+                ),
+            ]
+
+        return html.Div(
+            [
+                self._to_store(ignore_attributes=["app", "experiments"]),
+                *header_row,
                 dcc.Loading(experiment_table, color=light_blue),
             ],
             style={"width": "100%"},

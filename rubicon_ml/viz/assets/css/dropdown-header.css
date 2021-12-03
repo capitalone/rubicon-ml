@@ -18,7 +18,9 @@
 .header-row {
     margin: 0rem;
     padding: 1rem 0rem 0rem .25rem;
+    position: relative;
     width: 100%;
+    z-index: 100;
 }
 
 .header-text {
