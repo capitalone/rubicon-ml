@@ -1,5 +1,7 @@
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import dcc, html
+from dash.dependencies import Input, Output
 
 from rubicon_ml.viz.base import VizBase
 from rubicon_ml.viz.colors import (
@@ -7,36 +9,61 @@ from rubicon_ml.viz.colors import (
     light_blue,
     plot_background_blue,
 )
-from rubicon_ml.viz.common import dropdown_header
 
 
 class DataframePlot(VizBase):
     def __init__(
         self,
-        experiments,
-        plotting_func,
-        selected_dataframe,
-        x,
-        y,
-        dash_kwargs={},
+        dataframe_name,
+        experiments=None,
+        plotting_func=px.line,
         plotting_func_kwargs={},
+        x=None,
+        y=None,
     ):
-        super().__init__(dash_kwargs=dash_kwargs, dash_title="rubicon-ml: plot dataframes")
+        super().__init__(dash_title="plot dataframes")
 
+        self.dataframe_name = dataframe_name
         self.experiments = experiments
         self.plotting_func = plotting_func
         self.plotting_func_kwargs = plotting_func_kwargs
-        self.selected_dataframe = selected_dataframe
         self.x = x
         self.y = y
 
+    @property
+    def layout(self):
+        header_text = (
+            f"showing dataframe '{self.dataframe_name}' "
+            f"over {len(self.experiments)} experiment"
+            f"{'s' if len(self.experiments) != 1 else ''}"
+        )
+
+        return html.Div(
+            [
+                html.Div(id="dummy-callback-trigger"),
+                dbc.Row(
+                    html.H5(header_text, id="header-text"),
+                    className="header-row",
+                ),
+                dcc.Loading(dcc.Graph(id="dataframe-plot"), color=light_blue),
+            ],
+            id="dataframe-plot-layout-container",
+        )
+
+    def load_experiment_data(self):
         self.data_df = None
 
         for experiment in self.experiments:
-            dataframe = experiment.dataframes(tags=self.selected_dataframe)[0]
+            dataframe = experiment.dataframe(name=self.dataframe_name)
 
             data_df = dataframe.data
             data_df["experiment_id"] = experiment.id
+
+            if self.x is None:
+                self.x = data_df.columns[0]
+
+            if self.y is None:
+                self.y = data_df.columns[1]
 
             if self.data_df is None:
                 self.data_df = data_df
@@ -45,11 +72,6 @@ class DataframePlot(VizBase):
 
             self.data_df = self.data_df.reset_index(drop=True)
 
-        self.app.layout = self._build_frame(self._build_layout())
-
-        _register_callbacks(self.app)
-
-    def _build_layout(self):
         if "color" not in self.plotting_func_kwargs:
             self.plotting_func_kwargs["color"] = "experiment_id"
         if "color_discrete_sequence" not in self.plotting_func_kwargs:
@@ -57,61 +79,42 @@ class DataframePlot(VizBase):
                 len(self.experiments),
             )
 
-        figure = self.plotting_func(
-            self.data_df,
-            self.x,
-            self.y,
-            **self.plotting_func_kwargs,
-        )
-        figure.update_layout(margin_t=30, plot_bgcolor=plot_background_blue)
+    def register_callbacks(self, link_experiment_table=False):
+        outputs = [
+            Output("dataframe-plot", "figure"),
+            Output("header-text", "children"),
+        ]
+        inputs = [Input("dummy-callback-trigger", "children")]
+        states = []
 
-        for i, experiment in enumerate(self.experiments):
-            figure.data[i].name = experiment.id[:7]
+        if link_experiment_table:
+            inputs.append(
+                Input("experiment-table", "derived_virtual_selected_row_ids"),
+            )
 
-        return html.Div(
-            [
-                dropdown_header(
-                    self.selected_dataframe,
-                    self.selected_dataframe[0],
-                    "showing dataframe ",
-                    f" over {len(self.experiments)} experiments",
-                    "dataframe-plot",
-                ),
-                dcc.Loading(dcc.Graph(figure=figure), color=light_blue),
-            ],
-            id="dataframe-plot-layout-container",
-        )
+        @self.app.callback(outputs, inputs, states)
+        def update_dataframe_plot(*args):
+            if link_experiment_table:
+                selected_row_ids = args[-1]
+                selected_row_ids = selected_row_ids if selected_row_ids else []
+            else:
+                selected_row_ids = [e.id for e in self.experiments]
 
+            df_figure = self.plotting_func(
+                self.data_df[self.data_df["experiment_id"].isin(selected_row_ids)],
+                self.x,
+                self.y,
+                **self.plotting_func_kwargs,
+            )
+            df_figure.update_layout(margin_t=30, plot_bgcolor=plot_background_blue)
 
-def _register_callbacks(app):
-    @app.callback()
-    def update():
-        pass
+            for i in range(len(df_figure.data)):
+                df_figure.data[i].name = df_figure.data[i].name[:7]
 
+            header_text = (
+                f"showing dataframe '{self.dataframe_name}' "
+                f"over {len(selected_row_ids)} experiment"
+                f"{'s' if len(selected_row_ids) != 1 else ''}"
+            )
 
-def plot_dataframes(
-    experiments,
-    selected_dataframe,
-    x,
-    y,
-    plotting_func=px.line,
-    dash_kwargs={},
-    i_frame_kwargs={},
-    plotting_func_kwargs={},
-    run_server_kwargs={},
-):
-    if "height" not in i_frame_kwargs:
-        i_frame_kwargs["height"] = "600px"
-
-    return DataframePlot(
-        experiments,
-        plotting_func,
-        selected_dataframe,
-        x,
-        y,
-        dash_kwargs=dash_kwargs,
-        plotting_func_kwargs=plotting_func_kwargs,
-    ).run_server_inline(
-        i_frame_kwargs=i_frame_kwargs,
-        **run_server_kwargs,
-    )
+            return df_figure, header_text

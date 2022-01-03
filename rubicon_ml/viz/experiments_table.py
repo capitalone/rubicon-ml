@@ -7,80 +7,14 @@ from rubicon_ml.viz.colors import light_blue, plot_background_blue
 
 
 class ExperimentsTable(VizBase):
-    def __init__(self, experiments, is_selectable=True, dash_kwargs={}):
-        super().__init__(dash_kwargs=dash_kwargs, dash_title="rubicon-ml: experiment table")
+    def __init__(self, experiments=None, is_selectable=False):
+        super().__init__(dash_title="experiment table")
 
         self.experiments = experiments
         self.is_selectable = is_selectable
 
-        self.commit_hash = None
-        self.experiment_records = []
-        self.github_url = None
-        self.metric_names = set()
-        self.parameter_names = set()
-        self.all_columns = ["id", "name", "created_at", "model_name", "commit_hash", "tags"]
-        self.hidden_columns = []
-
-        commit_hashes = set()
-        show_columns = {"id", "created_at"}
-
-        for experiment in self.experiments:
-            if experiment.commit_hash is not None:
-                commit_hashes.add(experiment.commit_hash)
-                show_columns.add("commit_hash")
-
-            if experiment.model_name is not None:
-                show_columns.add("model_name")
-
-            if experiment.name is not None:
-                show_columns.add("name")
-
-            if len(experiment.tags) > 0:
-                show_columns.append("tags")
-
-            experiment_record = {
-                "id": experiment.id,
-                "name": experiment.name,
-                "created_at": experiment.created_at,
-                "model_name": experiment.model_name,
-                "commit_hash": experiment.commit_hash[:7],
-                "tags": experiment.tags,
-            }
-
-            for parameter in experiment.parameters():
-                experiment_record[parameter.name] = parameter.value
-
-                self.parameter_names.add(parameter.name)
-
-            for metric in experiment.metrics():
-                experiment_record[metric.name] = metric.value
-
-                self.metric_names.add(metric.name)
-
-            self.experiment_records.append(experiment_record)
-
-        self.metric_names = list(self.metric_names)
-        self.parameter_names = list(self.parameter_names)
-
-        self.all_columns.extend(self.parameter_names + self.metric_names)
-        self.hidden_columns = [
-            column
-            for column in self.all_columns
-            if column not in list(show_columns) + self.metric_names + self.parameter_names
-        ]
-
-        if len(commit_hashes) == 1:
-            github_url_root = self.experiments[0].project.github_url[:-4]
-            commit_hash = list(commit_hashes)[0]
-
-            self.commit_hash = commit_hash[:7]
-            self.github_url = f"{github_url_root}/tree/{commit_hash}"
-
-        self.app.layout = self._build_frame(self._build_layout())
-
-        _register_callbacks(self.app)
-
-    def _build_layout(self):
+    @property
+    def layout(self):
         bulk_select_buttons = [
             html.Div(
                 dbc.Button(
@@ -220,92 +154,141 @@ class ExperimentsTable(VizBase):
 
         return html.Div(
             [
-                self._to_store(ignore_attributes=["app", "experiments"]),
                 *header_row,
                 dcc.Loading(experiment_table, color=light_blue),
             ],
-            style={"width": "100%"},
         )
 
+    def load_experiment_data(self):
+        self.experiment_records = []
+        self.metric_names = set()
+        self.parameter_names = set()
 
-def _register_callbacks(app):
-    @app.callback(
-        Output({"type": "column-dropdown-checkbox", "index": ALL}, "value"),
-        [
-            Input("show-all-dropdown-button", "n_clicks_timestamp"),
-            Input("hide-all-dropdown-button", "n_clicks_timestamp"),
-        ],
-        State("memory-store", "data"),
-        prevent_initial_call=True,
-    )
-    def _update_selected_column_checkboxes(last_show_click, last_hide_click, data):
-        """Bulk updates for the selections in the "toggle columns" dropdown.
+        self.all_columns = ["id", "name", "created_at", "model_name", "commit_hash", "tags"]
+        self.hidden_columns = []
 
-        Returns all if triggered by the "show all" button and returns
-        only "id" if triggered by the "hide all" button. The initial
-        call is prevented as the default state is neither all nor none.
-        """
-        last_show_click = last_show_click if last_show_click else 0
-        last_hide_click = last_hide_click if last_hide_click else 0
+        self.commit_hash = None
+        self.github_url = None
 
-        all_columns = data["all_columns"]
+        commit_hashes = set()
+        show_columns = {"id", "created_at"}
 
-        if last_hide_click > last_show_click:
-            hidden_values = [[]] * (len(all_columns) - 1)
+        for experiment in self.experiments:
+            if experiment.commit_hash is not None:
+                commit_hashes.add(experiment.commit_hash)
+                show_columns.add("commit_hash")
 
-            return [["id"], *hidden_values]
+            if experiment.model_name is not None:
+                show_columns.add("model_name")
 
-        return [[column] for column in all_columns]
+            if experiment.name is not None:
+                show_columns.add("name")
 
-    @app.callback(
-        Output("experiment-table", "hidden_columns"),
-        Input({"type": "column-dropdown-checkbox", "index": ALL}, "value"),
-        State("memory-store", "data"),
-    )
-    def _update_hidden_experiment_table_cols(selected_columns, data):
-        """Hide and show the columns in the experiment table.
+            if len(experiment.tags) > 0:
+                show_columns.append("tags")
 
-        Returns the columns that should be hidden based on whether or
-        not the column's corresponding value is checked in the "toggle
-        columns" dropdown.
-        """
-        all_columns = data["all_columns"]
-        selected_columns = [sc[0] for sc in selected_columns if len(sc) > 0]
+            experiment_record = {
+                "id": experiment.id,
+                "name": experiment.name,
+                "created_at": experiment.created_at,
+                "model_name": experiment.model_name,
+                "commit_hash": experiment.commit_hash[:7],
+                "tags": experiment.tags,
+            }
 
-        return [column for column in all_columns if column not in selected_columns]
+            for parameter in experiment.parameters():
+                experiment_record[parameter.name] = parameter.value
 
-    @app.callback(
-        Output("experiment-table", "selected_rows"),
-        [
-            Input("select-all-button", "n_clicks_timestamp"),
-            Input("clear-all-button", "n_clicks_timestamp"),
-        ],
-        State("experiment-table", "derived_virtual_indices"),
-    )
-    def _update_selected_experiment_table_rows(
-        last_select_click, last_clear_click, experiment_table_indices
-    ):
-        """Bulk selection for the rows of the experiment table.
+                self.parameter_names.add(parameter.name)
 
-        Returns all if triggered by the "select all" button and returns
-        none if triggered by the "clear all" button.
-        """
-        last_select_click = last_select_click if last_select_click else 0
-        last_clear_click = last_clear_click if last_clear_click else 0
+            for metric in experiment.metrics():
+                experiment_record[metric.name] = metric.value
 
-        if last_select_click > last_clear_click:
-            return experiment_table_indices
+                self.metric_names.add(metric.name)
 
-        return []
+            self.experiment_records.append(experiment_record)
 
+        self.metric_names = list(self.metric_names)
+        self.parameter_names = list(self.parameter_names)
 
-def view_experiments_table(experiments, dash_kwargs={}, i_frame_kwargs={}, run_server_kwargs={}):
-    if "height" not in i_frame_kwargs:
-        i_frame_kwargs["height"] = "640px"
+        self.all_columns.extend(self.parameter_names + self.metric_names)
+        self.hidden_columns = [
+            column
+            for column in self.all_columns
+            if column not in list(show_columns) + self.metric_names + self.parameter_names
+        ]
 
-    return ExperimentsTable(
-        experiments, is_selectable=False, dash_kwargs=dash_kwargs
-    ).run_server_inline(
-        i_frame_kwargs=i_frame_kwargs,
-        **run_server_kwargs,
-    )
+        if len(commit_hashes) == 1:
+            github_url_root = self.experiments[0].project.github_url[:-4]
+            commit_hash = list(commit_hashes)[0]
+
+            self.commit_hash = commit_hash[:7]
+            self.github_url = f"{github_url_root}/tree/{commit_hash}"
+
+    def register_callbacks(self, link_experiment_table=False):
+        @self.app.callback(
+            Output({"type": "column-dropdown-checkbox", "index": ALL}, "value"),
+            [
+                Input("show-all-dropdown-button", "n_clicks_timestamp"),
+                Input("hide-all-dropdown-button", "n_clicks_timestamp"),
+            ],
+            prevent_initial_call=True,
+        )
+        def _update_selected_column_checkboxes(last_show_click, last_hide_click):
+            """Bulk updates for the selections in the "toggle columns" dropdown.
+
+            Returns all if triggered by the "show all" button and returns
+            only "id" if triggered by the "hide all" button. The initial
+            call is prevented as the default state is neither all nor none.
+            """
+            last_show_click = last_show_click if last_show_click else 0
+            last_hide_click = last_hide_click if last_hide_click else 0
+
+            if last_hide_click > last_show_click:
+                hidden_values = [[]] * (len(self.all_columns) - 1)
+
+                return [["id"], *hidden_values]
+
+            return [[column] for column in self.all_columns]
+
+        @self.app.callback(
+            Output("experiment-table", "hidden_columns"),
+            Input({"type": "column-dropdown-checkbox", "index": ALL}, "value"),
+        )
+        def _update_hidden_experiment_table_cols(selected_columns):
+            """Hide and show the columns in the experiment table.
+
+            Returns the columns that should be hidden based on whether or
+            not the column's corresponding value is checked in the "toggle
+            columns" dropdown.
+            """
+            selected_columns = [sc[0] for sc in selected_columns if len(sc) > 0]
+
+            return [column for column in self.all_columns if column not in selected_columns]
+
+        @self.app.callback(
+            Output("experiment-table", "selected_rows"),
+            [
+                Input("select-all-button", "n_clicks_timestamp"),
+                Input("clear-all-button", "n_clicks_timestamp"),
+            ],
+            State("experiment-table", "derived_virtual_indices"),
+        )
+        def _update_selected_experiment_table_rows(
+            last_select_click, last_clear_click, experiment_table_indices
+        ):
+            """Bulk selection for the rows of the experiment table.
+
+            Returns all if triggered by the "select all" button and returns
+            none if triggered by the "clear all" button.
+            """
+            if last_select_click is None and last_clear_click is None:
+                return list(range(len(self.experiments)))
+
+            last_select_click = last_select_click if last_select_click else 0
+            last_clear_click = last_clear_click if last_clear_click else 0
+
+            if last_select_click > last_clear_click:
+                return experiment_table_indices
+
+            return []

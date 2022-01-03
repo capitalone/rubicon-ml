@@ -1,11 +1,11 @@
-from rubicon_ml.viz.dataframe_plot import plot_dataframes
-from rubicon_ml.viz.experiments_table import view_experiments_table
-from rubicon_ml.viz.metric_correlation_plot import plot_metric_correlation
-from rubicon_ml.viz.metric_lists_comparison import compare_metric_lists
+from rubicon_ml.viz.dataframe_plot import DataframePlot
+from rubicon_ml.viz.experiments_table import ExperimentsTable
+from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
+from rubicon_ml.viz.metric_lists_comparison import MetricListsComparison
 
 __all__ = [
-    "compare_metric_lists",
-    "plot_dataframes",
-    "plot_metric_correlation",
-    "view_experiments_table",
+    "DataframePlot",
+    "ExperimentsTable",
+    "MetricListsComparison",
+    "MetricCorrelationPlot",
 ]
