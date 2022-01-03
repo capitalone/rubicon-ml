@@ -7,6 +7,23 @@ COL_WIDTH_LOOKUP = {1: 12, 2: 6, 3: 4, 4: 3}
 
 
 class Dashboard(VizBase):
+    """Compose visualizations into a dashboard to view multiple widgets
+    at once.
+
+    Parameters
+    ----------
+    experiments : list of rubicon_ml.client.experiment.Experiment
+        The experiments to visualize.
+    widgets : list of superclasses of rubicon_ml.viz.base.VizBase
+        The widgets to compose in this dashboard. The widgets should
+        be instantiated without experiments prior to passing as an
+        argument to `Dashboard`.
+    link_experiment_table : bool, optional
+        True to enable the callbacks that allow instances of
+        `ExperimentsTable` to update the experiment inputs of the other
+        widgets in this dashboard. False otherwise. Defaults to True.
+    """
+
     def __init__(self, experiments, widgets, link_experiment_table=True):
         super().__init__(dash_title="dashboard")
 

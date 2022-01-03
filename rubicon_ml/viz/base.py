@@ -11,6 +11,12 @@ _next_available_port = 8050
 
 
 class VizBase:
+    """The base class for all `rubicon_ml` visualizations.
+
+    `VizBase` can not be directly instantatied. New widgets must all
+    extend `VizBase`.
+    """
+
     def __init__(
         self,
         dash_title="base",
@@ -22,6 +28,9 @@ class VizBase:
         raise NotImplementedError("extensions of `VizBase` must implement property `layout(self)`")
 
     def build_layout(self):
+        """Wraps the layout defined by `self.layout` in a container providing
+        the `rubicon_ml` header.
+        """
         self.app.layout = dbc.Card(
             dbc.CardBody(
                 [
@@ -51,6 +60,25 @@ class VizBase:
         )
 
     def serve(self, in_background=False, dash_kwargs={}, run_server_kwargs={}):
+        """Serve the Dash app on the next available port to render the visualization.
+
+        Parameters
+        ----------
+        in_background : bool, optional
+            True to run the Dash app on a thread and return execution to the
+            interpreter. False to run the Dash app inline and block execution.
+            Defaults to False.
+        dash_kwargs : dict, optional
+            Keyword arguments to be passed along to the newly instantiated
+            Dash object. Available options can be found at
+            https://dash.plotly.com/reference#dash.dash.
+        run_server_kwargs : dict, optional
+            Keyword arguments to be passed along to `Dash.run_server`.
+            Available options can be found at
+            https://dash.plotly.com/reference#app.run_server. Most commonly,
+            the 'port' argument can be provided here to serve the app on a
+            specific port.
+        """
         if self.experiments is None:
             raise RuntimeError(
                 f"`{self.__class__}.experiments` can not be None when `serve` is called"
@@ -101,6 +129,24 @@ class VizBase:
             self.app.run_server(**default_run_server_kwargs)
 
     def show(self, i_frame_kwargs={}, dash_kwargs={}, run_server_kwargs={}):
+        """Show the Dash app inline in a Jupyter notebook.
+
+        Parameters
+        ----------
+        i_frame_kwargs : dict, optional
+            Keyword arguments to be passed along to the newly instantiated
+            IFrame object. Available options include 'height' and 'width'.
+        dash_kwargs : dict, optional
+            Keyword arguments to be passed along to the newly instantiated
+            Dash object. Available options can be found at
+            https://dash.plotly.com/reference#dash.dash.
+        run_server_kwargs : dict, optional
+            Keyword arguments to be passed along to `Dash.run_server`.
+            Available options can be found at
+            https://dash.plotly.com/reference#app.run_server. Most commonly,
+            the 'port' argument can be provided here to serve the app on a
+            specific port.
+        """
         from IPython.display import IFrame
 
         host = self.serve(

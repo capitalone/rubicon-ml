@@ -7,6 +7,19 @@ from rubicon_ml.viz.colors import light_blue, plot_background_blue
 
 
 class ExperimentsTable(VizBase):
+    """Visualize the experiments `experiments` and their metadata, metrics,
+    and parameters in a tabular format.
+
+    Parameters
+    ----------
+    experiments : list of rubicon_ml.client.experiment.Experiment, optional
+        The experiments to visualize. Defaults to None. Can be set as
+        attribute after instantiation.
+    is_selectable : bool, optional
+        True to enable selection of the rows in the table, False otherwise.
+        Defaults to False.
+    """
+
     def __init__(self, experiments=None, is_selectable=False):
         super().__init__(dash_title="experiment table")
 
