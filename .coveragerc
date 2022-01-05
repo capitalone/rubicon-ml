@@ -9,4 +9,3 @@ omit =
     rubicon_ml/_version.py
     rubicon_ml/ui/views/project_explorer.py 
     rubicon_ml/ui/callbacks/project_selection.py 
-    rubicon_ml/viz/*

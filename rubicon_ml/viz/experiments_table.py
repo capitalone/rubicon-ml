@@ -187,7 +187,18 @@ class ExperimentsTable(VizBase):
         show_columns = {"id", "created_at"}
 
         for experiment in self.experiments:
+            experiment_record = {
+                "id": experiment.id,
+                "name": experiment.name,
+                "created_at": experiment.created_at,
+                "model_name": experiment.model_name,
+                "commit_hash": None,
+                "tags": experiment.tags,
+            }
+
             if experiment.commit_hash is not None:
+                experiment_record["commit_hash"] = experiment.commit_hash[:7]
+
                 commit_hashes.add(experiment.commit_hash)
                 show_columns.add("commit_hash")
 
@@ -198,16 +209,7 @@ class ExperimentsTable(VizBase):
                 show_columns.add("name")
 
             if len(experiment.tags) > 0:
-                show_columns.append("tags")
-
-            experiment_record = {
-                "id": experiment.id,
-                "name": experiment.name,
-                "created_at": experiment.created_at,
-                "model_name": experiment.model_name,
-                "commit_hash": experiment.commit_hash[:7],
-                "tags": experiment.tags,
-            }
+                show_columns.add("tags")
 
             for parameter in experiment.parameters():
                 experiment_record[parameter.name] = parameter.value
