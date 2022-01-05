@@ -6,8 +6,8 @@ from dash import callback_context, dcc, html
 from dash.dependencies import ALL, Input, Output
 
 from rubicon_ml.viz.base import VizBase
-from rubicon_ml.viz.colors import get_rubicon_colorscale, light_blue, transparent
 from rubicon_ml.viz.common import dropdown_header
+from rubicon_ml.viz.common.colors import get_rubicon_colorscale, light_blue, transparent
 
 
 class MetricCorrelationPlot(VizBase):

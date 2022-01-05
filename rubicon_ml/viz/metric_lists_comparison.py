@@ -7,8 +7,8 @@ from dash import callback_context, dcc, html
 from dash.dependencies import ALL, Input, Output
 
 from rubicon_ml.viz.base import VizBase
-from rubicon_ml.viz.colors import light_blue, plot_background_blue
 from rubicon_ml.viz.common import dropdown_header
+from rubicon_ml.viz.common.colors import light_blue, plot_background_blue
 
 
 class MetricListsComparison(VizBase):
@@ -158,6 +158,12 @@ class MetricListsComparison(VizBase):
                     if isinstance(label, float):
                         annotations[i][j] = round(label, 6)
 
+            heatmap_margin = 30
+            heatmap_min_width = 72
+            heatmap_cell_width = 6
+            heatmap_cell_height = heatmap_cell_width / 2
+            heatmap_cell_buffer = 12
+
             heatmap = ff.create_annotated_heatmap(
                 scaled_heatmap_data,
                 annotation_text=annotations,
@@ -168,15 +174,19 @@ class MetricListsComparison(VizBase):
                 y=experiment_ids,
             )
             heatmap.update_layout(
-                margin_b=30, margin_t=30, modebar_orientation="v", plot_bgcolor=plot_background_blue
+                margin_b=heatmap_margin,
+                margin_t=heatmap_margin,
+                modebar_orientation="v",
+                plot_bgcolor=plot_background_blue,
             )
             heatmap.update_xaxes(gridcolor="white")
             heatmap.update_yaxes(gridcolor="white")
 
-            heatmap_cell_rem = 6
-            heatmap_height = 12 + (len(heatmap_data) * (heatmap_cell_rem / 2))
+            heatmap_height = heatmap_cell_buffer + (len(heatmap_data) * heatmap_cell_height)
             heatmap_width = (
-                12 + (len(heatmap_data[0]) * heatmap_cell_rem) if len(heatmap_data[0]) > 8 else 72
+                heatmap_cell_buffer + (len(heatmap_data[0]) * heatmap_cell_width)
+                if len(heatmap_data[0]) > 8
+                else heatmap_min_width
             )
             heatmap_style = {"height": f"{heatmap_height}rem", "width": f"{heatmap_width}rem"}
 

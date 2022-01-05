@@ -4,7 +4,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 
 from rubicon_ml.viz.base import VizBase
-from rubicon_ml.viz.colors import (
+from rubicon_ml.viz.common.colors import (
     get_rubicon_colorscale,
     light_blue,
     plot_background_blue,
@@ -134,13 +134,15 @@ class DataframePlot(VizBase):
             else:
                 selected_row_ids = [e.id for e in self.experiments]
 
+            df_figure_margin = 30
+
             df_figure = self.plotting_func(
                 self.data_df[self.data_df["experiment_id"].isin(selected_row_ids)],
                 self.x,
                 self.y,
                 **self.plotting_func_kwargs,
             )
-            df_figure.update_layout(margin_t=30, plot_bgcolor=plot_background_blue)
+            df_figure.update_layout(margin_t=df_figure_margin, plot_bgcolor=plot_background_blue)
 
             for i in range(len(df_figure.data)):
                 df_figure.data[i].name = df_figure.data[i].name[:7]

@@ -3,7 +3,7 @@ from dash import dash_table, dcc, html
 from dash.dependencies import ALL, Input, Output, State
 
 from rubicon_ml.viz.base import VizBase
-from rubicon_ml.viz.colors import light_blue, plot_background_blue
+from rubicon_ml.viz.common.colors import light_blue, plot_background_blue
 
 
 class ExperimentsTable(VizBase):
