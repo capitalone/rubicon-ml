@@ -256,15 +256,17 @@ def viz_experiments(rubicon_and_project_client):
             tags=["test tag"],
         )
 
-        experiment.log_parameter(name="is_standardized", value=random.choice([True, False]))
-        experiment.log_parameter(name="n_estimators", value=random.randrange(2, 10, 2))
-        experiment.log_parameter(name="sample", value=random.choice(["A", "B", "C", "D", "E"]))
+        experiment.log_parameter(name="test param 0", value=random.choice([True, False]))
+        experiment.log_parameter(name="test param 1", value=random.randrange(2, 10, 2))
+        experiment.log_parameter(
+            name="test param 2", value=random.choice(["A", "B", "C", "D", "E"])
+        )
 
-        experiment.log_metric(name="accuracy", value=random.random())
-        experiment.log_metric(name="confidence", value=random.random())
+        experiment.log_metric(name="test metric 0", value=random.random())
+        experiment.log_metric(name="test metric 1", value=random.random())
 
-        experiment.log_metric(name="coefficients", value=[random.random() for _ in range(0, 5)])
-        experiment.log_metric(name="stderr", value=[random.random() for _ in range(0, 5)])
+        experiment.log_metric(name="test metric 2", value=[random.random() for _ in range(0, 5)])
+        experiment.log_metric(name="test metric 3", value=[random.random() for _ in range(0, 5)])
 
         data = np.array(
             [

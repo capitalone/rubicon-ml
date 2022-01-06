@@ -57,8 +57,12 @@ def test_experiments_table_register_callbacks(viz_experiments):
     experiments_table.app = Dash(__name__, title="test callbacks")
     experiments_table.register_callbacks()
 
-    registered_callback_names = experiments_table.app.callback_map.keys()
+    callback_values = list(experiments_table.app.callback_map.values())
 
-    assert '{"index":["ALL"],"type":"column-dropdown-checkbox"}.value' in registered_callback_names
-    assert "experiment-table.hidden_columns" in registered_callback_names
-    assert "experiment-table.selected_rows" in registered_callback_names
+    assert len(callback_values) == 3
+
+    registered_callback_names = [callback["callback"].__name__ for callback in callback_values]
+
+    assert "update_selected_column_checkboxes" in registered_callback_names
+    assert "update_hidden_experiment_table_cols" in registered_callback_names
+    assert "update_selected_experiment_table_rows" in registered_callback_names

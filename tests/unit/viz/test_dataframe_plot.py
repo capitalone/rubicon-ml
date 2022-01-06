@@ -1,3 +1,4 @@
+import pytest
 from dash import Dash
 
 from rubicon_ml.viz import DataframePlot
@@ -43,7 +44,7 @@ def test_dataframe_plot_load_data(viz_experiments):
     expected_len_df = 0
     for experiment in viz_experiments:
         for dataframe in experiment.dataframes():
-            expected_len_df = expected_len_df + len(dataframe.data)
+            expected_len_df = expected_len_df + len(dataframe.get_data())
 
     assert len(dataframe_plot.data_df) == expected_len_df
 
@@ -58,10 +59,11 @@ def test_dataframe_plot_layout(viz_experiments):
     assert layout.children[-1].children.id == "dataframe-plot"
 
 
-def test_dataframe_plot_register_callbacks(viz_experiments):
+@pytest.mark.parametrize("is_linked,expected", [(False, 1), (True, 2)])
+def test_dataframe_plot_register_callbacks_link(viz_experiments, is_linked, expected):
     dataframe_plot = DataframePlot("test dataframe", experiments=viz_experiments)
     dataframe_plot.app = Dash(__name__, title="test callbacks")
-    dataframe_plot.register_callbacks()
+    dataframe_plot.register_callbacks(link_experiment_table=is_linked)
 
     callback_values = list(dataframe_plot.app.callback_map.values())
 
@@ -71,20 +73,4 @@ def test_dataframe_plot_register_callbacks(viz_experiments):
     registered_callback_len_input = len(callback_values[0]["inputs"])
 
     assert registered_callback_name == "update_dataframe_plot"
-    assert registered_callback_len_input == 1
-
-
-def test_dataframe_plot_register_callbacks_link(viz_experiments):
-    dataframe_plot = DataframePlot("test dataframe", experiments=viz_experiments)
-    dataframe_plot.app = Dash(__name__, title="test callbacks")
-    dataframe_plot.register_callbacks(link_experiment_table=True)
-
-    callback_values = list(dataframe_plot.app.callback_map.values())
-
-    assert len(callback_values) == 1
-
-    registered_callback_name = callback_values[0]["callback"].__name__
-    registered_callback_len_input = len(callback_values[0]["inputs"])
-
-    assert registered_callback_name == "update_dataframe_plot"
-    assert registered_callback_len_input == 2
+    assert registered_callback_len_input == expected

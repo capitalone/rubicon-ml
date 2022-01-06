@@ -249,7 +249,7 @@ class ExperimentsTable(VizBase):
             ],
             prevent_initial_call=True,
         )
-        def _update_selected_column_checkboxes(last_show_click, last_hide_click):
+        def update_selected_column_checkboxes(last_show_click, last_hide_click):
             """Bulk updates for the selections in the "toggle columns" dropdown.
 
             Returns all if triggered by the "show all" button and returns
@@ -270,7 +270,7 @@ class ExperimentsTable(VizBase):
             Output("experiment-table", "hidden_columns"),
             Input({"type": "column-dropdown-checkbox", "index": ALL}, "value"),
         )
-        def _update_hidden_experiment_table_cols(selected_columns):
+        def update_hidden_experiment_table_cols(selected_columns):
             """Hide and show the columns in the experiment table.
 
             Returns the columns that should be hidden based on whether or
@@ -289,7 +289,7 @@ class ExperimentsTable(VizBase):
             ],
             State("experiment-table", "derived_virtual_indices"),
         )
-        def _update_selected_experiment_table_rows(
+        def update_selected_experiment_table_rows(
             last_select_click, last_clear_click, experiment_table_indices
         ):
             """Bulk selection for the rows of the experiment table.

@@ -84,7 +84,7 @@ class DataframePlot(VizBase):
         for experiment in self.experiments:
             dataframe = experiment.dataframe(name=self.dataframe_name)
 
-            data_df = dataframe.data
+            data_df = dataframe.get_data()
             data_df["experiment_id"] = experiment.id
 
             if self.x is None:

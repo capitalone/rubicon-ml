@@ -14,7 +14,7 @@ class Dashboard(VizBase):
     ----------
     experiments : list of rubicon_ml.client.experiment.Experiment
         The experiments to visualize.
-    widgets : list of superclasses of rubicon_ml.viz.base.VizBase
+    widgets : list of lists of superclasses of rubicon_ml.viz.base.VizBase
         The widgets to compose in this dashboard. The widgets should
         be instantiated without experiments prior to passing as an
         argument to `Dashboard`.
