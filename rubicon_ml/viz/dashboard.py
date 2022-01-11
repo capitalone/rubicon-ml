@@ -7,29 +7,37 @@ COL_WIDTH_LOOKUP = {1: 12, 2: 6, 3: 4, 4: 3}
 
 
 class Dashboard(VizBase):
-    """Compose visualizations into a dashboard to view multiple widgets
-    at once.
+    """Compose visualizations into a dashboard to view multiple widgets at once.
 
     Parameters
     ----------
     experiments : list of rubicon_ml.client.experiment.Experiment
         The experiments to visualize.
-    widgets : list of lists of superclasses of rubicon_ml.viz.base.VizBase
-        The widgets to compose in this dashboard. The widgets should
-        be instantiated without experiments prior to passing as an
-        argument to `Dashboard`.
+    widgets : list of lists of superclasses of rubicon_ml.viz.base.VizBase, optional
+        The widgets to compose in this dashboard. The widgets should be instantiated
+        without experiments prior to passing as an argument to `Dashboard`. Defaults
+        to a stacked layout of an ExperimentsTable and a MetricCorrelationPlot.
     link_experiment_table : bool, optional
-        True to enable the callbacks that allow instances of
-        `ExperimentsTable` to update the experiment inputs of the other
-        widgets in this dashboard. False otherwise. Defaults to True.
+        True to enable the callbacks that allow instances of `ExperimentsTable` to
+        update the experiment inputs of the other widgets in this dashboard. False
+        otherwise. Defaults to True.
     """
 
-    def __init__(self, experiments, widgets, link_experiment_table=True):
+    def __init__(self, experiments, widgets=None, link_experiment_table=True):
         super().__init__(dash_title="dashboard")
 
         self.experiments = experiments
         self.link_experiment_table = link_experiment_table
-        self.widgets = widgets
+
+        if widgets is None:
+            from rubicon_ml.viz import ExperimentsTable, MetricCorrelationPlot
+
+            self.widgets = [
+                [ExperimentsTable(is_selectable=True)],
+                [MetricCorrelationPlot()],
+            ]
+        else:
+            self.widgets = widgets
 
     @property
     def layout(self):
