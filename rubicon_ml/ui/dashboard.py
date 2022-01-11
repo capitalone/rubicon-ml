@@ -1,26 +1,15 @@
-import os
-import threading
+deprecation_message = """`rubicon_ml.ui.dashboard.Dashboard` has been deprecated in favor
+of `rubicon_ml.viz.dashboard.Dashboard`. For more information:
 
-import dash_bootstrap_components as dbc
-from dash import Dash, html
-
-from rubicon_ml import Rubicon
-from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.ui.callbacks import (
-    set_project_explorer_callbacks,
-    set_project_selection_callbacks,
-)
-from rubicon_ml.ui.model import RubiconModel
-from rubicon_ml.ui.views import (
-    make_footer_layout,
-    make_header_layout,
-    make_project_explorer_layout,
-    make_project_selection_layout,
-)
+>>> from rubicon_ml.viz import Dashboard
+>>> help(Dashboard)
+"""
 
 
 class Dashboard:
-    """A dashboard for exploring logged data. The dashboard
+    """DEPRECATED. To be removed in a future release.
+
+    A dashboard for exploring logged data. The dashboard
     relies on existing rubicon_ml data, which can be passed
     in the following ways:
         * by passing in an existing Rubicon object, which can be the
@@ -62,89 +51,4 @@ class Dashboard:
         dash_options={},
         **storage_options,
     ):
-
-        if not rubicon and not all([persistence, root_dir]):
-            raise RubiconException(
-                "Either `rubicon` or both `persistence` and `root_dir` must be provided."
-            )
-
-        if not rubicon:
-            rubicon = Rubicon(persistence, root_dir, **storage_options)
-
-        self.rubicon_model = RubiconModel(rubicon)
-
-        self._app = Dash(__name__, title="Rubicon", **dash_options)
-        self._app._rubicon_model = self.rubicon_model
-        self._app._page_size = page_size
-        self._app.layout = html.Div(
-            [
-                dbc.Row(make_header_layout()),
-                dbc.Row(
-                    [
-                        dbc.Col(make_project_selection_layout(), width=2),
-                        dbc.Col(
-                            make_project_explorer_layout(),
-                            width=10,
-                            style={
-                                "overflowY": "scroll",
-                                "maxHeight": "90vh",
-                                "paddingRight": "165px",
-                            },
-                        ),
-                    ],
-                ),
-                dbc.Row(make_footer_layout()),
-            ]
-        )
-
-        set_project_selection_callbacks(self._app)
-        set_project_explorer_callbacks(self._app)
-
-    def run_server(self, **kwargs):
-        """Serve the dash app on an external web page.
-
-        Parameters
-        ----------
-        kwargs : dict
-            Additional arguments to be passed to `dash.run_server`.
-        """
-        self._app.run_server(**kwargs)
-
-    def run_server_inline(self, i_frame_kwargs={}, **kwargs):
-        """Serve the dash app inline in a Jupyter notebook.
-
-        Parameters
-        ----------
-        i_frame_kwargs : dict
-            Additional arguments to be passed to `IPython.display.IFrame`.
-        kwargs : dict
-            Additional arguments to be passed to `dash.run_server`.
-        """
-        from IPython.display import IFrame
-
-        if "proxy" in kwargs:
-            host = kwargs.get("proxy").split("::")[-1]
-        else:
-            port = kwargs.get("port") if "port" in kwargs else 8050
-            host = f"http://localhost:{port}"
-
-        if "dev_tools_silence_routes_logging" not in kwargs:
-            kwargs["dev_tools_silence_routes_logging"] = True
-
-        if "height" not in i_frame_kwargs:
-            i_frame_kwargs["height"] = 800
-
-        if "width" not in i_frame_kwargs:
-            i_frame_kwargs["width"] = "100%"
-
-        running_server_thread = threading.Thread(
-            name="run_server",
-            target=self.run_server,
-            kwargs=kwargs,
-        )
-        running_server_thread.daemon = True
-        running_server_thread.start()
-
-        proxied_host = os.path.join(host, self._app.config["requests_pathname_prefix"].lstrip("/"))
-
-        return IFrame(proxied_host, **i_frame_kwargs)
+        raise NotImplementedError(deprecation_message)
