@@ -29,7 +29,7 @@ rubicon-ml has a few optional extras if you're installing with ``pip`` (these ex
 installed by default when using ``conda``).
 
 The ``ui`` extra installs the requirements necessary for using the visualization tools.
-For a preview, take a look at the :ref:`dashboard<dashboard>` section of the docs.
+For a preview, take a look at the :ref:`Visualizations<Visualizations>` section of the docs.
 
 .. code-block:: console
 

@@ -17,12 +17,14 @@ clean:
 	rm -rf ./build/html
 	rm -rf ./source/logging-examples
 	rm -rf ./source/integrations
+	rm -rf ./source/visualizations
 
 # Copy over up to date sources from the root of the `rubicon_ml` repo.
 pre-build:
 	mkdir -p ./build/html
 	mkdir -p ./source/logging-examples
 	mkdir -p ./source/integrations
+	mkdir -p ./source/visualizations
 
 	cp ../notebooks/quick-look.ipynb ./source
 	cp ../notebooks/logging-examples/logging-basics.ipynb ./source/logging-examples
@@ -33,9 +35,11 @@ pre-build:
 	cp ../notebooks/integrations/integration-git.ipynb ./source/integrations
 	cp ../notebooks/integrations/integration-prefect-workflows.ipynb ./source/integrations
 	cp ../notebooks/integrations/integration-sklearn.ipynb ./source/integrations
+	cp ../notebooks/viz/*.ipynb ./source/visualizations
 
 	cp ../notebooks/quick-look-dashboard.png ./source
 	cp ../notebooks/integrations/integration-git-dashboard.png ./source/integrations
+	cp ../notebooks/viz/*.png ./source/visualizations
 
 # Run the Sphinx command to build the docs as html.
 build-docs:

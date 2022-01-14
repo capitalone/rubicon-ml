@@ -62,7 +62,7 @@ context necessary for a complete model review and approval.
    library_reference.rst
    examples.rst
    integrations.rst
-   dashboard.rst
+   visualizations.rst
    faqs.rst
 
 .. toctree::
