@@ -1,6 +1,9 @@
 import os
+import random
 from unittest.mock import MagicMock
 
+import numpy as np
+import pandas as pd
 import pytest
 
 from rubicon_ml.repository import MemoryRepository
@@ -133,7 +136,9 @@ def rubicon_and_project_client(rubicon_client):
 
     project_name = "Test Project"
     project = rubicon.get_or_create_project(
-        project_name, description="In memory project for testing."
+        project_name,
+        description="In memory project for testing.",
+        github_url="test.github.url.git",
     )
 
     return (rubicon, project)
@@ -232,3 +237,45 @@ def fake_estimator_cls():
             pass
 
     return FakeEstimator
+
+
+@pytest.fixture
+def viz_experiments(rubicon_and_project_client):
+    """Returns a list of experiments with the parameters, metrics, and dataframes
+    required to test the `viz` module.
+    """
+    rubicon, project = rubicon_and_project_client
+
+    dates = pd.date_range(start="1/1/2010", end="12/1/2020", freq="MS")
+
+    for i in range(0, 10):
+        experiment = project.log_experiment(
+            commit_hash="1234567",
+            model_name="test model name",
+            name="test name",
+            tags=["test tag"],
+        )
+
+        experiment.log_parameter(name="test param 0", value=random.choice([True, False]))
+        experiment.log_parameter(name="test param 1", value=random.randrange(2, 10, 2))
+        experiment.log_parameter(
+            name="test param 2", value=random.choice(["A", "B", "C", "D", "E"])
+        )
+
+        experiment.log_metric(name="test metric 0", value=random.random())
+        experiment.log_metric(name="test metric 1", value=random.random())
+
+        experiment.log_metric(name="test metric 2", value=[random.random() for _ in range(0, 5)])
+        experiment.log_metric(name="test metric 3", value=[random.random() for _ in range(0, 5)])
+
+        data = np.array(
+            [
+                list(dates),
+                np.linspace(random.randint(0, 15000), random.randint(0, 15000), len(dates)),
+            ]
+        )
+        data_df = pd.DataFrame.from_records(data.T, columns=["test x", "test y"])
+
+        experiment.log_dataframe(data_df, name="test dataframe")
+
+    return project.experiments()

@@ -1,9 +1,7 @@
 import uuid
 
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_table
+from dash import dash_table, dcc, html
 
 # INDIVIDUAL PROJECT EXPLORER VIEW
 

@@ -7,5 +7,6 @@ exclude_lines =
 omit =
     versioneer.py
     rubicon_ml/_version.py
-    rubicon_ml/ui/views/project_explorer.py 
-    rubicon_ml/ui/callbacks/project_selection.py 
+
+    # TODO: remove after ui module is deprecated
+    rubicon_ml/ui/*

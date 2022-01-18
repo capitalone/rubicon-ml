@@ -20,11 +20,8 @@ install_requires = [
 
 prefect_requires = ["prefect>=0.12.0"]
 ui_requires = [
-    "dash>=1.14.0",
-    "dash-bootstrap-components>=0.10.6",
-    "dash-core-components",
-    "dash-html-components",
-    "dash-table",
+    "dash>=2.0.0",
+    "dash-bootstrap-components>=1.0.0",
 ]
 
 all_requires = prefect_requires + ui_requires
@@ -47,7 +44,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     url="https://github.com/capitalone/rubicon-ml",
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=install_requires,
     extras_require=extras_require,
     entry_points={

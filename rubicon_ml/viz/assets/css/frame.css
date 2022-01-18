@@ -1,0 +1,21 @@
+#frame {
+    padding: 1rem 1rem 0rem 1rem;
+}
+
+#rubicon-logo-img {
+    height: 3.5rem;
+    padding-left: 1rem;
+    width: auto;
+}
+
+#version-row {
+    margin-top: -1.5rem;
+    padding-left: 5rem;
+    position: absolute;
+    z-index: 101;
+}
+
+#version-text {
+    color: rgb(40, 60, 70);
+    padding: 0rem;
+}
