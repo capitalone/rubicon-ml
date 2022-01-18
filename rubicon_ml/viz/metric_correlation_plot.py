@@ -48,6 +48,9 @@ class MetricCorrelationPlot(VizBase):
         self.selected_metric = selected_metric
 
     def _get_dimension(self, label, values):
+        """Transforms the input data for use with Plotly's parallel
+        coordinates plot.
+        """
         if len(values) > 0 and isinstance(values[0], str):
             unique_values, values = np.unique(values, return_inverse=True)
 
@@ -76,6 +79,7 @@ class MetricCorrelationPlot(VizBase):
 
     @property
     def layout(self):
+        """Defines the layout for the metric correlation plot."""
         return html.Div(
             [
                 dropdown_header(
@@ -99,6 +103,11 @@ class MetricCorrelationPlot(VizBase):
         )
 
     def load_experiment_data(self):
+        """Load the experiment data required for the experiments table.
+
+        Extracts parameter and metric metadata from each experiment in
+        `self.experiments`. List metrics are ignored.
+        """
         self.experiment_records = {}
         self.visible_metric_names = set()
         self.visible_parameter_names = set()

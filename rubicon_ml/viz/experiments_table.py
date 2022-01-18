@@ -28,6 +28,7 @@ class ExperimentsTable(VizBase):
 
     @property
     def layout(self):
+        """Defines the experiments table's layout."""
         bulk_select_buttons = [
             html.Div(
                 dbc.Button(
@@ -173,6 +174,12 @@ class ExperimentsTable(VizBase):
         )
 
     def load_experiment_data(self):
+        """Load the experiment data required for the experiments table.
+
+        Extracts all experiment metadata as well as parameters and metrics
+        from each experiment in `self.experiments`. Sets GitHub information
+        if applicable.
+        """
         self.experiment_records = []
         self.metric_names = set()
         self.parameter_names = set()

@@ -33,6 +33,11 @@ class Dashboard(VizBase):
 
     @property
     def layout(self):
+        """Defines the layout for the dashboard.
+
+        Compiles the figures in `self.widgets` based on their positions
+        in the given input list.
+        """
         dashboard_rows = []
         for row in self.widgets:
             width = COL_WIDTH_LOOKUP[len(row)]
@@ -48,6 +53,10 @@ class Dashboard(VizBase):
         return dashboard_container
 
     def load_experiment_data(self):
+        """Load the experiment data required for the dashboard.
+
+        Loads the experiment data for each widget in `self.widgets`.
+        """
         for row in self.widgets:
             for widget in row:
                 widget.experiments = self.experiments

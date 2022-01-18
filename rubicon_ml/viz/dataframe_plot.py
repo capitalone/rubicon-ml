@@ -60,6 +60,7 @@ class DataframePlot(VizBase):
 
     @property
     def layout(self):
+        """Defines the dataframe plot's layout."""
         header_text = (
             f"showing dataframe '{self.dataframe_name}' "
             f"over {len(self.experiments)} experiment"
@@ -79,6 +80,13 @@ class DataframePlot(VizBase):
         )
 
     def load_experiment_data(self):
+        """Load the experiment data required for the dataframe plot.
+
+        Extracts the dataframe with name `self.dataframe_name` from
+        each experiment in `self.experiment` and combines the data
+        stored in them into one dataframe. All dataframes with name
+        `dataframe_name` must have the same schema.
+        """
         self.data_df = None
 
         for experiment in self.experiments:

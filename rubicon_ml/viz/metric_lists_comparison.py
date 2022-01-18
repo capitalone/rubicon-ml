@@ -44,6 +44,7 @@ class MetricListsComparison(VizBase):
 
     @property
     def layout(self):
+        """Defines the layout for the metric lists comparison."""
         return html.Div(
             [
                 dropdown_header(
@@ -67,6 +68,11 @@ class MetricListsComparison(VizBase):
         )
 
     def load_experiment_data(self):
+        """Load the experiment data required for the metric lists comparison.
+
+        Extracts all metric metadata from each experiment in `self.experiment`
+        if the metric's value is a list.
+        """
         self.experiment_records = {}
         self.metric_names = set()
 
