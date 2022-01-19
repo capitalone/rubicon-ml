@@ -1,6 +1,6 @@
 from dash import Dash, html
 
-from rubicon_ml.viz import Dashboard
+from rubicon_ml.viz import Dashboard, ExperimentsTable, MetricCorrelationPlot
 from rubicon_ml.viz.base import VizBase
 
 
@@ -24,7 +24,7 @@ class WidgetTest(VizBase):
 def test_dashboard(viz_experiments):
     widget_a = WidgetTest(layout_id="a")
     widget_b = WidgetTest(layout_id="b")
-    dashboard = Dashboard(viz_experiments, [[widget_a, widget_b]])
+    dashboard = Dashboard(viz_experiments, widgets=[[widget_a, widget_b]])
 
     expected_experiment_ids = [e.id for e in viz_experiments]
 
@@ -43,7 +43,7 @@ def test_dashboard_load_data(viz_experiments):
     assert widget_a.load_experiment_data_call_count == 0
     assert widget_b.load_experiment_data_call_count == 0
 
-    dashboard = Dashboard(viz_experiments, [[widget_a, widget_b]])
+    dashboard = Dashboard(viz_experiments, widgets=[[widget_a, widget_b]])
     dashboard.load_experiment_data()
 
     assert widget_a.load_experiment_data_call_count == 1
@@ -53,7 +53,7 @@ def test_dashboard_load_data(viz_experiments):
 def test_dashboard_layout_horizontal(viz_experiments):
     widget_a = WidgetTest(layout_id="a")
     widget_b = WidgetTest(layout_id="b")
-    dashboard = Dashboard(viz_experiments, [[widget_a, widget_b]])
+    dashboard = Dashboard(viz_experiments, widgets=[[widget_a, widget_b]])
     layout = dashboard.layout
 
     layout.children[0].children[0].children == widget_a.layout
@@ -63,7 +63,7 @@ def test_dashboard_layout_horizontal(viz_experiments):
 def test_dashboard_layout_veritcal(viz_experiments):
     widget_a = WidgetTest(layout_id="a")
     widget_b = WidgetTest(layout_id="b")
-    dashboard = Dashboard(viz_experiments, [[widget_a], [widget_b]])
+    dashboard = Dashboard(viz_experiments, widgets=[[widget_a], [widget_b]])
     layout = dashboard.layout
 
     layout.children[0].children[0].children == widget_a.layout
@@ -77,9 +77,16 @@ def test_dashboard_register_callbacks(viz_experiments):
     assert widget_a.register_callbacks_call_count == 0
     assert widget_b.register_callbacks_call_count == 0
 
-    dashboard = Dashboard(viz_experiments, [[widget_a, widget_b]])
+    dashboard = Dashboard(viz_experiments, widgets=[[widget_a, widget_b]])
     dashboard.app = Dash(__name__, title="test dashboard")
     dashboard.register_callbacks()
 
     assert widget_a.register_callbacks_call_count == 1
     assert widget_b.register_callbacks_call_count == 1
+
+
+def test_default_dashbaord(viz_experiments):
+    dashboard = Dashboard(viz_experiments)
+
+    assert isinstance(dashboard.widgets[0][0], ExperimentsTable)
+    assert isinstance(dashboard.widgets[1][0], MetricCorrelationPlot)
