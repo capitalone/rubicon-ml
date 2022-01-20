@@ -81,7 +81,7 @@ return value.
 
 sklearn
 =======
-``rubicon_ml`` offers direct integration with Scikit-learn via our
+``rubicon_ml`` offers direct integration with **Scikit-learn** via our
 own pipeline object.
 
 .. autoclass:: rubicon_ml.sklearn.RubiconPipeline
@@ -90,15 +90,29 @@ own pipeline object.
 .. autoclass:: rubicon_ml.sklearn.FilterEstimatorLogger
    :members:
 
-.. _library-reference-ui:
+.. _library-reference-viz:
 
-ui
-==
-The ``rubicon_ml`` dashboard can be launched directly from Python code
-or the CLI.
+viz
+===
+``rubicon_ml`` offers visualization leveraging **Dash** and **Plotly**.
+Each of the following classes are standalone widgets.
 
-.. autoclass:: rubicon_ml.ui.Dashboard
-.. autofunction:: rubicon_ml.ui.Dashboard.run_server
+.. autoclass:: rubicon_ml.viz.DataframePlot
+   :members: serve, show
+
+.. autoclass:: rubicon_ml.viz.ExperimentsTable
+   :members: serve, show
+
+.. autoclass:: rubicon_ml.viz.MetricCorrelationPlot
+   :members: serve, show
+
+.. autoclass:: rubicon_ml.viz.MetricListsComparison
+   :members: serve, show
+
+Widgets can be combined into an interactive dashboard.
+
+.. autoclass:: rubicon_ml.viz.Dashboard
+   :members: serve, show
 
 .. _library-reference-workflow:
 

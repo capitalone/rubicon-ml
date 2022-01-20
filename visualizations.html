@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Dataframe Plot" href="visualizations/dataframe-plot.html" /><link rel="prev" title="Scikit-learn" href="integrations/integration-sklearn.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.3.1, furo 2021.10.09"/>
-        <title>Dashboard - rubicon-ml v0.2.11</title>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.4.0, furo 2021.10.09"/>
+        <title>Visualizations - rubicon-ml v0.2.11</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -183,7 +183,14 @@
 <li class="toctree-l2"><a class="reference internal" href="integrations/integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Dashboard</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Visualizations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizations/dashboard.html">Dashboard</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Community:</span></p>
@@ -218,82 +225,93 @@
           </label>
         </div>
         <article role="main">
-          <section id="dashboard">
-<span id="id1"></span><h1>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h1>
-<p>The dashboard is powered by <a class="reference external" href="https://dash.plotly.com">Dash</a> and <a class="reference external" href="https://plotly.com/">Plotly</a>. It provides a UI for exploring and visualizing projects
-stored locally or in S3. The dashboard can be run in the browser or within
-Jupyter Notebook, JupyterLab or JupyterHub. With some extra work, it could be
-deployed to a static URL.</p>
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>First, install the UI extra as detailed in the <a class="reference internal" href="install.html#install"><span class="std std-ref">installation
-section</span></a>. Then decide how you’d like to run the dashboard.</p>
+          <section id="visualizations">
+<span id="id1"></span><h1>Visualizations<a class="headerlink" href="#visualizations" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml.viz</span></code> contains a number of visualization widgets powered by
+<a class="reference external" href="https://dash.plotly.com">Dash</a> and <a class="reference external" href="https://plotly.com/">Plotly</a>.
+Each widget provides a unique UI for exploring and visualizing projects and
+experiments stored locally or in S3. The widgets can be compiled into an
+interactive dashboard. They can also run in the browser or any iPython
+environment like Jupyter Notebook, JupyterLab or JupyterHub. With some
+extra work, they could be deployed to a static URL using Docker.</p>
+<div class="line-block">
+<div class="line"><br/></div>
+</div>
+<figure class="align-center" id="id2">
+<img alt="rubicon-ml dashboard" src="_images/dashboard.png"/>
+<figcaption>
+<p><span class="caption-text">A <strong>Dashboard</strong> composed of an <strong>Experiments Table</strong> and a <strong>Metric
+Correlation Plot</strong>.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<section id="available-widgets">
+<h2>Available Widgets<a class="headerlink" href="#available-widgets" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+</ul>
+</div>
+</section>
+<section id="dashboarding">
+<h2>Dashboarding<a class="headerlink" href="#dashboarding" title="Permalink to this headline">¶</a></h2>
+<p>The widgets detailed in the examples above can also be compiled into an
+interactive dashboard.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="visualizations/dashboard.html">Dashboard</a></li>
+</ul>
+</div>
+</section>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>Each individual widget can be launched directly from Python code. Widgets
+will be hosted locally. You can navigate to the provided link in each widgets’
+output, or visualize the widget in-line if you are running from a Jupyter
+environment.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">ExperimentsTable</span>
+
+<span class="n">ExperimentsTable</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">my_rubicon_project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The above launches the experiments table on <code class="docutils literal notranslate"><span class="pre">localhost:8050</span></code> and will run from
+any Python interpreter. If you’re working in a Jupyter environment, you can
+launch the dashboard inline in a notebook with <code class="docutils literal notranslate"><span class="pre">show</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ExperimentsTable</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">my_rubicon_project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you need to configure the Dash proxy, that can also be done with a
+few extra parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dash_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"requests_pathname_prefix"</span><span class="p">:</span> <span class="s2">"/proxy/8050"</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">run_server_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"proxy"</span><span class="p">:</span> <span class="s2">"http://127.0.0.1:8050::https://my-jupyterhub-server.com/"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">ExperimentsTable</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">my_rubicon_project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span>
+    <span class="n">dash_kwargs</span><span class="o">=</span><span class="n">dash_options</span><span class="p">,</span>
+    <span class="n">run_server_kwargs</span><span class="o">=</span><span class="n">run_server_kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>More info on configuring proxies and additional <code class="docutils literal notranslate"><span class="pre">dash_kwargs</span></code> can be found in the
+<a class="reference external" href="https://dash.plotly.com/reference">Dash API Reference</a>.</p>
+</section>
 <section id="cli">
-<h3>CLI<a class="headerlink" href="#cli" title="Permalink to this headline">¶</a></h3>
-<p>Run the dashboard via the rubicon_ml CLI:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --root-dir /rubicon-root
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> CLI can lauch a dashboard containing an <strong>Experiments
+Table</strong> stacked on top of a <strong>Metric Correlation Plot</strong>, as shown in the
+figure above.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --root-dir /rubicon-root --project-name <span class="s2">"My Cool Project"</span>
 </pre></div>
 </div>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">--help</span></code> flag for full usage details:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rubicon_ml ui --help
 </pre></div>
 </div>
-</section>
-<section id="programmatically">
-<h3>Programmatically<a class="headerlink" href="#programmatically" title="Permalink to this headline">¶</a></h3>
-<p>The dashboard can also be launched directly from python code. If you’re using
-in-memory persistence, this is the only way to get the dashboard to properly
-locate and load the in-memory projects and experiments.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
-
-<span class="n">Dashboard</span><span class="p">(</span><span class="n">rubicon</span><span class="o">=</span><span class="n">rubicon</span><span class="p">)</span> <span class="c1"># if you already have a configured instance of Rubicon</span>
-<span class="c1"># OR</span>
-<span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>The above launches the dashboard on <code class="docutils literal notranslate"><span class="pre">localhost:8050</span></code> and will run from any
-Python interpreter. If you’re working in a Jupyter environment, you can launch
-the dashboard inline in a notebook with <cite>run_server_inline</cite>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">"/rubicon-root"</span><span class="p">)</span><span class="o">.</span><span class="n">run_server_inline</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>If you need to configure the Dash proxy, that can also be done with a few extra params:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
-
-<span class="n">dash_options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"requests_pathname_prefix"</span><span class="p">:</span> <span class="s2">"/proxy/8050"</span>
-<span class="p">}</span>
-
-<span class="n">Dashboard</span><span class="p">(</span>
-    <span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span>
-    <span class="n">dash_options</span><span class="o">=</span><span class="n">dash_options</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">proxy</span><span class="o">=</span><span class="s2">"http://127.0.0.1:8050::https://my-jupyterhub-server.com/"</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>More info on configuring proxies and additional <code class="docutils literal notranslate"><span class="pre">dash_options</span></code> can be found in the
-<a class="reference external" href="https://dash.plotly.com/reference">Dash API Reference</a>.</p>
-</section>
-</section>
-<section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
-<p>Once a project is selected within the project selection view, you’ll see a high
-level grouping of its experiments. This works best if you’ve been using the
-built in git integration. Select a grouping to view the experiments underneath
-it and <em>sort/filter</em> the data directly within the experiment table. Optionally,
-compare experiments by selecting them within the experiment table and viewing
-the comparison plot below.</p>
-<p>The experiment comparison chart is a <a class="reference external" href="https://en.wikipedia.org/wiki/Parallel_coordinates">parallel coordinates plot</a> with each parameter and
-metric plotted on a standardized axis. It’s useful to draw insights on how
-certain values of parameters affect key metrics.</p>
-<p>For example, in the image below, you can see that true values of the
-<code class="docutils literal notranslate"><span class="pre">tfidf__use_idf</span></code> and low values for <code class="docutils literal notranslate"><span class="pre">clf__alpha</span></code> correlate to high
-<code class="docutils literal notranslate"><span class="pre">accuracy</span></code> values.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The y-axes can be dragged and rearranged to reorder the plot. And you can highlight
-subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
-</div>
-<img alt="rubicon-ml dashboard" src="_images/dashboard.png"/>
 </section>
 </section>
 
@@ -302,12 +320,12 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="faqs.html">
+          <a class="next-page" href="visualizations/dataframe-plot.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">FAQs</div>
+                <div class="title">Dataframe Plot</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -330,7 +348,7 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/dashboard.rst.txt"
+            <a class="muted-link" href="_sources/visualizations.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -350,13 +368,11 @@ subsets of the plot by clicking and dragging across a subset of the y-axis.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Dashboard</a><ul>
-<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#">Visualizations</a><ul>
+<li><a class="reference internal" href="#available-widgets">Available Widgets</a></li>
+<li><a class="reference internal" href="#dashboarding">Dashboarding</a></li>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
 <li><a class="reference internal" href="#cli">CLI</a></li>
-<li><a class="reference internal" href="#programmatically">Programmatically</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#features">Features</a></li>
 </ul>
 </li>
 </ul>

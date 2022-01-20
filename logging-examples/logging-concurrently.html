@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="../integrations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.3.1, furo 2021.10.09"/>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.4.0, furo 2021.10.09"/>
         <title>Logging Concurrently - rubicon-ml v0.2.11</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
@@ -183,7 +183,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../integrations/integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Community:</span></p>
@@ -428,7 +435,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
+.prompt .copybtn {
     display: none;
 }
 
@@ -479,8 +486,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
@@ -512,8 +518,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
 
@@ -532,8 +537,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 
 
 <span class="n">SklearnTrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"SklearnTrainingMetadata"</span><span class="p">,</span> <span class="s2">"module_name method"</span><span class="p">)</span>
@@ -575,8 +579,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">logging_concurrently</span> <span class="kn">import</span> <span class="n">run_experiment</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">logging_concurrently</span> <span class="kn">import</span> <span class="n">run_experiment</span>
 </pre></div>
 </div>
 </div>
@@ -585,8 +588,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
@@ -627,8 +629,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
     <span class="n">process</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
@@ -641,8 +642,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">len</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -660,8 +660,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"success"</span><span class="p">]):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"success"</span><span class="p">]):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2"> was successful using a </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -682,8 +681,7 @@ experiment f143ea43 was successful using a RandomForestClassifier
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">first_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">first_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">training_metadata</span> <span class="o">=</span> <span class="n">SklearnTrainingMetadata</span><span class="p">(</span><span class="o">*</span><span class="n">first_experiment</span><span class="o">.</span><span class="n">training_metadata</span><span class="p">)</span>
 <span class="n">tags</span> <span class="o">=</span> <span class="n">first_experiment</span><span class="o">.</span><span class="n">tags</span>
@@ -716,8 +714,7 @@ metrics: [('accuracy', 0.7111111111111111)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project_as_dask_df</span><span class="p">(</span><span class="s2">"Concurrent Experiments"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project_as_dask_df</span><span class="p">(</span><span class="s2">"Concurrent Experiments"</span><span class="p">)</span>
 <span class="n">ddf</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1001,7 +998,7 @@ metrics: [('accuracy', 0.7111111111111111)]
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

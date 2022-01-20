@@ -3,9 +3,9 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Dashboard" href="../dashboard.html" /><link rel="prev" title="Prefect" href="integration-prefect-workflows.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizations" href="../visualizations.html" /><link rel="prev" title="Prefect" href="integration-prefect-workflows.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.3.1, furo 2021.10.09"/>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.4.0, furo 2021.10.09"/>
         <title>Scikit-learn - rubicon-ml v0.2.11</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
@@ -183,7 +183,14 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Scikit-learn</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Community:</span></p>
@@ -428,7 +435,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
+.prompt .copybtn {
     display: none;
 }
 
@@ -481,8 +488,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -520,8 +526,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10c004
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -539,8 +544,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10c004
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -558,8 +562,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10c004
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">[(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span>
 <span class="n">metrics</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()]</span>
@@ -591,8 +594,7 @@ metrics: [('score', 0.88)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
@@ -609,8 +611,7 @@ metrics: [('score', 0.88)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 <span class="kn">from</span> <span class="nn">rubicon_ml.sklearn</span> <span class="kn">import</span> <span class="n">FilterEstimatorLogger</span><span class="p">,</span> <span class="n">RubiconPipeline</span>
@@ -647,8 +648,7 @@ metrics: [('score', 0.88)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"vect__max_df"</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
     <span class="s2">"vect__ngram_range"</span><span class="p">:</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
     <span class="s2">"clf__max_iter"</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
@@ -693,8 +693,7 @@ GridSearchCV(cv=2,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best score: </span><span class="si">{</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best score: </span><span class="si">{</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">full_results</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">cv_results_</span>
 </pre></div>
 </div>
@@ -712,10 +711,10 @@ Best score: 0.9276681262662572
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubicon_ml.ui</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">Dashboard</span>
 
-<span class="n">Dashboard</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span><span class="o">.</span><span class="n">run_server_inline</span><span class="p">()</span>
+
+<span class="n">Dashboard</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -744,12 +743,12 @@ Dash app running on http://127.0.0.1:8050/
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../dashboard.html">
+          <a class="next-page" href="../visualizations.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Dashboard</div>
+                <div class="title">Visualizations</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -814,7 +813,7 @@ Dash app running on http://127.0.0.1:8050/
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>
