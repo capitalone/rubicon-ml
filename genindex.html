@@ -181,14 +181,7 @@
 <li class="toctree-l2"><a class="reference internal" href="integrations/integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizations/dashboard.html">Dashboard</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Community:</span></p>
@@ -302,7 +295,7 @@
   <h2>D</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="library_reference.html#rubicon_ml.viz.Dashboard">Dashboard (class in rubicon_ml.viz)</a>
+        <li><a href="library_reference.html#rubicon_ml.ui.Dashboard">Dashboard (class in rubicon_ml.ui)</a>
 </li>
         <li><a href="library_reference.html#rubicon_ml.Artifact.data">data (rubicon_ml.Artifact property)</a>
 
@@ -318,8 +311,6 @@
           <li><a href="library_reference.html#rubicon_ml.Project.dataframe">(rubicon_ml.Project method)</a>
 </li>
         </ul></li>
-        <li><a href="library_reference.html#rubicon_ml.viz.DataframePlot">DataframePlot (class in rubicon_ml.viz)</a>
-</li>
         <li><a href="library_reference.html#rubicon_ml.Experiment.dataframes">dataframes() (rubicon_ml.Experiment method)</a>
 
         <ul>
@@ -370,13 +361,11 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="library_reference.html#rubicon_ml.Experiment">Experiment (class in rubicon_ml)</a>
 </li>
-        <li><a href="library_reference.html#rubicon_ml.Project.experiment">experiment() (rubicon_ml.Project method)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="library_reference.html#rubicon_ml.Project.experiments">experiments() (rubicon_ml.Project method)</a>
+        <li><a href="library_reference.html#rubicon_ml.Project.experiment">experiment() (rubicon_ml.Project method)</a>
 </li>
-        <li><a href="library_reference.html#rubicon_ml.viz.ExperimentsTable">ExperimentsTable (class in rubicon_ml.viz)</a>
+        <li><a href="library_reference.html#rubicon_ml.Project.experiments">experiments() (rubicon_ml.Project method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -514,14 +503,10 @@
 </li>
         <li><a href="library_reference.html#rubicon_ml.Experiment.metric">metric() (rubicon_ml.Experiment method)</a>
 </li>
-        <li><a href="library_reference.html#rubicon_ml.viz.MetricCorrelationPlot">MetricCorrelationPlot (class in rubicon_ml.viz)</a>
-</li>
-        <li><a href="library_reference.html#rubicon_ml.viz.MetricListsComparison">MetricListsComparison (class in rubicon_ml.viz)</a>
+        <li><a href="library_reference.html#rubicon_ml.Experiment.metrics">metrics() (rubicon_ml.Experiment method)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="library_reference.html#rubicon_ml.Experiment.metrics">metrics() (rubicon_ml.Experiment method)</a>
-</li>
         <li><a href="library_reference.html#rubicon_ml.Experiment.model_name">model_name (rubicon_ml.Experiment property)</a>
 </li>
         <li>
@@ -628,32 +613,8 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="library_reference.html#rubicon_ml.sklearn.RubiconPipeline.score">score() (rubicon_ml.sklearn.RubiconPipeline method)</a>
 </li>
-        <li><a href="library_reference.html#rubicon_ml.viz.Dashboard.serve">serve() (rubicon_ml.viz.Dashboard method)</a>
-
-        <ul>
-          <li><a href="library_reference.html#rubicon_ml.viz.DataframePlot.serve">(rubicon_ml.viz.DataframePlot method)</a>
-</li>
-          <li><a href="library_reference.html#rubicon_ml.viz.ExperimentsTable.serve">(rubicon_ml.viz.ExperimentsTable method)</a>
-</li>
-          <li><a href="library_reference.html#rubicon_ml.viz.MetricCorrelationPlot.serve">(rubicon_ml.viz.MetricCorrelationPlot method)</a>
-</li>
-          <li><a href="library_reference.html#rubicon_ml.viz.MetricListsComparison.serve">(rubicon_ml.viz.MetricListsComparison method)</a>
-</li>
-        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="library_reference.html#rubicon_ml.viz.Dashboard.show">show() (rubicon_ml.viz.Dashboard method)</a>
-
-        <ul>
-          <li><a href="library_reference.html#rubicon_ml.viz.DataframePlot.show">(rubicon_ml.viz.DataframePlot method)</a>
-</li>
-          <li><a href="library_reference.html#rubicon_ml.viz.ExperimentsTable.show">(rubicon_ml.viz.ExperimentsTable method)</a>
-</li>
-          <li><a href="library_reference.html#rubicon_ml.viz.MetricCorrelationPlot.show">(rubicon_ml.viz.MetricCorrelationPlot method)</a>
-</li>
-          <li><a href="library_reference.html#rubicon_ml.viz.MetricListsComparison.show">(rubicon_ml.viz.MetricListsComparison method)</a>
-</li>
-        </ul></li>
         <li><a href="library_reference.html#rubicon_ml.Rubicon.sync">sync() (rubicon_ml.Rubicon method)</a>
 </li>
     </ul></td>
