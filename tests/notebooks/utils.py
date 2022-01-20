@@ -15,9 +15,6 @@ def get_notebook_filenames(root_path):
 
     notebook_filenames = fs.glob(notebook_glob) + fs.glob(nested_notebook_glob)
 
-    # TODO: remove when `viz` notebooks are ready for testing
-    notebook_filenames = [nf for nf in notebook_filenames if "viz" not in nf]
-
     return [n for n in notebook_filenames if ".ipynb_checkpoints" not in n]
 
 
