@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Prefect" href="integration-prefect-workflows.html" /><link rel="prev" title="Integrations" href="../integrations.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Metric Lists Comparison" href="metric-lists-comparisons.html" /><link rel="prev" title="Experiments Table" href="experiments-table.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.4.0, furo 2021.10.09"/>
-        <title>Git - rubicon-ml v0.3.0</title>
+        <title>Metric Correlation Plot - rubicon-ml v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -177,18 +177,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-git.html">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Prefect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-sklearn.html">Scikit-learn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Metric Correlation Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
@@ -476,97 +476,70 @@ div.rendered_html tbody tr:hover {
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-git.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/integrations/integration-git.ipynb" target="_blank">run it yourself on Binder</a>!</p>
+<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/visualizations/metric-correlation-plot.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/visualizations/metric-correlation-plot.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils"/>
-<section id="Git">
-<h1>Git<a class="headerlink" href="#Git" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s <code class="docutils literal notranslate"><span class="pre">git</span></code> integration allows you to automatically track relevant version control information like branches and commits during your model iteration process. Use this integration when you are developing within a <code class="docutils literal notranslate"><span class="pre">git</span></code> repository to seamlessly tie your <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> experiments directly to the model code that produced them - an audit and governance must have!</p>
-<p>To enable this feature, instantiate the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> object with <code class="docutils literal notranslate"><span class="pre">auto_git_enabled=True</span></code>.</p>
+<section id="Metric-Correlation-Plot">
+<h1>Metric Correlation Plot<a class="headerlink" href="#Metric-Correlation-Plot" title="Permalink to this headline">¶</a></h1>
+<p>The metric correlation plot is used to compare how various input parameters effect a selected output metric across a number of experiments. Users can dynamically choose between available metrics to anchor the visualization on and rearrange and highlight the plot as desired.</p>
+<p>The plot itself is a Plotly parallel coordinates plot. More information can be found in <a class="reference external" href="https://plotly.com/python/parallel-coordinates-plot/">the Plotly documentation</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 
-
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">auto_git_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">MetricCorrelationPlot</span>
 </pre></div>
 </div>
 </div>
-<p>Any <strong>project</strong> created with this client will have the URL of the GitHub repo’s origin automatically populated in the <code class="docutils literal notranslate"><span class="pre">github_url</span></code> property.</p>
-<div class="nbinput docutils container">
+<p>First, we’ll create a few experiments and log some parameters and metrics to them.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s2">"Automatic Git Integration"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">,</span> <span class="n">auto_git_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">"metric correlation plot"</span><span class="p">)</span>
 
-<span class="n">project</span><span class="o">.</span><span class="n">github_url</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">()</span>
+
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"is_standardized"</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span>
+    <span class="p">)</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"n_estimators"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"sample"</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">,</span> <span class="s2">"C"</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">,</span> <span class="s2">"E"</span><span class="p">]),</span>
+    <span class="p">)</span>
+
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"accuracy"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"confidence"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-'https://github.com/capitalone/rubicon-ml.git'
-</pre></div></div>
-</div>
-<p><strong>Experiments</strong> will have the current active branch name and last commit hash populated in the <code class="docutils literal notranslate"><span class="pre">branch_name</span></code> and <code class="docutils literal notranslate"><span class="pre">commit_hash</span></code> fields, respectively.</p>
+<p>Now, we can instantiate the <code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot</span></code> object with the experiments we just logged and view the plot right in the notebook with <code class="docutils literal notranslate"><span class="pre">show</span></code>. The Dash application itself will be running on <a class="reference external" href="http://127.0.0.1:8050/">http://127.0.0.1:8050/</a> when running locally. Use the <code class="docutils literal notranslate"><span class="pre">serve</span></code> command to launch the server directly without rendering the widget in the current Python interpreter.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">"GitHub Model"</span><span class="p">)</span>
-
-<span class="n">experiment</span><span class="o">.</span><span class="n">branch_name</span><span class="p">,</span> <span class="n">experiment</span><span class="o">.</span><span class="n">commit_hash</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MetricCorrelationPlot</span><span class="p">(</span>
+    <span class="n">experiments</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(),</span>
+    <span class="n">selected_metric</span><span class="o">=</span><span class="s2">"accuracy"</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-('rubicon-ml', '7c76df58384ee03f231521e247b351386f8b3cd1')
-</pre></div></div>
-</div>
-<p>These properties can help easily associate <strong>projects</strong> and <strong>experiments</strong> with the exact branches and commits they were run against so we can go back and reference the code later.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">Dashboard</span>
-
-
-<span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"input"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"output"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-
-<span class="n">Dashboard</span><span class="p">([</span><span class="n">experiment</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
- * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
-127.0.0.1 - - [14/May/2021 11:58:45] "GET /_alive_e9483f78-700c-4852-a59e-f027a3b5caf7 HTTP/1.1" 200 -
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dash app running on http://127.0.0.1:8050/
+Dash is running on http://127.0.0.1:8050/
 </pre></div></div>
 </div>
-<p>Within the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> dashboard, your experiments will be grouped by commit hash, which will link directly to the commit on GitHub.</p>
-<img alt="dashboard" src="../_images/integration-git-dashboard.png"/>
+<img alt="metric-correlation-plot" src="../_images/metric-correlation-plot.png"/>
 </section>
 
         </article>
@@ -574,23 +547,23 @@ Dash app running on http://127.0.0.1:8050/
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="integration-prefect-workflows.html">
+          <a class="next-page" href="metric-lists-comparisons.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Prefect</div>
+                <div class="title">Metric Lists Comparison</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../integrations.html">
+          <a class="prev-page" href="experiments-table.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Integrations</div>
+                <div class="title">Experiments Table</div>
                 
               </div>
             </a>
@@ -602,7 +575,7 @@ Dash app running on http://127.0.0.1:8050/
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/integrations/integration-git.ipynb.txt"
+            <a class="muted-link" href="../_sources/visualizations/metric-correlation-plot.ipynb.txt"
                rel="nofollow">
               Show Source
             </a>
