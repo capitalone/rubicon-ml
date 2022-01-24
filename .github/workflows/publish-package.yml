@@ -34,6 +34,7 @@ jobs:
     - name: Test build
       # fails and cancels release if the built package fails to import
       run: |
+        pip install dist/*.whl
         python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
     - name: Publish
       env:
