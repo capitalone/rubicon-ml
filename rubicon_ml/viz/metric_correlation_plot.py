@@ -51,22 +51,14 @@ class MetricCorrelationPlot(VizBase):
         """Transforms the input data for use with Plotly's parallel
         coordinates plot.
         """
-        if len(values) > 0 and isinstance(values[0], str):
+        if len(values) > 0 and any([isinstance(v, str) or isinstance(v, bool) for v in values]):
+            values = [str(v) for v in values]
             unique_values, values = np.unique(values, return_inverse=True)
 
             dimension = {
                 "label": label,
                 "ticktext": unique_values,
                 "tickvals": list(range(0, len(unique_values))),
-                "values": values,
-            }
-        elif len(values) > 0 and isinstance(values[0], bool):
-            values = [int(value) for value in values]
-
-            dimension = {
-                "label": label,
-                "ticktext": ["False", "True"],
-                "tickvals": [0, 1],
                 "values": values,
             }
         else:
@@ -197,15 +189,18 @@ class MetricCorrelationPlot(VizBase):
 
             for parameter_name in self.visible_parameter_names:
                 parameter_values[parameter_name] = [
-                    record["parameters"][parameter_name] for record in experiment_records
+                    record["parameters"].get(parameter_name) for record in experiment_records
                 ]
 
-            metric_values = [record["metrics"][selected_metric] for record in experiment_records]
+            metric_values = [
+                record["metrics"].get(selected_metric) for record in experiment_records
+            ]
 
             plot_dimensions = []
 
             for parameter_name, parameter_value in parameter_values.items():
-                plot_dimensions.append(self._get_dimension(parameter_name, parameter_value))
+                if any([p is not None for p in parameter_value]):
+                    plot_dimensions.append(self._get_dimension(parameter_name, parameter_value))
 
             plot_dimensions.append(self._get_dimension(selected_metric, metric_values))
 
