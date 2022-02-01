@@ -135,27 +135,25 @@ tests/integration`. Or by simply running `pytest` to execute all of them.
 **Note**: some integration tests are intentionally `marked` to control when they
 are run (i.e. not during CICD). These tests include:
 
-* Integration tests that connect to physical filesystems (local, S3). You'll
-  want to configure the `root_dir` appropriately for these tests
-  (tests/integration/test_async_rubicon.py, tests/integration/test_rubicon.py).
-  And they can be run with:
+* Integration tests that write to physical filesystems - local and S3. Local
+  files will be written to `./test-rubicon` relative to where the tests are run.
+  An S3 path must also be provided to run these tests. By default, these
+  tests are disabled. To enable them, run:
 
     ```
-    pytest -m "physical_filesystem_test"
+    pytest -m "write_files" --s3-path "s3://my-bucket/my-key"
     ```
 
-* Integration tests for the dashboard. To run these integration tests locally,
-  you'll need to install one of the WebDrivers. To do so, follow the `Install`
-  instructions in the [Dash Testing Docs](https://dash.plotly.com/testing) or
-  install via brew with `brew cask install chromedriver`. You may have to update
-  your permissions in Security & Privacy to install with brew.
+* Integration tests that run Jupyter notebooks. These tests are a bit slower
+  than the rest of the tests in the suite as they need to launch Jupyter servers.
+  By default, they are enabled. To disable them, run:
 
     ```
-    pytest -m "dashboard_test"
+    pytest -m "not run_notebooks and not write_files"
     ```
 
-    **Note**: The `--headless` flag can be added to run the dashboard tests in
-    headless mode.
+    **Note**: When simply running `pytest`, `-m "not write_files"` is the
+    default. So, we need to also apply it when disabling notebook tests.
 
 ## Code Formatting
 

@@ -9,7 +9,7 @@ from rubicon_ml.client.asynchronous import Rubicon
 filesystems = [
     pytest.param(
         Rubicon(persistence="filesystem", root_dir="s3://change-me"),
-        marks=pytest.mark.physical_filesystem_test,
+        marks=pytest.mark.write_files,
     ),
 ]
 

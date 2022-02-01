@@ -24,7 +24,7 @@ BAD_NOTEBOOK_XFAIL_MARKS = [
 ]
 
 
-@pytest.mark.notebook_test
+@pytest.mark.run_notebooks
 @pytest.mark.parametrize("notebook_filename", NOTEBOOK_FILENAMES + BAD_NOTEBOOK_XFAIL_MARKS)
 def test_notebook_is_executed_in_order(notebook_filename):
     notebook = read_notebook_file(notebook_filename)
@@ -59,7 +59,7 @@ EXECUTE_NOTEBOOK_FILENAMES = [
 
 
 @mock.patch.dict(os.environ, {"RUBICON_ROOT": "test-rubicon-root"})
-@pytest.mark.notebook_test
+@pytest.mark.run_notebooks
 @pytest.mark.parametrize("notebook_filename", EXECUTE_NOTEBOOK_FILENAMES)
 def test_notebooks_execute_without_error(notebook_filename):
     notebook = read_notebook_file(notebook_filename)
