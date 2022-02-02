@@ -1,8 +1,5 @@
 import subprocess
 
-import fsspec
-import yaml
-
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project
 from rubicon_ml.exceptions import RubiconException
@@ -180,90 +177,6 @@ class Rubicon:
             The list of available projects.
         """
         return [Project(project, self.config) for project in self.repository.get_projects()]
-
-    def publish(
-        self,
-        project_name,
-        experiment_ids=None,
-        experiment_tags=None,
-        experiment_qtype="or",
-        output_filepath=None,
-    ):
-        """Publish a project and its experiments to an intake
-        catalog that can be read by the `intake-rubicon` driver.
-
-        Parameters
-        ----------
-        project_name : str
-            The name of the project to publish.
-        experiment_ids : list of str, optional
-            The ids of the experiments belonging to the project
-            named `project_name` to publish.
-        experiment_tags : list of str, optional
-            The tags of the experiments belonging to the project
-            named `project_name` to publish.
-        experiment_qtype : str, optional
-            The query type to filter experiment tags on. Can be
-            'or' or 'and'. Defaults to 'or'.
-        output_filepath : str, optional
-            The absolute or relative local filepath or S3
-            bucket and key to log the output catalog YAML file
-            to. S3 buckets must be prepended with 's3://'. If
-            left as None, only returns the YAML string without
-            writing.
-
-        Notes
-        -----
-        This function is not threadsafe.
-
-        If neither `experiment_ids` nor `experiment_tags` are
-        provided, all experiments belonging to the project
-        named `project_name` will be published. If both are
-        provided, only `experiment_ids` will be used.
-
-        Returns
-        -------
-        str
-            The YAML string representation of the catalog.
-        """
-        catalog = {"sources": {}}
-
-        project = self.get_project(project_name)
-        project_catalog = {
-            "driver": "rubicon_ml_project",
-            "args": {"urlpath": self.repository.root_dir, "project_name": project.name},
-        }
-
-        catalog["sources"][f"project_{project.id.replace('-', '_')}"] = project_catalog
-
-        if experiment_ids is not None:
-            experiments = []
-            for e_id in experiment_ids:
-                experiments.append(project.experiment(id=e_id))
-        elif experiment_tags is not None:
-            experiments = project.experiments(tags=experiment_tags, qtype=experiment_qtype)
-        else:
-            experiments = project.experiments()
-
-        for e in experiments:
-            experiment_catalog = {
-                "driver": "rubicon_ml_experiment",
-                "args": {
-                    "urlpath": self.repository.root_dir,
-                    "project_name": project.name,
-                    "experiment_id": e.id,
-                },
-            }
-
-            catalog["sources"][f"experiment_{e.id.replace('-', '_')}"] = experiment_catalog
-
-        catalog_yaml = yaml.dump(catalog)
-
-        if output_filepath is not None:
-            with fsspec.open(output_filepath, "w", auto_mkdir=False) as f:
-                f.write(catalog_yaml)
-
-        return catalog_yaml
 
     def sync(self, project_name, s3_root_dir):
         """Sync a local project to S3.
