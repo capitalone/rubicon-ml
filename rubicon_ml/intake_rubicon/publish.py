@@ -27,16 +27,6 @@ def publish(
     """
     catalog = {"sources": {}}
 
-    # TODO: remove when addressing issue #173
-    project = experiments[0].project
-    project_catalog = {
-        "driver": "rubicon_ml_project",
-        "args": {"urlpath": project.repository.root_dir, "project_name": project.name},
-    }
-
-    project_catalog_name = f"project_{project.id.replace('-', '_')}"
-    catalog["sources"][project_catalog_name] = project_catalog
-
     for experiment in experiments:
         experiment_catalog = {
             "driver": "rubicon_ml_experiment",
