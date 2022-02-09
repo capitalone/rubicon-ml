@@ -9,11 +9,11 @@ filesystems = [
     pytest.param(Rubicon(persistence="memory")),
     pytest.param(
         Rubicon(persistence="filesystem", root_dir="./test-rubicon"),
-        marks=pytest.mark.physical_filesystem_test,
+        marks=pytest.mark.write_files,
     ),
     pytest.param(
         Rubicon(persistence="filesystem", root_dir="s3://change-me"),
-        marks=pytest.mark.physical_filesystem_test,
+        marks=pytest.mark.write_files,
     ),
 ]
 
