@@ -11,19 +11,6 @@ def test_publish(project_client):
     catalog_yaml = publish(project.experiments())
     catalog = yaml.safe_load(catalog_yaml)
 
-    assert f"project_{project.id.replace('-', '_')}" in catalog["sources"]
-    assert (
-        "rubicon_ml_project"
-        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["driver"]
-    )
-    assert (
-        project.repository.root_dir
-        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["args"]["urlpath"]
-    )
-    assert (
-        project.name
-        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["args"]["project_name"]
-    )
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
     assert (
         "rubicon_ml_experiment"
