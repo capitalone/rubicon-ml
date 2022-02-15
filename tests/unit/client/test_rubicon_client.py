@@ -2,9 +2,7 @@ import subprocess
 from unittest import mock
 
 import dask.dataframe as dd
-import fsspec
 import pytest
-import yaml
 
 from rubicon_ml import client, domain
 from rubicon_ml.client import Rubicon
@@ -128,88 +126,6 @@ def test_get_or_create_project(rubicon_client):
     fetched_project = rubicon.get_or_create_project("Test Project A")
     assert fetched_project._domain.name == "Test Project A"
     assert created_project.id == fetched_project.id
-
-
-def test_publish(rubicon_and_project_client):
-    rubicon, project = rubicon_and_project_client
-    experiment = project.log_experiment()
-
-    catalog_yaml = rubicon.publish(project.name)
-    catalog = yaml.safe_load(catalog_yaml)
-
-    assert f"project_{project.id.replace('-', '_')}" in catalog["sources"]
-    assert (
-        "rubicon_ml_project"
-        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["driver"]
-    )
-    assert (
-        project.repository.root_dir
-        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["args"]["urlpath"]
-    )
-    assert (
-        project.name
-        == catalog["sources"][f"project_{project.id.replace('-', '_')}"]["args"]["project_name"]
-    )
-    assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
-    assert (
-        "rubicon_ml_experiment"
-        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["driver"]
-    )
-    assert (
-        experiment.repository.root_dir
-        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["args"]["urlpath"]
-    )
-    assert (
-        experiment.id
-        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["args"][
-            "experiment_id"
-        ]
-    )
-    assert (
-        project.name
-        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["args"][
-            "project_name"
-        ]
-    )
-
-
-def test_publish_by_ids(rubicon_and_project_client):
-    rubicon, project = rubicon_and_project_client
-    experiment_a = project.log_experiment()
-    experiment_b = project.log_experiment()
-
-    catalog_yaml = rubicon.publish(project.name, experiment_ids=[experiment_a.id])
-    catalog = yaml.safe_load(catalog_yaml)
-
-    assert f"project_{project.id.replace('-', '_')}" in catalog["sources"]
-    assert f"experiment_{experiment_a.id.replace('-', '_')}" in catalog["sources"]
-    assert f"experiment_{experiment_b.id.replace('-', '_')}" not in catalog["sources"]
-
-
-def test_publish_by_tags(rubicon_and_project_client):
-    rubicon, project = rubicon_and_project_client
-    experiment_a = project.log_experiment(tags=["a"])
-    experiment_b = project.log_experiment(tags=["b"])
-
-    catalog_yaml = rubicon.publish(project.name, experiment_tags=["a"])
-    catalog = yaml.safe_load(catalog_yaml)
-
-    assert f"project_{project.id.replace('-', '_')}" in catalog["sources"]
-    assert f"experiment_{experiment_a.id.replace('-', '_')}" in catalog["sources"]
-    assert f"experiment_{experiment_b.id.replace('-', '_')}" not in catalog["sources"]
-
-
-def test_publish_to_file(rubicon_and_project_client):
-    rubicon, project = rubicon_and_project_client
-    project.log_experiment()
-    project.log_experiment()
-
-    catalog_yaml = rubicon.publish(project.name, output_filepath="memory://catalog.yml")
-
-    with fsspec.open("memory://catalog.yml", "r") as f:
-        written_catalog = f.read()
-
-    assert catalog_yaml == written_catalog
 
 
 def test_sync_from_memory(rubicon_and_project_client):
