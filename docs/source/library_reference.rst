@@ -77,6 +77,14 @@ return value.
 
 .. autoclass:: rubicon_ml.client.asynchronous.Rubicon
 
+.. _library-reference-publish:
+
+publish
+=======
+``rubicon_ml`` leverages ``intake`` to easily share sets of experiments.
+
+.. autofunction:: rubicon_ml.publish
+
 .. _library-reference-sklearn:
 
 sklearn
