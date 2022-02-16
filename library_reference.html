@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.4.0, furo 2021.10.09"/>
-        <title>Library Reference - rubicon-ml v0.3.1</title>
+        <title>Library Reference - rubicon-ml v0.3.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.1</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.1</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -361,47 +361,6 @@ data grouped by <cite>group_by</cite>.</p>
 </dl>
 </dd>
 </dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubicon_ml.Rubicon.publish">
-<span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.publish" title="Permalink to this definition">¶</a></dt>
-<dd><p>Publish a project and its experiments to an intake
-catalog that can be read by the <cite>intake-rubicon</cite> driver.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>project_name</strong><span class="classifier">str</span></dt><dd><p>The name of the project to publish.</p>
-</dd>
-<dt><strong>experiment_ids</strong><span class="classifier">list of str, optional</span></dt><dd><p>The ids of the experiments belonging to the project
-named <cite>project_name</cite> to publish.</p>
-</dd>
-<dt><strong>experiment_tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tags of the experiments belonging to the project
-named <cite>project_name</cite> to publish.</p>
-</dd>
-<dt><strong>experiment_qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter experiment tags on. Can be
-‘or’ or ‘and’. Defaults to ‘or’.</p>
-</dd>
-<dt><strong>output_filepath</strong><span class="classifier">str, optional</span></dt><dd><p>The absolute or relative local filepath or S3
-bucket and key to log the output catalog YAML file
-to. S3 buckets must be prepended with ‘s3://’. If
-left as None, only returns the YAML string without
-writing.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>str</dt><dd><p>The YAML string representation of the catalog.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This function is not threadsafe.</p>
-<p>If neither <cite>experiment_ids</cite> nor <cite>experiment_tags</cite> are
-provided, all experiments belonging to the project
-named <cite>project_name</cite> will be published. If both are
-provided, only <cite>experiment_ids</cite> will be used.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.sync">
@@ -1718,6 +1677,36 @@ are passed directly to the underlying filesystem class.</p>
 </dl>
 </dd></dl>
 </section>
+<section id="publish">
+<span id="library-reference-publish"></span><h2>publish<a class="headerlink" href="#publish" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> leverages <code class="docutils literal notranslate"><span class="pre">intake</span></code> to easily share sets of experiments.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.publish">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish experiments to an <cite>intake</cite> catalog that can be
+read by the <cite>intake-rubicon</cite> driver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiments</strong><span class="classifier">list of rubicon_ml.client.experiment.Experiment</span></dt><dd><p>The experiments to publish.</p>
+</dd>
+<dt><strong>output_filepath</strong><span class="classifier">str, optional</span></dt><dd><p>The absolute or relative local filepath or S3 bucket
+and key to log the generated YAML file to. S3 buckets
+must be prepended with ‘s3://’. Defaults to None,
+which disables writing the generated YAML.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>The YAML string representation of the <cite>intake</cite> catalog
+containing the experiments <cite>experiments</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+</section>
 <section id="sklearn">
 <span id="library-reference-sklearn"></span><h2>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers direct integration with <strong>Scikit-learn</strong> via our
@@ -2489,6 +2478,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#dataframe">Dataframe</a></li>
 <li><a class="reference internal" href="#artifact">Artifact</a></li>
 <li><a class="reference internal" href="#asynchronous">asynchronous</a></li>
+<li><a class="reference internal" href="#publish">publish</a></li>
 <li><a class="reference internal" href="#sklearn">sklearn</a></li>
 <li><a class="reference internal" href="#viz">viz</a></li>
 <li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a></li>
