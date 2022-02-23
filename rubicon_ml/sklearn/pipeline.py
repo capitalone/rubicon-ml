@@ -165,7 +165,7 @@ def make_pipeline(
         Additional keyword arguments to be passed to
         `sklearn.pipeline.Pipeline()`.
     """
-    steps, loggers = split_steps_loggers(steps)
+    steps, loggers = _split_steps_loggers(steps)
 
     steps = _name_estimators(steps)
     user_defined_loggers = _name_loggers(steps, loggers)
@@ -178,7 +178,7 @@ def make_pipeline(
     return RubiconPipeline(project, steps, user_defined_loggers, experiment_kwargs, memory, verbose)
 
 
-def split_steps_loggers(steps):
+def _split_steps_loggers(steps):
     """
     Parameters
     ----------
