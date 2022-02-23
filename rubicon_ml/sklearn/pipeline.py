@@ -179,6 +179,14 @@ def make_pipeline(
 
 
 def split_steps_loggers(steps):
+    """
+    Parameters
+    ----------
+        steps: List of  estimator or tuples of (estimator,logger).
+    Returns
+    ------
+        Tuple of named estimators list and ordered loggers list
+    """
     ret_loggers = []
     ret_steps = []
     for step in steps:
@@ -195,11 +203,11 @@ def _name_loggers(steps, loggers):
     """
     Parameters
     ----------
-        steps: List of  (name, estimator) or (name, (estimator,logger)) tuples.
-        loggers: List of loggger objects
+        steps: List of  (name, estimator) tuples.
+        loggers: List of logger objects
     Returns
     ------
-        Tuple of named estimators and named loggers
+        List of named logger (name, logger) tuples
     """
     named_loggers = {}
     for i in range(len(steps)):
