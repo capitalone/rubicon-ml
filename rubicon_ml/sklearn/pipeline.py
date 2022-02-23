@@ -27,9 +27,18 @@ class RubiconPipeline(Pipeline):
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
-    kwargs : dict
-        Additional keyword arguments to be passed to
-        `sklearn.pipeline.Pipeline()`.
+    memory : str or object with the joblib.Memory interface, default=None
+        Used to cache the fitted transformers of the pipeline. By default,
+        no caching is performed. If a string is given, it is the path to
+        the caching directory. Enabling caching triggers a clone of
+        the transformers before fitting. Therefore, the transformer
+        instance given to the pipeline cannot be inspected
+        directly. Use the attribute ``named_steps`` or ``steps`` to
+        inspect estimators within the pipeline. Caching the
+        transformers is advantageous when fitting is time consuming.
+    verbose : bool, default=False
+        If True, the time elapsed while fitting each step will be printed as it
+        is completed.
 
     Examples
     --------
@@ -161,9 +170,18 @@ def make_pipeline(
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
-    kwargs : dict
-        Additional keyword arguments to be passed to
-        `sklearn.pipeline.Pipeline()`.
+    memory : str or object with the joblib.Memory interface, default=None
+        Used to cache the fitted transformers of the pipeline. By default,
+        no caching is performed. If a string is given, it is the path to
+        the caching directory. Enabling caching triggers a clone of
+        the transformers before fitting. Therefore, the transformer
+        instance given to the pipeline cannot be inspected
+        directly. Use the attribute ``named_steps`` or ``steps`` to
+        inspect estimators within the pipeline. Caching the
+        transformers is advantageous when fitting is time consuming.
+    verbose : bool, default=False
+        If True, the time elapsed while fitting each step will be printed as it
+        is completed.
     """
     steps, loggers = _split_steps_loggers(steps)
 
