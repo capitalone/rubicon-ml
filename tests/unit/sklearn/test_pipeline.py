@@ -1,9 +1,11 @@
 from unittest.mock import patch
 
+from pytest import raises
+
 from rubicon_ml.sklearn import RubiconPipeline
 from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
 from rubicon_ml.sklearn.filter_estimator_logger import FilterEstimatorLogger
-from rubicon_ml.sklearn.pipeline import Pipeline
+from rubicon_ml.sklearn.pipeline import Pipeline, make_pipeline
 
 
 def test_get_default_estimator_logger(project_client, fake_estimator_cls):
@@ -22,7 +24,7 @@ def test_get_user_defined_estimator_logger(project_client, fake_estimator_cls):
     estimator = fake_estimator_cls()
     steps = [("est", estimator)]
     user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
-    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+    pipeline = RubiconPipeline(project, steps, user_defined_loggers=user_defined_logger)
 
     logger = pipeline.get_estimator_logger("est")
 
@@ -75,3 +77,58 @@ def test_score_logs_metric(project_client, fake_estimator_cls):
             pipeline.score(["fake data"])
 
     mock_log_metric.assert_called_once()
+
+
+def test_make_pipeline(project_client, fake_estimator_cls):
+    project = project_client
+    clf = fake_estimator_cls()
+    clf1 = fake_estimator_cls()
+    pipe = make_pipeline(
+        project, clf, clf1, experiment_kwargs={"name": "RubiconPipeline experiment"}
+    )
+    assert len(pipe.steps) == 2
+    assert pipe.steps[0][1] == clf
+    assert pipe.steps[1][1] == clf1
+    assert len(pipe.user_defined_loggers) == 0
+
+
+def test_make_pipeline_with_loggers(project_client, fake_estimator_cls):
+    project = project_client
+    clf = fake_estimator_cls()
+    clf1 = fake_estimator_cls()
+    user_defined_logger = FilterEstimatorLogger()
+    user_defined_logger1 = FilterEstimatorLogger()
+    pipe = make_pipeline(
+        project,
+        (clf, user_defined_logger),
+        (clf1, user_defined_logger1),
+        experiment_kwargs={"name": "RubiconPipeline experiment"},
+    )
+    assert len(pipe.steps) == 2
+    assert pipe.steps[0][1] == clf
+    assert pipe.steps[1][1] == clf1
+    assert len(pipe.user_defined_loggers) == 2
+
+    assert pipe.user_defined_loggers[pipe.steps[0][0]] == user_defined_logger
+    assert pipe.user_defined_loggers[pipe.steps[1][0]] == user_defined_logger1
+    pipe = make_pipeline(
+        project,
+        clf,
+        (clf1, user_defined_logger1),
+        experiment_kwargs={"name": "RubiconPipeline experiment"},
+    )
+    assert len(pipe.steps) == 2
+    assert pipe.steps[0][1] == clf
+    assert pipe.steps[1][1] == clf1
+    assert len(pipe.user_defined_loggers) == 1
+    assert pipe.user_defined_loggers[pipe.steps[1][0]] == user_defined_logger1
+
+
+def test_make_pipeline_without_project(fake_estimator_cls):
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    with raises(ValueError) as e:
+        make_pipeline(steps)
+    assert "project" + str(steps) + " must be of type Rubicon.client.project.Project" == str(
+        e.value
+    )

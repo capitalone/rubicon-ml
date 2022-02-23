@@ -1,5 +1,6 @@
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, _name_estimators
 
+from rubicon_ml.client.project import Project
 from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
 from rubicon_ml.sklearn.utils import log_parameter_with_warning
 
@@ -53,7 +54,8 @@ class RubiconPipeline(Pipeline):
         steps,
         user_defined_loggers={},
         experiment_kwargs={"name": "RubiconPipeline experiment"},
-        **kwargs
+        memory=None,
+        verbose=False,
     ):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
@@ -61,7 +63,7 @@ class RubiconPipeline(Pipeline):
 
         self.experiment = None
 
-        super().__init__(steps, **kwargs)
+        super().__init__(steps, memory=memory, verbose=verbose)
 
     def fit(self, X, y=None, tags=None, log_fit_params=True, **fit_params):
         """Fit the model and automatically log the `fit_params`
@@ -135,3 +137,123 @@ class RubiconPipeline(Pipeline):
             logger.set_estimator(estimator)
 
         return logger
+
+
+def make_pipeline(
+    project,
+    *steps,
+    experiment_kwargs={"name": "RubiconPipeline experiment"},
+    memory=None,
+    verbose=False
+):
+    """Wrapper around RubicionPipeline(). Does not require naming for estimators
+
+    Parameters
+    ----------
+    project : rubicon.client.Project
+        The rubicon project to log to.
+    steps : list
+        List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
+        in the order in which they are chained, with the last object an estimator.
+    user_defined_loggers : dict, optional
+        A dict mapping the estimator name to a corresponding user defined logger.
+        See the example below for more details.
+    experiment_kwargs : dict, optional
+        Additional keyword arguments to be passed to
+        `project.log_experiment()`.
+    kwargs : dict
+        Additional keyword arguments to be passed to
+        `sklearn.pipeline.Pipeline()`.
+    """
+    # steps = _name_estimators(steps)
+    # user_defined_loggers = validate_steps(steps)
+    steps, loggers = split_steps_loggers(steps)
+
+    steps = _name_estimators(steps)
+    user_defined_loggers = _name_loggers(steps, loggers)
+
+    if type(project) != Project:
+        raise ValueError(
+            "project" + str(project) + " must be of type Rubicon.client.project.Project"
+        )
+
+    return RubiconPipeline(project, steps, user_defined_loggers, experiment_kwargs, memory, verbose)
+
+
+def split_steps_loggers(steps):
+    ret_loggers = []
+    ret_steps = []
+    for step in steps:
+        if isinstance(step, tuple):
+            ret_loggers.append(step[1])
+            ret_steps.append(step[0])
+        else:
+            ret_loggers.append(None)
+            ret_steps.append(step)
+    return ret_steps, ret_loggers
+
+
+def _name_loggers(steps, loggers):
+    named_loggers = {}
+    for i in range(len(steps)):
+        if loggers[i] is not None:
+            named_loggers[str(steps[i][0])] = loggers[i]
+    return named_loggers
+
+
+def validate_steps(steps):
+    """
+    Parameters
+    ----------
+        steps: List of  (name, estimator) or (name, (estimator,logger)) tuples.
+    Returns
+    ------
+        Tuple of named estimators and named loggers
+    """
+    ret_steps = []
+    ret_loggers = {}
+    for name, step in steps:
+        if isinstance(step, tuple):
+            ret_steps.append(tuple((name, step[0])))
+            ret_loggers[str(name)] = step[1]
+        else:
+            ret_steps.append(tuple((name, step)))
+    return ret_steps, ret_loggers
+
+
+# def _name_estimators(steps):
+#     """Modified from Scikitlearn's _name_estimators to take steps which can be made up of estimators or estimator, logger tuples.
+#     Generate names for estimators.
+#     Paramaters
+#     ----------
+#     steps : list
+#         List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
+#         in the order in which they are chained, with the last object an estimator.
+
+#     Returns
+#     -------
+#         List of  (name, estimator) or (name, (estimator,logger)) tuples.
+#     """
+#     names = []
+#     for estimator in steps:
+#         if isinstance(estimator, tuple):
+#             estimator = estimator[0]
+#         if isinstance(estimator, str):
+#             names.append(estimator)
+#         else:
+#             names.append(type(estimator).__name__.lower())
+#     namecount = defaultdict(int)
+#     for est, name in zip(steps, names):
+#         namecount[name] += 1
+
+#     for k, v in list(namecount.items()):
+#         if v == 1:
+#             del namecount[k]
+
+#     for i in reversed(range(len(steps))):
+#         name = names[i]
+#         if name in namecount:
+#             names[i] += "-%d" % namecount[name]
+#             namecount[name] -= 1
+
+#     return list(zip(names, steps))
