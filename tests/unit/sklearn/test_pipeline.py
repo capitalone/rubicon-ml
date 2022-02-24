@@ -87,9 +87,6 @@ def test_fit_multiple_scores(project_client, fake_estimator_cls):
         with patch.object(EstimatorLogger, "log_metric", return_value=None):
             pipeline.score(["fake data"])
             pipeline.score(["additional fake data"])
-
-    assert len(project.experiments()) == 2
-
     with patch.object(Pipeline, "fit", return_value=None):
         with patch.object(FilterEstimatorLogger, "log_parameters", return_value=None):
             pipeline.fit(["fake data"])
@@ -106,10 +103,15 @@ def test_multiple_scores(project_client, fake_estimator_cls):
 
     with patch.object(Pipeline, "score", return_value=None):
         with patch.object(EstimatorLogger, "log_metric", return_value=None):
-            pipeline.score(["fake data"])
+            # first score gets its own explicitly declared experiment
+            experiment = project.log_experiment(name="fake experiment")
+            pipeline.score(["fake data"], experiment=experiment)
             pipeline.score(["additional fake data"])
 
-    assert len(project.experiments()) == 2
+    experiments = project.experiments()
+    assert len(experiments) == 2
+    assert experiments[0].name == "fake experiment"
+    assert experiments[1].name == "RubiconPipeline experiment"
 
 
 def test_multiple_fits(project_client, fake_estimator_cls):
@@ -120,7 +122,12 @@ def test_multiple_fits(project_client, fake_estimator_cls):
 
     with patch.object(Pipeline, "fit", return_value=None):
         with patch.object(FilterEstimatorLogger, "log_parameters", return_value=None):
-            pipeline.fit(["fake data"])
+            # first fit gets its own explicitly declared experiment
+            experiment = project.log_experiment(name="fake experiment")
+            pipeline.fit(["fake data"], experiment=experiment)
             pipeline.fit("additional fake data")
 
-    assert len(project.experiments()) == 2
+    experiments = project.experiments()
+    assert len(experiments) == 2
+    assert experiments[0].name == "fake experiment"
+    assert experiments[1].name == "RubiconPipeline experiment"
