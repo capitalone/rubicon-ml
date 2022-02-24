@@ -63,7 +63,7 @@ class RubiconPipeline(Pipeline):
 
         super().__init__(steps, **kwargs)
 
-    def fit(self, X, y=None, tags=None, log_fit_params=True, **fit_params):
+    def fit(self, X, y=None, tags=None, log_fit_params=True, experiment=None, **fit_params):
         """Fit the model and automatically log the `fit_params`
         to Rubicon. Optionally, pass `tags` to update the experiment's
         tags.
@@ -82,10 +82,15 @@ class RubiconPipeline(Pipeline):
         fit_params : dict, optional
             Additional keyword arguments to be passed to
             `sklearn.pipeline.Pipeline.fit()`.
+        experiment: None
+            the experiment to log the to. If no experiment is provided the metrics are logged to a new experiment with self.experiment_kwargs
         """
         pipeline = super().fit(X, y, **fit_params)
 
-        self.experiment = self.project.log_experiment(**self.experiment_kwargs)
+        if experiment is None:
+            experiment = self.project.log_experiment(**self.experiment_kwargs)
+        self.experiment = experiment
+
         if tags is not None:
             self.experiment.add_tags(tags)
 
@@ -99,7 +104,7 @@ class RubiconPipeline(Pipeline):
 
         return pipeline
 
-    def score(self, X, y=None, sample_weight=None):
+    def score(self, X, y=None, sample_weight=None, experiment=None):
         """Score with the final estimator and automatically
         log the results to Rubicon.
 
@@ -112,9 +117,13 @@ class RubiconPipeline(Pipeline):
         sample_weight : list, optional
             If not None, this argument is passed as sample_weight keyword argument to the
             score method of the final estimator.
+        experiment: None
+            the experiment to log the score to. If no experiment is provided the score is logged to a new experiment with self.experiment_kwargs
         """
         score = super().score(X, y, sample_weight)
-
+        if experiment is None:
+            experiment = self.project.log_experiment(**self.experiment_kwargs)
+        self.experiment = experiment
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
 

@@ -75,3 +75,52 @@ def test_score_logs_metric(project_client, fake_estimator_cls):
             pipeline.score(["fake data"])
 
     mock_log_metric.assert_called_once()
+
+
+def test_fit_multiple_scores(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    pipeline = RubiconPipeline(project, steps)
+
+    with patch.object(Pipeline, "score", return_value=None):
+        with patch.object(EstimatorLogger, "log_metric", return_value=None):
+            pipeline.score(["fake data"])
+            pipeline.score(["additional fake data"])
+
+    assert len(project.experiments()) == 2
+
+    with patch.object(Pipeline, "fit", return_value=None):
+        with patch.object(FilterEstimatorLogger, "log_parameters", return_value=None):
+            pipeline.fit(["fake data"])
+            pipeline.fit("additional fake data")
+
+    assert len(project.experiments()) == 4
+
+
+def test_multiple_scores(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    pipeline = RubiconPipeline(project, steps)
+
+    with patch.object(Pipeline, "score", return_value=None):
+        with patch.object(EstimatorLogger, "log_metric", return_value=None):
+            pipeline.score(["fake data"])
+            pipeline.score(["additional fake data"])
+
+    assert len(project.experiments()) == 2
+
+
+def test_multiple_fits(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    pipeline = RubiconPipeline(project, steps)
+
+    with patch.object(Pipeline, "fit", return_value=None):
+        with patch.object(FilterEstimatorLogger, "log_parameters", return_value=None):
+            pipeline.fit(["fake data"])
+            pipeline.fit("additional fake data")
+
+    assert len(project.experiments()) == 2
