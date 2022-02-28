@@ -130,7 +130,7 @@ def test_make_pipeline_without_project(fake_estimator_cls):
     steps = [("est", estimator)]
     with raises(ValueError) as e:
         make_pipeline(steps)
-    assert "project" + str(steps) + " must be of type Rubicon.client.project.Project" == str(
+    assert "project" + str(steps) + " must be of type rubicon_ml.client.project.Project" == str(
         e.value
     )
 

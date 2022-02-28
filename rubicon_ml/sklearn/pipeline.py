@@ -155,7 +155,7 @@ def make_pipeline(
     memory=None,
     verbose=False
 ):
-    """Wrapper around RubicionPipeline(). Does not require naming for estimators
+    """Wrapper around RubicionPipeline(). Does not require naming for estimators. Their names are set to the lowercase strings of their types.
 
     Parameters
     ----------
