@@ -98,6 +98,8 @@ own pipeline object.
 .. autoclass:: rubicon_ml.sklearn.FilterEstimatorLogger
    :members:
 
+.. autofunction:: rubicon_ml.sklearn.pipeline.make_pipeline
+
 .. _library-reference-viz:
 
 viz
