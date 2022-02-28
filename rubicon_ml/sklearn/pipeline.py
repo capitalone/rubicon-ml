@@ -164,9 +164,6 @@ def make_pipeline(
     steps : list
         List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
         in the order in which they are chained, with the last object an estimator.
-    user_defined_loggers : dict, optional
-        A dict mapping the estimator name to a corresponding user defined logger.
-        See the example below for more details.
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
@@ -190,7 +187,7 @@ def make_pipeline(
 
     if type(project) != Project:
         raise ValueError(
-            "project" + str(project) + " must be of type Rubicon.client.project.Project"
+            "project" + str(project) + " must be of type rubicon_ml.client.project.Project"
         )
 
     return RubiconPipeline(project, steps, user_defined_loggers, experiment_kwargs, memory, verbose)
@@ -202,7 +199,7 @@ def _split_steps_loggers(steps):
     ----------
         steps: List of  estimator or tuples of (estimator,logger).
     Returns
-    ------
+    -------
         Tuple of named estimators list and ordered loggers list
     """
     ret_loggers = []
@@ -224,7 +221,7 @@ def _name_loggers(steps, loggers):
         steps: List of  (name, estimator) tuples.
         loggers: List of logger objects
     Returns
-    ------
+    -------
         List of named logger (name, logger) tuples
     """
     named_loggers = {}
