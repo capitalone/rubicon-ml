@@ -35,10 +35,10 @@ class RubiconPipeline(Pipeline):
         instance given to the pipeline cannot be inspected
         directly. Use the attribute ``named_steps`` or ``steps`` to
         inspect estimators within the pipeline. Caching the
-        transformers is advantageous when fitting is time consuming.
+        transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)
     verbose : bool, default=False
         If True, the time elapsed while fitting each step will be printed as it
-        is completed.
+        is completed. (docstring source: Scikit-Learn)
 
     Examples
     --------
@@ -163,7 +163,7 @@ def make_pipeline(
         The rubicon project to log to.
     steps : list
         List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
-        in the order in which they are chained, with the last object an estimator.
+        in the order in which they are chained, with the last object an estimator. (doc string source: Scikit-Learn)
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
@@ -175,10 +175,11 @@ def make_pipeline(
         instance given to the pipeline cannot be inspected
         directly. Use the attribute ``named_steps`` or ``steps`` to
         inspect estimators within the pipeline. Caching the
-        transformers is advantageous when fitting is time consuming.
+        transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)
     verbose : bool, default=False
         If True, the time elapsed while fitting each step will be printed as it
-        is completed.
+        is completed. (docstring source: Scikit-Learn)
+
     """
     steps, loggers = _split_steps_loggers(steps)
 
