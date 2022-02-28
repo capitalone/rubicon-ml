@@ -5,6 +5,7 @@ dependencies:
   - python=3.9
 
   # for building the docs
+  - black
   - furo
   - ipython
   - nbsphinx
@@ -18,5 +19,6 @@ dependencies:
   - dask>=2.12.0
   - pandas>=1.0
   - fsspec>=2021.4.0
+  - intake>=0.5.2
   - prefect>=0.12.0
   - scikit-learn
