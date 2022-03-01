@@ -11,6 +11,7 @@ directory and install a local copy of `rubicon_ml`.
 ```
 conda env create -f docs/docs-environment.yml
 conda activate rubicon-ml-docs
+cd docs
 pip install --no-deps -e ../
 ```
 
