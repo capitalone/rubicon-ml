@@ -112,7 +112,6 @@ class RubiconPipeline(Pipeline):
         if log_fit_params:
             for name, value in fit_params.items():
                 log_parameter_with_warning(self.experiment, name, value)
-
         return pipeline
 
     def score(self, X, y=None, sample_weight=None, experiment=None):
@@ -132,13 +131,16 @@ class RubiconPipeline(Pipeline):
             the experiment to log the score to. If no experiment is provided the score is logged to a new experiment with self.experiment_kwargs
         """
         score = super().score(X, y, sample_weight)
+
         if experiment is not None:
+            # fitted
             self.experiment = experiment
-        elif experiment is None:
-            experiment = self.project.log_experiment(**self.experiment_kwargs)
+        elif self.experiment is None:
+            # not fitted
+            self.experiment = self.project.log_experiment(**self.experiment_kwargs)
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
-
+        self.experiment = None
         return score
 
     def get_estimator_logger(self, step_name=None, estimator=None):
