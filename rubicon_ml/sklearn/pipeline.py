@@ -93,7 +93,7 @@ class RubiconPipeline(Pipeline):
         fit_params : dict, optional
             Additional keyword arguments to be passed to
             `sklearn.pipeline.Pipeline.fit()`.
-        experiment: None
+        experiment: rubicon_ml.experiment.client.Experiment, optional
             the experiment to log the to. If no experiment is provided the metrics are logged to a new experiment with self.experiment_kwargs
         """
         pipeline = super().fit(X, y, **fit_params)
@@ -127,7 +127,7 @@ class RubiconPipeline(Pipeline):
         sample_weight : list, optional
             If not None, this argument is passed as sample_weight keyword argument to the
             score method of the final estimator.
-        experiment: None
+        experiment: rubicon_ml.experiment.client.Experiment, optional
             the experiment to log the score to. If no experiment is provided the score is logged to a new experiment with self.experiment_kwargs
         """
         score = super().score(X, y, sample_weight)
