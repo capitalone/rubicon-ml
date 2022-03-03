@@ -236,6 +236,9 @@ def fake_estimator_cls():
         def fit(self):
             pass
 
+        def transform(self):
+            pass
+
     return FakeEstimator
 
 

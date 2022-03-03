@@ -1,5 +1,6 @@
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, _name_estimators
 
+from rubicon_ml.client.project import Project
 from rubicon_ml.sklearn.estimator_logger import EstimatorLogger
 from rubicon_ml.sklearn.utils import log_parameter_with_warning
 
@@ -26,9 +27,18 @@ class RubiconPipeline(Pipeline):
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
-    kwargs : dict
-        Additional keyword arguments to be passed to
-        `sklearn.pipeline.Pipeline()`.
+    memory : str or object with the joblib.Memory interface, default=None
+        Used to cache the fitted transformers of the pipeline. By default,
+        no caching is performed. If a string is given, it is the path to
+        the caching directory. Enabling caching triggers a clone of
+        the transformers before fitting. Therefore, the transformer
+        instance given to the pipeline cannot be inspected
+        directly. Use the attribute ``named_steps`` or ``steps`` to
+        inspect estimators within the pipeline. Caching the
+        transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)
+    verbose : bool, default=False
+        If True, the time elapsed while fitting each step will be printed as it
+        is completed. (docstring source: Scikit-Learn)
 
     Examples
     --------
@@ -53,7 +63,8 @@ class RubiconPipeline(Pipeline):
         steps,
         user_defined_loggers={},
         experiment_kwargs={"name": "RubiconPipeline experiment"},
-        **kwargs
+        memory=None,
+        verbose=False,
     ):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
@@ -61,7 +72,7 @@ class RubiconPipeline(Pipeline):
 
         self.experiment = None
 
-        super().__init__(steps, **kwargs)
+        super().__init__(steps, memory=memory, verbose=verbose)
 
     def fit(self, X, y=None, tags=None, log_fit_params=True, **fit_params):
         """Fit the model and automatically log the `fit_params`
@@ -158,3 +169,87 @@ class RubiconPipeline(Pipeline):
             logger.set_estimator(estimator)
 
         return logger
+
+
+def make_pipeline(
+    project,
+    *steps,
+    experiment_kwargs={"name": "RubiconPipeline experiment"},
+    memory=None,
+    verbose=False
+):
+    """Wrapper around RubicionPipeline(). Does not require naming for estimators. Their names are set to the lowercase strings of their types.
+
+    Parameters
+    ----------
+    project : rubicon.client.Project
+        The rubicon project to log to.
+    steps : list
+        List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
+        in the order in which they are chained, with the last object an estimator. (doc string source: Scikit-Learn)
+    experiment_kwargs : dict, optional
+        Additional keyword arguments to be passed to
+        `project.log_experiment()`.
+    memory : str or object with the joblib.Memory interface, default=None
+        Used to cache the fitted transformers of the pipeline. By default,
+        no caching is performed. If a string is given, it is the path to
+        the caching directory. Enabling caching triggers a clone of
+        the transformers before fitting. Therefore, the transformer
+        instance given to the pipeline cannot be inspected
+        directly. Use the attribute ``named_steps`` or ``steps`` to
+        inspect estimators within the pipeline. Caching the
+        transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)
+    verbose : bool, default=False
+        If True, the time elapsed while fitting each step will be printed as it
+        is completed. (docstring source: Scikit-Learn)
+
+    """
+    steps, loggers = _split_steps_loggers(steps)
+
+    steps = _name_estimators(steps)
+    user_defined_loggers = _name_loggers(steps, loggers)
+
+    if type(project) != Project:
+        raise ValueError(
+            "project" + str(project) + " must be of type rubicon_ml.client.project.Project"
+        )
+
+    return RubiconPipeline(project, steps, user_defined_loggers, experiment_kwargs, memory, verbose)
+
+
+def _split_steps_loggers(steps):
+    """
+    Parameters
+    ----------
+        steps: List of  estimator or tuples of (estimator,logger).
+    Returns
+    -------
+        Tuple of named estimators list and ordered loggers list
+    """
+    ret_loggers = []
+    ret_steps = []
+    for step in steps:
+        if isinstance(step, tuple):
+            ret_loggers.append(step[1])
+            ret_steps.append(step[0])
+        else:
+            ret_loggers.append(None)
+            ret_steps.append(step)
+    return ret_steps, ret_loggers
+
+
+def _name_loggers(steps, loggers):
+    """
+    Parameters
+    ----------
+        steps: List of  (name, estimator) tuples.
+        loggers: List of logger objects
+    Returns
+    -------
+        List of named logger (name, logger) tuples
+    """
+    named_loggers = {}
+    for i in range(len(steps)):
+        if loggers[i] is not None:
+            named_loggers[str(steps[i][0])] = loggers[i]
+    return named_loggers
