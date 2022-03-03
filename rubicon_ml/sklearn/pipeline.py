@@ -1,3 +1,4 @@
+from numpy import ndarray
 from sklearn.pipeline import Pipeline, _name_estimators
 
 from rubicon_ml.client.project import Project
@@ -145,13 +146,19 @@ class RubiconPipeline(Pipeline):
             If not None, this argument is passed as sample_weight keyword argument to the
             score method of the final estimator.
         """
+        print("hi")
         if experiment is None:
             experiment = self.project.log_experiment(**self.experiment_kwargs)
         self.experiment = experiment
+        score_samples = super().score_samples(X)
 
-        score_samples = super().score_samples(X).tolist()
+        if type(score_samples) is ndarray:
+            score_samples = super().score_samples(X).tolist()
+
         logger = self.get_estimator_logger()
         logger.log_metric("score_samples", score_samples)
+        # clear self.experiment and its not set for when a score is called
+        self.experiment = None
         return score_samples
 
     def get_estimator_logger(self, step_name=None, estimator=None):

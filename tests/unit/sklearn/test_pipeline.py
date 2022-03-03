@@ -153,3 +153,26 @@ def test_pipeline_memory_verbose(project_client, fake_estimator_cls):
     pipeline = RubiconPipeline(project, steps, {"est", user_defined_logger})
     assert pipeline.memory is None
     assert pipeline.verbose is False
+
+
+def test_score_samples(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
+
+    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+
+    with patch.object(Pipeline, "score_samples", return_value=[]):
+        with patch.object(EstimatorLogger, "log_metric", return_value=None) as mock_log_metric:
+            # first fit gets its own explicitly declared experiment
+            experiment = project.log_experiment(name="fake experiment")
+            pipeline.score_samples(["fake data"], experiment=experiment)
+            pipeline.score_samples(["additional fake data"])
+
+    experiments = project.experiments()
+    assert len(experiments) == 2
+    assert mock_log_metric._mock_call_count == 2
+
+    assert experiments[0].name == "fake experiment"
+    assert experiments[1].name == "RubiconPipeline experiment"
