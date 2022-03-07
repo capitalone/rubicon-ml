@@ -207,7 +207,7 @@ class MetricCorrelationPlot(VizBase):
             metric_correlation_plot = go.Figure(
                 go.Parcoords(
                     line={
-                        "color": metric_values,
+                        "color": [m for m in metric_values if m is not None],
                         "colorscale": get_rubicon_colorscale(len(experiment_records)),
                         "showscale": True,
                     },
