@@ -153,3 +153,22 @@ def test_pipeline_memory_verbose(project_client, fake_estimator_cls):
     pipeline = RubiconPipeline(project, steps, {"est", user_defined_logger})
     assert pipeline.memory is None
     assert pipeline.verbose is False
+
+
+def test_pipeline_slices(project_client, fake_estimator_cls):
+    project = project_client
+
+    steps = [
+        ("est", fake_estimator_cls()),
+        ("est1", fake_estimator_cls()),
+        ("est2", fake_estimator_cls()),
+    ]
+    cachedir = mkdtemp()
+    user_defined_logger = FilterEstimatorLogger()
+
+    pipeline = RubiconPipeline(project, steps, {"est", user_defined_logger}, memory=cachedir)
+    assert pipeline[1:].steps == steps[1:]
+    assert pipeline[:-1].steps == steps[:-1]
+    with raises(ValueError) as e:
+        pipeline[::-1]
+    assert "Pipeline slicing only supports a step of 1" == str(e.value)
