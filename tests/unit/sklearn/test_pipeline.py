@@ -80,6 +80,78 @@ def test_score_logs_metric(project_client, fake_estimator_cls):
     mock_log_metric.assert_called_once()
 
 
+def test_multiple_fit_multiple_scores(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
+    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+
+    with patch.object(Pipeline, "fit", return_value=None):
+        with patch.object(
+            FilterEstimatorLogger, "log_parameters", return_value=None
+        ) as mock_log_parameters:
+            pipeline.fit(["fake data"])
+            pipeline.fit("additional fake data")
+
+    assert mock_log_parameters._mock_call_count == 2
+    assert len(project.experiments()) == 2
+
+    with patch.object(Pipeline, "score", return_value=None):
+        with patch.object(EstimatorLogger, "log_metric", return_value=None) as mock_log_metric:
+            pipeline.score(["fake data"])
+            assert pipeline.experiment is None
+            pipeline.score(["additional fake data"])
+
+    assert mock_log_metric._mock_call_count == 2
+    assert len(project.experiments()) == 3
+
+
+def test_multiple_scores(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    pipeline = RubiconPipeline(project, steps)
+
+    with patch.object(Pipeline, "score", return_value=None) as mock_log_metric:
+        with patch.object(EstimatorLogger, "log_metric", return_value=None):
+            # first score gets its own explicitly declared experiment
+            experiment = project.log_experiment(name="fake experiment")
+            pipeline.score(["fake data"], experiment=experiment)
+            pipeline.score(["additional fake data"])
+
+    experiments = project.experiments()
+    assert len(experiments) == 2
+    assert mock_log_metric._mock_call_count == 2
+    assert experiments[0].name == "fake experiment"
+    assert experiments[1].name == "RubiconPipeline experiment"
+
+
+def test_multiple_fits(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
+
+    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+
+    with patch.object(Pipeline, "fit", return_value=None):
+        with patch.object(
+            FilterEstimatorLogger, "log_parameters", return_value=None
+        ) as mock_log_parameters:
+            # first fit gets its own explicitly declared experiment
+            experiment = project.log_experiment(name="fake experiment")
+            pipeline.fit(["fake data"], experiment=experiment)
+            pipeline.fit("additional fake data")
+
+    experiments = project.experiments()
+    assert len(experiments) == 2
+    assert mock_log_parameters._mock_call_count == 2
+
+    assert experiments[0].name == "fake experiment"
+    assert experiments[1].name == "RubiconPipeline experiment"
+
+
 def test_make_pipeline(project_client, fake_estimator_cls):
     project = project_client
     clf = fake_estimator_cls()
