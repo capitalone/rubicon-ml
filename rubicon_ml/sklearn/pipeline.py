@@ -148,20 +148,30 @@ class RubiconPipeline(Pipeline):
         return logger
 
     def __getitem__(self, ind):
-        """Returns a sub-pipeline or a single estimator in the pipeline
+        """
+        This method is based off of __getitem__ method in Sklearn.Pipeline however it returns a Rubicon Pipeline with the correct project, loggers, and
+        experiment params.
+        Parameters
+        ----------
+        ind: slice or index to obtain subset steps from the Rubicon pipeline.
+        Returns
+        -------
+        a sub-pipeline or a single estimator in the pipeline
         Indexing with an integer will return an estimator; using a slice
         returns another Pipeline instance which copies a slice of this
         Pipeline. This copy is shallow: modifying (or fitting) estimators in
         the sub-pipeline will affect the larger pipeline and vice-versa.
         However, replacing a value in `step` will not affect a copy.
+        (doc string source: Scikit-Learn)
         """
         if isinstance(ind, slice):
             if ind.step not in (1, None):
                 raise ValueError("Pipeline slicing only supports a step of 1")
+            user_defined_loggers_slice = self.__get_logger_slice__(self.steps[ind])
             return self.__class__(
                 self.project,
                 self.steps[ind],
-                self.user_defined_loggers,
+                user_defined_loggers_slice,
                 self.experiment_kwargs,
                 memory=self.memory,
                 verbose=self.verbose,
@@ -172,6 +182,14 @@ class RubiconPipeline(Pipeline):
             # Not an int, try get step by name
             return self.named_steps[ind]
         return est
+
+    def __get_logger_slice__(self, steps):
+        """Given a slice of estimators, returns the associated slice of loggers"""
+        user_defined_loggers_slice = {}
+        for name, _ in steps:
+            if name in self.user_defined_loggers:
+                user_defined_loggers_slice[name] = self.user_defined_loggers[name]
+        return user_defined_loggers_slice
 
 
 def make_pipeline(
