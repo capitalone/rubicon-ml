@@ -159,7 +159,12 @@ class RubiconPipeline(Pipeline):
             if ind.step not in (1, None):
                 raise ValueError("Pipeline slicing only supports a step of 1")
             return self.__class__(
-                self.project, self.steps[ind], memory=self.memory, verbose=self.verbose
+                self.project,
+                self.steps[ind],
+                self.user_defined_loggers,
+                self.experiment_kwargs,
+                memory=self.memory,
+                verbose=self.verbose,
             )
         try:
             _, est = self.steps[ind]
