@@ -1,0 +1,19 @@
+# This workflow runs edgetest on rubicon @ 17:30 UTC Fridays.
+# https://github.com/fdosani/run-edgetest-action
+
+name: Run edgetest
+on: [push]
+jobs:
+  edgetest:
+    runs-on: ubuntu-latest
+    name: running edgetest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - id: run-edgetest
+        uses: fdosani/run-edgetest-action@v1.1
+        with:
+          edgetest-flags: '-c setup.cfg --export'
+          base-branch: 'main'
+          skip-pr: 'false'
