@@ -1,4 +1,3 @@
-from numpy import ndarray
 from sklearn.pipeline import Pipeline, _name_estimators
 
 from rubicon_ml.client.project import Project
@@ -151,11 +150,12 @@ class RubiconPipeline(Pipeline):
         self.experiment = experiment
         score_samples = super().score_samples(X)
 
-        if type(score_samples) is ndarray:
-            score_samples = super().score_samples(X).tolist()
-
         logger = self.get_estimator_logger()
-        logger.log_metric("score_samples", score_samples)
+        try:
+            logger.log_metric("score_samples", score_samples)
+        except TypeError:
+            score_samples = score_samples.tolist()
+            logger.log_metric("score_samples", score_samples)
         # clear self.experiment and its not set for when a score is called
         self.experiment = None
         return score_samples
