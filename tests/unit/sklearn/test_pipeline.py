@@ -177,3 +177,23 @@ def test_pipeline_slices(project_client, fake_estimator_cls):
         pipeline[::-1]
 
     assert "Pipeline slicing only supports a step of 1" == str(e.value)
+
+
+def test_sklearn_pipeline_invalid_step_count(project_client, fake_estimator_cls):
+    project = project_client
+
+    steps = [
+        ("est", fake_estimator_cls()),
+        ("est1", fake_estimator_cls()),
+        ("est2", fake_estimator_cls()),
+    ]
+    cachedir = mkdtemp()
+    est_logger = FilterEstimatorLogger()
+    est1_logger = FilterEstimatorLogger
+    user_defined_loggers = {"est": est_logger, "est1": est1_logger}
+
+    pipeline = RubiconPipeline(project, steps, user_defined_loggers, memory=cachedir)
+    with raises(ValueError) as e:
+        pipeline[::-1]
+
+    assert "Pipeline slicing only supports a step of 1" == str(e.value)
