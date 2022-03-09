@@ -2,7 +2,9 @@
 # https://github.com/fdosani/run-edgetest-action
 
 name: Run edgetest
-on: [push]
+on:
+  schedule:
+    - cron: '30 17 * * 5'
 jobs:
   edgetest:
     runs-on: ubuntu-latest
