@@ -157,10 +157,14 @@ class RubiconPipeline(Pipeline):
             If not None, this argument is passed as sample_weight keyword argument to the
             score method of the final estimator.
         """
-        if experiment is None:
-            experiment = self.project.log_experiment(**self.experiment_kwargs)
-        self.experiment = experiment
         score_samples = super().score_samples(X)
+
+        if experiment is not None:
+            # fitted
+            self.experiment = experiment
+        elif self.experiment is None:
+            # not fitted
+            self.experiment = self.project.log_experiment(**self.experiment_kwargs)
 
         logger = self.get_estimator_logger()
         try:
