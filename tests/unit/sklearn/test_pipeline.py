@@ -269,3 +269,33 @@ def test_sklearn_pipeline_invalid_step_count(project_client, fake_estimator_cls)
         pipeline[::-1]
 
     assert "Pipeline slicing only supports a step of 1" == str(e.value)
+
+def test_score_samples(project_client, fake_estimator_cls):
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
+
+    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+
+    project = project_client
+    estimator = fake_estimator_cls()
+    steps = [("est", estimator)]
+    user_defined_logger = {"est": FilterEstimatorLogger(ignore_all=True)}
+    pipeline = RubiconPipeline(project, steps, user_defined_logger)
+
+    with patch.object(Pipeline, "fit", return_value=None):
+        with patch.object(FilterEstimatorLogger, "log_parameters", return_value=None):
+            pipeline.fit(["fake data"])
+    assert len(project.experiments()) == 1
+
+    with patch.object(Pipeline, "score_samples", return_value=None):
+        with patch.object(EstimatorLogger, "log_metric", return_value=None) as mock_log_metric:
+            pipeline.score_samples(["fake data"])
+            pipeline.score_samples(["additional fake data"])
+            experiment = project.log_experiment(name="fake experiment")
+            pipeline.score_samples(["additional fake data"], experiment=experiment)
+
+    assert mock_log_metric._mock_call_count == 3
+    assert len(project.experiments()) == 3
+    assert project.experiments()[2].name == "fake experiment"
