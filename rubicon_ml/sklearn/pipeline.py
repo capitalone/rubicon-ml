@@ -143,6 +143,39 @@ class RubiconPipeline(Pipeline):
         self.experiment = None
         return score
 
+    def score_samples(self, X, experiment=None):
+        """Score with the final estimator and automatically
+        log the results to Rubicon.
+
+        Parameters
+        ----------
+        X : iterable
+            Data to predict on. Must fulfill input requirements of first step of the pipeline.
+        y : iterable, optional
+            Targets used for scoring. Must fulfill label requirements for all steps of the pipeline.
+        sample_weight : list, optional
+            If not None, this argument is passed as sample_weight keyword argument to the
+            score method of the final estimator.
+        """
+        score_samples = super().score_samples(X)
+
+        if experiment is not None:
+            # fitted
+            self.experiment = experiment
+        elif self.experiment is None:
+            # not fitted
+            self.experiment = self.project.log_experiment(**self.experiment_kwargs)
+
+        logger = self.get_estimator_logger()
+        try:
+            logger.log_metric("score_samples", score_samples)
+        except TypeError:
+            score_samples = score_samples.tolist()
+            logger.log_metric("score_samples", score_samples)
+        # clear self.experiment and its not set for when a score is called
+        self.experiment = None
+        return score_samples
+
     def get_estimator_logger(self, step_name=None, estimator=None):
         """Get a logger for the estimator. By default, the logger will
         have the current experiment set.
