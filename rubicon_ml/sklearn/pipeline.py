@@ -143,6 +143,39 @@ class RubiconPipeline(Pipeline):
         self.experiment = None
         return score
 
+    def score_samples(self, X, experiment=None):
+        """Score with the final estimator and automatically
+        log the results to Rubicon.
+
+        Parameters
+        ----------
+        X : iterable
+            Data to predict on. Must fulfill input requirements of first step of the pipeline.
+        y : iterable, optional
+            Targets used for scoring. Must fulfill label requirements for all steps of the pipeline.
+        sample_weight : list, optional
+            If not None, this argument is passed as sample_weight keyword argument to the
+            score method of the final estimator.
+        """
+        score_samples = super().score_samples(X)
+
+        if experiment is not None:
+            # fitted
+            self.experiment = experiment
+        elif self.experiment is None:
+            # not fitted
+            self.experiment = self.project.log_experiment(**self.experiment_kwargs)
+
+        logger = self.get_estimator_logger()
+        try:
+            logger.log_metric("score_samples", score_samples)
+        except TypeError:
+            score_samples = score_samples.tolist()
+            logger.log_metric("score_samples", score_samples)
+        # clear self.experiment and its not set for when a score is called
+        self.experiment = None
+        return score_samples
+
     def get_estimator_logger(self, step_name=None, estimator=None):
         """Get a logger for the estimator. By default, the logger will
         have the current experiment set.
@@ -158,6 +191,50 @@ class RubiconPipeline(Pipeline):
             logger.set_estimator(estimator)
 
         return logger
+
+    def __getitem__(self, ind):
+        """
+        This method is based off of __getitem__ method in Sklearn.Pipeline however it returns a Rubicon Pipeline with the correct project, loggers, and
+        experiment params.
+        Parameters
+        ----------
+        ind: slice or index to obtain subset steps from the Rubicon pipeline.
+        Returns
+        -------
+        a sub-pipeline or a single estimator in the pipeline
+        Indexing with an integer will return an estimator; using a slice
+        returns another Pipeline instance which copies a slice of this
+        Pipeline. This copy is shallow: modifying (or fitting) estimators in
+        the sub-pipeline will affect the larger pipeline and vice-versa.
+        However, replacing a value in `step` will not affect a copy.
+        (doc string source: Scikit-Learn)
+        """
+        if isinstance(ind, slice):
+            if ind.step not in (1, None):
+                raise ValueError("Pipeline slicing only supports a step of 1")
+            user_defined_loggers_slice = self.__get_logger_slice__(self.steps[ind])
+            return self.__class__(
+                self.project,
+                self.steps[ind],
+                user_defined_loggers_slice,
+                self.experiment_kwargs,
+                memory=self.memory,
+                verbose=self.verbose,
+            )
+        try:
+            _, est = self.steps[ind]
+        except TypeError:
+            # Not an int, try get step by name
+            return self.named_steps[ind]
+        return est
+
+    def __get_logger_slice__(self, steps):
+        """Given a slice of estimators, returns the associated slice of loggers"""
+        user_defined_loggers_slice = {}
+        for name, _ in steps:
+            if name in self.user_defined_loggers:
+                user_defined_loggers_slice[name] = self.user_defined_loggers[name]
+        return user_defined_loggers_slice
 
 
 def make_pipeline(
