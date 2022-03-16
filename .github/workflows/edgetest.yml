@@ -1,10 +1,10 @@
-# This workflow runs edgetest on rubicon @ 17:30 UTC Fridays.
+# This workflow runs edgetest on rubicon @ At 10:00AM UTC on every day-of-week from Sunday through Thursday.
 # https://github.com/fdosani/run-edgetest-action
 
 name: Run edgetest
 on:
   schedule:
-    - cron: '30 17 * * 5'
+    - cron: '0 10 * * 0-4'
 jobs:
   edgetest:
     runs-on: ubuntu-latest
