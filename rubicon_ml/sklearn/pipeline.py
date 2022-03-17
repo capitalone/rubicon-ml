@@ -16,14 +16,15 @@ class RubiconPipeline(Pipeline):
 
     Parameters
     ----------
-    project : rubicon.client.Project
+    project : rubicon_ml.client.Project
         The rubicon project to log to.
     steps : list
-        List of (name, transform) tuples (implementing fit/transform) that are chained,
-        in the order in which they are chained, with the last object an estimator.
+        List of (name, transform) tuples (implementing fit/transform) that
+        are chained, in the order in which they are chained, with the last
+        object an estimator.
     user_defined_loggers : dict, optional
-        A dict mapping the estimator name to a corresponding user defined logger.
-        See the example below for more details.
+        A dict mapping the estimator name to a corresponding user defined
+        logger. See the example below for more details.
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
@@ -35,10 +36,11 @@ class RubiconPipeline(Pipeline):
         instance given to the pipeline cannot be inspected
         directly. Use the attribute ``named_steps`` or ``steps`` to
         inspect estimators within the pipeline. Caching the
-        transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)
+        transformers is advantageous when fitting is time consuming.
+        (docstring source: Scikit-Learn)
     verbose : bool, default=False
-        If True, the time elapsed while fitting each step will be printed as it
-        is completed. (docstring source: Scikit-Learn)
+        If True, the time elapsed while fitting each step will be printed as
+        it is completed. (docstring source: Scikit-Learn)
 
     Examples
     --------
@@ -50,9 +52,13 @@ class RubiconPipeline(Pipeline):
     ...         ("clf", SGDClassifier()),
     ...     ],
     ...     user_defined_loggers = {
-    ...         "vect": FilterEstimatorLogger(select=["input", "decode_error", "max_df"]),
+    ...         "vect": FilterEstimatorLogger(
+    ...             select=["input", "decode_error", "max_df"],
+    ...         ),
     ...         "tfidf": FilterEstimatorLogger(ignore_all=True),
-    ...         "clf": FilterEstimatorLogger(ignore=["alpha", "penalty"]),
+    ...         "clf": FilterEstimatorLogger(
+    ...             ignore=["alpha", "penalty"],
+    ...         ),
     ...     }
     ... )
     """
@@ -76,7 +82,7 @@ class RubiconPipeline(Pipeline):
 
     def fit(self, X, y=None, tags=None, log_fit_params=True, experiment=None, **fit_params):
         """Fit the model and automatically log the `fit_params`
-        to Rubicon. Optionally, pass `tags` to update the experiment's
+        to rubicon-ml. Optionally, pass `tags` to update the experiment's
         tags.
 
         Parameters
@@ -91,10 +97,15 @@ class RubiconPipeline(Pipeline):
             True to log the values passed as `fit_params` to this pipeline's experiment.
             Defaults to True.
         fit_params : dict, optional
-            Additional keyword arguments to be passed to
-            `sklearn.pipeline.Pipeline.fit()`.
+            Additional keyword arguments to be passed to `sklearn.pipeline.Pipeline.fit()`.
         experiment: rubicon_ml.experiment.client.Experiment, optional
-            the experiment to log the to. If no experiment is provided the metrics are logged to a new experiment with self.experiment_kwargs
+            The experiment to log the to. If no experiment is provided the metrics are
+            logged to a new experiment with self.experiment_kwargs.
+
+        Returns
+        -------
+        rubicon_ml.sklearn.Pipeline
+            This `RubiconPipeline`.
         """
         pipeline = super().fit(X, y, **fit_params)
 
@@ -116,7 +127,7 @@ class RubiconPipeline(Pipeline):
 
     def score(self, X, y=None, sample_weight=None, experiment=None):
         """Score with the final estimator and automatically
-        log the results to Rubicon.
+        log the results to rubicon-ml.
 
         Parameters
         ----------
@@ -128,42 +139,50 @@ class RubiconPipeline(Pipeline):
             If not None, this argument is passed as sample_weight keyword argument to the
             score method of the final estimator.
         experiment: rubicon_ml.experiment.client.Experiment, optional
-            the experiment to log the score to. If no experiment is provided the score is logged to a new experiment with self.experiment_kwargs
+            The experiment to log the score to. If no experiment is provided the score is logged
+            to a new experiment with self.experiment_kwargs.
+
+        Returns
+        -------
+        float
+            Result of calling `score` on the final estimator.
         """
         score = super().score(X, y, sample_weight)
 
         if experiment is not None:
-            # fitted
             self.experiment = experiment
         elif self.experiment is None:
-            # not fitted
             self.experiment = self.project.log_experiment(**self.experiment_kwargs)
+
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
+
         self.experiment = None
+
         return score
 
     def score_samples(self, X, experiment=None):
-        """Score with the final estimator and automatically
-        log the results to Rubicon.
+        """Score samples with the final estimator and automatically
+        log the results to rubicon-ml.
 
         Parameters
         ----------
         X : iterable
             Data to predict on. Must fulfill input requirements of first step of the pipeline.
-        y : iterable, optional
-            Targets used for scoring. Must fulfill label requirements for all steps of the pipeline.
-        sample_weight : list, optional
-            If not None, this argument is passed as sample_weight keyword argument to the
-            score method of the final estimator.
+        experiment: rubicon_ml.experiment.client.Experiment, optional
+            The experiment to log the score to. If no experiment is provided the score is logged
+            to a new experiment with self.experiment_kwargs.
+
+        Returns
+        -------
+        ndarray of shape (n_samples,)
+            Result of calling `score_samples` on the final estimator.
         """
         score_samples = super().score_samples(X)
 
         if experiment is not None:
-            # fitted
             self.experiment = experiment
         elif self.experiment is None:
-            # not fitted
             self.experiment = self.project.log_experiment(**self.experiment_kwargs)
 
         logger = self.get_estimator_logger()
@@ -171,9 +190,11 @@ class RubiconPipeline(Pipeline):
             logger.log_metric("score_samples", score_samples)
         except TypeError:
             score_samples = score_samples.tolist()
+
             logger.log_metric("score_samples", score_samples)
-        # clear self.experiment and its not set for when a score is called
+
         self.experiment = None
+
         return score_samples
 
     def get_estimator_logger(self, step_name=None, estimator=None):
@@ -193,26 +214,22 @@ class RubiconPipeline(Pipeline):
         return logger
 
     def __getitem__(self, ind):
-        """
-        This method is based off of __getitem__ method in Sklearn.Pipeline however it returns a Rubicon Pipeline with the correct project, loggers, and
-        experiment params.
-        Parameters
-        ----------
-        ind: slice or index to obtain subset steps from the Rubicon pipeline.
-        Returns
-        -------
-        a sub-pipeline or a single estimator in the pipeline
+        """Returns a sub-pipeline with the configured rubicon-ml loggers or
+        a single estimator in the pipeline.
+
         Indexing with an integer will return an estimator; using a slice
         returns another Pipeline instance which copies a slice of this
         Pipeline. This copy is shallow: modifying (or fitting) estimators in
         the sub-pipeline will affect the larger pipeline and vice-versa.
         However, replacing a value in `step` will not affect a copy.
-        (doc string source: Scikit-Learn)
+        (docstring source: Scikit-Learn)
         """
         if isinstance(ind, slice):
             if ind.step not in (1, None):
                 raise ValueError("Pipeline slicing only supports a step of 1")
-            user_defined_loggers_slice = self.__get_logger_slice__(self.steps[ind])
+
+            user_defined_loggers_slice = self._get_logger_slice(self.steps[ind])
+
             return self.__class__(
                 self.project,
                 self.steps[ind],
@@ -228,12 +245,14 @@ class RubiconPipeline(Pipeline):
             return self.named_steps[ind]
         return est
 
-    def __get_logger_slice__(self, steps):
-        """Given a slice of estimators, returns the associated slice of loggers"""
+    def _get_logger_slice(self, steps):
+        """Given a slice of estimators, returns the associated slice of loggers."""
         user_defined_loggers_slice = {}
+
         for name, _ in steps:
             if name in self.user_defined_loggers:
                 user_defined_loggers_slice[name] = self.user_defined_loggers[name]
+
         return user_defined_loggers_slice
 
 
@@ -244,15 +263,17 @@ def make_pipeline(
     memory=None,
     verbose=False
 ):
-    """Wrapper around RubicionPipeline(). Does not require naming for estimators. Their names are set to the lowercase strings of their types.
+    """Wrapper around RubicionPipeline(). Does not require naming for estimators.
+    Their names are set to the lowercase strings of their types.
 
     Parameters
     ----------
-    project : rubicon.client.Project
+    project : rubicon_ml.client.Project
         The rubicon project to log to.
     steps : list
-        List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
-        in the order in which they are chained, with the last object an estimator. (doc string source: Scikit-Learn)
+        List of  estimator objects or (estimator, logger) tuples (implementing
+        fit/transform) that are chained, in the order in which they are chained,
+        with the last object an estimator. (docstring source: Scikit-Learn)
     experiment_kwargs : dict, optional
         Additional keyword arguments to be passed to
         `project.log_experiment()`.
@@ -264,11 +285,16 @@ def make_pipeline(
         instance given to the pipeline cannot be inspected
         directly. Use the attribute ``named_steps`` or ``steps`` to
         inspect estimators within the pipeline. Caching the
-        transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)
+        transformers is advantageous when fitting is time consuming.
+        (docstring source: Scikit-Learn)
     verbose : bool, default=False
         If True, the time elapsed while fitting each step will be printed as it
         is completed. (docstring source: Scikit-Learn)
 
+    Returns
+    -------
+    rubicon_ml.sklearn.Pipeline
+        A `RubiconPipeline` with project `project` and steps `steps`.
     """
     steps, loggers = _split_steps_loggers(steps)
 
@@ -284,16 +310,23 @@ def make_pipeline(
 
 
 def _split_steps_loggers(steps):
-    """
+    """Splits the loggers and returns the estimators in the format
+    scikit-learn expects them.
+
     Parameters
     ----------
-        steps: List of  estimator or tuples of (estimator,logger).
+    steps: list of sklearn.Estimator or tuples of (sklearn.Estimator,
+    rubicon_ml.sklearn.EstimatorLogger).
+        The steps and estimator loggers to split.
+
     Returns
     -------
-        Tuple of named estimators list and ordered loggers list
+    list of sklearn.Estimator and list of rubicon_ml.sklearn.EstimatorLogger
+        The ordered lists of estimators and rubicon-ml loggers.
     """
     ret_loggers = []
     ret_steps = []
+
     for step in steps:
         if isinstance(step, tuple):
             ret_loggers.append(step[1])
@@ -301,21 +334,29 @@ def _split_steps_loggers(steps):
         else:
             ret_loggers.append(None)
             ret_steps.append(step)
+
     return ret_steps, ret_loggers
 
 
 def _name_loggers(steps, loggers):
-    """
+    """Names loggers in the format rubicon-ml expects them.
+
     Parameters
     ----------
-        steps: List of  (name, estimator) tuples.
-        loggers: List of logger objects
+    steps: list of tuples of (str, sklearn.Estimator)
+        The named estimator steps.
+    loggers: list of rubicon_ml.sklearn.EstimatorLogger
+        The rubicon-ml loggers.
+
     Returns
     -------
-        List of named logger (name, logger) tuples
+    dict of str, rubicon_ml.sklearn.EstimatorLogger
+        The named rubicon-ml loggers.
     """
     named_loggers = {}
+
     for i in range(len(steps)):
         if loggers[i] is not None:
             named_loggers[str(steps[i][0])] = loggers[i]
+
     return named_loggers

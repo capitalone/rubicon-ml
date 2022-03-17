@@ -1,11 +1,13 @@
 # rubicon-ml
 
-[![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
-[![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=binder%2Fwelcome.ipynb)
 [![Test Package](https://github.com/capitalone/rubicon-ml/actions/workflows/test-package.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/test-package.yml)
 [![Publish Package](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-package.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-package.yml)
 [![Publish Docs](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-docs.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/publish-docs.yml)
+[![edgetest](https://github.com/capitalone/rubicon-ml/actions/workflows/edgetest.yml/badge.svg)](https://github.com/capitalone/rubicon-ml/actions/workflows/edgetest.yml)
+
+[![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
+[![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=binder%2Fwelcome.ipynb)
 
 ## Purpose
 
