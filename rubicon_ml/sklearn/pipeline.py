@@ -228,7 +228,7 @@ class RubiconPipeline(Pipeline):
             if ind.step not in (1, None):
                 raise ValueError("Pipeline slicing only supports a step of 1")
 
-            user_defined_loggers_slice = self.__get_logger_slice__(self.steps[ind])
+            user_defined_loggers_slice = self._get_logger_slice(self.steps[ind])
 
             return self.__class__(
                 self.project,
