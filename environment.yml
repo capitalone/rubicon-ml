@@ -49,3 +49,7 @@ dependencies:
   # for packaging
   - setuptools
   - wheel
+
+  # for edgetest
+  - edgetest
+  - edgetest-conda

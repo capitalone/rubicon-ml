@@ -13,6 +13,8 @@ docs/source/**/data
 **/rubicon-root/
 **/.ipynb_checkpoints/
 **/.vscode/**
+**/.idea/**
+**/.edgetest/**
 build/**
 dist/**
 

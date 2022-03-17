@@ -1,0 +1,21 @@
+# This workflow runs edgetest on rubicon @ At 10:00AM UTC on every day-of-week from Sunday through Thursday.
+# https://github.com/fdosani/run-edgetest-action
+
+name: Run edgetest
+on:
+  schedule:
+    - cron: '0 10 * * 0-4'
+jobs:
+  edgetest:
+    runs-on: ubuntu-latest
+    name: running edgetest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - id: run-edgetest
+        uses: fdosani/run-edgetest-action@v1.1
+        with:
+          edgetest-flags: '-c setup.cfg --export'
+          base-branch: 'main'
+          skip-pr: 'false'
