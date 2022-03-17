@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.4.0, furo 2022.03.04"/>
-        <title>Library Reference - rubicon-ml v0.3.3</title>
+        <title>Library Reference - rubicon-ml v0.3.4</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=935aa2abcc5c1da4283d1dc201fb1f0add16d23a" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.3</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +150,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.3</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -1727,13 +1727,14 @@ estimators.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>project</strong><span class="classifier">rubicon.client.Project</span></dt><dd><p>The rubicon project to log to.</p>
+<dt><strong>project</strong><span class="classifier">rubicon_ml.client.Project</span></dt><dd><p>The rubicon project to log to.</p>
 </dd>
-<dt><strong>steps</strong><span class="classifier">list</span></dt><dd><p>List of (name, transform) tuples (implementing fit/transform) that are chained,
-in the order in which they are chained, with the last object an estimator.</p>
+<dt><strong>steps</strong><span class="classifier">list</span></dt><dd><p>List of (name, transform) tuples (implementing fit/transform) that
+are chained, in the order in which they are chained, with the last
+object an estimator.</p>
 </dd>
-<dt><strong>user_defined_loggers</strong><span class="classifier">dict, optional</span></dt><dd><p>A dict mapping the estimator name to a corresponding user defined logger.
-See the example below for more details.</p>
+<dt><strong>user_defined_loggers</strong><span class="classifier">dict, optional</span></dt><dd><p>A dict mapping the estimator name to a corresponding user defined
+logger. See the example below for more details.</p>
 </dd>
 <dt><strong>experiment_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments to be passed to
 <cite>project.log_experiment()</cite>.</p>
@@ -1745,10 +1746,11 @@ the transformers before fitting. Therefore, the transformer
 instance given to the pipeline cannot be inspected
 directly. Use the attribute <code class="docutils literal notranslate"><span class="pre">named_steps</span></code> or <code class="docutils literal notranslate"><span class="pre">steps</span></code> to
 inspect estimators within the pipeline. Caching the
-transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)</p>
+transformers is advantageous when fitting is time consuming.
+(docstring source: Scikit-Learn)</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">bool, default=False</span></dt><dd><p>If True, the time elapsed while fitting each step will be printed as it
-is completed. (docstring source: Scikit-Learn)</p>
+<dt><strong>verbose</strong><span class="classifier">bool, default=False</span></dt><dd><p>If True, the time elapsed while fitting each step will be printed as
+it is completed. (docstring source: Scikit-Learn)</p>
 </dd>
 </dl>
 </dd>
@@ -1762,9 +1764,13 @@ is completed. (docstring source: Scikit-Learn)</p>
 <span class="gp">... </span>        <span class="p">(</span><span class="s2">"clf"</span><span class="p">,</span> <span class="n">SGDClassifier</span><span class="p">()),</span>
 <span class="gp">... </span>    <span class="p">],</span>
 <span class="gp">... </span>    <span class="n">user_defined_loggers</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span>        <span class="s2">"vect"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"decode_error"</span><span class="p">,</span> <span class="s2">"max_df"</span><span class="p">]),</span>
+<span class="gp">... </span>        <span class="s2">"vect"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"decode_error"</span><span class="p">,</span> <span class="s2">"max_df"</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">),</span>
 <span class="gp">... </span>        <span class="s2">"tfidf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">ignore_all</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="s2">"clf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"penalty"</span><span class="p">]),</span>
+<span class="gp">... </span>        <span class="s2">"clf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"penalty"</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">),</span>
 <span class="gp">... </span>    <span class="p">}</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
@@ -1773,7 +1779,7 @@ is completed. (docstring source: Scikit-Learn)</p>
 <dt class="sig sig-object py" id="rubicon_ml.sklearn.RubiconPipeline.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_fit_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fit_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline.fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Fit the model and automatically log the <cite>fit_params</cite>
-to Rubicon. Optionally, pass <cite>tags</cite> to update the experiment’s
+to rubicon-ml. Optionally, pass <cite>tags</cite> to update the experiment’s
 tags.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1787,10 +1793,16 @@ tags.</p>
 <dt><strong>log_fit_params</strong><span class="classifier">bool, optional</span></dt><dd><p>True to log the values passed as <cite>fit_params</cite> to this pipeline’s experiment.
 Defaults to True.</p>
 </dd>
-<dt><strong>fit_params</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments to be passed to
-<cite>sklearn.pipeline.Pipeline.fit()</cite>.</p>
+<dt><strong>fit_params</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments to be passed to <cite>sklearn.pipeline.Pipeline.fit()</cite>.</p>
 </dd>
-<dt><strong>experiment: rubicon_ml.experiment.client.Experiment, optional</strong></dt><dd><p>the experiment to log the to. If no experiment is provided the metrics are logged to a new experiment with self.experiment_kwargs</p>
+<dt><strong>experiment: rubicon_ml.experiment.client.Experiment, optional</strong></dt><dd><p>The experiment to log the to. If no experiment is provided the metrics are
+logged to a new experiment with self.experiment_kwargs.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon_ml.sklearn.Pipeline</dt><dd><p>This <cite>RubiconPipeline</cite>.</p>
 </dd>
 </dl>
 </dd>
@@ -1806,7 +1818,7 @@ have the current experiment set.</p>
 <dt class="sig sig-object py" id="rubicon_ml.sklearn.RubiconPipeline.score">
 <span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline.score" title="Permalink to this definition">#</a></dt>
 <dd><p>Score with the final estimator and automatically
-log the results to Rubicon.</p>
+log the results to rubicon-ml.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1817,7 +1829,14 @@ log the results to Rubicon.</p>
 <dt><strong>sample_weight</strong><span class="classifier">list, optional</span></dt><dd><p>If not None, this argument is passed as sample_weight keyword argument to the
 score method of the final estimator.</p>
 </dd>
-<dt><strong>experiment: rubicon_ml.experiment.client.Experiment, optional</strong></dt><dd><p>the experiment to log the score to. If no experiment is provided the score is logged to a new experiment with self.experiment_kwargs</p>
+<dt><strong>experiment: rubicon_ml.experiment.client.Experiment, optional</strong></dt><dd><p>The experiment to log the score to. If no experiment is provided the score is logged
+to a new experiment with self.experiment_kwargs.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>float</dt><dd><p>Result of calling <cite>score</cite> on the final estimator.</p>
 </dd>
 </dl>
 </dd>
@@ -1826,17 +1845,21 @@ score method of the final estimator.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.sklearn.RubiconPipeline.score_samples">
 <span class="sig-name descname"><span class="pre">score_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.RubiconPipeline.score_samples" title="Permalink to this definition">#</a></dt>
-<dd><p>Score with the final estimator and automatically
-log the results to Rubicon.</p>
+<dd><p>Score samples with the final estimator and automatically
+log the results to rubicon-ml.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Data to predict on. Must fulfill input requirements of first step of the pipeline.</p>
 </dd>
-<dt><strong>y</strong><span class="classifier">iterable, optional</span></dt><dd><p>Targets used for scoring. Must fulfill label requirements for all steps of the pipeline.</p>
+<dt><strong>experiment: rubicon_ml.experiment.client.Experiment, optional</strong></dt><dd><p>The experiment to log the score to. If no experiment is provided the score is logged
+to a new experiment with self.experiment_kwargs.</p>
 </dd>
-<dt><strong>sample_weight</strong><span class="classifier">list, optional</span></dt><dd><p>If not None, this argument is passed as sample_weight keyword argument to the
-score method of the final estimator.</p>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray of shape (n_samples,)</dt><dd><p>Result of calling <cite>score_samples</cite> on the final estimator.</p>
 </dd>
 </dl>
 </dd>
@@ -1873,14 +1896,16 @@ to ignore by not logging. The other parameters will be logged.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.sklearn.pipeline.make_pipeline">
 <span class="sig-prename descclassname"><span class="pre">rubicon_ml.sklearn.pipeline.</span></span><span class="sig-name descname"><span class="pre">make_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'name':</span> <span class="pre">'RubiconPipeline</span> <span class="pre">experiment'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.sklearn.pipeline.make_pipeline" title="Permalink to this definition">#</a></dt>
-<dd><p>Wrapper around RubicionPipeline(). Does not require naming for estimators. Their names are set to the lowercase strings of their types.</p>
+<dd><p>Wrapper around RubicionPipeline(). Does not require naming for estimators.
+Their names are set to the lowercase strings of their types.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>project</strong><span class="classifier">rubicon.client.Project</span></dt><dd><p>The rubicon project to log to.</p>
+<dt><strong>project</strong><span class="classifier">rubicon_ml.client.Project</span></dt><dd><p>The rubicon project to log to.</p>
 </dd>
-<dt><strong>steps</strong><span class="classifier">list</span></dt><dd><p>List of  estimator objects or (estimator, logger) tuples (implementing fit/transform) that are chained,
-in the order in which they are chained, with the last object an estimator. (doc string source: Scikit-Learn)</p>
+<dt><strong>steps</strong><span class="classifier">list</span></dt><dd><p>List of  estimator objects or (estimator, logger) tuples (implementing
+fit/transform) that are chained, in the order in which they are chained,
+with the last object an estimator. (docstring source: Scikit-Learn)</p>
 </dd>
 <dt><strong>experiment_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments to be passed to
 <cite>project.log_experiment()</cite>.</p>
@@ -1892,10 +1917,17 @@ the transformers before fitting. Therefore, the transformer
 instance given to the pipeline cannot be inspected
 directly. Use the attribute <code class="docutils literal notranslate"><span class="pre">named_steps</span></code> or <code class="docutils literal notranslate"><span class="pre">steps</span></code> to
 inspect estimators within the pipeline. Caching the
-transformers is advantageous when fitting is time consuming. (docstring source: Scikit-Learn)</p>
+transformers is advantageous when fitting is time consuming.
+(docstring source: Scikit-Learn)</p>
 </dd>
 <dt><strong>verbose</strong><span class="classifier">bool, default=False</span></dt><dd><p>If True, the time elapsed while fitting each step will be printed as it
 is completed. (docstring source: Scikit-Learn)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon_ml.sklearn.Pipeline</dt><dd><p>A <cite>RubiconPipeline</cite> with project <cite>project</cite> and steps <cite>steps</cite>.</p>
 </dd>
 </dl>
 </dd>
