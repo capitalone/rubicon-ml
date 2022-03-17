@@ -22,6 +22,9 @@ Alternatively:
 
     pip install rubicon-ml
 
+.. warning::
+    rubicon-ml version 0.3.0+ requires Python version 3.8+
+
 Extras
 ======
 
