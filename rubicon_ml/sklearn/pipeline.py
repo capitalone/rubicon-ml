@@ -157,6 +157,7 @@ class RubiconPipeline(Pipeline):
         logger = self.get_estimator_logger()
         logger.log_metric("score", score)
 
+        # clear `self.experiment` to avoid duplicate metric logging errors
         self.experiment = None
 
         return score
@@ -193,6 +194,7 @@ class RubiconPipeline(Pipeline):
 
             logger.log_metric("score_samples", score_samples)
 
+        # clear `self.experiment` to avoid duplicate metric logging errors
         self.experiment = None
 
         return score_samples
