@@ -205,8 +205,8 @@ class ExperimentsTable(VizBase):
         return html.Div(
             [
                 *header_row,
-                dcc.Loading(experiment_table, color=light_blue),
                 publish_modal,
+                dcc.Loading(experiment_table, color=light_blue),
             ],
         )
 
