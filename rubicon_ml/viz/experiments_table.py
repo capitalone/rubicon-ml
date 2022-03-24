@@ -156,7 +156,7 @@ class ExperimentsTable(VizBase):
                 ),
                 dbc.ModalBody(
                     [
-                        dbc.Label("catalog YAML output path"),
+                        dbc.Label("enter catalog YAML output path:"),
                         dbc.Input(
                             id="publish-path-input",
                             type="text",
@@ -169,6 +169,7 @@ class ExperimentsTable(VizBase):
             id="publish-modal",
             centered=True,
             is_open=False,
+            size="lg",
         )
 
         if self.is_selectable:
