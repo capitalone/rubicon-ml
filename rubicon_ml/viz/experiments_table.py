@@ -20,10 +20,10 @@ class ExperimentsTable(VizBase):
         attribute after instantiation.
     is_selectable : bool, optional
         True to enable selection of the rows in the table, False otherwise.
-        Defaults to False.
+        Defaults to True.
     """
 
-    def __init__(self, experiments=None, is_selectable=False):
+    def __init__(self, experiments=None, is_selectable=True):
         super().__init__(dash_title="experiment table")
 
         self.experiments = experiments
