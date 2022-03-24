@@ -39,17 +39,19 @@ def test_experiments_table_layout(viz_experiments):
     experiments_table.load_experiment_data()
     layout = experiments_table.layout
 
-    assert len(layout.children) == 2
+    assert len(layout.children) == 4
     assert layout.children[-1].children.id == "experiment-table"
+    assert layout.children[-2].id == "publish-modal"
 
 
-def test_experiments_table_layout_selectable(viz_experiments):
-    experiments_table = ExperimentsTable(experiments=viz_experiments, is_selectable=True)
+def test_experiments_table_layout_not_selectable(viz_experiments):
+    experiments_table = ExperimentsTable(experiments=viz_experiments, is_selectable=False)
     experiments_table.load_experiment_data()
     layout = experiments_table.layout
 
     assert len(layout.children) == 3
     assert layout.children[-1].children.id == "experiment-table"
+    assert layout.children[-2].id == "publish-modal"
 
 
 def test_experiments_table_register_callbacks(viz_experiments):
@@ -59,10 +61,11 @@ def test_experiments_table_register_callbacks(viz_experiments):
 
     callback_values = list(experiments_table.app.callback_map.values())
 
-    assert len(callback_values) == 3
+    assert len(callback_values) == 4
 
     registered_callback_names = [callback["callback"].__name__ for callback in callback_values]
 
     assert "update_selected_column_checkboxes" in registered_callback_names
     assert "update_hidden_experiment_table_cols" in registered_callback_names
     assert "update_selected_experiment_table_rows" in registered_callback_names
+    assert "toggle_publish_modal" in registered_callback_names
