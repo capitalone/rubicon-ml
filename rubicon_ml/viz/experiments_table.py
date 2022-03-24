@@ -1,7 +1,10 @@
+import os
+
 import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
 from dash.dependencies import ALL, Input, Output, State
 
+from rubicon_ml import publish
 from rubicon_ml.viz.base import VizBase
 from rubicon_ml.viz.common.colors import light_blue, plot_background_blue
 
@@ -46,6 +49,16 @@ class ExperimentsTable(VizBase):
                     color="primary",
                     disabled=not self.is_selectable,
                     id="clear-all-button",
+                    outline=True,
+                ),
+                className="bulk-select-button-container",
+            ),
+            html.Div(
+                dbc.Button(
+                    "publish selected",
+                    color="primary",
+                    disabled=not self.is_selectable,
+                    id="publish-selected-button",
                     outline=True,
                 ),
                 className="bulk-select-button-container",
@@ -135,6 +148,29 @@ class ExperimentsTable(VizBase):
             label="toggle columns",
         )
 
+        publish_modal = dbc.Modal(
+            [
+                dbc.ModalHeader(
+                    dbc.ModalTitle("publish selected experiments"),
+                    close_button=True,
+                ),
+                dbc.ModalBody(
+                    [
+                        dbc.Label("catalog YAML output path"),
+                        dbc.Input(
+                            id="publish-path-input",
+                            type="text",
+                            value=os.path.join(os.getcwd(), "rubicon-ml-catalog.yml"),
+                        ),
+                    ],
+                ),
+                dbc.ModalFooter(dbc.Button("publish", id="publish-button")),
+            ],
+            id="publish-modal",
+            centered=True,
+            is_open=False,
+        )
+
         if self.is_selectable:
             header_row = [
                 html.Div(
@@ -170,6 +206,7 @@ class ExperimentsTable(VizBase):
             [
                 *header_row,
                 dcc.Loading(experiment_table, color=light_blue),
+                publish_modal,
             ],
         )
 
@@ -314,3 +351,43 @@ class ExperimentsTable(VizBase):
                 return experiment_table_indices
 
             return []
+
+        @self.app.callback(
+            Output("publish-modal", "is_open"),
+            [
+                Input("publish-selected-button", "n_clicks_timestamp"),
+                Input("publish-button", "n_clicks_timestamp"),
+            ],
+            [
+                State("publish-modal", "is_open"),
+                State("publish-path-input", "value"),
+                State("experiment-table", "derived_virtual_selected_rows"),
+                State("experiment-table", "derived_virtual_data"),
+            ],
+        )
+        def toggle_publish_modal(
+            last_publish_selected_click,
+            last_publish_click,
+            is_modal_open,
+            publish_path,
+            selected_rows,
+            data,
+        ):
+            last_publish_selected_click = (
+                last_publish_selected_click if last_publish_selected_click else 0
+            )
+            last_publish_click = last_publish_click if last_publish_click else 0
+
+            if last_publish_selected_click > last_publish_click:
+                return True
+            elif last_publish_click > last_publish_selected_click:
+                selected_experiment_ids = [data[row].get("id") for row in selected_rows]
+                selected_experiments = [
+                    e for e in self.experiments if e.id in selected_experiment_ids
+                ]
+
+                publish(selected_experiments, publish_path)
+
+                return False
+
+            return is_modal_open
