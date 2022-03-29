@@ -5,7 +5,7 @@ dependencies:
   - python>=3.8
   - pip
 
-  - click<8.1,>=7.1
+  - click>=7.1
   - dask>=2.12.0
   - pandas>=1.0
   - fsspec>=2021.4.0
@@ -22,6 +22,7 @@ dependencies:
 
   # for dataframe visualization
   - hvplot
+  - panel=0.12.7
 
   # for UI (including testing)
   - beautifulsoup4>=4.8.2
