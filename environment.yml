@@ -53,3 +53,6 @@ dependencies:
   # for edgetest
   - edgetest
   - edgetest-conda
+
+  - pip:
+    - panel==0.12.7

@@ -52,6 +52,7 @@ def test_notebook_is_executed_in_order(notebook_filename):
 IGNORE_EXECUTE_NOTEBOOK_FILENAMES = [
     "integration-prefect-workflows.ipynb",
     "logging-asynchronously.ipynb",
+    "classification.ipynb",
 ]
 EXECUTE_NOTEBOOK_FILENAMES = [
     n for n in NOTEBOOK_FILENAMES if os.path.split(n)[-1] not in IGNORE_EXECUTE_NOTEBOOK_FILENAMES
