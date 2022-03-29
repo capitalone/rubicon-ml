@@ -22,7 +22,6 @@ dependencies:
 
   # for dataframe visualization
   - hvplot
-  - panel=0.12.7
 
   # for UI (including testing)
   - beautifulsoup4>=4.8.2
@@ -54,3 +53,6 @@ dependencies:
   # for edgetest
   - edgetest
   - edgetest-conda
+
+  - pip:
+    - panel==0.12.7
