@@ -51,13 +51,13 @@ A **feature** is an input to an **experiment** (model run) that's an independent
 measurable property of a phenomenon being observed. It affects the model's predictions.
 
 For example, consider a model that predicts how likely a customer is to pay back a loan.
-Possible **features** could be ``age`` or ``credit score``.
+Possible **features** could be ``year`` or ``credit score``.
 
 A **feature** is logged to an **experiment**.
 
 .. code-block:: python
 
-  experiment.log_feature("age", importance=0.125)
+  experiment.log_feature("year", importance=0.125)
   experiment.log_feature("credit score", importance=0.250)
 
 Metric (:ref:`rubicon_ml.Metric<library-reference-metric>`)
