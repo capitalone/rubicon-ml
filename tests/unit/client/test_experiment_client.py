@@ -80,7 +80,7 @@ def test_log_feature(project_client):
     experiment = project.log_experiment(name="exp1")
 
     experiment.log_feature("year")
-    
+
     assert "year" in [f.name for f in experiment.features()]
     [print(f.name) for f in experiment.features()]
 
