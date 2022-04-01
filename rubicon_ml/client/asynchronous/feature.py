@@ -10,7 +10,7 @@ class Feature(SyncFeature):
 
     For example, consider a model that predicts how likely a
     customer is to pay back a loan. Possible features could be
-    'age', 'credit score', etc.
+    'year', 'credit score', etc.
 
     A `feature` is logged to an `experiment`.
 
