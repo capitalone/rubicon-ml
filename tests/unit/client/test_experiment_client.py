@@ -79,41 +79,41 @@ def test_log_feature(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
 
-    experiment.log_feature("age")
+    experiment.log_feature("year")
 
-    assert "age" in [f.name for f in experiment.features()]
+    assert "year" in [f.name for f in experiment.features()]
 
 
 def test_get_features(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
-    experiment.log_feature("age")
+    experiment.log_feature("year")
     experiment.log_feature("credit score")
 
     features = experiment.features()
 
     assert len(features) == 2
-    assert features[0].name == "age"
+    assert features[0].name == "year"
     assert features[1].name == "credit score"
 
 
 def test_get_feature_by_name(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
-    experiment.log_feature("age")
+    experiment.log_feature("year")
 
-    feature = experiment.feature(name="age").name
-    assert feature == "age"
+    feature = experiment.feature(name="year").name
+    assert feature == "year"
 
 
 def test_get_feature_by_id(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
-    experiment.log_feature("age")
-    feature_id = experiment.feature("age").id
+    experiment.log_feature("year")
+    feature_id = experiment.feature("year").id
 
     feature = experiment.feature(id=feature_id).name
-    assert feature == "age"
+    assert feature == "year"
 
 
 def test_log_parameter(project_client):
