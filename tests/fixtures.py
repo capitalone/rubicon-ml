@@ -159,7 +159,7 @@ def rubicon_and_project_client_with_experiments(rubicon_and_project_client):
             training_metadata=("training", "metadata"),
         )
         experiment.log_parameter("n_estimators", e + 1)
-        experiment.log_feature("age")
+        experiment.log_feature("year")
         experiment.log_metric("accuracy", (80 + e))
 
     return (rubicon, project)
