@@ -25,11 +25,11 @@ def log_rubicon(path):
     rubicon = Rubicon(persistence="filesystem", root_dir=path)
     project = get_or_create_project(rubicon, project_name)
     experiment_a = project.log_experiment(name="experiment_a", tags=["model-a", "y"])
-    experiment_a.log_feature("age")
+    experiment_a.log_feature("year")
     experiment_a.log_feature("credit score")
 
     experiment_b = project.log_experiment(name="experiment_b", tags=["model-b", "y"])
-    experiment_b.log_feature("age")
+    experiment_b.log_feature("year")
     experiment_b.log_feature("credit score")
 
     experiment_a.log_parameter("random state", 13243546)
