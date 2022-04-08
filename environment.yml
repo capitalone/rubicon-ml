@@ -41,5 +41,5 @@ dependencies:
   - wheel
 
   # for edgetest
-  # - edgetest
-  # - edgetest-conda
+  - edgetest
+  - edgetest-conda
