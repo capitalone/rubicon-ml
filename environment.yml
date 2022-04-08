@@ -32,7 +32,7 @@ dependencies:
   - pytest-cov
 
   # for example notebooks
-  - jupyter
+  - ipykernel
   - nbconvert
 
   # for versioning
@@ -45,3 +45,6 @@ dependencies:
   # for edgetest
   - edgetest
   - edgetest-conda
+
+  # for whitesource
+  - numpy>=1.22.0
