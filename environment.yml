@@ -27,13 +27,11 @@ dependencies:
   # for testing
   - black
   - flake8
+  - ipykernel
   - isort
+  - nbconvert
   - pytest
   - pytest-cov
-
-  # for example notebooks
-  - ipykernel
-  - nbconvert
 
   # for versioning
   - versioneer
@@ -43,8 +41,5 @@ dependencies:
   - wheel
 
   # for edgetest
-  - edgetest
-  - edgetest-conda
-
-  # for whitesource
-  - numpy>=1.22.0
+  # - edgetest
+  # - edgetest-conda
