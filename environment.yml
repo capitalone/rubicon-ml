@@ -32,10 +32,8 @@ dependencies:
   - pytest-cov
 
   # for example notebooks
-  - jupyterlab
-  - nodejs
+  - jupyter
   - nbconvert
-  - nbformat
 
   # for versioning
   - versioneer
