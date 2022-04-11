@@ -39,6 +39,7 @@ class Dataframe(Base, TagMixin):
         ----------
         df_type : str, optional
             The type of dataframe. Can be either `pandas` or `dask`.
+            Defaults to 'pandas'.
         """
         project_name, experiment_id = self.parent._get_parent_identifiers()
 
@@ -51,39 +52,44 @@ class Dataframe(Base, TagMixin):
 
         return self._data
 
-    def plot(self, df_type="pandas", **kwargs):
-        """Render the dataframe using `hvplot`.
+    def plot(self, df_type="pandas", plotting_func=None, **kwargs):
+        """Render the dataframe using `plotly.express`.
 
         Parameters
         ----------
         df_type : str, optional
             The type of dataframe. Can be either `pandas` or `dask`.
-        kwargs : dict
-            Additional keyword arguments to be passed along to the
-            `hvplot` function.
-
-        Notes
-        -----
-        For usage, visit: https://hvplot.holoviz.org/user_guide/Plotting.html
-        For customizations, visit:
-        https://hvplot.holoviz.org/user_guide/Customization.html
+            Defaults to 'pandas'.
+        plotting_func : function, optional
+            The `plotly.express` plotting function used to visualize the
+            dataframes. Available options can be found at
+            https://plotly.com/python-api-reference/plotly.express.html.
+            Defaults to `plotly.express.line`.
+        kwargs : dict, optional
+            Keyword arguments to be passed to `plotting_func`. Available options
+            can be found in the documentation of the individual functions at the
+            URL above.
 
         Examples
         --------
         >>> # Log a line plot
-        >>> dataframe.plot(kind='line', x='Year', y='Number of Subscriptions')
+        >>> dataframe.plot(x='Year', y='Number of Subscriptions')
+
+        >>> # Log a bar plot
+        >>> import plotly.express as px
+        >>> dataframe.plot(plotting_func=px.bar, x='Year', y='Number of Subscriptions')
         """
         try:
-            if df_type == "pandas":
-                import hvplot.pandas  # noqa F401
-            else:
-                import hvplot.dask  # noqa F401
+            import plotly.express as px
+
+            if plotting_func is None:
+                plotting_func = px.line
         except ImportError:
             raise RubiconException(
-                "`hvplot` is required for plotting. Install with `pip install hvplot`."
+                "`ui` extras are required for plotting. Install with `pip install rubicon-ml[ui]`."
             )
 
-        return self.get_data(df_type=df_type).hvplot(**kwargs)
+        return plotting_func(self.get_data(df_type=df_type), **kwargs)
 
     @property
     def id(self):

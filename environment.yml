@@ -5,43 +5,33 @@ dependencies:
   - python>=3.8
   - pip
 
-  - click>=7.1
-  - dask>=2.12.0
-  - pandas>=1.0
-  - fsspec>=2021.4.0
-  - intake>=0.5.2
-  - pyarrow>=0.18.0
-  - pyyaml>=5.4.0
-  - s3fs>=0.4
+  - click<=8.1.2,>=7.1
+  - dask[dataframe]<=2022.4.0,>=2.12.0
+  - fsspec<=2022.3.0,>=2021.4.0
+  - intake[dataframe]<=0.6.5,>=0.5.2
+  - pandas<=1.4.2,>=1.0.0
+  - pyarrow<=7.0.0,>=0.18.0
+  - PyYAML<=6.0,>=5.4.0
+  - s3fs<=2022.3.0,>=0.4
 
   # for prefect workflows
-  - prefect>=0.12.0
+  - prefect<=1.1.0,>=0.12.0
+
+  # for viz
+  - dash<=2.3.1,>=2.0.0
+  - dash-bootstrap-components<=1.1.0,>=1.0.0
 
   # for scikit-learn integration
   - scikit-learn
 
-  # for dataframe visualization
-  - hvplot
-
-  # for UI (including testing)
-  - beautifulsoup4>=4.8.2
-  - dash>=2.0.0
-  - dash-bootstrap-components>=1.0.0
-  - percy>=2.0.2
-  - selenium>=3.141.0
-
   # for testing
   - black
   - flake8
+  - ipykernel
   - isort
+  - nbconvert
   - pytest
   - pytest-cov
-
-  # for example notebooks
-  - jupyterlab
-  - nodejs
-  - nbconvert
-  - nbformat
 
   # for versioning
   - versioneer
@@ -53,6 +43,3 @@ dependencies:
   # for edgetest
   - edgetest
   - edgetest-conda
-
-  - pip:
-    - panel==0.12.7

@@ -27,18 +27,13 @@ pre-build:
 	mkdir -p ./source/visualizations
 
 	cp ../notebooks/quick-look.ipynb ./source
-	cp ../notebooks/logging-examples/logging-basics.ipynb ./source/logging-examples
-	cp ../notebooks/logging-examples/logging-asynchronously.ipynb ./source/logging-examples
-	cp ../notebooks/logging-examples/logging-concurrently.ipynb ./source/logging-examples
-	cp ../notebooks/logging-examples/logging-training-metadata.ipynb ./source/logging-examples
-	cp ../notebooks/logging-examples/visualizing-logged-dataframes.ipynb ./source/logging-examples
-	cp ../notebooks/integrations/integration-git.ipynb ./source/integrations
-	cp ../notebooks/integrations/integration-prefect-workflows.ipynb ./source/integrations
-	cp ../notebooks/integrations/integration-sklearn.ipynb ./source/integrations
+	cp ../notebooks/logging-examples/*.ipynb ./source/logging-examples
+	cp ../notebooks/integrations/*.ipynb ./source/integrations
 	cp ../notebooks/viz/*.ipynb ./source/visualizations
 
 	cp ../notebooks/quick-look-dashboard.png ./source
-	cp ../notebooks/integrations/integration-git-dashboard.png ./source/integrations
+	cp ../notebooks/logging-examples/*.png ./source/logging-examples
+	cp ../notebooks/integrations/*.png ./source/integrations
 	cp ../notebooks/viz/*.png ./source/visualizations
 
 # Run the Sphinx command to build the docs as html.

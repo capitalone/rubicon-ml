@@ -8,8 +8,5 @@ dependencies:
   - jupyterlab
   - rubicon-ml
 
-  # for dataframe visualization examples
-  - hvplot
-
   # for scikit-learn examples
   - scikit-learn
