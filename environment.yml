@@ -15,7 +15,7 @@ dependencies:
   - s3fs<=2022.3.0,>=0.4
 
   # for prefect workflows
-  - prefect<=1.1.0,>=0.12.0
+  - prefect<=1.2.0,>=0.12.0
 
   # for viz
   - dash<=2.3.1,>=2.0.0
