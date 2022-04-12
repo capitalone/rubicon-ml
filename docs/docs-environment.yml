@@ -2,7 +2,8 @@ name: rubicon-ml-docs
 channels:
   - conda-forge
 dependencies:
-  - python=3.9
+  - python>=3.8
+  - pip
 
   # for building the docs
   - black
@@ -14,12 +15,15 @@ dependencies:
   - sphinx-copybutton
   - kaleido
 
-  # only install necessary rubicon-ml dependencies
-  - dash>=2.0.0
-  - dash-bootstrap-components>=1.0.0
-  - dask>=2.12.0
-  - pandas>=1.0
-  - fsspec>=2021.4.0
-  - intake>=0.5.2
-  - prefect>=0.12.0
+  # install rubicon-ml dependencies
+  # so local pip install doesn't
+  - dash<=2.3.1,>=2.0.0
+  - dash-bootstrap-components<=1.1.0,>=1.0.0
+  - dask[dataframe]<=2022.4.0,>=2.12.0
+  - fsspec<=2022.3.0,>=2021.4.0
+  - intake[dataframe]<=0.6.5,>=0.5.2
+  - pandas<=1.4.2,>=1.0.0
+  - prefect<=1.2.0,>=0.12.0
+  - pyarrow<=7.0.0,>=0.18.0
+  - PyYAML<=6.0,>=5.4.0
   - scikit-learn
