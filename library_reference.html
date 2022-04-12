@@ -5,12 +5,12 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.03.04"/>
-        <title>Library Reference - rubicon-ml v0.3.5</title>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+        <title>Library Reference - rubicon-ml v0.3.6</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=935aa2abcc5c1da4283d1dc201fb1f0add16d23a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
     
@@ -38,10 +38,12 @@
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -123,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.5</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.5</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -1356,7 +1358,7 @@ that’s an independent, measurable property of a phenomenon
 being observed. It affects the model’s predictions.</p>
 <p>For example, consider a model that predicts how likely a
 customer is to pay back a loan. Possible features could be
-‘age’, ‘credit score’, etc.</p>
+‘year’, ‘credit score’, etc.</p>
 <p>A <cite>feature</cite> is logged to an <cite>experiment</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1507,7 +1509,8 @@ into a <cite>pandas</cite> or <cite>dask</cite> dataframe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.</p>
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.
+Defaults to ‘pandas’.</p>
 </dd>
 </dl>
 </dd>
@@ -1530,26 +1533,34 @@ into a <cite>pandas</cite> or <cite>dask</cite> dataframe.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pandas'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe.plot" title="Permalink to this definition">#</a></dt>
-<dd><p>Render the dataframe using <cite>hvplot</cite>.</p>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pandas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe.plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Render the dataframe using <cite>plotly.express</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.</p>
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.
+Defaults to ‘pandas’.</p>
 </dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed along to the
-<cite>hvplot</cite> function.</p>
+<dt><strong>plotting_func</strong><span class="classifier">function, optional</span></dt><dd><p>The <cite>plotly.express</cite> plotting function used to visualize the
+dataframes. Available options can be found at
+<a class="reference external" href="https://plotly.com/python-api-reference/plotly.express.html">https://plotly.com/python-api-reference/plotly.express.html</a>.
+Defaults to <cite>plotly.express.line</cite>.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed to <cite>plotting_func</cite>. Available options
+can be found in the documentation of the individual functions at the
+URL above.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>For usage, visit: <a class="reference external" href="https://hvplot.holoviz.org/user_guide/Plotting.html">https://hvplot.holoviz.org/user_guide/Plotting.html</a>
-For customizations, visit:
-<a class="reference external" href="https://hvplot.holoviz.org/user_guide/Customization.html">https://hvplot.holoviz.org/user_guide/Customization.html</a></p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Log a line plot</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'line'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'Year'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Number of Subscriptions'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Year'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Number of Subscriptions'</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Log a bar plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plotting_func</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'Year'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Number of Subscriptions'</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
