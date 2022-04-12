@@ -1,16 +1,16 @@
 repos:
     -   repo: https://github.com/psf/black
-        rev: 21.5b0
+        rev: 22.3.0
         hooks:
         - id: black
           exclude: (versioneer.py|_version.py)
     
     -   repo: https://github.com/timothycrosley/isort
-        rev: 5.8.0
+        rev: 5.10.1
         hooks:
         - id: isort
     
     - repo: https://gitlab.com/pycqa/flake8
-      rev: 3.9.1
+      rev: 3.9.2
       hooks:
           - id: flake8
