@@ -12,7 +12,6 @@ dependencies:
   - numpydoc
   - sphinx
   - sphinx-copybutton
-  - kaleido
 
   # only install necessary rubicon-ml dependencies
   - dash>=2.0.0
