@@ -13,8 +13,8 @@ Basics
 
    logging-examples/logging-basics
    logging-examples/logging-training-metadata
-   logging-examples/logging-feature-plots
    logging-examples/visualizing-logged-dataframes
+   logging-examples/logging-feature-plots
 
 Advanced
 --------
