@@ -8,6 +8,7 @@ dependencies:
   - jupyterlab
   - rubicon-ml
   - python-kaleido
+  - shap
 
   # for scikit-learn examples
   - scikit-learn
