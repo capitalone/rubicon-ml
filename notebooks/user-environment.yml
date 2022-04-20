@@ -9,6 +9,7 @@ dependencies:
   - rubicon-ml
   - python-kaleido
   - shap
+  - numba=0.55.0
 
   # for scikit-learn examples
   - scikit-learn
