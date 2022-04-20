@@ -10,6 +10,7 @@ dependencies:
   - python-kaleido
   - shap
   - numba=0.55.0
+  - matplotlib
 
   # for scikit-learn examples
   - scikit-learn
