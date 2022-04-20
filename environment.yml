@@ -35,6 +35,7 @@ dependencies:
   - python-kaleido
   - shap
   - numba=0.55.0
+  - matplotlib
   
   # for versioning
   - versioneer
