@@ -32,7 +32,8 @@ dependencies:
   - nbconvert
   - pytest
   - pytest-cov
-
+  - python-kaleido
+  
   # for versioning
   - versioneer
 

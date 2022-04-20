@@ -13,6 +13,7 @@ dependencies:
   - numpydoc
   - sphinx
   - sphinx-copybutton
+  - python-kaleido
 
   # install rubicon-ml dependencies
   # so local pip install doesn't

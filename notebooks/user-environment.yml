@@ -7,4 +7,7 @@ dependencies:
 
   - jupyterlab
   - rubicon-ml
+  - python-kaleido
+
+  # for scikit-learn examples
   - scikit-learn
