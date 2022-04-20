@@ -33,6 +33,7 @@ dependencies:
   - pytest
   - pytest-cov
   - python-kaleido
+  - shap
   
   # for versioning
   - versioneer
