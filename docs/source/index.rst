@@ -48,11 +48,44 @@ context necessary for a complete model review and approval.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Getting Started:
-
+   :caption: How to guides
+   
+   install.rst
    quick-look
    glossary.rst
-   install.rst
+   basic_logging.rst
+
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Tutorials
+
+   library_reference.rst
+   adbanced_logging.rst
+   integrations.rst
+   visualizations.rst
+
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Reference
+
+   library_reference.rst
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Explanation
+
+   library_reference.rst
+   examples.rst
+   integrations.rst
+   visualizations.rst
+   faqs.rst
+
+
 
 .. toctree::
    :maxdepth: 2

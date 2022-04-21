@@ -42,6 +42,8 @@ build-docs:
 
 # Manually update underscore-js to deal with Whitesource vulnerability.
 # I have no idea where the original dependency is coming from.
+open:
+	open ./build/html/index.html
 post-build:
 	rm -f ./build/html/_static/underscore*.js
 	cp ./source/_static/underscore.js ./build/html/_static/underscore.js
