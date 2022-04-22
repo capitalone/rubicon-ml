@@ -1,5 +1,5 @@
-Advanced
-********
+Advanced Logging
+****************
 
 .. toctree::
    :maxdepth: 1

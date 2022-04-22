@@ -48,7 +48,7 @@ context necessary for a complete model review and approval.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: How to guides
+   :caption: Tutorials
    
    install.rst
    quick-look
@@ -59,12 +59,12 @@ context necessary for a complete model review and approval.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Tutorials
+   :caption: How to Guides
 
-   library_reference.rst
-   adbanced_logging.rst
+   advanced_logging.rst
    integrations.rst
-   visualizations.rst
+   contributing.rst
+
 
 
 .. toctree::
@@ -73,39 +73,23 @@ context necessary for a complete model review and approval.
    :caption: Reference
 
    library_reference.rst
+   visualizations.rst
+
 
 .. toctree::
    :maxdepth: 2
    :hidden:
    :caption: Explanation
 
-   library_reference.rst
-   examples.rst
-   integrations.rst
-   visualizations.rst
    faqs.rst
-
-
-
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-   :caption: User Guide:
-
-   library_reference.rst
-   examples.rst
-   integrations.rst
-   visualizations.rst
-   faqs.rst
+   Feedback<https://github.com/capitalone/rubicon-ml/issues/new/choose>
 
 .. toctree::
    :maxdepth: 2
    :hidden:
    :caption: Community:
 
-   contributing.rst
    Changelog<https://github.com/capitalone/rubicon-ml/releases>
-   Feedback<https://github.com/capitalone/rubicon-ml/issues/new/choose>
    GitHub<https://github.com/capitalone/rubicon-ml>
 
 .. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
