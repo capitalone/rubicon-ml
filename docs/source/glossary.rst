@@ -1,10 +1,10 @@
 .. _glossary:
 
-Glossary
-********
+The Building Blocks
+*******************
 
-Project (:ref:`rubicon_ml.Project<library-reference-project>`)
-==============================================================
+1. Creating a Project (:ref:`rubicon_ml.Project<library-reference-project>`)
+============================================================================
 
 A **project** is a collection of **experiments**, **dataframes**, and **artifacts**
 identified by a unique name.
