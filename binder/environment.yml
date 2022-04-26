@@ -8,3 +8,4 @@ dependencies:
   - jupyter-server-proxy
   - rubicon-ml
   - scikit-learn
+  - python-kaleido
