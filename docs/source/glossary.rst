@@ -3,7 +3,7 @@
 The Building Blocks
 *******************
 
-1. Creating a Project (:ref:`rubicon_ml.Project<library-reference-project>`)
+Project (:ref:`rubicon_ml.Project<library-reference-project>`)
 ============================================================================
 
 A **project** is a collection of **experiments**, **dataframes**, and **artifacts**
@@ -14,7 +14,9 @@ identified by a unique name.
   from rubicon_ml import Rubicon
 
   rubicon = Rubicon(persistence="memory")
-  project = rubicon.create_project(name="Glossary")
+  project = rubicon.create_project(name="Building Blocks")
+
+Now that we have a project, we can begin logging important information to our project. 
 
 Experiment (:ref:`rubicon_ml.Experiment<library-reference-experiment>`)
 =======================================================================
@@ -38,7 +40,6 @@ of model being used. It affects the model's predictions.
 For example, if you were using a random forest classifier, ``n_estimators`` (the number
 of trees in the forest) could be a **parameter**.
 
-A **parameter** is logged to an **experiment**.
 
 .. code-block:: python
 
@@ -93,7 +94,7 @@ A **dataframe** is logged to a **project** or an **experiment**.
       [[5, 0, 0], [0, 5, 1], [0, 0, 4]],
       columns=["x", "y", "z"],
   )
-  experiment.log_dataframe(confusion_matrix)
+  dataframe=experiment.log_dataframe(confusion_matrix)
 
 Artifact (:ref:`rubicon_ml.Artifact<library-reference-artifact>`)
 =================================================================
@@ -108,4 +109,10 @@ An **artifact** is logged to a **project** or an **experiment**.
 
 .. code-block:: python
 
-  experiment.log_artifact(data_path="path/to/data.pkl")
+  plot = dataframe.plot("bar")
+  plot=plot.to_image(format="png")
+  experiment.log_artifact(name="bar",data_bytes=plot)
+
+Conclusion
+==========
+Congrats! You have now completed the building blocks of logging with **Rubicon_ml**. First we created a project to **project** to collect all our information. Then we made an **experiment** to log our current model run infomation. Then we logged **parameter**, **feature**, **metric**, **dataframe** and **artifact** information from our current model run to that **experiment**. Now that we've taken a look at the building blocks of logging, please take a look at the logging examples up next. 

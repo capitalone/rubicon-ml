@@ -1,5 +1,5 @@
-Basic Loggings
-**************
+Basic Logging
+*************
 
 .. toctree::
    :maxdepth: 1

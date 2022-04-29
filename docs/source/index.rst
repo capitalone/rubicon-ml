@@ -64,6 +64,7 @@ context necessary for a complete model review and approval.
    advanced_logging.rst
    integrations.rst
    contributing.rst
+   visualization_widgets.rst
 
 
 

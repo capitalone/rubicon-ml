@@ -23,13 +23,10 @@ extra work, they could be deployed to a static URL using Docker.
 Available Widgets
 =================
 
-.. toctree::
-   :maxdepth: 1
-
-   visualizations/dataframe-plot
-   visualizations/experiments-table
-   visualizations/metric-correlation-plot
-   visualizations/metric-lists-comparisons
+* `Dataframe Plot`_
+* `Experiments Table`_
+* `Metric Correlation Plot`_
+* `Metric Lists Comparisons`_ 
 
 Dashboarding
 ============
@@ -37,10 +34,7 @@ Dashboarding
 The widgets detailed in the examples above can also be compiled into an
 interactive dashboard.
 
-.. toctree::
-   :maxdepth: 1
-
-   visualizations/dashboard
+Check out the `Dashboard`_ tutorial here!
 
 Basic Usage
 ===========
@@ -100,3 +94,9 @@ Use the ``--help`` flag for full usage details:
 .. code-block:: shell
 
   rubicon_ml ui --help
+
+.. _Dataframe Plot: ./visualizations/dataframe-plot.html
+.. _Experiments Table:   ./visualizations/experiments-table.html
+.. _Metric Correlation Plot:   ./visualizations/metric-correlation-plot.html
+.. _Metric Lists Comparisons:  ./visualizations/metric-lists-comparisons.html
+.. _Dashboard: ./visualizations/dashboard.html
