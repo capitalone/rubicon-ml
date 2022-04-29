@@ -126,19 +126,7 @@ If you've got any more specific questions feel free to ask! It's also been a bit
 Is Rubicon_ml's dashboard compatible with Docker?
 =================================================
 
-
-Hi! The rubicon-ml dashboard is just a `Dash app <https://plotly.com/dash/>`_, so it can be dockerized the same way as any other Dash app. Here's a blog post I've found useful for doing so before, but anything out there on dockerizing Dash apps should be helpful
-
-https://towardsdatascience.com/dockerize-your-dash-app-1e155dd1cea3
-
-You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard's dash_options
-
-https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard
-
-or kwargs to run_server
-
-https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard.run_server
-
-We are also exploring new dashboard functionality for rubicon-ml, but the dashboard will continue to be a Dash app, so all of this should still hold true. We plan on a big update to the documentation when we release the new dashboard functionality, so I'll be sure to include a section (or at least links) on dockerizing the dashboard
+The rubicon-ml dashboard is just a `Dash app <https://plotly.com/dash/>`_, so it can be dockerized the same way as any other Dash app. 
+You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard's `dash_options <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard>`_ or `kwargs` to `run_server <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard.run_server>`.
 
 
