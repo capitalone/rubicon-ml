@@ -6,3 +6,4 @@ Advanced Logging
 
    logging-examples/logging-asynchronously
    logging-examples/logging-concurrently
+   logging-examples/logging-experiment-failures
