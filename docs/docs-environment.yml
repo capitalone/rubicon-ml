@@ -14,6 +14,10 @@ dependencies:
   - sphinx
   - sphinx-copybutton
   - python-kaleido
+  - shap
+  - numba>=0.55.0
+  - matplotlib
+
 
   # install rubicon-ml dependencies
   # so local pip install doesn't

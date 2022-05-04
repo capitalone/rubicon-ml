@@ -33,6 +33,9 @@ dependencies:
   - pytest
   - pytest-cov
   - python-kaleido
+  - shap
+  - numba>=0.55.0
+  - matplotlib
   
   # for versioning
   - versioneer
