@@ -108,23 +108,23 @@ could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.
 
 
-How does Rubicon compare to MLFlow?
-===================================
+How does rubicon_ml compare to MLFlow?
+======================================
 At the highest level, rubicon-ml isn't trying to do as much as MLFlow. rubicon-ml is simply a logging library (with some visualizations), while MLFlow is a full model lifecycle management tool. rubicon-ml is designed to be lightweight and not prescribe a full model lifecycle pattern, but instead assist users in enhancing whatever pattern they've already established.
 
 Architecturally, rubicon-ml does not require a hosted server for remote logging like the MLFlow tracking server. rubicon-ml uses `fsspec <https://github.com/fsspec/filesystem_spec>`_ to provide a bring-your-own-backend interface where users can log rubicon-ml data to any arbitrary local or S3 filesystem, as well as directly in-memory for experimentation purposes. If the need arose, it should also be trivial to implement any of the other backends that fsspec supports:
 
 * https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations
-* https://filesystem-spec.readthedocs.io/en/latest/api.html#other-known-implementation
+* https://filesystem-spec.readthedocs.io/en/latest/api.html#other-known-implementations
 
-That being said, rubicon's logging capabilities do have some overlap with the MLFlow Tracking part of their service. Largely, both libraries are logging the same information, albeit in different ways.
+That being said, rubicon-ml's logging capabilities do have some overlap with the MLFlow Tracking part of their service. Largely, both libraries are logging the same information, albeit in different ways.
 
-Like MLFlow, rubicon-ml also aims to offer integrations with commonly used tools, such as `Scikit-learn <https://capitalone.github.io/rubicon-ml/integrations/integration-sklearn.html>`_. Again, rubicon-ml tries to be less prescriptive in these integrations. For example, `MLFlow says exactly what it will log <https://mlflow.org/docs/latest/tracking.html#scikit-learn-experimental>`_  when using with Scikit-learn. rubicon-ml has a set of defaults that are logged to each estimator, but also `supports user-defined loggers <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.sklearn.RubiconPipeline>`_ for any estimator, like the built-in `FilterEstimatorLogger <https://github.com/capitalone/rubicon-ml/blob/main/rubicon_ml/sklearn/filter_estimator_logger.py>`_.
+Like MLFlow, rubicon-ml also aims to offer integrations with commonly used tools, such as `Scikit-learn <https://capitalone.github.io/rubicon-ml/integrations/integration-sklearn.html>`_. Again, rubicon-ml tries to be less prescriptive in these integrations. For example, `MLFlow says exactly what it will log <https://mlflow.org/docs/latest/tracking.html#scikit-learn>`_  when using with Scikit-learn. rubicon-ml has a set of defaults that are logged to each estimator, but also `supports user-defined loggers <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.sklearn.RubiconPipeline>`_ for any estimator, like the built-in `FilterEstimatorLogger <https://github.com/capitalone/rubicon-ml/blob/main/rubicon_ml/sklearn/filter_estimator_logger.py>`_.
 
-Is Rubicon_ml's dashboard compatible with Docker?
+Is rubicon_ml's dashboard compatible with Docker?
 =================================================
 
 The rubicon-ml dashboard is just a `Dash app <https://plotly.com/dash/>`_, so it can be dockerized the same way as any other Dash app. 
-You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard's `dash_options <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard>`_ or `kwargs` to `run_server <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard.run_server>`_.
+You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard's `dash_options <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard>`_ or ``kwargs`` to `run_server <https://capitalone.github.io/rubicon-ml/library_reference.html#rubicon_ml.ui.Dashboard.run_server>`_.
 
 
