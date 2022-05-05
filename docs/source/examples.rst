@@ -15,6 +15,7 @@ Basics
    logging-examples/logging-training-metadata
    logging-examples/visualizing-logged-dataframes
    logging-examples/logging-plots
+   logging-examples/logging-feature-plots
 
 Advanced
 --------

@@ -5,8 +5,8 @@ dependencies:
   - python>=3.8
   - pip
 
-  - click<=8.1.2,>=7.1
-  - dask[dataframe]<=2022.4.0,>=2.12.0
+  - click<=8.1.3,>=7.1
+  - dask[dataframe]<=2022.5.0,>=2.12.0
   - fsspec<=2022.3.0,>=2021.4.0
   - intake[dataframe]<=0.6.5,>=0.5.2
   - pandas<=1.4.2,>=1.0.0
@@ -15,7 +15,7 @@ dependencies:
   - s3fs<=2022.3.0,>=0.4
 
   # for prefect workflows
-  - prefect<=1.2.0,>=0.12.0
+  - prefect<=1.2.1,>=0.12.0
 
   # for viz
   - dash<=2.3.1,>=2.0.0
@@ -33,6 +33,9 @@ dependencies:
   - pytest
   - pytest-cov
   - python-kaleido
+  - shap
+  - numba>=0.55.0
+  - matplotlib
   
   # for versioning
   - versioneer
