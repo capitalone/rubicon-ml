@@ -18,7 +18,7 @@ dependencies:
   - prefect<=1.2.1,>=0.12.0
 
   # for viz
-  - dash<=2.3.1,>=2.0.0
+  - dash<=2.4.1,>=2.0.0
   - dash-bootstrap-components<=1.1.0,>=1.0.0
 
   # for scikit-learn integration
