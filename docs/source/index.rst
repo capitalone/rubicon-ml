@@ -1,7 +1,6 @@
 .. _rubicon:
 
-Purpose
-=======
+|
 
 rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
@@ -45,30 +44,95 @@ When the model is ready for review, rubicon-ml makes it easy to share specific
 subsets of the data with model reviewers and stakeholders, giving them the
 context necessary for a complete model review and approval.
 
+.. _install:
+
+Install
+=======
+
+rubicon-ml is available to install via ``conda`` and ``pip``. When using ``conda``,
+make sure to set the channel to ``conda-forge``. You should only need to do this once:
+
+.. code-block:: console
+
+    conda config --add channels conda-forge
+
+then...
+
+.. code-block:: console
+
+    conda install rubicon-ml
+
+Alternatively:
+
+.. code-block:: console
+
+    pip install rubicon-ml
+
+.. warning::
+    rubicon-ml version 0.3.0+ requires Python version 3.8+
+
+Extras
+******
+
+rubicon-ml has a few optional extras if you're installing with ``pip`` (these extras are all
+installed by default when using ``conda``).
+
+The ``ui`` extra installs the requirements necessary for using the visualization tools.
+For a preview, take a look at the :ref:`Visualizations<Visualizations>` section of the docs.
+
+.. code-block:: console
+
+    pip install rubicon-ml[ui]
+
+The ``prefect`` extra installs the requirements necessary for using the `Prefect <https://prefect.io>`_
+tasks in the ``rubicon_ml.workflow`` module. Take a look at the Prefect integration :ref:`example<integrations>`
+to see the library integrated into a simple Prefect flow.
+
+.. code-block:: console
+
+    pip install rubicon-ml[prefect]
+
+To install all extra modules, use the ``all`` extra.
+
+.. code-block:: console
+
+    pip install rubicon-ml[all]
+
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Getting Started:
+   :caption: Tutorials
 
    quick-look
-   glossary.rst
-   install.rst
+   examples.rst
+   visualizations.rst
 
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: User Guide:
+   :caption: How to Guides
 
-   library_reference.rst
-   examples.rst
    integrations.rst
-   visualizations.rst
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Explanation
+
+   glossary.rst
    faqs.rst
 
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Community:
+   :caption: Reference
+
+   library_reference.rst
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Community
 
    contributing.rst
    Changelog<https://github.com/capitalone/rubicon-ml/releases>
