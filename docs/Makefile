@@ -6,7 +6,7 @@ SPHINXBUILD   = sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
-.PHONY: help clean pre-build build-docs post-build html
+.PHONY: help clean pre-build build-docs post-build html open
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -49,3 +49,6 @@ post-build:
 	$(info open with 'open ./build/html/index.html')
 
 html: clean pre-build build-docs post-build
+
+open:
+	open ./build/html/index.html

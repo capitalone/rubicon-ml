@@ -1,7 +1,7 @@
-.. _library-reference:
+.. _api-reference:
 
-Library Reference
-*****************
+API Reference
+*************
 
 Rubicon
 =======
