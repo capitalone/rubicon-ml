@@ -1,6 +1,7 @@
 .. _rubicon:
 
-|
+Welcome to the ``rubicon-ml`` Docs!
+***********************************
 
 rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
@@ -72,7 +73,7 @@ Alternatively:
     rubicon-ml version 0.3.0+ requires Python version 3.8+
 
 Extras
-******
+------
 
 rubicon-ml has a few optional extras if you're installing with ``pip`` (these extras are all
 installed by default when using ``conda``).
@@ -85,7 +86,7 @@ For a preview, take a look at the :ref:`Visualizations<Visualizations>` section 
     pip install rubicon-ml[ui]
 
 The ``prefect`` extra installs the requirements necessary for using the `Prefect <https://prefect.io>`_
-tasks in the ``rubicon_ml.workflow`` module. Take a look at the Prefect integration :ref:`example<integrations>`
+tasks in the ``rubicon_ml.workflow`` module. Take a look at the `Prefect integration`_
 to see the library integrated into a simple Prefect flow.
 
 .. code-block:: console
@@ -104,15 +105,24 @@ To install all extra modules, use the ``all`` extra.
    :caption: Tutorials
 
    quick-look
-   examples.rst
+   logging-examples/logging-basics
+   logging-examples/logging-training-metadata
+   logging-examples/logging-plots
+   logging-examples/logging-asynchronously
+   logging-examples/logging-concurrently
    visualizations.rst
 
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: How to Guides
+   :caption: How to...
 
-   integrations.rst
+   logging-examples/logging-experiment-failures
+   integrations/integration-git
+   integrations/integration-prefect-workflows
+   integrations/integration-sklearn
+   logging-examples/logging-feature-plots
+   logging-examples/visualizing-logged-dataframes
 
 .. toctree::
    :maxdepth: 2
@@ -127,7 +137,7 @@ To install all extra modules, use the ``all`` extra.
    :hidden:
    :caption: Reference
 
-   library_reference.rst
+   api_reference.rst
 
 .. toctree::
    :maxdepth: 2
@@ -143,3 +153,4 @@ To install all extra modules, use the ``all`` extra.
 .. _dash: https://dash.plotly.com/
 .. _intake: https://intake.readthedocs.io/en/latest/
 .. _Quick Look: ./quick-look.html
+.. _Prefect integration: ./integrations/integration-prefect-workflows.html
