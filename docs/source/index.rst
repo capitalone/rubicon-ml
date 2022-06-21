@@ -1,7 +1,7 @@
 .. _rubicon:
 
-Welcome to the ``rubicon-ml`` Docs!
-***********************************
+Welcome to the rubicon-ml Docs!
+*******************************
 
 rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
@@ -102,10 +102,17 @@ To install all extra modules, use the ``all`` extra.
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :caption: Quick Look
+
+   quick-look/logging-experiments
+   quick-look/sharing-experiments
+   quick-look/visualizing-experiments
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
    :caption: Tutorials
 
-   quick-look
-   logging-examples/logging-basics
    logging-examples/logging-training-metadata
    logging-examples/logging-plots
    logging-examples/logging-asynchronously
