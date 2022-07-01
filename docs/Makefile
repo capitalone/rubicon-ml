@@ -28,13 +28,11 @@ pre-build:
 	mkdir -p ./source/integrations
 	mkdir -p ./source/visualizations
 
-	cp ../notebooks/quick-look.ipynb ./source
 	cp ../notebooks/quick-look/*.ipynb ./source/quick-look
 	cp ../notebooks/logging-examples/*.ipynb ./source/logging-examples
 	cp ../notebooks/integrations/*.ipynb ./source/integrations
 	cp ../notebooks/viz/*.ipynb ./source/visualizations
 
-	cp ../notebooks/quick-look-dashboard.png ./source
 	cp ../notebooks/quick-look/*.png ./source/quick-look
 	cp ../notebooks/logging-examples/*.png ./source/logging-examples
 	cp ../notebooks/integrations/*.png ./source/integrations
