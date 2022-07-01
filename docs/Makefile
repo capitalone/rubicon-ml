@@ -35,6 +35,7 @@ pre-build:
 	cp ../notebooks/viz/*.ipynb ./source/visualizations
 
 	cp ../notebooks/quick-look-dashboard.png ./source
+	cp ../notebooks/quick-look/*.png ./source/quick-look
 	cp ../notebooks/logging-examples/*.png ./source/logging-examples
 	cp ../notebooks/integrations/*.png ./source/integrations
 	cp ../notebooks/viz/*.png ./source/visualizations
