@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Concurrently" href="logging-concurrently.html" /><link rel="prev" title="Visualizing Logged Dataframes" href="visualizing-logged-dataframes.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Concurrently" href="logging-concurrently.html" /><link rel="prev" title="Logging Plots as PNGs" href="logging-plots.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>Logging Asynchronously - rubicon-ml v0.3.6</title>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
+        <title>Logging Asynchronously - rubicon-ml v0.3.7</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -160,30 +160,19 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Asynchronously</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-git.html">Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Prefect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-sklearn.html">Scikit-learn</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Logging Asynchronously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
@@ -191,9 +180,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Community:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
@@ -217,7 +223,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -446,6 +453,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -454,10 +462,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -469,23 +481,26 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <div class="line-block">
-<div class="line"><br/></div>
+<div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-asynchronously.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/logging-examples/logging-asynchronously.ipynb" target="_blank">run it yourself on Binder</a>!</p>
-<hr class="docutils"/>
+<hr class="docutils" />
 <section id="Logging-Asynchronously">
-<h1>Logging Asynchronously<a class="headerlink" href="#Logging-Asynchronously" title="Permalink to this headline">#</a></h1>
+<h1>Logging Asynchronously<a class="headerlink" href="#Logging-Asynchronously" title="Permalink to this heading">#</a></h1>
 <p>The asynchronous <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> client offers a way to read and write <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> objects using Python’s built in <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> module. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> is lightweight computationally, but reading and writing to S3 takes time over the network. We can use <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> to asynchronously communicate with S3 while executing other work.</p>
 <p>There are two main differences between the standard and asynchronous <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> clients:</p>
 <ul class="simple">
@@ -499,12 +514,12 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.client.asynchronous</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
-<span class="n">s3_bucket</span> <span class="o">=</span> <span class="s2">"my-bucket"</span>
-<span class="n">root_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"s3://</span><span class="si">{</span><span class="n">s3_bucket</span><span class="si">}</span><span class="s2">/rubicon-root"</span>
+<span class="n">s3_bucket</span> <span class="o">=</span> <span class="s2">&quot;my-bucket&quot;</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;s3://</span><span class="si">{</span><span class="n">s3_bucket</span><span class="si">}</span><span class="s2">/rubicon-root&quot;</span>
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_dir</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_dir</span><span class="p">)</span>
 <span class="n">project</span> <span class="o">=</span> <span class="k">await</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span>
-    <span class="s2">"Asynchronous Experiments"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"training multiple models asynchronously"</span>
+    <span class="s2">&quot;Asynchronous Experiments&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;training multiple models asynchronously&quot;</span>
 <span class="p">)</span>
 
 <span class="n">project</span>
@@ -532,8 +547,8 @@ div.rendered_html tbody tr:hover {
 <span class="n">wine</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">()</span>
 <span class="n">wine_feature_names</span> <span class="o">=</span> <span class="n">wine</span><span class="o">.</span><span class="n">feature_names</span>
 <span class="n">wine_datasets</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">wine</span><span class="p">[</span><span class="s2">"data"</span><span class="p">],</span>
-    <span class="n">wine</span><span class="p">[</span><span class="s2">"target"</span><span class="p">],</span>
+    <span class="n">wine</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+    <span class="n">wine</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],</span>
     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -550,7 +565,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
-<span class="n">SklearnTrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"SklearnTrainingMetadata"</span><span class="p">,</span> <span class="s2">"module_name method"</span><span class="p">)</span>
+<span class="n">SklearnTrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;SklearnTrainingMetadata&quot;</span><span class="p">,</span> <span class="s2">&quot;module_name method&quot;</span><span class="p">)</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">run_experiment</span><span class="p">(</span>
     <span class="n">project</span><span class="p">,</span> <span class="n">classifier_cls</span><span class="p">,</span> <span class="n">wine_datasets</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -560,7 +575,7 @@ div.rendered_html tbody tr:hover {
     <span class="c1"># await logging the experiment so we can log other things to it</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="k">await</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span>
         <span class="n">training_metadata</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">SklearnTrainingMetadata</span><span class="p">(</span><span class="s2">"sklearn.datasets"</span><span class="p">,</span> <span class="s2">"load_wine"</span><span class="p">),</span>
+            <span class="n">SklearnTrainingMetadata</span><span class="p">(</span><span class="s2">&quot;sklearn.datasets&quot;</span><span class="p">,</span> <span class="s2">&quot;load_wine&quot;</span><span class="p">),</span>
         <span class="p">],</span>
         <span class="n">model_name</span><span class="o">=</span><span class="n">classifier_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
         <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="n">classifier_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">],</span>
@@ -583,13 +598,13 @@ div.rendered_html tbody tr:hover {
 
     <span class="n">accuracy</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 
-    <span class="n">metric_coroutine</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">"accuracy"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+    <span class="n">metric_coroutine</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
     <span class="n">rubicon_logging_coroutines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metric_coroutine</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="mf">.94</span><span class="p">:</span>
-        <span class="n">tag_coroutine</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">"success"</span><span class="p">])</span>
+        <span class="n">tag_coroutine</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;success&quot;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tag_coroutine</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">"failure"</span><span class="p">])</span>
+        <span class="n">tag_coroutine</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;failure&quot;</span><span class="p">])</span>
     <span class="n">rubicon_logging_coroutines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag_coroutine</span><span class="p">)</span>
 
     <span class="c1"># execute all logging coroutines asynchronously</span>
@@ -629,8 +644,8 @@ div.rendered_html tbody tr:hover {
         <span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">,</span>
     <span class="p">))</span>
 
-<span class="k">for</span> <span class="n">criterion</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"gini"</span><span class="p">,</span> <span class="s2">"entropy"</span><span class="p">]:</span>
-    <span class="k">for</span> <span class="n">splitter</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"best"</span><span class="p">,</span> <span class="s2">"random"</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">criterion</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">splitter</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">]:</span>
         <span class="n">coroutines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run_experiment</span><span class="p">(</span>
             <span class="n">project</span><span class="p">,</span>
             <span class="n">DecisionTreeClassifier</span><span class="p">,</span>
@@ -695,8 +710,8 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="k">await</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"success"</span><span class="p">]):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2"> was successful using a </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="k">await</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;experiment </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2"> was successful using a </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -727,9 +742,9 @@ experiment e4372a68 was successful using a DecisionTreeClassifier
 <span class="n">metrics</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="k">await</span> <span class="n">first_experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()]</span>
 
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">first_experiment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-    <span class="sa">f</span><span class="s2">"training metadata: </span><span class="si">{</span><span class="n">training_metadata</span><span class="si">}</span><span class="se">\n</span><span class="s2">tags: </span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-    <span class="sa">f</span><span class="s2">"parameters: </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="se">\n</span><span class="s2">metrics: </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">"</span>
+    <span class="sa">f</span><span class="s2">&quot;experiment </span><span class="si">{</span><span class="n">first_experiment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;training metadata: </span><span class="si">{</span><span class="n">training_metadata</span><span class="si">}</span><span class="se">\n</span><span class="s2">tags: </span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;parameters: </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="se">\n</span><span class="s2">metrics: </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -740,10 +755,10 @@ experiment e4372a68 was successful using a DecisionTreeClassifier
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 experiment c2ec1246-a664-43b4-b76c-c34b9bdcb723
-training metadata: SklearnTrainingMetadata(module_name='sklearn.datasets', method='load_wine')
-tags: ['RandomForestClassifier', 'success']
-parameters: [('n_estimators', 10)]
-metrics: [('accuracy', 0.9777777777777777)]
+training metadata: SklearnTrainingMetadata(module_name=&#39;sklearn.datasets&#39;, method=&#39;load_wine&#39;)
+tags: [&#39;RandomForestClassifier&#39;, &#39;success&#39;]
+parameters: [(&#39;n_estimators&#39;, 10)]
+metrics: [(&#39;accuracy&#39;, 0.9777777777777777)]
 </pre></div></div>
 </div>
 <p>Or we could grab the project’s data as a dataframe!</p>
@@ -751,7 +766,7 @@ metrics: [('accuracy', 0.9777777777777777)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="k">await</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project_as_dask_df</span><span class="p">(</span><span class="s2">"Asynchronous Experiments"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="k">await</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project_as_dask_df</span><span class="p">(</span><span class="s2">&quot;Asynchronous Experiments&quot;</span><span class="p">)</span>
 <span class="n">ddf</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -762,7 +777,7 @@ metrics: [('accuracy', 0.9777777777777777)]
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -775,207 +790,207 @@ metrics: [('accuracy', 0.9777777777777777)]
         text-align: right;
     }
 </style>
-<div class="table-wrapper"><table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>id</th>
-<th>name</th>
-<th>description</th>
-<th>model_name</th>
-<th>commit_hash</th>
-<th>created_at</th>
-<th>tags</th>
-<th>n_estimators</th>
-<th>accuracy</th>
-<th>criterion</th>
-<th>splitter</th>
-<th>n_neighbors</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>e4372a68-6094-42de-a3d6-cf7bca2cdafe</td>
-<td>None</td>
-<td>None</td>
-<td>DecisionTreeClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.029869</td>
-<td>[DecisionTreeClassifier, success]</td>
-<td>NaN</td>
-<td>0.955556</td>
-<td>entropy</td>
-<td>random</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>1</th>
-<td>9b88c307-7c20-48bc-8dca-ed0ea04efba9</td>
-<td>None</td>
-<td>None</td>
-<td>DecisionTreeClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.028594</td>
-<td>[failure, DecisionTreeClassifier]</td>
-<td>NaN</td>
-<td>0.888889</td>
-<td>entropy</td>
-<td>best</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>2</th>
-<td>32b14108-2fe1-4e75-9ba0-729193e8298f</td>
-<td>None</td>
-<td>None</td>
-<td>DecisionTreeClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.027189</td>
-<td>[DecisionTreeClassifier, success]</td>
-<td>NaN</td>
-<td>0.955556</td>
-<td>gini</td>
-<td>random</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>3</th>
-<td>974ed9b2-28dd-4a9f-b29c-4245daa70091</td>
-<td>None</td>
-<td>None</td>
-<td>DecisionTreeClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.025501</td>
-<td>[failure, DecisionTreeClassifier]</td>
-<td>NaN</td>
-<td>0.911111</td>
-<td>gini</td>
-<td>best</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>4</th>
-<td>6f15b3a2-8586-4cbc-8ac1-2a06ce9df6e9</td>
-<td>None</td>
-<td>None</td>
-<td>KNeighborsClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.023694</td>
-<td>[failure, KNeighborsClassifier]</td>
-<td>NaN</td>
-<td>0.711111</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>20.0</td>
-</tr>
-<tr>
-<th>5</th>
-<td>89aff6fd-d66b-405c-a5b1-663568da75b6</td>
-<td>None</td>
-<td>None</td>
-<td>KNeighborsClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.021649</td>
-<td>[failure, KNeighborsClassifier]</td>
-<td>NaN</td>
-<td>0.711111</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>15.0</td>
-</tr>
-<tr>
-<th>6</th>
-<td>56753d93-5f79-43b2-87a4-fbc1bbd5c1c0</td>
-<td>None</td>
-<td>None</td>
-<td>KNeighborsClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.020056</td>
-<td>[failure, KNeighborsClassifier]</td>
-<td>NaN</td>
-<td>0.733333</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>10.0</td>
-</tr>
-<tr>
-<th>7</th>
-<td>7177b63b-370c-4877-bbb3-5fd15078fbfb</td>
-<td>None</td>
-<td>None</td>
-<td>KNeighborsClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.018690</td>
-<td>[failure, KNeighborsClassifier]</td>
-<td>NaN</td>
-<td>0.755556</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>5.0</td>
-</tr>
-<tr>
-<th>8</th>
-<td>1deffe63-82ed-49cd-b75d-3aa67fc26911</td>
-<td>None</td>
-<td>None</td>
-<td>RandomForestClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.017173</td>
-<td>[RandomForestClassifier, success]</td>
-<td>40.0</td>
-<td>0.955556</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>9</th>
-<td>a9629c2c-20b5-44e7-84ab-f859e9060c6b</td>
-<td>None</td>
-<td>None</td>
-<td>RandomForestClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.015431</td>
-<td>[RandomForestClassifier, success]</td>
-<td>30.0</td>
-<td>0.977778</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>10</th>
-<td>301d0404-4617-4aa3-8ea4-4903aa94c5ff</td>
-<td>None</td>
-<td>None</td>
-<td>RandomForestClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.013503</td>
-<td>[RandomForestClassifier, success]</td>
-<td>20.0</td>
-<td>0.955556</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>11</th>
-<td>c2ec1246-a664-43b4-b76c-c34b9bdcb723</td>
-<td>None</td>
-<td>None</td>
-<td>RandomForestClassifier</td>
-<td>None</td>
-<td>2021-04-16 13:18:21.011072</td>
-<td>[RandomForestClassifier, success]</td>
-<td>10.0</td>
-<td>0.977778</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-</tbody>
-</table></div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>description</th>
+      <th>model_name</th>
+      <th>commit_hash</th>
+      <th>created_at</th>
+      <th>tags</th>
+      <th>n_estimators</th>
+      <th>accuracy</th>
+      <th>criterion</th>
+      <th>splitter</th>
+      <th>n_neighbors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>e4372a68-6094-42de-a3d6-cf7bca2cdafe</td>
+      <td>None</td>
+      <td>None</td>
+      <td>DecisionTreeClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.029869</td>
+      <td>[DecisionTreeClassifier, success]</td>
+      <td>NaN</td>
+      <td>0.955556</td>
+      <td>entropy</td>
+      <td>random</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9b88c307-7c20-48bc-8dca-ed0ea04efba9</td>
+      <td>None</td>
+      <td>None</td>
+      <td>DecisionTreeClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.028594</td>
+      <td>[failure, DecisionTreeClassifier]</td>
+      <td>NaN</td>
+      <td>0.888889</td>
+      <td>entropy</td>
+      <td>best</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>32b14108-2fe1-4e75-9ba0-729193e8298f</td>
+      <td>None</td>
+      <td>None</td>
+      <td>DecisionTreeClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.027189</td>
+      <td>[DecisionTreeClassifier, success]</td>
+      <td>NaN</td>
+      <td>0.955556</td>
+      <td>gini</td>
+      <td>random</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>974ed9b2-28dd-4a9f-b29c-4245daa70091</td>
+      <td>None</td>
+      <td>None</td>
+      <td>DecisionTreeClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.025501</td>
+      <td>[failure, DecisionTreeClassifier]</td>
+      <td>NaN</td>
+      <td>0.911111</td>
+      <td>gini</td>
+      <td>best</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6f15b3a2-8586-4cbc-8ac1-2a06ce9df6e9</td>
+      <td>None</td>
+      <td>None</td>
+      <td>KNeighborsClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.023694</td>
+      <td>[failure, KNeighborsClassifier]</td>
+      <td>NaN</td>
+      <td>0.711111</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>89aff6fd-d66b-405c-a5b1-663568da75b6</td>
+      <td>None</td>
+      <td>None</td>
+      <td>KNeighborsClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.021649</td>
+      <td>[failure, KNeighborsClassifier]</td>
+      <td>NaN</td>
+      <td>0.711111</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>56753d93-5f79-43b2-87a4-fbc1bbd5c1c0</td>
+      <td>None</td>
+      <td>None</td>
+      <td>KNeighborsClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.020056</td>
+      <td>[failure, KNeighborsClassifier]</td>
+      <td>NaN</td>
+      <td>0.733333</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7177b63b-370c-4877-bbb3-5fd15078fbfb</td>
+      <td>None</td>
+      <td>None</td>
+      <td>KNeighborsClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.018690</td>
+      <td>[failure, KNeighborsClassifier]</td>
+      <td>NaN</td>
+      <td>0.755556</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1deffe63-82ed-49cd-b75d-3aa67fc26911</td>
+      <td>None</td>
+      <td>None</td>
+      <td>RandomForestClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.017173</td>
+      <td>[RandomForestClassifier, success]</td>
+      <td>40.0</td>
+      <td>0.955556</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>a9629c2c-20b5-44e7-84ab-f859e9060c6b</td>
+      <td>None</td>
+      <td>None</td>
+      <td>RandomForestClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.015431</td>
+      <td>[RandomForestClassifier, success]</td>
+      <td>30.0</td>
+      <td>0.977778</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>301d0404-4617-4aa3-8ea4-4903aa94c5ff</td>
+      <td>None</td>
+      <td>None</td>
+      <td>RandomForestClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.013503</td>
+      <td>[RandomForestClassifier, success]</td>
+      <td>20.0</td>
+      <td>0.955556</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>c2ec1246-a664-43b4-b76c-c34b9bdcb723</td>
+      <td>None</td>
+      <td>None</td>
+      <td>RandomForestClassifier</td>
+      <td>None</td>
+      <td>2021-04-16 13:18:21.011072</td>
+      <td>[RandomForestClassifier, success]</td>
+      <td>10.0</td>
+      <td>0.977778</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
 </div></div>
 </div>
 </section>
@@ -994,14 +1009,14 @@ metrics: [('accuracy', 0.9777777777777777)]
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="visualizing-logged-dataframes.html">
+          <a class="prev-page" href="logging-plots.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Visualizing Logged Dataframes</div>
+                <div class="title">Logging Plots as PNGs</div>
                 
               </div>
             </a>
@@ -1034,6 +1049,7 @@ metrics: [('accuracy', 0.9777777777777777)]
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

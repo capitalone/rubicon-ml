@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizations" href="../visualizations.html" /><link rel="prev" title="Prefect" href="integration-prefect-workflows.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Link Plots to Features" href="../logging-examples/logging-feature-plots.html" /><link rel="prev" title="Integrate with Prefect" href="integration-prefect-workflows.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>Scikit-learn - rubicon-ml v0.3.6</title>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
+        <title>Integrate with Scikit-learn - rubicon-ml v0.3.7</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -160,30 +160,19 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-basics.html">Logging Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integration-prefect-workflows.html">Prefect</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Scikit-learn</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
@@ -191,9 +180,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration-prefect-workflows.html">Integrate with Prefect</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Community:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
@@ -217,7 +223,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -446,6 +453,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -454,10 +462,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -469,26 +481,29 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <div class="line-block">
-<div class="line"><br/></div>
+<div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-sklearn.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/integrations/integration-sklearn.ipynb" target="_blank">run it yourself on Binder</a>!</p>
-<hr class="docutils"/>
-<section id="Scikit-learn">
-<h1>Scikit-learn<a class="headerlink" href="#Scikit-learn" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
+<section id="Integrate-with-Scikit-learn">
+<h1>Integrate with Scikit-learn<a class="headerlink" href="#Integrate-with-Scikit-learn" title="Permalink to this heading">#</a></h1>
 <p>This example shows how you can integrate <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> into your Scikit-learn pipelines to enable automatic logging of <strong>parameters</strong> and <strong>metrics</strong> as you fit and score your models!</p>
 <section id="Simple-pipeline-run">
-<h2>Simple pipeline run<a class="headerlink" href="#Simple-pipeline-run" title="Permalink to this headline">#</a></h2>
+<h2>Simple pipeline run<a class="headerlink" href="#Simple-pipeline-run" title="Permalink to this heading">#</a></h2>
 <p>Using the <code class="docutils literal notranslate"><span class="pre">RubiconPipeline</span></code> class, you can set up a enhanced Scikit-learn pipeline with automated logging.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -504,15 +519,15 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">rubicon_ml.sklearn</span> <span class="kn">import</span> <span class="n">RubiconPipeline</span>
 
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">"Rubicon Pipeline Example"</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Rubicon Pipeline Example&quot;</span><span class="p">)</span>
 
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="n">pipe</span> <span class="o">=</span> <span class="n">RubiconPipeline</span><span class="p">(</span>
     <span class="n">project</span><span class="p">,</span>
-    <span class="p">[(</span><span class="s1">'scaler'</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span> <span class="p">(</span><span class="s1">'svc'</span><span class="p">,</span> <span class="n">SVC</span><span class="p">())],</span>
+    <span class="p">[(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span> <span class="p">(</span><span class="s1">&#39;svc&#39;</span><span class="p">,</span> <span class="n">SVC</span><span class="p">())],</span>
 <span class="p">)</span>
 <span class="n">pipe</span>
 </pre></div>
@@ -525,7 +540,7 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10eab9570&gt;,
-                steps=[('scaler', StandardScaler()), ('svc', SVC())])
+                steps=[(&#39;scaler&#39;, StandardScaler()), (&#39;svc&#39;, SVC())])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -543,7 +558,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10eab9
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10eab9570&gt;,
-                steps=[('scaler', StandardScaler()), ('svc', SVC())])
+                steps=[(&#39;scaler&#39;, StandardScaler()), (&#39;svc&#39;, SVC())])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -573,8 +588,8 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10eab9
     <span class="n">metrics</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()]</span>
 
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-        <span class="sa">f</span><span class="s2">"parameters: </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="se">\n</span><span class="s2">metrics: </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">"</span>
+        <span class="sa">f</span><span class="s2">&quot;experiment </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;parameters: </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="se">\n</span><span class="s2">metrics: </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -585,14 +600,14 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x10eab9
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 experiment 246c4f1f-5302-4e2e-bcc4-cd28f157c7b9
-parameters: [('scaler__copy', True), ('scaler__with_mean', True), ('scaler__with_std', True), ('svc__C', 1.0), ('svc__break_ties', False), ('svc__cache_size', 200), ('svc__class_weight', None), ('svc__coef0', 0.0), ('svc__decision_function_shape', 'ovr'), ('svc__degree', 3), ('svc__gamma', 'scale'), ('svc__kernel', 'rbf'), ('svc__max_iter', -1), ('svc__probability', False), ('svc__random_state', None), ('svc__shrinking', True), ('svc__tol', 0.001), ('svc__verbose', False)]
-metrics: [('score', 0.88)]
+parameters: [(&#39;scaler__copy&#39;, True), (&#39;scaler__with_mean&#39;, True), (&#39;scaler__with_std&#39;, True), (&#39;svc__C&#39;, 1.0), (&#39;svc__break_ties&#39;, False), (&#39;svc__cache_size&#39;, 200), (&#39;svc__class_weight&#39;, None), (&#39;svc__coef0&#39;, 0.0), (&#39;svc__decision_function_shape&#39;, &#39;ovr&#39;), (&#39;svc__degree&#39;, 3), (&#39;svc__gamma&#39;, &#39;scale&#39;), (&#39;svc__kernel&#39;, &#39;rbf&#39;), (&#39;svc__max_iter&#39;, -1), (&#39;svc__probability&#39;, False), (&#39;svc__random_state&#39;, None), (&#39;svc__shrinking&#39;, True), (&#39;svc__tol&#39;, 0.001), (&#39;svc__verbose&#39;, False)]
+metrics: [(&#39;score&#39;, 0.88)]
 </pre></div></div>
 </div>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s logging is very verbose. It captures each <strong>parameter</strong> passed to each stage of your pipeline. In the next example we’ll see how to target our logging a bit more.</p>
 </section>
 <section id="A-more-realistic-example-using-GridSearch">
-<h2>A more realistic example using GridSearch<a class="headerlink" href="#A-more-realistic-example-using-GridSearch" title="Permalink to this headline">#</a></h2>
+<h2>A more realistic example using GridSearch<a class="headerlink" href="#A-more-realistic-example-using-GridSearch" title="Permalink to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">GridSearch</span></code> is commonly used to test many different parameters across an estimator or pipeline in the hopes of finding the optimal parameter set. The <code class="docutils literal notranslate"><span class="pre">RubiconPipeline</span></code> fits the Scikit-learn estimator specificaion, so it can be passed to Scikit-learn’s <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> to automatically log each set of parameters tried in the grid search to an individual experiment. Then, all of these experiments can be explored with the dashboard!</p>
 <p>This example is adapted from <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#sphx-glr-auto-examples-model-selection-grid-search-text-feature-extraction-py">this Scikit-learn example</a>.</p>
 <div class="nbinput nblast docutils container">
@@ -606,8 +621,8 @@ metrics: [('score', 0.88)]
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
 
 
-<span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"alt.atheism"</span><span class="p">,</span> <span class="s2">"talk.religion.misc"</span><span class="p">]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">'train'</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">)</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;alt.atheism&quot;</span><span class="p">,</span> <span class="s2">&quot;talk.religion.misc&quot;</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -622,27 +637,27 @@ metrics: [('score', 0.88)]
 <span class="kn">from</span> <span class="nn">rubicon_ml.sklearn</span> <span class="kn">import</span> <span class="n">FilterEstimatorLogger</span><span class="p">,</span> <span class="n">RubiconPipeline</span>
 
 
-<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
-<span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RUBICON_ROOT&quot;</span><span class="p">,</span> <span class="s2">&quot;rubicon-root&quot;</span><span class="p">)</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">"Grid Search"</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Grid Search&quot;</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">RubiconPipeline</span><span class="p">(</span>
     <span class="n">project</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="p">(</span><span class="s2">"vect"</span><span class="p">,</span> <span class="n">CountVectorizer</span><span class="p">()),</span>
-        <span class="p">(</span><span class="s2">"tfidf"</span><span class="p">,</span> <span class="n">TfidfTransformer</span><span class="p">()),</span>
-        <span class="p">(</span><span class="s2">"clf"</span><span class="p">,</span> <span class="n">SGDClassifier</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s2">&quot;vect&quot;</span><span class="p">,</span> <span class="n">CountVectorizer</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s2">&quot;tfidf&quot;</span><span class="p">,</span> <span class="n">TfidfTransformer</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="n">SGDClassifier</span><span class="p">()),</span>
     <span class="p">],</span>
     <span class="n">user_defined_loggers</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"vect"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">"max_df"</span><span class="p">]),</span>
-        <span class="s2">"tfidf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">ignore_all</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="s2">"clf"</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">"max_iter"</span><span class="p">,</span> <span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"penalty"</span><span class="p">]),</span>
+        <span class="s2">&quot;vect&quot;</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;max_df&quot;</span><span class="p">]),</span>
+        <span class="s2">&quot;tfidf&quot;</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">ignore_all</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s2">&quot;clf&quot;</span><span class="p">:</span> <span class="n">FilterEstimatorLogger</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;max_iter&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;penalty&quot;</span><span class="p">]),</span>
     <span class="p">},</span>
     <span class="n">experiment_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"logged from a RubiconPipeline"</span><span class="p">,</span>
-        <span class="s2">"model_name"</span><span class="p">:</span> <span class="n">SGDClassifier</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;logged from a RubiconPipeline&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="n">SGDClassifier</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
@@ -654,11 +669,11 @@ metrics: [('score', 0.88)]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"vect__max_df"</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
-    <span class="s2">"vect__ngram_range"</span><span class="p">:</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
-    <span class="s2">"clf__max_iter"</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-    <span class="s2">"clf__alpha"</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.000001</span><span class="p">),</span>
-    <span class="s2">"clf__penalty"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"l2"</span><span class="p">,</span> <span class="s2">"elasticnet"</span><span class="p">),</span>
+    <span class="s2">&quot;vect__max_df&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+    <span class="s2">&quot;vect__ngram_range&quot;</span><span class="p">:</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+    <span class="s2">&quot;clf__max_iter&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="s2">&quot;clf__alpha&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.000001</span><span class="p">),</span>
+    <span class="s2">&quot;clf__penalty&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="s2">&quot;elasticnet&quot;</span><span class="p">),</span>
 <span class="p">}</span>
 
 <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -673,23 +688,23 @@ metrics: [('score', 0.88)]
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 GridSearchCV(cv=2,
-             estimator=RubiconPipeline(experiment_kwargs={'model_name': 'SGDClassifier',
-                                                          'name': 'logged from '
-                                                                  'a '
-                                                                  'RubiconPipeline'},
+             estimator=RubiconPipeline(experiment_kwargs={&#39;model_name&#39;: &#39;SGDClassifier&#39;,
+                                                          &#39;name&#39;: &#39;logged from &#39;
+                                                                  &#39;a &#39;
+                                                                  &#39;RubiconPipeline&#39;},
                                        project=&lt;rubicon_ml.client.project.Project object at 0x1a7aeb670&gt;,
-                                       steps=[('vect', CountVectorizer()),
-                                              ('tfidf', TfidfTransformer()),
-                                              ('clf', SGDClassifier())],
-                                       user_defined_loggers={'clf': &lt;rubicon_ml.sklearn.filter_estimator_l...
-                                                             'tfidf': &lt;rubicon_ml.sklearn.filter_estimator_logger.FilterEstimatorLogger object at 0x1a7b59f30&gt;,
-                                                             'vect': &lt;rubicon_ml.sklearn.filter_estimator_logger.FilterEstimatorLogger object at 0x1a7b588b0&gt;}),
+                                       steps=[(&#39;vect&#39;, CountVectorizer()),
+                                              (&#39;tfidf&#39;, TfidfTransformer()),
+                                              (&#39;clf&#39;, SGDClassifier())],
+                                       user_defined_loggers={&#39;clf&#39;: &lt;rubicon_ml.sklearn.filter_estimator_l...
+                                                             &#39;tfidf&#39;: &lt;rubicon_ml.sklearn.filter_estimator_logger.FilterEstimatorLogger object at 0x1a7b59f30&gt;,
+                                                             &#39;vect&#39;: &lt;rubicon_ml.sklearn.filter_estimator_logger.FilterEstimatorLogger object at 0x1a7b588b0&gt;}),
              n_jobs=-1,
-             param_grid={'clf__alpha': (1e-05, 1e-06),
-                         'clf__max_iter': (10, 20),
-                         'clf__penalty': ('l2', 'elasticnet'),
-                         'vect__max_df': (0.5, 0.75, 1.0),
-                         'vect__ngram_range': ((1, 1), (1, 2))},
+             param_grid={&#39;clf__alpha&#39;: (1e-05, 1e-06),
+                         &#39;clf__max_iter&#39;: (10, 20),
+                         &#39;clf__penalty&#39;: (&#39;l2&#39;, &#39;elasticnet&#39;),
+                         &#39;vect__max_df&#39;: (0.5, 0.75, 1.0),
+                         &#39;vect__ngram_range&#39;: ((1, 1), (1, 2))},
              refit=False)
 </pre></div></div>
 </div>
@@ -698,7 +713,7 @@ GridSearchCV(cv=2,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best score: </span><span class="si">{</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best score: </span><span class="si">{</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">full_results</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">cv_results_</span>
 </pre></div>
 </div>
@@ -730,7 +745,7 @@ Best score: 0.9334874626930701
 <div class="highlight"><pre>
 Dash is running on http://127.0.0.1:8050/
 
- * Serving Flask app 'rubicon_ml.viz.base' (lazy loading)
+ * Serving Flask app &#39;rubicon_ml.viz.base&#39; (lazy loading)
  * Environment: production
 <span class="ansi-red-fg">   WARNING: This is a development server. Do not use it in a production deployment.</span>
    Use a production WSGI server instead.
@@ -745,12 +760,12 @@ Dash is running on http://127.0.0.1:8050/
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../visualizations.html">
+          <a class="next-page" href="../logging-examples/logging-feature-plots.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Visualizations</div>
+                <div class="title">Link Plots to Features</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -761,7 +776,7 @@ Dash is running on http://127.0.0.1:8050/
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Prefect</div>
+                <div class="title">Integrate with Prefect</div>
                 
               </div>
             </a>
@@ -797,7 +812,7 @@ Dash is running on http://127.0.0.1:8050/
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Scikit-learn</a><ul>
+<li><a class="reference internal" href="#">Integrate with Scikit-learn</a><ul>
 <li><a class="reference internal" href="#Simple-pipeline-run">Simple pipeline run</a></li>
 <li><a class="reference internal" href="#A-more-realistic-example-using-GridSearch">A more realistic example using GridSearch</a></li>
 </ul>
@@ -814,6 +829,7 @@ Dash is running on http://127.0.0.1:8050/
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

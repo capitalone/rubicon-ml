@@ -1,0 +1,138 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "ffc55deb-dc28-4d36-be12-c375ca24e5d3",
+   "metadata": {},
+   "source": [
+    "# Visualizing Experiments\n",
+    "\n",
+    "In [part one](https://capitalone.github.io/rubicon-ml/quick-look/logging-experiments.html) of the quick look,\n",
+    "we logged some experiments and in [part two](https://capitalone.github.io/rubicon-ml/quick-look/sharing-experiments.html)\n",
+    "we learned how to share them with collaborators. This final part of the\n",
+    "quick look will show how users can leverage ``rubicon_ml``'s visualizations to inspect logged experiments.\n",
+    "\n",
+    "We'll start by reading in our shared catalog detailing the hyperparameter search experiments from the\n",
+    "first part of the quick look."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "61971f2b-ee91-4066-afbf-e7e040689267",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import intake\n",
+    "import rubicon_ml\n",
+    "\n",
+    "catalog = intake.open_catalog(\"./penguin_catalog.yml\")\n",
+    "\n",
+    "for source in catalog:\n",
+    "    catalog[source].discover()\n",
+    "    \n",
+    "experiments = [catalog[source].read() for source in catalog]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "459e5a4e-9475-480a-9c71-653bd6d031ae",
+   "metadata": {},
+   "source": [
+    "From here, using the ``rubicon_ml`` visualizations is quite simple. Just import the visualization you want \n",
+    "to use from the ``viz`` module and pass in the experiments you want to visualize. To see all currently available\n",
+    "visualizations, check out the [\"Visualization\" section](https://capitalone.github.io/rubicon-ml/visualizations.html)\n",
+    "in our docs.\n",
+    "\n",
+    "Each instance of a visualization class exposes ``show`` and ``serve`` methods. ``show`` is used to display a\n",
+    "visualization in-line in a Jupyter notebook. ``show`` is non-blocking, so other cells can be executed while the\n",
+    "visualization is displayed."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "aa0b1c12-36c1-476c-8fa0-46b8f05cab54",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dash is running on http://127.0.0.1:8050/\n",
+      "\n",
+      " * Serving Flask app 'rubicon_ml.viz.base' (lazy loading)\n",
+      " * Environment: production\n",
+      "\u001b[31m   WARNING: This is a development server. Do not use it in a production deployment.\u001b[0m\n",
+      "\u001b[2m   Use a production WSGI server instead.\u001b[0m\n",
+      " * Debug mode: off\n"
+     ]
+    }
+   ],
+   "source": [
+    "from rubicon_ml.viz import ExperimentsTable\n",
+    "\n",
+    "ExperimentsTable(experiments=experiments).show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "192ecf10-a397-4b80-8f83-2fad933ad0ce",
+   "metadata": {},
+   "source": [
+    "![experiments-table](visualizing-experiments-table.png \"experiments-table\")\n",
+    "\n",
+    "``serve`` only serves the visualization on the provided port without displaying it in-line. This is generally more useful for \n",
+    "displaying visualizations from non-Jupyter runtimes. Under the hood, ``show`` simply calls ``serve`` on a background thread.\n",
+    "Therefore, ``serve`` used directly is a blocking call and will not return until the server is shut down."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "5afddf6f-094c-438a-975d-8b9c4a873364",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dash is running on http://127.0.0.1:8051/\n",
+      "\n",
+      " * Serving Flask app 'rubicon_ml.viz.base' (lazy loading)\n",
+      " * Environment: production\n",
+      "\u001b[31m   WARNING: This is a development server. Do not use it in a production deployment.\u001b[0m\n",
+      "\u001b[2m   Use a production WSGI server instead.\u001b[0m\n",
+      " * Debug mode: off\n"
+     ]
+    }
+   ],
+   "source": [
+    "from rubicon_ml.viz import Dashboard\n",
+    "\n",
+    "Dashboard(experiments=experiments).serve(run_server_kwargs={\"port\": 8051})"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

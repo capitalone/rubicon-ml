@@ -1,0 +1,182 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "ffc55deb-dc28-4d36-be12-c375ca24e5d3",
+   "metadata": {},
+   "source": [
+    "# Sharing Experiments\n",
+    "\n",
+    "In the [first part](https://capitalone.github.io/rubicon-ml/quick-look/logging-experiments.html)\n",
+    "of the quick look, we learned how to log ``rubicon_ml`` experiments in the context of a\n",
+    "simple classification problem. We also performed a small hyperparameter search to show how ``rubicon_ml``\n",
+    "can be used to compare the results of multiple model fits.\n",
+    "\n",
+    "Inspecting our model fit results in the same session that we trained the model is certainly useful, but\n",
+    "sharing experiments can help us collaborate with teammates and compare new model training results to old\n",
+    "experiments.\n",
+    "\n",
+    "First, we'll create a ``rubicon_ml`` entry point and get the project we logged in the first part of the\n",
+    "quick look."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "c66ddf15-dc7e-4a5e-8ce9-b8770c6e6177",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<rubicon_ml.client.project.Project at 0x1674333d0>"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from rubicon_ml import Rubicon\n",
+    "\n",
+    "rubicon = Rubicon(persistence=\"filesystem\", root_dir=\"./rubicon-root\")\n",
+    "project = rubicon.get_project(name=\"classifying penguins\")\n",
+    "project"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3e7c81be-8e5f-456a-8a4d-364001571acb",
+   "metadata": {},
+   "source": [
+    "Let's say we want to share the results of our hyperparmeter search with another teammate so they can evaluate the results.\n",
+    "``rubicon_ml``'s ``publish`` function takes a list of experiments as an input and  uses ``intake`` to generate a catalog\n",
+    "containing the bare-minimum amount of metadata needed to retrieve an experiment, like its ID and filepath. More on ``intake``\n",
+    "can be found [in their docs](https://intake.readthedocs.io/en/latest/).\n",
+    "\n",
+    "Hyperparameter searches can span thousands of combos, so sharing every single file ``rubicon_ml`` logs during the training\n",
+    "process can be a lot. That's why we use ``intake`` via our ``publish`` function to only share what needs to be shared in a\n",
+    "single YAML file. Then, later, users can use said YAML file to retrieve the experiments shared within it.\n",
+    "\n",
+    "**Note**: Sharing experiments relys on both the sharer and the recipient having access to the same underlying data source.\n",
+    "In this example, we're using a local filesystem - so these experiments couldn't actually be shared with anyone other than \n",
+    "people on this same physical machine. To get the most out of sharing, log your experiments to an S3 bucket that all teammates\n",
+    "have access to."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "3696915b-e7d4-4760-a7f9-720cd2c8c781",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sources:\n",
+      "  experiment_02a89318_b8d9_49a5_9337_7e4368cc54da:\n",
+      "    args:\n",
+      "      experiment_id: 02a89318-b8d9-49a5-9337-7e4368cc54da\n",
+      "      project_name: classifying penguins\n",
+      "      urlpath: ./rubicon-root\n",
+      "    driver: rubicon_ml_experiment\n"
+     ]
+    }
+   ],
+   "source": [
+    "from rubicon_ml import publish\n",
+    "\n",
+    "publish(\n",
+    "    project.experiments(tags=[\"parameter search\"]),\n",
+    "    output_filepath=\"./penguin_catalog.yml\",\n",
+    ")\n",
+    "\n",
+    "!head -7 penguin_catalog.yml"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "74b2175a-4644-479b-9ff6-f01305f8d568",
+   "metadata": {},
+   "source": [
+    "Each catalog contains a \"source\" for each ``rubicon_ml`` experiment. These sources contain the minimum metadata needed\n",
+    "to retrieve the associated experiment - the ``experiment_id``, ``project_name`` and ``urlpath`` to the root of the \n",
+    "``rubicon_ml`` repository used as an entry point. The ``rubicon_ml_experiment`` driver can be found \n",
+    "[within our library](https://github.com/capitalone/rubicon-ml/blob/main/rubicon_ml/intake_rubicon/experiment.py)\n",
+    "and leverages the metadata in the YAML catalog to return the experiment objects associated to it.\n",
+    "\n",
+    "Provided the recipient of the shared YAML catalog has read access to the filesystem represented by ``urlpath``,\n",
+    "they can now use ``intake`` directly to read the catalog and load in the shared ``rubicon_ml`` expierments\n",
+    "for their own inspection."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e90d02f1-1cda-40ea-acbb-052100e1029c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "shared experiments:\n",
+      "\tid: 02a89318-b8d9-49a5-9337-7e4368cc54da, parameters: [('strategy', 'mean'), ('n_neighbors', 10)], metrics: [('accuracy', 0.75)]\n",
+      "\tid: 093a9d02-89f7-4e48-82b1-f9ade435ef03, parameters: [('strategy', 'mean'), ('n_neighbors', 20)], metrics: [('accuracy', 0.7211538461538461)]\n",
+      "\tid: 9d6ffe67-088d-483f-9d3f-8f0fb34c22e8, parameters: [('strategy', 'median'), ('n_neighbors', 15)], metrics: [('accuracy', 0.7596153846153846)]\n",
+      "\tid: a75b1258-2276-4eb1-beb5-caf83e9aacf3, parameters: [('strategy', 'mean'), ('n_neighbors', 5)], metrics: [('accuracy', 0.7307692307692307)]\n",
+      "\tid: b2cd8067-ad4c-4ed5-87f7-2cd4536b2c73, parameters: [('strategy', 'most_frequent'), ('n_neighbors', 5)], metrics: [('accuracy', 0.7211538461538461)]\n",
+      "\tid: bc4d0503-32d1-4a11-8222-4151dae893cf, parameters: [('strategy', 'median'), ('n_neighbors', 5)], metrics: [('accuracy', 0.7211538461538461)]\n",
+      "\tid: c1b6cb3a-0ad1-4932-914d-ba53a054891b, parameters: [('strategy', 'median'), ('n_neighbors', 10)], metrics: [('accuracy', 0.7403846153846154)]\n",
+      "\tid: c4277327-381a-4885-aba4-a07c050463a5, parameters: [('strategy', 'most_frequent'), ('n_neighbors', 10)], metrics: [('accuracy', 0.75)]\n",
+      "\tid: ce24eeef-4686-4fc7-8c0a-e73d6c9cdb71, parameters: [('strategy', 'mean'), ('n_neighbors', 15)], metrics: [('accuracy', 0.7596153846153846)]\n",
+      "\tid: d4ea2fe7-061e-4f5e-8958-e6ac29025708, parameters: [('strategy', 'most_frequent'), ('n_neighbors', 15)], metrics: [('accuracy', 0.7596153846153846)]\n",
+      "\tid: d9fe2005-824c-4e23-9809-e0459e57d78a, parameters: [('strategy', 'most_frequent'), ('n_neighbors', 20)], metrics: [('accuracy', 0.7211538461538461)]\n",
+      "\tid: f497245a-6149-4604-9ceb-da74ae9855d4, parameters: [('strategy', 'median'), ('n_neighbors', 20)], metrics: [('accuracy', 0.7211538461538461)]\n"
+     ]
+    }
+   ],
+   "source": [
+    "import intake\n",
+    "\n",
+    "catalog = intake.open_catalog(\"./penguin_catalog.yml\")\n",
+    "\n",
+    "for source in catalog:\n",
+    "    catalog[source].discover()\n",
+    "    \n",
+    "shared_experiments = [catalog[source].read() for source in catalog]\n",
+    "\n",
+    "print(\"shared experiments:\")\n",
+    "for experiment in shared_experiments:\n",
+    "    print(\n",
+    "        f\"\\tid: {experiment.id}, \"\n",
+    "        f\"parameters: {[(p.name, p.value) for p in experiment.parameters()]}, \"\n",
+    "        f\"metrics: {[(m.name, m.value) for m in experiment.metrics()]}\"\n",
+    "    )"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

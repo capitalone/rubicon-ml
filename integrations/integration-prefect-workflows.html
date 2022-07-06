@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Git" href="integration-git.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrate with Scikit-learn" href="integration-sklearn.html" /><link rel="prev" title="Integrate with Git" href="integration-git.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>Prefect - rubicon-ml v0.3.6</title>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
+        <title>Integrate with Prefect - rubicon-ml v0.3.7</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -160,30 +160,19 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-basics.html">Logging Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="integration-git.html">Git</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Prefect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integration-sklearn.html">Scikit-learn</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
@@ -191,9 +180,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Integrate with Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration-sklearn.html">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging-examples/visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Community:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
@@ -217,7 +223,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -446,6 +453,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -454,10 +462,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -469,23 +481,26 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <div class="line-block">
-<div class="line"><br/></div>
+<div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/integrations/integration-prefect-workflows.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/integrations/integration-prefect-workflows.ipynb" target="_blank">run it yourself on Binder</a>!</p>
-<hr class="docutils"/>
-<section id="Prefect">
-<h1>Prefect<a class="headerlink" href="#Prefect" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
+<section id="Integrate-with-Prefect">
+<h1>Integrate with Prefect<a class="headerlink" href="#Integrate-with-Prefect" title="Permalink to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers an integration with <a class="reference external" href="https://www.prefect.io/">Prefect</a>, an open source workflow management engine used heavily within the Python ecosystem. In Prefect, a unit of work is called a <strong>task</strong>, and a collection of <strong>tasks</strong> makes up a <strong>flow</strong>. A <strong>flow</strong> represents your workflow pipeline. You can integrate <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> into your workflows to persist metadata about your experimentation.</p>
 <p>We’ll <a class="reference external" href="https://docs.prefect.io/core/getting_started/installation.html#running-the-local-server-and-ui">run a Prefect server locally</a> for this example. If you already have Prefect and Docker installed, you can start a Prefect server and agent with these commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prefect backend server
@@ -497,7 +512,7 @@ prefect agent start
 </div>
 <p>For more context, check out the <a class="reference external" href="https://github.com/capitalone/rubicon-ml/tree/main/rubicon/workflow">workflow README on GitHub</a>.</p>
 <section id="Setting-up-a-simple-flow">
-<h2>Setting up a simple flow<a class="headerlink" href="#Setting-up-a-simple-flow" title="Permalink to this headline">#</a></h2>
+<h2>Setting up a simple flow<a class="headerlink" href="#Setting-up-a-simple-flow" title="Permalink to this heading">#</a></h2>
 <p>Now we can get started! Creating Prefect <strong>tasks</strong> is easy enough on its own, but we’ve added some simple ones to the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> library.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -610,7 +625,7 @@ prefect agent start
 <span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">is_standardized</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="k">with</span> <span class="n">Flow</span><span class="p">(</span><span class="s2">"Wine Classification"</span><span class="p">)</span> <span class="k">as</span> <span class="n">flow</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">Flow</span><span class="p">(</span><span class="s2">&quot;Wine Classification&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">flow</span><span class="p">:</span>
     <span class="n">wine_dataset</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
 
     <span class="n">feature_names</span> <span class="o">=</span> <span class="n">get_feature_names</span><span class="p">(</span><span class="n">wine_dataset</span><span class="p">)</span>
@@ -627,9 +642,9 @@ prefect agent start
 </div>
 </section>
 <section id="Running-a-flow-and-viewing-results">
-<h2>Running a flow and viewing results<a class="headerlink" href="#Running-a-flow-and-viewing-results" title="Permalink to this headline">#</a></h2>
+<h2>Running a flow and viewing results<a class="headerlink" href="#Running-a-flow-and-viewing-results" title="Permalink to this heading">#</a></h2>
 <p>Now we’ll register our <strong>flow</strong> with the local server. First, we’ll have to use the <code class="docutils literal notranslate"><span class="pre">prefect</span></code> CLI one more time to create a project.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prefect create project <span class="s1">'Wine Classification'</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prefect create project <span class="s1">&#39;Wine Classification&#39;</span>
 </pre></div>
 </div>
 <p>The URL printed from the call to <code class="docutils literal notranslate"><span class="pre">flow.register</span></code> opens the local Prefect UI. We can use it to run and monitor our <strong>flows</strong>.</p>
@@ -637,7 +652,7 @@ prefect agent start
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flow_id</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">"Wine Classification"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flow_id</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;Wine Classification&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -649,7 +664,7 @@ prefect agent start
 Flow URL: http://localhost:8080/default/flow/aef9fb65-c49b-4c46-89be-e31c357a165e
  └── ID: 531ffe8c-fb2b-4855-b5d8-f9bcef51ad2d
  └── Project: Wine Classification
- └── Labels: ['8c859084633f']
+ └── Labels: [&#39;8c859084633f&#39;]
 </pre></div></div>
 </div>
 <p>We’ll also put together a function to run our <strong>flows</strong> and wait for them to finish.</p>
@@ -669,14 +684,14 @@ Flow URL: http://localhost:8080/default/flow/aef9fb65-c49b-4c46-89be-e31c357a165
     <span class="n">is_finished</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">is_finished</span><span class="p">:</span>
         <span class="n">state</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_flow_run_info</span><span class="p">(</span><span class="n">flow_run_id</span><span class="p">)</span><span class="o">.</span><span class="n">state</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'.'</span><span class="p">)</span><span class="si">}</span><span class="s2">. Waiting..."</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">state</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">. Waiting...&quot;</span><span class="p">)</span>
 
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
         <span class="n">is_finished</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">is_finished</span><span class="p">()</span>
 
     <span class="k">assert</span> <span class="n">state</span><span class="o">.</span><span class="n">is_successful</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Flow run </span><span class="si">{</span><span class="n">flow_run_id</span><span class="si">}</span><span class="s2"> was successful!"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flow run </span><span class="si">{</span><span class="n">flow_run_id</span><span class="si">}</span><span class="s2"> was successful!&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">flow_run_id</span>
 
@@ -724,7 +739,7 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 <p>What’s going on here isn’t exactly intuitive, and all that only extracted one piece of data from one task.</p>
 </section>
 <section id="Adding-Rubicon-to-your-flow">
-<h2>Adding Rubicon to your flow<a class="headerlink" href="#Adding-Rubicon-to-your-flow" title="Permalink to this headline">#</a></h2>
+<h2>Adding Rubicon to your flow<a class="headerlink" href="#Adding-Rubicon-to-your-flow" title="Permalink to this heading">#</a></h2>
 <p>We can leverage the Prefect tasks within the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> library to log all the info we want about our model run. Then, we can use the standard <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> logging library to retrieve and inspect our metrics and other logged data. This is much simpler than digging through the state of each executed <strong>task</strong> and extracting its results.</p>
 <p>Here’s the same flow from above, this time with <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> <strong>tasks</strong> integrated.</p>
 <div class="nbinput nblast docutils container">
@@ -736,22 +751,22 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">unmapped</span>
 
 
-<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUBICON_ROOT"</span><span class="p">,</span> <span class="s2">"rubicon-root"</span><span class="p">)</span>
-<span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RUBICON_ROOT&quot;</span><span class="p">,</span> <span class="s2">&quot;rubicon-root&quot;</span><span class="p">)</span>
+<span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">&quot;</span>
 
 <span class="n">n_components</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">is_standardized</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="k">with</span> <span class="n">Flow</span><span class="p">(</span><span class="s2">"Wine Classification with Rubicon"</span><span class="p">)</span> <span class="k">as</span> <span class="n">flow</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">Flow</span><span class="p">(</span><span class="s2">&quot;Wine Classification with Rubicon&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">flow</span><span class="p">:</span>
     <span class="n">project</span> <span class="o">=</span> <span class="n">get_or_create_project_task</span><span class="p">(</span>
-        <span class="s2">"filesystem"</span><span class="p">,</span>
+        <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span>
         <span class="n">root_path</span><span class="p">,</span>
-        <span class="s2">"Wine Classification with Prefect"</span><span class="p">,</span>
+        <span class="s2">&quot;Wine Classification with Prefect&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">create_experiment_task</span><span class="p">(</span>
         <span class="n">project</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">"logged from a Prefect task"</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;logged from a Prefect task&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">wine_dataset</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
@@ -759,9 +774,9 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
     <span class="n">train_test_split</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">wine_dataset</span><span class="p">)</span>
 
     <span class="n">log_feature_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">unmapped</span><span class="p">(</span><span class="n">experiment</span><span class="p">),</span> <span class="n">feature_names</span><span class="p">)</span>
-    <span class="n">log_parameter_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">"n_components"</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
-    <span class="n">log_parameter_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">"n_neighbors"</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">)</span>
-    <span class="n">log_parameter_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">"is_standardized"</span><span class="p">,</span> <span class="n">is_standardized</span><span class="p">)</span>
+    <span class="n">log_parameter_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">&quot;n_components&quot;</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
+    <span class="n">log_parameter_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">&quot;n_neighbors&quot;</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">)</span>
+    <span class="n">log_parameter_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">&quot;is_standardized&quot;</span><span class="p">,</span> <span class="n">is_standardized</span><span class="p">)</span>
 
     <span class="n">accuracy</span> <span class="o">=</span> <span class="n">fit_pred_model</span><span class="p">(</span>
         <span class="n">train_test_split</span><span class="p">,</span>
@@ -770,7 +785,7 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
         <span class="n">is_standardized</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">log_metric_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">"accuracy"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+    <span class="n">log_metric_task</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -779,7 +794,7 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flow_with_rubicon_id</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">"Wine Classification"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flow_with_rubicon_id</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;Wine Classification&quot;</span><span class="p">)</span>
 <span class="n">flow_run_with_rubicon_id</span> <span class="o">=</span> <span class="n">run_flow</span><span class="p">(</span><span class="n">prefect_client</span><span class="p">,</span> <span class="n">flow_with_rubicon_id</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -792,7 +807,7 @@ Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!
 Flow URL: http://localhost:8080/default/flow/9b91bafc-7e8b-4361-b1d0-bc57dac4cebc
  └── ID: 081b9522-5db8-4ce6-ae64-ea8afd5b323e
  └── Project: Wine Classification
- └── Labels: ['8c859084633f']
+ └── Labels: [&#39;8c859084633f&#39;]
 Flow run scheduled. Waiting...
 Submitted for execution. Waiting...
 Running flow. Waiting...
@@ -808,8 +823,8 @@ Flow run 29cef175-c115-4da2-a9f7-40f79bdb6104 was successful!
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"filesystem"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">"Wine Classification with Prefect"</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="n">root_path</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;Wine Classification with Prefect&quot;</span><span class="p">)</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -818,9 +833,9 @@ Flow run 29cef175-c115-4da2-a9f7-40f79bdb6104 was successful!
 <span class="n">metrics</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()]</span>
 
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"experiment </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-    <span class="sa">f</span><span class="s2">"features: </span><span class="si">{</span><span class="n">features</span><span class="si">}</span><span class="se">\n</span><span class="s2">parameters: </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-    <span class="sa">f</span><span class="s2">"metrics: </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">"</span>
+    <span class="sa">f</span><span class="s2">&quot;experiment </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;features: </span><span class="si">{</span><span class="n">features</span><span class="si">}</span><span class="se">\n</span><span class="s2">parameters: </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;metrics: </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -831,15 +846,15 @@ Flow run 29cef175-c115-4da2-a9f7-40f79bdb6104 was successful!
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 experiment 6b1c3846-5aab-4bda-8c16-15b279d8616c
-features: ['alcalinity_of_ash', 'alcohol', 'ash', 'color_intensity', 'flavanoids', 'hue', 'magnesium', 'malic_acid', 'nonflavanoid_phenols', 'od280/od315_of_diluted_wines', 'proanthocyanins', 'proline', 'total_phenols']
-parameters: [('is_standardized', True), ('n_components', 2), ('n_neighbors', 5)]
-metrics: [('accuracy', 1.0)]
+features: [&#39;alcalinity_of_ash&#39;, &#39;alcohol&#39;, &#39;ash&#39;, &#39;color_intensity&#39;, &#39;flavanoids&#39;, &#39;hue&#39;, &#39;magnesium&#39;, &#39;malic_acid&#39;, &#39;nonflavanoid_phenols&#39;, &#39;od280/od315_of_diluted_wines&#39;, &#39;proanthocyanins&#39;, &#39;proline&#39;, &#39;total_phenols&#39;]
+parameters: [(&#39;is_standardized&#39;, True), (&#39;n_components&#39;, 2), (&#39;n_neighbors&#39;, 5)]
+metrics: [(&#39;accuracy&#39;, 1.0)]
 </pre></div></div>
 </div>
 <p>Extracting data from <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> is much simpler than pulling it from the various <strong>tasks</strong> as they succeed. Especially in the case where we’re running thousands of <strong>tasks</strong> in a <strong>flow</strong>.</p>
 </section>
 <section id="Concurrent-Logging-with-Dask">
-<h2>Concurrent Logging with Dask<a class="headerlink" href="#Concurrent-Logging-with-Dask" title="Permalink to this headline">#</a></h2>
+<h2>Concurrent Logging with Dask<a class="headerlink" href="#Concurrent-Logging-with-Dask" title="Permalink to this heading">#</a></h2>
 <p>Prefect plays nicely with Dask in order to provide parallel computing when possible. The Prefect scheduler is smart enough to know which <strong>tasks</strong> do and do not depend on each other, so it can intelligently decide when to run independent <strong>tasks</strong> at the same time.</p>
 <p>Let’s run the same <strong>flow</strong> as above, except this time we’ll log eight different experiments with eight different feature sets and accuracy results. First, we’ll need to use Dask to start a local cluster.</p>
 <div class="nbinput nblast docutils container">
@@ -862,7 +877,7 @@ metrics: [('accuracy', 1.0)]
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@task</span>
 <span class="k">def</span> <span class="nf">log_feature_set</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">):</span>
-    <span class="sd">"""log a set of features to a rubicon experiment</span>
+    <span class="sd">&quot;&quot;&quot;log a set of features to a rubicon experiment</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -870,7 +885,7 @@ metrics: [('accuracy', 1.0)]
 <span class="sd">        the experiment to log the feature set to</span>
 <span class="sd">    feature_names : list of str</span>
 <span class="sd">        the names of the features to log to `experiment`</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">feature_names</span><span class="p">:</span>
@@ -890,21 +905,21 @@ metrics: [('accuracy', 1.0)]
 <span class="n">n_neighbors</span> <span class="o">=</span>     <span class="p">[</span><span class="mi">5</span><span class="p">,</span>    <span class="mi">5</span><span class="p">,</span>     <span class="mi">10</span><span class="p">,</span>   <span class="mi">10</span><span class="p">,</span>    <span class="mi">5</span><span class="p">,</span>    <span class="mi">5</span><span class="p">,</span>     <span class="mi">10</span><span class="p">,</span>   <span class="mi">10</span>   <span class="p">]</span>
 <span class="n">is_standardized</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
 
-<span class="n">experiment_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"mapped run </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n_components</span><span class="p">))]</span>
+<span class="n">experiment_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;mapped run </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n_components</span><span class="p">))]</span>
 
 <span class="k">with</span> <span class="n">Flow</span><span class="p">(</span>
-    <span class="s2">"Wine Classification with Rubicon - Mapped"</span><span class="p">,</span>
+    <span class="s2">&quot;Wine Classification with Rubicon - Mapped&quot;</span><span class="p">,</span>
     <span class="n">executor</span><span class="o">=</span><span class="n">dask_executor</span><span class="p">,</span>
 <span class="p">)</span> <span class="k">as</span> <span class="n">mapped_flow</span><span class="p">:</span>
     <span class="n">project</span> <span class="o">=</span> <span class="n">get_or_create_project_task</span><span class="p">(</span>
-        <span class="s2">"filesystem"</span><span class="p">,</span>
+        <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span>
         <span class="n">root_path</span><span class="p">,</span>
-        <span class="s2">"Wine Classification with Prefect - Mapped"</span><span class="p">,</span>
+        <span class="s2">&quot;Wine Classification with Prefect - Mapped&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="n">create_experiment_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
         <span class="n">unmapped</span><span class="p">(</span><span class="n">project</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="n">experiment_names</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="n">unmapped</span><span class="p">(</span><span class="s2">"concurrent example with Prefect"</span><span class="p">),</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">unmapped</span><span class="p">(</span><span class="s2">&quot;concurrent example with Prefect&quot;</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">wine_dataset</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
@@ -913,9 +928,9 @@ metrics: [('accuracy', 1.0)]
     <span class="n">train_test_split</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">wine_dataset</span><span class="p">)</span>
 
     <span class="n">log_feature_set</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))</span>
-    <span class="n">log_parameter_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">"n_components"</span><span class="p">),</span> <span class="n">n_components</span><span class="p">)</span>
-    <span class="n">log_parameter_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">"n_neighbors"</span><span class="p">),</span> <span class="n">n_neighbors</span><span class="p">)</span>
-    <span class="n">log_parameter_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">"is_standardized"</span><span class="p">),</span> <span class="n">is_standardized</span><span class="p">)</span>
+    <span class="n">log_parameter_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">&quot;n_components&quot;</span><span class="p">),</span> <span class="n">n_components</span><span class="p">)</span>
+    <span class="n">log_parameter_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">&quot;n_neighbors&quot;</span><span class="p">),</span> <span class="n">n_neighbors</span><span class="p">)</span>
+    <span class="n">log_parameter_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">&quot;is_standardized&quot;</span><span class="p">),</span> <span class="n">is_standardized</span><span class="p">)</span>
 
     <span class="n">accuracies</span> <span class="o">=</span> <span class="n">fit_pred_model</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
         <span class="n">unmapped</span><span class="p">(</span><span class="n">train_test_split</span><span class="p">),</span>
@@ -924,7 +939,7 @@ metrics: [('accuracy', 1.0)]
         <span class="n">is_standardized</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">log_metric_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">"accuracy"</span><span class="p">),</span> <span class="n">accuracies</span><span class="p">)</span>
+    <span class="n">log_metric_task</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">unmapped</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">),</span> <span class="n">accuracies</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -934,7 +949,7 @@ metrics: [('accuracy', 1.0)]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flow_with_concurrent_rubicon_id</span> <span class="o">=</span> <span class="n">mapped_flow</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="n">project_name</span><span class="o">=</span><span class="s2">"Wine Classification"</span><span class="p">,</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;Wine Classification&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">flow_run_with_concurrent_rubicon_id</span> <span class="o">=</span> <span class="n">run_flow</span><span class="p">(</span>
     <span class="n">prefect_client</span><span class="p">,</span>
@@ -951,7 +966,7 @@ metrics: [('accuracy', 1.0)]
 Flow URL: http://localhost:8080/default/flow/1ff30ad8-530c-4502-a9ad-cfed39b145fd
  └── ID: 5f925f68-877c-4922-952c-927da5cf5a34
  └── Project: Wine Classification
- └── Labels: ['8c859084633f']
+ └── Labels: [&#39;8c859084633f&#39;]
 Flow run scheduled. Waiting...
 Flow run scheduled. Waiting...
 Running flow. Waiting...
@@ -970,9 +985,9 @@ Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!
 
 
 <span class="n">project</span> <span class="o">=</span> <span class="n">get_project</span><span class="p">(</span>
-    <span class="s2">"filesystem"</span><span class="p">,</span>
+    <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span>
     <span class="n">root_path</span><span class="p">,</span>
-    <span class="s2">"Wine Classification with Prefect - Mapped"</span><span class="p">,</span>
+    <span class="s2">&quot;Wine Classification with Prefect - Mapped&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -985,7 +1000,7 @@ Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
  * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
-127.0.0.1 - - [16/Apr/2021 15:29:39] "<span class="ansi-white-fg">GET /_alive_71180c28-37bc-4127-a50b-e754fe3e6812 HTTP/1.1</span>" 200 -
+127.0.0.1 - - [16/Apr/2021 15:29:39] &#34;<span class="ansi-white-fg">GET /_alive_71180c28-37bc-4127-a50b-e754fe3e6812 HTTP/1.1</span>&#34; 200 -
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1009,7 +1024,7 @@ Dash app running on http://127.0.0.1:8050/
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Scikit-learn</div>
+                <div class="title">Integrate with Scikit-learn</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -1020,7 +1035,7 @@ Dash app running on http://127.0.0.1:8050/
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Git</div>
+                <div class="title">Integrate with Git</div>
                 
               </div>
             </a>
@@ -1056,7 +1071,7 @@ Dash app running on http://127.0.0.1:8050/
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Prefect</a><ul>
+<li><a class="reference internal" href="#">Integrate with Prefect</a><ul>
 <li><a class="reference internal" href="#Setting-up-a-simple-flow">Setting up a simple flow</a></li>
 <li><a class="reference internal" href="#Running-a-flow-and-viewing-results">Running a flow and viewing results</a></li>
 <li><a class="reference internal" href="#Adding-Rubicon-to-your-flow">Adding Rubicon to your flow</a></li>
@@ -1075,6 +1090,7 @@ Dash app running on http://127.0.0.1:8050/
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

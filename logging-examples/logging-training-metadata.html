@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizing Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Logging Basics" href="logging-basics.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Plots as PNGs" href="logging-plots.html" /><link rel="prev" title="Visualizing Experiments" href="../quick-look/visualizing-experiments.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>Logging Training Metadata - rubicon-ml v0.3.6</title>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
+        <title>Logging Training Metadata - rubicon-ml v0.3.7</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -160,30 +160,19 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Logging Training Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualizing Logged Dataframes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-git.html">Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Prefect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-sklearn.html">Scikit-learn</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
@@ -191,9 +180,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Community:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
@@ -217,7 +223,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -446,6 +453,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -454,10 +462,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -469,23 +481,26 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <div class="line-block">
-<div class="line"><br/></div>
+<div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-training-metadata.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/logging-examples/logging-training-metadata.ipynb" target="_blank">run it yourself on Binder</a>!</p>
-<hr class="docutils"/>
+<hr class="docutils" />
 <section id="Logging-Training-Metadata">
-<h1>Logging Training Metadata<a class="headerlink" href="#Logging-Training-Metadata" title="Permalink to this headline">#</a></h1>
+<h1>Logging Training Metadata<a class="headerlink" href="#Logging-Training-Metadata" title="Permalink to this heading">#</a></h1>
 <p>We can’t train a model without a lot of data. Keeping track of where that data is and how to get it can be difficult. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> isn’t in the business of storing full training datasets, but it can store metadata about our training datasets on both <strong>projects</strong> (for high level datasource configuration) and <strong>experiments</strong> (for indiviual model runs).</p>
 <p>Below, we’ll use <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to reference a dataset stored in S3.</p>
 <div class="nbinput nblast docutils container">
@@ -493,16 +508,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"region_name"</span><span class="p">:</span> <span class="s2">"us-west-2"</span><span class="p">,</span>
-    <span class="s2">"signature_version"</span><span class="p">:</span> <span class="s2">"v4"</span><span class="p">,</span>
-    <span class="s2">"retries"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"max_attempts"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">"mode"</span><span class="p">:</span> <span class="s2">"standard"</span><span class="p">,</span>
+    <span class="s2">&quot;region_name&quot;</span><span class="p">:</span> <span class="s2">&quot;us-west-2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;signature_version&quot;</span><span class="p">:</span> <span class="s2">&quot;v4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;retries&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;max_attempts&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;standard&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="n">bucket_name</span> <span class="o">=</span> <span class="s2">"my-bucket"</span>
-<span class="n">key</span> <span class="o">=</span> <span class="s2">"path/to/my/data.parquet"</span>
+<span class="n">bucket_name</span> <span class="o">=</span> <span class="s2">&quot;my-bucket&quot;</span>
+<span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;path/to/my/data.parquet&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -519,9 +534,9 @@ div.rendered_html tbody tr:hover {
     <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 
     <span class="c1"># assuming credentials are correct in `~/.aws` or set in environment variables</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">"s3"</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;s3&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_output_path</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_output_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">s3</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -544,8 +559,8 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">"Storing Training Metadata"</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Storing Training Metadata&quot;</span><span class="p">)</span>
 
 <span class="n">project</span>
 </pre></div>
@@ -561,7 +576,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <section id="Experiment-level-training-metadata">
-<h2>Experiment level training metadata<a class="headerlink" href="#Experiment-level-training-metadata" title="Permalink to this headline">#</a></h2>
+<h2>Experiment level training metadata<a class="headerlink" href="#Experiment-level-training-metadata" title="Permalink to this heading">#</a></h2>
 <p>Before we create an <strong>experiment</strong>, we’ll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -571,7 +586,7 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span>
     <span class="n">training_metadata</span><span class="o">=</span><span class="n">training_metadata</span><span class="p">,</span>
-    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"S3"</span><span class="p">,</span> <span class="s2">"training metadata"</span><span class="p">]</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">,</span> <span class="s2">&quot;training metadata&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 <span class="c1"># then run the experiment and log everything to rubicon!</span>
 
@@ -585,11 +600,11 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-({'region_name': 'us-west-2',
-  'signature_version': 'v4',
-  'retries': {'max_attempts': 10, 'mode': 'standard'}},
- 'my-bucket',
- 'path/to/my/data.parquet')
+({&#39;region_name&#39;: &#39;us-west-2&#39;,
+  &#39;signature_version&#39;: &#39;v4&#39;,
+  &#39;retries&#39;: {&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;}},
+ &#39;my-bucket&#39;,
+ &#39;path/to/my/data.parquet&#39;)
 </pre></div></div>
 </div>
 <p>We can come back any time and use the <strong>experiment’s</strong> training metadata to pull the same dataset.</p>
@@ -597,7 +612,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"S3"</span><span class="p">,</span> <span class="s2">"training metadata"</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">"and"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">,</span> <span class="s2">&quot;training metadata&quot;</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">training_metadata</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">training_metadata</span>
 
@@ -605,7 +620,7 @@ div.rendered_html tbody tr:hover {
     <span class="n">training_metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="n">training_metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
     <span class="n">training_metadata</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-    <span class="s2">"./local_output.parquet"</span><span class="p">,</span>
+    <span class="s2">&quot;./local_output.parquet&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -616,9 +631,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_metadata</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="n">s3_config</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="s2">"path/to/my/data_0.parquet"</span><span class="p">),</span>
-    <span class="p">(</span><span class="n">s3_config</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="s2">"path/to/my/data_1.parquet"</span><span class="p">),</span>
-    <span class="p">(</span><span class="n">s3_config</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="s2">"path/to/my/data_2.parquet"</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">s3_config</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="s2">&quot;path/to/my/data_0.parquet&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">s3_config</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="s2">&quot;path/to/my/data_1.parquet&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">s3_config</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="s2">&quot;path/to/my/data_2.parquet&quot;</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">training_metadata</span><span class="o">=</span><span class="n">training_metadata</span><span class="p">)</span>
@@ -632,21 +647,21 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[({'region_name': 'us-west-2',
-   'signature_version': 'v4',
-   'retries': {'max_attempts': 10, 'mode': 'standard'}},
-  'my-bucket',
-  'path/to/my/data_0.parquet'),
- ({'region_name': 'us-west-2',
-   'signature_version': 'v4',
-   'retries': {'max_attempts': 10, 'mode': 'standard'}},
-  'my-bucket',
-  'path/to/my/data_1.parquet'),
- ({'region_name': 'us-west-2',
-   'signature_version': 'v4',
-   'retries': {'max_attempts': 10, 'mode': 'standard'}},
-  'my-bucket',
-  'path/to/my/data_2.parquet')]
+[({&#39;region_name&#39;: &#39;us-west-2&#39;,
+   &#39;signature_version&#39;: &#39;v4&#39;,
+   &#39;retries&#39;: {&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;}},
+  &#39;my-bucket&#39;,
+  &#39;path/to/my/data_0.parquet&#39;),
+ ({&#39;region_name&#39;: &#39;us-west-2&#39;,
+   &#39;signature_version&#39;: &#39;v4&#39;,
+   &#39;retries&#39;: {&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;}},
+  &#39;my-bucket&#39;,
+  &#39;path/to/my/data_1.parquet&#39;),
+ ({&#39;region_name&#39;: &#39;us-west-2&#39;,
+   &#39;signature_version&#39;: &#39;v4&#39;,
+   &#39;retries&#39;: {&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;}},
+  &#39;my-bucket&#39;,
+  &#39;path/to/my/data_2.parquet&#39;)]
 </pre></div></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">training_metadata</span></code> is simply a tuple or an array of tuples, so we can decide how to best store our metadata. The config and prefix are the same for each piece of metadata, so no need to duplicate!</p>
@@ -658,9 +673,9 @@ div.rendered_html tbody tr:hover {
     <span class="n">s3_config</span><span class="p">,</span>
     <span class="n">bucket_name</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="s2">"path/to/my/data_0.parquet"</span><span class="p">,</span>
-        <span class="s2">"path/to/my/data_1.parquet"</span><span class="p">,</span>
-        <span class="s2">"path/to/my/data_2.parquet"</span><span class="p">,</span>
+        <span class="s2">&quot;path/to/my/data_0.parquet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;path/to/my/data_1.parquet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;path/to/my/data_2.parquet&quot;</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 
@@ -675,13 +690,13 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-({'region_name': 'us-west-2',
-  'signature_version': 'v4',
-  'retries': {'max_attempts': 10, 'mode': 'standard'}},
- 'my-bucket',
- ['path/to/my/data_0.parquet',
-  'path/to/my/data_1.parquet',
-  'path/to/my/data_2.parquet'])
+({&#39;region_name&#39;: &#39;us-west-2&#39;,
+  &#39;signature_version&#39;: &#39;v4&#39;,
+  &#39;retries&#39;: {&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;}},
+ &#39;my-bucket&#39;,
+ [&#39;path/to/my/data_0.parquet&#39;,
+  &#39;path/to/my/data_1.parquet&#39;,
+  &#39;path/to/my/data_2.parquet&#39;])
 </pre></div></div>
 </div>
 <p>Since it’s just an array of tuples, we can even use a <code class="docutils literal notranslate"><span class="pre">namedtuple</span></code> to represent the structure we decide to go with.</p>
@@ -692,15 +707,15 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 
 
-<span class="n">S3TrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"S3TrainingMetadata"</span><span class="p">,</span> <span class="s2">"config bucket keys"</span><span class="p">)</span>
+<span class="n">S3TrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;S3TrainingMetadata&quot;</span><span class="p">,</span> <span class="s2">&quot;config bucket keys&quot;</span><span class="p">)</span>
 
 <span class="n">training_metadata</span> <span class="o">=</span> <span class="n">S3TrainingMetadata</span><span class="p">(</span>
     <span class="n">s3_config</span><span class="p">,</span>
     <span class="n">bucket_name</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="s2">"path/to/my/data_0.parquet"</span><span class="p">,</span>
-        <span class="s2">"path/to/my/data_1.parquet"</span><span class="p">,</span>
-        <span class="s2">"path/to/my/data_2.parquet"</span><span class="p">,</span>
+        <span class="s2">&quot;path/to/my/data_0.parquet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;path/to/my/data_1.parquet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;path/to/my/data_2.parquet&quot;</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 
@@ -715,29 +730,29 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-S3TrainingMetadata(config={'region_name': 'us-west-2', 'signature_version': 'v4', 'retries': {'max_attempts': 10, 'mode': 'standard'}}, bucket='my-bucket', keys=['path/to/my/data_0.parquet', 'path/to/my/data_1.parquet', 'path/to/my/data_2.parquet'])
+S3TrainingMetadata(config={&#39;region_name&#39;: &#39;us-west-2&#39;, &#39;signature_version&#39;: &#39;v4&#39;, &#39;retries&#39;: {&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;}}, bucket=&#39;my-bucket&#39;, keys=[&#39;path/to/my/data_0.parquet&#39;, &#39;path/to/my/data_1.parquet&#39;, &#39;path/to/my/data_2.parquet&#39;])
 </pre></div></div>
 </div>
 </section>
 <section id="Projects-for-complex-training-metadata">
-<h2>Projects for complex training metadata<a class="headerlink" href="#Projects-for-complex-training-metadata" title="Permalink to this headline">#</a></h2>
+<h2>Projects for complex training metadata<a class="headerlink" href="#Projects-for-complex-training-metadata" title="Permalink to this heading">#</a></h2>
 <p>Each <strong>experiment</strong> on the <em>S3 Training Metadata</em> project below uses the same config to connect to S3, so no need to duplicate it. We’ll only log it to the <strong>project</strong>. Then we’ll run three experiments, with each one using a different key to load data from S3. We can represent that training metadata as a different <code class="docutils literal notranslate"><span class="pre">namedtuple</span></code> and log one to each experiment.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S3Config</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"S3Config"</span><span class="p">,</span> <span class="s2">"region_name signature_version retries"</span><span class="p">)</span>
-<span class="n">S3DatasetMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"S3DatasetMetadata"</span><span class="p">,</span> <span class="s2">"bucket key"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S3Config</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;S3Config&quot;</span><span class="p">,</span> <span class="s2">&quot;region_name signature_version retries&quot;</span><span class="p">)</span>
+<span class="n">S3DatasetMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;S3DatasetMetadata&quot;</span><span class="p">,</span> <span class="s2">&quot;bucket key&quot;</span><span class="p">)</span>
 
 <span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span>
-    <span class="s2">"S3 Training Metadata"</span><span class="p">,</span>
+    <span class="s2">&quot;S3 Training Metadata&quot;</span><span class="p">,</span>
     <span class="n">training_metadata</span><span class="o">=</span><span class="n">S3Config</span><span class="p">(</span><span class="o">**</span><span class="n">s3_config</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span>
-    <span class="s2">"path/to/my/data_0.parquet"</span><span class="p">,</span>
-    <span class="s2">"path/to/my/data_1.parquet"</span><span class="p">,</span>
-    <span class="s2">"path/to/my/data_2.parquet"</span><span class="p">,</span>
+    <span class="s2">&quot;path/to/my/data_0.parquet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path/to/my/data_1.parquet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path/to/my/data_2.parquet&quot;</span><span class="p">,</span>
 <span class="p">]:</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span>
         <span class="n">training_metadata</span><span class="o">=</span><span class="n">S3DatasetMetadata</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
@@ -751,7 +766,7 @@ S3TrainingMetadata(config={'region_name': 'us-west-2', 'signature_version': 'v4'
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">"S3 Training Metadata"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;S3 Training Metadata&quot;</span><span class="p">)</span>
 <span class="n">s3_config</span> <span class="o">=</span> <span class="n">S3Config</span><span class="p">(</span><span class="o">*</span><span class="n">project</span><span class="o">.</span><span class="n">training_metadata</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">s3_config</span><span class="p">)</span>
@@ -765,7 +780,7 @@ S3TrainingMetadata(config={'region_name': 'us-west-2', 'signature_version': 'v4'
         <span class="n">s3_config</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
         <span class="n">s3_dataset_metadata</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span>
         <span class="n">s3_dataset_metadata</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
-        <span class="s2">"./local_output.parquet"</span>
+        <span class="s2">&quot;./local_output.parquet&quot;</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -775,10 +790,10 @@ S3TrainingMetadata(config={'region_name': 'us-west-2', 'signature_version': 'v4'
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-S3Config(region_name='us-west-2', signature_version='v4', retries={'max_attempts': 10, 'mode': 'standard'})
-S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_2.parquet')
-S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_0.parquet')
-S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
+S3Config(region_name=&#39;us-west-2&#39;, signature_version=&#39;v4&#39;, retries={&#39;max_attempts&#39;: 10, &#39;mode&#39;: &#39;standard&#39;})
+S3DatasetMetadata(bucket=&#39;my-bucket&#39;, key=&#39;path/to/my/data_2.parquet&#39;)
+S3DatasetMetadata(bucket=&#39;my-bucket&#39;, key=&#39;path/to/my/data_0.parquet&#39;)
+S3DatasetMetadata(bucket=&#39;my-bucket&#39;, key=&#39;path/to/my/data_1.parquet&#39;)
 </pre></div></div>
 </div>
 </section>
@@ -789,23 +804,23 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="visualizing-logged-dataframes.html">
+          <a class="next-page" href="logging-plots.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Visualizing Logged Dataframes</div>
+                <div class="title">Logging Plots as PNGs</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="logging-basics.html">
+          <a class="prev-page" href="../quick-look/visualizing-experiments.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Logging Basics</div>
+                <div class="title">Visualizing Experiments</div>
                 
               </div>
             </a>
@@ -858,6 +873,7 @@ S3DatasetMetadata(bucket='my-bucket', key='path/to/my/data_1.parquet')
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

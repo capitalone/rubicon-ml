@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Asynchronously" href="logging-asynchronously.html" /><link rel="prev" title="Logging Training Metadata" href="logging-training-metadata.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Glossary" href="../glossary.html" /><link rel="prev" title="Link Plots to Features" href="logging-feature-plots.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>Visualizing Logged Dataframes - rubicon-ml v0.3.6</title>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
+        <title>Visualize Logged Dataframes - rubicon-ml v0.3.7</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.6</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -160,30 +160,19 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../quick-look.html">Quick Look</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../library_reference.html">Library Reference</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="logging-basics.html">Logging Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Visualizing Logged Dataframes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-git.html">Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Prefect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../integrations/integration-sklearn.html">Scikit-learn</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
@@ -191,9 +180,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Community:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
@@ -217,7 +223,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -446,6 +453,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -454,10 +462,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -469,26 +481,29 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <div class="line-block">
-<div class="line"><br/></div>
+<div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/visualizing-logged-dataframes.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/logging-examples/visualizing-logged-dataframes.ipynb" target="_blank">run it yourself on Binder</a>!</p>
-<hr class="docutils"/>
-<section id="Visualizing-Logged-Dataframes">
-<h1>Visualizing Logged Dataframes<a class="headerlink" href="#Visualizing-Logged-Dataframes" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
+<section id="Visualize-Logged-Dataframes">
+<h1>Visualize Logged Dataframes<a class="headerlink" href="#Visualize-Logged-Dataframes" title="Permalink to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> makes it easy to log dataframes and comes with default visualization support, using <a class="reference external" href="https://plotly.com/dash/">Dash and Plotly</a> under the hood. Specifically, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> leverages <a class="reference external" href="https://plotly.com/python/plotly-express/">Plotly express</a> to provide many robust visualization options.</p>
 <section id="Setup">
-<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">#</a></h2>
+<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this heading">#</a></h2>
 <p>Let’s create a project and log a sample dataframe to it so we can visualize it.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -499,8 +514,8 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">"memory"</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">"Plotting Example"</span><span class="p">)</span>
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Plotting Example&quot;</span><span class="p">)</span>
 
 <span class="n">project</span>
 </pre></div>
@@ -524,17 +539,17 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span>
     <span class="p">[</span>
-        <span class="p">[</span><span class="s2">"Walmart"</span><span class="p">,</span> <span class="mi">514405</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">"Exxon Mobil"</span><span class="p">,</span> <span class="mi">290212</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">"Apple"</span><span class="p">,</span> <span class="mi">265595</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">"Berkshire Hathaway"</span><span class="p">,</span> <span class="mi">247837</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">"Amazon.com"</span><span class="p">,</span> <span class="mi">232887</span><span class="p">]</span>
+        <span class="p">[</span><span class="s2">&quot;Walmart&quot;</span><span class="p">,</span> <span class="mi">514405</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Exxon Mobil&quot;</span><span class="p">,</span> <span class="mi">290212</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Apple&quot;</span><span class="p">,</span> <span class="mi">265595</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Berkshire Hathaway&quot;</span><span class="p">,</span> <span class="mi">247837</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Amazon.com&quot;</span><span class="p">,</span> <span class="mi">232887</span><span class="p">]</span>
     <span class="p">],</span>
-    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Company"</span><span class="p">,</span> <span class="s2">"Revenue (in millions)"</span><span class="p">]</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Revenue (in millions)&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">()</span>
-<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"sample revenue df"</span><span class="p">)</span>
+<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sample revenue df&quot;</span><span class="p">)</span>
 
 <span class="n">dataframe</span>
 </pre></div>
@@ -551,7 +566,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Visualizing-Dataframes">
-<h2>Visualizing Dataframes<a class="headerlink" href="#Visualizing-Dataframes" title="Permalink to this headline">#</a></h2>
+<h2>Visualizing Dataframes<a class="headerlink" href="#Visualizing-Dataframes" title="Permalink to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml.Dataframe.plot</span></code> exposes plotting functionality to create simple plots like line, bar, or scatter plots and tables. There are even more complex plots available in <code class="docutils literal notranslate"><span class="pre">plotly.express</span></code> - any can be passed into <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> for visualization!</p>
 <blockquote>
 <div><p><a class="reference external" href="https://plotly.com/python/plotly-express/">https://plotly.com/python/plotly-express/</a></p>
@@ -564,7 +579,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">revenue_line</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Company"</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="s2">"Revenue (in millions)"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">revenue_line</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Revenue (in millions)&quot;</span><span class="p">)</span>
 
 <span class="n">revenue_line</span>
 </pre></div>
@@ -576,7 +591,7 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 </div>
 </div>
-<img alt="dataframe line" src="../_images/visualizing-logged-dataframes-line.png"/>
+<img alt="dataframe line" src="../_images/visualizing-logged-dataframes-line.png" />
 <p>This time we’ll provide <code class="docutils literal notranslate"><span class="pre">px.scatter</span></code> as the <code class="docutils literal notranslate"><span class="pre">plotting_func</span></code> argument to generate a scatter plot.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -586,8 +601,8 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">revenue_scatter</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">plotting_func</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"Company"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"Revenue (in millions)"</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Revenue (in millions)&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">revenue_scatter</span>
@@ -600,7 +615,7 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 </div>
 </div>
-<img alt="dataframe scatter" src="../_images/visualizing-logged-dataframes-scatter.png"/>
+<img alt="dataframe scatter" src="../_images/visualizing-logged-dataframes-scatter.png" />
 <p>Dataframes can also be visualzied with the dataframe plot widget. For more info the dataframe plot, check out <a class="reference external" href="https://capitalone.github.io/rubicon-ml/visualizations/dataframe-plot.html">this example</a>. For more info on <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s visualization widgets in general, check out <a class="reference external" href="https://capitalone.github.io/rubicon-ml/visualizations.html">the docs</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -610,7 +625,7 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">DataframePlot</span><span class="p">(</span>
     <span class="n">experiments</span><span class="o">=</span><span class="p">[</span><span class="n">experiment</span><span class="p">],</span>
-    <span class="n">dataframe_name</span><span class="o">=</span><span class="s2">"sample revenue df"</span><span class="p">,</span>
+    <span class="n">dataframe_name</span><span class="o">=</span><span class="s2">&quot;sample revenue df&quot;</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -622,14 +637,14 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
 Dash is running on http://127.0.0.1:8050/
 
- * Serving Flask app 'rubicon_ml.viz.base' (lazy loading)
+ * Serving Flask app &#39;rubicon_ml.viz.base&#39; (lazy loading)
  * Environment: production
 <span class="ansi-red-fg">   WARNING: This is a development server. Do not use it in a production deployment.</span>
    Use a production WSGI server instead.
  * Debug mode: off
 </pre></div></div>
 </div>
-<img alt="dataframe widget" src="../_images/visualizing-logged-dataframes-widget.png"/>
+<img alt="dataframe widget" src="../_images/visualizing-logged-dataframes-widget.png" />
 </section>
 </section>
 
@@ -638,23 +653,23 @@ Dash is running on http://127.0.0.1:8050/
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="logging-asynchronously.html">
+          <a class="next-page" href="../glossary.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Logging Asynchronously</div>
+                <div class="title">Glossary</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="logging-training-metadata.html">
+          <a class="prev-page" href="logging-feature-plots.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Logging Training Metadata</div>
+                <div class="title">Link Plots to Features</div>
                 
               </div>
             </a>
@@ -690,7 +705,7 @@ Dash is running on http://127.0.0.1:8050/
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Visualizing Logged Dataframes</a><ul>
+<li><a class="reference internal" href="#">Visualize Logged Dataframes</a><ul>
 <li><a class="reference internal" href="#Setup">Setup</a></li>
 <li><a class="reference internal" href="#Visualizing-Dataframes">Visualizing Dataframes</a></li>
 </ul>
@@ -707,6 +722,7 @@ Dash is running on http://127.0.0.1:8050/
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
