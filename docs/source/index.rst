@@ -1,7 +1,7 @@
 .. _rubicon:
 
-Welcome to the ``rubicon-ml`` Docs!
-***********************************
+Welcome to the rubicon-ml Docs!
+*******************************
 
 rubicon-ml is a data science tool that captures and stores model training and
 execution information, like parameters and outcomes, in a repeatable and
@@ -11,22 +11,20 @@ reproducibility for both developers and stakeholders alike. And while experiment
 the dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
 
-Visit the :ref:`glossary<glossary>` to explore the terminology.
+Visit the :ref:`glossary<glossary>` to explore rubicon-ml's terminology or get
+started with the first example in our `quick look`_!
 
 Components
 ==========
 
-rubicon-ml is composed of three parts:
+rubicon-ml's core functionality is broken down into three parts...
 
-* A Python library for storing and retrieving model inputs, outputs, and
-  analyses to filesystems that’s powered by
-  fsspec_
-* A dashboard for exploring, comparing, and visualizing logged data built with
-  dash_
-* And a process for sharing a selected subset of logged data with collaborators
-  or reviewers that leverages intake_
-
-To see each of these parts in action, visit the `Quick Look`_!
+* `Logging`_: organize, store, and retrieve model inputs and outputs with various
+  backend storage options - powered by fsspec_
+* `Sharing`_: share a selected subset of logged data with collaborators or reviewers
+  - powered by intake_
+* `Visualizing`_: explore and compare logged model metadata with the dashboard and
+  other widgets - powered by dash_
 
 Workflow
 ========
@@ -102,10 +100,17 @@ To install all extra modules, use the ``all`` extra.
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :caption: Quick Look
+
+   quick-look/logging-experiments
+   quick-look/sharing-experiments
+   quick-look/visualizing-experiments
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
    :caption: Tutorials
 
-   quick-look
-   logging-examples/logging-basics
    logging-examples/logging-training-metadata
    logging-examples/logging-plots
    logging-examples/logging-asynchronously
@@ -152,5 +157,8 @@ To install all extra modules, use the ``all`` extra.
 .. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
 .. _dash: https://dash.plotly.com/
 .. _intake: https://intake.readthedocs.io/en/latest/
-.. _Quick Look: ./quick-look.html
+.. _quick look: ./quick-look/logging-experiments.html
+.. _Logging: ./quick-look/logging-experiments.html
+.. _Sharing: ./quick-look/sharing-experiments.html
+.. _Visualizing: ./quick-look/visualizing-experiments.html
 .. _Prefect integration: ./integrations/integration-prefect-workflows.html

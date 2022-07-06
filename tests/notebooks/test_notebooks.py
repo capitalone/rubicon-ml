@@ -50,9 +50,10 @@ def test_notebook_is_executed_in_order(notebook_filename):
 
 
 IGNORE_EXECUTE_NOTEBOOK_FILENAMES = [
+    "classification.ipynb",
     "integration-prefect-workflows.ipynb",
     "logging-asynchronously.ipynb",
-    "classification.ipynb",
+    "visualizing-experiments.ipynb",
 ]
 EXECUTE_NOTEBOOK_FILENAMES = [
     n for n in NOTEBOOK_FILENAMES if os.path.split(n)[-1] not in IGNORE_EXECUTE_NOTEBOOK_FILENAMES
@@ -72,8 +73,9 @@ def test_notebooks_execute_without_error(notebook_filename):
     repo_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     notebook_output_dir = os.path.join(repo_root, "notebooks", "test-rubicon-root")
 
-    fs = fsspec.filesystem("file")
-    try:
-        fs.rm(notebook_output_dir, recursive=True)
-    except FileNotFoundError:
-        pass  # some notebooks don't write output
+    if "logging-experiments.ipynb" not in notebook_filename:
+        fs = fsspec.filesystem("file")
+        try:
+            fs.rm(notebook_output_dir, recursive=True)
+        except FileNotFoundError:
+            pass  # some notebooks don't write output

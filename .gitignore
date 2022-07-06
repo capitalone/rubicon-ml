@@ -3,6 +3,7 @@ docs/build
 docs/source/**/*.ipynb
 docs/source/**/*.png
 docs/source/**/data
+notebooks/quick-look/*.yml
 .coverage
 .coverage.*
 .cache/**
