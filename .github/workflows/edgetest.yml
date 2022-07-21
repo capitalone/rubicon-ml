@@ -5,6 +5,8 @@ name: Run edgetest
 on:
   schedule:
     - cron: '0 10 * * 1-5'
+  workflow_dispatch:
+
 jobs:
   edgetest:
     runs-on: ubuntu-latest
