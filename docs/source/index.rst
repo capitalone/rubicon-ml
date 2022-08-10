@@ -113,7 +113,6 @@ To install all extra modules, use the ``all`` extra.
 
    logging-examples/logging-training-metadata
    logging-examples/logging-plots
-   logging-examples/logging-asynchronously
    logging-examples/logging-concurrently
    visualizations.rst
 
