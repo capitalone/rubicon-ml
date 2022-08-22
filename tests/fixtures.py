@@ -166,36 +166,6 @@ def rubicon_and_project_client_with_experiments(rubicon_and_project_client):
 
 
 @pytest.fixture
-def dashboard_setup(rubicon_and_project_client_with_experiments):
-    """Setup an instance of the rubicon dashboard with a default project
-    and experiment data.
-    """
-    from rubicon_ml.ui.dashboard import Dashboard
-
-    rubicon, project = rubicon_and_project_client_with_experiments
-    dashboard = Dashboard(rubicon.config.persistence, rubicon.config.root_dir)
-
-    return dashboard
-
-
-@pytest.fixture
-def dashboard_setup_without_parameters_or_metrics(rubicon_and_project_client):
-    """Setup an instance of the rubicon dashboard with a default project and
-    the bare minimum experiment data.
-    """
-    from rubicon_ml.ui.dashboard import Dashboard
-
-    rubicon, project = rubicon_and_project_client
-
-    for i in range(0, 3):
-        project.log_experiment(f"exp-{i}")
-
-    dashboard = Dashboard(rubicon.config.persistence, rubicon.config.root_dir)
-
-    return dashboard
-
-
-@pytest.fixture
 def test_dataframe():
     """Create a test dataframe which can be logged to a project or experiment."""
     import pandas as pd
