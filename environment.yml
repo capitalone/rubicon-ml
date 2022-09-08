@@ -33,7 +33,6 @@ dependencies:
   - pytest-cov
   - python-kaleido
   - shap
-  - numba>=0.56.2
   - matplotlib
   
   # for versioning

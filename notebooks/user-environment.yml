@@ -7,7 +7,6 @@ dependencies:
 
   - jupyterlab
   - matplotlib
-  - numba>=0.56.2
   - python-kaleido
   - rubicon-ml
   - shap

@@ -9,14 +9,13 @@ dependencies:
   - black
   - furo
   - ipython
+  - matplotlib
   - nbsphinx
   - numpydoc
-  - sphinx
-  - sphinx-copybutton
   - python-kaleido
   - shap
-  - numba>=0.56.2
-  - matplotlib
+  - sphinx
+  - sphinx-copybutton
 
 
   # install rubicon-ml dependencies
