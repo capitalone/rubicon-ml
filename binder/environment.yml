@@ -6,6 +6,4 @@ dependencies:
   - pip
 
   - jupyter-server-proxy
-  - python-kaleido
   - rubicon-ml
-  - scikit-learn
