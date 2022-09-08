@@ -31,9 +31,6 @@ dependencies:
   - nbconvert
   - pytest
   - pytest-cov
-  - python-kaleido
-  - shap
-  - matplotlib
   
   # for versioning
   - versioneer

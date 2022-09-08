@@ -9,11 +9,8 @@ dependencies:
   - black
   - furo
   - ipython
-  - matplotlib
   - nbsphinx
   - numpydoc
-  - python-kaleido
-  - shap
   - sphinx
   - sphinx-copybutton
 

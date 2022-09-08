@@ -6,7 +6,4 @@ dependencies:
   - pip
 
   - jupyterlab
-  - matplotlib
-  - python-kaleido
   - rubicon-ml
-  - shap
