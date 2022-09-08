@@ -4,8 +4,6 @@ import intake
 
 from rubicon_ml.intake_rubicon.experiment import ExperimentSource
 
-intake.register_driver("rubicon_ml_experiment", ExperimentSource)
-
 root = os.path.dirname(__file__)
 project_name = "intake-rubicon unit testing"
 experiment_id = "5f6ca6a1-563f-4f34-a34b-b45997bc4a1f"
