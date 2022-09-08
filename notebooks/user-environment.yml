@@ -6,11 +6,8 @@ dependencies:
   - pip
 
   - jupyterlab
-  - rubicon-ml
-  - python-kaleido
-  - shap
-  - numba>=0.55.0
   - matplotlib
-
-  # for scikit-learn examples
-  - scikit-learn
+  - numba>=0.55.0
+  - python-kaleido
+  - rubicon-ml
+  - shap
