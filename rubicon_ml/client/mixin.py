@@ -60,7 +60,13 @@ class ArtifactMixin(MultiParentMixin):
         return data_bytes, name
 
     def log_artifact(
-        self, data_bytes=None, data_file=None, data_path=None, name=None, description=None
+        self,
+        data_bytes=None,
+        data_file=None,
+        data_path=None,
+        name=None,
+        description=None,
+        tags=[],
     ):
         """Log an artifact to this client object.
 
@@ -80,6 +86,9 @@ class ArtifactMixin(MultiParentMixin):
         description : str, optional
             A description of the artifact. Use to provide
             additional context.
+        tags : list of str, optional
+            Values to tag the experiment with. Use tags to organize and
+            filter your artifacts.
 
         Notes
         -----
@@ -112,7 +121,12 @@ class ArtifactMixin(MultiParentMixin):
         """
         data_bytes, name = self._validate_data(data_bytes, data_file, data_path, name)
 
-        artifact = domain.Artifact(name=name, description=description, parent_id=self._domain.id)
+        artifact = domain.Artifact(
+            name=name,
+            description=description,
+            parent_id=self._domain.id,
+            tags=tags,
+        )
 
         project_name, experiment_id = self._get_parent_identifiers()
         self.repository.create_artifact(
@@ -410,15 +424,15 @@ class TagMixin:
     """Adds tag support to a client object."""
 
     def _get_taggable_identifiers(self):
-        dataframe_id = None
+        entity_id = None
 
-        if isinstance(self, client.Dataframe):
-            project_name, experiment_id = self.parent._get_parent_identifiers()
-            dataframe_id = self.id
-        else:
+        if isinstance(self, client.Project):
             project_name, experiment_id = self._get_parent_identifiers()
+        else:
+            project_name, experiment_id = self.parent._get_parent_identifiers()
+            entity_id = self.id
 
-        return project_name, experiment_id, dataframe_id
+        return project_name, experiment_id, entity_id
 
     def add_tags(self, tags):
         """Add tags to this client object.
@@ -428,11 +442,15 @@ class TagMixin:
         tags : list of str
             The tag values to add.
         """
-        project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
 
         self._domain.add_tags(tags)
         self.repository.add_tags(
-            project_name, tags, experiment_id=experiment_id, dataframe_id=dataframe_id
+            project_name,
+            tags,
+            experiment_id=experiment_id,
+            entity_id=entity_id,
+            entity_type=self.__class__.__name__,
         )
 
     def remove_tags(self, tags):
@@ -443,11 +461,15 @@ class TagMixin:
         tags : list of str
              The tag values to remove.
         """
-        project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
 
         self._domain.remove_tags(tags)
         self.repository.remove_tags(
-            project_name, tags, experiment_id=experiment_id, dataframe_id=dataframe_id
+            project_name,
+            tags,
+            experiment_id=experiment_id,
+            entity_id=entity_id,
+            entity_type=self.__class__.__name__,
         )
 
     def _update_tags(self, tag_data):
@@ -461,11 +483,12 @@ class TagMixin:
     @property
     def tags(self):
         """Get this client object's tags."""
-        project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
         tag_data = self.repository.get_tags(
             project_name,
             experiment_id=experiment_id,
-            dataframe_id=dataframe_id,
+            entity_id=entity_id,
+            entity_type=self.__class__.__name__,
         )
 
         self._update_tags(tag_data)

@@ -3,9 +3,10 @@ import os
 import fsspec
 
 from rubicon_ml.client import Base
+from rubicon_ml.client.mixin import MultiParentMixin, TagMixin
 
 
-class Artifact(Base):
+class Artifact(Base, MultiParentMixin, TagMixin):
     """A client artifact.
 
     An `artifact` is a catch-all for any other type of
