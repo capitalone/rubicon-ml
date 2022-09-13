@@ -921,9 +921,13 @@ class BaseRepository:
             "Dataframe": self._get_dataframe_metadata_root,
             "Experiment": self._get_experiment_metadata_root,
         }
-        get_metadata_root = get_metadata_root_lookup[entity_type]
 
-        if entity_type == "experiment":
+        try:
+            get_metadata_root = get_metadata_root_lookup[entity_type]
+        except KeyError:
+            raise ValueError("`experiment_id` and `entity_id` can not both be `None`.")
+
+        if entity_type == "Experiment":
             experiment_metadata_root = get_metadata_root(project_name)
 
             return f"{experiment_metadata_root}/{experiment_id}"
@@ -931,8 +935,6 @@ class BaseRepository:
             entity_metadata_root = get_metadata_root(project_name, experiment_id)
 
             return f"{entity_metadata_root}/{entity_id}"
-
-        raise ValueError("`experiment_id` and `entity_id` can not both be `None`.")
 
     def add_tags(self, project_name, tags, experiment_id=None, entity_id=None, entity_type=None):
         """Persist tags to the configured filesystem.

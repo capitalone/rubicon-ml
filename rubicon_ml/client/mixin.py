@@ -428,8 +428,11 @@ class TagMixin:
 
         if isinstance(self, client.Project):
             project_name, experiment_id = self._get_parent_identifiers()
+        elif isinstance(self, client.Experiment):
+            project_name, _ = self._get_parent_identifiers()
+            experiment_id = self.id
         else:
-            project_name, experiment_id = self.parent._get_parent_identifiers()
+            project_name, experiment_id = self._parent._get_parent_identifiers()
             entity_id = self.id
 
         return project_name, experiment_id, entity_id

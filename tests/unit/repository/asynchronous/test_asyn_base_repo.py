@@ -801,7 +801,10 @@ def test_add_tags(asyn_repo_w_mock_filesystem):
     tags = ["x"]
     asyncio.run(
         asyn_repo_w_mock_filesystem.add_tags(
-            experiment.project_name, tags, experiment_id=experiment.id
+            experiment.project_name,
+            tags,
+            experiment_id=experiment.id,
+            entity_type=experiment.__class__.__name__,
         )
     )
 
@@ -818,7 +821,10 @@ def test_remove_tags(asyn_repo_w_mock_filesystem):
     tags = ["x"]
     asyncio.run(
         asyn_repo_w_mock_filesystem.remove_tags(
-            experiment.project_name, tags, experiment_id=experiment.id
+            experiment.project_name,
+            tags,
+            experiment_id=experiment.id,
+            entity_type=experiment.__class__.__name__,
         )
     )
 
@@ -839,7 +845,11 @@ def test_get_tags(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._cat_file.return_value = '{"test":"test"}'
 
     asyncio.run(
-        asyn_repo_w_mock_filesystem.get_tags(experiment.project_name, experiment_id=experiment.id)
+        asyn_repo_w_mock_filesystem.get_tags(
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_type=experiment.__class__.__name__,
+        )
     )
 
     filesystem_expected = [call._lsdir(ANY), call._cat_file(ANY)]
@@ -854,7 +864,11 @@ def test_get_tags_with_no_results(asyn_repo_w_mock_filesystem):
     asyn_repo_w_mock_filesystem.filesystem._lsdir.return_value = []
 
     tags = asyncio.run(
-        asyn_repo_w_mock_filesystem.get_tags(experiment.project_name, experiment_id=experiment.id)
+        asyn_repo_w_mock_filesystem.get_tags(
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_type=experiment.__class__.__name__,
+        )
     )
 
     filesystem_expected = [call._lsdir(ANY)]

@@ -819,7 +819,9 @@ class AsynchronousBaseRepository(BaseRepository):
 
     @connect
     @invalidate_cache
-    async def add_tags(self, project_name, tags, experiment_id=None, dataframe_id=None):
+    async def add_tags(
+        self, project_name, tags, experiment_id=None, dataframe_id=None, entity_type=None
+    ):
         """Overrides `rubicon.repository.BaseRepository.add_tags
         to asynchronously persist tags to the configured filesystem.
 
@@ -837,14 +839,18 @@ class AsynchronousBaseRepository(BaseRepository):
             The ID of the dataframe to apply the tags
             `tags` to.
         """
-        tag_metadata_root = self._get_tag_metadata_root(project_name, experiment_id, dataframe_id)
+        tag_metadata_root = self._get_tag_metadata_root(
+            project_name, experiment_id, dataframe_id, entity_type
+        )
         tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
 
         await self._persist_domain({"added_tags": tags}, tag_metadata_path)
 
     @connect
     @invalidate_cache
-    async def remove_tags(self, project_name, tags, experiment_id=None, dataframe_id=None):
+    async def remove_tags(
+        self, project_name, tags, experiment_id=None, dataframe_id=None, entity_type=None
+    ):
         """Overrides `rubicon.repository.BaseRepository.remove_tags`
         to asynchronously delete tags from the configured filesystem.
 
@@ -862,13 +868,15 @@ class AsynchronousBaseRepository(BaseRepository):
             The ID of the dataframe to delete the tags
             `tags` from.
         """
-        tag_metadata_root = self._get_tag_metadata_root(project_name, experiment_id, dataframe_id)
+        tag_metadata_root = self._get_tag_metadata_root(
+            project_name, experiment_id, dataframe_id, entity_type
+        )
         tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
 
         await self._persist_domain({"removed_tags": tags}, tag_metadata_path)
 
     @connect
-    async def get_tags(self, project_name, experiment_id=None, dataframe_id=None):
+    async def get_tags(self, project_name, experiment_id=None, dataframe_id=None, entity_type=None):
         """Overrides `rubicon.repository.BaseRepository.get_tags` to
         asynchronously retrieve tags from the configured filesystem.
 
@@ -890,7 +898,9 @@ class AsynchronousBaseRepository(BaseRepository):
             value is a list of tag names that have been
             added to or removed from the specified object.
         """
-        tag_metadata_root = self._get_tag_metadata_root(project_name, experiment_id, dataframe_id)
+        tag_metadata_root = self._get_tag_metadata_root(
+            project_name, experiment_id, dataframe_id, entity_type
+        )
 
         all_paths = await self.filesystem._lsdir(tag_metadata_root)
         tag_paths = [p for p in all_paths if "/tags_" in p["name"]]

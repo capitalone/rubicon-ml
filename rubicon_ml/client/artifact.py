@@ -2,7 +2,7 @@ import os
 
 import fsspec
 
-from rubicon_ml.client import Base
+from rubicon_ml.client.base import Base
 from rubicon_ml.client.mixin import MultiParentMixin, TagMixin
 
 
