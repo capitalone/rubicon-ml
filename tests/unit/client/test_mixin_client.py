@@ -333,14 +333,45 @@ def test_get_taggable_experiment_identifiers(project_client):
 
 def test_get_taggable_dataframe_identifiers(project_client, test_dataframe):
     project = project_client
-    df = test_dataframe
-    logged_df = project.log_dataframe(df)
+    experiment = project.log_experiment()
 
-    project_name, experiment_id, dataframe_id = TagMixin._get_taggable_identifiers(logged_df)
+    df = test_dataframe
+    project_df = project.log_dataframe(df)
+    experiment_df = experiment.log_dataframe(df)
+
+    project_name, experiment_id, dataframe_id = TagMixin._get_taggable_identifiers(project_df)
 
     assert project_name == project.name
     assert experiment_id is None
-    assert dataframe_id == logged_df.id
+    assert dataframe_id == project_df.id
+
+    project_name, experiment_id, dataframe_id = TagMixin._get_taggable_identifiers(experiment_df)
+
+    assert project_name == project.name
+    assert experiment_id is experiment.id
+    assert dataframe_id == experiment_df.id
+
+
+def test_get_taggable_artifact_identifiers(project_client):
+    project = project_client
+    experiment = project.log_experiment()
+
+    project_artifact = project.log_artifact(data_bytes=b"test", name="test")
+    experiment_artifact = experiment.log_artifact(data_bytes=b"test", name="test")
+
+    project_name, experiment_id, artifact_id = TagMixin._get_taggable_identifiers(project_artifact)
+
+    assert project_name == project.name
+    assert experiment_id is None
+    assert artifact_id == project_artifact.id
+
+    project_name, experiment_id, artifact_id = TagMixin._get_taggable_identifiers(
+        experiment_artifact
+    )
+
+    assert project_name == project.name
+    assert experiment_id is experiment.id
+    assert artifact_id == experiment_artifact.id
 
 
 def test_add_tags(project_client):
