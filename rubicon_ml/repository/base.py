@@ -916,6 +916,7 @@ class BaseRepository:
     def _get_tag_metadata_root(
         self, project_name, experiment_id=None, entity_id=None, entity_type=None
     ):
+        """Returns the directory to write tags to."""
         get_metadata_root_lookup = {
             "Artifact": self._get_artifact_metadata_root,
             "Dataframe": self._get_dataframe_metadata_root,
@@ -949,9 +950,12 @@ class BaseRepository:
         experiment_id : str, optional
             The ID of the experiment to apply the tags
             `tags` to.
-        dataframe_id : str, optional
-            The ID of the dataframe to apply the tags
+        entity_id : str, optional
+            The ID of the entity to apply the tags
             `tags` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
         """
         tag_metadata_root = self._get_tag_metadata_root(
             project_name, experiment_id, entity_id, entity_type
@@ -973,9 +977,12 @@ class BaseRepository:
         experiment_id : str, optional
             The ID of the experiment to delete the tags
             `tags` from.
-        dataframe_id : str, optional
-            The ID of the dataframe to delete the tags
-            `tags` from.
+        entity_id : str, optional
+            The ID of the entity to apply the tags
+            `tags` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
         """
         tag_metadata_root = self._get_tag_metadata_root(
             project_name, experiment_id, entity_id, entity_type
@@ -1008,8 +1015,12 @@ class BaseRepository:
             tags from belongs to.
         experiment_id : str, optional
             The ID of the experiment to retrieve tags from.
-        dataframe_id : str, optional
-            The ID of the dataframe to retrieve tags from.
+        entity_id : str, optional
+            The ID of the entity to apply the tags
+            `tags` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
 
         Returns
         -------
