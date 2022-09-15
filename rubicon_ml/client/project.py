@@ -49,7 +49,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return completed_process.stdout.decode("utf8").replace("\n", "")
 
-    def _get_parent_identifiers(self):
+    def _get_identifiers(self):
+        """Get the project's name."""
         return self.name, None
 
     def _create_experiment_domain(

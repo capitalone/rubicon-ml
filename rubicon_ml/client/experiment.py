@@ -37,7 +37,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         self._features = []
         self._parameters = []
 
-    def _get_parent_identifiers(self):
+    def _get_identifiers(self):
+        """Get the experiment's project's name and the experiment's ID."""
         return self.project.name, self.id
 
     def log_metric(self, name, value, directionality="score", description=None):

@@ -34,7 +34,7 @@ def test_properties(project_client):
 def test_get_identifiers(project_client):
     project = project_client
     experiment = project.log_experiment()
-    project_name, experiment_id = experiment._get_parent_identifiers()
+    project_name, experiment_id = experiment._get_identifiers()
 
     assert project_name == project.name
     assert experiment_id == experiment.id

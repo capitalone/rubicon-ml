@@ -41,7 +41,7 @@ class Dataframe(Base, TagMixin):
             The type of dataframe. Can be either `pandas` or `dask`.
             Defaults to 'pandas'.
         """
-        project_name, experiment_id = self.parent._get_parent_identifiers()
+        project_name, experiment_id = self.parent._get_identifiers()
 
         self._data = self.repository.get_dataframe_data(
             project_name,

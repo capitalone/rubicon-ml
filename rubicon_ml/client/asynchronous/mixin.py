@@ -65,7 +65,7 @@ class ArtifactMixin:
 
         artifact = domain.Artifact(name=name, description=description, parent_id=self._domain.id)
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         await self.repository.create_artifact(
             artifact, data_bytes, project_name, experiment_id=experiment_id
         )
@@ -129,7 +129,7 @@ class ArtifactMixin:
         list of rubicon.client.Artifact
             The artifacts previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         self._artifacts = [
             client.Artifact(a, self)
@@ -150,7 +150,7 @@ class ArtifactMixin:
         ids : list of str
             The ids of the artifacts to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         await asyncio.gather(
             *[
@@ -186,7 +186,7 @@ class DataframeMixin:
         """
         dataframe = domain.Dataframe(parent_id=self._domain.id, description=description, tags=tags)
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         await self.repository.create_dataframe(
             dataframe, df, project_name, experiment_id=experiment_id
         )
@@ -225,7 +225,7 @@ class DataframeMixin:
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         dataframes = [
             client.Dataframe(d, self)
             for d in await self.repository.get_dataframes_metadata(
@@ -247,7 +247,7 @@ class DataframeMixin:
         ids : list of str
             The ids of the dataframes to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         await asyncio.gather(
             *[

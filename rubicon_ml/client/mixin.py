@@ -108,7 +108,7 @@ class ArtifactMixin:
             tags=tags,
         )
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         self.repository.create_artifact(
             artifact, data_bytes, project_name, experiment_id=experiment_id
         )
@@ -196,7 +196,7 @@ class ArtifactMixin:
         list of rubicon.client.Artifact
             The artifacts previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         self._artifacts = [
             client.Artifact(a, self)
             for a in self.repository.get_artifacts_metadata(
@@ -239,7 +239,7 @@ class ArtifactMixin:
 
             artifact = artifacts[-1]
         else:
-            project_name, experiment_id = self._get_parent_identifiers()
+            project_name, experiment_id = self._get_identifiers()
             artifact = client.Artifact(
                 self.repository.get_artifact_metadata(project_name, id, experiment_id), self
             )
@@ -255,7 +255,7 @@ class ArtifactMixin:
         ids : list of str
             The ids of the artifacts to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         for artifact_id in ids:
             self.repository.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
@@ -289,7 +289,7 @@ class DataframeMixin:
             tags=tags,
         )
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         self.repository.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
 
         return client.Dataframe(dataframe, self)
@@ -330,7 +330,7 @@ class DataframeMixin:
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         dataframes = [
             client.Dataframe(d, self)
             for d in self.repository.get_dataframes_metadata(
@@ -373,7 +373,7 @@ class DataframeMixin:
 
             dataframe = dataframes[-1]
         else:
-            project_name, experiment_id = self._get_parent_identifiers()
+            project_name, experiment_id = self._get_identifiers()
             dataframe = client.Dataframe(
                 self.repository.get_dataframe_metadata(
                     project_name, experiment_id=experiment_id, dataframe_id=id
@@ -392,7 +392,7 @@ class DataframeMixin:
         ids : list of str
             The ids of the dataframes to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         for dataframe_id in ids:
             self.repository.delete_dataframe(
@@ -407,12 +407,12 @@ class TagMixin:
         entity_id = None
 
         if isinstance(self, client.Project):
-            project_name, experiment_id = self._get_parent_identifiers()
+            project_name, experiment_id = self._get_identifiers()
         elif isinstance(self, client.Experiment):
-            project_name, _ = self._get_parent_identifiers()
+            project_name, _ = self._get_identifiers()
             experiment_id = self.id
         else:
-            project_name, experiment_id = self._parent._get_parent_identifiers()
+            project_name, experiment_id = self._parent._get_identifiers()
             entity_id = self.id
 
         return project_name, experiment_id, entity_id

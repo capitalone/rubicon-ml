@@ -61,7 +61,7 @@ def test_get_commit_hash(project_client):
 
 def test_get_identifiers(project_client):
     project = project_client
-    project_name, experiment_id = project._get_parent_identifiers()
+    project_name, experiment_id = project._get_identifiers()
 
     assert project_name == project.name
     assert experiment_id is None
