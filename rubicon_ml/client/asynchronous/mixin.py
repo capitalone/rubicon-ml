@@ -3,11 +3,10 @@ from datetime import datetime
 
 from rubicon_ml import domain
 from rubicon_ml.client import asynchronous as client
-from rubicon_ml.client.mixin import MultiParentMixin
 from rubicon_ml.client.utils.tags import has_tag_requirements
 
 
-class ArtifactMixin(MultiParentMixin):
+class ArtifactMixin:
     """Adds artifact support to an asynchronous client object."""
 
     async def log_artifact(
@@ -66,7 +65,7 @@ class ArtifactMixin(MultiParentMixin):
 
         artifact = domain.Artifact(name=name, description=description, parent_id=self._domain.id)
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         await self.repository.create_artifact(
             artifact, data_bytes, project_name, experiment_id=experiment_id
         )
@@ -130,7 +129,7 @@ class ArtifactMixin(MultiParentMixin):
         list of rubicon.client.Artifact
             The artifacts previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         self._artifacts = [
             client.Artifact(a, self)
@@ -151,7 +150,7 @@ class ArtifactMixin(MultiParentMixin):
         ids : list of str
             The ids of the artifacts to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         await asyncio.gather(
             *[
@@ -163,7 +162,7 @@ class ArtifactMixin(MultiParentMixin):
         )
 
 
-class DataframeMixin(MultiParentMixin):
+class DataframeMixin:
     """Adds dataframe support to an asynchronous client object."""
 
     async def log_dataframe(self, df, description=None, tags=[]):
@@ -187,7 +186,7 @@ class DataframeMixin(MultiParentMixin):
         """
         dataframe = domain.Dataframe(parent_id=self._domain.id, description=description, tags=tags)
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         await self.repository.create_dataframe(
             dataframe, df, project_name, experiment_id=experiment_id
         )
@@ -226,7 +225,7 @@ class DataframeMixin(MultiParentMixin):
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         dataframes = [
             client.Dataframe(d, self)
             for d in await self.repository.get_dataframes_metadata(
@@ -248,7 +247,7 @@ class DataframeMixin(MultiParentMixin):
         ids : list of str
             The ids of the dataframes to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         await asyncio.gather(
             *[

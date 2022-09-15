@@ -29,7 +29,7 @@ class Artifact(SyncArtifact):
         """Overrides `rubicon.client.Artifact._get_data` to
         asynchronously load the data associated with this artifact.
         """
-        project_name, experiment_id = self.parent._get_parent_identifiers()
+        project_name, experiment_id = self.parent._get_identifiers()
 
         self._data = await self.repository.get_artifact_data(
             project_name, self.id, experiment_id=experiment_id

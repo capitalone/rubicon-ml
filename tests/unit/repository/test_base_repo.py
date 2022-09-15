@@ -818,7 +818,9 @@ def test_get_experiment_tags_root(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     experiment_tags_root = repository._get_tag_metadata_root(
-        experiment.project_name, experiment_id=experiment.id
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
     )
 
     assert (
@@ -831,7 +833,9 @@ def test_get_dataframe_tags_with_project_parent_root(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     dataframe = _create_pandas_dataframe(repository, project=project)
-    dataframe_tags_root = repository._get_tag_metadata_root(project.name, dataframe_id=dataframe.id)
+    dataframe_tags_root = repository._get_tag_metadata_root(
+        project.name, entity_id=dataframe.id, entity_type=dataframe.__class__.__name__
+    )
 
     assert (
         dataframe_tags_root
@@ -848,7 +852,10 @@ def test_get_dataframe_tags_with_experiment_parent_root(memory_repository):
     repository.create_dataframe(dataframe, dataframe_data, experiment.project_name, experiment.id)
 
     dataframe_tags_root = repository._get_tag_metadata_root(
-        experiment.project_name, experiment_id=experiment.id, dataframe_id=dataframe.id
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_id=dataframe.id,
+        entity_type=dataframe.__class__.__name__,
     )
 
     assert (
@@ -865,13 +872,18 @@ def test_get_root_without_experiment_or_dataframe_throws_error(memory_repository
     with pytest.raises(ValueError) as e:
         repository._get_tag_metadata_root(project.name)
 
-    assert "`experiment_id` and `dataframe_id` can not both be `None`" in str(e)
+    assert "`experiment_id` and `entity_id` can not both be `None`" in str(e)
 
 
 def test_add_tags(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    repository.add_tags(experiment.project_name, ["wow"], experiment_id=experiment.id)
+    repository.add_tags(
+        experiment.project_name,
+        ["wow"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
 
     tags_glob = f"{repository.root_dir}/{slugify(experiment.project_name)}/experiments/{experiment.id}/tags_*.json"
     tags_files = repository.filesystem.glob(tags_glob)
@@ -888,7 +900,12 @@ def test_add_tags(memory_repository):
 def test_remove_tags(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository, tags=["wow"])
-    repository.remove_tags(experiment.project_name, ["wow"], experiment_id=experiment.id)
+    repository.remove_tags(
+        experiment.project_name,
+        ["wow"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
 
     tags_glob = f"{repository.root_dir}/{slugify(experiment.project_name)}/experiments/{experiment.id}/tags_*.json"
     tags_files = repository.filesystem.glob(tags_glob)
@@ -905,10 +922,24 @@ def test_remove_tags(memory_repository):
 def test_get_tags(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository, tags=["wow"])
-    repository.add_tags(experiment.project_name, ["cool"], experiment_id=experiment.id)
-    repository.remove_tags(experiment.project_name, ["wow"], experiment_id=experiment.id)
+    repository.add_tags(
+        experiment.project_name,
+        ["cool"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+    repository.remove_tags(
+        experiment.project_name,
+        ["wow"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
 
-    tags = repository.get_tags(experiment.project_name, experiment_id=experiment.id)
+    tags = repository.get_tags(
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
 
     assert {"added_tags": ["cool"]} in tags
     assert {"removed_tags": ["wow"]} in tags
@@ -918,6 +949,10 @@ def test_get_tags_with_no_results(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
 
-    tags = repository.get_tags(experiment.project_name, experiment_id=experiment.id)
+    tags = repository.get_tags(
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
 
     assert tags == []

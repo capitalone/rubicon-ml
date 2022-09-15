@@ -59,6 +59,14 @@ def test_get_commit_hash(project_client):
         assert mock_run.mock_calls == expected
 
 
+def test_get_identifiers(project_client):
+    project = project_client
+    project_name, experiment_id = project._get_identifiers()
+
+    assert project_name == project.name
+    assert experiment_id is None
+
+
 def test_create_experiment_with_auto_git():
     with mock.patch("subprocess.run") as mock_run:
         mock_run.return_value = MockCompletedProcess(stdout=b"test", returncode=0)

@@ -10,27 +10,7 @@ from rubicon_ml.client.utils.tags import has_tag_requirements
 from rubicon_ml.exceptions import RubiconException
 
 
-class MultiParentMixin:
-    """Adds utils for client objects that can be logged
-    to either a `Project` or `Experiment`.
-    """
-
-    def _get_parent_identifiers(self):
-        """Get the project name and experiment ID (or
-        `None`) of this client object's parent(s).
-        """
-        experiment_id = None
-
-        if isinstance(self, client.Project):
-            project_name = self.name
-        else:
-            project_name = self.project.name
-            experiment_id = self.id
-
-        return project_name, experiment_id
-
-
-class ArtifactMixin(MultiParentMixin):
+class ArtifactMixin:
     """Adds artifact support to a client object."""
 
     def _validate_data(self, data_bytes, data_file, data_path, name):
@@ -60,7 +40,13 @@ class ArtifactMixin(MultiParentMixin):
         return data_bytes, name
 
     def log_artifact(
-        self, data_bytes=None, data_file=None, data_path=None, name=None, description=None
+        self,
+        data_bytes=None,
+        data_file=None,
+        data_path=None,
+        name=None,
+        description=None,
+        tags=[],
     ):
         """Log an artifact to this client object.
 
@@ -80,6 +66,9 @@ class ArtifactMixin(MultiParentMixin):
         description : str, optional
             A description of the artifact. Use to provide
             additional context.
+        tags : list of str, optional
+            Values to tag the experiment with. Use tags to organize and
+            filter your artifacts.
 
         Notes
         -----
@@ -112,9 +101,14 @@ class ArtifactMixin(MultiParentMixin):
         """
         data_bytes, name = self._validate_data(data_bytes, data_file, data_path, name)
 
-        artifact = domain.Artifact(name=name, description=description, parent_id=self._domain.id)
+        artifact = domain.Artifact(
+            name=name,
+            description=description,
+            parent_id=self._domain.id,
+            tags=tags,
+        )
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         self.repository.create_artifact(
             artifact, data_bytes, project_name, experiment_id=experiment_id
         )
@@ -202,7 +196,7 @@ class ArtifactMixin(MultiParentMixin):
         list of rubicon.client.Artifact
             The artifacts previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         self._artifacts = [
             client.Artifact(a, self)
             for a in self.repository.get_artifacts_metadata(
@@ -245,7 +239,7 @@ class ArtifactMixin(MultiParentMixin):
 
             artifact = artifacts[-1]
         else:
-            project_name, experiment_id = self._get_parent_identifiers()
+            project_name, experiment_id = self._get_identifiers()
             artifact = client.Artifact(
                 self.repository.get_artifact_metadata(project_name, id, experiment_id), self
             )
@@ -261,13 +255,13 @@ class ArtifactMixin(MultiParentMixin):
         ids : list of str
             The ids of the artifacts to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         for artifact_id in ids:
             self.repository.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
 
 
-class DataframeMixin(MultiParentMixin):
+class DataframeMixin:
     """Adds dataframe support to a client object."""
 
     def log_dataframe(self, df, description=None, name=None, tags=[]):
@@ -295,7 +289,7 @@ class DataframeMixin(MultiParentMixin):
             tags=tags,
         )
 
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         self.repository.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
 
         return client.Dataframe(dataframe, self)
@@ -336,7 +330,7 @@ class DataframeMixin(MultiParentMixin):
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
         dataframes = [
             client.Dataframe(d, self)
             for d in self.repository.get_dataframes_metadata(
@@ -379,7 +373,7 @@ class DataframeMixin(MultiParentMixin):
 
             dataframe = dataframes[-1]
         else:
-            project_name, experiment_id = self._get_parent_identifiers()
+            project_name, experiment_id = self._get_identifiers()
             dataframe = client.Dataframe(
                 self.repository.get_dataframe_metadata(
                     project_name, experiment_id=experiment_id, dataframe_id=id
@@ -398,7 +392,7 @@ class DataframeMixin(MultiParentMixin):
         ids : list of str
             The ids of the dataframes to delete.
         """
-        project_name, experiment_id = self._get_parent_identifiers()
+        project_name, experiment_id = self._get_identifiers()
 
         for dataframe_id in ids:
             self.repository.delete_dataframe(
@@ -410,15 +404,16 @@ class TagMixin:
     """Adds tag support to a client object."""
 
     def _get_taggable_identifiers(self):
-        dataframe_id = None
+        project_name, experiment_id = self._parent._get_identifiers()
+        entity_id = None
 
-        if isinstance(self, client.Dataframe):
-            project_name, experiment_id = self.parent._get_parent_identifiers()
-            dataframe_id = self.id
+        # experiments are not required to return an entity ID - they are the entity
+        if isinstance(self, client.Experiment):
+            experiment_id = self.id
         else:
-            project_name, experiment_id = self._get_parent_identifiers()
+            entity_id = self.id
 
-        return project_name, experiment_id, dataframe_id
+        return project_name, experiment_id, entity_id
 
     def add_tags(self, tags):
         """Add tags to this client object.
@@ -428,11 +423,15 @@ class TagMixin:
         tags : list of str
             The tag values to add.
         """
-        project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
 
         self._domain.add_tags(tags)
         self.repository.add_tags(
-            project_name, tags, experiment_id=experiment_id, dataframe_id=dataframe_id
+            project_name,
+            tags,
+            experiment_id=experiment_id,
+            entity_id=entity_id,
+            entity_type=self.__class__.__name__,
         )
 
     def remove_tags(self, tags):
@@ -443,11 +442,15 @@ class TagMixin:
         tags : list of str
              The tag values to remove.
         """
-        project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
 
         self._domain.remove_tags(tags)
         self.repository.remove_tags(
-            project_name, tags, experiment_id=experiment_id, dataframe_id=dataframe_id
+            project_name,
+            tags,
+            experiment_id=experiment_id,
+            entity_id=entity_id,
+            entity_type=self.__class__.__name__,
         )
 
     def _update_tags(self, tag_data):
@@ -461,11 +464,12 @@ class TagMixin:
     @property
     def tags(self):
         """Get this client object's tags."""
-        project_name, experiment_id, dataframe_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
         tag_data = self.repository.get_tags(
             project_name,
             experiment_id=experiment_id,
-            dataframe_id=dataframe_id,
+            entity_id=entity_id,
+            entity_type=self.__class__.__name__,
         )
 
         self._update_tags(tag_data)

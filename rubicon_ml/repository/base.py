@@ -913,19 +913,31 @@ class BaseRepository:
 
     # ---------- Tags ----------
 
-    def _get_tag_metadata_root(self, project_name, experiment_id=None, dataframe_id=None):
-        if dataframe_id is not None:
-            dataframe_metadata_root = self._get_dataframe_metadata_root(project_name, experiment_id)
+    def _get_tag_metadata_root(
+        self, project_name, experiment_id=None, entity_id=None, entity_type=None
+    ):
+        """Returns the directory to write tags to."""
+        get_metadata_root_lookup = {
+            "Artifact": self._get_artifact_metadata_root,
+            "Dataframe": self._get_dataframe_metadata_root,
+            "Experiment": self._get_experiment_metadata_root,
+        }
 
-            return f"{dataframe_metadata_root}/{dataframe_id}"
-        elif experiment_id is not None:
-            experiment_metadata_root = self._get_experiment_metadata_root(project_name)
+        try:
+            get_metadata_root = get_metadata_root_lookup[entity_type]
+        except KeyError:
+            raise ValueError("`experiment_id` and `entity_id` can not both be `None`.")
+
+        if entity_type == "Experiment":
+            experiment_metadata_root = get_metadata_root(project_name)
 
             return f"{experiment_metadata_root}/{experiment_id}"
         else:
-            raise ValueError("`experiment_id` and `dataframe_id` can not both be `None`.")
+            entity_metadata_root = get_metadata_root(project_name, experiment_id)
 
-    def add_tags(self, project_name, tags, experiment_id=None, dataframe_id=None):
+            return f"{entity_metadata_root}/{entity_id}"
+
+    def add_tags(self, project_name, tags, experiment_id=None, entity_id=None, entity_type=None):
         """Persist tags to the configured filesystem.
 
         Parameters
@@ -938,16 +950,21 @@ class BaseRepository:
         experiment_id : str, optional
             The ID of the experiment to apply the tags
             `tags` to.
-        dataframe_id : str, optional
-            The ID of the dataframe to apply the tags
+        entity_id : str, optional
+            The ID of the entity to apply the tags
             `tags` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
         """
-        tag_metadata_root = self._get_tag_metadata_root(project_name, experiment_id, dataframe_id)
+        tag_metadata_root = self._get_tag_metadata_root(
+            project_name, experiment_id, entity_id, entity_type
+        )
         tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
 
         self._persist_domain({"added_tags": tags}, tag_metadata_path)
 
-    def remove_tags(self, project_name, tags, experiment_id=None, dataframe_id=None):
+    def remove_tags(self, project_name, tags, experiment_id=None, entity_id=None, entity_type=None):
         """Delete tags from the configured filesystem.
 
         Parameters
@@ -960,11 +977,16 @@ class BaseRepository:
         experiment_id : str, optional
             The ID of the experiment to delete the tags
             `tags` from.
-        dataframe_id : str, optional
-            The ID of the dataframe to delete the tags
-            `tags` from.
+        entity_id : str, optional
+            The ID of the entity to apply the tags
+            `tags` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
         """
-        tag_metadata_root = self._get_tag_metadata_root(project_name, experiment_id, dataframe_id)
+        tag_metadata_root = self._get_tag_metadata_root(
+            project_name, experiment_id, entity_id, entity_type
+        )
         tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
 
         self._persist_domain({"removed_tags": tags}, tag_metadata_path)
@@ -983,7 +1005,7 @@ class BaseRepository:
 
         return tag_paths_with_timestamps
 
-    def get_tags(self, project_name, experiment_id=None, dataframe_id=None):
+    def get_tags(self, project_name, experiment_id=None, entity_id=None, entity_type=None):
         """Retrieve tags from the configured filesystem.
 
         Parameters
@@ -993,8 +1015,12 @@ class BaseRepository:
             tags from belongs to.
         experiment_id : str, optional
             The ID of the experiment to retrieve tags from.
-        dataframe_id : str, optional
-            The ID of the dataframe to retrieve tags from.
+        entity_id : str, optional
+            The ID of the entity to apply the tags
+            `tags` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
 
         Returns
         -------
@@ -1004,7 +1030,9 @@ class BaseRepository:
             value is a list of tag names that have been
             added to or removed from the specified object.
         """
-        tag_metadata_root = self._get_tag_metadata_root(project_name, experiment_id, dataframe_id)
+        tag_metadata_root = self._get_tag_metadata_root(
+            project_name, experiment_id, entity_id, entity_type
+        )
         tag_metadata_glob = f"{tag_metadata_root}/tags_*.json"
 
         tag_paths = self.filesystem.glob(tag_metadata_glob, detail=True)

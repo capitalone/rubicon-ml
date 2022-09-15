@@ -2,10 +2,11 @@ import os
 
 import fsspec
 
-from rubicon_ml.client import Base
+from rubicon_ml.client.base import Base
+from rubicon_ml.client.mixin import TagMixin
 
 
-class Artifact(Base):
+class Artifact(Base, TagMixin):
     """A client artifact.
 
     An `artifact` is a catch-all for any other type of
@@ -35,7 +36,7 @@ class Artifact(Base):
 
     def _get_data(self):
         """Loads the data associated with this artifact."""
-        project_name, experiment_id = self.parent._get_parent_identifiers()
+        project_name, experiment_id = self.parent._get_identifiers()
 
         self._data = self.repository.get_artifact_data(
             project_name, self.id, experiment_id=experiment_id
