@@ -404,15 +404,13 @@ class TagMixin:
     """Adds tag support to a client object."""
 
     def _get_taggable_identifiers(self):
+        project_name, experiment_id = self._parent._get_identifiers()
         entity_id = None
 
-        if isinstance(self, client.Project):
-            project_name, experiment_id = self._get_identifiers()
-        elif isinstance(self, client.Experiment):
-            project_name, _ = self._get_identifiers()
+        # experiments are not required to return an entity ID - they are the entity
+        if isinstance(self, client.Experiment):
             experiment_id = self.id
         else:
-            project_name, experiment_id = self._parent._get_identifiers()
             entity_id = self.id
 
         return project_name, experiment_id, entity_id
