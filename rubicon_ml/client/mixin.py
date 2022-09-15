@@ -10,27 +10,7 @@ from rubicon_ml.client.utils.tags import has_tag_requirements
 from rubicon_ml.exceptions import RubiconException
 
 
-class MultiParentMixin:
-    """Adds utils for client objects that can be logged
-    to either a `Project` or `Experiment`.
-    """
-
-    def _get_parent_identifiers(self):
-        """Get the project name and experiment ID (or
-        `None`) of this client object's parent(s).
-        """
-        experiment_id = None
-
-        if isinstance(self, client.Project):
-            project_name = self.name
-        else:
-            project_name = self.project.name
-            experiment_id = self.id
-
-        return project_name, experiment_id
-
-
-class ArtifactMixin(MultiParentMixin):
+class ArtifactMixin:
     """Adds artifact support to a client object."""
 
     def _validate_data(self, data_bytes, data_file, data_path, name):
@@ -281,7 +261,7 @@ class ArtifactMixin(MultiParentMixin):
             self.repository.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
 
 
-class DataframeMixin(MultiParentMixin):
+class DataframeMixin:
     """Adds dataframe support to a client object."""
 
     def log_dataframe(self, df, description=None, name=None, tags=[]):

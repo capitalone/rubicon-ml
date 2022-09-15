@@ -37,6 +37,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         self._features = []
         self._parameters = []
 
+    def _get_parent_identifiers(self):
+        return self.project.name, self.id
+
     def log_metric(self, name, value, directionality="score", description=None):
         """Create a metric under the experiment.
 

@@ -3,11 +3,10 @@ from datetime import datetime
 
 from rubicon_ml import domain
 from rubicon_ml.client import asynchronous as client
-from rubicon_ml.client.mixin import MultiParentMixin
 from rubicon_ml.client.utils.tags import has_tag_requirements
 
 
-class ArtifactMixin(MultiParentMixin):
+class ArtifactMixin:
     """Adds artifact support to an asynchronous client object."""
 
     async def log_artifact(
@@ -163,7 +162,7 @@ class ArtifactMixin(MultiParentMixin):
         )
 
 
-class DataframeMixin(MultiParentMixin):
+class DataframeMixin:
     """Adds dataframe support to an asynchronous client object."""
 
     async def log_dataframe(self, df, description=None, tags=[]):

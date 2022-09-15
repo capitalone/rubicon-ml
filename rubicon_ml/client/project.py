@@ -49,6 +49,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return completed_process.stdout.decode("utf8").replace("\n", "")
 
+    def _get_parent_identifiers(self):
+        return self.name, None
+
     def _create_experiment_domain(
         self,
         name,

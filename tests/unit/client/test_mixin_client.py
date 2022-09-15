@@ -4,30 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from rubicon_ml.client.mixin import (
-    ArtifactMixin,
-    DataframeMixin,
-    MultiParentMixin,
-    TagMixin,
-)
+from rubicon_ml.client.mixin import ArtifactMixin, DataframeMixin, TagMixin
 from rubicon_ml.exceptions import RubiconException
-
-
-def test_get_project_identifiers(project_client):
-    project = project_client
-    project_name, experiment_id = MultiParentMixin._get_parent_identifiers(project)
-
-    assert project_name == project.name
-    assert experiment_id is None
-
-
-def test_get_experiment_identifiers(project_client):
-    project = project_client
-    experiment = project.log_experiment()
-    project_name, experiment_id = MultiParentMixin._get_parent_identifiers(experiment)
-
-    assert project_name == project.name
-    assert experiment_id == experiment.id
 
 
 # ArtifactMixin
