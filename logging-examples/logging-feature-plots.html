@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualize Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Integrate with Scikit-learn" href="../integrations/integration-sklearn.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
-        <title>Link Plots to Features - rubicon-ml v0.3.7</title>
+    <link rel="shortcut icon" href="../_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>Link Plots to Features - rubicon-ml v0.3.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.8</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.7</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.8</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -502,11 +502,33 @@ div.rendered_html tbody tr:hover {
 <section id="Link-Plots-to-Features">
 <h1>Link Plots to Features<a class="headerlink" href="#Link-Plots-to-Features" title="Permalink to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">Rubicon_ml</span></code> makes it easy to log plots with features and artifacts. In this example we’ll walk through creating a feature dependency plot using the <code class="docutils literal notranslate"><span class="pre">shap</span></code> package and saving it to an artifact.</p>
+<p>Before getting started, we’ll have to install some dependencies for this example.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> pip install matplotlib <span class="s2">&quot;numba&gt;=0.56.2&quot;</span> kaleido Pillow shap
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: matplotlib in /Users/nvd215/mambaforge/envs/rubicon-ml-dev/lib/python3.10/site-packages (3.5.3)
+Collecting numba&gt;=0.56.2
+  Using cached numba-0.56.2-cp310-cp310-macosx_10_14_x86_64.whl (2.5 MB)
+Requirement already satisfied: kaleido in /Users/nvd215/mambaforge/envs/rubicon-ml-dev/lib/python3.10/site-packages (0.2.1)
+Requirement already satisfied: Pillow in /Users/nvd215/mambaforge/envs/rubicon-ml-dev/lib/python3.10/site-packages (9.2.0)
+Requirement already satisfied: shap in /Users/nvd215/mambaforge/envs/rubicon-ml-dev/lib/python3.10/site-packages (0.41.0)
+</pre></div></div>
+</div>
 <section id="Set-up">
 <h2>Set up<a class="headerlink" href="#Set-up" title="Permalink to this heading">#</a></h2>
 <p>First lets create a Rubicon <code class="docutils literal notranslate"><span class="pre">project</span></code> and create a pipeline with <code class="docutils literal notranslate"><span class="pre">rubicon_ml.sklearn.pipeline</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">shap</span>
@@ -531,7 +553,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -546,7 +568,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x189f5f
 <h2>Generating Data<a class="headerlink" href="#Generating-Data" title="Permalink to this heading">#</a></h2>
 <p>After fitting the pipeline, using <code class="docutils literal notranslate"><span class="pre">shap.Explainer</span></code> we can generate <code class="docutils literal notranslate"><span class="pre">shap</span></code> values to later plot. For more information on generating <code class="docutils literal notranslate"><span class="pre">shap</span></code> values with <code class="docutils literal notranslate"><span class="pre">shap.explainer</span></code>, check the documentation <a class="reference external" href="https://shap.readthedocs.io/en/latest/generated/shap.Explainer.html">here</a>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">explainer</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">Explainer</span><span class="p">(</span><span class="n">pipeline</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -560,7 +582,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x189f5f
 <p>The generated <code class="docutils literal notranslate"><span class="pre">shap_values</span></code> from the above cell can be passed to a <code class="docutils literal notranslate"><span class="pre">shap.depence_plot</span></code> to generate a dependence plot. <code class="docutils literal notranslate"><span class="pre">pl.gcf()</span></code> allows the plot generated by <code class="docutils literal notranslate"><span class="pre">shap</span></code> to be saved to a variable. Using the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> and <code class="docutils literal notranslate"><span class="pre">io</span></code> libraries, shap plots can be saved to a <code class="docutils literal notranslate"><span class="pre">byte</span></code> representation. Here, a feature and its plot are both logged with<code class="docutils literal notranslate"><span class="pre">rubicon_ml.Features</span></code> and <code class="docutils literal notranslate"><span class="pre">rubuicon_ml.Artifact</span></code> respectively. These <code class="docutils literal notranslate"><span class="pre">features</span></code> and <code class="docutils literal notranslate"><span class="pre">artifacts</span></code> are logged to the same
 <code class="docutils literal notranslate"><span class="pre">rubicon_ml.Experiment</span></code> which are being kept track of using the <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pl</span>
@@ -569,7 +591,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x189f5f
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
@@ -590,91 +612,91 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x189f5f
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_0.png" src="../_images/logging-examples_logging-feature-plots_8_0.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_0.png" src="../_images/logging-examples_logging-feature-plots_9_0.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_1.png" src="../_images/logging-examples_logging-feature-plots_8_1.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_1.png" src="../_images/logging-examples_logging-feature-plots_9_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_2.png" src="../_images/logging-examples_logging-feature-plots_8_2.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_2.png" src="../_images/logging-examples_logging-feature-plots_9_2.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_3.png" src="../_images/logging-examples_logging-feature-plots_8_3.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_3.png" src="../_images/logging-examples_logging-feature-plots_9_3.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_4.png" src="../_images/logging-examples_logging-feature-plots_8_4.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_4.png" src="../_images/logging-examples_logging-feature-plots_9_4.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_5.png" src="../_images/logging-examples_logging-feature-plots_8_5.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_5.png" src="../_images/logging-examples_logging-feature-plots_9_5.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_6.png" src="../_images/logging-examples_logging-feature-plots_8_6.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_6.png" src="../_images/logging-examples_logging-feature-plots_9_6.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_7.png" src="../_images/logging-examples_logging-feature-plots_8_7.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_7.png" src="../_images/logging-examples_logging-feature-plots_9_7.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_8.png" src="../_images/logging-examples_logging-feature-plots_8_8.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_8.png" src="../_images/logging-examples_logging-feature-plots_9_8.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_9.png" src="../_images/logging-examples_logging-feature-plots_8_9.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_9.png" src="../_images/logging-examples_logging-feature-plots_9_9.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_10.png" src="../_images/logging-examples_logging-feature-plots_8_10.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_10.png" src="../_images/logging-examples_logging-feature-plots_9_10.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_11.png" src="../_images/logging-examples_logging-feature-plots_8_11.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_11.png" src="../_images/logging-examples_logging-feature-plots_9_11.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_8_12.png" src="../_images/logging-examples_logging-feature-plots_8_12.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_9_12.png" src="../_images/logging-examples_logging-feature-plots_9_12.png" />
 </div>
 </div>
 </section>
@@ -682,7 +704,7 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x189f5f
 <h2>Retrieving your logged plot and features programmatically<a class="headerlink" href="#Retrieving-your-logged-plot-and-features-programmatically" title="Permalink to this heading">#</a></h2>
 <p>Finally, we can retrieve a feature and its associated artifact plot using the <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter. For this example we’ll inspect each feature logged to the experiment and its associated plots. With <code class="docutils literal notranslate"><span class="pre">IO</span></code> and <code class="docutils literal notranslate"><span class="pre">PIL</span></code>, after retrieving the PNG byte representation of the plot, the plot can be rendered as a PNG image.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
@@ -701,91 +723,91 @@ RubiconPipeline(project=&lt;rubicon_ml.client.project.Project object at 0x189f5f
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_0.png" src="../_images/logging-examples_logging-feature-plots_10_0.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_0.png" src="../_images/logging-examples_logging-feature-plots_11_0.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_1.png" src="../_images/logging-examples_logging-feature-plots_10_1.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_1.png" src="../_images/logging-examples_logging-feature-plots_11_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_2.png" src="../_images/logging-examples_logging-feature-plots_10_2.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_2.png" src="../_images/logging-examples_logging-feature-plots_11_2.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_3.png" src="../_images/logging-examples_logging-feature-plots_10_3.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_3.png" src="../_images/logging-examples_logging-feature-plots_11_3.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_4.png" src="../_images/logging-examples_logging-feature-plots_10_4.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_4.png" src="../_images/logging-examples_logging-feature-plots_11_4.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_5.png" src="../_images/logging-examples_logging-feature-plots_10_5.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_5.png" src="../_images/logging-examples_logging-feature-plots_11_5.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_6.png" src="../_images/logging-examples_logging-feature-plots_10_6.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_6.png" src="../_images/logging-examples_logging-feature-plots_11_6.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_7.png" src="../_images/logging-examples_logging-feature-plots_10_7.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_7.png" src="../_images/logging-examples_logging-feature-plots_11_7.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_8.png" src="../_images/logging-examples_logging-feature-plots_10_8.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_8.png" src="../_images/logging-examples_logging-feature-plots_11_8.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_9.png" src="../_images/logging-examples_logging-feature-plots_10_9.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_9.png" src="../_images/logging-examples_logging-feature-plots_11_9.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_10.png" src="../_images/logging-examples_logging-feature-plots_10_10.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_10.png" src="../_images/logging-examples_logging-feature-plots_11_10.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_11.png" src="../_images/logging-examples_logging-feature-plots_10_11.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_11.png" src="../_images/logging-examples_logging-feature-plots_11_11.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-feature-plots_10_12.png" src="../_images/logging-examples_logging-feature-plots_10_12.png" />
+<img alt="../_images/logging-examples_logging-feature-plots_11_12.png" src="../_images/logging-examples_logging-feature-plots_11_12.png" />
 </div>
 </div>
 </section>
