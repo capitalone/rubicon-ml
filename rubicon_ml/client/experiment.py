@@ -41,7 +41,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """Get the experiment's project's name and the experiment's ID."""
         return self.project.name, self.id
 
-    def log_metric(self, name, value, directionality="score", description=None):
+    def log_metric(self, name, value, directionality="score", description=None, tags=[]):
         """Create a metric under the experiment.
 
         Parameters
@@ -58,16 +58,21 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         description : str, optional
             The metric's description. Use to provide additional
             context.
+        tags : list of str, optional
+            Values to tag the experiment with. Use tags to organize and
+            filter your metrics.
 
         Returns
         -------
         rubicon.client.Metric
             The created metric.
         """
-        metric = domain.Metric(name, value, directionality=directionality, description=description)
+        metric = domain.Metric(
+            name, value, directionality=directionality, description=description, tags=tags
+        )
         self.repository.create_metric(metric, self.project.name, self.id)
 
-        return Metric(metric, self._config)
+        return Metric(metric, self)
 
     def metrics(self):
         """Get the metrics logged to this experiment.
@@ -78,7 +83,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The metrics previously logged to this experiment.
         """
         self._metrics = [
-            Metric(m, self._config) for m in self.repository.get_metrics(self.project.name, self.id)
+            Metric(m, self) for m in self.repository.get_metrics(self.project.name, self.id)
         ]
 
         return self._metrics
@@ -103,7 +108,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             metric = self.repository.get_metric(self.project.name, self.id, name)
-            metric = Metric(metric, self._config)
+            metric = Metric(metric, self)
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
 

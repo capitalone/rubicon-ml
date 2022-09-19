@@ -921,6 +921,7 @@ class BaseRepository:
             "Artifact": self._get_artifact_metadata_root,
             "Dataframe": self._get_dataframe_metadata_root,
             "Experiment": self._get_experiment_metadata_root,
+            "Metric": self._get_metric_metadata_root,
         }
 
         try:

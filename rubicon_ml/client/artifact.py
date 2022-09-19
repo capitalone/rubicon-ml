@@ -95,5 +95,5 @@ class Artifact(Base, TagMixin):
 
     @property
     def parent(self):
-        """Get the dataframe's parent client object."""
+        """Get the artifact's parent client object."""
         return self._parent

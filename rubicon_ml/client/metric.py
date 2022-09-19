@@ -1,7 +1,7 @@
-from rubicon_ml.client import Base
+from rubicon_ml.client import Base, TagMixin
 
 
-class Metric(Base):
+class Metric(Base, TagMixin):
     """A client metric.
 
     A `metric` is a single-value output of an `experiment` that
@@ -16,12 +16,16 @@ class Metric(Base):
     ----------
     domain : rubicon.domain.Metric
         The metric domain model.
-    config : rubicon.client.Config
-        The config, which specifies the underlying repository.
+    parent : rubicon.client.Experiment
+        The experiment that the metric is
+        logged to.
     """
 
-    def __init__(self, domain, config=None):
-        super().__init__(domain, config)
+    def __init__(self, domain, parent):
+        super().__init__(domain, parent._config)
+
+        self._data = None
+        self._parent = parent
 
     @property
     def id(self):
@@ -52,3 +56,8 @@ class Metric(Base):
     def created_at(self):
         """Get the metric's created_at."""
         return self._domain.created_at
+
+    @property
+    def parent(self):
+        """Get the metrics's parent client object."""
+        return self._parent
