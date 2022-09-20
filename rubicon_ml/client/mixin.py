@@ -183,13 +183,18 @@ class ArtifactMixin:
 
         return artifact
 
-    def artifacts(self, name=None):
+    def artifacts(self, name=None, tags=[], qtype="or"):
         """Get the artifacts logged to this client object.
 
         Parameters
         ----------
         name : str, optional
             The name value to filter results on.
+        tags : list of str, optional
+            The tag values to filter results on.
+        qtype : str, optional
+            The query type to filter results on. Can be 'or' or
+            'and'. Defaults to 'or'.
 
         Returns
         -------
@@ -197,15 +202,14 @@ class ArtifactMixin:
             The artifacts previously logged to this client object.
         """
         project_name, experiment_id = self._get_identifiers()
-        self._artifacts = [
+        artifacts = [
             client.Artifact(a, self)
             for a in self.repository.get_artifacts_metadata(
                 project_name, experiment_id=experiment_id
             )
         ]
 
-        if name is not None:
-            self._artifacts = [a for a in self._artifacts if a.name == name]
+        self._artifacts = filter_entity(artifacts, tags, qtype, name)
 
         return self._artifacts
 

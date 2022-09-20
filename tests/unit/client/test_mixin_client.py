@@ -132,7 +132,34 @@ def test_artifacts_by_name(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
-def test_artifact_warning(project_client, test_dataframe):
+def test_artifacts_tagged_and(project_client):
+    project = project_client
+
+    artifact = ArtifactMixin.log_artifact(project, name="name", data_bytes=b"test", tags=["x", "y"])
+    ArtifactMixin.log_artifact(project, name="name", data_bytes=b"test", tags=["x"])
+    ArtifactMixin.log_artifact(project, name="name", data_bytes=b"test", tags=["y"])
+
+    artifacts = ArtifactMixin.artifacts(project, tags=["x", "y"], qtype="and")
+
+    assert len(artifacts) == 1
+    assert artifact.id in [d.id for d in artifacts]
+
+
+def test_artifacts_tagged_or(project_client):
+    project = project_client
+
+    artifact_a = ArtifactMixin.log_artifact(project, name="name", data_bytes=b"test", tags=["x"])
+    artifact_b = ArtifactMixin.log_artifact(project, name="name", data_bytes=b"test", tags=["y"])
+    ArtifactMixin.log_artifact(project, name="name", data_bytes=b"test", tags=["z"])
+
+    artifacts = ArtifactMixin.artifacts(project, tags=["x", "y"], qtype="or")
+
+    assert len(artifacts) == 2
+    assert artifact_a.id in [d.id for d in artifacts]
+    assert artifact_b.id in [d.id for d in artifacts]
+
+
+def test_artifact_warning(project_client):
     project = project_client
     data = b"content"
     artifact_a = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
