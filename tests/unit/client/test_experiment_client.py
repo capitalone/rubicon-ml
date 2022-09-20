@@ -74,6 +74,35 @@ def test_get_metric_by_name(project_client):
     assert metric == "accuracy"
 
 
+def test_metrics_tagged_and(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    metric = experiment.log_metric(name="name", value=0, tags=["x", "y"])
+    experiment.log_metric(name="name_a", value=0, tags=["x"])
+    experiment.log_metric(name="name_b", value=0, tags=["y"])
+
+    metrics = experiment.metrics(tags=["x", "y"], qtype="and")
+
+    assert len(metrics) == 1
+    assert metric.id in [d.id for d in metrics]
+
+
+def test_metrics_tagged_or(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    metric_a = experiment.log_metric(name="name_a", value=0, tags=["x"])
+    metric_b = experiment.log_metric(name="name_b", value=0, tags=["y"])
+    experiment.log_metric(name="name_c", value=0, tags=["z"])
+
+    metrics = experiment.metrics(tags=["x", "y"], qtype="or")
+
+    assert len(metrics) == 2
+    assert metric_a.id in [d.id for d in metrics]
+    assert metric_b.id in [d.id for d in metrics]
+
+
 def test_get_metric_by_id(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
