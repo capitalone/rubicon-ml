@@ -6,7 +6,7 @@ import pandas as pd
 
 from rubicon_ml import domain
 from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
-from rubicon_ml.client.utils.tags import has_tag_requirements
+from rubicon_ml.client.utils.tags import filter_entity
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -269,24 +269,6 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return experiment
 
-    def _filter_experiments(self, experiments, tags, qtype, name):
-        """Filters the provided experiments by `tags` using
-        query type `qtype` and by `name`.
-        """
-        filtered_experiments = experiments
-
-        if len(tags) > 0:
-            filtered_experiments = []
-            [
-                filtered_experiments.append(e)
-                for e in experiments
-                if has_tag_requirements(e.tags, tags, qtype)
-            ]
-        if name is not None:
-            filtered_experiments = [e for e in filtered_experiments if e.name == name]
-
-        self._experiments = filtered_experiments
-
     def experiments(self, tags=[], qtype="or", name=None):
         """Get the experiments logged to this project.
 
@@ -306,7 +288,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             The experiments previously logged to this project.
         """
         experiments = [Experiment(e, self) for e in self.repository.get_experiments(self.name)]
-        self._filter_experiments(experiments, tags, qtype, name)
+        self._experiments = filter_entity(experiments, tags, qtype, name)
 
         return self._experiments
 

@@ -14,3 +14,18 @@ def has_tag_requirements(tags, required_tags, qtype):
             has_tag_requirements = True
 
     return has_tag_requirements
+
+
+def filter_entity(entity, tags, qtype, name):
+    """Filters the provided experiments by `tags` using
+    query type `qtype` and by `name`.
+    """
+    filtered_entity = entity
+
+    if len(tags) > 0:
+        filtered_entity = []
+        [filtered_entity.append(e) for e in entity if has_tag_requirements(e.tags, tags, qtype)]
+    if name is not None:
+        filtered_entity = [e for e in filtered_entity if e.name == name]
+
+    return filtered_entity
