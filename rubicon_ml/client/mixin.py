@@ -6,7 +6,7 @@ from datetime import datetime
 import fsspec
 
 from rubicon_ml import client, domain
-from rubicon_ml.client.utils.tags import has_tag_requirements
+from rubicon_ml.client.utils.tags import filter_entity
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -294,24 +294,6 @@ class DataframeMixin:
 
         return client.Dataframe(dataframe, self)
 
-    def _filter_dataframes(self, dataframes, tags, qtype, name):
-        """Filters the provided dataframes by `tags` using
-        query type `qtype`.
-        """
-        filtered_dataframes = dataframes
-
-        if len(tags) > 0:
-            filtered_dataframes = []
-            [
-                filtered_dataframes.append(d)
-                for d in dataframes
-                if has_tag_requirements(d.tags, tags, qtype)
-            ]
-        if name is not None:
-            filtered_dataframes = [d for d in filtered_dataframes if d.name == name]
-
-        self._dataframes = filtered_dataframes
-
     def dataframes(self, name=None, tags=[], qtype="or"):
         """Get the dataframes logged to this client object.
 
@@ -338,7 +320,7 @@ class DataframeMixin:
             )
         ]
 
-        self._filter_dataframes(dataframes, tags, qtype, name)
+        self._dataframes = filter_entity(dataframes, tags, qtype, name)
 
         return self._dataframes
 
