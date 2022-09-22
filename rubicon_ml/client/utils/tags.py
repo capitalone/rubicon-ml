@@ -22,9 +22,9 @@ def filter_children(children, tags, qtype, name):
     filtered_children = children
 
     if len(tags) > 0:
-        # TODO: what is this?
-        filtered_children = []
-        [filtered_children.append(c) for c in children if has_tag_requirements(c.tags, tags, qtype)]
+        filtered_children = [
+            c for c in filtered_children if has_tag_requirements(c.tags, tags, qtype)
+        ]
     if name is not None:
         filtered_children = [c for c in filtered_children if c.name == name]
 
