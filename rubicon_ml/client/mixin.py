@@ -391,17 +391,19 @@ class TagMixin:
 
     def _get_taggable_identifiers(self):
         project_name, experiment_id = self._parent._get_identifiers()
-        entity_id = None
+        entity_identifier = None
 
-        # experiments are not required to return an entity ID - they are the entity
+        # experiments do not return an entity identifier - they are the entity
         if isinstance(self, client.Experiment):
             experiment_id = self.id
+        # dataframes and artifacts are identified by their `id`s
         elif isinstance(self, client.Dataframe) or isinstance(self, client.Artifact):
-            entity_id = self.id
+            entity_identifier = self.id
+        # everything else is identified by its `name`
         else:
-            entity_id = self.name
+            entity_identifier = self.name
 
-        return project_name, experiment_id, entity_id
+        return project_name, experiment_id, entity_identifier
 
     def add_tags(self, tags):
         """Add tags to this client object.
@@ -411,14 +413,14 @@ class TagMixin:
         tags : list of str
             The tag values to add.
         """
-        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.add_tags(tags)
         self.repository.add_tags(
             project_name,
             tags,
             experiment_id=experiment_id,
-            entity_id=entity_id,
+            entity_identifier=entity_identifier,
             entity_type=self.__class__.__name__,
         )
 
@@ -430,14 +432,14 @@ class TagMixin:
         tags : list of str
              The tag values to remove.
         """
-        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.remove_tags(tags)
         self.repository.remove_tags(
             project_name,
             tags,
             experiment_id=experiment_id,
-            entity_id=entity_id,
+            entity_identifier=entity_identifier,
             entity_type=self.__class__.__name__,
         )
 
@@ -452,11 +454,11 @@ class TagMixin:
     @property
     def tags(self):
         """Get this client object's tags."""
-        project_name, experiment_id, entity_id = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
         tag_data = self.repository.get_tags(
             project_name,
             experiment_id=experiment_id,
-            entity_id=entity_id,
+            entity_identifier=entity_identifier,
             entity_type=self.__class__.__name__,
         )
 

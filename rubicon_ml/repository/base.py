@@ -914,7 +914,7 @@ class BaseRepository:
     # ---------- Tags ----------
 
     def _get_tag_metadata_root(
-        self, project_name, experiment_id=None, entity_id=None, entity_type=None
+        self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
     ):
         """Returns the directory to write tags to."""
         get_metadata_root_lookup = {
@@ -927,7 +927,7 @@ class BaseRepository:
         try:
             get_metadata_root = get_metadata_root_lookup[entity_type]
         except KeyError:
-            raise ValueError("`experiment_id` and `entity_id` can not both be `None`.")
+            raise ValueError("`experiment_id` and `entity_identifier` can not both be `None`.")
 
         if entity_type == "Experiment":
             experiment_metadata_root = get_metadata_root(project_name)
@@ -936,9 +936,11 @@ class BaseRepository:
         else:
             entity_metadata_root = get_metadata_root(project_name, experiment_id)
 
-            return f"{entity_metadata_root}/{entity_id}"
+            return f"{entity_metadata_root}/{entity_identifier}"
 
-    def add_tags(self, project_name, tags, experiment_id=None, entity_id=None, entity_type=None):
+    def add_tags(
+        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
+    ):
         """Persist tags to the configured filesystem.
 
         Parameters
@@ -951,21 +953,23 @@ class BaseRepository:
         experiment_id : str, optional
             The ID of the experiment to apply the tags
             `tags` to.
-        entity_id : str, optional
-            The ID of the entity to apply the tags
+        entity_identifier : str, optional
+            The ID or name of the entity to apply the tags
             `tags` to.
         entity_type : str, optional
             The name of the entity's type as returned by
             `entity_cls.__class__.__name__`.
         """
         tag_metadata_root = self._get_tag_metadata_root(
-            project_name, experiment_id, entity_id, entity_type
+            project_name, experiment_id, entity_identifier, entity_type
         )
         tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
 
         self._persist_domain({"added_tags": tags}, tag_metadata_path)
 
-    def remove_tags(self, project_name, tags, experiment_id=None, entity_id=None, entity_type=None):
+    def remove_tags(
+        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
+    ):
         """Delete tags from the configured filesystem.
 
         Parameters
@@ -978,15 +982,15 @@ class BaseRepository:
         experiment_id : str, optional
             The ID of the experiment to delete the tags
             `tags` from.
-        entity_id : str, optional
-            The ID of the entity to apply the tags
+        entity_identifier : str, optional
+            The ID or name of the entity to apply the tags
             `tags` to.
         entity_type : str, optional
             The name of the entity's type as returned by
             `entity_cls.__class__.__name__`.
         """
         tag_metadata_root = self._get_tag_metadata_root(
-            project_name, experiment_id, entity_id, entity_type
+            project_name, experiment_id, entity_identifier, entity_type
         )
         tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
 
@@ -1006,7 +1010,7 @@ class BaseRepository:
 
         return tag_paths_with_timestamps
 
-    def get_tags(self, project_name, experiment_id=None, entity_id=None, entity_type=None):
+    def get_tags(self, project_name, experiment_id=None, entity_identifier=None, entity_type=None):
         """Retrieve tags from the configured filesystem.
 
         Parameters
@@ -1016,8 +1020,8 @@ class BaseRepository:
             tags from belongs to.
         experiment_id : str, optional
             The ID of the experiment to retrieve tags from.
-        entity_id : str, optional
-            The ID of the entity to apply the tags
+        entity_identifier : str, optional
+            The ID or name of the entity to apply the tags
             `tags` to.
         entity_type : str, optional
             The name of the entity's type as returned by
@@ -1032,7 +1036,7 @@ class BaseRepository:
             added to or removed from the specified object.
         """
         tag_metadata_root = self._get_tag_metadata_root(
-            project_name, experiment_id, entity_id, entity_type
+            project_name, experiment_id, entity_identifier, entity_type
         )
         tag_metadata_glob = f"{tag_metadata_root}/tags_*.json"
 
