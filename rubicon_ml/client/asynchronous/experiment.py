@@ -136,7 +136,7 @@ class Experiment(ArtifactMixin, DataframeMixin, TagMixin, SyncExperiment):
         metric = domain.Metric(name, value, directionality=directionality, description=description)
         await self.repository.create_metric(metric, self.project.name, self.id)
 
-        return Metric(metric, self._config)
+        return Metric(metric, self)
 
     async def metrics(self):
         """Overrides `rubicon.client.Experiment.metrics` to
@@ -148,8 +148,7 @@ class Experiment(ArtifactMixin, DataframeMixin, TagMixin, SyncExperiment):
             The metrics previously logged to this experiment.
         """
         self._metrics = [
-            Metric(m, self._config)
-            for m in await self.repository.get_metrics(self.project.name, self.id)
+            Metric(m, self) for m in await self.repository.get_metrics(self.project.name, self.id)
         ]
 
         return self._metrics

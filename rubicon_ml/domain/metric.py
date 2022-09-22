@@ -1,13 +1,15 @@
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import List
 
+from rubicon_ml.domain.mixin import TagMixin
 from rubicon_ml.domain.utils import uuid
 
 DIRECTIONALITY_VALUES = ["score", "loss"]
 
 
-@dataclass(frozen=True)
-class Metric:
+@dataclass
+class Metric(TagMixin):
     name: str
     value: float
 
@@ -15,6 +17,7 @@ class Metric:
     description: str = None
     directionality: str = "score"
     created_at: datetime = field(default_factory=datetime.utcnow)
+    tags: List[str] = field(default_factory=list)
 
     def __post_init__(self):
         if self.directionality not in DIRECTIONALITY_VALUES:

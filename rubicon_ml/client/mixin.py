@@ -396,8 +396,10 @@ class TagMixin:
         # experiments are not required to return an entity ID - they are the entity
         if isinstance(self, client.Experiment):
             experiment_id = self.id
-        else:
+        elif isinstance(self, client.Dataframe) or isinstance(self, client.Artifact):
             entity_id = self.id
+        else:
+            entity_id = self.name
 
         return project_name, experiment_id, entity_id
 
