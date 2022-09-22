@@ -8,7 +8,7 @@ from rubicon_ml.client import (
     Parameter,
     TagMixin,
 )
-from rubicon_ml.client.utils.tags import filter_entity
+from rubicon_ml.client.utils.tags import filter_children
 
 
 class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
@@ -94,7 +94,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The metrics previously logged to this experiment.
         """
         metrics = [Metric(m, self) for m in self.repository.get_metrics(self.project.name, self.id)]
-        self._metrics = filter_entity(metrics, tags, qtype, name)
+        self._metrics = filter_children(metrics, tags, qtype, name)
 
         return self._metrics
 

@@ -6,7 +6,7 @@ import pandas as pd
 
 from rubicon_ml import domain
 from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
-from rubicon_ml.client.utils.tags import filter_entity
+from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -288,7 +288,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             The experiments previously logged to this project.
         """
         experiments = [Experiment(e, self) for e in self.repository.get_experiments(self.name)]
-        self._experiments = filter_entity(experiments, tags, qtype, name)
+        self._experiments = filter_children(experiments, tags, qtype, name)
 
         return self._experiments
 

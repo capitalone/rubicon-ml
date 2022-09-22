@@ -6,7 +6,7 @@ from datetime import datetime
 import fsspec
 
 from rubicon_ml import client, domain
-from rubicon_ml.client.utils.tags import filter_entity
+from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -209,7 +209,7 @@ class ArtifactMixin:
             )
         ]
 
-        self._artifacts = filter_entity(artifacts, tags, qtype, name)
+        self._artifacts = filter_children(artifacts, tags, qtype, name)
 
         return self._artifacts
 
@@ -324,7 +324,7 @@ class DataframeMixin:
             )
         ]
 
-        self._dataframes = filter_entity(dataframes, tags, qtype, name)
+        self._dataframes = filter_children(dataframes, tags, qtype, name)
 
         return self._dataframes
 
