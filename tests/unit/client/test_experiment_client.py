@@ -154,6 +154,35 @@ def test_get_feature_by_id(project_client):
     assert feature == "year"
 
 
+def test_features_tagged_and(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    feature = experiment.log_feature(name="name", tags=["x", "y"])
+    experiment.log_feature(name="name_a", tags=["x"])
+    experiment.log_feature(name="name_b", tags=["y"])
+
+    features = experiment.features(tags=["x", "y"], qtype="and")
+
+    assert len(features) == 1
+    assert feature.id in [d.id for d in features]
+
+
+def test_features_tagged_or(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    feature_a = experiment.log_feature(name="name_a", tags=["x"])
+    feature_b = experiment.log_feature(name="name_b", tags=["y"])
+    experiment.log_feature(name="name_c", tags=["z"])
+
+    features = experiment.features(tags=["x", "y"], qtype="or")
+
+    assert len(features) == 2
+    assert feature_a.id in [d.id for d in features]
+    assert feature_b.id in [d.id for d in features]
+
+
 def test_log_parameter(project_client):
     project = project_client
     experiment = project.log_experiment()
