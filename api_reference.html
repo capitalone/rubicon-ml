@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>API Reference - rubicon-ml v0.3.8</title>
+        <title>API Reference - rubicon-ml v0.3.9</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.8</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.9</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.8</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.9</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -446,12 +446,17 @@ is on.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.artifacts">
-<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.artifacts" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.artifacts" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the artifacts logged to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tag values to filter results on.</p>
+</dd>
+<dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
+‘and’. Defaults to ‘or’.</p>
 </dd>
 </dl>
 </dd>
@@ -881,12 +886,17 @@ its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</c
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.artifacts">
-<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.artifacts" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.artifacts" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the artifacts logged to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tag values to filter results on.</p>
+</dd>
+<dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
+‘and’. Defaults to ‘or’.</p>
 </dd>
 </dl>
 </dd>
@@ -1174,7 +1184,7 @@ additional context.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_metric">
-<span class="sig-name descname"><span class="pre">log_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'score'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_metric" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'score'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_metric" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a metric under the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1190,6 +1200,9 @@ metric to minimize. Defaults to “score”.</p>
 </dd>
 <dt><strong>description</strong><span class="classifier">str, optional</span></dt><dd><p>The metric’s description. Use to provide additional
 context.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the experiment with. Use tags to organize and
+filter your metrics.</p>
 </dd>
 </dl>
 </dd>
@@ -1274,11 +1287,22 @@ Useful for recreating your exact environment at a later date.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.metrics">
-<span class="sig-name descname"><span class="pre">metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.metrics" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.metrics" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the metrics logged to this experiment.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tag values to filter results on.</p>
+</dd>
+<dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
+‘and’. Defaults to ‘or’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Metric</dt><dd><p>The metrics previously logged to this experiment.</p>
 </dd>
 </dl>
@@ -1486,7 +1510,7 @@ customer is to pay back a loan. Possible features could be
 <span id="library-reference-metric"></span><h2>Metric<a class="headerlink" href="#metric" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Metric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric" title="Permalink to this definition">#</a></dt>
 <dd><p>A client metric.</p>
 <p>A <cite>metric</cite> is a single-value output of an <cite>experiment</cite> that
 helps evaluate the quality of the model’s predictions.</p>
@@ -1498,11 +1522,26 @@ a ‘loss’ (value to minimize).</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>domain</strong><span class="classifier">rubicon.domain.Metric</span></dt><dd><p>The metric domain model.</p>
 </dd>
-<dt><strong>config</strong><span class="classifier">rubicon.client.Config</span></dt><dd><p>The config, which specifies the underlying repository.</p>
+<dt><strong>parent</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment that the metric is
+logged to.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.add_tags">
+<span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric.add_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Add tags to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The tag values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.created_at">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Metric.created_at" title="Permalink to this definition">#</a></dt>
@@ -1531,6 +1570,32 @@ a ‘loss’ (value to minimize).</p>
 <dt class="sig sig-object py" id="rubicon_ml.Metric.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Metric.name" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the metric’s name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.parent">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Metric.parent" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the metrics’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.remove_tags">
+<span class="sig-name descname"><span class="pre">remove_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric.remove_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove tags from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The tag values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.tags">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Metric.tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Get this client object’s tags.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1779,7 +1844,7 @@ Defaults to the artifact’s given name when logged.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Artifact.parent" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the dataframe’s parent client object.</p>
+<dd><p>Get the artifact’s parent client object.</p>
 </dd></dl>
 
 <dl class="py method">
