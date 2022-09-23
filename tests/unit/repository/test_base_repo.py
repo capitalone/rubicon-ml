@@ -834,7 +834,7 @@ def test_get_dataframe_tags_with_project_parent_root(memory_repository):
     project = _create_project(repository)
     dataframe = _create_pandas_dataframe(repository, project=project)
     dataframe_tags_root = repository._get_tag_metadata_root(
-        project.name, entity_id=dataframe.id, entity_type=dataframe.__class__.__name__
+        project.name, entity_identifier=dataframe.id, entity_type=dataframe.__class__.__name__
     )
 
     assert (
@@ -854,7 +854,7 @@ def test_get_dataframe_tags_with_experiment_parent_root(memory_repository):
     dataframe_tags_root = repository._get_tag_metadata_root(
         experiment.project_name,
         experiment_id=experiment.id,
-        entity_id=dataframe.id,
+        entity_identifier=dataframe.id,
         entity_type=dataframe.__class__.__name__,
     )
 
@@ -872,7 +872,7 @@ def test_get_root_without_experiment_or_dataframe_throws_error(memory_repository
     with pytest.raises(ValueError) as e:
         repository._get_tag_metadata_root(project.name)
 
-    assert "`experiment_id` and `entity_id` can not both be `None`" in str(e)
+    assert "`experiment_id` and `entity_identifier` can not both be `None`" in str(e)
 
 
 def test_add_tags(memory_repository):
