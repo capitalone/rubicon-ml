@@ -49,7 +49,7 @@ class Experiment(ArtifactMixin, DataframeMixin, TagMixin, SyncExperiment):
         feature = domain.Feature(name, description=description, importance=importance)
         await self.repository.create_feature(feature, self.project.name, self.id)
 
-        return Feature(feature, self._config)
+        return Feature(feature, self)
 
     async def features(self):
         """Overrides `rubicon.client.experiment.features` to
@@ -61,8 +61,7 @@ class Experiment(ArtifactMixin, DataframeMixin, TagMixin, SyncExperiment):
             The features previously logged to this experiment.
         """
         self._features = [
-            Feature(f, self._config)
-            for f in await self.repository.get_features(self.project.name, self.id)
+            Feature(f, self) for f in await self.repository.get_features(self.project.name, self.id)
         ]
 
         return self._features
