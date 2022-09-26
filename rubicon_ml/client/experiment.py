@@ -145,7 +145,6 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         rubicon.client.Feature
             The created feature.
         """
-        # feature = domain.Feature(name, description=description, importance=importance)
         feature = domain.Feature(name, description=description, importance=importance, tags=tags)
         self.repository.create_feature(feature, self.project.name, self.id)
 
