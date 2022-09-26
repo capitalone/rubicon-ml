@@ -202,7 +202,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return feature
 
-    def log_parameter(self, name, value=None, description=None):
+    def log_parameter(self, name, value=None, description=None, tags=[]):
         """Create a parameter under the experiment.
 
         Parameters
@@ -216,29 +216,44 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         description : str, optional
             The parameter's description. Use to provide
             additional context.
+        tags : list of str, optional
+            Values to tag the experiment with. Use tags to organize and
+            filter your parameters.
 
         Returns
         -------
         rubicon.client.Parameter
             The created parameter.
         """
-        parameter = domain.Parameter(name, value=value, description=description)
+        parameter = domain.Parameter(name, value=value, description=description, tags=tags)
         self.repository.create_parameter(parameter, self.project.name, self.id)
 
-        return Parameter(parameter, self._config)
+        return Parameter(parameter, self)
 
-    def parameters(self):
+    def parameters(self, name=None, tags=[], qtype="or"):
         """Get the parameters logged to this experiment.
+
+        Parameters
+        ----------
+        name : str, optional
+            The name value to filter results on.
+        tags : list of str, optional
+            The tag values to filter results on.
+        qtype : str, optional
+            The query type to filter results on. Can be 'or' or
+            'and'. Defaults to 'or'.
 
         Returns
         -------
         list of rubicon.client.Parameter
             The parameters previously logged to this experiment.
         """
-        self._parameters = [
-            Parameter(p, self._config)
-            for p in self.repository.get_parameters(self.project.name, self.id)
+
+        parameters = [
+            Parameter(p, self) for p in self.repository.get_parameters(self.project.name, self.id)
         ]
+
+        self._parameters = filter_children(parameters, tags, qtype, name)
 
         return self._parameters
 
@@ -262,7 +277,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             parameter = self.repository.get_parameter(self.project.name, self.id, name)
-            parameter = Parameter(parameter, self._config)
+            parameter = Parameter(parameter, self)
         else:
             parameter = [p for p in self.parameters() if p.id == id][0]
 

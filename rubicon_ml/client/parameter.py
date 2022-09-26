@@ -1,7 +1,7 @@
-from rubicon_ml.client import Base
+from rubicon_ml.client import Base, TagMixin
 
 
-class Parameter(Base):
+class Parameter(Base, TagMixin):
     """A client parameter.
 
     A `parameter` is an input to an `experiment` (model run)
@@ -18,12 +18,14 @@ class Parameter(Base):
     ----------
     domain : rubicon.domain.Parameter
         The parameter domain model.
-    config : rubicon.client.Config
-        The config, which specifies the underlying repository.
+    parent : rubicon.client.Experiment
+        The experiment that the metric is logged to.
     """
 
-    def __init__(self, domain, config=None):
-        super().__init__(domain, config)
+    def __init__(self, domain, parent):
+        super().__init__(domain, parent._config)
+        self.data = None
+        self._parent = parent
 
     @property
     def id(self):
@@ -49,3 +51,8 @@ class Parameter(Base):
     def created_at(self):
         """Get the time the parameter was created."""
         return self._domain.created_at
+
+    @property
+    def parent(self):
+        """Get the parameter's parent client object."""
+        return self._parent
