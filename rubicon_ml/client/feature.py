@@ -58,5 +58,5 @@ class Feature(Base, TagMixin):
 
     @property
     def parent(self):
-        """Get the metrics's parent client object."""
+        """Get the feature's parent client object."""
         return self._parent
