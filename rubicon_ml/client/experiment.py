@@ -138,7 +138,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The feature's importance.
         tags : list of str, optional
             Values to tag the experiment with. Use tags to organize and
-            filter your metrics.
+            filter your features.
 
         Returns
         -------
