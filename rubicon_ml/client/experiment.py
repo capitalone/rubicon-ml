@@ -138,14 +138,13 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The feature's importance.
         tags : list of str, optional
             Values to tag the experiment with. Use tags to organize and
-            filter your metrics.
+            filter your features.
 
         Returns
         -------
         rubicon.client.Feature
             The created feature.
         """
-        # feature = domain.Feature(name, description=description, importance=importance)
         feature = domain.Feature(name, description=description, importance=importance, tags=tags)
         self.repository.create_feature(feature, self.project.name, self.id)
 
