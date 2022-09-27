@@ -1,7 +1,7 @@
-from rubicon_ml.client import Base
+from rubicon_ml.client import Base, TagMixin
 
 
-class Feature(Base):
+class Feature(Base, TagMixin):
     """A client feature.
 
     A `feature` is an input to an `experiment` (model run)
@@ -20,10 +20,16 @@ class Feature(Base):
         The feature domain model.
     config : rubicon.client.Config
         The config, which specifies the underlying repository.
+    parent : rubicon.client.Experiment
+        The experiment that the feature is
+        logged to.
     """
 
-    def __init__(self, domain, config=None):
-        super().__init__(domain, config)
+    def __init__(self, domain, parent):
+        super().__init__(domain, parent._config)
+
+        self._data = None
+        self._parent = parent
 
     @property
     def id(self):
@@ -49,3 +55,8 @@ class Feature(Base):
     def created_at(self):
         """Get the feature's created_at."""
         return self._domain.created_at
+
+    @property
+    def parent(self):
+        """Get the feature's parent client object."""
+        return self._parent

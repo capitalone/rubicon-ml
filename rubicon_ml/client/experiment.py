@@ -124,7 +124,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return metric
 
-    def log_feature(self, name, description=None, importance=None):
+    def log_feature(self, name, description=None, importance=None, tags=[]):
         """Create a feature under the experiment.
 
         Parameters
@@ -136,30 +136,44 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             additional context.
         importance : float
             The feature's importance.
+        tags : list of str, optional
+            Values to tag the experiment with. Use tags to organize and
+            filter your features.
 
         Returns
         -------
         rubicon.client.Feature
             The created feature.
         """
-        feature = domain.Feature(name, description=description, importance=importance)
+        feature = domain.Feature(name, description=description, importance=importance, tags=tags)
         self.repository.create_feature(feature, self.project.name, self.id)
 
-        return Feature(feature, self._config)
+        return Feature(feature, self)
 
-    def features(self):
+    def features(self, name=None, tags=[], qtype="or"):
         """Get the features logged to this experiment.
+
+         Parameters
+        ----------
+        name : str, optional
+            The name value to filter results on.
+        tags : list of str, optional
+            The tag values to filter results on.
+        qtype : str, optional
+            The query type to filter results on. Can be 'or' or
+            'and'. Defaults to 'or'.
 
         Returns
         -------
         list of rubicon.client.Feature
             The features previously logged to this experiment.
         """
-        self._features = [
-            Feature(f, self._config)
-            for f in self.repository.get_features(self.project.name, self.id)
+
+        features = [
+            Feature(f, self) for f in self.repository.get_features(self.project.name, self.id)
         ]
 
+        self._features = filter_children(features, tags, qtype, name)
         return self._features
 
     def feature(self, name=None, id=None):
@@ -182,7 +196,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             feature = self.repository.get_feature(self.project.name, self.id, name)
-            feature = Feature(feature, self._config)
+            feature = Feature(feature, self)
         else:
             feature = [f for f in self.features() if f.id == id][0]
 
