@@ -224,3 +224,32 @@ def test_get_parameter_by_id(project_client):
 
     parameter = experiment.parameter(id=parameter_id).name
     assert parameter == "n_estimators"
+
+
+def test_parameters_tagged_and(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    parameter = experiment.log_parameter(name="param_1", tags=["x", "y"])
+    experiment.log_parameter(name="param_2", tags=["x"])
+    experiment.log_parameter(name="param_3", tags=["y"])
+
+    parameters = experiment.parameters(tags=["x", "y"], qtype="and")
+
+    assert len(parameters) == 1
+    assert parameter.id in [d.id for d in parameters]
+
+
+def test_parameters_tagged_or(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    param_a = experiment.log_parameter(name="param_a", tags=["x"])
+    param_b = experiment.log_parameter(name="param_b", tags=["y"])
+    experiment.log_parameter(name="param_c", tags=["z"])
+
+    parameters = experiment.parameters(tags=["x", "y"], qtype="or")
+
+    assert len(parameters) == 2
+    assert param_a.id in [d.id for d in parameters]
+    assert param_b.id in [d.id for d in parameters]
