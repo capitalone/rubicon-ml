@@ -20,7 +20,7 @@ dependencies:
   - prefect<=1.2.4,>=0.12.0
 
   # for viz
-  - dash<=2.6.1,>=2.0.0
+  - dash<=2.6.2,>=2.0.0
   - dash-bootstrap-components<=1.2.1,>=1.0.0
 
   # for testing
