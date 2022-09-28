@@ -922,11 +922,8 @@ class BaseRepository:
             "Dataframe": self._get_dataframe_metadata_root,
             "Experiment": self._get_experiment_metadata_root,
             "Metric": self._get_metric_metadata_root,
-<<<<<<< HEAD
             "Feature": self._get_feature_metadata_root,
-=======
             "Parameter": self._get_parameter_metadata_root,
->>>>>>> 31aedcf (updated code to implement parameter tagging)
         }
 
         try:
