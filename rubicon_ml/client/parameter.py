@@ -19,7 +19,7 @@ class Parameter(Base, TagMixin):
     domain : rubicon.domain.Parameter
         The parameter domain model.
     parent : rubicon.client.Experiment
-        The experiment that the metric is logged to.
+        The experiment that the parameter is logged to.
     """
 
     def __init__(self, domain, parent):
