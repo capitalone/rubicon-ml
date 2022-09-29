@@ -24,7 +24,6 @@ class Parameter(Base, TagMixin):
 
     def __init__(self, domain, parent):
         super().__init__(domain, parent._config)
-        self.data = None
         self._parent = parent
 
     @property
