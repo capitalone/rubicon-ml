@@ -2,11 +2,11 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>API Reference - rubicon-ml v0.3.9</title>
+    <link rel="shortcut icon" href="_static/rubicon_logo_favicon.png"/><meta name="generator" content="sphinx-5.2.2, furo 2022.06.21"/>
+        <title>API Reference - rubicon-ml v0.3.10</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.9</div></div></a>
+      <a href="index.html"><div class="brand"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.10</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_offset_dark.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.9</div></span>
+  <span class="sidebar-brand-text"><div class='hidden'>rubicon-ml</div> <div class='version'> v0.3.10</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -1032,11 +1032,22 @@ this client object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.features">
-<span class="sig-name descname"><span class="pre">features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.features" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.features" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the features logged to this experiment.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tag values to filter results on.</p>
+</dd>
+<dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
+‘and’. Defaults to ‘or’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Feature</dt><dd><p>The features previously logged to this experiment.</p>
 </dd>
 </dl>
@@ -1159,7 +1170,7 @@ additional context.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_feature">
-<span class="sig-name descname"><span class="pre">log_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_feature" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_feature" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a feature under the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1170,6 +1181,9 @@ additional context.</p>
 additional context.</p>
 </dd>
 <dt><strong>importance</strong><span class="classifier">float</span></dt><dd><p>The feature’s importance.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the experiment with. Use tags to organize and
+filter your features.</p>
 </dd>
 </dl>
 </dd>
@@ -1217,7 +1231,7 @@ filter your metrics.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_parameter">
-<span class="sig-name descname"><span class="pre">log_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_parameter" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_parameter" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a parameter under the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1230,6 +1244,9 @@ type.</p>
 </dd>
 <dt><strong>description</strong><span class="classifier">str, optional</span></dt><dd><p>The parameter’s description. Use to provide
 additional context.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the parameter with. Use tags to organize and
+filter your parameters.</p>
 </dd>
 </dl>
 </dd>
@@ -1346,11 +1363,22 @@ Useful for recreating your exact environment at a later date.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.parameters">
-<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.parameters" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'or'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.parameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the parameters logged to this experiment.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name value to filter results on.</p>
+</dd>
+<dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>The tag values to filter results on.</p>
+</dd>
+<dt><strong>qtype</strong><span class="classifier">str, optional</span></dt><dd><p>The query type to filter results on. Can be ‘or’ or
+‘and’. Defaults to ‘or’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Parameter</dt><dd><p>The parameters previously logged to this experiment.</p>
 </dd>
 </dl>
@@ -1398,7 +1426,7 @@ belongs to.</p>
 <span id="library-reference-parameter"></span><h2>Parameter<a class="headerlink" href="#parameter" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter" title="Permalink to this definition">#</a></dt>
 <dd><p>A client parameter.</p>
 <p>A <cite>parameter</cite> is an input to an <cite>experiment</cite> (model run)
 that depends on the type of model being used. It affects
@@ -1412,11 +1440,25 @@ be a parameter.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>domain</strong><span class="classifier">rubicon.domain.Parameter</span></dt><dd><p>The parameter domain model.</p>
 </dd>
-<dt><strong>config</strong><span class="classifier">rubicon.client.Config</span></dt><dd><p>The config, which specifies the underlying repository.</p>
+<dt><strong>parent</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment that the parameter is logged to.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.add_tags">
+<span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter.add_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Add tags to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The tag values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.created_at">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Parameter.created_at" title="Permalink to this definition">#</a></dt>
@@ -1442,6 +1484,32 @@ be a parameter.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.parent">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Parameter.parent" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the parameter’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.remove_tags">
+<span class="sig-name descname"><span class="pre">remove_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter.remove_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove tags from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The tag values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.tags">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Parameter.tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Get this client object’s tags.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.value">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#rubicon_ml.Parameter.value" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the parameter’s value.</p>
@@ -1454,7 +1522,7 @@ be a parameter.</p>
 <span id="library-reference-feature"></span><h2>Feature<a class="headerlink" href="#feature" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Feature">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature" title="Permalink to this definition">#</a></dt>
 <dd><p>A client feature.</p>
 <p>A <cite>feature</cite> is an input to an <cite>experiment</cite> (model run)
 that’s an independent, measurable property of a phenomenon
@@ -1470,9 +1538,26 @@ customer is to pay back a loan. Possible features could be
 </dd>
 <dt><strong>config</strong><span class="classifier">rubicon.client.Config</span></dt><dd><p>The config, which specifies the underlying repository.</p>
 </dd>
+<dt><strong>parent</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment that the feature is
+logged to.</p>
+</dd>
 </dl>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.add_tags">
+<span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature.add_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Add tags to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The tag values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.created_at">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#rubicon_ml.Feature.created_at" title="Permalink to this definition">#</a></dt>
@@ -1501,6 +1586,32 @@ customer is to pay back a loan. Possible features could be
 <dt class="sig sig-object py" id="rubicon_ml.Feature.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Feature.name" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the feature’s name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.parent">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Feature.parent" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the feature’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.remove_tags">
+<span class="sig-name descname"><span class="pre">remove_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature.remove_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove tags from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The tag values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.tags">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rubicon_ml.Feature.tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Get this client object’s tags.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1575,7 +1686,7 @@ logged to.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Metric.parent" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the metrics’s parent client object.</p>
+<dd><p>Get the metric’s parent client object.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2825,19 +2936,218 @@ log a parameter to an existing experiment.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">API Reference</a><ul>
-<li><a class="reference internal" href="#rubicon">Rubicon</a></li>
-<li><a class="reference internal" href="#project">Project</a></li>
-<li><a class="reference internal" href="#experiment">Experiment</a></li>
-<li><a class="reference internal" href="#parameter">Parameter</a></li>
-<li><a class="reference internal" href="#feature">Feature</a></li>
-<li><a class="reference internal" href="#metric">Metric</a></li>
-<li><a class="reference internal" href="#dataframe">Dataframe</a></li>
-<li><a class="reference internal" href="#artifact">Artifact</a></li>
-<li><a class="reference internal" href="#asynchronous">asynchronous</a></li>
-<li><a class="reference internal" href="#publish">publish</a></li>
-<li><a class="reference internal" href="#sklearn">sklearn</a></li>
-<li><a class="reference internal" href="#viz">viz</a></li>
-<li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a></li>
+<li><a class="reference internal" href="#rubicon">Rubicon</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon"><code class="docutils literal notranslate"><span class="pre">Rubicon</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.create_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.create_project()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.get_or_create_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_or_create_project()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project_as_dask_df"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project_as_dask_df()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.projects"><code class="docutils literal notranslate"><span class="pre">Rubicon.projects()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.sync"><code class="docutils literal notranslate"><span class="pre">Rubicon.sync()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#project">Project</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Project.artifact"><code class="docutils literal notranslate"><span class="pre">Project.artifact()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.artifacts"><code class="docutils literal notranslate"><span class="pre">Project.artifacts()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.created_at"><code class="docutils literal notranslate"><span class="pre">Project.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.dataframe"><code class="docutils literal notranslate"><span class="pre">Project.dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.dataframes"><code class="docutils literal notranslate"><span class="pre">Project.dataframes()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.delete_artifacts"><code class="docutils literal notranslate"><span class="pre">Project.delete_artifacts()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.delete_dataframes"><code class="docutils literal notranslate"><span class="pre">Project.delete_dataframes()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.description"><code class="docutils literal notranslate"><span class="pre">Project.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.experiment"><code class="docutils literal notranslate"><span class="pre">Project.experiment()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.experiments"><code class="docutils literal notranslate"><span class="pre">Project.experiments()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.github_url"><code class="docutils literal notranslate"><span class="pre">Project.github_url</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.id"><code class="docutils literal notranslate"><span class="pre">Project.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_artifact"><code class="docutils literal notranslate"><span class="pre">Project.log_artifact()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Project.log_conda_environment()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_dataframe"><code class="docutils literal notranslate"><span class="pre">Project.log_dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_experiment"><code class="docutils literal notranslate"><span class="pre">Project.log_experiment()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Project.log_pip_requirements()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.to_dask_df"><code class="docutils literal notranslate"><span class="pre">Project.to_dask_df()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.training_metadata"><code class="docutils literal notranslate"><span class="pre">Project.training_metadata</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#experiment">Experiment</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.add_tags"><code class="docutils literal notranslate"><span class="pre">Experiment.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.artifact"><code class="docutils literal notranslate"><span class="pre">Experiment.artifact()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.artifacts"><code class="docutils literal notranslate"><span class="pre">Experiment.artifacts()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.branch_name"><code class="docutils literal notranslate"><span class="pre">Experiment.branch_name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.commit_hash"><code class="docutils literal notranslate"><span class="pre">Experiment.commit_hash</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.created_at"><code class="docutils literal notranslate"><span class="pre">Experiment.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.dataframes"><code class="docutils literal notranslate"><span class="pre">Experiment.dataframes()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.delete_artifacts"><code class="docutils literal notranslate"><span class="pre">Experiment.delete_artifacts()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.delete_dataframes"><code class="docutils literal notranslate"><span class="pre">Experiment.delete_dataframes()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.description"><code class="docutils literal notranslate"><span class="pre">Experiment.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.feature"><code class="docutils literal notranslate"><span class="pre">Experiment.feature()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.features"><code class="docutils literal notranslate"><span class="pre">Experiment.features()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.id"><code class="docutils literal notranslate"><span class="pre">Experiment.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_artifact"><code class="docutils literal notranslate"><span class="pre">Experiment.log_artifact()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Experiment.log_conda_environment()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.log_dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_feature"><code class="docutils literal notranslate"><span class="pre">Experiment.log_feature()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_metric"><code class="docutils literal notranslate"><span class="pre">Experiment.log_metric()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_parameter"><code class="docutils literal notranslate"><span class="pre">Experiment.log_parameter()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Experiment.log_pip_requirements()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.metric"><code class="docutils literal notranslate"><span class="pre">Experiment.metric()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.metrics"><code class="docutils literal notranslate"><span class="pre">Experiment.metrics()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.model_name"><code class="docutils literal notranslate"><span class="pre">Experiment.model_name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.name"><code class="docutils literal notranslate"><span class="pre">Experiment.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.parameter"><code class="docutils literal notranslate"><span class="pre">Experiment.parameter()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.parameters"><code class="docutils literal notranslate"><span class="pre">Experiment.parameters()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.project"><code class="docutils literal notranslate"><span class="pre">Experiment.project</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.remove_tags"><code class="docutils literal notranslate"><span class="pre">Experiment.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.tags"><code class="docutils literal notranslate"><span class="pre">Experiment.tags</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.training_metadata"><code class="docutils literal notranslate"><span class="pre">Experiment.training_metadata</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parameter">Parameter</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.add_tags"><code class="docutils literal notranslate"><span class="pre">Parameter.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.created_at"><code class="docutils literal notranslate"><span class="pre">Parameter.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.description"><code class="docutils literal notranslate"><span class="pre">Parameter.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.id"><code class="docutils literal notranslate"><span class="pre">Parameter.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.name"><code class="docutils literal notranslate"><span class="pre">Parameter.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.parent"><code class="docutils literal notranslate"><span class="pre">Parameter.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.remove_tags"><code class="docutils literal notranslate"><span class="pre">Parameter.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.tags"><code class="docutils literal notranslate"><span class="pre">Parameter.tags</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.value"><code class="docutils literal notranslate"><span class="pre">Parameter.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#feature">Feature</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Feature"><code class="docutils literal notranslate"><span class="pre">Feature</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Feature.add_tags"><code class="docutils literal notranslate"><span class="pre">Feature.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.created_at"><code class="docutils literal notranslate"><span class="pre">Feature.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.description"><code class="docutils literal notranslate"><span class="pre">Feature.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.id"><code class="docutils literal notranslate"><span class="pre">Feature.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.importance"><code class="docutils literal notranslate"><span class="pre">Feature.importance</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.name"><code class="docutils literal notranslate"><span class="pre">Feature.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.parent"><code class="docutils literal notranslate"><span class="pre">Feature.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.remove_tags"><code class="docutils literal notranslate"><span class="pre">Feature.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.tags"><code class="docutils literal notranslate"><span class="pre">Feature.tags</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metric">Metric</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Metric"><code class="docutils literal notranslate"><span class="pre">Metric</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Metric.add_tags"><code class="docutils literal notranslate"><span class="pre">Metric.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.created_at"><code class="docutils literal notranslate"><span class="pre">Metric.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.description"><code class="docutils literal notranslate"><span class="pre">Metric.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.directionality"><code class="docutils literal notranslate"><span class="pre">Metric.directionality</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.id"><code class="docutils literal notranslate"><span class="pre">Metric.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.name"><code class="docutils literal notranslate"><span class="pre">Metric.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.parent"><code class="docutils literal notranslate"><span class="pre">Metric.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.remove_tags"><code class="docutils literal notranslate"><span class="pre">Metric.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.tags"><code class="docutils literal notranslate"><span class="pre">Metric.tags</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.value"><code class="docutils literal notranslate"><span class="pre">Metric.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dataframe">Dataframe</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe"><code class="docutils literal notranslate"><span class="pre">Dataframe</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.add_tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.created_at"><code class="docutils literal notranslate"><span class="pre">Dataframe.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.data"><code class="docutils literal notranslate"><span class="pre">Dataframe.data</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.description"><code class="docutils literal notranslate"><span class="pre">Dataframe.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.get_data"><code class="docutils literal notranslate"><span class="pre">Dataframe.get_data()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.id"><code class="docutils literal notranslate"><span class="pre">Dataframe.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.name"><code class="docutils literal notranslate"><span class="pre">Dataframe.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.parent"><code class="docutils literal notranslate"><span class="pre">Dataframe.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.plot"><code class="docutils literal notranslate"><span class="pre">Dataframe.plot()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.remove_tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.tags</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#artifact">Artifact</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Artifact"><code class="docutils literal notranslate"><span class="pre">Artifact</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.add_tags"><code class="docutils literal notranslate"><span class="pre">Artifact.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.created_at"><code class="docutils literal notranslate"><span class="pre">Artifact.created_at</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.data"><code class="docutils literal notranslate"><span class="pre">Artifact.data</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.description"><code class="docutils literal notranslate"><span class="pre">Artifact.description</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.download"><code class="docutils literal notranslate"><span class="pre">Artifact.download()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.id"><code class="docutils literal notranslate"><span class="pre">Artifact.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.name"><code class="docutils literal notranslate"><span class="pre">Artifact.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.parent"><code class="docutils literal notranslate"><span class="pre">Artifact.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.remove_tags"><code class="docutils literal notranslate"><span class="pre">Artifact.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.tags"><code class="docutils literal notranslate"><span class="pre">Artifact.tags</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#asynchronous">asynchronous</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.client.asynchronous.Rubicon"><code class="docutils literal notranslate"><span class="pre">Rubicon</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#publish">publish</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.publish"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sklearn">sklearn</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.RubiconPipeline"><code class="docutils literal notranslate"><span class="pre">RubiconPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.RubiconPipeline.fit"><code class="docutils literal notranslate"><span class="pre">RubiconPipeline.fit()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.RubiconPipeline.get_estimator_logger"><code class="docutils literal notranslate"><span class="pre">RubiconPipeline.get_estimator_logger()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.RubiconPipeline.score"><code class="docutils literal notranslate"><span class="pre">RubiconPipeline.score()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.RubiconPipeline.score_samples"><code class="docutils literal notranslate"><span class="pre">RubiconPipeline.score_samples()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.FilterEstimatorLogger"><code class="docutils literal notranslate"><span class="pre">FilterEstimatorLogger</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.sklearn.pipeline.make_pipeline"><code class="docutils literal notranslate"><span class="pre">make_pipeline()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#viz">viz</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.DataframePlot"><code class="docutils literal notranslate"><span class="pre">DataframePlot</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.DataframePlot.serve"><code class="docutils literal notranslate"><span class="pre">DataframePlot.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.DataframePlot.show"><code class="docutils literal notranslate"><span class="pre">DataframePlot.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable"><code class="docutils literal notranslate"><span class="pre">ExperimentsTable</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable.serve"><code class="docutils literal notranslate"><span class="pre">ExperimentsTable.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable.show"><code class="docutils literal notranslate"><span class="pre">ExperimentsTable.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot"><code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot.serve"><code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot.show"><code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison"><code class="docutils literal notranslate"><span class="pre">MetricListsComparison</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison.serve"><code class="docutils literal notranslate"><span class="pre">MetricListsComparison.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison.show"><code class="docutils literal notranslate"><span class="pre">MetricListsComparison.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.Dashboard"><code class="docutils literal notranslate"><span class="pre">Dashboard</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.Dashboard.serve"><code class="docutils literal notranslate"><span class="pre">Dashboard.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.Dashboard.show"><code class="docutils literal notranslate"><span class="pre">Dashboard.show()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.create_experiment_task"><code class="docutils literal notranslate"><span class="pre">create_experiment_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.get_or_create_project_task"><code class="docutils literal notranslate"><span class="pre">get_or_create_project_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_artifact_task"><code class="docutils literal notranslate"><span class="pre">log_artifact_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_dataframe_task"><code class="docutils literal notranslate"><span class="pre">log_dataframe_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_feature_task"><code class="docutils literal notranslate"><span class="pre">log_feature_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_metric_task"><code class="docutils literal notranslate"><span class="pre">log_metric_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_parameter_task"><code class="docutils literal notranslate"><span class="pre">log_parameter_task()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2854,6 +3164,7 @@ log a parameter to an existing experiment.</p>
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
