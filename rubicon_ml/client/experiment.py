@@ -217,7 +217,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The parameter's description. Use to provide
             additional context.
         tags : list of str, optional
-            Values to tag the experiment with. Use tags to organize and
+            Values to tag the parameter with. Use tags to organize and
             filter your parameters.
 
         Returns
