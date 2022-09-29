@@ -923,6 +923,7 @@ class BaseRepository:
             "Experiment": self._get_experiment_metadata_root,
             "Metric": self._get_metric_metadata_root,
             "Feature": self._get_feature_metadata_root,
+            "Parameter": self._get_parameter_metadata_root,
         }
 
         try:
@@ -937,6 +938,9 @@ class BaseRepository:
         else:
             entity_metadata_root = get_metadata_root(project_name, experiment_id)
 
+            # We want to slugify the names of Metrics, Features, and Parameters- not Artifacts, Dataframes, or Experiments
+            if entity_type in ["Metric", "Feature", "Parameter"]:
+                entity_identifier = slugify(entity_identifier)
             return f"{entity_metadata_root}/{entity_identifier}"
 
     def add_tags(

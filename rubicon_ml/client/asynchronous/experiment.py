@@ -90,7 +90,7 @@ class Experiment(ArtifactMixin, DataframeMixin, TagMixin, SyncExperiment):
         parameter = domain.Parameter(name, value=value, description=description)
         await self.repository.create_parameter(parameter, self.project.name, self.id)
 
-        return Parameter(parameter, self._config)
+        return Parameter(parameter, self)
 
     async def parameters(self):
         """Overrides `rubicon.client.Experiment.parameters` to
@@ -102,7 +102,7 @@ class Experiment(ArtifactMixin, DataframeMixin, TagMixin, SyncExperiment):
             The parameters previously logged to this experiment.
         """
         self._parameters = [
-            Parameter(p, self._config)
+            Parameter(p, self)
             for p in await self.repository.get_parameters(self.project.name, self.id)
         ]
 
