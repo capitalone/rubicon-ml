@@ -19,7 +19,7 @@ dependencies:
   # so local pip install doesn't
   - dash<=2.6.2,>=2.0.0
   - dash-bootstrap-components<=1.2.1,>=1.0.0
-  - dask[dataframe]<=2022.9.1,>=2.12.0
+  - dask[dataframe]<=2022.9.2,>=2.12.0
   - fsspec<=2022.8.2,>=2021.4.0
   - intake[dataframe]<=0.6.6,>=0.5.2
   - numpy<=1.23.3,>=1.22.0
