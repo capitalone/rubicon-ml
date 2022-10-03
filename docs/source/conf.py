@@ -63,7 +63,7 @@ nbsphinx_prolog = """
 
 .. |binder_link| raw:: html
 
-   <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?filepath=notebooks/{{ env.doc2path(env.docname, base=None) }}" target="_blank">run it yourself on Binder</a>
+   <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/{{ env.doc2path(env.docname, base=None) }}" target="_blank">run it yourself on Binder</a>
 """
 
 autodoc_default_flags = ["members", "inherited-members"]
