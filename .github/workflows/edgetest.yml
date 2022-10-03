@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
       - id: run-edgetest
-        uses: fdosani/run-edgetest-action@v1.1
+        uses: fdosani/run-edgetest-action@v1.2
         with:
           edgetest-flags: '-c setup.cfg --export'
           base-branch: 'main'
