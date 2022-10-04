@@ -5,5 +5,4 @@ dependencies:
   - python>=3.8
   - pip
 
-  - jupyter-server-proxy
   - rubicon-ml
