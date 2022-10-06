@@ -34,7 +34,5 @@ div.output_area.stderr {
 }
 
 .version {
-    font-size: 1rem;
-    margin-top: -2rem;
-    text-align: right;
+    text-align: center;
 }
