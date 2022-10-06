@@ -1,5 +1,3 @@
-graft rubicon_ml/ui/assets
-graft rubicon_ml/ui/assets/css
 graft rubicon_ml/viz/assets
 graft rubicon_ml/viz/assets/css
 include versioneer.py

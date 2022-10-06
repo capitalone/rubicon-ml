@@ -1,5 +1,3 @@
-import warnings
-
 from rubicon_ml.client import Base, TagMixin
 from rubicon_ml.exceptions import RubiconException
 
@@ -110,18 +108,6 @@ class Dataframe(Base, TagMixin):
     def created_at(self):
         """Get the time this dataframe was created."""
         return self._domain.created_at
-
-    @property
-    def data(self):
-        """Get the dataframe's data as it was logged."""
-        warnings.warn(
-            "`data` is deprecated, use `get_data()` instead",
-            DeprecationWarning,
-        )
-        if self._data is None:
-            self.get_data()
-
-        return self._data
 
     @property
     def parent(self):
