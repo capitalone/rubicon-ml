@@ -99,7 +99,7 @@ html_theme = "furo"
 html_title = f"<div class='version'>rubicon-ml v{version}</div>"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
-html_favicon = "_static/images/rubicon_logo_favicon.png"
+html_favicon = "_static/images/rubicon_ml_logo_favicon.png"
 html_theme_options = {
     "light_logo": "images/rubicon_ml_logo_only.svg",
     "dark_logo": "images/rubicon_ml_logo_only.svg",
