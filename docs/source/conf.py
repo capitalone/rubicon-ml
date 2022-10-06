@@ -96,11 +96,11 @@ exclude_patterns = ["_build"]
 html_theme = "furo"
 # hide rubicon because it's already in the logo, but will still get pulled into the tab
 # strip the version down so we don't include dirty tags
-html_title = f"<div class='hidden'>rubicon-ml</div> <div class='version'> v{version}</div>"
+html_title = f"<div class='version'>rubicon-ml v{version}</div>"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
-html_favicon = "_static/images/rubicon_logo_favicon.png"
+html_favicon = "_static/images/rubicon_ml_logo_favicon.png"
 html_theme_options = {
-    "light_logo": "images/rubicon_ml_logo_offset_light.svg",
-    "dark_logo": "images/rubicon_ml_logo_offset_dark.svg",
+    "light_logo": "images/rubicon_ml_logo_only.svg",
+    "dark_logo": "images/rubicon_ml_logo_only.svg",
 }
