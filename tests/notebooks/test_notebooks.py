@@ -52,7 +52,6 @@ def test_notebook_is_executed_in_order(notebook_filename):
 IGNORE_EXECUTE_NOTEBOOK_FILENAMES = [
     "classification.ipynb",
     "integration-prefect-workflows.ipynb",
-    "logging-asynchronously.ipynb",
     "visualizing-experiments.ipynb",
 ]
 EXECUTE_NOTEBOOK_FILENAMES = [

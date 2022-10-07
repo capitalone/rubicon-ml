@@ -54,8 +54,6 @@ actions allowed for your S3 bucket:
         ]
     }
 
-We recommend using the :ref:`asynchronous client<library-reference-async>` when logging to S3 directly.
-
 **Syncing the Local Filesystem with S3**
 
 Local logging can easily be synced with an S3 bucket using ``Rubicon.sync()``.

@@ -1,53 +1,11 @@
 import os
 import random
-from unittest.mock import MagicMock
 
 import numpy as np
 import pandas as pd
 import pytest
 
 from rubicon_ml.repository import MemoryRepository
-
-
-class AsynchronousMock(MagicMock):
-    async def __call__(self, *args, **kwargs):
-        return super().__call__(*args, **kwargs)
-
-
-@pytest.fixture
-def asyn_repo_w_mock_filesystem():
-    from rubicon_ml.repository.asynchronous import AsynchronousBaseRepository
-
-    asyn_repo = AsynchronousBaseRepository("s3://test-bucket")
-    asyn_repo._persist_bytes = AsynchronousMock()
-    asyn_repo._persist_domain = AsynchronousMock()
-    asyn_repo.filesystem = AsynchronousMock()
-
-    # Necessary because we are using the synchronous `invalidate_cache`
-    # as `fsspec`'s async S3 repo doesn't seem to do it on its own.
-    asyn_repo.filesystem.invalidate_cache = MagicMock()
-
-    return asyn_repo
-
-
-@pytest.fixture
-def asyn_s3_repo_w_mock_filesystem():
-    from rubicon_ml.repository.asynchronous import S3Repository
-
-    asyn_s3_repo = S3Repository("s3://test-bucket")
-    asyn_s3_repo.filesystem = AsynchronousMock()
-
-    return asyn_s3_repo
-
-
-@pytest.fixture
-def asyn_client_w_mock_repo():
-    from rubicon_ml.client.asynchronous import Rubicon
-
-    rubicon = Rubicon(persistence="filesystem", root_dir="s3://test-bucket")
-    rubicon.repository = AsynchronousMock()
-
-    return rubicon
 
 
 class MockCompletedProcess:
