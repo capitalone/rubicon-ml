@@ -2,6 +2,7 @@ import subprocess
 from unittest import mock
 
 import dask.dataframe as dd
+import pandas as pd
 import pytest
 
 from rubicon_ml import client, domain
@@ -169,6 +170,13 @@ def test_sync_from_local_error(mock_get_project, mock_run):
 
 def test_get_project_as_dask_df(rubicon_and_project_client_with_experiments):
     rubicon, project = rubicon_and_project_client_with_experiments
-    ddf = rubicon.get_project_as_dask_df(name="Test Project")
+    ddf = rubicon.get_project_as_df(name="Test Project", df_type="dask")
 
     assert isinstance(ddf, dd.core.DataFrame)
+
+
+def test_get_project_as_pandas_df(rubicon_and_project_client_with_experiments):
+    rubicon, project = rubicon_and_project_client_with_experiments
+    ddf = rubicon.get_project_as_df(name="Test Project", df_type="pandas")
+
+    assert isinstance(ddf, pd.DataFrame)

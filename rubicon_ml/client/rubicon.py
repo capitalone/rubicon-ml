@@ -157,7 +157,7 @@ class Rubicon:
         """
         project = self.get_project(name)
 
-        return project.to_dask_df(df_type=df_type, group_by=None)
+        return project.to_df(df_type=df_type, group_by=None)
 
     def get_or_create_project(self, name, **kwargs):
         """Get or create a project.

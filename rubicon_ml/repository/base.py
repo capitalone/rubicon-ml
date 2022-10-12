@@ -432,7 +432,7 @@ class BaseRepository:
         df = None
         acceptable_types = ["pandas", "dask"]
         if df_type not in acceptable_types:
-            raise RubiconException(f"`df_type` must be one of {acceptable_types}")
+            raise ValueError(f"`df_type` must be one of {acceptable_types}")
 
         if df_type == "pandas":
             path = f"{path}/data.parquet"
