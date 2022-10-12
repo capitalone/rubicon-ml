@@ -125,7 +125,7 @@ class Rubicon:
         return project
 
     def get_project_as_dask_df(self, name, group_by=None):
-        """For backwards compatibility."""
+        """DEPRECATED: Available for backwards compatibility."""
         warnings.warn(
             "`get_project_as_dask_df` is deprecated and will be removed in a future "
             "release. use `get_project_as_df('name', df_type='dask') instead.",

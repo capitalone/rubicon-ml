@@ -110,7 +110,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return grouped_experiments
 
     def to_dask_df(self, group_by=None):
-        """For backwards compatibility."""
+        """DEPRECATED: Available for backwards compatibility."""
         warnings.warn(
             "`to_dask_df` is deprecated and will be removed in a future release. "
             "use `to_df(df_type='dask') instead.",

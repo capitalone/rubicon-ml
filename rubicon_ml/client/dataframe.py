@@ -36,8 +36,8 @@ class Dataframe(Base, TagMixin):
         Parameters
         ----------
         df_type : str, optional
-            The type of dataframe. Can be either `pandas` or `dask`.
-            Defaults to 'pandas'.
+            The type of dataframe to return. Valid options include
+            ["dask", "pandas"]. Defaults to "pandas".
         """
         project_name, experiment_id = self.parent._get_identifiers()
 
