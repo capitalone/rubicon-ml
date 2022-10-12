@@ -1,4 +1,5 @@
 import subprocess
+import warnings
 
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project
@@ -124,26 +125,39 @@ class Rubicon:
         return project
 
     def get_project_as_dask_df(self, name, group_by=None):
-        """Get a dask dataframe representation of a project.
+        """For backwards compatibility."""
+        warnings.warn(
+            "`get_project_as_dask_df` is deprecated and will be removed in a future "
+            "release. use `get_project_as_df('name', df_type='dask') instead.",
+            DeprecationWarning,
+        )
+
+        return self.get_project_as_df(name, df_type="dask", group_by=group_by)
+
+    def get_project_as_df(self, name, df_type="pandas", group_by=None):
+        """Get a dask or pandas dataframe representation of a project.
 
         Parameters
         ----------
         name : str
             The name of the project to get.
+        df_type : str, optional
+            The type of dataframe to return. Valid options include
+            ["dask", "pandas"]. Defaults to "pandas".
         group_by : str or None, optional
             How to group the project's experiments in the returned
             DataFrame(s). Valid options include ["commit_hash"].
 
         Returns
         -------
-        dask.DataFrame or list of dask.DataFrame
-            If `group_by` is `None`, a dask dataframe holding the project's
-            data. Otherwise a list of dask dataframes holding the project's
+        pandas.DataFrame or list of pandas.DataFrame or dask.DataFrame or list of dask.DataFrame
+            If `group_by` is `None`, a dask or pandas dataframe holding the project's
+            data. Otherwise a list of dask or pandas dataframes holding the project's
             data grouped by `group_by`.
         """
         project = self.get_project(name)
 
-        return project.to_dask_df(group_by=None)
+        return project.to_dask_df(df_type=df_type, group_by=None)
 
     def get_or_create_project(self, name, **kwargs):
         """Get or create a project.
