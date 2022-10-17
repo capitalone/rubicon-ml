@@ -110,20 +110,34 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return grouped_experiments
 
     def to_dask_df(self, group_by=None):
-        """Loads the project's data into dask dataframe(s) sorted by `created_at`.
-        This includes the experiment details along with parameters and metrics.
+        """DEPRECATED: Available for backwards compatibility."""
+        warnings.warn(
+            "`to_dask_df` is deprecated and will be removed in a future release. "
+            "use `to_df(df_type='dask') instead.",
+            DeprecationWarning,
+        )
+
+        return self.to_df(df_type="dask", group_by=group_by)
+
+    def to_df(self, df_type="pandas", group_by=None):
+        """Loads the project's data into dask or pandas dataframe(s) sorted by
+        `created_at`. This includes the experiment details along with parameters
+        and metrics.
 
         Parameters
         ----------
+        df_type : str, optional
+            The type of dataframe to return. Valid options include
+            ["dask", "pandas"]. Defaults to "pandas".
         group_by : str or None, optional
             How to group the project's experiments in the returned
             dataframe(s). Valid options include ["commit_hash"].
 
         Returns
         -------
-        dask.DataFrame or list of dask.DataFrame
-            If `group_by` is `None`, a dask dataframe holding the project's
-            data. Otherwise a list of dask dataframes holding the project's
+        pandas.DataFrame or list of pandas.DataFrame or dask.DataFrame or list of dask.DataFrame
+            If `group_by` is `None`, a dask or pandas dataframe holding the project's
+            data. Otherwise a list of dask or pandas dataframes holding the project's
             data grouped by `group_by`.
         """
         DEFAULT_COLUMNS = [
@@ -170,9 +184,12 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
             columns = DEFAULT_COLUMNS + list(parameter_names) + list(metric_names)
             df = pd.DataFrame.from_records(experiment_records, columns=columns)
-
             df = df.sort_values(by=["created_at"], ascending=False).reset_index(drop=True)
-            experiment_dfs[group] = dd.from_pandas(df, npartitions=1)
+
+            if df_type == "dask":
+                df = dd.from_pandas(df, npartitions=1)
+
+            experiment_dfs[group] = df
 
         return experiment_dfs if group_by is not None else list(experiment_dfs.values())[0]
 

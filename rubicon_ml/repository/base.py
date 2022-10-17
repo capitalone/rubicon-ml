@@ -3,7 +3,6 @@ import warnings
 
 import fsspec
 import pandas as pd
-from dask import dataframe as dd
 
 from rubicon_ml import domain
 from rubicon_ml.exceptions import RubiconException
@@ -433,12 +432,21 @@ class BaseRepository:
         df = None
         acceptable_types = ["pandas", "dask"]
         if df_type not in acceptable_types:
-            raise RubiconException(f"`df_type` must be one of {acceptable_types}")
+            raise ValueError(f"`df_type` must be one of {acceptable_types}")
 
         if df_type == "pandas":
             path = f"{path}/data.parquet"
             df = pd.read_parquet(path, engine="pyarrow")
         else:
+            try:
+                from dask import dataframe as dd
+            except ImportError:
+                raise RubiconException(
+                    "`rubicon_ml` requires `dask` to be installed in the current environment "
+                    "to read dataframes with `df_type`='dask'. `pip install dask[dataframe]` "
+                    "or `conda install dask` to continue."
+                )
+
             df = dd.read_parquet(path, engine="pyarrow")
 
         return df

@@ -1,3 +1,4 @@
+import sys
 import uuid
 from unittest.mock import patch
 
@@ -391,6 +392,29 @@ def test_read_dataframe(mock_read_parquet, memory_repository):
     super(MemoryRepository, repository)._read_dataframe(path)
 
     mock_read_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
+
+
+def test_read_dataframe_value_error(memory_repository):
+    repository = memory_repository
+    path = "./local/root"
+
+    with pytest.raises(ValueError) as e:
+        # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
+        super(MemoryRepository, repository)._read_dataframe(path, df_type="INVALID")
+
+    assert "`df_type` must be one of " in str(e)
+
+
+def test_read_dataframe_import_error(memory_repository):
+    repository = memory_repository
+    path = "./local/root"
+
+    with patch.dict(sys.modules, {"dask": None}):
+        with pytest.raises(RubiconException) as e:
+            # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
+            super(MemoryRepository, repository)._read_dataframe(path, df_type="dask")
+
+    assert "`rubicon_ml` requires `dask` to be installed" in str(e)
 
 
 def test_get_dataframe_with_project_parent_root(memory_repository):

@@ -182,7 +182,7 @@ def test_dataframes_recursive(project_client, test_dataframe):
 
 def test_to_dask_df(rubicon_and_project_client_with_experiments):
     project = rubicon_and_project_client_with_experiments[1]
-    ddf = project.to_dask_df()
+    ddf = project.to_df(df_type="dask")
 
     # compute to pandas df so we can use iloc for easier testing
     df = ddf.compute()
@@ -196,9 +196,22 @@ def test_to_dask_df(rubicon_and_project_client_with_experiments):
         assert detail in df.columns
 
 
+def test_to_pandas_df(rubicon_and_project_client_with_experiments):
+    project = rubicon_and_project_client_with_experiments[1]
+    df = project.to_df(df_type="pandas")
+
+    # check that all experiments made it into df
+    assert len(df) == 10
+
+    # check the cols within the df
+    exp_details = ["id", "name", "description", "model_name", "commit_hash", "tags", "created_at"]
+    for detail in exp_details:
+        assert detail in df.columns
+
+
 def test_to_dask_df_grouped_by_commit_hash(rubicon_and_project_client_with_experiments):
     project = rubicon_and_project_client_with_experiments[1]
-    ddfs = project.to_dask_df(group_by="commit_hash")
+    ddfs = project.to_df(df_type="dask", group_by="commit_hash")
 
     # compute to pandas df so we can use iloc for easier testing
     dfs = [ddf.compute() for ddf in ddfs.values()]
@@ -221,9 +234,31 @@ def test_to_dask_df_grouped_by_commit_hash(rubicon_and_project_client_with_exper
             assert detail in df.columns
 
 
-def test_to_dask_df_grouped_by_invalid_group(rubicon_and_project_client_with_experiments):
+def test_to_pandas_df_grouped_by_commit_hash(rubicon_and_project_client_with_experiments):
+    project = rubicon_and_project_client_with_experiments[1]
+    dfs = project.to_df(df_type="pandas", group_by="commit_hash")
+
+    # check df was broken into 4 groups
+    assert len(dfs) == 4
+
+    for df in dfs.values():
+        # check the cols within the df
+        exp_details = [
+            "id",
+            "name",
+            "description",
+            "model_name",
+            "commit_hash",
+            "tags",
+            "created_at",
+        ]
+        for detail in exp_details:
+            assert detail in df.columns
+
+
+def test_to_df_grouped_by_invalid_group(rubicon_and_project_client_with_experiments):
     project = rubicon_and_project_client_with_experiments[1]
     with pytest.raises(ValueError) as e:
-        project.to_dask_df(group_by="INVALID")
+        project.to_df(group_by="INVALID")
 
     assert "`group_by` must be one of" in str(e)
