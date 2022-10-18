@@ -1,4 +1,5 @@
 import dash_bootstrap_components as dbc
+import pandas as pd
 import plotly.express as px
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -104,7 +105,7 @@ class DataframePlot(VizBase):
             if self.data_df is None:
                 self.data_df = data_df
             else:
-                self.data_df = self.data_df.append(data_df)
+                self.data_df = pd.concat([self.data_df, data_df])
 
             self.data_df = self.data_df.reset_index(drop=True)
 
