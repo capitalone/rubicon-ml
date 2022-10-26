@@ -45,7 +45,7 @@ When adding examples, make sure to commit any notebooks with their
 cells executed in order. These example notebooks are rendered as-is within the
 [documentation](https://capitalone.github.io/rubicon-ml/examples.html).
 
-To develope examples off the latest on the `main` branch, use the "rubicon-ml-dev"
+To develop examples off the latest on the `main` branch, use the "rubicon-ml-dev"
 environment in `environment.yml` at the root of the rubicon-ml repository.
 
 ```
