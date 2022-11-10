@@ -6,6 +6,7 @@ import pandas as pd
 
 from rubicon_ml import domain
 from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
+from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
@@ -193,6 +194,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return experiment_dfs if group_by is not None else list(experiment_dfs.values())[0]
 
+    @failsafe
     def log_experiment(
         self,
         name=None,
