@@ -120,6 +120,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return self.to_df(df_type="dask", group_by=group_by)
 
+    @failsafe
     def to_df(self, df_type="pandas", group_by=None):
         """Loads the project's data into dask or pandas dataframe(s) sorted by
         `created_at`. This includes the experiment details along with parameters
@@ -253,6 +254,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return Experiment(experiment, self)
 
+    @failsafe
     def experiment(self, id=None, name=None):
         """Get an experiment logged to this project by id or name.
 
@@ -288,6 +290,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return experiment
 
+    @failsafe
     def experiments(self, tags=[], qtype="or", name=None):
         """Get the experiments logged to this project.
 
@@ -311,6 +314,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return self._experiments
 
+    @failsafe
     def dataframes(self, tags=[], qtype="or", recursive=False, name=None):
         """Get the dataframes logged to this project.
 

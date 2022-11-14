@@ -6,6 +6,7 @@ from datetime import datetime
 import fsspec
 
 from rubicon_ml import client, domain
+from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
@@ -39,6 +40,7 @@ class ArtifactMixin:
 
         return data_bytes, name
 
+    @failsafe
     def log_artifact(
         self,
         data_bytes=None,
@@ -135,6 +137,7 @@ class ArtifactMixin:
 
         return completed_process.stdout
 
+    @failsafe
     def log_conda_environment(self, artifact_name=None):
         """Log the conda environment as an artifact to this client object.
         Useful for recreating your exact environment at a later date.
@@ -161,6 +164,7 @@ class ArtifactMixin:
 
         return artifact
 
+    @failsafe
     def log_pip_requirements(self, artifact_name=None):
         """Log the pip requirements as an artifact to this client object.
         Useful for recreating your exact environment at a later date.
@@ -183,6 +187,7 @@ class ArtifactMixin:
 
         return artifact
 
+    @failsafe
     def artifacts(self, name=None, tags=[], qtype="or"):
         """Get the artifacts logged to this client object.
 
@@ -213,6 +218,7 @@ class ArtifactMixin:
 
         return self._artifacts
 
+    @failsafe
     def artifact(self, name=None, id=None):
         """Get an artifact logged to this project by id or name.
 
@@ -250,6 +256,7 @@ class ArtifactMixin:
 
         return artifact
 
+    @failsafe
     def delete_artifacts(self, ids):
         """Delete the artifacts logged to with client object
         with ids `ids`.
@@ -268,6 +275,7 @@ class ArtifactMixin:
 class DataframeMixin:
     """Adds dataframe support to a client object."""
 
+    @failsafe
     def log_dataframe(self, df, description=None, name=None, tags=[]):
         """Log a dataframe to this client object.
 
@@ -298,6 +306,7 @@ class DataframeMixin:
 
         return client.Dataframe(dataframe, self)
 
+    @failsafe
     def dataframes(self, name=None, tags=[], qtype="or"):
         """Get the dataframes logged to this client object.
 
@@ -328,6 +337,7 @@ class DataframeMixin:
 
         return self._dataframes
 
+    @failsafe
     def dataframe(self, name=None, id=None):
         """
         Get the dataframe logged to this client object.
@@ -369,6 +379,7 @@ class DataframeMixin:
 
         return dataframe
 
+    @failsafe
     def delete_dataframes(self, ids):
         """Delete the dataframes with ids `ids` logged to
         this client object.
@@ -405,6 +416,7 @@ class TagMixin:
 
         return project_name, experiment_id, entity_identifier
 
+    @failsafe
     def add_tags(self, tags):
         """Add tags to this client object.
 
@@ -424,6 +436,7 @@ class TagMixin:
             entity_type=self.__class__.__name__,
         )
 
+    @failsafe
     def remove_tags(self, tags):
         """Remove tags from this client object.
 
