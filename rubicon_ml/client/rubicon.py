@@ -184,6 +184,9 @@ class Rubicon:
             project = self.get_project(name)
         except RubiconException:
             project = self.create_project(name, **kwargs)
+        else:  # check for None in case of failure mode being set to "log" or "warn"
+            if project is None:
+                project = self.create_project(name, **kwargs)
 
         return project
 

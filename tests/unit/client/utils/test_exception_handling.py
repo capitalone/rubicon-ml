@@ -14,6 +14,9 @@ def test_set_failure_mode(failure_mode):
 
     assert FAILURE_MODE == failure_mode
 
+    # cleanup: reset to default
+    set_failure_mode("raise")
+
 
 def test_set_failure_mode_traceback_options():
     traceback_chain = True
@@ -54,6 +57,9 @@ def test_failure_mode_log(mock_warn, rubicon_client):
 
     mock_warn.assert_called_once()
 
+    # cleanup: reset to default
+    set_failure_mode("raise")
+
 
 @patch("logging.error")
 def test_failure_mode_warn(mock_logger, rubicon_client):
@@ -62,3 +68,6 @@ def test_failure_mode_warn(mock_logger, rubicon_client):
     rubicon_client.get_project(name="does not exist")
 
     mock_logger.assert_called_once()
+
+    # cleanup: reset to default
+    set_failure_mode("raise")
