@@ -18,6 +18,7 @@ clean:
 	rm -rf ./source/quick-look
 	rm -rf ./source/logging-examples
 	rm -rf ./source/integrations
+	rm -rf ./source/tutorials
 	rm -rf ./source/visualizations
 
 # Copy over up to date sources from the root of the `rubicon_ml` repo.
@@ -26,11 +27,13 @@ pre-build:
 	mkdir -p ./source/quick-look
 	mkdir -p ./source/logging-examples
 	mkdir -p ./source/integrations
+	mkdir -p ./source/tutorials
 	mkdir -p ./source/visualizations
 
 	cp ../notebooks/quick-look/*.ipynb ./source/quick-look
 	cp ../notebooks/logging-examples/*.ipynb ./source/logging-examples
 	cp ../notebooks/integrations/*.ipynb ./source/integrations
+	cp ../notebooks/tutorials/*.ipynb ./source/tutorials
 	cp ../notebooks/viz/*.ipynb ./source/visualizations
 
 	cp ../notebooks/quick-look/*.png ./source/quick-look

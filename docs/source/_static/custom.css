@@ -20,11 +20,6 @@
     }
 }
 
-/* hides the dashboard cells' HTTP logs in the examples */
-div.output_area.stderr {
-    display: none;
-}
-
 .hidden {
     display: none;
 }
