@@ -1,3 +1,4 @@
+import functools
 import logging
 import traceback
 import warnings
@@ -38,6 +39,7 @@ def set_failure_mode(failure_mode, traceback_chain=False, traceback_limit=None):
 
 
 def failsafe(func):
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
