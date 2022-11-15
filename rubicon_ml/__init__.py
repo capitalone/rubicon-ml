@@ -13,6 +13,7 @@ from rubicon_ml.client import (  # noqa: E402
     Project,
     Rubicon,
 )
+from rubicon_ml.client.utils.exception_handling import set_failure_mode  # noqa: E402
 from rubicon_ml.intake_rubicon.publish import publish  # noqa: E402
 
 __all__ = [
@@ -25,4 +26,5 @@ __all__ = [
     "Project",
     "publish",
     "Rubicon",
+    "set_failure_mode",
 ]

@@ -70,7 +70,7 @@ Artifact
 exception_handling
 ==================
 
-.. autofunction:: rubicon_ml.client.utils.exception_handling.set_failure_mode
+.. autofunction:: rubicon_ml.set_failure_mode
 
 publish
 =======
