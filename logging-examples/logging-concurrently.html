@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizations" href="../visualizations.html" /><link rel="prev" title="Logging Asynchronously" href="logging-asynchronously.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Tagging" href="tagging.html" /><link rel="prev" title="Logging Plots as PNGs" href="logging-plots.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.2.3, furo 2022.09.29"/>
-        <title>Logging Concurrently - rubicon-ml v0.3.10</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>Logging Concurrently - rubicon-ml v0.4.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.3.10</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.3.10</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -168,10 +168,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-plots.html">Logging Plots as PNGs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
@@ -349,10 +350,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -736,7 +738,7 @@ metrics: [(&#39;accuracy&#39;, 0.7111111111111111)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project_as_dask_df</span><span class="p">(</span><span class="s2">&quot;Concurrent Experiments&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_project_as_df</span><span class="p">(</span><span class="s2">&quot;Concurrent Experiments&quot;</span><span class="p">,</span> <span class="n">df_type</span><span class="o">=</span><span class="s2">&quot;dask&quot;</span><span class="p">)</span>
 <span class="n">ddf</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -970,23 +972,23 @@ metrics: [(&#39;accuracy&#39;, 0.7111111111111111)]
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../visualizations.html">
+          <a class="next-page" href="tagging.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Visualizations</div>
+                <div class="title">Tagging</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="logging-asynchronously.html">
+          <a class="prev-page" href="logging-plots.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Logging Asynchronously</div>
+                <div class="title">Logging Plots as PNGs</div>
                 
               </div>
             </a>

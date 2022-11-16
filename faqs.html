@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api_reference.html" /><link rel="prev" title="Glossary" href="glossary.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.2.3, furo 2022.09.29"/>
-        <title>FAQs - rubicon-ml v0.3.10</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>FAQs - rubicon-ml v0.4.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.3.10</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.3.10</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -168,10 +168,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/tagging.html">Tagging</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
@@ -283,7 +284,6 @@ actions allowed for your S3 bucket:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>We recommend using the <a class="reference internal" href="api_reference.html#library-reference-async"><span class="std std-ref">asynchronous client</span></a> when logging to S3 directly.</p>
 <p><strong>Syncing the Local Filesystem with S3</strong></p>
 <p>Local logging can easily be synced with an S3 bucket using <code class="docutils literal notranslate"><span class="pre">Rubicon.sync()</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">local_rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">&quot;/rubicon-root&quot;</span><span class="p">)</span>
@@ -330,7 +330,7 @@ could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.</p>
 </section>
 <section id="how-does-rubicon-ml-compare-to-mlflow">
-<h2>How does rubicon_ml compare to MLFlow?<a class="headerlink" href="#how-does-rubicon-ml-compare-to-mlflow" title="Permalink to this heading">#</a></h2>
+<h2>How does rubicon-ml compare to MLFlow?<a class="headerlink" href="#how-does-rubicon-ml-compare-to-mlflow" title="Permalink to this heading">#</a></h2>
 <p>At the highest level, rubicon-ml isn’t trying to do as much as MLFlow. rubicon-ml is simply a logging library (with some visualizations), while MLFlow is a full model lifecycle management tool. rubicon-ml is designed to be lightweight and not prescribe a full model lifecycle pattern, but instead assist users in enhancing whatever pattern they’ve already established.</p>
 <p>Architecturally, rubicon-ml does not require a hosted server for remote logging like the MLFlow tracking server. rubicon-ml uses <a class="reference external" href="https://github.com/fsspec/filesystem_spec">fsspec</a> to provide a bring-your-own-backend interface where users can log rubicon-ml data to any arbitrary local or S3 filesystem, as well as directly in-memory for experimentation purposes. If the need arose, it should also be trivial to implement any of the other backends that fsspec supports:</p>
 <ul class="simple">
@@ -341,9 +341,9 @@ supporting our decisions.</p>
 <p>Like MLFlow, rubicon-ml also aims to offer integrations with commonly used tools, such as <a class="reference external" href="https://capitalone.github.io/rubicon-ml/integrations/integration-sklearn.html">Scikit-learn</a>. Again, rubicon-ml tries to be less prescriptive in these integrations. For example, <a class="reference external" href="https://mlflow.org/docs/latest/tracking.html#scikit-learn">MLFlow says exactly what it will log</a>  when using with Scikit-learn. rubicon-ml has a set of defaults that are logged to each estimator, but also <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.sklearn.RubiconPipeline">supports user-defined loggers</a> for any estimator, like the built-in <a class="reference external" href="https://github.com/capitalone/rubicon-ml/blob/main/rubicon_ml/sklearn/filter_estimator_logger.py">FilterEstimatorLogger</a>.</p>
 </section>
 <section id="is-rubicon-ml-s-dashboard-compatible-with-docker">
-<h2>Is rubicon_ml’s dashboard compatible with Docker?<a class="headerlink" href="#is-rubicon-ml-s-dashboard-compatible-with-docker" title="Permalink to this heading">#</a></h2>
+<h2>Is rubicon-ml’s dashboard compatible with Docker?<a class="headerlink" href="#is-rubicon-ml-s-dashboard-compatible-with-docker" title="Permalink to this heading">#</a></h2>
 <p>The rubicon-ml dashboard is just a <a class="reference external" href="https://plotly.com/dash/">Dash app</a>, so it can be dockerized the same way as any other Dash app.
-You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard’s <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.ui.Dashboard">dash_options</a> or <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> to <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.ui.Dashboard.run_server">run_server</a>.</p>
+You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard’s <code class="docutils literal notranslate"><span class="pre">dash_kwargs</span></code> or <code class="docutils literal notranslate"><span class="pre">run_server_kwargs</span></code> in <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.viz.Dashboard.serve">serve</a>.</p>
 </section>
 </section>
 
@@ -410,8 +410,8 @@ You may need to write a small python script to run from the container, rather th
 <li><a class="reference internal" href="#why-does-rubicon-ml-offer-prefect-integration">Why does rubicon-ml offer Prefect integration?</a></li>
 <li><a class="reference internal" href="#why-was-the-dashboard-built-with-dash">Why was the dashboard built with Dash?</a></li>
 <li><a class="reference internal" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow">Could rubicon-ml be used outside of a machine learning workflow?</a></li>
-<li><a class="reference internal" href="#how-does-rubicon-ml-compare-to-mlflow">How does rubicon_ml compare to MLFlow?</a></li>
-<li><a class="reference internal" href="#is-rubicon-ml-s-dashboard-compatible-with-docker">Is rubicon_ml’s dashboard compatible with Docker?</a></li>
+<li><a class="reference internal" href="#how-does-rubicon-ml-compare-to-mlflow">How does rubicon-ml compare to MLFlow?</a></li>
+<li><a class="reference internal" href="#is-rubicon-ml-s-dashboard-compatible-with-docker">Is rubicon-ml’s dashboard compatible with Docker?</a></li>
 </ul>
 </li>
 </ul>

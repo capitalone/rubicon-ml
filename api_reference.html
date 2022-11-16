@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.2.3, furo 2022.09.29"/>
-        <title>API Reference - rubicon-ml v0.3.10</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>API Reference - rubicon-ml v0.4.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.3.10</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.3.10</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -168,10 +168,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/tagging.html">Tagging</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
@@ -345,11 +346,20 @@ used across each experiment in this project.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.get_project_as_dask_df">
 <span class="sig-name descname"><span class="pre">get_project_as_dask_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_project_as_dask_df" title="Permalink to this definition">#</a></dt>
-<dd><p>Get a dask dataframe representation of a project.</p>
+<dd><p>DEPRECATED: Available for backwards compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Rubicon.get_project_as_df">
+<span class="sig-name descname"><span class="pre">get_project_as_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pandas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_project_as_df" title="Permalink to this definition">#</a></dt>
+<dd><p>Get a dask or pandas dataframe representation of a project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the project to get.</p>
+</dd>
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe to return. Valid options include
+[“dask”, “pandas”]. Defaults to “pandas”.</p>
 </dd>
 <dt><strong>group_by</strong><span class="classifier">str or None, optional</span></dt><dd><p>How to group the project’s experiments in the returned
 DataFrame(s). Valid options include [“commit_hash”].</p>
@@ -358,8 +368,8 @@ DataFrame(s). Valid options include [“commit_hash”].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>dask.DataFrame or list of dask.DataFrame</dt><dd><p>If <cite>group_by</cite> is <cite>None</cite>, a dask dataframe holding the project’s
-data. Otherwise a list of dask dataframes holding the project’s
+<dt>pandas.DataFrame or list of pandas.DataFrame or dask.DataFrame or list of dask.DataFrame</dt><dd><p>If <cite>group_by</cite> is <cite>None</cite>, a dask or pandas dataframe holding the project’s
+data. Otherwise a list of dask or pandas dataframes holding the project’s
 data grouped by <cite>group_by</cite>.</p>
 </dd>
 </dl>
@@ -799,11 +809,21 @@ Useful for recreating your exact environment at a later date.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.to_dask_df">
 <span class="sig-name descname"><span class="pre">to_dask_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.to_dask_df" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads the project’s data into dask dataframe(s) sorted by <cite>created_at</cite>.
-This includes the experiment details along with parameters and metrics.</p>
+<dd><p>DEPRECATED: Available for backwards compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.to_df">
+<span class="sig-name descname"><span class="pre">to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pandas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.to_df" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads the project’s data into dask or pandas dataframe(s) sorted by
+<cite>created_at</cite>. This includes the experiment details along with parameters
+and metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe to return. Valid options include
+[“dask”, “pandas”]. Defaults to “pandas”.</p>
+</dd>
 <dt><strong>group_by</strong><span class="classifier">str or None, optional</span></dt><dd><p>How to group the project’s experiments in the returned
 dataframe(s). Valid options include [“commit_hash”].</p>
 </dd>
@@ -811,8 +831,8 @@ dataframe(s). Valid options include [“commit_hash”].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>dask.DataFrame or list of dask.DataFrame</dt><dd><p>If <cite>group_by</cite> is <cite>None</cite>, a dask dataframe holding the project’s
-data. Otherwise a list of dask dataframes holding the project’s
+<dt>pandas.DataFrame or list of pandas.DataFrame or dask.DataFrame or list of dask.DataFrame</dt><dd><p>If <cite>group_by</cite> is <cite>None</cite>, a dask or pandas dataframe holding the project’s
+data. Otherwise a list of dask or pandas dataframes holding the project’s
 data grouped by <cite>group_by</cite>.</p>
 </dd>
 </dl>
@@ -1763,12 +1783,6 @@ logged to.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="rubicon_ml.Dataframe.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.data" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the dataframe’s data as it was logged.</p>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.description">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.description" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the dataframe’s description.</p>
@@ -1782,8 +1796,8 @@ into a <cite>pandas</cite> or <cite>dask</cite> dataframe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe. Can be either <cite>pandas</cite> or <cite>dask</cite>.
-Defaults to ‘pandas’.</p>
+<dt><strong>df_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of dataframe to return. Valid options include
+[“dask”, “pandas”]. Defaults to “pandas”.</p>
 </dd>
 </dl>
 </dd>
@@ -1982,33 +1996,25 @@ Defaults to the artifact’s given name when logged.</p>
 </dd></dl>
 
 </section>
-<section id="asynchronous">
-<span id="library-reference-async"></span><h2>asynchronous<a class="headerlink" href="#asynchronous" title="Permalink to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> also exposes an asynchronous client that itself exposes
-all the same functions as the standard client detailed above. The only
-differences are that the asycnhronous client is <strong>for S3 logging only</strong>
-and each function <strong>returns a coroutine</strong> rather than its standard
-return value.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="rubicon_ml.client.asynchronous.Rubicon">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.client.asynchronous.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.client.asynchronous.Rubicon" title="Permalink to this definition">#</a></dt>
-<dd><p>The asynchronous <cite>rubicon</cite> client’s entry point.</p>
-<p>Creates a <cite>Config</cite> and injects it into the client level
-objects at run-time.</p>
+<section id="exception-handling">
+<span id="library-reference-publish"></span><h2>exception_handling<a class="headerlink" href="#exception-handling" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.set_failure_mode">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">set_failure_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">failure_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traceback_chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traceback_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.set_failure_mode" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the failure mode.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>persistence</strong><span class="classifier">str, optional</span></dt><dd><p>The persistence type. Can be one of [“filesystem”].</p>
+<dt><strong>failure_mode</strong><span class="classifier">str</span></dt><dd><p>The name of the failure mode to set. “raise” to raise all exceptions,
+“log” to catch all exceptions and log them via <cite>logging.error</cite>, “warn”
+to catch all exceptions and re-raise them as warnings via <cite>warnings.warn</cite>.
+Defaults to “raise”.</p>
 </dd>
-<dt><strong>root_dir</strong><span class="classifier">str, optional</span></dt><dd><p>Absolute or relative filepath. Currently, only s3
-paths are supported asynchronously.</p>
+<dt><strong>traceback_chain</strong><span class="classifier">bool, optional</span></dt><dd><p>True to display each error in the traceback chain when logging or warning,
+False to display only the first. Defaults to False.</p>
 </dd>
-<dt><strong>auto_git_enabled</strong><span class="classifier">bool, optional</span></dt><dd><p>True to use the <cite>git</cite> command to automatically log relevant repository
-information to projects and experiments logged with this client instance,
-False otherwise. Defaults to False.</p>
-</dd>
-<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
-are passed directly to the underlying filesystem class.</p>
+<dt><strong>traceback_limit</strong><span class="classifier">int, optional</span></dt><dd><p>The depth of the traceback displayed when logging or warning. 0 to display
+only the error’s text, each increment shows another line of the traceback.</p>
 </dd>
 </dl>
 </dd>
@@ -2017,7 +2023,7 @@ are passed directly to the underlying filesystem class.</p>
 
 </section>
 <section id="publish">
-<span id="library-reference-publish"></span><h2>publish<a class="headerlink" href="#publish" title="Permalink to this heading">#</a></h2>
+<h2>publish<a class="headerlink" href="#publish" title="Permalink to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> leverages <code class="docutils literal notranslate"><span class="pre">intake</span></code> to easily share sets of experiments.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.publish">
@@ -2943,6 +2949,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_or_create_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_or_create_project()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project_as_dask_df"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project_as_dask_df()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project_as_df"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project_as_df()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.projects"><code class="docutils literal notranslate"><span class="pre">Rubicon.projects()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.sync"><code class="docutils literal notranslate"><span class="pre">Rubicon.sync()</span></code></a></li>
 </ul>
@@ -2970,6 +2977,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Project.log_pip_requirements()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.to_dask_df"><code class="docutils literal notranslate"><span class="pre">Project.to_dask_df()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.to_df"><code class="docutils literal notranslate"><span class="pre">Project.to_df()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.training_metadata"><code class="docutils literal notranslate"><span class="pre">Project.training_metadata</span></code></a></li>
 </ul>
 </li>
@@ -3062,7 +3070,6 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe"><code class="docutils literal notranslate"><span class="pre">Dataframe</span></code></a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.add_tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.add_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.created_at"><code class="docutils literal notranslate"><span class="pre">Dataframe.created_at</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.Dataframe.data"><code class="docutils literal notranslate"><span class="pre">Dataframe.data</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.description"><code class="docutils literal notranslate"><span class="pre">Dataframe.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.get_data"><code class="docutils literal notranslate"><span class="pre">Dataframe.get_data()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.id"><code class="docutils literal notranslate"><span class="pre">Dataframe.id</span></code></a></li>
@@ -3091,8 +3098,8 @@ log a parameter to an existing experiment.</p>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#asynchronous">asynchronous</a><ul>
-<li><a class="reference internal" href="#rubicon_ml.client.asynchronous.Rubicon"><code class="docutils literal notranslate"><span class="pre">Rubicon</span></code></a></li>
+<li><a class="reference internal" href="#exception-handling">exception_handling</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.set_failure_mode"><code class="docutils literal notranslate"><span class="pre">set_failure_mode()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#publish">publish</a><ul>

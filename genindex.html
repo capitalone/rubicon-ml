@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.2.3, furo 2022.09.29"/><title>Index - rubicon-ml v0.3.10</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/><title>Index - rubicon-ml v0.4.0</title>
 <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.3.10</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +150,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.3.10</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -166,10 +166,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/tagging.html">Tagging</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
@@ -326,11 +327,7 @@
         <li><a href="api_reference.html#rubicon_ml.viz.Dashboard">Dashboard (class in rubicon_ml.viz)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.Artifact.data">data (rubicon_ml.Artifact property)</a>
-
-        <ul>
-          <li><a href="api_reference.html#rubicon_ml.Dataframe.data">(rubicon_ml.Dataframe property)</a>
 </li>
-        </ul></li>
         <li><a href="api_reference.html#rubicon_ml.Dataframe">Dataframe (class in rubicon_ml)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.Experiment.dataframe">dataframe() (rubicon_ml.Experiment method)</a>
@@ -433,13 +430,15 @@
 </li>
         <li><a href="api_reference.html#rubicon_ml.Rubicon.get_or_create_project">get_or_create_project() (rubicon_ml.Rubicon method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api_reference.html#rubicon_ml.workflow.prefect.get_or_create_project_task">get_or_create_project_task() (in module rubicon_ml.workflow.prefect)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api_reference.html#rubicon_ml.Rubicon.get_project">get_project() (rubicon_ml.Rubicon method)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.Rubicon.get_project_as_dask_df">get_project_as_dask_df() (rubicon_ml.Rubicon method)</a>
+</li>
+        <li><a href="api_reference.html#rubicon_ml.Rubicon.get_project_as_df">get_project_as_df() (rubicon_ml.Rubicon method)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.Project.github_url">github_url (rubicon_ml.Project property)</a>
 </li>
@@ -641,11 +640,7 @@
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api_reference.html#rubicon_ml.Rubicon">Rubicon (class in rubicon_ml)</a>
-
-        <ul>
-          <li><a href="api_reference.html#rubicon_ml.client.asynchronous.Rubicon">(class in rubicon_ml.client.asynchronous)</a>
 </li>
-        </ul></li>
         <li>
     rubicon_ml.workflow.prefect
 
@@ -681,6 +676,8 @@
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api_reference.html#rubicon_ml.set_failure_mode">set_failure_mode() (in module rubicon_ml)</a>
+</li>
         <li><a href="api_reference.html#rubicon_ml.viz.Dashboard.show">show() (rubicon_ml.viz.Dashboard method)</a>
 
         <ul>
@@ -720,6 +717,8 @@
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api_reference.html#rubicon_ml.Project.to_dask_df">to_dask_df() (rubicon_ml.Project method)</a>
+</li>
+        <li><a href="api_reference.html#rubicon_ml.Project.to_df">to_df() (rubicon_ml.Project method)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.Experiment.training_metadata">training_metadata (rubicon_ml.Experiment property)</a>
 

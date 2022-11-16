@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Asynchronously" href="logging-asynchronously.html" /><link rel="prev" title="Logging Training Metadata" href="logging-training-metadata.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Concurrently" href="logging-concurrently.html" /><link rel="prev" title="Logging Training Metadata" href="logging-training-metadata.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.2.3, furo 2022.09.29"/>
-        <title>Logging Plots as PNGs - rubicon-ml v0.3.10</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+        <title>Logging Plots as PNGs - rubicon-ml v0.4.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.3.10</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.3.10</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -168,10 +168,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Logging Plots as PNGs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logging-asynchronously.html">Logging Asynchronously</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
@@ -349,10 +350,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -503,15 +505,34 @@ div.rendered_html tbody tr:hover {
 <section id="Logging-Plots-as-PNGs">
 <h1>Logging Plots as PNGs<a class="headerlink" href="#Logging-Plots-as-PNGs" title="Permalink to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> makes it easy to log <code class="docutils literal notranslate"><span class="pre">Plotly</span></code> plots and images with <code class="docutils literal notranslate"><span class="pre">artifacts</span></code>. In this example we’ll walk through creating a plot using <code class="docutils literal notranslate"><span class="pre">plotly.express</span></code> and saving it as an <code class="docutils literal notranslate"><span class="pre">artifact</span></code>.</p>
+<p>Before getting started, we’ll have to install some dependencies for this example.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> pip install Pillow
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: Pillow in /Users/nvd215/mambaforge/envs/rubicon-ml-dev/lib/python3.10/site-packages (9.2.0)
+</pre></div></div>
+</div>
 <section id="Set-up">
 <h2>Set up<a class="headerlink" href="#Set-up" title="Permalink to this heading">#</a></h2>
 <p>First lets set up our <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
 <span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Artifact Plots&quot;</span><span class="p">)</span>
@@ -520,11 +541,12 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Next, create plotting data. This example leverages <code class="docutils literal notranslate"><span class="pre">plotly</span></code> and <code class="docutils literal notranslate"><span class="pre">plotly.express</span></code> for data and plot generation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
 <span class="kn">from</span> <span class="nn">plotly</span> <span class="kn">import</span> <span class="n">data</span>
+
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">wind</span><span class="p">()</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -532,7 +554,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -596,21 +618,21 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Using the plotting data generated, create a plot and save it to a file. Utilizing <code class="docutils literal notranslate"><span class="pre">write_image</span></code> we can save our plot to a file. We can use this file to later log with <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_plot</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;strength&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_plot</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;strength&quot;</span><span class="p">)</span>
 <span class="n">scatter_plot</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s2">&quot;saved-scatter-plot-for-logging.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <p>We can also create a plot and covert it to bytes to save it in memory. Using <code class="docutils literal notranslate"><span class="pre">to_image</span></code> we can convert our plot to bytes.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bar_plot</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;strength&quot;</span><span class="p">)</span>
-<span class="n">bar_plot_bytes</span><span class="o">=</span><span class="n">bar_plot</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bar_plot</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;strength&quot;</span><span class="p">)</span>
+<span class="n">bar_plot_bytes</span> <span class="o">=</span> <span class="n">bar_plot</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -620,21 +642,25 @@ div.rendered_html tbody tr:hover {
 <p>In <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> , <code class="docutils literal notranslate"><span class="pre">artifacts</span></code> are a catch-all for any other type of data that can be logged to a file. We can use artifacts to capture information that doesn’t fall into the <code class="docutils literal notranslate"><span class="pre">experiment</span></code>, <code class="docutils literal notranslate"><span class="pre">dataframe</span></code>, <code class="docutils literal notranslate"><span class="pre">feature</span></code>, and <code class="docutils literal notranslate"><span class="pre">parameter</span></code> categories.</p>
 <p>Leveraging <code class="docutils literal notranslate"><span class="pre">artifacts</span></code>, plots can be logged just by passing its file location in the <code class="docutils literal notranslate"><span class="pre">data_path</span></code> argument to <code class="docutils literal notranslate"><span class="pre">project.log_artifact()</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;scatter plot&quot;</span><span class="p">,</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;saved-scatter-plot-for-logging.png&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;saved scatter plot with path&quot;</span><span class="p">)</span>
-<span class="n">artifact_plot_from_file</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">artifacts</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;scatter plot&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;scatter plot&quot;</span><span class="p">,</span>
+    <span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;saved-scatter-plot-for-logging.png&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;saved scatter plot with path&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">artifact_plot_from_file</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;scatter plot&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <p>We can also log plots by passing its byte representation to the <code class="docutils literal notranslate"><span class="pre">data_bytes</span></code> argument to <code class="docutils literal notranslate"><span class="pre">project.log_artifact()</span></code> as well.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bar plot&quot;</span><span class="p">,</span> <span class="n">data_bytes</span><span class="o">=</span><span class="n">bar_plot_bytes</span><span class="p">)</span>
-<span class="n">artifact_plot_bytes</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">artifacts</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bar plot&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">artifact_plot_bytes</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bar plot&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -643,13 +669,17 @@ div.rendered_html tbody tr:hover {
 <h2>Retrieving your logged plot programmatically<a class="headerlink" href="#Retrieving-your-logged-plot-programmatically" title="Permalink to this heading">#</a></h2>
 <p>Since the <code class="docutils literal notranslate"><span class="pre">PNG</span></code> representations of both plots were logged, we can retrieve our artifact plots programmatically. Using <code class="docutils literal notranslate"><span class="pre">io</span></code> and <code class="docutils literal notranslate"><span class="pre">PIL</span></code> we can visualize our plots as <code class="docutils literal notranslate"><span class="pre">PNG</span></code> images.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+
 <span class="n">imageScatterPlotStream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">artifact_plot_from_file</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 <span class="n">scatter_plot_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imageScatterPlotStream</span><span class="p">)</span>
+
 <span class="n">imageBarPlotStream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">artifact_plot_bytes</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 <span class="n">bar_plot_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imageBarPlotStream</span><span class="p">)</span>
 </pre></div>
@@ -657,7 +687,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Finally, view the two images using <code class="docutils literal notranslate"><span class="pre">display</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">scatter_plot_image</span><span class="p">)</span>
@@ -668,11 +698,11 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-plots_19_0.png" src="../_images/logging-examples_logging-plots_19_0.png" />
+<img alt="../_images/logging-examples_logging-plots_20_0.png" src="../_images/logging-examples_logging-plots_20_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">bar_plot_image</span><span class="p">)</span>
@@ -683,12 +713,12 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/logging-examples_logging-plots_20_0.png" src="../_images/logging-examples_logging-plots_20_0.png" />
+<img alt="../_images/logging-examples_logging-plots_21_0.png" src="../_images/logging-examples_logging-plots_21_0.png" />
 </div>
 </div>
-<p>Since we have logged our scatter_plot with Rubicon, we can remove the file created earlier.</p>
+<p>We have logged our scatter_plot with Rubicon, so we can remove the file created earlier.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>rm saved-scatter-plot-for-logging.png
@@ -703,12 +733,12 @@ div.rendered_html tbody tr:hover {
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="logging-asynchronously.html">
+          <a class="next-page" href="logging-concurrently.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Logging Asynchronously</div>
+                <div class="title">Logging Concurrently</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
