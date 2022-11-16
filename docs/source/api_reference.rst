@@ -67,6 +67,11 @@ Artifact
 
 .. _library-reference-publish:
 
+exception_handling
+==================
+
+.. autofunction:: rubicon_ml.set_failure_mode
+
 publish
 =======
 ``rubicon_ml`` leverages ``intake`` to easily share sets of experiments.

@@ -1,4 +1,5 @@
 from rubicon_ml.client import Base, TagMixin
+from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -29,6 +30,7 @@ class Dataframe(Base, TagMixin):
         self._data = None
         self._parent = parent
 
+    @failsafe
     def get_data(self, df_type="pandas"):
         """Loads the data associated with this Dataframe
         into a `pandas` or `dask` dataframe.
@@ -50,6 +52,7 @@ class Dataframe(Base, TagMixin):
 
         return self._data
 
+    @failsafe
     def plot(self, df_type="pandas", plotting_func=None, **kwargs):
         """Render the dataframe using `plotly.express`.
 

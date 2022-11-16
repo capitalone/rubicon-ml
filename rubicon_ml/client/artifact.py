@@ -4,6 +4,7 @@ import fsspec
 
 from rubicon_ml.client.base import Base
 from rubicon_ml.client.mixin import TagMixin
+from rubicon_ml.client.utils.exception_handling import failsafe
 
 
 class Artifact(Base, TagMixin):
@@ -42,6 +43,7 @@ class Artifact(Base, TagMixin):
             project_name, self.id, experiment_id=experiment_id
         )
 
+    @failsafe
     def download(self, location=None, name=None):
         """Download this artifact's data.
 

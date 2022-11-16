@@ -111,6 +111,7 @@ To install all extra modules, use the ``all`` extra.
    :hidden:
    :caption: Tutorials
 
+   tutorials/failure-modes
    logging-examples/logging-training-metadata
    logging-examples/logging-plots
    logging-examples/logging-concurrently

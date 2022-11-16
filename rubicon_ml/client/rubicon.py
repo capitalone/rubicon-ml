@@ -3,6 +3,7 @@ import warnings
 
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project
+from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import slugify
 
@@ -71,6 +72,7 @@ class Rubicon:
             training_metadata=training_metadata,
         )
 
+    @failsafe
     def create_project(self, name, description=None, github_url=None, training_metadata=None):
         """Create a project.
 
@@ -98,6 +100,7 @@ class Rubicon:
 
         return Project(project, self.config)
 
+    @failsafe
     def get_project(self, name=None, id=None):
         """Get a project.
 
@@ -134,6 +137,7 @@ class Rubicon:
 
         return self.get_project_as_df(name, df_type="dask", group_by=group_by)
 
+    @failsafe
     def get_project_as_df(self, name, df_type="pandas", group_by=None):
         """Get a dask or pandas dataframe representation of a project.
 
@@ -159,6 +163,7 @@ class Rubicon:
 
         return project.to_df(df_type=df_type, group_by=None)
 
+    @failsafe
     def get_or_create_project(self, name, **kwargs):
         """Get or create a project.
 
@@ -179,9 +184,13 @@ class Rubicon:
             project = self.get_project(name)
         except RubiconException:
             project = self.create_project(name, **kwargs)
+        else:  # check for None in case of failure mode being set to "log" or "warn"
+            if project is None:
+                project = self.create_project(name, **kwargs)
 
         return project
 
+    @failsafe
     def projects(self):
         """Get a list of available projects.
 
@@ -192,6 +201,7 @@ class Rubicon:
         """
         return [Project(project, self.config) for project in self.repository.get_projects()]
 
+    @failsafe
     def sync(self, project_name, s3_root_dir):
         """Sync a local project to S3.
 

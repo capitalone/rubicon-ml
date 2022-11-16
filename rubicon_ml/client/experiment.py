@@ -8,6 +8,7 @@ from rubicon_ml.client import (
     Parameter,
     TagMixin,
 )
+from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 
 
@@ -42,6 +43,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """Get the experiment's project's name and the experiment's ID."""
         return self.project.name, self.id
 
+    @failsafe
     def log_metric(self, name, value, directionality="score", description=None, tags=[]):
         """Create a metric under the experiment.
 
@@ -75,6 +77,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return Metric(metric, self)
 
+    @failsafe
     def metrics(self, name=None, tags=[], qtype="or"):
         """Get the metrics logged to this experiment.
 
@@ -98,6 +101,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return self._metrics
 
+    @failsafe
     def metric(self, name=None, id=None):
         """Get a metric.
 
@@ -124,6 +128,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return metric
 
+    @failsafe
     def log_feature(self, name, description=None, importance=None, tags=[]):
         """Create a feature under the experiment.
 
@@ -150,6 +155,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return Feature(feature, self)
 
+    @failsafe
     def features(self, name=None, tags=[], qtype="or"):
         """Get the features logged to this experiment.
 
@@ -176,6 +182,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         self._features = filter_children(features, tags, qtype, name)
         return self._features
 
+    @failsafe
     def feature(self, name=None, id=None):
         """Get a feature.
 
@@ -202,6 +209,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return feature
 
+    @failsafe
     def log_parameter(self, name, value=None, description=None, tags=[]):
         """Create a parameter under the experiment.
 
@@ -230,6 +238,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return Parameter(parameter, self)
 
+    @failsafe
     def parameters(self, name=None, tags=[], qtype="or"):
         """Get the parameters logged to this experiment.
 
@@ -257,6 +266,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return self._parameters
 
+    @failsafe
     def parameter(self, name=None, id=None):
         """Get a parameter.
 
