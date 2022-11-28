@@ -28,6 +28,7 @@ dependencies:
   - flake8
   - ipykernel
   - isort
+  - jupyterlab
   - nbconvert
   - pytest
   - pytest-cov
