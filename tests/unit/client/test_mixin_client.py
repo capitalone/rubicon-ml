@@ -47,7 +47,9 @@ def test_log_artifact_throws_error_if_data_missing(project_client):
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.log_artifact(project, name="test.txt")
 
-    assert "`data_bytes`, `data_file` or `data_path` must be provided" in str(e)
+    assert (
+        "One of `data_bytes`, `data_file`, `data_object` or `data_path` must be provided." in str(e)
+    )
 
 
 def test_log_artifact_throws_error_if_name_missing(project_client):
@@ -55,7 +57,24 @@ def test_log_artifact_throws_error_if_name_missing(project_client):
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.log_artifact(project, data_bytes=b"content")
 
-    assert "`name` must be provided" in str(e)
+    assert (
+        "`name` must be provided if not using `data_path` or if not providing `data_object` with `name` attribute."
+        in str(e)
+    )
+
+
+def test_log_artifact_object_name_not_passed_in(project_client):
+    project = project_client
+    global TestObject  # cannot pickle local objects
+
+    class TestObject:
+        value = 1
+        name = "test object"
+
+    test_object = TestObject()
+    artifact = ArtifactMixin.log_artifact(project, data_object=test_object)
+
+    assert artifact.name == "test object"
 
 
 def test_get_environment_bytes(project_client, mock_completed_process_empty):

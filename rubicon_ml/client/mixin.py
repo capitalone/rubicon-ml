@@ -35,16 +35,16 @@ class ArtifactMixin:
                 )
 
         if data_bytes is None:
-            if data_file is not None:
-                f = data_file
-            elif data_path is not None:
-                f = fsspec.open(data_path, "rb")
+            if data_object is not None:
+                data_bytes = pickle.dumps(data_object)
+            else:
+                if data_file is not None:
+                    f = data_file
+                elif data_path is not None:
+                    f = fsspec.open(data_path, "rb")
 
                 with f as open_file:
                     data_bytes = open_file.read()
-
-        if data_bytes is None:
-            data_bytes = pickle.dumps(data_object)
 
         return data_bytes, name
 

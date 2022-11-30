@@ -26,6 +26,31 @@ def test_get_data(project_client):
     assert artifact.data == data
 
 
+def test_get_data_unpickle_false(project_client):
+    project = project_client
+    data = b"content"
+    artifact = project.log_artifact(name="test.txt", data_bytes=data)
+
+    assert artifact.get_data(unpickle=False) == data
+
+
+def test_get_data_unpickle_true(project_client):
+    """Unpickle=True intended for retrieving python objects
+    that were logged as artifacts, hence dummy object is needed.
+    """
+
+    project = project_client
+    global TestObject  # cannot pickle local variable
+
+    class TestObject:
+        value = 1
+
+    test_object = TestObject()
+    artifact = project.log_artifact(name="test object", data_object=test_object)
+
+    assert artifact.get_data(unpickle=True).value == test_object.value
+
+
 @patch("fsspec.implementations.local.LocalFileSystem.open")
 def test_download_cwd(mock_open, project_client):
     project = project_client
