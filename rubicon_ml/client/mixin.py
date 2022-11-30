@@ -85,9 +85,9 @@ class ArtifactMixin:
 
         Notes
         -----
-        Only one of `data_bytes`, `data_file`, and `data_path`
+        Only one of `data_bytes`, `data_file`, `data_object`, and `data_path`
         should be provided. If more than one is given, the order
-        of precedence is `data_bytes`, `data_file`, `data_path`.
+        of precedence is `data_bytes`, `data_object`, `data_file`, `data_path`.
 
         Returns
         -------
