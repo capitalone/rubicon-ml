@@ -1,4 +1,5 @@
 import os
+import pickle
 import subprocess
 import warnings
 from datetime import datetime
@@ -14,13 +15,13 @@ from rubicon_ml.exceptions import RubiconException
 class ArtifactMixin:
     """Adds artifact support to a client object."""
 
-    def _validate_data(self, data_bytes, data_file, data_path, name):
+    def _validate_data(self, data_bytes, data_file, data_object, data_path, name):
         """Raises a `RubiconException` if the data to log as
         an artifact is improperly provided.
         """
-        if not any([data_bytes, data_file, data_path]):
+        if not any([data_bytes, data_file, data_object, data_path]):
             raise RubiconException(
-                "One of `data_bytes`, `data_file` or `data_path` must be provided."
+                "One of `data_bytes`, `data_file`, `data_object` or `data_path` must be provided."
             )
 
         if name is None:
@@ -30,13 +31,16 @@ class ArtifactMixin:
                 raise RubiconException("`name` must be provided if not using `data_path`.")
 
         if data_bytes is None:
-            if data_file is not None:
-                f = data_file
-            elif data_path is not None:
-                f = fsspec.open(data_path, "rb")
+            if data_object is not None:
+                data_bytes = pickle.dumps(data_object)
+            else:
+                if data_file is not None:
+                    f = data_file
+                elif data_path is not None:
+                    f = fsspec.open(data_path, "rb")
 
-            with f as open_file:
-                data_bytes = open_file.read()
+                with f as open_file:
+                    data_bytes = open_file.read()
 
         return data_bytes, name
 
@@ -45,6 +49,7 @@ class ArtifactMixin:
         self,
         data_bytes=None,
         data_file=None,
+        data_object=None,
         data_path=None,
         name=None,
         description=None,
@@ -58,6 +63,8 @@ class ArtifactMixin:
             The raw bytes to log as an artifact.
         data_file : TextIOWrapper, optional
             The open file to log as an artifact.
+        data_object : python object, optional
+            The python object to log as an artifact.
         data_path : str, optional
             The absolute or relative local path or S3 path
             to the data to log as an artifact. S3 paths
@@ -74,9 +81,9 @@ class ArtifactMixin:
 
         Notes
         -----
-        Only one of `data_bytes`, `data_file`, and `data_path`
+        Only one of `data_bytes`, `data_file`, `data_object`, and `data_path`
         should be provided. If more than one is given, the order
-        of precedence is `data_bytes`, `data_file`, `data_path`.
+        of precedence is `data_bytes`, `data_object`, `data_file`, `data_path`.
 
         Returns
         -------
@@ -101,10 +108,11 @@ class ArtifactMixin:
         ...     data_path="./path/to/artifact.pkl", description="log artifact from file path"
         ... )
         """
+
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
-        data_bytes, name = self._validate_data(data_bytes, data_file, data_path, name)
+        data_bytes, name = self._validate_data(data_bytes, data_file, data_object, data_path, name)
 
         artifact = domain.Artifact(
             name=name,

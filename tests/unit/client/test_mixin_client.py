@@ -47,15 +47,40 @@ def test_log_artifact_throws_error_if_data_missing(project_client):
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.log_artifact(project, name="test.txt")
 
-    assert "`data_bytes`, `data_file` or `data_path` must be provided" in str(e)
+    assert (
+        "One of `data_bytes`, `data_file`, `data_object` or `data_path` must be provided." in str(e)
+    )
 
 
-def test_log_artifact_throws_error_if_name_missing(project_client):
+def test_log_artifact_throws_error_if_name_missing_data_bytes(project_client):
     project = project_client
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.log_artifact(project, data_bytes=b"content")
 
-    assert "`name` must be provided" in str(e)
+    assert "`name` must be provided if not using `data_path`." in str(e)
+
+
+def test_log_artifact_throws_error_if_name_missing_data_file(project_client):
+    project = project_client
+    mock_file = MagicMock()
+    mock_file.__enter__().read.side_effect = [b"content"]
+    with pytest.raises(RubiconException) as e:
+        ArtifactMixin.log_artifact(project, data_file=mock_file)
+
+    assert "`name` must be provided if not using `data_path`." in str(e)
+
+
+def test_log_artifact_throws_error_if_name_missing_data_object(project_client):
+    project = project_client
+
+    class TestObject:
+        value = "test"
+
+    test_object = TestObject()
+    with pytest.raises(RubiconException) as e:
+        ArtifactMixin.log_artifact(project, data_object=test_object)
+
+    assert "`name` must be provided if not using `data_path`." in str(e)
 
 
 def test_get_environment_bytes(project_client, mock_completed_process_empty):
