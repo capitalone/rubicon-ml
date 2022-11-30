@@ -112,7 +112,7 @@ class ArtifactMixin:
         ...     data_path="./path/to/artifact.pkl", description="log artifact from file path"
         ... )
         """
-        
+
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
