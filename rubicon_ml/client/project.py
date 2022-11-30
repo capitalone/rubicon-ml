@@ -241,6 +241,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         rubicon.client.Experiment
             The created experiment.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         experiment = self._create_experiment_domain(
             name,
             description,

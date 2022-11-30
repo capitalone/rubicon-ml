@@ -112,6 +112,10 @@ class ArtifactMixin:
         ...     data_path="./path/to/artifact.pkl", description="log artifact from file path"
         ... )
         """
+        
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         data_bytes, name = self._validate_data(data_bytes, data_file, data_object, data_path, name)
 
         artifact = domain.Artifact(
@@ -305,6 +309,9 @@ class DataframeMixin:
         rubicon.client.Dataframe
             The new dataframe.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         dataframe = domain.Dataframe(
             parent_id=self._domain.id,
             description=description,
@@ -436,6 +443,9 @@ class TagMixin:
         tags : list of str
             The tag values to add.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.add_tags(tags)

@@ -70,6 +70,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         rubicon.client.Metric
             The created metric.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         metric = domain.Metric(
             name, value, directionality=directionality, description=description, tags=tags
         )
@@ -150,6 +153,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         rubicon.client.Feature
             The created feature.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         feature = domain.Feature(name, description=description, importance=importance, tags=tags)
         self.repository.create_feature(feature, self.project.name, self.id)
 
@@ -233,6 +239,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         rubicon.client.Parameter
             The created parameter.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
         parameter = domain.Parameter(name, value=value, description=description, tags=tags)
         self.repository.create_parameter(parameter, self.project.name, self.id)
 
