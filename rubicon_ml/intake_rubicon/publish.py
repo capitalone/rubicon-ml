@@ -20,7 +20,7 @@ def publish(
         must be prepended with 's3://'. Defaults to None,
         which disables writing the generated YAML.
     base_catalog_filepath : str, optional
-        Similar to output_filepath except this argument is used as a
+        Similar to `output_filepath` except this argument is used as a
         base fileto update exisiting intake catalog. Defaults to None,
         where the function proceeds as originally intended.
 
@@ -37,21 +37,8 @@ def publish(
             new_experiments=experiments,
             output_filepath=output_filepath,
         )
-    catalog = {"sources": {}}
 
-    for experiment in experiments:
-        experiment_catalog = {
-            "driver": "rubicon_ml_experiment",
-            "args": {
-                "experiment_id": experiment.id,
-                "project_name": experiment.project.name,
-                "urlpath": experiment.repository.root_dir,
-            },
-        }
-
-        experiment_catalog_name = f"experiment_{experiment.id.replace('-', '_')}"
-        catalog["sources"][experiment_catalog_name] = experiment_catalog
-
+    catalog = build_catalog(experiments=experiments)
     catalog_yaml = yaml.dump(catalog)
 
     if output_filepath is not None:
@@ -61,7 +48,9 @@ def publish(
     return catalog_yaml
 
 
-"""Helper function to update exisiting intake catalog.
+def update_catalog(base_catalog_filepath, new_experiments, output_filepath=None):
+
+    """Helper function to update exisiting intake catalog.
 
     Parameters
     ----------
@@ -70,7 +59,7 @@ def publish(
         and key to log the generated YAML file to. S3 buckets
         must be prepended with 's3://. Retrieved from the parameter
         of the publish function. NOT optional
-    new experiments : list of rubicon_ml.client.experiment.Experiment
+    new_experiments : list of rubicon_ml.client.experiment.Experiment
         The new experiments to publish.
     output_catalog_filepath : str, optional
         absolute or relative filepath or S3 bucket
@@ -81,38 +70,54 @@ def publish(
 
     Returns
     -------
+    dict
+        The dictionary of all sources given as experiments to eventually publish
+    """
+
+    updated_catalog = build_catalog(experiments=new_experiments)
+
+    with fsspec.open(base_catalog_filepath, "r") as yamlfile:
+        curr_catalog = yaml.safe_load(yamlfile)
+
+        curr_catalog["sources"].update(updated_catalog["sources"])
+
+    resulting_filepath = base_catalog_filepath if not output_filepath else output_filepath
+
+    with fsspec.open(resulting_filepath, "w") as yamlfile:
+        yaml.safe_dump(curr_catalog, yamlfile)
+        updated_catalog = yaml.dump(curr_catalog)
+
+    return updated_catalog
+
+
+def build_catalog(experiments):
+
+    """Helper function to build catalog dictionary from given experiments.
+
+    Parameters
+    ----------
+    experiments : list of rubicon_ml.client.experiment.Experiment
+        The expriments that are used to build the catalog to eventually publish
+    Returns
+    -------
     str
         The YAML string representation of the `intake` catalog
         containing the experiments `experiments`.
     """
 
+    catalog = {"sources": {}}
 
-def update_catalog(base_catalog_filepath, new_experiments, output_filepath=None):
-
-    updated_catalog = {}
-    for experiment in new_experiments:
+    for experiment in experiments:
         appended_experiment_catalog = {
+            "driver": "rubicon_ml_experiment",
             "args": {
                 "experiment_id": experiment.id,
                 "project_name": experiment.project.name,
                 "urlpath": experiment.repository.root_dir,
             },
-            "driver": "rubicon_ml_experiment",
         }
 
         experiment_catalog_name = f"experiment_{experiment.id.replace('-', '_')}"
-        updated_catalog[experiment_catalog_name] = appended_experiment_catalog
+        catalog["sources"][experiment_catalog_name] = appended_experiment_catalog
 
-    with fsspec.open(base_catalog_filepath, "r") as yamlfile:
-        curr_catalog = yaml.safe_load(yamlfile)
-
-        curr_catalog["sources"].update(updated_catalog)
-
-    resulting_filepath = base_catalog_filepath if not output_filepath else output_filepath
-    if curr_catalog:
-        with fsspec.open(resulting_filepath, "w") as yamlfile:
-            yaml.safe_dump(curr_catalog, yamlfile)
-            updated_catalog = yaml.dump(curr_catalog)
-            return updated_catalog
-
-    return None
+    return catalog
