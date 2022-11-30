@@ -69,3 +69,27 @@ def test_publish_to_file(project_client):
         written_catalog = f.read()
 
     assert catalog_yaml == written_catalog
+
+
+def test_update_catalog(project_client):
+    project = project_client
+    project.log_experiment()
+    project.log_experiment()
+
+    publish(project.experiments(), output_filepath="memory://catalog.yml")
+
+    # add new experiments to project
+    experiment_c = project.log_experiment()
+    experiment_d = project.log_experiment()
+
+    new_experiments = [experiment_c, experiment_d]
+
+    # publish new experiments into the exisiting catalog
+    updated_catalog = publish(
+        base_catalog_filepath="memory://catalog.yml", experiments=new_experiments
+    )
+
+    with fsspec.open("memory://catalog.yml", "r") as f:
+        written_catalog = f.read()
+
+    assert updated_catalog == written_catalog
