@@ -27,12 +27,8 @@ class ArtifactMixin:
         if name is None:
             if data_path is not None:
                 name = os.path.basename(data_path)
-            elif data_object is not None and data_object.name is not None:
-                name = data_object.name
             else:
-                raise RubiconException(
-                    "`name` must be provided if not using `data_path` or if not providing `data_object` with `name` attribute."
-                )
+                raise RubiconException("`name` must be provided if not using `data_path`.")
 
         if data_bytes is None:
             if data_object is not None:
@@ -75,7 +71,7 @@ class ArtifactMixin:
             must be prepended with 's3://'.
         name : str, optional
             The name of the artifact file. Required if
-            `data_path` or `data_bject.__name__` is not provided.
+            `data_path` is not provided.
         description : str, optional
             A description of the artifact. Use to provide
             additional context.

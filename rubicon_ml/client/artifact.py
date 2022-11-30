@@ -1,5 +1,6 @@
 import os
 import pickle
+import warnings
 
 import fsspec
 
@@ -44,6 +45,7 @@ class Artifact(Base, TagMixin):
             project_name, self.id, experiment_id=experiment_id
         )
 
+    @failsafe
     def get_data(self, unpickle=False):
         """Loads the data associated with this artifact and
         unpickles if needed.
@@ -109,6 +111,10 @@ class Artifact(Base, TagMixin):
     @property
     def data(self):
         """Get the artifact's raw data."""
+        warnings.warn(
+            "`data` is deprecated, use `get_data()` instead",
+            DeprecationWarning,
+        )
         if self._data is None:
             self._get_data()
 
