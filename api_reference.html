@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>API Reference - rubicon-ml v0.4.0</title>
+        <title>API Reference - rubicon-ml v0.4.1</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.1</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.1</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -631,7 +631,7 @@ this client object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.log_artifact">
-<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.log_artifact" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.log_artifact" title="Permalink to this definition">#</a></dt>
 <dd><p>Log an artifact to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -639,6 +639,8 @@ this client object.</p>
 <dt><strong>data_bytes</strong><span class="classifier">bytes, optional</span></dt><dd><p>The raw bytes to log as an artifact.</p>
 </dd>
 <dt><strong>data_file</strong><span class="classifier">TextIOWrapper, optional</span></dt><dd><p>The open file to log as an artifact.</p>
+</dd>
+<dt><strong>data_object</strong><span class="classifier">python object, optional</span></dt><dd><p>The python object to log as an artifact.</p>
 </dd>
 <dt><strong>data_path</strong><span class="classifier">str, optional</span></dt><dd><p>The absolute or relative local path or S3 path
 to the data to log as an artifact. S3 paths
@@ -663,9 +665,9 @@ filter your artifacts.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Only one of <cite>data_bytes</cite>, <cite>data_file</cite>, and <cite>data_path</cite>
+<p>Only one of <cite>data_bytes</cite>, <cite>data_file</cite>, <cite>data_object</cite>, and <cite>data_path</cite>
 should be provided. If more than one is given, the order
-of precedence is <cite>data_bytes</cite>, <cite>data_file</cite>, <cite>data_path</cite>.</p>
+of precedence is <cite>data_bytes</cite>, <cite>data_object</cite>, <cite>data_file</cite>, <cite>data_path</cite>.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Log with bytes</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">experiment</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span>
@@ -1084,7 +1086,7 @@ this client object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_artifact">
-<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_artifact" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_artifact" title="Permalink to this definition">#</a></dt>
 <dd><p>Log an artifact to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1092,6 +1094,8 @@ this client object.</p>
 <dt><strong>data_bytes</strong><span class="classifier">bytes, optional</span></dt><dd><p>The raw bytes to log as an artifact.</p>
 </dd>
 <dt><strong>data_file</strong><span class="classifier">TextIOWrapper, optional</span></dt><dd><p>The open file to log as an artifact.</p>
+</dd>
+<dt><strong>data_object</strong><span class="classifier">python object, optional</span></dt><dd><p>The python object to log as an artifact.</p>
 </dd>
 <dt><strong>data_path</strong><span class="classifier">str, optional</span></dt><dd><p>The absolute or relative local path or S3 path
 to the data to log as an artifact. S3 paths
@@ -1116,9 +1120,9 @@ filter your artifacts.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Only one of <cite>data_bytes</cite>, <cite>data_file</cite>, and <cite>data_path</cite>
+<p>Only one of <cite>data_bytes</cite>, <cite>data_file</cite>, <cite>data_object</cite>, and <cite>data_path</cite>
 should be provided. If more than one is given, the order
-of precedence is <cite>data_bytes</cite>, <cite>data_file</cite>, <cite>data_path</cite>.</p>
+of precedence is <cite>data_bytes</cite>, <cite>data_object</cite>, <cite>data_file</cite>, <cite>data_path</cite>.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Log with bytes</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">experiment</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span>
@@ -1955,6 +1959,22 @@ Defaults to the artifact’s given name when logged.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unpickle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.get_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads the data associated with this artifact and
+unpickles if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>unpickle</strong><span class="classifier">bool, optional</span></dt><dd><p>Flag indicating whether artifact data must be
+unpickled. Will be returned as bytes by default.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Artifact.id" title="Permalink to this definition">#</a></dt>
@@ -2027,7 +2047,7 @@ only the error’s text, each increment shows another line of the traceback.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> leverages <code class="docutils literal notranslate"><span class="pre">intake</span></code> to easily share sets of experiments.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.publish">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.publish" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_catalog_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.publish" title="Permalink to this definition">#</a></dt>
 <dd><p>Publish experiments to an <cite>intake</cite> catalog that can be
 read by the <cite>intake-rubicon</cite> driver.</p>
 <dl class="field-list simple">
@@ -2039,6 +2059,10 @@ read by the <cite>intake-rubicon</cite> driver.</p>
 and key to log the generated YAML file to. S3 buckets
 must be prepended with ‘s3://’. Defaults to None,
 which disables writing the generated YAML.</p>
+</dd>
+<dt><strong>base_catalog_filepath</strong><span class="classifier">str, optional</span></dt><dd><p>Similar to <cite>output_filepath</cite> except this argument is used as a
+base base file to update an existing intake catalog. Defaults to None,
+creating a new intake catalog.</p>
 </dd>
 </dl>
 </dd>
@@ -3089,6 +3113,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.data"><code class="docutils literal notranslate"><span class="pre">Artifact.data</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.description"><code class="docutils literal notranslate"><span class="pre">Artifact.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.download"><code class="docutils literal notranslate"><span class="pre">Artifact.download()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.get_data"><code class="docutils literal notranslate"><span class="pre">Artifact.get_data()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.id"><code class="docutils literal notranslate"><span class="pre">Artifact.id</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.name"><code class="docutils literal notranslate"><span class="pre">Artifact.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.parent"><code class="docutils literal notranslate"><span class="pre">Artifact.parent</span></code></a></li>

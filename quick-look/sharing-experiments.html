@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizing Experiments" href="visualizing-experiments.html" /><link rel="prev" title="Logging Experiments" href="logging-experiments.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>Sharing Experiments - rubicon-ml v0.4.0</title>
+        <title>Sharing Experiments - rubicon-ml v0.4.1</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.0</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.1</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -136,7 +136,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.0</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.1</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -234,7 +234,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -525,7 +525,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon_ml.client.project.Project at 0x1674333d0&gt;
+&lt;rubicon_ml.client.project.Project at 0x16da73a60&gt;
 </pre></div></div>
 </div>
 <p>Let’s say we want to share the results of our hyperparmeter search with another teammate so they can evaluate the results. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s <code class="docutils literal notranslate"><span class="pre">publish</span></code> function takes a list of experiments as an input and uses <code class="docutils literal notranslate"><span class="pre">intake</span></code> to generate a catalog containing the bare-minimum amount of metadata needed to retrieve an experiment, like its ID and filepath. More on <code class="docutils literal notranslate"><span class="pre">intake</span></code> can be found <a class="reference external" href="https://intake.readthedocs.io/en/latest/">in their docs</a>.</p>
@@ -537,7 +537,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">publish</span>
 
-<span class="n">publish</span><span class="p">(</span>
+<span class="n">catalog</span> <span class="o">=</span> <span class="n">publish</span><span class="p">(</span>
     <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;parameter search&quot;</span><span class="p">]),</span>
     <span class="n">output_filepath</span><span class="o">=</span><span class="s2">&quot;./penguin_catalog.yml&quot;</span><span class="p">,</span>
 <span class="p">)</span>
@@ -552,9 +552,9 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 sources:
-  experiment_02a89318_b8d9_49a5_9337_7e4368cc54da:
+  experiment_193ab005_671b_4991_b3a8_397311b390c6:
     args:
-      experiment_id: 02a89318-b8d9-49a5-9337-7e4368cc54da
+      experiment_id: 193ab005-671b-4991-b3a8-397311b390c6
       project_name: classifying penguins
       urlpath: ./rubicon-root
     driver: rubicon_ml_experiment
@@ -592,20 +592,55 @@ return the experiment objects associated to it.</p>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 shared experiments:
-        id: 02a89318-b8d9-49a5-9337-7e4368cc54da, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 10)], metrics: [(&#39;accuracy&#39;, 0.75)]
-        id: 093a9d02-89f7-4e48-82b1-f9ade435ef03, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 20)], metrics: [(&#39;accuracy&#39;, 0.7211538461538461)]
-        id: 9d6ffe67-088d-483f-9d3f-8f0fb34c22e8, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 15)], metrics: [(&#39;accuracy&#39;, 0.7596153846153846)]
-        id: a75b1258-2276-4eb1-beb5-caf83e9aacf3, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 5)], metrics: [(&#39;accuracy&#39;, 0.7307692307692307)]
-        id: b2cd8067-ad4c-4ed5-87f7-2cd4536b2c73, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 5)], metrics: [(&#39;accuracy&#39;, 0.7211538461538461)]
-        id: bc4d0503-32d1-4a11-8222-4151dae893cf, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 5)], metrics: [(&#39;accuracy&#39;, 0.7211538461538461)]
-        id: c1b6cb3a-0ad1-4932-914d-ba53a054891b, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 10)], metrics: [(&#39;accuracy&#39;, 0.7403846153846154)]
-        id: c4277327-381a-4885-aba4-a07c050463a5, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 10)], metrics: [(&#39;accuracy&#39;, 0.75)]
-        id: ce24eeef-4686-4fc7-8c0a-e73d6c9cdb71, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 15)], metrics: [(&#39;accuracy&#39;, 0.7596153846153846)]
-        id: d4ea2fe7-061e-4f5e-8958-e6ac29025708, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 15)], metrics: [(&#39;accuracy&#39;, 0.7596153846153846)]
-        id: d9fe2005-824c-4e23-9809-e0459e57d78a, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 20)], metrics: [(&#39;accuracy&#39;, 0.7211538461538461)]
-        id: f497245a-6149-4604-9ceb-da74ae9855d4, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 20)], metrics: [(&#39;accuracy&#39;, 0.7211538461538461)]
+        id: 193ab005-671b-4991-b3a8-397311b390c6, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 20)], metrics: [(&#39;accuracy&#39;, 0.6826923076923077)]
+        id: 19d5f5ec-88c4-4fb7-a1cb-e7ccd86eed62, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 15)], metrics: [(&#39;accuracy&#39;, 0.6442307692307693)]
+        id: 47eeaf42-18c4-44b0-b053-9198c5a942e8, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 5)], metrics: [(&#39;accuracy&#39;, 0.6923076923076923)]
+        id: 4b188436-0af5-4917-8c57-9f463ec7fab4, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 15)], metrics: [(&#39;accuracy&#39;, 0.6442307692307693)]
+        id: 5728479d-b524-4d49-ac0a-723d516f51a8, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 5)], metrics: [(&#39;accuracy&#39;, 0.6923076923076923)]
+        id: 5def5ddb-b52e-44e1-ab17-00aa28c0714a, parameters: [(&#39;strategy&#39;, &#39;median&#39;), (&#39;n_neighbors&#39;, 10)], metrics: [(&#39;accuracy&#39;, 0.7019230769230769)]
+        id: 938d580b-e9b3-41d6-8f82-a18346b07355, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 15)], metrics: [(&#39;accuracy&#39;, 0.6442307692307693)]
+        id: d810d725-e449-4072-960e-c3be5edd4cd2, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 10)], metrics: [(&#39;accuracy&#39;, 0.7019230769230769)]
+        id: e172b79f-0964-44fc-aed8-7714732b2b83, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 10)], metrics: [(&#39;accuracy&#39;, 0.7019230769230769)]
+        id: e2cdfd2e-004e-4b5d-a248-0c7ee7fd2500, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 5)], metrics: [(&#39;accuracy&#39;, 0.6923076923076923)]
+        id: e82f1ad2-e016-48e6-a189-7361b527f264, parameters: [(&#39;strategy&#39;, &#39;mean&#39;), (&#39;n_neighbors&#39;, 20)], metrics: [(&#39;accuracy&#39;, 0.6826923076923077)]
+        id: ef909f56-22a1-4440-9bfa-11c09da772ce, parameters: [(&#39;strategy&#39;, &#39;most_frequent&#39;), (&#39;n_neighbors&#39;, 20)], metrics: [(&#39;accuracy&#39;, 0.6730769230769231)]
 </pre></div></div>
 </div>
+<section id="Updating-Existing-Catalogs">
+<h2>Updating Existing Catalogs<a class="headerlink" href="#Updating-Existing-Catalogs" title="Permalink to this heading">#</a></h2>
+<p>Suppose we have an existing <code class="docutils literal notranslate"><span class="pre">intake</span> <span class="pre">catalog</span></code> and would like to update and append experiments to that the same catalog file. To do this, let’s create a project with 2 random experiments Next, in order to update an exisiting catalog file with new experiments, we can utilize the <code class="docutils literal notranslate"><span class="pre">penguin_catalog</span></code> and then directly update it with our new experiments. To do this, we leverage an optional argument in the <code class="docutils literal notranslate"><span class="pre">publish</span></code> function called <code class="docutils literal notranslate"><span class="pre">base_catalog_filepath</span></code> as seen below. The result shows the new
+experiments added to the <code class="docutils literal notranslate"><span class="pre">penguin</span> <span class="pre">catalog</span></code>. We can verify this by noticing the different project name that the new experiments fall under.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;update catalog example&quot;</span><span class="p">)</span>
+<span class="n">new_experiments</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+
+<span class="n">updated_catalog</span> <span class="o">=</span> <span class="n">publish</span><span class="p">(</span>
+    <span class="n">base_catalog_filepath</span><span class="o">=</span><span class="s2">&quot;./penguin_catalog.yml&quot;</span><span class="p">,</span>
+    <span class="n">experiments</span> <span class="o">=</span> <span class="n">new_experiments</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="o">!</span>head -7 penguin_catalog.yml
+<br/><br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sources:
+  experiment_193ab005_671b_4991_b3a8_397311b390c6:
+    args:
+      experiment_id: 193ab005-671b-4991-b3a8-397311b390c6
+      project_name: classifying penguins
+      urlpath: ./rubicon-root
+    driver: rubicon_ml_experiment
+</pre></div></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -653,8 +688,27 @@ shared experiments:
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Sharing Experiments</a><ul>
+<li><a class="reference internal" href="#Updating-Existing-Catalogs">Updating Existing Catalogs</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
