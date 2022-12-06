@@ -238,7 +238,7 @@ class ExperimentsTable(VizBase):
                 "created_at": experiment.created_at,
                 "model_name": experiment.model_name,
                 "commit_hash": None,
-                "tags": experiment.tags,
+                "tags": ", ".join(str(tag) for tag in experiment.tags),
             }
 
             if experiment.commit_hash is not None:
