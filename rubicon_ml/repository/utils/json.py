@@ -58,17 +58,17 @@ class DomainJSONDecoder(json.JSONDecoder):
             return obj
 
 
-def dump(data):
-    return json.dump(data, cls=DomainJSONEncoder)
+def dump(data, open_file, **kwargs):
+    return json.dump(data, open_file, cls=DomainJSONEncoder, **kwargs)
 
 
-def dumps(data):
-    return json.dumps(data, cls=DomainJSONEncoder)
+def dumps(data, **kwargs):
+    return json.dumps(data, cls=DomainJSONEncoder, **kwargs)
 
 
-def load(open_file):
-    return json.load(open_file, cls=DomainJSONDecoder)
+def load(open_file, **kwargs):
+    return json.load(open_file, cls=DomainJSONDecoder, **kwargs)
 
 
-def loads(data):
-    return json.loads(data, cls=DomainJSONDecoder)
+def loads(data, **kwargs):
+    return json.loads(data, cls=DomainJSONDecoder, **kwargs)
