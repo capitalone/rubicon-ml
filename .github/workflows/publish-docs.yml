@@ -36,7 +36,7 @@ jobs:
         cd docs
         make html
     - name: Publish
-      uses: JamesIves/github-pages-deploy-action@4.0.0
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages
         folder: docs/build/html
