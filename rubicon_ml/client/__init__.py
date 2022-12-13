@@ -11,6 +11,7 @@ from rubicon_ml.client.parameter import Parameter
 from rubicon_ml.client.experiment import Experiment
 from rubicon_ml.client.project import Project
 from rubicon_ml.client.rubicon import Rubicon
+from rubicon_ml.client.rubicon_json import RubiconJSON
 
 __all__ = [
     "Artifact",
@@ -22,4 +23,5 @@ __all__ = [
     "Parameter",
     "Project",
     "Rubicon",
+    "RubiconJSON",
 ]
