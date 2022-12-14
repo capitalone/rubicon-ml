@@ -17,7 +17,7 @@ dependencies:
 
   # install rubicon-ml dependencies
   # so local pip install doesn't
-  - dash<=2.7.0,>=2.0.0
+  - dash<=2.7.1,>=2.0.0
   - dash-bootstrap-components<=1.2.1,>=1.0.0
   - fsspec<=2022.11.0,>=2021.4.0
   - intake[dataframe]<=0.6.6,>=0.5.2
