@@ -3,6 +3,7 @@ import warnings
 import click
 
 from rubicon_ml import Rubicon
+from rubicon_ml.client.rubicon_json import RubiconJSON
 from rubicon_ml.viz import Dashboard
 
 
@@ -76,6 +77,34 @@ def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
     run_server_kwargs = dict(debug=debug, port=port, host=host)
     run_server_kwargs = {k: v for k, v in run_server_kwargs.items() if v is not None}
     dashboard.serve(run_server_kwargs=run_server_kwargs)
+
+
+@cli.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    )
+)
+@click.option(
+    "--root-dir",
+    type=click.STRING,
+    help="The absolute path to the top level folder holding the rubicon-ml project.",
+    required=True,
+)
+@click.option(
+    "--project_name",
+    type=click.STRING,
+    help="Name of rubicon project to retrieve experiments from",
+    required=True,
+)
+@click.argument(
+    "query",
+    nargs=1,
+    required=True,
+)
+def json(project_name, query):
+    rb_json = RubiconJSON(projects=project_name)
+    experiments = rb_json.search(query)
+    return experiments
 
 
 # CLI groups
