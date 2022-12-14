@@ -76,12 +76,18 @@ Extras
 rubicon-ml has a few optional extras if you're installing with ``pip`` (these extras are all
 installed by default when using ``conda``).
 
-The ``ui`` extra installs the requirements necessary for using the visualization tools.
+The ``s3`` extra installs ``s3fs`` to enable logging to Amazon S3.
+
+.. code-block:: console
+
+    pip install rubicon-ml[s3]
+
+The ``viz`` extra installs the requirements necessary for using the visualization tools.
 For a preview, take a look at the :ref:`Visualizations<Visualizations>` section of the docs.
 
 .. code-block:: console
 
-    pip install rubicon-ml[ui]
+    pip install rubicon-ml[viz]
 
 The ``prefect`` extra installs the requirements necessary for using the `Prefect <https://prefect.io>`_
 tasks in the ``rubicon_ml.workflow`` module. Take a look at the `Prefect integration`_
