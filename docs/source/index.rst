@@ -76,7 +76,7 @@ Extras
 rubicon-ml has a few optional extras if you're installing with ``pip`` (these extras are all
 installed by default when using ``conda``).
 
-The ``s3fs`` extra installs ``s3fs`` to enable logging to Amazon S3.
+The ``s3`` extra installs ``s3fs`` to enable logging to Amazon S3.
 
 .. code-block:: console
 
