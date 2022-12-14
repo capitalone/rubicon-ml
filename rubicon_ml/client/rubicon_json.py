@@ -1,57 +1,55 @@
 from jsonpath_ng.ext import parse
 
-from rubicon_ml import Experiment, Project, Rubicon
+from rubicon_ml.client import Experiment, Project, Rubicon
 
 
 class RubiconJSON:
-    def __init__(self, rubicon_entities):
-        self._rubicon_json = self.project_to_json(rubicon_entities)
+    def __init__(self, rubicon_objects=None, projects=None, experiments=None):
+        self._json = self._convert_to_json(rubicon_objects, projects, experiments)
 
     def search(self, query):
-        return parse(query).find(self._rubicon_json)
+        return parse(query).find(self._json)
 
-    def rubicon_to_json(self, rubicon):
-
-        if not isinstance(rubicon, Rubicon):
-            if not isinstance(rubicon, list) or not all(
-                [isinstance(rb, Rubicon) for rb in rubicon]
-            ):
-                raise ValueError(
-                    "`rubicon_objects` must be of type `Rubicon` or `list` of type `Rubicon`"
-                )
-
-        if not isinstance(rubicon, list):
-            rubicon = [rubicon]
-
-        json = None
-        for rb in rubicon:
-            for pr in rb.projects():
-                if json is None:
-                    json = self.project_to_json(pr)
-                else:
-                    new_json = self.project_to_json(pr)
-                    for p in new_json["project"]:
-                        json["project"].append(p)
-
-        return json
-
-    def convert_to_json(self, rubicon_objects=None, projects=None, experiments=None):
+    def _convert_to_json(self, rubicon_objects=None, projects=None, experiments=None):
 
         json = None
         if rubicon_objects is not None:
-            json = self.rubicon_to_json(rubicon_objects)
+            if not isinstance(rubicon_objects, Rubicon):
+                if not isinstance(rubicon_objects, list) or not all(
+                    [isinstance(rb, Rubicon) for rb in rubicon_objects]
+                ):
+                    raise ValueError(
+                        "`rubicon_objects` must be of type `Rubicon` or `list` of type `Rubicon`"
+                    )
+            json = self._rubicon_to_json(rubicon_objects)
+
         if projects is not None:
+            if not isinstance(projects, Project):
+                if not isinstance(projects, list) or not all(
+                    [isinstance(pr, Project) for pr in projects]
+                ):
+                    raise ValueError(
+                        "`projects` must be of type `Project` or `list` of type `Project`"
+                    )
             if json is None:
-                json = self.project_to_json(projects)
+                json = self._projects_to_json(projects)
             else:
-                new_json = self.project_to_json(projects)
+                new_json = self._projects_to_json(projects)
                 for pr in new_json["project"]:
                     json["project"].append(pr)
+
         if experiments is not None:
+            if not isinstance(experiments, Experiment):
+                if not isinstance(experiments, list) or not all(
+                    [isinstance(e, Experiment) for e in experiments]
+                ):
+                    raise ValueError(
+                        "`experiments` must be of type `Experiment` or `list` of type `Experiment`"
+                    )
             if json is None:
-                json = self.experiment_to_json(experiments)
+                json = self._experiments_to_json(experiments)
             else:
-                new_json = self.experiment_to_json(experiments)
+                new_json = self._experiments_to_json(experiments)
                 if json.get("experiment") is None:
                     json["experiment"] = []
                 for e in new_json["experiment"]:
@@ -59,21 +57,14 @@ class RubiconJSON:
 
         return json
 
-    def experiment_to_json(self, experiment):
-        if not isinstance(experiment, Experiment):
-            if not isinstance(experiment, list) or not all(
-                [isinstance(e, Experiment) for e in experiment]
-            ):
-                raise ValueError(
-                    "`experiment` must be of type `Experiment` or `list` of type `Experiment`"
-                )
+    def _experiments_to_json(self, experiments):
 
-        if not isinstance(experiment, list):
-            experiment = [experiment]
+        if not isinstance(experiments, list):
+            experiments = [experiments]
 
         json = {}
         json["experiment"] = []
-        for e in experiment:
+        for e in experiments:
             experiment_json = e._domain.__dict__
             experiment_json["feature"] = []
             for f in e.features():
@@ -99,19 +90,14 @@ class RubiconJSON:
 
         return json
 
-    def project_to_json(self, project):
-        if not isinstance(project, Project):
-            if not isinstance(project, list) or not all(
-                [isinstance(pr, Project) for pr in project]
-            ):
-                raise ValueError("`project` must be of type `Project` or `list` of type `Project`")
+    def _projects_to_json(self, projects):
 
-        if not isinstance(project, list):
-            project = [project]
+        if not isinstance(projects, list):
+            projects = [projects]
 
         json = {}
         json["project"] = []
-        for pr in project:
+        for pr in projects:
             project_json = pr._domain.__dict__
             project_json["artifact"] = []
             for a in pr.artifacts():
@@ -121,9 +107,30 @@ class RubiconJSON:
             for d in pr.dataframes():
                 project_json["dataframe"].append(d._domain.__dict__)
 
-            experiment_json = self.experiment_to_json(pr.experiments())
+            experiment_json = self._experiments_to_json(pr.experiments())
             project_json["experiment"] = experiment_json["experiment"]
 
             json["project"].append(project_json)
 
         return json
+
+    def _rubicon_to_json(self, rubicon_objects):
+
+        if not isinstance(rubicon_objects, list):
+            rubicon_objects = [rubicon_objects]
+
+        json = None
+        for rb in rubicon_objects:
+            for pr in rb.projects():
+                if json is None:
+                    json = self._projects_to_json(pr)
+                else:
+                    new_json = self._projects_to_json(pr)
+                    for p in new_json["project"]:
+                        json["project"].append(p)
+
+        return json
+
+    @property
+    def json(self):
+        return self._json
