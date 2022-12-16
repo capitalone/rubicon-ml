@@ -1,3 +1,4 @@
+import os
 import warnings
 
 import click
@@ -87,27 +88,70 @@ def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
 @click.option(
     "--root-dir",
     type=click.STRING,
+    default=os.environ.get("RUBICON_ROOT_DIR"),
     help="The absolute path to the top level folder holding the rubicon-ml project.",
-    required=True,
+    required=False,
 )
 @click.option(
-    "--project_name",
+    "--project-name",
+    default=os.environ.get("RUBICON_PROJECT_NAME"),
     type=click.STRING,
     help="Name of rubicon project to retrieve experiments from",
-    required=True,
+    required=False,
+)
+@click.option(
+    "--color",
+    "-c",
+    type=click.STRING,
+    help="Color of query output",
+    required=False,
 )
 @click.argument(
     "query",
     nargs=1,
     required=True,
 )
-def json(project_name, query):
-    rb_json = RubiconJSON(projects=project_name)
-    experiments = rb_json.search(query)
-    return experiments
+def search(root_dir, project_name, color, query):
+    """
+    This function provides capability to query  rubicon experiments from the command line without using python
+    directly and output the JSON in the command line.
+    """
+
+    proj_name_env = "RUBICON_PROJECT_NAME"
+    root_dir_env = "RUBICON_ROOT_DIR"
+    fg_color = "bright_yellow"
+
+    if (proj_name_env not in os.environ and project_name is None) or (
+        root_dir_env not in os.environ and root_dir is None
+    ):
+        warnings.warn(
+            "No previous project name and/or Rubicon root directory saved, enter a new one"
+        )
+        return
+
+    if not project_name:
+        project_name = os.environ["RUBICON_PROJECT_NAME"]
+    if not root_dir:
+        root_dir = os.environ["RUBICON_ROOT_DIR"]
+
+    rubicon = Rubicon(persistence="filesystem", root_dir=root_dir)
+    try:
+        project = rubicon.get_project(name=project_name)
+    except Exception:
+        warnings.warn(
+            "Rubicon project not found with given name, try again with a different project name"
+        )
+        return
+
+    rb_json = RubiconJSON(projects=project)
+    res = rb_json.search(query)
+
+    if "color" in click.get_current_context().params:
+        fg_color = color
+
+    click.secho(res, fg=fg_color)
 
 
 # CLI groups
-
 if __name__ == "__main__":
     cli()
