@@ -35,7 +35,8 @@ class RubiconJSON:
 
     def search(self, query, return_type=None):
         if return_type is not None:
-            if return_type.lower() not in [
+            return_type = return_type.lower()
+            if return_type not in [
                 "artifact",
                 "dataframe",
                 "experiment",
@@ -45,7 +46,7 @@ class RubiconJSON:
                 "project",
             ]:
                 raise ValueError(
-                    "`return_type` must be artifact, dataframe, experiment, featrure, metric, parameter, or project."
+                    "`return_type` must be artifact, dataframe, experiment, feature, metric, parameter, or project."
                 )
 
         res = parse(query).find(self._json)
@@ -65,16 +66,9 @@ class RubiconJSON:
                     )
         elif return_type == "experiment":
             for match in res:
-                if match.value.get("feature") is not None:
-                    del match.value["feature"]
-                if match.value.get("parameter") is not None:
-                    del match.value["parameter"]
-                if match.value.get("metric") is not None:
-                    del match.value["metric"]
-                if match.value.get("artifact") is not None:
-                    del match.value["artifact"]
-                if match.value.get("dataframe") is not None:
-                    del match.value["dataframe"]
+                for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
+                    if key in match.value:
+                        del match.value[key]
                 return_objects.append(Experiment(DomainExperiment(**match.value), NoOpParent()))
         elif return_type == "feature":
             for match in res:
@@ -92,13 +86,9 @@ class RubiconJSON:
                     )
         elif return_type == "project":
             for match in res:
-                print(match.value)
-                if match.value.get("artifact") is not None:
-                    del match.value["artifact"]
-                if match.value.get("dataframe") is not None:
-                    del match.value["dataframe"]
-                if match.value.get("experiment") is not None:
-                    del match.value["experiment"]
+                for key in ["artifact", "dataframe", "experiment"]:
+                    if key in match.value:
+                        del match.value[key]
                 return_objects.append(Project(DomainProject(**match.value), NoOpParent()))
 
         return return_objects

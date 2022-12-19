@@ -188,7 +188,7 @@ def test_search_return_type_incorrect(rubicon_and_project_client_with_experiment
         rubicon_json.search("$..experiment[*].metric", return_type="rubicon")
 
     assert (
-        "`return_type` must be artifact, dataframe, experiment, featrure, metric, parameter, or project."
+        "`return_type` must be artifact, dataframe, experiment, feature, metric, parameter, or project."
         in str(e)
     )
 
