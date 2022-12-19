@@ -96,7 +96,7 @@ def test_search_cli(project_client):
 
     assert result_a.exit_code == 0
     assert len(caught_warnings_a) == 0
-    assert "No previous project name and/or Rubicon root directory saved, enter a new one" in str(
+    assert "No --root-dir or --project-name provided. Exiting..." in str(
         caught_warnings_b[0]
     )
     assert result_b.exit_code == 0
