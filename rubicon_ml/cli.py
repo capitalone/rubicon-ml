@@ -125,7 +125,7 @@ def search(root_dir, project_name, color, query):
         root_dir_env not in os.environ and root_dir is None
     ):
         warnings.warn(
-            "No previous project name and/or Rubicon root directory saved, enter a new one"
+            "No --root-dir or --project-name provided. Exiting..."
         )
         return
 
