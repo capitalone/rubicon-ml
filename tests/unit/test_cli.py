@@ -32,3 +32,73 @@ def test_cli(mock_get_project, mock_projects, mock_run_server, project_client):
         assert len(caught_warnings) == 2
         assert "`--page-size` option will be deprecated" in str(caught_warnings[0])
         assert "`--project-name` will be a required option" in str(caught_warnings[1])
+
+
+def test_search_cli(project_client):
+
+    project = project_client
+    NUM_EXPERIMENTS = 4
+    QUERY = "$..experiment[*].metric"
+    TEST_COLOR = "yellow"
+    for _ in range(NUM_EXPERIMENTS):
+        tags = ["a", "b", "c"]
+        ex = project.log_experiment(tags=tags)
+
+        for feature in ["f", "g", "h", "i"]:
+            ex.log_feature(name=feature)
+
+        for parameter in [("d", 100), ("e", 1000), ("f", 1000)]:
+            name, value = parameter
+            ex.log_parameter(name=name, value=value)
+
+        for metric in ["j", "k"]:
+            value = 1
+            tags = ["l", "m", "n"]
+            ex.log_metric(name=metric, value=value, tags=tags)
+
+        ex.log_artifact(name="o", data_bytes=b"o")
+
+    project.log_artifact(name="p", data_bytes=b"p")
+
+    with warnings.catch_warnings(record=True) as caught_warnings_a:
+        runner = CliRunner()
+        result_a = runner.invoke(
+            cli,
+            [
+                "search",
+                "--root-dir",
+                project.repository.root_dir,
+                "--project-name",
+                project.name,
+                QUERY,
+            ],
+        )
+
+    with warnings.catch_warnings(record=True) as caught_warnings_b:
+        runner = CliRunner()
+        result_b = runner.invoke(cli, ["search", QUERY])
+
+    with warnings.catch_warnings(record=True) as caught_warnings_c:
+        runner = CliRunner()
+        result_c = runner.invoke(
+            cli,
+            [
+                "search",
+                "--root-dir",
+                project.repository.root_dir,
+                "--project-name",
+                project.name,
+                "--color",
+                TEST_COLOR,
+                QUERY,
+            ],
+        )
+
+    assert result_a.exit_code == 0
+    assert len(caught_warnings_a) == 0
+    assert "No previous project name and/or Rubicon root directory saved, enter a new one" in str(
+        caught_warnings_b[0]
+    )
+    assert result_b.exit_code == 0
+    assert result_c.exit_code == 0
+    assert len(caught_warnings_c) == 0
