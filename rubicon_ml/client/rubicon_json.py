@@ -1,14 +1,107 @@
 from jsonpath_ng.ext import parse
 
-from rubicon_ml.client import Experiment, Project, Rubicon
+from rubicon_ml.client import (
+    Artifact,
+    Dataframe,
+    Experiment,
+    Feature,
+    Metric,
+    Parameter,
+    Project,
+    Rubicon,
+)
+from rubicon_ml.domain import (
+    Artifact as DomainArtifact,
+    Dataframe as DomainDataframe,
+    Experiment as DomainExperiment,
+    Feature as DomainFeature,
+    Metric as DomainMetric,
+    Parameter as DomainParameter,
+    Project as DomainProject,
+)
+
+
+class NoOpParent:
+    """A read-only parent object"""
+
+    @property
+    def _config(self):
+        return None
 
 
 class RubiconJSON:
     def __init__(self, rubicon_objects=None, projects=None, experiments=None):
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
 
-    def search(self, query):
-        return parse(query).find(self._json)
+    def search(self, query, return_type=None):
+        if return_type is not None:
+            if return_type.lower() not in [
+                "artifact",
+                "dataframe",
+                "experiment",
+                "feature",
+                "metric",
+                "parameter",
+                "project",
+            ]:
+                raise ValueError(
+                    "`return_type` must be artifact, dataframe, experiment, featrure, metric, parameter, or project."
+                )
+
+        res = parse(query).find(self._json)
+        if not return_type:
+            return res
+
+        return_objects = []
+        if return_type == "artifact":
+            for match in res:
+                for i in range(len(match.value)):
+                    return_objects.append(Artifact(DomainArtifact(**match.value[i]), NoOpParent()))
+        elif return_type == "dataframe":
+            for match in res:
+                for i in range(len(match.value)):
+                    return_objects.append(
+                        Dataframe(DomainDataframe(**match.value[i]), NoOpParent())
+                    )
+        elif return_type == "experiment":
+            for match in res:
+                if match.value.get("feature") is not None:
+                    del match.value["feature"]
+                if match.value.get("parameter") is not None:
+                    del match.value["parameter"]
+                if match.value.get("metric") is not None:
+                    del match.value["metric"]
+                if match.value.get("artifact") is not None:
+                    del match.value["artifact"]
+                if match.value.get("dataframe") is not None:
+                    del match.value["dataframe"]
+                return_objects.append(Experiment(DomainExperiment(**match.value), NoOpParent()))
+        elif return_type == "feature":
+            for match in res:
+                for i in range(len(match.value)):
+                    return_objects.append(Feature(DomainFeature(**match.value[i]), NoOpParent()))
+        elif return_type == "metric":
+            for match in res:
+                for i in range(len(match.value)):
+                    return_objects.append(Metric(DomainMetric(**match.value[i]), NoOpParent()))
+        elif return_type == "parameter":
+            for match in res:
+                for i in range(len(match.value)):
+                    return_objects.append(
+                        Parameter(DomainParameter(**match.value[i]), NoOpParent())
+                    )
+        elif return_type == "project":
+            for match in res:
+                print(match.value)
+                if match.value.get("artifact") is not None:
+                    del match.value["artifact"]
+                if match.value.get("dataframe") is not None:
+                    del match.value["dataframe"]
+                if match.value.get("experiment") is not None:
+                    del match.value["experiment"]
+                return_objects.append(Project(DomainProject(**match.value), NoOpParent()))
+
+        return return_objects
 
     def _convert_to_json(self, rubicon_objects=None, projects=None, experiments=None):
 
