@@ -1,4 +1,5 @@
 import os
+import sys
 import warnings
 
 import click
@@ -117,31 +118,16 @@ def search(root_dir, project_name, color, query):
     directly and output the JSON in the command line.
     """
 
-    proj_name_env = "RUBICON_PROJECT_NAME"
-    root_dir_env = "RUBICON_ROOT_DIR"
-    fg_color = "bright_yellow"
-
-    if (proj_name_env not in os.environ and project_name is None) or (
-        root_dir_env not in os.environ and root_dir is None
-    ):
-        warnings.warn(
-            "No --root-dir or --project-name provided. Exiting..."
-        )
-        return
-
-    if not project_name:
-        project_name = os.environ["RUBICON_PROJECT_NAME"]
-    if not root_dir:
-        root_dir = os.environ["RUBICON_ROOT_DIR"]
+    if project_name is None or root_dir is None:
+        click.secho("No --root-dir or --project-name provided. Exiting...", fg="red")
+        sys.exit()
 
     rubicon = Rubicon(persistence="filesystem", root_dir=root_dir)
     try:
         project = rubicon.get_project(name=project_name)
-    except Exception:
-        warnings.warn(
-            "Rubicon project not found with given name, try again with a different project name"
-        )
-        return
+    except Exception as e:
+        click.secho(e, fg="red")
+        sys.exit()
 
     rb_json = RubiconJSON(projects=project)
     res = rb_json.search(query)

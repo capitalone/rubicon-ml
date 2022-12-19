@@ -1,3 +1,4 @@
+import os
 import warnings
 from unittest.mock import patch
 
@@ -60,45 +61,43 @@ def test_search_cli(project_client):
 
     project.log_artifact(name="p", data_bytes=b"p")
 
-    with warnings.catch_warnings(record=True) as caught_warnings_a:
-        runner = CliRunner()
-        result_a = runner.invoke(
-            cli,
-            [
-                "search",
-                "--root-dir",
-                project.repository.root_dir,
-                "--project-name",
-                project.name,
-                QUERY,
-            ],
-        )
+    runner = CliRunner()
+    result_a = runner.invoke(
+        cli,
+        [
+            "search",
+            "--root-dir",
+            project.repository.root_dir,
+            "--project-name",
+            project.name,
+            QUERY,
+        ],
+    )
 
-    with warnings.catch_warnings(record=True) as caught_warnings_b:
-        runner = CliRunner()
-        result_b = runner.invoke(cli, ["search", QUERY])
+    runner = CliRunner()
 
-    with warnings.catch_warnings(record=True) as caught_warnings_c:
-        runner = CliRunner()
-        result_c = runner.invoke(
-            cli,
-            [
-                "search",
-                "--root-dir",
-                project.repository.root_dir,
-                "--project-name",
-                project.name,
-                "--color",
-                TEST_COLOR,
-                QUERY,
-            ],
-        )
+    # Delte existing environment variables for testing purposes
+    os.environ.pop("RUBICON_PROJECT_NAME", None)
+    os.environ.pop("RUBICON_ROOT_DIR", None)
+
+    result_b = runner.invoke(cli, ["search", QUERY])
+
+    runner = CliRunner()
+    result_c = runner.invoke(
+        cli,
+        [
+            "search",
+            "--root-dir",
+            project.repository.root_dir,
+            "--project-name",
+            project.name,
+            "--color",
+            TEST_COLOR,
+            QUERY,
+        ],
+    )
 
     assert result_a.exit_code == 0
-    assert len(caught_warnings_a) == 0
-    assert "No --root-dir or --project-name provided. Exiting..." in str(
-        caught_warnings_b[0]
-    )
+    assert "No --root-dir or --project-name provided. Exiting..." in result_b.output
     assert result_b.exit_code == 0
     assert result_c.exit_code == 0
-    assert len(caught_warnings_c) == 0
