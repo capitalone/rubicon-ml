@@ -1,4 +1,3 @@
-import os
 import warnings
 from unittest.mock import patch
 
@@ -35,7 +34,7 @@ def test_cli(mock_get_project, mock_projects, mock_run_server, project_client):
         assert "`--project-name` will be a required option" in str(caught_warnings[1])
 
 
-def test_search_cli(project_client):
+def test_search_cli(project_client, control_env_vars):
 
     project = project_client
     NUM_EXPERIMENTS = 4
@@ -75,12 +74,9 @@ def test_search_cli(project_client):
     )
 
     runner = CliRunner()
-
-    # Delte existing environment variables for testing purposes
-    os.environ.pop("RUBICON_PROJECT_NAME", None)
-    os.environ.pop("RUBICON_ROOT_DIR", None)
-
-    result_b = runner.invoke(cli, ["search", QUERY])
+    result_b = runner.invoke(
+        cli, ["search", QUERY], env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None}
+    )
 
     runner = CliRunner()
     result_c = runner.invoke(

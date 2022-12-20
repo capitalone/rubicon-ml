@@ -1,4 +1,5 @@
 import os
+import pprint
 import sys
 import warnings
 
@@ -107,12 +108,20 @@ def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
     help="Color of query output",
     required=False,
 )
+@click.option(
+    "--bf",
+    is_flag=True,
+    show_default=True,
+    default=True,
+    required=False,
+    help="Flag that switches pretty print output format to basic format",
+)
 @click.argument(
     "query",
     nargs=1,
     required=True,
 )
-def search(root_dir, project_name, color, query):
+def search(root_dir, project_name, color, bf, query):
     """
     This function provides capability to query  rubicon experiments from the command line without using python
     directly and output the JSON in the command line.
@@ -131,11 +140,15 @@ def search(root_dir, project_name, color, query):
 
     rb_json = RubiconJSON(projects=project)
     res = rb_json.search(query)
-
+    if not isinstance(res, list):
+        res = [res]
+    matches = [r.value for r in res]
     if "color" in click.get_current_context().params:
         fg_color = color
 
-    click.secho(res, fg=fg_color)
+    result = matches if bf else pprint.pformat(matches, indent=1)
+
+    click.secho(result, fg=fg_color)
 
 
 # CLI groups
