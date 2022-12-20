@@ -129,14 +129,14 @@ def search(root_dir, project_name, color, bf, query):
 
     if project_name is None or root_dir is None:
         click.secho("No --root-dir or --project-name provided. Exiting...", fg="red")
-        sys.exit()
+        sys.exit(1)
 
     rubicon = Rubicon(persistence="filesystem", root_dir=root_dir)
     try:
         project = rubicon.get_project(name=project_name)
     except Exception as e:
         click.secho(e, fg="red")
-        sys.exit()
+        sys.exit(1)
 
     rb_json = RubiconJSON(projects=project)
     res = rb_json.search(query)

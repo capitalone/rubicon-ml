@@ -210,25 +210,3 @@ def viz_experiments(rubicon_and_project_client):
         experiment.log_dataframe(data_df, name="test dataframe")
 
     return project.experiments()
-
-
-@pytest.fixture
-def control_env_vars():
-    print("--deleting and restoring env variables--")
-    # Store existing environment variables
-    env_proj_name = (
-        os.environ["RUBICON_PROJECT_NAME"] if "RUBICON_PROJECT_NAME" in os.environ else "n/a"
-    )
-    env_root_dir = os.environ["RUBICON_ROOT_DIR"] if "RUBICON_ROOT_DIR" in os.environ else "n/a"
-
-    # Delete environemnt variables for testing
-    os.environ.pop("RUBICON_PROJECT_NAME", None)
-    os.environ.pop("RUBICON_ROOT_DIR", None)
-
-    yield
-
-    # Restore environment variables after testing
-    if env_proj_name != "n/a":
-        os.environ["RUBICON_PROJECT_NAME"] = env_proj_name
-    if env_root_dir != "n/a":
-        os.environ["RUBICON_ROOT_DIR"] = env_root_dir

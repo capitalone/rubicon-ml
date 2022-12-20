@@ -34,9 +34,8 @@ def test_cli(mock_get_project, mock_projects, mock_run_server, project_client):
         assert "`--project-name` will be a required option" in str(caught_warnings[1])
 
 
-def test_search_cli(project_client, control_env_vars):
-
-    project = project_client
+def test_search_cli(rubicon_local_filesystem_client_with_project):
+    rubicon, project = rubicon_local_filesystem_client_with_project
     NUM_EXPERIMENTS = 4
     QUERY = "$..experiment[*].metric"
     TEST_COLOR = "yellow"
@@ -71,6 +70,7 @@ def test_search_cli(project_client, control_env_vars):
             project.name,
             QUERY,
         ],
+        env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None},
     )
 
     runner = CliRunner()
@@ -91,9 +91,10 @@ def test_search_cli(project_client, control_env_vars):
             TEST_COLOR,
             QUERY,
         ],
+        env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None},
     )
 
     assert result_a.exit_code == 0
     assert "No --root-dir or --project-name provided. Exiting..." in result_b.output
-    assert result_b.exit_code == 0
+    assert result_b.exit_code == 1
     assert result_c.exit_code == 0
