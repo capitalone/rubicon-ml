@@ -34,11 +34,8 @@ def test_cli(mock_get_project, mock_projects, mock_run_server, project_client):
         assert "`--project-name` will be a required option" in str(caught_warnings[1])
 
 
-def test_search_cli(rubicon_local_filesystem_client_with_project):
-    rubicon, project = rubicon_local_filesystem_client_with_project
+def _set_up_rubicon_project(project):
     NUM_EXPERIMENTS = 4
-    QUERY = "$..experiment[*].metric"
-    TEST_COLOR = "yellow"
     for _ in range(NUM_EXPERIMENTS):
         tags = ["a", "b", "c"]
         ex = project.log_experiment(tags=tags)
@@ -59,6 +56,14 @@ def test_search_cli(rubicon_local_filesystem_client_with_project):
 
     project.log_artifact(name="p", data_bytes=b"p")
 
+    return project
+
+
+def test_search_cli_base(rubicon_local_filesystem_client_with_project):
+    _, project = rubicon_local_filesystem_client_with_project
+    QUERY = "$..experiment[*].metric"
+    project = _set_up_rubicon_project(project=project)
+
     runner = CliRunner()
     result_a = runner.invoke(
         cli,
@@ -73,13 +78,48 @@ def test_search_cli(rubicon_local_filesystem_client_with_project):
         env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None},
     )
 
+    assert result_a.exit_code == 0
+
+
+def test_search_cli_exp_fail(rubicon_local_filesystem_client_with_project):
+
+    _, project = rubicon_local_filesystem_client_with_project
+    QUERY = "$..experiment[*].metric"
+    project = _set_up_rubicon_project(project=project)
+
     runner = CliRunner()
-    result_b = runner.invoke(
+    result_a = runner.invoke(
         cli, ["search", QUERY], env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None}
     )
 
+    result_b = runner.invoke(
+        cli,
+        [
+            "search",
+            "--root-dir",
+            project.repository.root_dir,
+            "--project-name",
+            "NON-EXISTENT-PROJECT",
+            QUERY,
+        ],
+        env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None},
+    )
+
+    assert "No --root-dir or --project-name provided. Exiting..." in result_a.output
+    assert "No project with name 'NON-EXISTENT-PROJECT' found." in result_b.output
+    assert result_a.exit_code == 1
+    assert result_b.exit_code == 1
+
+
+def test_search_cli_color(rubicon_local_filesystem_client_with_project):
+    _, project = rubicon_local_filesystem_client_with_project
+
+    QUERY = "$..experiment[*].metric"
+    TEST_COLOR = "yellow"
+    project = _set_up_rubicon_project(project=project)
+
     runner = CliRunner()
-    result_c = runner.invoke(
+    result = runner.invoke(
         cli,
         [
             "search",
@@ -94,7 +134,4 @@ def test_search_cli(rubicon_local_filesystem_client_with_project):
         env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None},
     )
 
-    assert result_a.exit_code == 0
-    assert "No --root-dir or --project-name provided. Exiting..." in result_b.output
-    assert result_b.exit_code == 1
-    assert result_c.exit_code == 0
+    assert result.exit_code == 0
