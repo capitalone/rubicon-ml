@@ -56,40 +56,77 @@ class RubiconJSON:
         return_objects = []
         if return_type == "artifact":
             for match in res:
-                for i in range(len(match.value)):
-                    return_objects.append(Artifact(DomainArtifact(**match.value[i]), NoOpParent()))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        return_objects.append(
+                            Artifact(DomainArtifact(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    return_objects.append(Artifact(DomainArtifact(**match.value), NoOpParent()))
         elif return_type == "dataframe":
             for match in res:
-                for i in range(len(match.value)):
-                    return_objects.append(
-                        Dataframe(DomainDataframe(**match.value[i]), NoOpParent())
-                    )
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        return_objects.append(
+                            Dataframe(DomainDataframe(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    return_objects.append(Dataframe(DomainDataframe(**match.value), NoOpParent()))
         elif return_type == "experiment":
             for match in res:
-                for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
-                    if key in match.value:
-                        del match.value[key]
-                return_objects.append(Experiment(DomainExperiment(**match.value), NoOpParent()))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
+                            if key in match.value[i]:
+                                del match.value[i][key]
+                        return_objects.append(
+                            Experiment(DomainExperiment(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
+                        if key in match.value:
+                            del match.value[key]
+                    return_objects.append(Experiment(DomainExperiment(**match.value), NoOpParent()))
         elif return_type == "feature":
             for match in res:
-                for i in range(len(match.value)):
-                    return_objects.append(Feature(DomainFeature(**match.value[i]), NoOpParent()))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        return_objects.append(
+                            Feature(DomainFeature(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    return_objects.append(Feature(DomainFeature(**match.value), NoOpParent()))
         elif return_type == "metric":
             for match in res:
-                for i in range(len(match.value)):
-                    return_objects.append(Metric(DomainMetric(**match.value[i]), NoOpParent()))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        return_objects.append(Metric(DomainMetric(**match.value[i]), NoOpParent()))
+                else:
+                    return_objects.append(Metric(DomainMetric(**match.value), NoOpParent()))
         elif return_type == "parameter":
             for match in res:
-                for i in range(len(match.value)):
-                    return_objects.append(
-                        Parameter(DomainParameter(**match.value[i]), NoOpParent())
-                    )
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        return_objects.append(
+                            Parameter(DomainParameter(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    return_objects.append(Parameter(DomainParameter(**match.value), NoOpParent()))
         elif return_type == "project":
             for match in res:
-                for key in ["artifact", "dataframe", "experiment"]:
-                    if key in match.value:
-                        del match.value[key]
-                return_objects.append(Project(DomainProject(**match.value), NoOpParent()))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        for key in ["artifact", "dataframe", "experiment"]:
+                            if key in match.value[i]:
+                                del match.value[i][key]
+                        return_objects.append(
+                            Project(DomainProject(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    for key in ["artifact", "dataframe", "experiment"]:
+                        if key in match.value:
+                            del match.value[key]
+                    return_objects.append(Project(DomainProject(**match.value), NoOpParent()))
 
         return return_objects
 
