@@ -32,7 +32,7 @@ class NoOpParent:
 class RubiconJSON:
     """
     RubiconJSON is a converting class which converts top-level `rubicon_ml` objects,
-    `projects`, and `experiments` into a JSON structured dict for
+    `projects`, and `experiments` into a JSON structured `dict` for
     JSONPath-like querying.
 
     Parameters
@@ -46,6 +46,16 @@ class RubiconJSON:
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
 
     def search(self, query, return_type=None):
+        """
+        Query the JSON generated from the RubiconJSON instantiation in a JSONPath-like manner.
+        Can return queries as `rubicon_ml.client` objects by specifying return_type parameter.
+        Will return as JSON structured `dict` by default.
+
+        Parameters
+        ----------
+        query: JSONPath-like query
+        return_type: "artifact", "dataframe", "experiment", "feature", "metric", "parameter", or "project" (optional)
+        """
         if return_type is not None:
             return_type = return_type.lower()
             if return_type not in [
