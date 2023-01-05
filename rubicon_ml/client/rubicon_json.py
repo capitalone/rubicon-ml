@@ -30,6 +30,18 @@ class NoOpParent:
 
 
 class RubiconJSON:
+    """
+    RubiconJSON is a converting class which converts top-level `rubicon_ml` objects,
+    `projects`, and `experiments` into a JSON structured dict for
+    JSONPath-like querying.
+
+    Parameters
+    ----------
+    rubicon_objects : rubicon.client.Rubicon or `list` of type rubicon.client.Rubicon
+    projects : rubicon.client.Project or `list` of type rubicon.client.Project
+    experiments : rubicon.client.Experiment or `list` of type rubicon.client.Experiment
+    """
+
     def __init__(self, rubicon_objects=None, projects=None, experiments=None):
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
 
