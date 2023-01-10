@@ -32,11 +32,15 @@ class NoOpParent:
 class RubiconJSON:
     def __init__(self, rubicon_objects=None, projects=None, experiments=None):
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
+        self._rubicon_objects = rubicon_objects
+        self._projects = projects
+        self._experiments = experiments
 
     def search(self, query, return_type=None):
+
         if return_type is not None:
-            return_type = return_type.lower()
-            if return_type not in [
+
+            return_types = {
                 "artifact",
                 "dataframe",
                 "experiment",
@@ -44,7 +48,8 @@ class RubiconJSON:
                 "metric",
                 "parameter",
                 "project",
-            ]:
+            }
+            if return_type not in return_types:
                 raise ValueError(
                     "`return_type` must be artifact, dataframe, experiment, feature, metric, parameter, or project."
                 )
@@ -54,6 +59,7 @@ class RubiconJSON:
             return res
 
         return_objects = []
+        print(return_type)
         if return_type == "artifact":
             for match in res:
                 for i in range(len(match.value)):
@@ -71,13 +77,21 @@ class RubiconJSON:
                         del match.value[key]
                 return_objects.append(Experiment(DomainExperiment(**match.value), NoOpParent()))
         elif return_type == "feature":
+
             for match in res:
                 for i in range(len(match.value)):
                     return_objects.append(Feature(DomainFeature(**match.value[i]), NoOpParent()))
         elif return_type == "metric":
             for match in res:
                 for i in range(len(match.value)):
-                    return_objects.append(Metric(DomainMetric(**match.value[i]), NoOpParent()))
+                    import pdb
+
+                    pdb.set_trace()
+                    id = match.value[i]["id"]
+                    parent = self._fetch_parent_object(
+                        queried_object=match.value[i], id=id, return_type="metric"
+                    )
+                    return_objects.append(Metric(DomainMetric(**match.value[i]), parent))
         elif return_type == "parameter":
             for match in res:
                 for i in range(len(match.value)):
@@ -213,6 +227,55 @@ class RubiconJSON:
                         json["project"].append(p)
 
         return json
+
+    def _fetch_parent_object(self, queried_object, id, return_type):
+        """
+        Returns the appropriate parent of the queried object to eventually append
+        to the return list of the query
+        """
+        if isinstance(queried_object, Project):
+            pass
+        else:
+            parent = None
+            if self._experiments is not None and return_type in ["metric", "feature", "parameter"]:
+
+                [parent] = [experiment for experiment in self._experiments if experiment.id == id]
+            elif self._projects is not None:
+                if return_type in ["metric", "feature", "parameter"]:
+                    for project in self._projects:
+                        print(id, project.id)
+                    [parent] = [project for project in self._projects if project.id == id]
+                else:
+                    for project in self._projects:
+                        try:
+                            parent = project.experiment(id=id)
+                        except Exception:
+                            continue
+                        if parent is not None:
+                            break
+            elif self._rubicon_objects is not None:
+                if return_type in ["metric", "feature", "parameter"]:
+                    # Parent of queried object is Experiments
+                    for rb in self._rubicon_objects():
+                        for project in rb.projects():
+                            for experiment in project.experiments():
+                                if id == experiment.id:
+                                    parent = experiment
+                                    break
+                            if parent is not None:
+                                break
+                else:
+                    # Parent of queried object is Project
+                    for rb in self._rubicon_objects():
+                        for project in rb.projects():
+                            try:
+                                parent = project.experiment(id=id)
+                            except Exception:
+                                continue
+                            if parent is not None:
+                                break
+
+        return parent
 
     @property
     def json(self):
