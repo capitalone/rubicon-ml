@@ -78,6 +78,13 @@ publish
 
 .. autofunction:: rubicon_ml.publish
 
+.. _library-reference-rubiconJSON:
+
+RubiconJSON
+===========
+.. autoclass:: rubicon_ml.RubiconJSON
+   :members: search
+
 .. _library-reference-sklearn:
 
 sklearn
