@@ -26,7 +26,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         mamba-version: "*"
-        channels: conda-forge
+        miniforge-variant: Mambaforge
         channel-priority: true  
         activate-environment: rubicon-ml-dev
         environment-file: environment.yml
