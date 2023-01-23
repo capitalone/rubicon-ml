@@ -54,6 +54,7 @@ IGNORE_EXECUTE_NOTEBOOK_FILENAMES = [
     "failure-modes.ipynb",
     "integration-prefect-workflows.ipynb",
     "logging-feature-plots.ipynb",
+    "logging-plots.ipynb",
     "visualizing-experiments.ipynb",
 ]
 EXECUTE_NOTEBOOK_FILENAMES = [
