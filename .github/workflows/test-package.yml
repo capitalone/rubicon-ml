@@ -25,8 +25,8 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: ${{ matrix.python-version }}
-        mamba-version: "*"
         miniforge-variant: Mambaforge
+        channels: conda-forge
         channel-priority: true  
         activate-environment: rubicon-ml-dev
         environment-file: environment.yml
