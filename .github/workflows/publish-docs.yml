@@ -23,7 +23,7 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: '3.9'
-        mamba-version: '*'
+        miniforge-variant: Mambaforge
         channels: conda-forge
         channel-priority: true
         activate-environment: rubicon-ml-docs
