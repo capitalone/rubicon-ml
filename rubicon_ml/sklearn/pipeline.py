@@ -1,3 +1,5 @@
+import warnings
+
 from sklearn.pipeline import Pipeline, _name_estimators
 
 from rubicon_ml.client.project import Project
@@ -41,6 +43,8 @@ class RubiconPipeline(Pipeline):
     verbose : bool, default=False
         If True, the time elapsed while fitting each step will be printed as
         it is completed. (docstring source: Scikit-Learn)
+    ignore_warnings : bool, default=False
+        If True, ignores warnings thrown by pipeline.
 
     Examples
     --------
@@ -71,12 +75,14 @@ class RubiconPipeline(Pipeline):
         experiment_kwargs={"name": "RubiconPipeline experiment"},
         memory=None,
         verbose=False,
+        ignore_warnings=False,
     ):
         self.project = project
         self.user_defined_loggers = user_defined_loggers
         self.experiment_kwargs = experiment_kwargs
 
         self.experiment = None
+        self.ignore_warnings = ignore_warnings
 
         super().__init__(steps, memory=memory, verbose=verbose)
 
@@ -107,22 +113,25 @@ class RubiconPipeline(Pipeline):
         rubicon_ml.sklearn.Pipeline
             This `RubiconPipeline`.
         """
-        pipeline = super().fit(X, y, **fit_params)
+        with warnings.catch_warnings():
+            if self.ignore_warnings:
+                warnings.simplefilter("ignore")
+            pipeline = super().fit(X, y, **fit_params)
 
-        if experiment is None:
-            experiment = self.project.log_experiment(**self.experiment_kwargs)
-        self.experiment = experiment
+            if experiment is None:
+                experiment = self.project.log_experiment(**self.experiment_kwargs)
+            self.experiment = experiment
 
-        if tags is not None:
-            self.experiment.add_tags(tags)
+            if tags is not None:
+                self.experiment.add_tags(tags)
 
-        for step_name, estimator in self.steps:
-            logger = self.get_estimator_logger(step_name, estimator)
-            logger.log_parameters()
+            for step_name, estimator in self.steps:
+                logger = self.get_estimator_logger(step_name, estimator)
+                logger.log_parameters()
 
-        if log_fit_params:
-            for name, value in fit_params.items():
-                log_parameter_with_warning(self.experiment, name, value)
+            if log_fit_params:
+                for name, value in fit_params.items():
+                    log_parameter_with_warning(self.experiment, name, value)
         return pipeline
 
     def score(self, X, y=None, sample_weight=None, experiment=None):
@@ -147,18 +156,24 @@ class RubiconPipeline(Pipeline):
         float
             Result of calling `score` on the final estimator.
         """
-        score = super().score(X, y, sample_weight)
+        with warnings.catch_warnings():
+            if self.ignore_warnings:
+                warnings.simplefilter("ignore")
+            score = super().score(X, y, sample_weight)
 
-        if experiment is not None:
-            self.experiment = experiment
-        elif self.experiment is None:
-            self.experiment = self.project.log_experiment(**self.experiment_kwargs)
+            if self.ignore_warnings:
+                warnings.simplefilter("ignore")
 
-        logger = self.get_estimator_logger()
-        logger.log_metric("score", score)
+            if experiment is not None:
+                self.experiment = experiment
+            elif self.experiment is None:
+                self.experiment = self.project.log_experiment(**self.experiment_kwargs)
 
-        # clear `self.experiment` to avoid duplicate metric logging errors
-        self.experiment = None
+            logger = self.get_estimator_logger()
+            logger.log_metric("score", score)
+
+            # clear `self.experiment` to avoid duplicate metric logging errors
+            self.experiment = None
 
         return score
 
@@ -179,25 +194,28 @@ class RubiconPipeline(Pipeline):
         ndarray of shape (n_samples,)
             Result of calling `score_samples` on the final estimator.
         """
-        score_samples = super().score_samples(X)
+        with warnings.catch_warnings():
+            if self.ignore_warnings:
+                warnings.simplefilter("ignore")
+            score_samples = super().score_samples(X)
 
-        if experiment is not None:
-            self.experiment = experiment
-        elif self.experiment is None:
-            self.experiment = self.project.log_experiment(**self.experiment_kwargs)
+            if experiment is not None:
+                self.experiment = experiment
+            elif self.experiment is None:
+                self.experiment = self.project.log_experiment(**self.experiment_kwargs)
 
-        logger = self.get_estimator_logger()
-        try:
-            logger.log_metric("score_samples", score_samples)
-        except TypeError:
-            score_samples = score_samples.tolist()
+            logger = self.get_estimator_logger()
+            try:
+                logger.log_metric("score_samples", score_samples)
+            except TypeError:
+                score_samples = score_samples.tolist()
 
-            logger.log_metric("score_samples", score_samples)
+                logger.log_metric("score_samples", score_samples)
 
-        # clear `self.experiment` to avoid duplicate metric logging errors
-        self.experiment = None
+            # clear `self.experiment` to avoid duplicate metric logging errors
+            self.experiment = None
 
-        return score_samples
+            return score_samples
 
     def get_estimator_logger(self, step_name=None, estimator=None):
         """Get a logger for the estimator. By default, the logger will
