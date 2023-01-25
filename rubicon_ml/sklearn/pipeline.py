@@ -161,9 +161,6 @@ class RubiconPipeline(Pipeline):
                 warnings.simplefilter("ignore")
             score = super().score(X, y, sample_weight)
 
-            if self.ignore_warnings:
-                warnings.simplefilter("ignore")
-
             if experiment is not None:
                 self.experiment = experiment
             elif self.experiment is None:
