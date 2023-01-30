@@ -32,9 +32,24 @@ class NoOpParent:
 class RubiconJSON:
     def __init__(self, rubicon_objects=None, projects=None, experiments=None):
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
+        if projects is not None and not isinstance(projects, list):
+            projects = [projects]
+        if rubicon_objects is not None and not isinstance(rubicon_objects, list):
+            rubicon_objects = [rubicon_objects]
+        if experiments is not None and not isinstance(experiments, list):
+            experiments = [experiments]
+
         self._rubicon_objects = rubicon_objects
         self._projects = projects
         self._experiments = experiments
+
+    def _fetch_query_string_type(self, query_string):
+        split = query_string.split(".")
+        if split[-1][-1] == "]":
+            str = split[-1].split("[")[0]
+        else:
+            str = split[-2].split("[")[0]
+        return str
 
     def search(self, query, return_type=None):
 
@@ -59,12 +74,16 @@ class RubiconJSON:
             return res
 
         return_objects = []
+        query_string_type = self._fetch_query_string_type(
+            query_string=query, return_type=return_type
+        )
         if return_type == "artifact":
+
             for match in res:
                 for i in range(len(match.value)):
                     id = match.value[i]["id"]
                     parent = self._fetch_parent_object(
-                        queried_object=match.value[i], id=id, return_type="artifact"
+                        queried_object=query_string_type, id=id, return_type="artifact"
                     )
                     return_objects.append(Artifact(DomainArtifact(**match.value[i]), parent))
         elif return_type == "dataframe":
@@ -72,25 +91,27 @@ class RubiconJSON:
                 for i in range(len(match.value)):
                     id = match.value[i]["id"]
                     parent = self._fetch_parent_object(
-                        queried_object=match.value[i], id=id, return_type="dataframe"
+                        queried_object=query_string_type, id=id, return_type="dataframe"
                     )
-                    return_objects.append(Dataframe(DomainDataframe(**match.value[i]), parent()))
+                    return_objects.append(Dataframe(DomainDataframe(**match.value[i]), parent))
         elif return_type == "experiment":
+
             for match in res:
                 for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
                     if key in match.value:
                         del match.value[key]
-                    id = match.value["id"]
-                    parent = self._fetch_parent_object(
-                        queried_object=match.value, id=id, return_type="experiment"
-                    )
+                id = match.value["id"]
+
+                parent = self._fetch_parent_object(
+                    queried_object=query_string_type, id=id, return_type="experiment"
+                )
                 return_objects.append(Experiment(DomainExperiment(**match.value), parent))
         elif return_type == "feature":
             for match in res:
                 for i in range(len(match.value)):
                     id = match.value[i]["id"]
                     parent = self._fetch_parent_object(
-                        queried_object=match.value[i], id=id, return_type="feature"
+                        queried_object=query_string_type, id=id, return_type="feature"
                     )
                     return_objects.append(Feature(DomainFeature(**match.value[i]), parent))
         elif return_type == "metric":
@@ -98,7 +119,7 @@ class RubiconJSON:
                 for i in range(len(match.value)):
                     id = match.value[i]["id"]
                     parent = self._fetch_parent_object(
-                        queried_object=match.value[i], id=id, return_type="metric"
+                        queried_object=query_string_type, id=id, return_type="metric"
                     )
                     return_objects.append(Metric(DomainMetric(**match.value[i]), parent))
         elif return_type == "parameter":
@@ -106,19 +127,32 @@ class RubiconJSON:
                 for i in range(len(match.value)):
                     id = match.value[i]["id"]
                     parent = self._fetch_parent_object(
-                        queried_object=match.value[i], id=id, return_type="parameter"
+                        queried_object=query_string_type, id=id, return_type="parameter"
                     )
                     return_objects.append(Parameter(DomainParameter(**match.value[i]), parent))
         elif return_type == "project":
             for match in res:
-                for key in ["artifact", "dataframe", "experiment"]:
-                    if key in match.value:
-                        del match.value[key]
-                id = match.value["id"]
-                parent = self._fetch_parent_object(
-                    queried_object=match.value, id=id, return_type="project"
-                )
-                return_objects.append(Project(DomainProject(**match.value), parent))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        for key in ["artifact", "dataframe", "experiment"]:
+                            if key in match.value[i]:
+                                del match.value[i][key]
+                        id = match.value[i]["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="project"
+                        )
+                        return_objects.append(
+                            Project(DomainProject(**match.value[i]), NoOpParent())
+                        )
+                else:
+                    for key in ["artifact", "dataframe", "experiment"]:
+                        if key in match.value:
+                            del match.value[key]
+                    id = match.value["id"]
+                    parent = self._fetch_parent_object(
+                        queried_object=query_string_type, id=id, return_type="project"
+                    )
+                    return_objects.append(Project(DomainProject(**match.value), parent))
 
         return return_objects
 
@@ -173,6 +207,7 @@ class RubiconJSON:
 
         if not isinstance(experiments, list):
             experiments = [experiments]
+            self._experiments = experiments
 
         json = {}
         json["experiment"] = []
@@ -206,6 +241,7 @@ class RubiconJSON:
 
         if not isinstance(projects, list):
             projects = [projects]
+            self._projects = projects
 
         json = {}
         json["project"] = []
@@ -230,6 +266,7 @@ class RubiconJSON:
 
         if not isinstance(rubicon_objects, list):
             rubicon_objects = [rubicon_objects]
+            self._rubicon_objects = rubicon_objects
 
         json = None
         for rb in rubicon_objects:
@@ -248,28 +285,57 @@ class RubiconJSON:
         Returns the appropriate parent of the queried object to eventually append
         to the return list of the query
         """
-        if isinstance(queried_object, Project):
+        if (
+            (
+                queried_object == "experiment"
+                and (self._experiments is None and self._projects is None)
+            )
+            or queried_object == "project"
+            and (self._rubicon_objects is None and self._projects is None)
+        ):
+
+            raise ValueError("Required input not given to idenifty proper parent of queried object")
+
+        if return_type == "project":
             for rb in self._rubicon_objects:
                 for project in rb.projects():
                     if id == project.id:
                         return rb.config
         else:
             parent = None
-            if self._experiments is not None and return_type in ["metric", "feature", "parameter"]:
+            if self._experiments is not None and return_type in [
+                "metric",
+                "feature",
+                "parameter",
+                "dataframe",
+                "artifact",
+            ]:
                 if return_type in ["metric", "feature", "parameter"]:
-                    for experiment in self._experiments():
+                    for experiment in self._experiments:
                         experiment_children = {
                             "metric": experiment.metrics,
                             "feature": experiment.features,
                             "parameter": experiment.parameters,
                         }
-                        for return_type in experiment_children[return_type]():
-                            if id == return_type.id:
+
+                        for ret in experiment_children[return_type]():
+                            if id == ret.id:
+                                parent = experiment
+                                return experiment
+                else:
+                    for experiment in self._experiments:
+                        experiment_children = {
+                            "dataframe": experiment.dataframes,
+                            "artifact": experiment.artifacts,
+                        }
+                        for ret in experiment_children[return_type]():
+                            if id == ret.id:
+                                parent = experiment
                                 return experiment
 
-            elif self._projects is not None:
-
+            if parent is None and self._projects is not None:
                 if return_type in ["metric", "feature", "parameter"]:
+
                     for project in self._projects:
                         for experiment in project.experiments():
                             experiment_children = {
@@ -277,28 +343,44 @@ class RubiconJSON:
                                 "feature": experiment.features,
                                 "parameter": experiment.parameters,
                             }
-                            for return_type in experiment_children[return_type]():
-                                if id == return_type.id:
+
+                            for ret in experiment_children[return_type]():
+                                if id == ret.id:
+                                    parent = experiment
                                     return experiment
                 else:
-                    for project in self._projects:
-                        project_children = {
-                            "experiment": project.experiment,
-                            "dataframe": project.dataframe,
-                            "artifact": project.artifact,
-                        }
-                        # Tried doing lines 246-248 in another way. Don't know which is more efficient?? if not the same?
-                        try:
-                            parent = project_children[return_type](id=id)
-                        except Exception:
-                            continue
-                        if parent is not None:
-                            return project
 
-            elif self._rubicon_objects is not None:
+                    if queried_object == "project" or return_type == "experiment":
+                        for project in self._projects:
+                            project_children = {
+                                "experiment": project.experiment,
+                                "dataframe": project.dataframe,
+                                "artifact": project.artifact,
+                            }
+
+                            try:
+                                parent = project_children[return_type](id=id)
+                            except Exception:
+                                continue
+                            if parent is not None:
+                                parent = project
+                                return project
+                    elif queried_object == "experiment":
+                        for project in self._projects:
+                            for experiment in project.experiments():
+                                experiment_children = {
+                                    "dataframe": experiment.dataframes,
+                                    "artifact": experiment.artifacts,
+                                }
+                                for ret in experiment_children[return_type]():
+                                    if id == ret.id:
+                                        parent = experiment
+                                        return experiment
+
+            if parent is None and self._rubicon_objects is not None:
                 if return_type in ["metric", "feature", "parameter"]:
                     # Parent of queried object is Experiments
-                    for rb in self._rubicon_objects():
+                    for rb in self._rubicon_objects:
                         for project in rb.projects():
                             for experiment in project.experiments():
                                 experiment_children = {
@@ -306,13 +388,13 @@ class RubiconJSON:
                                     "feature": experiment.features,
                                     "parameter": experiment.parameters,
                                 }
-                                for return_type in experiment_children[return_type]():
-                                    if id == return_type.id:
+                                for ret in experiment_children[return_type]():
+                                    if id == ret.id:
                                         return experiment
 
                 else:
                     # Parent of queried object is Project
-                    for rb in self._rubicon_objects():
+                    for rb in self._rubicon_objects:
                         for project in rb.projects():
                             project_children = {
                                 "experiment": project.experiment,
