@@ -30,6 +30,18 @@ class NoOpParent:
 
 
 class RubiconJSON:
+    """
+    RubiconJSON is a converting class which converts top-level `rubicon_ml` objects,
+    `projects`, and `experiments` into a JSON structured `dict` for
+    JSONPath-like querying.
+
+    Parameters
+    ----------
+    rubicon_objects : rubicon.client.Rubicon or `list` of type rubicon.client.Rubicon
+    projects : rubicon.client.Project or `list` of type rubicon.client.Project
+    experiments : rubicon.client.Experiment or `list` of type rubicon.client.Experiment
+    """
+
     def __init__(self, rubicon_objects=None, projects=None, experiments=None):
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
         if projects is not None and not isinstance(projects, list):
@@ -52,6 +64,17 @@ class RubiconJSON:
         return str
 
     def search(self, query, return_type=None):
+
+        """
+        Query the JSON generated from the RubiconJSON instantiation in a JSONPath-like manner.
+        Can return queries as `rubicon_ml.client` objects by specifying return_type parameter.
+        Will return as JSON structured `dict` by default.
+
+        Parameters
+        ----------
+        query: JSONPath-like query
+        return_type: "artifact", "dataframe", "experiment", "feature", "metric", "parameter", or "project" (optional)
+        """
 
         if return_type is not None:
 
@@ -80,56 +103,109 @@ class RubiconJSON:
         if return_type == "artifact":
 
             for match in res:
-                for i in range(len(match.value)):
-                    id = match.value[i]["id"]
+
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        id = match.value[i]["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="artifact"
+                        )
+                        return_objects.append(Artifact(DomainArtifact(**match.value[i]), parent))
+                else:
+                    id = match.value["id"]
                     parent = self._fetch_parent_object(
-                        queried_object=query_string_type, id=id, return_type="artifact"
-                    )
-                    return_objects.append(Artifact(DomainArtifact(**match.value[i]), parent))
+                      queried_object=query_string_type, id=id, return_type="artifact"
+                    ) 
+                    return_objects.append(Artifact(DomainArtifact(**match.value), parent))
         elif return_type == "dataframe":
             for match in res:
-                for i in range(len(match.value)):
-                    id = match.value[i]["id"]
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        id = match.value[i]["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="dataframe"
+                        )
+                        return_objects.append(Dataframe(DomainDataframe(**match.value[i]), parent))
+                else:
+                    id = match.value["id"]
                     parent = self._fetch_parent_object(
                         queried_object=query_string_type, id=id, return_type="dataframe"
                     )
-                    return_objects.append(Dataframe(DomainDataframe(**match.value[i]), parent))
+                    return_objects.append(Dataframe(DomainDataframe(**match.value), parent))
+        
+
         elif return_type == "experiment":
-
             for match in res:
-                for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
-                    if key in match.value:
-                        del match.value[key]
-                id = match.value["id"]
-
-                parent = self._fetch_parent_object(
-                    queried_object=query_string_type, id=id, return_type="experiment"
-                )
-                return_objects.append(Experiment(DomainExperiment(**match.value), parent))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
+                            if key in match.value:
+                                del match.value[key]
+                    id = match.value["id"]
+                    parent = self._fetch_parent_object(
+                        queried_object=query_string_type, id=id, return_type="experiment"
+                    )
+                    return_objects.append(Experiment(DomainExperiment(**match.value), parent))
+                else:
+                    for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
+                        if key in match.value:
+                            del match.value[key]
+                    id = match.value["id"]
+                    parent = self._fetch_parent_object(
+                        queried_object=query_string_type, id=id, return_type="experiment"
+                    )
+                    return_objects.append(Experiment(DomainExperiment(**match.value), parent))
+                    
         elif return_type == "feature":
             for match in res:
-                for i in range(len(match.value)):
-                    id = match.value[i]["id"]
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        id = match.value[i]["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="feature"
+                        )
+                        return_objects.append(Feature(DomainFeature(**match.value[i]), parent))
+                else:
+                    id = match.value["id"]
                     parent = self._fetch_parent_object(
                         queried_object=query_string_type, id=id, return_type="feature"
                     )
-                    return_objects.append(Feature(DomainFeature(**match.value[i]), parent))
+                    return_objects.append(Feature(DomainFeature(**match.value), parent))
+
         elif return_type == "metric":
             for match in res:
-                for i in range(len(match.value)):
-                    id = match.value[i]["id"]
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        id = match.value[i]["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="metric"
+                        )
+                        return_objects.append(Metric(DomainMetric(**match.value[i]), parent))
+                else:
+                    id = match.value["id"]
                     parent = self._fetch_parent_object(
                         queried_object=query_string_type, id=id, return_type="metric"
                     )
-                    return_objects.append(Metric(DomainMetric(**match.value[i]), parent))
+                    return_objects.append(Metric(DomainMetric(**match.value), parent))
+                    
+               
+
         elif return_type == "parameter":
             for match in res:
-                for i in range(len(match.value)):
-                    id = match.value[i]["id"]
-                    parent = self._fetch_parent_object(
-                        queried_object=query_string_type, id=id, return_type="parameter"
-                    )
-                    return_objects.append(Parameter(DomainParameter(**match.value[i]), parent))
+                if isinstance(match.value, list):
+                    for i in range(len(match.value)):
+                        id = match.value[i]["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="parameter"
+                        )
+                        return_objects.append(Parameter(DomainParameter(**match.value[i]), parent))
+                else:
+                        id = match.value["id"]
+                        parent = self._fetch_parent_object(
+                            queried_object=query_string_type, id=id, return_type="parameter"
+                        )
+                        return_objects.append(Parameter(DomainParameter(**match.value), parent))
+ 
         elif return_type == "project":
             for match in res:
                 if isinstance(match.value, list):
