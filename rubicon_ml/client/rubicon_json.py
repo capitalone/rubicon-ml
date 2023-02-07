@@ -104,6 +104,7 @@ class RubiconJSON:
 
             for match in res:
 
+
                 if isinstance(match.value, list):
                     for i in range(len(match.value)):
                         id = match.value[i]["id"]
@@ -117,10 +118,13 @@ class RubiconJSON:
                       queried_object=query_string_type, id=id, return_type="artifact"
                     ) 
                     return_objects.append(Artifact(DomainArtifact(**match.value), parent))
+
+
         elif return_type == "dataframe":
             for match in res:
                 if isinstance(match.value, list):
                     for i in range(len(match.value)):
+
                         id = match.value[i]["id"]
                         parent = self._fetch_parent_object(
                             queried_object=query_string_type, id=id, return_type="dataframe"
@@ -134,11 +138,13 @@ class RubiconJSON:
                     return_objects.append(Dataframe(DomainDataframe(**match.value), parent))
         
 
+
         elif return_type == "experiment":
             for match in res:
                 if isinstance(match.value, list):
                     for i in range(len(match.value)):
                         for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
+
                             if key in match.value:
                                 del match.value[key]
                     id = match.value["id"]
@@ -146,10 +152,18 @@ class RubiconJSON:
                         queried_object=query_string_type, id=id, return_type="experiment"
                     )
                     return_objects.append(Experiment(DomainExperiment(**match.value), parent))
+
+                            if key in match.value[i]:
+                                del match.value[i][key]
+                        return_objects.append(
+                            Experiment(DomainExperiment(**match.value[i]), NoOpParent())
+                        )
+
                 else:
                     for key in ["feature", "parameter", "metric", "artifact", "dataframe"]:
                         if key in match.value:
                             del match.value[key]
+
                     id = match.value["id"]
                     parent = self._fetch_parent_object(
                         queried_object=query_string_type, id=id, return_type="experiment"
@@ -160,6 +174,7 @@ class RubiconJSON:
             for match in res:
                 if isinstance(match.value, list):
                     for i in range(len(match.value)):
+
                         id = match.value[i]["id"]
                         parent = self._fetch_parent_object(
                             queried_object=query_string_type, id=id, return_type="feature"
@@ -176,6 +191,7 @@ class RubiconJSON:
             for match in res:
                 if isinstance(match.value, list):
                     for i in range(len(match.value)):
+
                         id = match.value[i]["id"]
                         parent = self._fetch_parent_object(
                             queried_object=query_string_type, id=id, return_type="metric"
@@ -194,6 +210,7 @@ class RubiconJSON:
             for match in res:
                 if isinstance(match.value, list):
                     for i in range(len(match.value)):
+
                         id = match.value[i]["id"]
                         parent = self._fetch_parent_object(
                             queried_object=query_string_type, id=id, return_type="parameter"
@@ -206,6 +223,7 @@ class RubiconJSON:
                         )
                         return_objects.append(Parameter(DomainParameter(**match.value), parent))
  
+
         elif return_type == "project":
             for match in res:
                 if isinstance(match.value, list):
@@ -213,22 +231,23 @@ class RubiconJSON:
                         for key in ["artifact", "dataframe", "experiment"]:
                             if key in match.value[i]:
                                 del match.value[i][key]
+
                         id = match.value[i]["id"]
                         parent = self._fetch_parent_object(
                             queried_object=query_string_type, id=id, return_type="project"
                         )
-                        return_objects.append(
-                            Project(DomainProject(**match.value[i]), NoOpParent())
-                        )
+
                 else:
                     for key in ["artifact", "dataframe", "experiment"]:
                         if key in match.value:
                             del match.value[key]
+
                     id = match.value["id"]
                     parent = self._fetch_parent_object(
                         queried_object=query_string_type, id=id, return_type="project"
                     )
                     return_objects.append(Project(DomainProject(**match.value), parent))
+
 
         return return_objects
 
