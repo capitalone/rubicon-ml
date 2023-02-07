@@ -5,25 +5,7 @@ from rubicon_ml.client import (
     DataframeMixin,
     Feature,
     Metric,
-    Parameter,
-    TagMixin,
-)
-from rubicon_ml.client.utils.exception_handling import failsafe
-from rubicon_ml.client.utils.tags import filter_children
 
-
-class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
-    """A client experiment.
-
-    An `experiment` represents a model run and is identified by
-    its 'created_at' time. It can have `metrics`, `parameters`,
-    `features`, `dataframes`, and `artifacts` logged to it.
-
-    An `experiment` is logged to a `project`.
-
-    Parameters
-    ----------
-    domain : rubicon.domain.Experiment
         The experiment domain model.
     parent : rubicon.client.Project
         The project that the experiment is logged to.
