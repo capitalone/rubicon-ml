@@ -257,12 +257,12 @@ class ExperimentsTable(VizBase):
                 show_columns.add("tags")
 
             for parameter in experiment.parameters():
-                experiment_record[parameter.name] = parameter.value
+                experiment_record[parameter.name] = str(parameter.value)
 
                 self.parameter_names.add(parameter.name)
 
             for metric in experiment.metrics():
-                experiment_record[metric.name] = metric.value
+                experiment_record[metric.name] = str(metric.value)
 
                 self.metric_names.add(metric.name)
 
