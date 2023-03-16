@@ -1,17 +1,7 @@
 import pandas as pd
 import pytest
 
-from rubicon_ml.client import (
-    Artifact,
-    Dataframe,
-    Experiment,
-    Feature,
-    Metric,
-    Parameter,
-    Project,
-    Rubicon,
-    RubiconJSON,
-)
+from rubicon_ml.client import Rubicon, RubiconJSON
 
 
 def test_experiment_to_json_single_experiment(rubicon_and_project_client):
@@ -168,90 +158,3 @@ def test_convert_to_json_projects_and_experiments_input(
     assert isinstance(json, dict)
     assert isinstance(json["project"], list)
     assert len(json["experiment"]) == 2
-
-
-def test_search_return_type_none(rubicon_and_project_client_with_experiments):
-    rubicon, _ = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(rubicon_objects=rubicon)
-
-    res = rubicon_json.search("$..experiment[*].metric")
-
-    assert len(res) == 10
-    assert [len(metric.value) == 1 for metric in res]
-
-
-def test_search_return_type_incorrect(rubicon_and_project_client_with_experiments):
-    rubicon, _ = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(rubicon_objects=rubicon)
-
-    with pytest.raises(ValueError) as e:
-        rubicon_json.search("$..experiment[*].metric", return_type="rubicon")
-
-    assert (
-        "`return_type` must be artifact, dataframe, experiment, feature, metric, parameter, or project."
-        in str(e)
-    )
-
-
-def test_search_return_type_artifact(rubicon_and_project_client):
-    _, project = rubicon_and_project_client
-    ex = project.log_experiment(name="test")
-    ex.log_artifact(name="artifact1", data_bytes=b"a1")
-    ex.log_artifact(name="artifact2", data_bytes=b"a2")
-
-    rubicon_json = RubiconJSON(projects=project)
-    res = rubicon_json.search("$..experiment[*].artifact", return_type="artifact")
-
-    assert [isinstance(item, Artifact) for item in res]
-
-
-def test_search_return_type_dataframe(rubicon_and_project_client):
-    _, project = rubicon_and_project_client
-    ex = project.log_experiment(name="test")
-    ex.log_dataframe(pd.DataFrame([[0, 1], [1, 0]]))
-    ex.log_dataframe(pd.DataFrame([[0, 2], [2, 0]]))
-
-    rubicon_json = RubiconJSON(projects=project)
-    res = rubicon_json.search("$..experiment[*].dataframe", return_type="dataframe")
-
-    assert [isinstance(item, Dataframe) for item in res]
-
-
-def test_search_return_type_experiment(rubicon_and_project_client_with_experiments):
-    _, project = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(projects=project)
-    res = rubicon_json.search("$..experiment[*]", return_type="experiment")
-
-    assert [isinstance(item, Experiment) for item in res]
-
-
-def test_search_return_type_feature(rubicon_and_project_client_with_experiments):
-    _, project = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(projects=project)
-    res = rubicon_json.search("$..experiment[*].feature", return_type="feature")
-
-    assert [isinstance(item, Feature) for item in res]
-
-
-def test_search_return_type_metric(rubicon_and_project_client_with_experiments):
-    _, project = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(projects=project)
-    res = rubicon_json.search("$..experiment[*].metric", return_type="metric")
-
-    assert [isinstance(item, Metric) for item in res]
-
-
-def test_search_return_type_parameter(rubicon_and_project_client_with_experiments):
-    _, project = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(projects=project)
-    res = rubicon_json.search("$..experiment[*].parameter", return_type="parameter")
-
-    assert [isinstance(item, Parameter) for item in res]
-
-
-def test_search_return_type_project(rubicon_and_project_client_with_experiments):
-    rubicon, _ = rubicon_and_project_client_with_experiments
-    rubicon_json = RubiconJSON(rubicon_objects=rubicon)
-    res = rubicon_json.search("$..project[*]", return_type="project")
-
-    assert [isinstance(item, Project) for item in res]
