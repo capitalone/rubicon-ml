@@ -35,15 +35,11 @@ class BaseRepository:
         self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/")
 
-    def _ls_directories_only(self, path):
-        """Returns the names of all the directories at path `path`."""
-        directories = [
-            os.path.join(p.get("name"), "metadata.json")
-            for p in self.filesystem.ls(path, detail=True)
-            if p.get("type", p.get("StorageClass")).lower() == "directory"
-        ]
+    # --- Filesystem Helpers ---
 
-        return directories
+    def _cat(self, path):
+        """Returns the contents of the file at `path`."""
+        return self.filesystem.cat(path)
 
     def _cat_paths(self, metadata_paths):
         """Cat `metadata_paths` to get the list of files to include.
@@ -59,6 +55,64 @@ class BaseRepository:
                 files.append(metadata)
 
         return files
+
+    def _exists(self, path):
+        """Returns True if a file exists at `path`, False otherwise."""
+        return self.filesystem.exists(path)
+
+    def _glob(self, globstring):
+        """Returns the names of the files matching `globstring`."""
+        return self.filesystem.glob(globstring, detail=True)
+
+    def _ls_directories_only(self, path):
+        """Returns the names of all the directories at path `path`."""
+        directories = [
+            os.path.join(p.get("name"), "metadata.json")
+            for p in self.filesystem.ls(path, detail=True)
+            if p.get("type", p.get("StorageClass")).lower() == "directory"
+        ]
+
+        return directories
+
+    def _mkdir(self, dirpath):
+        """Creates a directory `dirpath` with parents."""
+        return self.filesystem.mkdir(dirpath, parents=True, exist_ok=True)
+
+    def _persist_bytes(self, bytes_data, path):
+        """Write bytes to the filesystem.
+
+        To be implemented by extensions of the base filesystem.
+        """
+        raise NotImplementedError
+
+    def _persist_domain(self, domain, path):
+        """Write a domain object to the filesystem.
+
+        To be implemented by extensions of the base filesystem.
+        """
+        raise NotImplementedError
+
+    def _read_bytes(self, path, err_msg=None):
+        """Read bytes from the file at `path`."""
+        try:
+            open_file = self.filesystem.open(path, "rb")
+        except FileNotFoundError:
+            raise RubiconException(err_msg)
+
+        return open_file.read()
+
+    def _read_domain(self, path, err_msg=None):
+        """Read a domain object from the file at `path`."""
+        try:
+            open_file = self.filesystem.open(path)
+        except FileNotFoundError:
+            raise RubiconException(err_msg)
+
+        return json.load(open_file)
+
+    def _rm(self, path):
+        """Recursively remove all files at `path`."""
+        return self.filesystem.rm(path, recursive=True)
 
     # -------- Projects --------
 
@@ -78,7 +132,7 @@ class BaseRepository:
         """
         project_metadata_path = self._get_project_metadata_path(project.name)
 
-        if self.filesystem.exists(project_metadata_path):
+        if self._exists(project_metadata_path):
             raise RubiconException(f"A project with name '{project.name}' already exists.")
 
         self._persist_domain(project, project_metadata_path)
@@ -99,7 +153,7 @@ class BaseRepository:
         project_metadata_path = self._get_project_metadata_path(project_name)
 
         try:
-            project = json.loads(self.filesystem.cat(project_metadata_path))
+            project = json.loads(self._cat(project_metadata_path))
         except FileNotFoundError:
             raise RubiconException(f"No project with name '{project_name}' found.")
 
@@ -172,14 +226,10 @@ class BaseRepository:
             The experiment with ID `experiment_id`.
         """
         experiment_metadata_path = self._get_experiment_metadata_path(project_name, experiment_id)
-
-        try:
-            open_file = self.filesystem.open(experiment_metadata_path)
-        except FileNotFoundError:
-            raise RubiconException(f"No experiment with id `{experiment_id}` found.")
-
-        with open_file as f:
-            experiment = json.load(f)
+        experiment = self._read_domain(
+            experiment_metadata_path,
+            f"No experiment with id `{experiment_id}` found.",
+        )
 
         return domain.Experiment(**experiment)
 
@@ -288,14 +338,10 @@ class BaseRepository:
         artifact_metadata_path = self._get_artifact_metadata_path(
             project_name, experiment_id, artifact_id
         )
-
-        try:
-            open_file = self.filesystem.open(artifact_metadata_path)
-        except FileNotFoundError:
-            raise RubiconException(f"No artifact with id `{artifact_id}` found.")
-
-        with open_file as f:
-            artifact = json.load(f)
+        artifact = self._read_domain(
+            artifact_metadata_path,
+            f"No artifact with id `{artifact_id}` found.",
+        )
 
         return domain.Artifact(**artifact)
 
@@ -353,13 +399,12 @@ class BaseRepository:
             The artifact with ID `artifact_id`'s raw data.
         """
         artifact_data_path = self._get_artifact_data_path(project_name, experiment_id, artifact_id)
+        artifact_data = self._read_bytes(
+            artifact_data_path,
+            f"No data for artifact with id `{artifact_id}` found.",
+        )
 
-        try:
-            open_file = self.filesystem.open(artifact_data_path, "rb")
-        except FileNotFoundError:
-            raise RubiconException(f"No data for artifact with id `{artifact_id}` found.")
-
-        return open_file.read()
+        return artifact_data
 
     def delete_artifact(self, project_name, artifact_id, experiment_id=None):
         """Delete an artifact from the configured filesystem.
@@ -379,7 +424,7 @@ class BaseRepository:
         artifact_metadata_root = self._get_artifact_metadata_root(project_name, experiment_id)
 
         try:
-            self.filesystem.rm(f"{artifact_metadata_root}/{artifact_id}", recursive=True)
+            self._rm(f"{artifact_metadata_root}/{artifact_id}")
         except FileNotFoundError:
             raise RubiconException(f"No artifact with id `{artifact_id}` found.")
 
@@ -422,7 +467,7 @@ class BaseRepository:
         would leverage dask for large dataframes.
         """
         if isinstance(df, pd.DataFrame):
-            self.filesystem.mkdir(path, parents=True, exist_ok=True)
+            self._mkdir(path)
             path = f"{path}/data.parquet"
 
         df.to_parquet(path, engine="pyarrow")
@@ -500,14 +545,10 @@ class BaseRepository:
         dataframe_metadata_path = self._get_dataframe_metadata_path(
             project_name, experiment_id, dataframe_id
         )
-
-        try:
-            open_file = self.filesystem.open(dataframe_metadata_path)
-        except FileNotFoundError:
-            raise RubiconException(f"No dataframe with id `{dataframe_id}` found.")
-
-        with open_file as f:
-            dataframe = json.load(f)
+        dataframe = self._read_domain(
+            dataframe_metadata_path,
+            f"No dataframe with id `{dataframe_id}` found.",
+        )
 
         return domain.Dataframe(**dataframe)
 
@@ -598,7 +639,7 @@ class BaseRepository:
         dataframe_metadata_root = self._get_dataframe_metadata_root(project_name, experiment_id)
 
         try:
-            self.filesystem.rm(f"{dataframe_metadata_root}/{dataframe_id}", recursive=True)
+            self._rm(f"{dataframe_metadata_root}/{dataframe_id}")
         except FileNotFoundError:
             raise RubiconException(f"No dataframe with id `{dataframe_id}` found.")
 
@@ -637,7 +678,7 @@ class BaseRepository:
             project_name, experiment_id, feature.name
         )
 
-        if self.filesystem.exists(feature_metadata_path):
+        if self._exists(feature_metadata_path):
             raise RubiconException(f"A feature with name '{feature.name}' already exists.")
 
         self._persist_domain(feature, feature_metadata_path)
@@ -664,14 +705,10 @@ class BaseRepository:
         feature_metadata_path = self._get_feature_metadata_path(
             project_name, experiment_id, feature_name
         )
-
-        try:
-            open_file = self.filesystem.open(feature_metadata_path)
-        except FileNotFoundError:
-            raise RubiconException(f"No feature with name '{feature_name}' found.")
-
-        with open_file as f:
-            feature = json.load(f)
+        feature = self._read_domain(
+            feature_metadata_path,
+            f"No feature with name '{feature_name}' found.",
+        )
 
         return domain.Feature(**feature)
 
@@ -743,7 +780,7 @@ class BaseRepository:
             project_name, experiment_id, metric.name
         )
 
-        if self.filesystem.exists(metric_metadata_path):
+        if self._exists(metric_metadata_path):
             raise RubiconException(f"A metric with name '{metric.name}' already exists.")
 
         self._persist_domain(metric, metric_metadata_path)
@@ -770,14 +807,10 @@ class BaseRepository:
         metric_metadata_path = self._get_metric_metadata_path(
             project_name, experiment_id, metric_name
         )
-
-        try:
-            open_file = self.filesystem.open(metric_metadata_path)
-        except FileNotFoundError:
-            raise RubiconException(f"No metric with name '{metric_name}' found.")
-
-        with open_file as f:
-            metric = json.load(f)
+        metric = self._read_domain(
+            metric_metadata_path,
+            f"No metric with name '{metric_name}' found.",
+        )
 
         return domain.Metric(**metric)
 
@@ -849,7 +882,7 @@ class BaseRepository:
             project_name, experiment_id, parameter.name
         )
 
-        if self.filesystem.exists(parameter_metadata_path):
+        if self._exists(parameter_metadata_path):
             raise RubiconException(f"A parameter with name '{parameter.name}' already exists.")
 
         self._persist_domain(parameter, parameter_metadata_path)
@@ -875,14 +908,10 @@ class BaseRepository:
         parameter_metadata_path = self._get_parameter_metadata_path(
             project_name, experiment_id, parameter_name
         )
-
-        try:
-            open_file = self.filesystem.open(parameter_metadata_path)
-        except FileNotFoundError:
-            raise RubiconException(f"No parameter with name '{parameter_name}' found.")
-
-        with open_file as f:
-            parameter = json.load(f)
+        parameter = self._read_domain(
+            parameter_metadata_path,
+            f"No parameter with name '{parameter_name}' found.",
+        )
 
         return domain.Parameter(**parameter)
 
@@ -1053,13 +1082,13 @@ class BaseRepository:
         )
         tag_metadata_glob = f"{tag_metadata_root}/tags_*.json"
 
-        tag_paths = self.filesystem.glob(tag_metadata_glob, detail=True)
+        tag_paths = self._glob(tag_metadata_glob)
         if len(tag_paths) == 0:
             return []
 
         sorted_tag_paths = self._sort_tag_paths(tag_paths)
 
-        tag_data = self.filesystem.cat([p for _, p in sorted_tag_paths])
+        tag_data = self._cat([p for _, p in sorted_tag_paths])
         sorted_tag_data = [json.loads(tag_data[p]) for _, p in sorted_tag_paths]
 
         return sorted_tag_data
