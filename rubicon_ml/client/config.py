@@ -77,6 +77,8 @@ class Config:
             else:
                 return "local"
 
+        return "custom"  # catch-all for external backends
+
     def _get_repository(self):
         """Get the repository for the configured persistence type."""
         protocol = self._get_protocol()
