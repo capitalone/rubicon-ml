@@ -59,7 +59,7 @@ class Config:
             raise ValueError(f"PERSISTENCE must be one of {self.PERSISTENCE_TYPES}.")
 
         root_dir = os.environ.get("ROOT_DIR", root_dir)
-        if root_dir is None and persistence != "memory":
+        if root_dir is None and persistence == "filesystem":
             raise ValueError("root_dir cannot be None.")
 
         if is_auto_git_enabled:
