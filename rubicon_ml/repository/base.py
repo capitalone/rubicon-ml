@@ -83,14 +83,14 @@ class BaseRepository:
 
         To be implemented by extensions of the base filesystem.
         """
-        raise NotImplementedError
+        raise NotImplementedError()
 
     def _persist_domain(self, domain, path):
         """Write a domain object to the filesystem.
 
         To be implemented by extensions of the base filesystem.
         """
-        raise NotImplementedError
+        raise NotImplementedError()
 
     def _read_bytes(self, path, err_msg=None):
         """Read bytes from the file at `path`."""
