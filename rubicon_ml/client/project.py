@@ -1,5 +1,10 @@
+import os
+import shutil
 import subprocess
 import warnings
+from datetime import datetime
+from typing import Optional
+from zipfile import ZipFile
 
 import dask.dataframe as dd
 import pandas as pd
@@ -346,6 +351,125 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 self._dataframes.extend(experiment.dataframes(tags=tags, qtype=qtype, name=name))
 
         return self._dataframes
+
+    @failsafe
+    def archive(self, experiment_names: Optional[list[str]] = None):
+        """Archive the experiments logged to this project.
+        Parameters
+        ----------
+        experiment_names : list of str, optional
+            The rubicon.client.Experiment names to aarchive.
+
+        """
+        if len(self.experiments()) == 0:
+            raise ValueError("`project` has no logged `experiments` to archive")
+        if experiment_names is not None:
+            if not isinstance(experiment_names, list) or not all(
+                [isinstance(experiment_name, str) for experiment_name in experiment_names]
+            ):
+                raise ValueError("`experiment_names` must be `list` of type `str`")
+
+        archive_dir = os.path.join(self.repository.root_dir, self.name, "archives")
+        ts = datetime.timestamp(datetime.now())
+        archive_path = os.path.join(archive_dir, "archive-" + str(ts))
+        zip_archive_filename = str(archive_path + ".zip")
+        experiments_path = self.repository._get_experiment_metadata_root(self.name)
+
+        if experiment_names is None:
+            shutil.make_archive(archive_path, "zip", experiments_path)
+        else:
+            experiment_paths = []
+            for experiment_name in experiment_names:
+                experiment = self.experiment(name=experiment_name)
+                experiment_paths.append(
+                    self.repository._get_experiment_metadata_path(self.name, experiment.id)
+                )
+            self.repository._mkdir(archive_dir)
+            with ZipFile(zip_archive_filename, "x") as archive:
+                for file_path in experiment_paths:
+                    archive.write(file_path, os.path.basename(file_path))
+                archive.close()
+
+        if os.path.exists(zip_archive_filename):
+            print("zip archive created")
+        else:
+            print("zip archive not created")
+
+    # @failsafe
+    # def experiments_from_archive(self, local_root:str, latest_only: Optional[bool]=False):
+    #     if os.path.exists(os.path.join(local_root, self.name)) == False:
+    #         self.repository._mkdir(os.path.join(local_root, self.name))
+
+    #     root_dir = self.repository.root_dir
+    #     shutil.copy(os.path.join(root_dir, self.name,"metadata.json"), os.path.join(local_root, self.name))
+
+    #     archive_dir = os.path.join(root_dir, self.name, "archives")
+    #     dest_experiments_dir = os.path.join(local_root, self.name, "experiments")
+
+    #     if os.path.exists(dest_experiments_dir) == False:
+    #         self.repository._mkdir(dest_experiments_dir)
+
+    #     dest_experiments_dir_mod_time = os.path.getmtime(dest_experiments_dir)
+    #     if os.path.exists(os.path.join(local_root, self.name)) == False:
+    #         self.repository._mkdir(os.path.join(local_root, self.name))
+
+    #     shutil.copy(os.path.join(root_dir, self.name,"metadata.json"), os.path.join(local_root, self.name))
+
+    #     if not latest_only:
+    #         for zip_archive_name in os.listdir(archive_dir):
+    #             zip_archive_filepath = os.path.join(archive_dir, zip_archive_name)
+    #             with ZipFile(zip_archive_filepath, 'r') as curr_archive:
+    #                 curr_archive.extractall(dest_experiments_dir)
+    #     else:
+    #         latest_zip_archive = None
+    #         latest_time = 0
+    #         for zip_archive in os.scandir(archive_dir):
+    #             mod_time = zip_archive.stat().st_mtime_ns
+    #             if mod_time > latest_time:
+    #                 latest_zip_archive = zip_archive
+    #                 latest_time = mod_time
+    #         with ZipFile(latest_zip_archive, 'r') as zip_archive:
+    #             zip_archive.extractall(dest_experiments_dir)
+
+    #     if os.path.getmtime(dest_experiments_dir) > dest_experiments_dir_mod_time:
+    #         print("experiments read from archive")
+    #     else:
+    #         print("experiments not read from archive")
+
+    @failsafe
+    def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
+        root_dir = self.repository.root_dir
+        shutil.copy(
+            os.path.join(remote_root, self.name, "metadata.json"), os.path.join(root_dir, self.name)
+        )
+
+        archive_dir = os.path.join(remote_root, self.name, "archives")
+        dest_experiments_dir = os.path.join(root_dir, self.name, "experiments")
+        if os.path.exists(dest_experiments_dir) is False:
+            self.repository._mkdir(dest_experiments_dir)
+
+        dest_experiments_dir_mod_time = os.path.getmtime(dest_experiments_dir)
+
+        if not latest_only:
+            for zip_archive_name in os.listdir(archive_dir):
+                zip_archive_filepath = os.path.join(archive_dir, zip_archive_name)
+                with ZipFile(zip_archive_filepath, "r") as curr_archive:
+                    curr_archive.extractall(dest_experiments_dir)
+        else:
+            latest_zip_archive = None
+            latest_time = 0
+            for zip_archive in os.scandir(archive_dir):
+                mod_time = zip_archive.stat().st_mtime_ns
+                if mod_time > latest_time:
+                    latest_zip_archive = zip_archive
+                    latest_time = mod_time
+            with ZipFile(latest_zip_archive, "r") as zip_archive:
+                zip_archive.extractall(dest_experiments_dir)
+
+        if os.path.getmtime(dest_experiments_dir) > dest_experiments_dir_mod_time:
+            print("experiments read from archive")
+        else:
+            print("experiments not read from archive")
 
     @property
     def name(self):
