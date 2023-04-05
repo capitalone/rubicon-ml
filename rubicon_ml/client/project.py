@@ -395,47 +395,6 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         else:
             print("zip archive not created")
 
-    # @failsafe
-    # def experiments_from_archive(self, local_root:str, latest_only: Optional[bool]=False):
-    #     if os.path.exists(os.path.join(local_root, self.name)) == False:
-    #         self.repository._mkdir(os.path.join(local_root, self.name))
-
-    #     root_dir = self.repository.root_dir
-    #     shutil.copy(os.path.join(root_dir, self.name,"metadata.json"), os.path.join(local_root, self.name))
-
-    #     archive_dir = os.path.join(root_dir, self.name, "archives")
-    #     dest_experiments_dir = os.path.join(local_root, self.name, "experiments")
-
-    #     if os.path.exists(dest_experiments_dir) == False:
-    #         self.repository._mkdir(dest_experiments_dir)
-
-    #     dest_experiments_dir_mod_time = os.path.getmtime(dest_experiments_dir)
-    #     if os.path.exists(os.path.join(local_root, self.name)) == False:
-    #         self.repository._mkdir(os.path.join(local_root, self.name))
-
-    #     shutil.copy(os.path.join(root_dir, self.name,"metadata.json"), os.path.join(local_root, self.name))
-
-    #     if not latest_only:
-    #         for zip_archive_name in os.listdir(archive_dir):
-    #             zip_archive_filepath = os.path.join(archive_dir, zip_archive_name)
-    #             with ZipFile(zip_archive_filepath, 'r') as curr_archive:
-    #                 curr_archive.extractall(dest_experiments_dir)
-    #     else:
-    #         latest_zip_archive = None
-    #         latest_time = 0
-    #         for zip_archive in os.scandir(archive_dir):
-    #             mod_time = zip_archive.stat().st_mtime_ns
-    #             if mod_time > latest_time:
-    #                 latest_zip_archive = zip_archive
-    #                 latest_time = mod_time
-    #         with ZipFile(latest_zip_archive, 'r') as zip_archive:
-    #             zip_archive.extractall(dest_experiments_dir)
-
-    #     if os.path.getmtime(dest_experiments_dir) > dest_experiments_dir_mod_time:
-    #         print("experiments read from archive")
-    #     else:
-    #         print("experiments not read from archive")
-
     @failsafe
     def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
         root_dir = self.repository.root_dir
