@@ -375,20 +375,19 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         zip_archive_filename = str(archive_path + ".zip")
         experiments_path = self.repository._get_experiment_metadata_root(self.name)
 
+        if os.path.exists(archive_dir) is False:
+            self.repository._mkdir(archive_dir)
+
         if experiment_names is None:
             shutil.make_archive(archive_path, "zip", experiments_path)
         else:
             experiment_paths = []
             for experiment_name in experiment_names:
                 experiment = self.experiment(name=experiment_name)
-                experiment_paths.append(
-                    self.repository._get_experiment_metadata_path(self.name, experiment.id)
-                )
-            self.repository._mkdir(archive_dir)
+                experiment_paths.append(os.path.join(experiments_path, experiment.id))
             with ZipFile(zip_archive_filename, "x") as archive:
                 for file_path in experiment_paths:
                     archive.write(file_path, os.path.basename(file_path))
-                archive.close()
 
         if os.path.exists(zip_archive_filename):
             print("zip archive created")
@@ -401,13 +400,12 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         shutil.copy(
             os.path.join(remote_root, self.name, "metadata.json"), os.path.join(root_dir, self.name)
         )
-
         archive_dir = os.path.join(remote_root, self.name, "archives")
         dest_experiments_dir = os.path.join(root_dir, self.name, "experiments")
         if os.path.exists(dest_experiments_dir) is False:
             self.repository._mkdir(dest_experiments_dir)
 
-        dest_experiments_dir_mod_time = os.path.getmtime(dest_experiments_dir)
+        og_num_experiments = len(os.listdir(dest_experiments_dir))
 
         if not latest_only:
             for zip_archive_name in os.listdir(archive_dir):
@@ -422,10 +420,11 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 if mod_time > latest_time:
                     latest_zip_archive = zip_archive
                     latest_time = mod_time
-            with ZipFile(latest_zip_archive, "r") as zip_archive:
+            latest_zip_archive_filepath = os.path.join(archive_dir, latest_zip_archive.name)
+            with ZipFile(latest_zip_archive_filepath, "r") as zip_archive:
                 zip_archive.extractall(dest_experiments_dir)
 
-        if os.path.getmtime(dest_experiments_dir) > dest_experiments_dir_mod_time:
+        if len(os.listdir(dest_experiments_dir)) > og_num_experiments:
             print("experiments read from archive")
         else:
             print("experiments not read from archive")
