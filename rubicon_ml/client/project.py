@@ -407,6 +407,15 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
     @failsafe
     def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
+        """Retrieve archived experiments into this project.
+        Parameters
+        ----------
+        remote_root : str or pathlike object
+            The remote root of the repository with archived experiments to read in
+        latest_only : bool, optional
+            Indicates whether or not experiments should only be read from the latest archive
+
+        """
         root_dir = self.repository.root_dir
         shutil.copy(
             os.path.join(remote_root, self.name, "metadata.json"), os.path.join(root_dir, self.name)
