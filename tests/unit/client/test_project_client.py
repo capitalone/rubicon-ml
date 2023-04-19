@@ -7,6 +7,7 @@ import pytest
 from rubicon_ml import domain
 from rubicon_ml.client import Project, Rubicon
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository.utils import slugify
 
 
 class MockCompletedProcess:
@@ -369,7 +370,7 @@ def test_experiments_from_archive():
     projectB.log_experiment(name="experiment3")
     projectB.log_experiment(name="experiment4")
 
-    experiments_dirB = os.path.join(root_dirB, "ArchiveTesting", "experiments")
+    experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
     og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
     assert og_num_exps_B == 2
 
@@ -408,7 +409,7 @@ def test_experiments_from_archive_latest_only():
     experiment7 = projectA.log_experiment(name="experiment7")
     projectA.archive([experiment6, experiment7])
 
-    experiments_dirB = os.path.join(root_dirB, "ArchiveTesting", "experiments")
+    experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
     og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
     assert og_num_exps_B == 2
 
