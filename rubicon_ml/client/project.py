@@ -447,14 +447,14 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             for zip_archive in self.repository._ls(archive_dir):
                 zip_archive_filepath = os.path.join(archive_dir, zip_archive)
                 mod_time = self.repository._modified(zip_archive_filepath)
-                print(mod_time, latest_time)
+                print(mod_time, latest_time, latest_zip_archive_filepath)
                 if latest_time is None:
                     latest_time = mod_time
                     latest_zip_archive_filepath = zip_archive_filepath
                 elif mod_time > latest_time:
                     latest_zip_archive_filepath = zip_archive_filepath
                     latest_time = mod_time
-                print(latest_zip_archive_filepath)
+                print(mod_time, latest_time, latest_zip_archive_filepath)
             with ZipFile(latest_zip_archive_filepath, "r") as zip_archive:
                 zip_archive.extractall(dest_experiments_dir)
 
