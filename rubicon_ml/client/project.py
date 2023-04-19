@@ -14,6 +14,7 @@ from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository.utils import slugify
 
 
 class Project(Base, ArtifactMixin, DataframeMixin):
@@ -357,11 +358,11 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         self, experiments: Optional[List[Experiment]] = None, remote_root: Optional[str] = None
     ):
         """Archive the experiments logged to this project.
+
         Parameters
         ----------
         experiments : list of Experiments, optional
-            The rubicon.client.Experiment objects to archive.
-            If None all logged experiments are archived.
+            The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
         remote_root : str or pathlike object, optional
             The remote root of the repository to archive to
 
@@ -380,9 +381,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 )
 
         if remote_root is not None:
-            archive_dir = os.path.join(remote_root, self.name, "archives")
+            archive_dir = os.path.join(remote_root, slugify(self.name), "archives")
         else:
-            archive_dir = os.path.join(self.repository.root_dir, self.name, "archives")
+            archive_dir = os.path.join(self.repository.root_dir, slugify(self.name), "archives")
 
         ts = datetime.timestamp(datetime.now())
         archive_path = os.path.join(archive_dir, "archive-" + str(ts))
@@ -412,6 +413,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
     @failsafe
     def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
         """Retrieve archived experiments into this project.
+
         Parameters
         ----------
         remote_root : str or pathlike object
@@ -421,13 +423,14 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         """
         root_dir = self.repository.root_dir
         shutil.copy(
-            os.path.join(remote_root, self.name, "metadata.json"), os.path.join(root_dir, self.name)
+            os.path.join(remote_root, slugify(self.name), "metadata.json"),
+            os.path.join(root_dir, slugify(self.name)),
         )
-        archive_dir = os.path.join(remote_root, self.name, "archives")
+        archive_dir = os.path.join(remote_root, slugify(self.name), "archives")
         if not self.repository._exists(archive_dir):
             raise ValueError("`remote_root` has no archives")
 
-        dest_experiments_dir = os.path.join(root_dir, self.name, "experiments")
+        dest_experiments_dir = self.repository._get_experiment_metadata_root(self.name)
         if not self.repository._exists(dest_experiments_dir):
             self.repository._mkdir(dest_experiments_dir)
 
@@ -444,11 +447,14 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             for zip_archive in self.repository._ls(archive_dir):
                 zip_archive_filepath = os.path.join(archive_dir, zip_archive)
                 mod_time = self.repository._modified(zip_archive_filepath)
+                print(mod_time, latest_time)
                 if latest_time is None:
                     latest_time = mod_time
+                    latest_zip_archive_filepath = zip_archive_filepath
                 elif mod_time > latest_time:
                     latest_zip_archive_filepath = zip_archive_filepath
                     latest_time = mod_time
+                print(latest_zip_archive_filepath)
             with ZipFile(latest_zip_archive_filepath, "r") as zip_archive:
                 zip_archive.extractall(dest_experiments_dir)
 
