@@ -1,4 +1,5 @@
 import os
+import time
 import warnings
 from unittest import mock
 
@@ -407,6 +408,7 @@ def test_experiments_from_archive_latest_only():
 
     experiment6 = projectA.log_experiment(name="experiment6")
     experiment7 = projectA.log_experiment(name="experiment7")
+    time.sleep(1)
     projectA.archive([experiment6, experiment7])
 
     experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
