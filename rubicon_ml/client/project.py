@@ -412,7 +412,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
     @failsafe
     def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
-        """Retrieve archived experiments into this project.
+        """Retrieve archived experiments into this project's experiments folder.
 
         Parameters
         ----------
