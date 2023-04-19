@@ -93,4 +93,4 @@ class Config:
                 + f"`protocol` (from `root_dir`): {protocol}"
             )
 
-        return repository(self.root_dir, **self.storage_options)
+        return repository(root_dir=self.root_dir, **self.storage_options)
