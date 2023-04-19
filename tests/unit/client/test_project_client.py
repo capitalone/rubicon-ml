@@ -1,3 +1,5 @@
+import os
+import time
 import warnings
 from unittest import mock
 
@@ -6,6 +8,7 @@ import pytest
 from rubicon_ml import domain
 from rubicon_ml.client import Project, Rubicon
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository.utils import slugify
 
 
 class MockCompletedProcess:
@@ -262,3 +265,159 @@ def test_to_df_grouped_by_invalid_group(rubicon_and_project_client_with_experime
         project.to_df(group_by="INVALID")
 
     assert "`group_by` must be one of" in str(e)
+
+
+def test_archive_no_experiments(project_client):
+    project = project_client
+    with pytest.raises(ValueError):
+        project.archive()
+
+
+def test_archive_bad_argument(project_client):
+    project = project_client
+    experiment1 = project.log_experiment(name="experiment1")
+    with pytest.raises(ValueError):
+        project.archive(experiment1)
+
+    project.log_experiment(name="experiment2")
+    with pytest.raises(ValueError):
+        project.archive(["experiment1", "experiment2"])
+
+
+def test_archive_all_experiments(rubicon_local_filesystem_client_with_project):
+    project = rubicon_local_filesystem_client_with_project[1]
+    project.log_experiment(name="experiment1")
+    project.log_experiment(name="experiment2")
+    project.log_experiment(name="experiment3")
+    archive_path = project.archive()
+
+    assert project.repository._exists(archive_path)
+
+
+def test_archive_select_experiments(rubicon_local_filesystem_client_with_project):
+    project = rubicon_local_filesystem_client_with_project[1]
+    experiment1 = project.log_experiment(name="experiment1")
+    experiment2 = project.log_experiment(name="experiment2")
+    project.log_experiment(name="experiment3")
+    zip_archive_filename = project.archive([experiment1, experiment2])
+
+    assert project.repository._exists(zip_archive_filename)
+
+
+def test_archive_remote_root():
+    rubiconA = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
+    )
+
+    rubiconB = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconB"),
+    )
+
+    projectA = rubiconA.get_or_create_project("ArchiveTesting")
+    projectB = rubiconB.get_or_create_project("ArchiveTesting")
+    projectB.log_experiment(name="experiment1")
+    projectB.log_experiment(name="experiment2")
+    zip_archive_filename = projectB.archive(remote_root=os.path.dirname(os.path.realpath(__file__)))
+
+    assert projectA.repository._exists(zip_archive_filename)
+
+    rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
+    rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
+
+
+def test_experiments_from_archive_bad_argument():
+    rubiconA = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
+    )
+
+    rubiconB = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconB"),
+    )
+    projectA = rubiconA.get_or_create_project("ArchiveTesting")
+    projectA.log_experiment(name="experiment1")
+    projectA.log_experiment(name="experiment2")
+    # no archive created
+
+    projectB = rubiconB.get_or_create_project("ArchiveTesting")
+    with pytest.raises(ValueError):
+        projectB.experiments_from_archive(remote_root=projectA.repository.root_dir)
+    rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
+    rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
+
+
+def test_experiments_from_archive():
+    root_dirA = os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA")
+    rubiconA = Rubicon(
+        persistence="filesystem",
+        root_dir=root_dirA,
+    )
+
+    root_dirB = os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconB")
+    rubiconB = Rubicon(
+        persistence="filesystem",
+        root_dir=root_dirB,
+    )
+
+    projectA = rubiconA.get_or_create_project("ArchiveTesting")
+    projectA.log_experiment(name="experiment1")
+    projectA.log_experiment(name="experiment2")
+    projectA.archive()
+
+    projectB = rubiconB.get_or_create_project("ArchiveTesting")
+    projectB.log_experiment(name="experiment3")
+    projectB.log_experiment(name="experiment4")
+
+    experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
+    og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
+    assert og_num_exps_B == 2
+
+    projectB.experiments_from_archive(remote_root=root_dirA)
+
+    new_num_expsB = len(projectB.repository._ls(experiments_dirB))
+    assert new_num_expsB == 4
+    rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
+    rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
+
+
+def test_experiments_from_archive_latest_only():
+    root_dirA = os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA")
+    rubiconA = Rubicon(
+        persistence="filesystem",
+        root_dir=root_dirA,
+    )
+
+    root_dirB = os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconB")
+    rubiconB = Rubicon(
+        persistence="filesystem",
+        root_dir=root_dirB,
+    )
+
+    projectA = rubiconA.get_or_create_project("ArchiveTesting")
+    projectA.log_experiment(name="experiment1")
+    projectA.log_experiment(name="experiment2")
+    projectA.log_experiment(name="experiment3")
+    projectA.archive()
+
+    projectB = rubiconB.get_or_create_project("ArchiveTesting")
+    projectB.log_experiment(name="experiment4")
+    projectB.log_experiment(name="experiment5")
+
+    experiment6 = projectA.log_experiment(name="experiment6")
+    experiment7 = projectA.log_experiment(name="experiment7")
+    time.sleep(1)
+    projectA.archive([experiment6, experiment7])
+
+    experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
+    og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
+    assert og_num_exps_B == 2
+
+    projectB.experiments_from_archive(remote_root=root_dirA, latest_only=True)
+
+    new_num_expsB = len(projectB.repository._ls(experiments_dirB))
+    assert new_num_expsB == 4
+    rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
+    rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)

@@ -1,5 +1,10 @@
+import os
+import shutil
 import subprocess
 import warnings
+from datetime import datetime
+from typing import List, Optional
+from zipfile import ZipFile
 
 import dask.dataframe as dd
 import pandas as pd
@@ -9,6 +14,7 @@ from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository.utils import slugify
 
 
 class Project(Base, ArtifactMixin, DataframeMixin):
@@ -346,6 +352,114 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 self._dataframes.extend(experiment.dataframes(tags=tags, qtype=qtype, name=name))
 
         return self._dataframes
+
+    @failsafe
+    def archive(
+        self, experiments: Optional[List[Experiment]] = None, remote_root: Optional[str] = None
+    ):
+        """Archive the experiments logged to this project.
+
+        Parameters
+        ----------
+        experiments : list of Experiments, optional
+            The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
+        remote_root : str or pathlike object, optional
+            The remote root of the repository to archive to
+
+        Returns
+        -------
+        filepath of newly created archive
+        """
+        if len(self.experiments()) == 0:
+            raise ValueError("`project` has no logged `experiments` to archive")
+        if experiments is not None:
+            if not isinstance(experiments, list) or not all(
+                [isinstance(experiment, Experiment) for experiment in experiments]
+            ):
+                raise ValueError(
+                    "`experiments` must be `list` of type `rubicon_ml.client.Experiment`"
+                )
+
+        if remote_root is not None:
+            archive_dir = os.path.join(remote_root, slugify(self.name), "archives")
+        else:
+            archive_dir = os.path.join(self.repository.root_dir, slugify(self.name), "archives")
+
+        ts = datetime.timestamp(datetime.now())
+        archive_path = os.path.join(archive_dir, "archive-" + str(ts))
+        zip_archive_filename = str(archive_path + ".zip")
+        experiments_path = self.repository._get_experiment_metadata_root(self.name)
+
+        if not self.repository._exists(archive_dir):
+            self.repository._mkdir(archive_dir)
+
+        if experiments is None:
+            shutil.make_archive(archive_path, "zip", experiments_path)
+        else:
+            experiment_paths = []
+            for experiment in experiments:
+                experiment_paths.append(os.path.join(experiments_path, experiment.id))
+            with ZipFile(zip_archive_filename, "x") as archive:
+                for file_path in experiment_paths:
+                    archive.write(file_path, os.path.basename(file_path))
+
+        if self.repository._exists(zip_archive_filename):
+            print("zip archive created")
+        else:
+            print("zip archive not created")
+
+        return zip_archive_filename
+
+    @failsafe
+    def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
+        """Retrieve archived experiments into this project's experiments folder.
+
+        Parameters
+        ----------
+        remote_root : str or pathlike object
+            The remote root of the repository with archived experiments to read in
+        latest_only : bool, optional
+            Indicates whether or not experiments should only be read from the latest archive
+        """
+        root_dir = self.repository.root_dir
+        shutil.copy(
+            os.path.join(remote_root, slugify(self.name), "metadata.json"),
+            os.path.join(root_dir, slugify(self.name)),
+        )
+        archive_dir = os.path.join(remote_root, slugify(self.name), "archives")
+        if not self.repository._exists(archive_dir):
+            raise ValueError("`remote_root` has no archives")
+
+        dest_experiments_dir = self.repository._get_experiment_metadata_root(self.name)
+        if not self.repository._exists(dest_experiments_dir):
+            self.repository._mkdir(dest_experiments_dir)
+
+        og_num_experiments = len(self.repository._ls(dest_experiments_dir))
+
+        if not latest_only:
+            for zip_archive_name in self.repository._ls(archive_dir):
+                zip_archive_filepath = os.path.join(archive_dir, zip_archive_name)
+                with ZipFile(zip_archive_filepath, "r") as curr_archive:
+                    curr_archive.extractall(dest_experiments_dir)
+        else:
+            latest_zip_archive_filepath = None
+            latest_time = None
+            for zip_archive in self.repository._ls(archive_dir):
+                zip_archive_filepath = os.path.join(archive_dir, zip_archive)
+                mod_time = self.repository._modified(zip_archive_filepath)
+                if latest_time is None:
+                    latest_time = mod_time
+                    latest_zip_archive_filepath = zip_archive_filepath
+                elif mod_time > latest_time:
+                    latest_zip_archive_filepath = zip_archive_filepath
+                    latest_time = mod_time
+            with ZipFile(latest_zip_archive_filepath, "r") as zip_archive:
+                zip_archive.extractall(dest_experiments_dir)
+
+        if len(self.repository._ls(dest_experiments_dir)) > og_num_experiments:
+            print("experiments read from archive")
+        else:
+            print("experiments not read from archive")
 
     @property
     def name(self):

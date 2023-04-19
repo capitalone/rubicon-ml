@@ -74,9 +74,15 @@ class BaseRepository:
 
         return directories
 
+    def _ls(self, path):
+        return self.filesystem.ls(path)
+
     def _mkdir(self, dirpath):
         """Creates a directory `dirpath` with parents."""
         return self.filesystem.mkdir(dirpath, parents=True, exist_ok=True)
+
+    def _modified(self, path):
+        return self.filesystem.modified(path)
 
     def _persist_bytes(self, bytes_data, path):
         """Write bytes to the filesystem.
