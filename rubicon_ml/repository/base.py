@@ -1,5 +1,9 @@
 import os
+import shutil
 import warnings
+from datetime import datetime
+from typing import List, Optional
+from zipfile import ZipFile
 
 import fsspec
 import pandas as pd
@@ -268,6 +272,97 @@ class BaseRepository:
             return []
 
         return experiments
+
+    # ------- Archiving --------
+
+    def _archive(
+        self, project_name, experiments: Optional[List] = None, remote_root: Optional[str] = None
+    ):
+        """Archive the experiments logged to this project.
+
+        Parameters
+        ----------
+        experiments : list of Experiments, optional
+            The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
+        remote_root : str or pathlike object, optional
+            The remote root of the repository to archive to
+
+        Returns
+        -------
+        filepath of newly created archive
+        """
+        if remote_root is not None:
+            archive_dir = os.path.join(remote_root, slugify(project_name), "archives")
+        else:
+            archive_dir = os.path.join(self.root_dir, slugify(project_name), "archives")
+
+        ts = datetime.timestamp(datetime.now())
+        archive_path = os.path.join(archive_dir, "archive-" + str(ts))
+        zip_archive_filename = str(archive_path + ".zip")
+        experiments_path = self._get_experiment_metadata_root(project_name)
+
+        if not self._exists(archive_dir):
+            self._mkdir(archive_dir)
+
+        if experiments is None:
+            shutil.make_archive(archive_path, "zip", experiments_path)
+        else:
+            experiment_paths = []
+            for experiment in experiments:
+                experiment_paths.append(os.path.join(experiments_path, experiment.id))
+            with ZipFile(zip_archive_filename, "x") as archive:
+                for file_path in experiment_paths:
+                    archive.write(file_path, os.path.basename(file_path))
+
+        if self._exists(zip_archive_filename):
+            print("zip archive created")
+        else:
+            print("zip archive not created")
+
+        return zip_archive_filename
+
+    def _experiments_from_archive(
+        self, project_name, remote_root: str, latest_only: Optional[bool] = False
+    ):
+        root_dir = self.root_dir
+        shutil.copy(
+            os.path.join(remote_root, slugify(project_name), "metadata.json"),
+            os.path.join(root_dir, slugify(project_name)),
+        )
+        archive_dir = os.path.join(remote_root, slugify(project_name), "archives")
+        if not self._exists(archive_dir):
+            raise ValueError("`remote_root` has no archives")
+
+        dest_experiments_dir = self._get_experiment_metadata_root(project_name)
+        if not self._exists(dest_experiments_dir):
+            self._mkdir(dest_experiments_dir)
+
+        og_num_experiments = len(self._ls(dest_experiments_dir))
+
+        if not latest_only:
+            for zip_archive_name in self._ls(archive_dir):
+                zip_archive_filepath = os.path.join(archive_dir, zip_archive_name)
+                with ZipFile(zip_archive_filepath, "r") as curr_archive:
+                    curr_archive.extractall(dest_experiments_dir)
+        else:
+            latest_zip_archive_filepath = None
+            latest_time = None
+            for zip_archive in self._ls(archive_dir):
+                zip_archive_filepath = os.path.join(archive_dir, zip_archive)
+                mod_time = self._modified(zip_archive_filepath)
+                if latest_time is None:
+                    latest_time = mod_time
+                    latest_zip_archive_filepath = zip_archive_filepath
+                elif mod_time > latest_time:
+                    latest_zip_archive_filepath = zip_archive_filepath
+                    latest_time = mod_time
+            with ZipFile(latest_zip_archive_filepath, "r") as zip_archive:
+                zip_archive.extractall(dest_experiments_dir)
+
+        if len(self._ls(dest_experiments_dir)) > og_num_experiments:
+            print("experiments read from archive")
+        else:
+            print("experiments not read from archive")
 
     # ------- Artifacts --------
 
