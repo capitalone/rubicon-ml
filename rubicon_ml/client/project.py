@@ -372,6 +372,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 raise ValueError(
                     "`experiments` must be `list` of type `rubicon_ml.client.Experiment`"
                 )
+
         if remote_rubicon is not None:
             from rubicon_ml import Rubicon
 
