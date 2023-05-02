@@ -285,6 +285,8 @@ class BaseRepository:
 
         Parameters
         ----------
+        project_name : str
+            Name of the calling project (project to create archive for)
         experiments : list of Experiments, optional
             The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
         remote_rubicon_root : str or pathlike object, optional
@@ -327,6 +329,17 @@ class BaseRepository:
     def _experiments_from_archive(
         self, project_name, remote_rubicon_root: str, latest_only: Optional[bool] = False
     ):
+        """Retrieve archived experiments into this project's experiments folder.
+
+        Parameters
+        ----------
+        project_name : str
+            Name of the calling project (project to read experiments into)
+        remote_rubicon_root : str or pathlike object
+            The remote Rubicon object with the repository containing archived experiments to read in
+        latest_only : bool, optional
+            Indicates whether or not experiments should only be read from the latest archive
+        """
         root_dir = self.root_dir
         shutil.copy(
             os.path.join(remote_rubicon_root, slugify(project_name), "metadata.json"),

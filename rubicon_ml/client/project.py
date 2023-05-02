@@ -356,8 +356,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         ----------
         experiments : list of Experiments, optional
             The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
-        remote_root : str or pathlike object, optional
-            The remote root of the repository to archive to
+        remote_rubicon : rubicon_ml.Rubicon object, optional
+            The remote Rubicon object with the repository to archive to
 
         Returns
         -------
@@ -391,8 +391,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         Parameters
         ----------
-        remote_root : str or pathlike object
-            The remote root of the repository with archived experiments to read in
+        remote_rubicon : rubicon_ml.Rubicon object
+            The remote Rubicon object with the repository containing archived experiments to read in
         latest_only : bool, optional
             Indicates whether or not experiments should only be read from the latest archive
         """
