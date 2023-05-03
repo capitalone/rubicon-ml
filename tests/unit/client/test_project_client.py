@@ -273,7 +273,7 @@ def test_archive_no_experiments(project_client):
         project.archive()
 
 
-def test_archive_bad_argument(project_client):
+def test_archive_bad_experiments_argument(project_client):
     project = project_client
     experiment1 = project.log_experiment(name="experiment1")
     with pytest.raises(ValueError):
@@ -304,7 +304,29 @@ def test_archive_select_experiments(rubicon_local_filesystem_client_with_project
     assert project.repository._exists(zip_archive_filename)
 
 
-def test_archive_remote_root():
+def test_archive_bad_remote_rubicon():
+    rubiconA = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
+    )
+
+    rubiconB = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconB"),
+    )
+
+    rubiconA.get_or_create_project("ArchiveTesting")
+    projectB = rubiconB.get_or_create_project("ArchiveTesting")
+    projectB.log_experiment(name="experiment1")
+    projectB.log_experiment(name="experiment2")
+    with pytest.raises(ValueError):
+        projectB.archive(remote_rubicon=os.path.dirname(os.path.realpath(__file__)))
+
+    rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
+    rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
+
+
+def test_archive_remote_rubicon():
     rubiconA = Rubicon(
         persistence="filesystem",
         root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
@@ -319,7 +341,7 @@ def test_archive_remote_root():
     projectB = rubiconB.get_or_create_project("ArchiveTesting")
     projectB.log_experiment(name="experiment1")
     projectB.log_experiment(name="experiment2")
-    zip_archive_filename = projectB.archive(remote_root=os.path.dirname(os.path.realpath(__file__)))
+    zip_archive_filename = projectB.archive(remote_rubicon=rubiconA)
 
     assert projectA.repository._exists(zip_archive_filename)
 
@@ -344,7 +366,9 @@ def test_experiments_from_archive_bad_argument():
 
     projectB = rubiconB.get_or_create_project("ArchiveTesting")
     with pytest.raises(ValueError):
-        projectB.experiments_from_archive(remote_root=projectA.repository.root_dir)
+        projectB.experiments_from_archive(
+            remote_rubicon=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA")
+        )
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
 
@@ -375,7 +399,7 @@ def test_experiments_from_archive():
     og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
     assert og_num_exps_B == 2
 
-    projectB.experiments_from_archive(remote_root=root_dirA)
+    projectB.experiments_from_archive(remote_rubicon=rubiconA)
 
     new_num_expsB = len(projectB.repository._ls(experiments_dirB))
     assert new_num_expsB == 4
@@ -415,7 +439,7 @@ def test_experiments_from_archive_latest_only():
     og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
     assert og_num_exps_B == 2
 
-    projectB.experiments_from_archive(remote_root=root_dirA, latest_only=True)
+    projectB.experiments_from_archive(remote_rubicon=rubiconA, latest_only=True)
 
     new_num_expsB = len(projectB.repository._ls(experiments_dirB))
     assert new_num_expsB == 4

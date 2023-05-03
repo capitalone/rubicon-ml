@@ -276,23 +276,28 @@ class BaseRepository:
     # ------- Archiving --------
 
     def _archive(
-        self, project_name, experiments: Optional[List] = None, remote_root: Optional[str] = None
+        self,
+        project_name,
+        experiments: Optional[List] = None,
+        remote_rubicon_root: Optional[str] = None,
     ):
         """Archive the experiments logged to this project.
 
         Parameters
         ----------
+        project_name : str
+            Name of the calling project (project to create archive for)
         experiments : list of Experiments, optional
             The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
-        remote_root : str or pathlike object, optional
+        remote_rubicon_root : str or pathlike object, optional
             The remote root of the repository to archive to
 
         Returns
         -------
         filepath of newly created archive
         """
-        if remote_root is not None:
-            archive_dir = os.path.join(remote_root, slugify(project_name), "archives")
+        if remote_rubicon_root is not None:
+            archive_dir = os.path.join(remote_rubicon_root, slugify(project_name), "archives")
         else:
             archive_dir = os.path.join(self.root_dir, slugify(project_name), "archives")
 
@@ -322,16 +327,27 @@ class BaseRepository:
         return zip_archive_filename
 
     def _experiments_from_archive(
-        self, project_name, remote_root: str, latest_only: Optional[bool] = False
+        self, project_name, remote_rubicon_root: str, latest_only: Optional[bool] = False
     ):
+        """Retrieve archived experiments into this project's experiments folder.
+
+        Parameters
+        ----------
+        project_name : str
+            Name of the calling project (project to read experiments into)
+        remote_rubicon_root : str or pathlike object
+            The remote Rubicon object with the repository containing archived experiments to read in
+        latest_only : bool, optional
+            Indicates whether or not experiments should only be read from the latest archive
+        """
         root_dir = self.root_dir
         shutil.copy(
-            os.path.join(remote_root, slugify(project_name), "metadata.json"),
+            os.path.join(remote_rubicon_root, slugify(project_name), "metadata.json"),
             os.path.join(root_dir, slugify(project_name)),
         )
-        archive_dir = os.path.join(remote_root, slugify(project_name), "archives")
+        archive_dir = os.path.join(remote_rubicon_root, slugify(project_name), "archives")
         if not self._exists(archive_dir):
-            raise ValueError("`remote_root` has no archives")
+            raise ValueError("`remote_rubicon_root` has no archives")
 
         dest_experiments_dir = self._get_experiment_metadata_root(project_name)
         if not self._exists(dest_experiments_dir):

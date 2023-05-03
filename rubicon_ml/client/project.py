@@ -349,17 +349,15 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return self._dataframes
 
     @failsafe
-    def archive(
-        self, experiments: Optional[List[Experiment]] = None, remote_root: Optional[str] = None
-    ):
+    def archive(self, experiments: Optional[List[Experiment]] = None, remote_rubicon=None):
         """Archive the experiments logged to this project.
 
         Parameters
         ----------
         experiments : list of Experiments, optional
             The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.
-        remote_root : str or pathlike object, optional
-            The remote root of the repository to archive to
+        remote_rubicon : rubicon_ml.Rubicon object, optional
+            The remote Rubicon object with the repository to archive to
 
         Returns
         -------
@@ -375,20 +373,36 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     "`experiments` must be `list` of type `rubicon_ml.client.Experiment`"
                 )
 
-        return self.repository._archive(self.name, experiments, remote_root)
+        if remote_rubicon is not None:
+            from rubicon_ml import Rubicon
+
+            if not isinstance(remote_rubicon, Rubicon):
+                raise ValueError("`remote_rubicon` must be of type `rubicon_ml.client.Rubicon`")
+            else:
+                return self.repository._archive(
+                    self.name, experiments, remote_rubicon.repository.root_dir
+                )
+        else:
+            return self.repository._archive(self.name, experiments, None)
 
     @failsafe
-    def experiments_from_archive(self, remote_root: str, latest_only: Optional[bool] = False):
+    def experiments_from_archive(self, remote_rubicon, latest_only: Optional[bool] = False):
         """Retrieve archived experiments into this project's experiments folder.
 
         Parameters
         ----------
-        remote_root : str or pathlike object
-            The remote root of the repository with archived experiments to read in
+        remote_rubicon : rubicon_ml.Rubicon object
+            The remote Rubicon object with the repository containing archived experiments to read in
         latest_only : bool, optional
             Indicates whether or not experiments should only be read from the latest archive
         """
-        self.repository._experiments_from_archive(self.name, remote_root, latest_only)
+        from rubicon_ml import Rubicon
+
+        if not isinstance(remote_rubicon, Rubicon):
+            raise ValueError("`remote_rubicon` must be of type `rubicon_ml.client.Rubicon`")
+        self.repository._experiments_from_archive(
+            self.name, remote_rubicon.repository.root_dir, latest_only
+        )
 
     @property
     def name(self):
