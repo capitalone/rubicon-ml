@@ -43,8 +43,8 @@ class Config:
     def __init__(
         self, persistence=None, root_dir=None, is_auto_git_enabled=False, **storage_options
     ):
-        composite_config = self.storage_options.get("composite_config", None)
-        if composite_config is None:
+        if storage_options is not None and storage_options.get("composite_config") is not None:
+            composite_config = self.storage_options.get("composite_config")
             self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
                 persistence, root_dir, is_auto_git_enabled
             )
