@@ -45,13 +45,6 @@ class Config:
     ):
         if storage_options is not None and storage_options.get("composite_config") is not None:
             composite_config = self.storage_options.get("composite_config")
-            self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
-                persistence, root_dir, is_auto_git_enabled
-            )
-            self.storage_options = storage_options
-
-            self.repository = self._get_repository()
-        else:
             repositories = []
             for config in composite_config:
                 self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
@@ -59,6 +52,13 @@ class Config:
                 )
             repositories.append(self._get_repository())
             self.repository = CompositeRepository(repositories)
+        else:
+            self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
+                persistence, root_dir, is_auto_git_enabled
+            )
+            self.storage_options = storage_options
+
+            self.repository = self._get_repository()
 
     def _check_is_in_git_repo(self):
         """Raise a `RubiconException` if not called from within a `git` repository."""
