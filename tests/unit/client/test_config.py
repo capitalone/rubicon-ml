@@ -4,7 +4,12 @@ import pytest
 
 from rubicon_ml.client import Config
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import LocalRepository, MemoryRepository, S3Repository
+from rubicon_ml.repository import (
+    CompositeRepository,
+    LocalRepository,
+    MemoryRepository,
+    S3Repository,
+)
 
 
 def test_parameters():
@@ -22,25 +27,45 @@ def test_enviroment():
         assert config.root_dir == "./rubicon-file-system"
 
 
-def test_get_local_repository():
+def test_init_local_repository():
     config = Config("filesystem", "/local/rubicon-file-system")
 
     assert isinstance(config.repository, LocalRepository)
     assert config.root_dir == config.repository.root_dir
 
 
-def test_get_s3_repository():
+def test_init_s3_repository():
     config = Config("filesystem", "s3://rubicon-file-system")
 
     assert isinstance(config.repository, S3Repository)
     assert config.root_dir == config.repository.root_dir
 
 
-def test_get_memory_repository():
+def test_init_memory_repository():
     config = Config("memory", "/memory/rubicon-file-system")
 
     assert isinstance(config.repository, MemoryRepository)
     assert config.root_dir == config.repository.root_dir
+
+
+def test_init_composite_repository():
+    config = Config(
+        composite_config=[
+            {"persistence": "filesystem", "root_dir": "./local/root", "is_auto_git_enabled": False},
+            {
+                "persistence": "filesystem",
+                "root_dir": "s3://remote/bucket/root",
+                "is_auto_git_enabled": False,
+            },
+            {"persistence": "memory", "root_dir": "./memory/root", "is_auto_git_enabled": False},
+        ]
+    )
+
+    assert isinstance(config.repository, CompositeRepository)
+
+    assert isinstance(config.repository.repositories[0], LocalRepository)
+    assert isinstance(config.repository.repositories[1], S3Repository)
+    assert isinstance(config.repository.repositories[2], MemoryRepository)
 
 
 def test_invalid_persistence():
