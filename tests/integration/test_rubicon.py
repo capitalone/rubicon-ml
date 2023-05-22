@@ -15,6 +15,15 @@ filesystems = [
         Rubicon(persistence="filesystem", root_dir="s3://change-me"),
         marks=pytest.mark.write_files,
     ),
+    pytest.param(
+        Rubicon(
+            composite_config=[
+                {"persistence": "memory", "root_dir": "./memory/root"},
+                {"persistence": "filesystem", "root_dir": "./test-rubicon"},
+            ]
+        ),
+        marks=pytest.mark.write_files,
+    ),
 ]
 
 

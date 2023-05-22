@@ -49,7 +49,7 @@ class Config:
             repositories = []
             for config in composite_config:
                 self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
-                    config["persistence"], config["root_dir"], config["is_auto_git_enabled"]
+                    config["persistence"], config["root_dir"], is_auto_git_enabled
                 )
                 repositories.append(self._get_repository())
 
