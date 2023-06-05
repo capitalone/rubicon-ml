@@ -122,9 +122,8 @@ class ArtifactMixin:
         )
 
         project_name, experiment_id = self._get_identifiers()
-        self.repository.create_artifact(
-            artifact, data_bytes, project_name, experiment_id=experiment_id
-        )
+        for repo in self.repositories:
+            repo.create_artifact(artifact, data_bytes, project_name, experiment_id=experiment_id)
 
         return client.Artifact(artifact, self)
 
@@ -218,12 +217,17 @@ class ArtifactMixin:
             The artifacts previously logged to this client object.
         """
         project_name, experiment_id = self._get_identifiers()
-        artifacts = [
-            client.Artifact(a, self)
-            for a in self.repository.get_artifacts_metadata(
-                project_name, experiment_id=experiment_id
-            )
-        ]
+        for repo in self.repositories:
+            artifacts = None
+            try:
+                artifacts = [
+                    client.Artifact(a, self)
+                    for a in repo.get_artifacts_metadata(project_name, experiment_id=experiment_id)
+                ]
+            except Exception as err:
+                return_err = err
+            if artifacts is None:
+                return RubiconException(return_err)
 
         self._artifacts = filter_children(artifacts, tags, qtype, name)
 
@@ -261,9 +265,16 @@ class ArtifactMixin:
             artifact = artifacts[-1]
         else:
             project_name, experiment_id = self._get_identifiers()
-            artifact = client.Artifact(
-                self.repository.get_artifact_metadata(project_name, id, experiment_id), self
-            )
+            for repo in self.repositories:
+                artifact = None
+                try:
+                    artifact = client.Artifact(
+                        repo.get_artifact_metadata(project_name, id, experiment_id), self
+                    )
+                except Exception as err:
+                    return_err = err
+                if artifact is None:
+                    raise RubiconException(return_err)
 
         return artifact
 
@@ -280,7 +291,8 @@ class ArtifactMixin:
         project_name, experiment_id = self._get_identifiers()
 
         for artifact_id in ids:
-            self.repository.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
+            for repo in self.repositories:
+                repo.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
 
 
 class DataframeMixin:
@@ -316,7 +328,8 @@ class DataframeMixin:
         )
 
         project_name, experiment_id = self._get_identifiers()
-        self.repository.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
+        for repo in self.repositories:
+            repo.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
 
         return client.Dataframe(dataframe, self)
 
@@ -340,12 +353,17 @@ class DataframeMixin:
             The dataframes previously logged to this client object.
         """
         project_name, experiment_id = self._get_identifiers()
-        dataframes = [
-            client.Dataframe(d, self)
-            for d in self.repository.get_dataframes_metadata(
-                project_name, experiment_id=experiment_id
-            )
-        ]
+        for repo in self.repositories:
+            dataframes = None
+            try:
+                dataframes = [
+                    client.Dataframe(d, self)
+                    for d in repo.get_dataframes_metadata(project_name, experiment_id=experiment_id)
+                ]
+            except Exception as err:
+                return_err = err
+            if dataframes is None:
+                return RubiconException(return_err)
 
         self._dataframes = filter_children(dataframes, tags, qtype, name)
 
@@ -384,12 +402,19 @@ class DataframeMixin:
             dataframe = dataframes[-1]
         else:
             project_name, experiment_id = self._get_identifiers()
-            dataframe = client.Dataframe(
-                self.repository.get_dataframe_metadata(
-                    project_name, experiment_id=experiment_id, dataframe_id=id
-                ),
-                self,
-            )
+            for repo in self.repositories:
+                dataframe = None
+                try:
+                    dataframe = client.Dataframe(
+                        repo.get_dataframe_metadata(
+                            project_name, experiment_id=experiment_id, dataframe_id=id
+                        ),
+                        self,
+                    )
+                except Exception as err:
+                    return_err = err
+                if dataframe is None:
+                    return RubiconException(return_err)
 
         return dataframe
 
@@ -406,9 +431,8 @@ class DataframeMixin:
         project_name, experiment_id = self._get_identifiers()
 
         for dataframe_id in ids:
-            self.repository.delete_dataframe(
-                project_name, dataframe_id, experiment_id=experiment_id
-            )
+            for repo in self.repositories:
+                repo.delete_dataframe(project_name, dataframe_id, experiment_id=experiment_id)
 
 
 class TagMixin:
@@ -445,13 +469,14 @@ class TagMixin:
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.add_tags(tags)
-        self.repository.add_tags(
-            project_name,
-            tags,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=self.__class__.__name__,
-        )
+        for repo in self.repositories:
+            repo.add_tags(
+                project_name,
+                tags,
+                experiment_id=experiment_id,
+                entity_identifier=entity_identifier,
+                entity_type=self.__class__.__name__,
+            )
 
     @failsafe
     def remove_tags(self, tags):
@@ -465,13 +490,14 @@ class TagMixin:
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.remove_tags(tags)
-        self.repository.remove_tags(
-            project_name,
-            tags,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=self.__class__.__name__,
-        )
+        for repo in self.repositories:
+            repo.remove_tags(
+                project_name,
+                tags,
+                experiment_id=experiment_id,
+                entity_identifier=entity_identifier,
+                entity_type=self.__class__.__name__,
+            )
 
     def _update_tags(self, tag_data):
         """Add or remove the tags in `tag_data` based on
@@ -485,12 +511,19 @@ class TagMixin:
     def tags(self):
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
-        tag_data = self.repository.get_tags(
-            project_name,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=self.__class__.__name__,
-        )
+        for repo in self.repositories:
+            tag_data = None
+            try:
+                tag_data = repo.get_tags(
+                    project_name,
+                    experiment_id=experiment_id,
+                    entity_identifier=entity_identifier,
+                    entity_type=self.__class__.__name__,
+                )
+            except Exception as err:
+                return_err = err
+            if tag_data is None:
+                return RubiconException(return_err)
 
         self._update_tags(tag_data)
 

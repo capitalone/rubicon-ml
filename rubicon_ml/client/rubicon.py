@@ -40,6 +40,13 @@ class Rubicon:
     def repository(self):
         return self.config.repository
 
+    @property
+    def repositories(self):
+        if hasattr(self.config, "repositories"):
+            return self.config.repositories
+        else:
+            return [self.config.repository]
+
     @repository.setter
     def repository(self, value):
         self.config.repository = value

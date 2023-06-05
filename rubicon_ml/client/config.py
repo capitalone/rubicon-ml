@@ -2,12 +2,7 @@ import os
 import subprocess
 
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import (
-    CompositeRepository,
-    LocalRepository,
-    MemoryRepository,
-    S3Repository,
-)
+from rubicon_ml.repository import LocalRepository, MemoryRepository, S3Repository
 
 
 class Config:
@@ -53,7 +48,7 @@ class Config:
                 )
                 repositories.append(self._get_repository())
 
-            self.repository = CompositeRepository(repositories)
+            self.repositories = repositories
         else:
             self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
                 persistence, root_dir, is_auto_git_enabled

@@ -43,12 +43,24 @@ class Dataframe(Base, TagMixin):
         """
         project_name, experiment_id = self.parent._get_identifiers()
 
-        self._data = self.repository.get_dataframe_data(
-            project_name,
-            self.id,
-            experiment_id=experiment_id,
-            df_type=df_type,
-        )
+        if len(self.repositories) > 1:
+            self._data = []
+            for repo in self.repositories:
+                self._data.append(
+                    repo.get_dataframe_data(
+                        project_name,
+                        self.id,
+                        experiment_id=experiment_id,
+                        df_type=df_type,
+                    )
+                )
+        else:
+            self._data = self.repository.get_dataframe_data(
+                project_name,
+                self.id,
+                experiment_id=experiment_id,
+                df_type=df_type,
+            )
 
         return self._data
 

@@ -10,6 +10,7 @@ from rubicon_ml.client import (
 )
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
+from rubicon_ml.exceptions import RubiconException
 
 
 class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
@@ -76,7 +77,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         metric = domain.Metric(
             name, value, directionality=directionality, description=description, tags=tags
         )
-        self.repository.create_metric(metric, self.project.name, self.id)
+        for repo in self.repositories:
+            repo.create_metric(metric, self.project.name, self.id)
 
         return Metric(metric, self)
 
@@ -99,7 +101,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         list of rubicon.client.Metric
             The metrics previously logged to this experiment.
         """
-        metrics = [Metric(m, self) for m in self.repository.get_metrics(self.project.name, self.id)]
+        for repo in self.repositories:
+            metrics = None
+            try:
+                metrics = [Metric(m, self) for m in repo.get_metrics(self.project.name, self.id)]
+            except Exception as err:
+                return_err = err
+            if metrics is None:
+                return RubiconException(return_err)
+
         self._metrics = filter_children(metrics, tags, qtype, name)
 
         return self._metrics
@@ -124,7 +134,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            metric = self.repository.get_metric(self.project.name, self.id, name)
+            for repo in self.repositories:
+                metric = None
+                try:
+                    metric = repo.get_metric(self.project.name, self.id, name)
+                except Exception as err:
+                    return_err = err
+                if metric is None:
+                    return RubiconException(return_err)
             metric = Metric(metric, self)
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
@@ -157,7 +174,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`tags` must be `list` of type `str`")
 
         feature = domain.Feature(name, description=description, importance=importance, tags=tags)
-        self.repository.create_feature(feature, self.project.name, self.id)
+        for repo in self.repositories:
+            repo.create_feature(feature, self.project.name, self.id)
 
         return Feature(feature, self)
 
@@ -181,9 +199,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The features previously logged to this experiment.
         """
 
-        features = [
-            Feature(f, self) for f in self.repository.get_features(self.project.name, self.id)
-        ]
+        for repo in self.repositories:
+            features = None
+            try:
+                features = [Feature(f, self) for f in repo.get_features(self.project.name, self.id)]
+            except Exception as err:
+                return_err = err
+            if features is None:
+                return RubiconException(return_err)
 
         self._features = filter_children(features, tags, qtype, name)
         return self._features
@@ -208,7 +231,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            feature = self.repository.get_feature(self.project.name, self.id, name)
+            for repo in self.repositories:
+                feature = None
+                try:
+                    feature = repo.get_feature(self.project.name, self.id, name)
+                except Exception as err:
+                    return_err = err
+            if feature is None:
+                return RubiconException(return_err)
             feature = Feature(feature, self)
         else:
             feature = [f for f in self.features() if f.id == id][0]
@@ -243,7 +273,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`tags` must be `list` of type `str`")
 
         parameter = domain.Parameter(name, value=value, description=description, tags=tags)
-        self.repository.create_parameter(parameter, self.project.name, self.id)
+        for repo in self.repositories:
+            repo.create_parameter(parameter, self.project.name, self.id)
 
         return Parameter(parameter, self)
 
@@ -267,9 +298,16 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The parameters previously logged to this experiment.
         """
 
-        parameters = [
-            Parameter(p, self) for p in self.repository.get_parameters(self.project.name, self.id)
-        ]
+        for repo in self.repositories:
+            paramters = None
+            try:
+                parameters = [
+                    Parameter(p, self) for p in repo.get_parameters(self.project.name, self.id)
+                ]
+            except Exception as err:
+                return_err = err
+            if paramters is None:
+                return RubiconException(return_err)
 
         self._parameters = filter_children(parameters, tags, qtype, name)
 
@@ -295,7 +333,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            parameter = self.repository.get_parameter(self.project.name, self.id, name)
+            for repo in self.repositories:
+                parameter = None
+                try:
+                    parameter = repo.get_parameter(self.project.name, self.id, name)
+                except Exception as err:
+                    return_err = err
+                if parameter is None:
+                    return RubiconException(return_err)
             parameter = Parameter(parameter, self)
         else:
             parameter = [p for p in self.parameters() if p.id == id][0]
