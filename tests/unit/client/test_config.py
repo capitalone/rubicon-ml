@@ -4,12 +4,7 @@ import pytest
 
 from rubicon_ml.client import Config
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import (
-    CompositeRepository,
-    LocalRepository,
-    MemoryRepository,
-    S3Repository,
-)
+from rubicon_ml.repository import LocalRepository, MemoryRepository, S3Repository
 
 
 def test_parameters():
@@ -48,7 +43,7 @@ def test_init_memory_repository():
     assert config.root_dir == config.repository.root_dir
 
 
-def test_init_composite_repository():
+def test_init_multiple_backend():
     config = Config(
         composite_config=[
             {"persistence": "filesystem", "root_dir": "./local/root", "is_auto_git_enabled": False},
@@ -61,11 +56,11 @@ def test_init_composite_repository():
         ]
     )
 
-    assert isinstance(config.repository, CompositeRepository)
+    assert hasattr(config, "repositories")
 
-    assert isinstance(config.repository.repositories[0], LocalRepository)
-    assert isinstance(config.repository.repositories[1], S3Repository)
-    assert isinstance(config.repository.repositories[2], MemoryRepository)
+    assert isinstance(config.repositories[0], LocalRepository)
+    assert isinstance(config.repositories[1], S3Repository)
+    assert isinstance(config.repositories[2], MemoryRepository)
 
 
 def test_invalid_persistence():
