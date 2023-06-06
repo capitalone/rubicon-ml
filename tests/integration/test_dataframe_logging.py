@@ -58,8 +58,6 @@ def test_df_read_error(rubicon_local_filesystem_client):
     assert read_dataframe.id == written_dataframe.id
 
     # simulate user forgetting to set `df_type` to `dask` when reading a logged dask df
-    # import pdb
-
     with pytest.raises(RubiconException) as e:
         res = read_dataframe.get_data()
         print(res)
