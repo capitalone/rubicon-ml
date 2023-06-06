@@ -43,26 +43,22 @@ class Dataframe(Base, TagMixin):
         """
         project_name, experiment_id = self.parent._get_identifiers()
 
-        if len(self.repositories) > 1:
-            self._data = []
-            for repo in self.repositories:
-                self._data.append(
-                    repo.get_dataframe_data(
-                        project_name,
-                        self.id,
-                        experiment_id=experiment_id,
-                        df_type=df_type,
-                    )
+        for repo in self.repositories:
+            self._data = None
+            try:
+                self._data = repo.get_dataframe_data(
+                    project_name,
+                    self.id,
+                    experiment_id=experiment_id,
+                    df_type=df_type,
                 )
-        else:
-            self._data = self.repository.get_dataframe_data(
-                project_name,
-                self.id,
-                experiment_id=experiment_id,
-                df_type=df_type,
-            )
+            except Exception as err:
+                return_err = err
+                pass
+            else:
+                return self._data
 
-        return self._data
+        return RubiconException(return_err)
 
     @failsafe
     def plot(self, df_type="pandas", plotting_func=None, **kwargs):

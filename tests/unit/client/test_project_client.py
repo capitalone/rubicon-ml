@@ -291,7 +291,8 @@ def test_archive_all_experiments(rubicon_local_filesystem_client_with_project):
     project.log_experiment(name="experiment3")
     archive_path = project.archive()
 
-    assert project.repository._exists(archive_path)
+    for repo in project.repositories:
+        assert repo._exists(archive_path)
 
 
 def test_archive_select_experiments(rubicon_local_filesystem_client_with_project):
@@ -301,7 +302,8 @@ def test_archive_select_experiments(rubicon_local_filesystem_client_with_project
     project.log_experiment(name="experiment3")
     zip_archive_filename = project.archive([experiment1, experiment2])
 
-    assert project.repository._exists(zip_archive_filename)
+    for repo in project.repositories:
+        assert repo._exists(zip_archive_filename)
 
 
 def test_archive_bad_remote_rubicon():
@@ -343,7 +345,8 @@ def test_archive_remote_rubicon():
     projectB.log_experiment(name="experiment2")
     zip_archive_filename = projectB.archive(remote_rubicon=rubiconA)
 
-    assert projectA.repository._exists(zip_archive_filename)
+    for repo in projectA.repositories:
+        assert repo._exists(zip_archive_filename)
 
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)

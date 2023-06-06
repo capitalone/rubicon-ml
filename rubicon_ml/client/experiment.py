@@ -107,12 +107,12 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 metrics = [Metric(m, self) for m in repo.get_metrics(self.project.name, self.id)]
             except Exception as err:
                 return_err = err
-            if metrics is None:
-                return RubiconException(return_err)
+                pass
+            else:
+                self._metrics = filter_children(metrics, tags, qtype, name)
+                return self._metrics
 
-        self._metrics = filter_children(metrics, tags, qtype, name)
-
-        return self._metrics
+        return RubiconException(return_err)
 
     @failsafe
     def metric(self, name=None, id=None):
@@ -140,13 +140,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                     metric = repo.get_metric(self.project.name, self.id, name)
                 except Exception as err:
                     return_err = err
-                if metric is None:
-                    return RubiconException(return_err)
-            metric = Metric(metric, self)
+                    pass
+                else:
+                    metric = Metric(metric, self)
+                    return metric
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
+            return metric
 
-        return metric
+        return RubiconException(return_err)
 
     @failsafe
     def log_feature(self, name, description=None, importance=None, tags=[]):
@@ -205,11 +207,12 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 features = [Feature(f, self) for f in repo.get_features(self.project.name, self.id)]
             except Exception as err:
                 return_err = err
-            if features is None:
-                return RubiconException(return_err)
+                pass
+            else:
+                self._features = filter_children(features, tags, qtype, name)
+                return self._features
 
-        self._features = filter_children(features, tags, qtype, name)
-        return self._features
+        return RubiconException(return_err)
 
     @failsafe
     def feature(self, name=None, id=None):
@@ -237,13 +240,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                     feature = repo.get_feature(self.project.name, self.id, name)
                 except Exception as err:
                     return_err = err
-            if feature is None:
-                return RubiconException(return_err)
-            feature = Feature(feature, self)
+                    pass
+                else:
+                    feature = Feature(feature, self)
+                    return feature
         else:
             feature = [f for f in self.features() if f.id == id][0]
+            return feature
 
-        return feature
+        return RubiconException(return_err)
 
     @failsafe
     def log_parameter(self, name, value=None, description=None, tags=[]):
@@ -299,19 +304,19 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """
 
         for repo in self.repositories:
-            paramters = None
+            parameters = None
             try:
                 parameters = [
                     Parameter(p, self) for p in repo.get_parameters(self.project.name, self.id)
                 ]
             except Exception as err:
                 return_err = err
-            if paramters is None:
-                return RubiconException(return_err)
+                pass
+            else:
+                self._parameters = filter_children(parameters, tags, qtype, name)
+                return self._parameters
 
-        self._parameters = filter_children(parameters, tags, qtype, name)
-
-        return self._parameters
+        return RubiconException(return_err)
 
     @failsafe
     def parameter(self, name=None, id=None):
@@ -339,13 +344,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                     parameter = repo.get_parameter(self.project.name, self.id, name)
                 except Exception as err:
                     return_err = err
-                if parameter is None:
-                    return RubiconException(return_err)
-            parameter = Parameter(parameter, self)
+                    pass
+                else:
+                    parameter = Parameter(parameter, self)
+                    return parameter
         else:
             parameter = [p for p in self.parameters() if p.id == id][0]
+            return parameter
 
-        return parameter
+        return RubiconException(return_err)
 
     @property
     def id(self):

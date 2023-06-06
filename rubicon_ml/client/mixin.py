@@ -226,12 +226,12 @@ class ArtifactMixin:
                 ]
             except Exception as err:
                 return_err = err
-            if artifacts is None:
-                return RubiconException(return_err)
+                pass
+            else:
+                self._artifacts = filter_children(artifacts, tags, qtype, name)
+                return self._artifacts
 
-        self._artifacts = filter_children(artifacts, tags, qtype, name)
-
-        return self._artifacts
+        return RubiconException(return_err)
 
     @failsafe
     def artifact(self, name=None, id=None):
@@ -263,6 +263,7 @@ class ArtifactMixin:
                 )
 
             artifact = artifacts[-1]
+            return artifact
         else:
             project_name, experiment_id = self._get_identifiers()
             for repo in self.repositories:
@@ -273,10 +274,11 @@ class ArtifactMixin:
                     )
                 except Exception as err:
                     return_err = err
-                if artifact is None:
-                    raise RubiconException(return_err)
+                    pass
+                else:
+                    return artifact
 
-        return artifact
+        return RubiconException(return_err)
 
     @failsafe
     def delete_artifacts(self, ids):
@@ -362,12 +364,12 @@ class DataframeMixin:
                 ]
             except Exception as err:
                 return_err = err
-            if dataframes is None:
-                return RubiconException(return_err)
+                pass
+            else:
+                self._dataframes = filter_children(dataframes, tags, qtype, name)
+                return self._dataframes
 
-        self._dataframes = filter_children(dataframes, tags, qtype, name)
-
-        return self._dataframes
+        return RubiconException(return_err)
 
     @failsafe
     def dataframe(self, name=None, id=None):
@@ -400,6 +402,7 @@ class DataframeMixin:
                 )
 
             dataframe = dataframes[-1]
+            return dataframe
         else:
             project_name, experiment_id = self._get_identifiers()
             for repo in self.repositories:
@@ -413,10 +416,11 @@ class DataframeMixin:
                     )
                 except Exception as err:
                     return_err = err
-                if dataframe is None:
-                    return RubiconException(return_err)
+                    pass
+                else:
+                    return dataframe
 
-        return dataframe
+        return RubiconException(return_err)
 
     @failsafe
     def delete_dataframes(self, ids):
@@ -522,9 +526,10 @@ class TagMixin:
                 )
             except Exception as err:
                 return_err = err
-            if tag_data is None:
-                return RubiconException(return_err)
+                pass
+            else:
+                self._update_tags(tag_data)
 
-        self._update_tags(tag_data)
+                return self._domain.tags
 
-        return self._domain.tags
+        return RubiconException(return_err)

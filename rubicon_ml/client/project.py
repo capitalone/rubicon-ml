@@ -290,6 +290,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 )
 
             experiment = experiments[-1]
+            return experiment
         else:
             for repo in self.repositories:
                 experiment = None
@@ -297,10 +298,11 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     experiment = Experiment(repo.get_experiment(self.name, id), self)
                 except Exception as err:
                     return_err = err
-                if experiment is None:
-                    return RubiconException(return_err)
+                    pass
+                else:
+                    return experiment
 
-        return experiment
+        return RubiconException(return_err)
 
     @failsafe
     def experiments(self, tags=[], qtype="or", name=None):
@@ -327,11 +329,12 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
             except Exception as err:
                 return_err = err
-            if experiments is None:
-                return RubiconException(return_err)
-        self._experiments = filter_children(experiments, tags, qtype, name)
+                pass
+            else:
+                self._experiments = filter_children(experiments, tags, qtype, name)
+                return self._experiments
 
-        return self._experiments
+        return RubiconException(return_err)
 
     @failsafe
     def dataframes(self, tags=[], qtype="or", recursive=False, name=None):
@@ -399,12 +402,18 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     res.append(
                         repo._archive(self.name, experiments, remote_rubicon.repository.root_dir)
                     )
-                return res
+                if len(res) == 1:
+                    return res[0]
+                else:
+                    return res
         else:
             res = []
             for repo in self.repositories:
                 res.append(repo._archive(self.name, experiments, None))
-            return res
+            if len(res) == 1:
+                return res[0]
+            else:
+                return res
 
     @failsafe
     def experiments_from_archive(self, remote_rubicon, latest_only: Optional[bool] = False):
