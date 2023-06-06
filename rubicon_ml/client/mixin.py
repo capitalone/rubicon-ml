@@ -231,7 +231,7 @@ class ArtifactMixin:
                 self._artifacts = filter_children(artifacts, tags, qtype, name)
                 return self._artifacts
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def artifact(self, name=None, id=None):
@@ -278,7 +278,7 @@ class ArtifactMixin:
                 else:
                     return artifact
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def delete_artifacts(self, ids):
@@ -369,7 +369,7 @@ class DataframeMixin:
                 self._dataframes = filter_children(dataframes, tags, qtype, name)
                 return self._dataframes
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def dataframe(self, name=None, id=None):
@@ -420,7 +420,7 @@ class DataframeMixin:
                 else:
                     return dataframe
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def delete_dataframes(self, ids):
@@ -532,4 +532,4 @@ class TagMixin:
 
                 return self._domain.tags
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)

@@ -302,7 +302,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 else:
                     return experiment
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def experiments(self, tags=[], qtype="or", name=None):
@@ -334,7 +334,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 self._experiments = filter_children(experiments, tags, qtype, name)
                 return self._experiments
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def dataframes(self, tags=[], qtype="or", recursive=False, name=None):

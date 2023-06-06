@@ -58,7 +58,7 @@ class Dataframe(Base, TagMixin):
             else:
                 return self._data
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def plot(self, df_type="pandas", plotting_func=None, **kwargs):

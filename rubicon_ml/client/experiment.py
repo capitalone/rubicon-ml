@@ -112,7 +112,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 self._metrics = filter_children(metrics, tags, qtype, name)
                 return self._metrics
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def metric(self, name=None, id=None):
@@ -148,7 +148,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             metric = [m for m in self.metrics() if m.id == id][0]
             return metric
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def log_feature(self, name, description=None, importance=None, tags=[]):
@@ -212,7 +212,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 self._features = filter_children(features, tags, qtype, name)
                 return self._features
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def feature(self, name=None, id=None):
@@ -248,7 +248,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             feature = [f for f in self.features() if f.id == id][0]
             return feature
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def log_parameter(self, name, value=None, description=None, tags=[]):
@@ -316,7 +316,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 self._parameters = filter_children(parameters, tags, qtype, name)
                 return self._parameters
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @failsafe
     def parameter(self, name=None, id=None):
@@ -352,7 +352,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             parameter = [p for p in self.parameters() if p.id == id][0]
             return parameter
 
-        return RubiconException(return_err)
+        raise RubiconException(return_err)
 
     @property
     def id(self):
