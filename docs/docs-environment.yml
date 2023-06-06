@@ -17,12 +17,12 @@ dependencies:
 
   # install rubicon-ml dependencies
   # so local pip install doesn't
-  - dash<=2.9.3,>=2.0.0
+  - dash<=2.10.2,>=2.0.0
   - dash-bootstrap-components<=1.4.1,>=1.0.0
-  - fsspec<=2023.4.0,>=2021.4.0
-  - intake[dataframe]<=0.6.8,>=0.5.2
+  - fsspec<=2023.5.0,>=2021.4.0
+  - intake[dataframe]<=0.7.0,>=0.5.2
   - numpy<=1.24.3,>=1.22.0
-  - pandas<=2.0.1,>=1.0.0
+  - pandas<=2.0.2,>=1.0.0
   - prefect<=1.2.4,>=0.12.0
   - pyarrow<=12.0.0,>=0.18.0
   - PyYAML<=6.0,>=5.4.0
