@@ -103,7 +103,8 @@ class Rubicon:
             The created project.
         """
         project = self._create_project_domain(name, description, github_url, training_metadata)
-        self.repository.create_project(project)
+        for repo in self.repositories:
+            repo.create_project(project)
 
         return Project(project, self.config)
 
@@ -127,12 +128,19 @@ class Rubicon:
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            project = self.repository.get_project(name)
-            project = Project(project, self.config)
+            for repo in self.repositories:
+                project = None
+                try:
+                    project = repo.get_project(name)
+                except Exception as err:
+                    return_err = err
+                else:
+                    project = Project(project, self.config)
+                    return project
         else:
             project = [p for p in self.projects() if p.id == id][0]
-
-        return project
+            return project
+        raise RubiconException(return_err)
 
     def get_project_as_dask_df(self, name, group_by=None):
         """DEPRECATED: Available for backwards compatibility."""
@@ -206,7 +214,15 @@ class Rubicon:
         list of rubicon.client.Project
             The list of available projects.
         """
-        return [Project(project, self.config) for project in self.repository.get_projects()]
+        for repo in self.repositories:
+            projects = None
+            try:
+                projects = [Project(project, self.config) for project in repo.get_projects()]
+            except Exception as err:
+                return_err = err
+            else:
+                return projects
+        raise RubiconException(return_err)
 
     @failsafe
     def sync(self, project_name, s3_root_dir):
