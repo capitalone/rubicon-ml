@@ -298,9 +298,10 @@ class BaseRepository:
         -------
         filepath of newly created archive
         """
-        remote_s3 = True if remote_rubicon_root.startswith("s3") else False
+        remote_s3 = True if remote_rubicon_root and remote_rubicon_root.startswith("s3") else False
         if remote_rubicon_root is not None:
             archive_dir = os.path.join(remote_rubicon_root, slugify(project_name), "archives")
+
         else:
             archive_dir = os.path.join(self.root_dir, slugify(project_name), "archives")
 
@@ -317,11 +318,12 @@ class BaseRepository:
         with tempfile.NamedTemporaryFile() as tf:
             if experiments is not None:
                 with ZipFile(tf, "x") as archive:
+                    experiment_paths = []
                     for experiment in experiments:
-                        experiment_path = os.path.join(experiments_path, experiment.id)
-                        file_name = archive.write(
-                            experiment_path, os.path.basename(experiment_path)
-                        )
+                        experiment_paths.append(os.path.join(experiments_path, experiment.id))
+                    for file_path in experiment_paths:
+                        archive.write(file_path, os.path.basename(file_path))
+                file_name = archive.filename
 
             else:
                 file_name = shutil.make_archive(tf.name, "zip", experiments_path)  # look this up

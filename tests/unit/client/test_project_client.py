@@ -2,6 +2,7 @@ import os
 import time
 import warnings
 from unittest import mock
+from unittest.mock import patch
 
 import pytest
 
@@ -445,3 +446,24 @@ def test_experiments_from_archive_latest_only():
     assert new_num_expsB == 4
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
+
+
+@patch("fsspec.open")
+def test_archive_remote_rubicon_s3(mock_open):
+    print("buffer")
+    rubicon_a = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
+    )
+    s3_repo = "s3://bucket/root/path/to/data"
+
+    rubicon_b = Rubicon(persistence="filesystem", root_dir=s3_repo)
+
+    projectA = rubicon_a.get_or_create_project("ArchiveTesting")
+    projectA.log_experiment(name="experiment1")
+    projectA.log_experiment(name="experiment2")
+
+    zip_archive_filename = projectA.archive(remote_rubicon=rubicon_b)
+
+    mock_open.assert_called_once_with(zip_archive_filename, "wb")
+    rubicon_a.repository.filesystem.rm(rubicon_a.config.root_dir, recursive=True)
