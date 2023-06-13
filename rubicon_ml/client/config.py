@@ -38,6 +38,7 @@ class Config:
     def __init__(
         self, persistence=None, root_dir=None, is_auto_git_enabled=False, **storage_options
     ):
+        self.storage_options = storage_options
         if storage_options is not None and "composite_config" in storage_options:
             composite_config = storage_options.get("composite_config")
             repositories = []
@@ -53,7 +54,6 @@ class Config:
                 persistence, root_dir, is_auto_git_enabled
             )
             self.repository = self._get_repository()
-        self.storage_options = storage_options
 
     def _check_is_in_git_repo(self):
         """Raise a `RubiconException` if not called from within a `git` repository."""
