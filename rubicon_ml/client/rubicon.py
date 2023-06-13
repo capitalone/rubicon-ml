@@ -129,7 +129,6 @@ class Rubicon:
 
         if name is not None:
             for repo in self.repositories:
-                project = None
                 try:
                     project = repo.get_project(name)
                 except Exception as err:
@@ -215,7 +214,6 @@ class Rubicon:
             The list of available projects.
         """
         for repo in self.repositories:
-            projects = None
             try:
                 projects = [Project(project, self.config) for project in repo.get_projects()]
             except Exception as err:

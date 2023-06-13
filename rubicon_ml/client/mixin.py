@@ -218,7 +218,6 @@ class ArtifactMixin:
         """
         project_name, experiment_id = self._get_identifiers()
         for repo in self.repositories:
-            artifacts = None
             try:
                 artifacts = [
                     client.Artifact(a, self)
@@ -226,7 +225,6 @@ class ArtifactMixin:
                 ]
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._artifacts = filter_children(artifacts, tags, qtype, name)
                 return self._artifacts
@@ -267,14 +265,12 @@ class ArtifactMixin:
         else:
             project_name, experiment_id = self._get_identifiers()
             for repo in self.repositories:
-                artifact = None
                 try:
                     artifact = client.Artifact(
                         repo.get_artifact_metadata(project_name, id, experiment_id), self
                     )
                 except Exception as err:
                     return_err = err
-                    pass
                 else:
                     return artifact
 
@@ -356,7 +352,6 @@ class DataframeMixin:
         """
         project_name, experiment_id = self._get_identifiers()
         for repo in self.repositories:
-            dataframes = None
             try:
                 dataframes = [
                     client.Dataframe(d, self)
@@ -364,7 +359,6 @@ class DataframeMixin:
                 ]
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._dataframes = filter_children(dataframes, tags, qtype, name)
                 return self._dataframes
@@ -406,7 +400,6 @@ class DataframeMixin:
         else:
             project_name, experiment_id = self._get_identifiers()
             for repo in self.repositories:
-                dataframe = None
                 try:
                     dataframe = client.Dataframe(
                         repo.get_dataframe_metadata(
@@ -416,7 +409,6 @@ class DataframeMixin:
                     )
                 except Exception as err:
                     return_err = err
-                    pass
                 else:
                     return dataframe
 
@@ -516,7 +508,6 @@ class TagMixin:
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
         for repo in self.repositories:
-            tag_data = None
             try:
                 tag_data = repo.get_tags(
                     project_name,
@@ -526,7 +517,6 @@ class TagMixin:
                 )
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._update_tags(tag_data)
 

@@ -102,12 +102,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             The metrics previously logged to this experiment.
         """
         for repo in self.repositories:
-            metrics = None
             try:
                 metrics = [Metric(m, self) for m in repo.get_metrics(self.project.name, self.id)]
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._metrics = filter_children(metrics, tags, qtype, name)
                 return self._metrics
@@ -135,12 +133,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             for repo in self.repositories:
-                metric = None
                 try:
                     metric = repo.get_metric(self.project.name, self.id, name)
                 except Exception as err:
                     return_err = err
-                    pass
                 else:
                     metric = Metric(metric, self)
                     return metric
@@ -202,12 +198,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """
 
         for repo in self.repositories:
-            features = None
             try:
                 features = [Feature(f, self) for f in repo.get_features(self.project.name, self.id)]
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._features = filter_children(features, tags, qtype, name)
                 return self._features
@@ -235,12 +229,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             for repo in self.repositories:
-                feature = None
                 try:
                     feature = repo.get_feature(self.project.name, self.id, name)
                 except Exception as err:
                     return_err = err
-                    pass
                 else:
                     feature = Feature(feature, self)
                     return feature
@@ -304,14 +296,12 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """
 
         for repo in self.repositories:
-            parameters = None
             try:
                 parameters = [
                     Parameter(p, self) for p in repo.get_parameters(self.project.name, self.id)
                 ]
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._parameters = filter_children(parameters, tags, qtype, name)
                 return self._parameters
@@ -339,12 +329,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         if name is not None:
             for repo in self.repositories:
-                parameter = None
                 try:
                     parameter = repo.get_parameter(self.project.name, self.id, name)
                 except Exception as err:
                     return_err = err
-                    pass
                 else:
                     parameter = Parameter(parameter, self)
                     return parameter

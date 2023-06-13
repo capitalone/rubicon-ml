@@ -7,6 +7,7 @@ import fsspec
 from rubicon_ml.client.base import Base
 from rubicon_ml.client.mixin import TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
+from rubicon_ml.exceptions import RubiconException
 
 
 class Artifact(Base, TagMixin):
@@ -40,10 +41,18 @@ class Artifact(Base, TagMixin):
     def _get_data(self):
         """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_identifiers()
-
-        self._data = self.repository.get_artifact_data(
-            project_name, self.id, experiment_id=experiment_id
-        )
+        for repo in self.repositories:
+            self._data = None
+            try:
+                self._data = repo.get_artifact_data(
+                    project_name, self.id, experiment_id=experiment_id
+                )
+            except Exception as err:
+                return_err = err
+            else:
+                return
+        if self._data is None:
+            return RubiconException(return_err)
 
     @failsafe
     def get_data(self, unpickle=False):
@@ -58,11 +67,16 @@ class Artifact(Base, TagMixin):
         """
         project_name, experiment_id = self.parent._get_identifiers()
 
-        data = self.repository.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
-        if unpickle:
-            data = pickle.loads(data)
-
-        return data
+        for repo in self.repositories:
+            try:
+                data = repo.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
+            except Exception as err:
+                return_err = err
+            else:
+                if unpickle:
+                    data = pickle.loads(data)
+                return data
+        return RubiconException(return_err)
 
     @failsafe
     def download(self, location=None, name=None):

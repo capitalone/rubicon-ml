@@ -293,12 +293,10 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             return experiment
         else:
             for repo in self.repositories:
-                experiment = None
                 try:
                     experiment = Experiment(repo.get_experiment(self.name, id), self)
                 except Exception as err:
                     return_err = err
-                    pass
                 else:
                     return experiment
 
@@ -324,12 +322,10 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             The experiments previously logged to this project.
         """
         for repo in self.repositories:
-            experiments = None
             try:
                 experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
             except Exception as err:
                 return_err = err
-                pass
             else:
                 self._experiments = filter_children(experiments, tags, qtype, name)
                 return self._experiments

@@ -44,7 +44,6 @@ class Dataframe(Base, TagMixin):
         project_name, experiment_id = self.parent._get_identifiers()
 
         for repo in self.repositories:
-            self._data = None
             try:
                 self._data = repo.get_dataframe_data(
                     project_name,
@@ -54,7 +53,6 @@ class Dataframe(Base, TagMixin):
                 )
             except Exception as err:
                 return_err = err
-                pass
             else:
                 return self._data
 
