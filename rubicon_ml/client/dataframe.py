@@ -42,15 +42,21 @@ class Dataframe(Base, TagMixin):
             ["dask", "pandas"]. Defaults to "pandas".
         """
         project_name, experiment_id = self.parent._get_identifiers()
+        return_err = None
+        for repo in self.repositories:
+            try:
+                self._data = repo.get_dataframe_data(
+                    project_name,
+                    self.id,
+                    experiment_id=experiment_id,
+                    df_type=df_type,
+                )
+            except Exception as err:
+                return_err = err
+            else:
+                return self._data
 
-        self._data = self.repository.get_dataframe_data(
-            project_name,
-            self.id,
-            experiment_id=experiment_id,
-            df_type=df_type,
-        )
-
-        return self._data
+        raise RubiconException(return_err)
 
     @failsafe
     def plot(self, df_type="pandas", plotting_func=None, **kwargs):

@@ -60,7 +60,6 @@ def test_df_read_error(rubicon_local_filesystem_client):
     # simulate user forgetting to set `df_type` to `dask` when reading a logged dask df
     with pytest.raises(RubiconException) as e:
         read_dataframe.get_data()
-
     assert (
         "This might have happened if you forgot to set `df_type='dask'` when trying to read a `dask` dataframe."
         in str(e)

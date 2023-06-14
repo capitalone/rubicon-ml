@@ -19,3 +19,10 @@ class Base:
     @property
     def repository(self):
         return self._config.repository
+
+    @property
+    def repositories(self):
+        if hasattr(self._config, "repositories"):
+            return self._config.repositories
+        else:
+            return [self._config.repository]
