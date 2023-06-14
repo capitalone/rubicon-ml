@@ -56,7 +56,7 @@ class Dataframe(Base, TagMixin):
             else:
                 return self._data
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        raise RubiconException(return_err)
 
     @failsafe
     def plot(self, df_type="pandas", plotting_func=None, **kwargs):
