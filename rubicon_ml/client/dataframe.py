@@ -42,7 +42,7 @@ class Dataframe(Base, TagMixin):
             ["dask", "pandas"]. Defaults to "pandas".
         """
         project_name, experiment_id = self.parent._get_identifiers()
-
+        return_err = None
         for repo in self.repositories:
             try:
                 self._data = repo.get_dataframe_data(
@@ -56,7 +56,7 @@ class Dataframe(Base, TagMixin):
             else:
                 return self._data
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def plot(self, df_type="pandas", plotting_func=None, **kwargs):

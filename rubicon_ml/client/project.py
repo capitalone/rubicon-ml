@@ -292,6 +292,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             experiment = experiments[-1]
             return experiment
         else:
+            return_err = None
             for repo in self.repositories:
                 try:
                     experiment = Experiment(repo.get_experiment(self.name, id), self)
@@ -299,8 +300,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     return_err = err
                 else:
                     return experiment
-
-        raise RubiconException(return_err)
+            raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def experiments(self, tags=[], qtype="or", name=None):
@@ -321,6 +321,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         list of rubicon.client.Experiment
             The experiments previously logged to this project.
         """
+        return_err = None
         for repo in self.repositories:
             try:
                 experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
@@ -330,7 +331,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 self._experiments = filter_children(experiments, tags, qtype, name)
                 return self._experiments
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def dataframes(self, tags=[], qtype="or", recursive=False, name=None):
@@ -393,23 +394,11 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             if not isinstance(remote_rubicon, Rubicon):
                 raise ValueError("`remote_rubicon` must be of type `rubicon_ml.client.Rubicon`")
             else:
-                res = []
-                for repo in self.repositories:
-                    res.append(
-                        repo._archive(self.name, experiments, remote_rubicon.repository.root_dir)
-                    )
-                if len(res) == 1:
-                    return res[0]
-                else:
-                    return res
+                return self.repository._archive(
+                    self.name, experiments, remote_rubicon.repository.root_dir
+                )
         else:
-            res = []
-            for repo in self.repositories:
-                res.append(repo._archive(self.name, experiments, None))
-            if len(res) == 1:
-                return res[0]
-            else:
-                return res
+            return self.repository._archive(self.name, experiments, None)
 
     @failsafe
     def experiments_from_archive(self, remote_rubicon, latest_only: Optional[bool] = False):
@@ -426,10 +415,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         if not isinstance(remote_rubicon, Rubicon):
             raise ValueError("`remote_rubicon` must be of type `rubicon_ml.client.Rubicon`")
-        for repo in self.repositories:
-            repo._experiments_from_archive(
-                self.name, remote_rubicon.repository.root_dir, latest_only
-            )
+        self.repository._experiments_from_archive(
+            self.name, remote_rubicon.repository.root_dir, latest_only
+        )
 
     @property
     def name(self):

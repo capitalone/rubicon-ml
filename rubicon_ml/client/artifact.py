@@ -41,6 +41,7 @@ class Artifact(Base, TagMixin):
     def _get_data(self):
         """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_identifiers()
+        return_err = None
         for repo in self.repositories:
             self._data = None
             try:
@@ -52,7 +53,7 @@ class Artifact(Base, TagMixin):
             else:
                 return
         if self._data is None:
-            return RubiconException(return_err)
+            raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def get_data(self, unpickle=False):
@@ -66,7 +67,7 @@ class Artifact(Base, TagMixin):
             unpickled. Will be returned as bytes by default.
         """
         project_name, experiment_id = self.parent._get_identifiers()
-
+        return_err = None
         for repo in self.repositories:
             try:
                 data = repo.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
@@ -76,7 +77,7 @@ class Artifact(Base, TagMixin):
                 if unpickle:
                     data = pickle.loads(data)
                 return data
-        return RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def download(self, location=None, name=None):

@@ -101,6 +101,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         list of rubicon.client.Metric
             The metrics previously logged to this experiment.
         """
+        return_err = None
         for repo in self.repositories:
             try:
                 metrics = [Metric(m, self) for m in repo.get_metrics(self.project.name, self.id)]
@@ -110,7 +111,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 self._metrics = filter_children(metrics, tags, qtype, name)
                 return self._metrics
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def metric(self, name=None, id=None):
@@ -132,6 +133,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
+            return_err = None
             for repo in self.repositories:
                 try:
                     metric = repo.get_metric(self.project.name, self.id, name)
@@ -140,11 +142,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 else:
                     metric = Metric(metric, self)
                     return metric
+            raise RubiconException("all configured storage backends failed") from return_err
         else:
             metric = [m for m in self.metrics() if m.id == id][0]
             return metric
-
-        raise RubiconException(return_err)
 
     @failsafe
     def log_feature(self, name, description=None, importance=None, tags=[]):
@@ -196,7 +197,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         list of rubicon.client.Feature
             The features previously logged to this experiment.
         """
-
+        return_err = None
         for repo in self.repositories:
             try:
                 features = [Feature(f, self) for f in repo.get_features(self.project.name, self.id)]
@@ -206,7 +207,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 self._features = filter_children(features, tags, qtype, name)
                 return self._features
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def feature(self, name=None, id=None):
@@ -226,8 +227,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """
         if (name is None and id is None) or (name is not None and id is not None):
             raise ValueError("`name` OR `id` required.")
-
         if name is not None:
+            return_err = None
             for repo in self.repositories:
                 try:
                     feature = repo.get_feature(self.project.name, self.id, name)
@@ -236,11 +237,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 else:
                     feature = Feature(feature, self)
                     return feature
+            raise RubiconException("all configured storage backends failed") from return_err
         else:
             feature = [f for f in self.features() if f.id == id][0]
             return feature
-
-        raise RubiconException(return_err)
 
     @failsafe
     def log_parameter(self, name, value=None, description=None, tags=[]):
@@ -294,7 +294,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         list of rubicon.client.Parameter
             The parameters previously logged to this experiment.
         """
-
+        return_err = None
         for repo in self.repositories:
             try:
                 parameters = [
@@ -306,7 +306,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 self._parameters = filter_children(parameters, tags, qtype, name)
                 return self._parameters
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def parameter(self, name=None, id=None):
@@ -328,6 +328,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
+            return_err = None
             for repo in self.repositories:
                 try:
                     parameter = repo.get_parameter(self.project.name, self.id, name)
@@ -336,11 +337,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
                 else:
                     parameter = Parameter(parameter, self)
                     return parameter
+            raise RubiconException("all configured storage backends failed") from return_err
         else:
             parameter = [p for p in self.parameters() if p.id == id][0]
             return parameter
-
-        raise RubiconException(return_err)
 
     @property
     def id(self):

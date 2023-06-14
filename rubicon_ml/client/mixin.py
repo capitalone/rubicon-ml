@@ -217,6 +217,7 @@ class ArtifactMixin:
             The artifacts previously logged to this client object.
         """
         project_name, experiment_id = self._get_identifiers()
+        return_err = None
         for repo in self.repositories:
             try:
                 artifacts = [
@@ -229,7 +230,7 @@ class ArtifactMixin:
                 self._artifacts = filter_children(artifacts, tags, qtype, name)
                 return self._artifacts
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def artifact(self, name=None, id=None):
@@ -264,6 +265,7 @@ class ArtifactMixin:
             return artifact
         else:
             project_name, experiment_id = self._get_identifiers()
+            return_err = None
             for repo in self.repositories:
                 try:
                     artifact = client.Artifact(
@@ -274,7 +276,7 @@ class ArtifactMixin:
                 else:
                     return artifact
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def delete_artifacts(self, ids):
@@ -351,6 +353,7 @@ class DataframeMixin:
             The dataframes previously logged to this client object.
         """
         project_name, experiment_id = self._get_identifiers()
+        return_err = None
         for repo in self.repositories:
             try:
                 dataframes = [
@@ -363,7 +366,7 @@ class DataframeMixin:
                 self._dataframes = filter_children(dataframes, tags, qtype, name)
                 return self._dataframes
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def dataframe(self, name=None, id=None):
@@ -399,6 +402,7 @@ class DataframeMixin:
             return dataframe
         else:
             project_name, experiment_id = self._get_identifiers()
+            return_err = None
             for repo in self.repositories:
                 try:
                     dataframe = client.Dataframe(
@@ -412,7 +416,7 @@ class DataframeMixin:
                 else:
                     return dataframe
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def delete_dataframes(self, ids):
@@ -507,6 +511,7 @@ class TagMixin:
     def tags(self):
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        return_err = None
         for repo in self.repositories:
             try:
                 tag_data = repo.get_tags(
@@ -522,4 +527,4 @@ class TagMixin:
 
                 return self._domain.tags
 
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err

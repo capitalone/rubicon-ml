@@ -128,6 +128,7 @@ class Rubicon:
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
+            return_err = None
             for repo in self.repositories:
                 try:
                     project = repo.get_project(name)
@@ -136,10 +137,10 @@ class Rubicon:
                 else:
                     project = Project(project, self.config)
                     return project
+            raise RubiconException("all configured storage backends failed") from return_err
         else:
             project = [p for p in self.projects() if p.id == id][0]
             return project
-        raise RubiconException(return_err)
 
     def get_project_as_dask_df(self, name, group_by=None):
         """DEPRECATED: Available for backwards compatibility."""
