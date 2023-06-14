@@ -29,13 +29,14 @@ filesystems = [
 
 @pytest.mark.parametrize("rubicon", filesystems)
 def test_rubicon(rubicon, request):
-    if "change-me" in rubicon.repository.root_dir:
-        root_dir = request.config.getoption("s3-path")
+    for repository in rubicon.repositories:
+        if "change-me" in repository.root_dir:
+            root_dir = request.config.getoption("s3-path")
 
-        if root_dir is None:
-            pytest.fail("`root_dir` cannot be None. Run `pytest` with `--s3-path`.")
+            if root_dir is None:
+                pytest.fail("`root_dir` cannot be None. Run `pytest` with `--s3-path`.")
 
-        rubicon.repository.root_dir = root_dir
+            repository.root_dir = root_dir
 
     written_project = rubicon.create_project(name=f"Test Project {uuid.uuid4()}")
     written_experiment = written_project.log_experiment(name=f"Test Experiment {uuid.uuid4()}")
@@ -109,4 +110,5 @@ def test_rubicon(rubicon, request):
     read_project.delete_dataframes([read_project_dataframes[0].id])
     assert len(read_project.dataframes()) == 0
 
-    rubicon.repository.filesystem.rm(rubicon.repository.root_dir, recursive=True)
+    for repository in rubicon.repositories:
+        repository.filesystem.rm(repository.root_dir, recursive=True)
