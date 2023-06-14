@@ -137,7 +137,7 @@ class Rubicon:
                 else:
                     project = Project(project, self.config)
                     return project
-            raise RubiconException("all configured storage backends failed") from return_err
+            raise RubiconException(return_err)
         else:
             project = [p for p in self.projects() if p.id == id][0]
             return project
