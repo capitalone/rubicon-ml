@@ -122,7 +122,6 @@ To install all extra modules, use the ``all`` extra.
    logging-examples/logging-plots
    logging-examples/logging-concurrently
    logging-examples/tagging
-   logging-examples/multiple-backend
    visualizations.rst
 
 .. toctree::
@@ -136,6 +135,7 @@ To install all extra modules, use the ``all`` extra.
    integrations/integration-sklearn
    logging-examples/logging-feature-plots
    logging-examples/visualizing-logged-dataframes
+   logging-examples/multiple-backend
 
 .. toctree::
    :maxdepth: 2
