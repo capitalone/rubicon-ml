@@ -332,6 +332,23 @@ def test_dataframes_by_name_not_found(project_client, test_dataframe):
     assert dataframes == []
 
 
+def test_get_dataframe_fails_both_set(project_client, test_dataframe):
+    project = project_client
+    with pytest.raises(ValueError) as e:
+        DataframeMixin.dataframe(project, name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
+def test_get_dataframe_fails_neither_set(project_client, test_dataframe):
+    project = project_client
+
+    with pytest.raises(ValueError) as e:
+        DataframeMixin.dataframe(project, name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
 def test_dataframes_tagged_and(project_client, test_dataframe):
     project = project_client
     df = test_dataframe

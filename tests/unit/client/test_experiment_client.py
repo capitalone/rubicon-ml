@@ -1,3 +1,5 @@
+import pytest
+
 from rubicon_ml import domain
 from rubicon_ml.client import Experiment
 
@@ -72,6 +74,28 @@ def test_get_metric_by_name(project_client):
 
     metric = experiment.metric(name="accuracy").name
     assert metric == "accuracy"
+
+
+def test_get_metric_fails_neither_set(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_metric("accuracy", 100)
+
+    with pytest.raises(ValueError) as e:
+        experiment.metric(name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e)
+
+
+def test_get_metric_fails_both_set(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_metric("accuracy", 100)
+
+    with pytest.raises(ValueError) as e:
+        experiment.metric(name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e)
 
 
 def test_metrics_tagged_and(project_client):
@@ -154,6 +178,28 @@ def test_get_feature_by_id(project_client):
     assert feature == "year"
 
 
+def test_get_feature_fails_neither_set(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_feature("year")
+
+    with pytest.raises(ValueError) as e:
+        experiment.feature(name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e)
+
+
+def test_get_feature_fails_both_set(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_feature("year")
+
+    with pytest.raises(ValueError) as e:
+        experiment.feature(name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e)
+
+
 def test_features_tagged_and(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
@@ -224,6 +270,28 @@ def test_get_parameter_by_id(project_client):
 
     parameter = experiment.parameter(id=parameter_id).name
     assert parameter == "n_estimators"
+
+
+def test_get_parameter_fails_neither_set(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_parameter("n_estimators", "estimator")
+
+    with pytest.raises(ValueError) as e:
+        experiment.parameter(name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e)
+
+
+def test_get_parameter_fails_both_set(project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+    experiment.log_parameter("n_estimators", "estimator")
+
+    with pytest.raises(ValueError) as e:
+        experiment.parameter(name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e)
 
 
 def test_parameters_tagged_and(project_client):
