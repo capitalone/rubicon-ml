@@ -46,7 +46,7 @@ def test_failure_mode_raise(rubicon_client):
     with pytest.raises(RubiconException) as e:
         rubicon_client.get_project(name="does not exist")
 
-    assert "No project with name 'does not exist' found." in repr(e)
+    assert "all configured storage backends failed" in repr(e)
 
 
 @patch("warnings.warn")
