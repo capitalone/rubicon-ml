@@ -137,7 +137,7 @@ class Rubicon:
                 else:
                     project = Project(project, self.config)
                     return project
-            raise RubiconException(return_err)
+            raise RubiconException("all configured storage backends failed") from return_err
         else:
             project = [p for p in self.projects() if p.id == id][0]
             return project
@@ -214,6 +214,7 @@ class Rubicon:
         list of rubicon.client.Project
             The list of available projects.
         """
+        return_err = None
         for repo in self.repositories:
             try:
                 projects = [Project(project, self.config) for project in repo.get_projects()]
@@ -221,7 +222,7 @@ class Rubicon:
                 return_err = err
             else:
                 return projects
-        raise RubiconException(return_err)
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def sync(self, project_name, s3_root_dir):
