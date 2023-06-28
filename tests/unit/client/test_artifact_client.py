@@ -1,8 +1,11 @@
 import os
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from rubicon_ml import domain
-from rubicon_ml.client import Artifact
+from rubicon_ml.client import Artifact, Rubicon
+from rubicon_ml.exceptions import RubiconException
 
 
 def test_properties(project_client):
@@ -24,6 +27,23 @@ def test_get_data(project_client):
     artifact._get_data()
 
     assert artifact.data == data
+
+
+def test_internal_get_data_multiple_backend_error():
+    rb = Rubicon(
+        composite_config=[
+            {"persistence": "memory", "root_dir": "./memory/rootA"},
+            {"persistence": "memory", "root_dir": "./memory/rootB"},
+        ]
+    )
+    project = rb.create_project("test")
+    data = b"content"
+    artifact = project.log_artifact(name="test.txt", data_bytes=data)
+    for repo in rb.repositories:
+        repo.delete_artifact(project.name, artifact.id)
+    with pytest.raises(RubiconException) as e:
+        artifact._get_data()
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_get_data_unpickle_false(project_client):
@@ -49,6 +69,23 @@ def test_get_data_unpickle_true(project_client):
     artifact = project.log_artifact(name="test object", data_object=test_object)
 
     assert artifact.get_data(unpickle=True).value == test_object.value
+
+
+def test_get_data_multiple_backend_error():
+    rb = Rubicon(
+        composite_config=[
+            {"persistence": "memory", "root_dir": "./memory/rootA"},
+            {"persistence": "memory", "root_dir": "./memory/rootB"},
+        ]
+    )
+    project = rb.create_project("test")
+    data = b"content"
+    artifact = project.log_artifact(name="test.txt", data_bytes=data)
+    for repo in rb.repositories:
+        repo.delete_artifact(project.name, artifact.id)
+    with pytest.raises(RubiconException) as e:
+        artifact.get_data()
+    assert "all configured storage backends failed" in str(e)
 
 
 @patch("fsspec.implementations.local.LocalFileSystem.open")

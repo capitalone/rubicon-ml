@@ -1,5 +1,6 @@
 import subprocess
 import warnings
+from unittest import mock
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -143,6 +144,19 @@ def test_artifacts(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_artifacts_metadata")
+def test_artifacts_multiple_backend_error(mock_get_artifacts_metadata, project_client):
+    project = project_client
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_artifacts_metadata.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        ArtifactMixin.artifacts(project)
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_artifacts_by_name(project_client):
     project = project_client
     data = b"content"
@@ -233,6 +247,21 @@ def test_artifact_by_id(project_client):
     assert artifact_name == "test.txt"
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_artifact_metadata")
+def test_artifact_multiple_backend_error(mock_get_artifact_metadata, project_client):
+    project = project_client
+    data = b"content"
+    artifact = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_artifact_metadata.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        ArtifactMixin.artifact(project, id=artifact.id)
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_delete_artifacts(project_client):
     project = project_client
     artifact = ArtifactMixin.log_artifact(project, data_bytes=b"content", name="test.txt")
@@ -269,6 +298,19 @@ def test_dataframes(project_client, test_dataframe):
     assert dataframe_b.id in [d.id for d in dataframes]
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_dataframes_metadata")
+def test_dataframes_multiple_backend_error(mock_get_dataframes_metadata, project_client):
+    project = project_client
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_dataframes_metadata.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        DataframeMixin.dataframes(project)
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_dataframes_by_name(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
@@ -299,6 +341,22 @@ def test_dataframe_by_id(project_client, test_dataframe):
     id = dataframe_a.id
     dataframe_b = DataframeMixin.dataframe(project, id=id)
     assert dataframe_a.id == dataframe_b.id
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_dataframe_metadata")
+def test_dataframe_multiple_backend_error(
+    mock_get_dataframe_metadata, project_client, test_dataframe
+):
+    project = project_client
+    dataframe = DataframeMixin.log_dataframe(project, test_dataframe)
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_dataframe_metadata.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        DataframeMixin.dataframe(project, id=dataframe.id)
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_dataframe_warning(project_client, test_dataframe):
@@ -459,3 +517,17 @@ def test_remove_tags(project_client):
     TagMixin.remove_tags(experiment, ["x", "y"])
 
     assert experiment.tags == []
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_tags")
+def test_tags_multiple_backend_error(mock_get_tags, project_client):
+    project = project_client
+    experiment = project.log_experiment(tags=["x", "y"])
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_tags.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.tags()
+    assert "all configured storage backends failed" in str(e)

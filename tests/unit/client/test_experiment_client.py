@@ -1,7 +1,10 @@
+from unittest import mock
+
 import pytest
 
 from rubicon_ml import domain
 from rubicon_ml.client import Experiment
+from rubicon_ml.exceptions import RubiconException
 
 
 def test_properties(project_client):
@@ -65,6 +68,20 @@ def test_get_metrics(project_client):
     assert len(metrics) == 1
     assert metrics[0].name == metric["name"]
     assert metrics[0].value == metric["value"]
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_metrics")
+def test_get_metrics_multiple_backend_error(mock_get_metrics, project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_metrics.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.metrics()
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_get_metric_by_name(project_client):
@@ -137,6 +154,20 @@ def test_get_metric_by_id(project_client):
     assert metric == "accuracy"
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_metric")
+def test_get_metric_multiple_backend_error(mock_get_metric, project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_metric.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.metric("accuracy")
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_log_feature(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
@@ -157,6 +188,20 @@ def test_get_features(project_client):
     assert len(features) == 2
     assert features[0].name == "year"
     assert features[1].name == "credit score"
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_features")
+def test_get_features_multiple_backend_error(mock_get_features, project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_features.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.features()
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_get_feature_by_name(project_client):
@@ -198,6 +243,20 @@ def test_get_feature_fails_both_set(project_client):
         experiment.feature(name="foo", id=123)
 
     assert "`name` OR `id` required." in str(e)
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_feature")
+def test_get_feature_multiple_backend_error(mock_get_feature, project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_feature.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.feature("year")
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_features_tagged_and(project_client):
@@ -253,6 +312,20 @@ def test_parameters(project_client):
     assert parameter_b.id in [p.id for p in parameters]
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_parameters")
+def test_parameters_multiple_backend_error(mock_get_parameters, project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_parameters.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.parameters()
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_get_parameter_by_name(project_client):
     project = project_client
     experiment = project.log_experiment(name="exp1")
@@ -292,6 +365,20 @@ def test_get_parameter_fails_both_set(project_client):
         experiment.parameter(name="foo", id=123)
 
     assert "`name` OR `id` required." in str(e)
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_parameter")
+def test_get_parameter_multiple_backend_error(mock_get_parameter, project_client):
+    project = project_client
+    experiment = project.log_experiment(name="exp1")
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_parameter.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        experiment.parameter("n_estimators")
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_parameters_tagged_and(project_client):
