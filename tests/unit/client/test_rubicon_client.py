@@ -107,6 +107,22 @@ def test_get_project_by_id(rubicon_and_project_client):
     assert project_id == rubicon.get_project(id=project_id).id
 
 
+def test_get_project_fails_both_set(rubicon_and_project_client):
+    rubicon, project = rubicon_and_project_client
+    with pytest.raises(ValueError) as e:
+        rubicon.get_project(name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
+def test_get_project_fails_neither_set(rubicon_and_project_client):
+    rubicon, project = rubicon_and_project_client
+    with pytest.raises(ValueError) as e:
+        rubicon.get_project(name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
 @mock.patch("rubicon_ml.repository.BaseRepository.get_project")
 def test_get_project_multiple_backend_error(mock_get_project, rubicon_client):
     rubicon = rubicon_client

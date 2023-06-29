@@ -134,6 +134,24 @@ def test_experiment_by_name(project_client):
     assert experiment.name == "exp1"
 
 
+def test_get_experiment_fails_both_set(project_client):
+    project = project_client
+    project.log_experiment(name="exp1")
+    with pytest.raises(ValueError) as e:
+        project.experiment(name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
+def test_get_experiment_fails_neither_set(project_client):
+    project = project_client
+    project.log_experiment(name="exp1")
+    with pytest.raises(ValueError) as e:
+        project.experiment(name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
 @mock.patch("rubicon_ml.repository.BaseRepository.get_experiment")
 def test_get_experiment_multiple_backend_error(mock_get_experiment, project_client):
     project = project_client
