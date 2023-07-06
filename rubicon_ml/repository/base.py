@@ -1,5 +1,6 @@
 import os
 import shutil
+import tempfile
 import warnings
 from datetime import datetime
 from typing import List, Optional
@@ -281,8 +282,6 @@ class BaseRepository:
         experiments: Optional[List] = None,
         remote_rubicon_root: Optional[str] = None,
     ):
-        import tempfile
-
         """Archive the experiments logged to this project.
 
         Parameters
@@ -299,12 +298,8 @@ class BaseRepository:
         filepath of newly created archive
         """
         remote_s3 = True if remote_rubicon_root and remote_rubicon_root.startswith("s3") else False
-        if remote_rubicon_root is not None:
-            archive_dir = os.path.join(remote_rubicon_root, slugify(project_name), "archives")
-
-        else:
-            archive_dir = os.path.join(self.root_dir, slugify(project_name), "archives")
-
+        root_dir = remote_rubicon_root if remote_rubicon_root is not None else self.root_dir
+        archive_dir = os.path.join(root_dir, slugify(project_name), "archives")
         ts = datetime.timestamp(datetime.now())
         archive_path = os.path.join(archive_dir, "archive-" + str(ts))
         zip_archive_filename = str(archive_path + ".zip")
@@ -326,9 +321,8 @@ class BaseRepository:
                 file_name = archive.filename
 
             else:
-                file_name = shutil.make_archive(tf.name, "zip", experiments_path)  # look this up
+                file_name = shutil.make_archive(tf.name, "zip", experiments_path)
 
-            # remote_file_system= fsspec.filesystem("filesystem")
             with fsspec.open(zip_archive_filename, "wb") as fp:
                 with open(file_name, "rb") as tf:
                     fp.write(tf.read())
