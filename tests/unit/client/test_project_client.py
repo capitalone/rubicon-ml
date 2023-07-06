@@ -104,6 +104,19 @@ def test_experiments_log_and_retrieval(project_client):
     assert experiment2.id in [e.id for e in project.experiments()]
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_experiments")
+def test_get_experiments_multiple_backend_error(mock_get_experiments, project_client):
+    project = project_client
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_experiments.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        project.experiments()
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_experiment_by_id(rubicon_and_project_client):
     project = rubicon_and_project_client[1]
     _experiment = project.log_experiment(tags=["x"])
@@ -120,6 +133,37 @@ def test_experiment_by_name(project_client):
     experiment = project.experiment(name="exp1")
 
     assert experiment.name == "exp1"
+
+
+def test_get_experiment_fails_both_set(project_client):
+    project = project_client
+    project.log_experiment(name="exp1")
+    with pytest.raises(ValueError) as e:
+        project.experiment(name="foo", id=123)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
+def test_get_experiment_fails_neither_set(project_client):
+    project = project_client
+    project.log_experiment(name="exp1")
+    with pytest.raises(ValueError) as e:
+        project.experiment(name=None, id=None)
+
+    assert "`name` OR `id` required." in str(e.value)
+
+
+@mock.patch("rubicon_ml.repository.BaseRepository.get_experiment")
+def test_get_experiment_multiple_backend_error(mock_get_experiment, project_client):
+    project = project_client
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_experiment.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        project.experiment("exp1")
+    assert "all configured storage backends failed" in str(e)
 
 
 def test_experiment_warning(project_client, test_dataframe):

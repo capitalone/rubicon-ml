@@ -84,7 +84,7 @@ class BaseRepository:
 
     def _mkdir(self, dirpath):
         """Creates a directory `dirpath` with parents."""
-        return self.filesystem.mkdir(dirpath, parents=True, exist_ok=True)
+        return self.filesystem.mkdirs(dirpath, exist_ok=True)
 
     def _modified(self, path):
         return self.filesystem.modified(path)

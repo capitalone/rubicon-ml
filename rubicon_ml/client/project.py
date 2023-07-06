@@ -254,7 +254,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             training_metadata,
             tags,
         )
-        self.repository.create_experiment(experiment)
+        for repo in self.repositories:
+            repo.create_experiment(experiment)
 
         return Experiment(experiment, self)
 
@@ -289,10 +290,17 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 )
 
             experiment = experiments[-1]
+            return experiment
         else:
-            experiment = Experiment(self.repository.get_experiment(self.name, id), self)
-
-        return experiment
+            return_err = None
+            for repo in self.repositories:
+                try:
+                    experiment = Experiment(repo.get_experiment(self.name, id), self)
+                except Exception as err:
+                    return_err = err
+                else:
+                    return experiment
+            raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def experiments(self, tags=[], qtype="or", name=None):
@@ -313,10 +321,17 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         list of rubicon.client.Experiment
             The experiments previously logged to this project.
         """
-        experiments = [Experiment(e, self) for e in self.repository.get_experiments(self.name)]
-        self._experiments = filter_children(experiments, tags, qtype, name)
+        return_err = None
+        for repo in self.repositories:
+            try:
+                experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
+            except Exception as err:
+                return_err = err
+            else:
+                self._experiments = filter_children(experiments, tags, qtype, name)
+                return self._experiments
 
-        return self._experiments
+        raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
     def dataframes(self, tags=[], qtype="or", recursive=False, name=None):

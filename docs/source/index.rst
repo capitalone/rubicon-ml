@@ -134,6 +134,7 @@ To install all extra modules, use the ``all`` extra.
    integrations/integration-prefect-workflows
    integrations/integration-sklearn
    logging-examples/logging-feature-plots
+   logging-examples/multiple-backend
    logging-examples/visualizing-logged-dataframes
 
 .. toctree::
