@@ -1,5 +1,6 @@
 import os
 import shutil
+import tempfile
 import warnings
 from datetime import datetime
 from typing import List, Optional
@@ -296,33 +297,35 @@ class BaseRepository:
         -------
         filepath of newly created archive
         """
-        if remote_rubicon_root is not None:
-            archive_dir = os.path.join(remote_rubicon_root, slugify(project_name), "archives")
-        else:
-            archive_dir = os.path.join(self.root_dir, slugify(project_name), "archives")
-
+        remote_s3 = True if remote_rubicon_root and remote_rubicon_root.startswith("s3") else False
+        root_dir = remote_rubicon_root if remote_rubicon_root is not None else self.root_dir
+        archive_dir = os.path.join(root_dir, slugify(project_name), "archives")
         ts = datetime.timestamp(datetime.now())
         archive_path = os.path.join(archive_dir, "archive-" + str(ts))
         zip_archive_filename = str(archive_path + ".zip")
         experiments_path = self._get_experiment_metadata_root(project_name)
 
-        if not self._exists(archive_dir):
-            self._mkdir(archive_dir)
+        if not remote_s3:
+            if not self._exists(archive_dir):
+                self._mkdir(archive_dir)
 
-        if experiments is None:
-            shutil.make_archive(archive_path, "zip", experiments_path)
-        else:
-            experiment_paths = []
-            for experiment in experiments:
-                experiment_paths.append(os.path.join(experiments_path, experiment.id))
-            with ZipFile(zip_archive_filename, "x") as archive:
-                for file_path in experiment_paths:
-                    archive.write(file_path, os.path.basename(file_path))
+        file_name = None
+        with tempfile.NamedTemporaryFile() as tf:
+            if experiments is not None:
+                with ZipFile(tf, "x") as archive:
+                    experiment_paths = []
+                    for experiment in experiments:
+                        experiment_paths.append(os.path.join(experiments_path, experiment.id))
+                    for file_path in experiment_paths:
+                        archive.write(file_path, os.path.basename(file_path))
+                file_name = archive.filename
 
-        if self._exists(zip_archive_filename):
-            print("zip archive created")
-        else:
-            print("zip archive not created")
+            else:
+                file_name = shutil.make_archive(tf.name, "zip", experiments_path)
+
+            with fsspec.open(zip_archive_filename, "wb") as fp:
+                with open(file_name, "rb") as tf:
+                    fp.write(tf.read())
 
         return zip_archive_filename
 
