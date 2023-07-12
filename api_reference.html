@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
-        <title>API Reference - rubicon-ml v0.4.4</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.05.20 -->
+        <title>API Reference - rubicon-ml v0.4.5</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.4</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.5</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.4</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.5</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -173,7 +173,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/tagging.html">Tagging</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Visualizations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
@@ -189,6 +189,7 @@
 <li class="toctree-l1"><a class="reference internal" href="integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/multiple-backend.html">Log with Multiple Backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
@@ -434,6 +435,27 @@ is on.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.archive">
+<span class="sig-name descname"><span class="pre">archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_rubicon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.archive" title="Permalink to this definition">#</a></dt>
+<dd><p>Archive the experiments logged to this project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiments</strong><span class="classifier">list of Experiments, optional</span></dt><dd><p>The rubicon.client.Experiment objects to archive. If None all logged experiments are archived.</p>
+</dd>
+<dt><strong>remote_rubicon</strong><span class="classifier">rubicon_ml.Rubicon object, optional</span></dt><dd><p>The remote Rubicon object with the repository to archive to</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>filepath of newly created archive</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.artifact">
 <span class="sig-name descname"><span class="pre">artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.artifact" title="Permalink to this definition">#</a></dt>
 <dd><p>Get an artifact logged to this project by id or name.</p>
@@ -611,6 +633,22 @@ this client object.</p>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Experiment</dt><dd><p>The experiments previously logged to this project.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.experiments_from_archive">
+<span class="sig-name descname"><span class="pre">experiments_from_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_rubicon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latest_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project.experiments_from_archive" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve archived experiments into this project’s experiments folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>remote_rubicon</strong><span class="classifier">rubicon_ml.Rubicon object</span></dt><dd><p>The remote Rubicon object with the repository containing archived experiments to read in</p>
+</dd>
+<dt><strong>latest_only</strong><span class="classifier">bool, optional</span></dt><dd><p>Indicates whether or not experiments should only be read from the latest archive</p>
 </dd>
 </dl>
 </dd>
@@ -2982,6 +3020,7 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#project">Project</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Project.archive"><code class="docutils literal notranslate"><span class="pre">Project.archive()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.artifact"><code class="docutils literal notranslate"><span class="pre">Project.artifact()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.artifacts"><code class="docutils literal notranslate"><span class="pre">Project.artifacts()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.created_at"><code class="docutils literal notranslate"><span class="pre">Project.created_at</span></code></a></li>
@@ -2992,6 +3031,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.description"><code class="docutils literal notranslate"><span class="pre">Project.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.experiment"><code class="docutils literal notranslate"><span class="pre">Project.experiment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.experiments"><code class="docutils literal notranslate"><span class="pre">Project.experiments()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.experiments_from_archive"><code class="docutils literal notranslate"><span class="pre">Project.experiments_from_archive()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.github_url"><code class="docutils literal notranslate"><span class="pre">Project.github_url</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.id"><code class="docutils literal notranslate"><span class="pre">Project.id</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_artifact"><code class="docutils literal notranslate"><span class="pre">Project.log_artifact()</span></code></a></li>
@@ -3193,9 +3233,6 @@ log a parameter to an existing experiment.</p>
     </aside>
   </div>
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/furo.js"></script>

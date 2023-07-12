@@ -1,0 +1,591 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualize Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Link Plots to Features" href="logging-feature-plots.html" />
+
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.05.20 -->
+        <title>Log with Multiple Backends - rubicon-ml v0.4.5</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.5</div></div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/images/rubicon_ml_logo_only.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.5</div></span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Visualizations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Log with Multiple Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/multiple-backend.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/multiple-backend.ipynb" target="_blank">run it yourself on Binder</a>!</p>
+<hr class="docutils" />
+<section id="Log-with-Multiple-Backends">
+<h1>Log with Multiple Backends<a class="headerlink" href="#Log-with-Multiple-Backends" title="Permalink to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> allows users to instantiate <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects with multiple backends to write to/read from. These backends include local, memory, and S3 repositories. Here’s a walk through of how one might instantiate and use a <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object with multiple backends.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#rb = Rubicon(persistence=&quot;memory&quot;)</span>
+<span class="c1">#or</span>
+<span class="c1">#rb = Rubicon(persistence=&quot;filesystem&quot;)</span>
+</pre></div>
+</div>
+</div>
+<p>However, when we want multiple backends we utilize the <code class="docutils literal notranslate"><span class="pre">composite_config</span></code> kwarg:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#example multiple backend instantiaiton</span>
+<span class="n">rb</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">composite_config</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;persistence&quot;</span><span class="p">:</span> <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="s2">&quot;root_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./rubicon-root/rootA&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;persistence&quot;</span><span class="p">:</span> <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="s2">&quot;root_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./rubicon-root/rootB&quot;</span><span class="p">},</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<section id="Write-Commands">
+<h2>Write Commands<a class="headerlink" href="#Write-Commands" title="Permalink to this heading">#</a></h2>
+<p>The following commands write to all insantiated backend repositories:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s2">&quot;example_project&quot;</span><span class="p">)</span>
+
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="s2">&quot;example_experiment&quot;</span><span class="p">)</span>
+
+<span class="n">artifact</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">data_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_artifact&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]))</span>
+<span class="n">feature</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="mf">.8</span><span class="p">)</span>
+<span class="n">parameter</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s verify both of our backends have been written to:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/artifacts&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/dataframes&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/features&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/metrics&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/parameters&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">exampleproject</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">experiments</span>   metadata.json
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">8661b18a-afe3-4779-8ed4-e7d2a9aba244</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">artifacts</span>     <span class="ansi-cyan-intense-fg ansi-bold">features</span>      <span class="ansi-cyan-intense-fg ansi-bold">metrics</span>
+<span class="ansi-cyan-intense-fg ansi-bold">dataframes</span>    metadata.json <span class="ansi-cyan-intense-fg ansi-bold">parameters</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">e3b53858-ae06-4a11-996b-17b077821168</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">8cd7f032-3206-480b-948b-44d878f6bb56</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">year</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">accuracy</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">nestimators</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/artifacts&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/dataframes&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/features&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/metrics&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/parameters&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">exampleproject</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">experiments</span>   metadata.json
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">8661b18a-afe3-4779-8ed4-e7d2a9aba244</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">artifacts</span>     <span class="ansi-cyan-intense-fg ansi-bold">features</span>      <span class="ansi-cyan-intense-fg ansi-bold">metrics</span>
+<span class="ansi-cyan-intense-fg ansi-bold">dataframes</span>    metadata.json <span class="ansi-cyan-intense-fg ansi-bold">parameters</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">e3b53858-ae06-4a11-996b-17b077821168</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">8cd7f032-3206-480b-948b-44d878f6bb56</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">year</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">accuracy</span>
+
+
+<span class="ansi-cyan-intense-fg ansi-bold">nestimators</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Read-Commands">
+<h2>Read Commands<a class="headerlink" href="#Read-Commands" title="Permalink to this heading">#</a></h2>
+<p>Now that we’ve seen both of our backends have been written to, let’s see the read commands. Read commands will iterate over all backend repositories and return from the first one they are able to read from. A <code class="docutils literal notranslate"><span class="pre">RubiconException</span></code> will be raised if none of the backend repositories can be read the requested item(s).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">projects</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">projects</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;projects: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">projects</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">experiments</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;experiments: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">experiments</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">artifacts</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">artifacts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;artifacts: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">artifacts</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">dataframes</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">dataframes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dataframes: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dataframes</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">features</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;features: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;metrics: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">metrics</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">parameters</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parameters: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">parameters</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+projects: [&lt;rubicon_ml.client.project.Project object at 0x12782ba60&gt;]
+
+
+experiments: [&lt;rubicon_ml.client.experiment.Experiment object at 0x12792ae60&gt;]
+
+
+artifacts: [&lt;rubicon_ml.client.artifact.Artifact object at 0x12792ae90&gt;]
+
+
+dataframes: [&lt;rubicon_ml.client.dataframe.Dataframe object at 0x1278f1b40&gt;]
+
+
+features: [&lt;rubicon_ml.client.feature.Feature object at 0x127978130&gt;]
+
+
+metrics: [&lt;rubicon_ml.client.metric.Metric object at 0x1279780a0&gt;]
+
+
+parameters: [&lt;rubicon_ml.client.parameter.Parameter object at 0x127978310&gt;]
+
+
+</pre></div></div>
+</div>
+<section id="Additional-Read-Commands">
+<h3>Additional Read Commands<a class="headerlink" href="#Additional-Read-Commands" title="Permalink to this heading">#</a></h3>
+<p>Along with the commands demonstrated above, all other “read” type rubicon commands work the same way in that they will iterate over backend repositories and return from the first one they are able to read from. These include commands which read a specific logged object like <code class="docutils literal notranslate"><span class="pre">get_project()</span></code>, <code class="docutils literal notranslate"><span class="pre">experiment()</span></code>, <code class="docutils literal notranslate"><span class="pre">artifact()</span></code>, <code class="docutils literal notranslate"><span class="pre">dataframe()</span></code>, <code class="docutils literal notranslate"><span class="pre">metric()</span></code>, and <code class="docutils literal notranslate"><span class="pre">parameter()</span></code>.</p>
+<p>Cleaning up local repository folders</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">rubicon</span><span class="o">-</span><span class="n">root</span><span class="o">/</span><span class="n">rootA</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">rubicon</span><span class="o">-</span><span class="n">root</span><span class="o">/</span><span class="n">rootB</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="visualizing-logged-dataframes.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Visualize Logged Dataframes</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="logging-feature-plots.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Link Plots to Features</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, rubicon-ml developers
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Log with Multiple Backends</a><ul>
+<li><a class="reference internal" href="#Write-Commands">Write Commands</a></li>
+<li><a class="reference internal" href="#Read-Commands">Read Commands</a><ul>
+<li><a class="reference internal" href="#Additional-Read-Commands">Additional Read Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
