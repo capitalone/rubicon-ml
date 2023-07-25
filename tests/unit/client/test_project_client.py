@@ -2,6 +2,7 @@ import os
 import time
 import warnings
 from unittest import mock
+from unittest.mock import patch
 
 import pytest
 
@@ -103,6 +104,19 @@ def test_experiments_log_and_retrieval(project_client):
     assert experiment2.id in [e.id for e in project.experiments()]
 
 
+@mock.patch("rubicon_ml.repository.BaseRepository.get_experiments")
+def test_get_experiments_multiple_backend_error(mock_get_experiments, project_client):
+    project = project_client
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_experiments.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        project.experiments()
+    assert "all configured storage backends failed" in str(e)
+
+
 def test_experiment_by_id(rubicon_and_project_client):
     project = rubicon_and_project_client[1]
     _experiment = project.log_experiment(tags=["x"])
@@ -139,6 +153,22 @@ def test_get_experiment_fails_neither_set(project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
+<<<<<<< HEAD
+=======
+@mock.patch("rubicon_ml.repository.BaseRepository.get_experiment")
+def test_get_experiment_multiple_backend_error(mock_get_experiment, project_client):
+    project = project_client
+
+    def raise_error():
+        raise RubiconException()
+
+    mock_get_experiment.side_effect = raise_error
+    with pytest.raises(RubiconException) as e:
+        project.experiment("exp1")
+    assert "all configured storage backends failed" in str(e)
+
+
+>>>>>>> 34d3bcbccd2fc9079f3f5c9dd0171c7cf04a51c3
 def test_experiment_warning(project_client, test_dataframe):
     project = project_client
     experiment_a = project.log_experiment(name="exp1")
@@ -463,3 +493,24 @@ def test_experiments_from_archive_latest_only():
     assert new_num_expsB == 4
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
+
+
+@patch("fsspec.open")
+def test_archive_remote_rubicon_s3(mock_open):
+    print("buffer")
+    rubicon_a = Rubicon(
+        persistence="filesystem",
+        root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
+    )
+    s3_repo = "s3://bucket/root/path/to/data"
+
+    rubicon_b = Rubicon(persistence="filesystem", root_dir=s3_repo)
+
+    projectA = rubicon_a.get_or_create_project("ArchiveTesting")
+    projectA.log_experiment(name="experiment1")
+    projectA.log_experiment(name="experiment2")
+
+    zip_archive_filename = projectA.archive(remote_rubicon=rubicon_b)
+
+    mock_open.assert_called_once_with(zip_archive_filename, "wb")
+    rubicon_a.repository.filesystem.rm(rubicon_a.config.root_dir, recursive=True)

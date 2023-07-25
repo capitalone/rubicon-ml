@@ -49,7 +49,6 @@ def publish(
 
 
 def _update_catalog(base_catalog_filepath, new_experiments, output_filepath=None):
-
     """Helper function to update exisiting intake catalog.
 
     Parameters
@@ -92,7 +91,6 @@ def _update_catalog(base_catalog_filepath, new_experiments, output_filepath=None
 
 
 def _build_catalog(experiments):
-
     """Helper function to build catalog dictionary from given experiments.
 
     Parameters
