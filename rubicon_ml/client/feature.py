@@ -1,4 +1,10 @@
+from typing import TYPE_CHECKING
+
 from rubicon_ml.client import Base, TagMixin
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import Feature as FeatureDomain
+    from rubicon_ml.client import Experiment
 
 
 class Feature(Base, TagMixin):
@@ -25,7 +31,7 @@ class Feature(Base, TagMixin):
         logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: FeatureDomain, parent: Experiment):
         super().__init__(domain, parent._config)
 
         self._data = None

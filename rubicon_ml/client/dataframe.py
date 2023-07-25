@@ -1,6 +1,13 @@
+from typing import Callable, Literal, Optional, TYPE_CHECKING, Union
+
 from rubicon_ml.client import Base, TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
+
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import Dataframe as DataframeDomain
+    from rubicon_ml.client import Experiment, Project
 
 
 class Dataframe(Base, TagMixin):
@@ -24,14 +31,14 @@ class Dataframe(Base, TagMixin):
         logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: DataframeDomain, parent: Union[Experiment, Project]):
         super().__init__(domain, parent._config)
 
         self._data = None
         self._parent = parent
 
     @failsafe
-    def get_data(self, df_type="pandas"):
+    def get_data(self, df_type: Literal["pandas", "dask"] = "pandas"):
         """Loads the data associated with this Dataframe
         into a `pandas` or `dask` dataframe.
 
@@ -59,7 +66,12 @@ class Dataframe(Base, TagMixin):
         raise RubiconException(return_err)
 
     @failsafe
-    def plot(self, df_type="pandas", plotting_func=None, **kwargs):
+    def plot(
+        self,
+        df_type: Literal["pandas", "dask"] = "pandas",
+        plotting_func: Optional[Callable] = None,
+        **kwargs
+    ):
         """Render the dataframe using `plotly.express`.
 
         Parameters

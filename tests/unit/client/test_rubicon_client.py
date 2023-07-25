@@ -123,8 +123,6 @@ def test_get_project_fails_neither_set(rubicon_and_project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-<<<<<<< HEAD
-=======
 @mock.patch("rubicon_ml.repository.BaseRepository.get_project")
 def test_get_project_multiple_backend_error(mock_get_project, rubicon_client):
     rubicon = rubicon_client
@@ -138,7 +136,6 @@ def test_get_project_multiple_backend_error(mock_get_project, rubicon_client):
     assert "all configured storage backends failed" in str(e)
 
 
->>>>>>> 34d3bcbccd2fc9079f3f5c9dd0171c7cf04a51c3
 def test_get_projects(rubicon_client):
     rubicon = rubicon_client
     rubicon.create_project("Project A")

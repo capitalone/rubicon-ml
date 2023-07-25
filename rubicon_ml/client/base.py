@@ -1,3 +1,11 @@
+from typing import List, Optional, TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from rubicon_ml.client import Config
+    from rubicon_ml.domain import DOMAIN_TYPES
+
+
 class Base:
     """The base object for all top-level client objects.
 
@@ -9,19 +17,22 @@ class Base:
         The config, which injects the repository to use.
     """
 
-    def __init__(self, domain, config=None):
+    def __init__(self, domain: DOMAIN_TYPES, config: Optional[Config] = None):
         self._config = config
         self._domain = domain
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._domain.__str__()
 
     @property
-    def repository(self):
-        return self._config.repository
+    def repository(self) -> Optional[str]:
+        return self._config.repository if self._config is not None else None
 
     @property
-    def repositories(self):
+    def repositories(self) -> Optional[List[str]]:
+        if self._config is None:
+            return None
+
         if hasattr(self._config, "repositories"):
             return self._config.repositories
         else:

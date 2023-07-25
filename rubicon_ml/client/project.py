@@ -1,6 +1,6 @@
 import subprocess
 import warnings
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
 import dask.dataframe as dd
 import pandas as pd
@@ -10,6 +10,10 @@ from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import Project as ProjectDomain
+    from rubicon_ml.client import Config
 
 
 class Project(Base, ArtifactMixin, DataframeMixin):
@@ -26,14 +30,14 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         The config, which specifies the underlying repository.
     """
 
-    def __init__(self, domain, config=None):
+    def __init__(self, domain: ProjectDomain, config: Optional[Config] = None):
         super().__init__(domain, config)
 
         self._artifacts = []
         self._dataframes = []
         self._experiments = []
 
-    def _get_branch_name(self):
+    def _get_branch_name(self) -> str:
         """Returns the name of the active branch of the `git` repo
         it is called from.
         """
@@ -42,7 +46,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return completed_process.stdout.decode("utf8").replace("\n", "")
 
-    def _get_commit_hash(self):
+    def _get_commit_hash(self) -> str:
         """Returns the hash of the last commit to the active branch
         of the `git` repo it is called from.
         """

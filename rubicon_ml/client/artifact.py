@@ -1,5 +1,6 @@
 import os
 import pickle
+from typing import Optional, TYPE_CHECKING
 import warnings
 
 import fsspec
@@ -8,6 +9,11 @@ from rubicon_ml.client.base import Base
 from rubicon_ml.client.mixin import TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
+
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import Artifact as ArtifactDomain
+    from rubicon_ml.client import Project
 
 
 class Artifact(Base, TagMixin):
@@ -32,7 +38,7 @@ class Artifact(Base, TagMixin):
         logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: ArtifactDomain, parent: Project):
         super().__init__(domain, parent._config)
 
         self._data = None
@@ -42,8 +48,8 @@ class Artifact(Base, TagMixin):
         """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_identifiers()
         return_err = None
-        for repo in self.repositories:
-            self._data = None
+        self._data = None
+        for repo in self.repositories or []:
             try:
                 self._data = repo.get_artifact_data(
                     project_name, self.id, experiment_id=experiment_id
@@ -56,7 +62,7 @@ class Artifact(Base, TagMixin):
             raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def get_data(self, unpickle=False):
+    def get_data(self, unpickle: bool = False):
         """Loads the data associated with this artifact and
         unpickles if needed.
 
@@ -68,7 +74,7 @@ class Artifact(Base, TagMixin):
         """
         project_name, experiment_id = self.parent._get_identifiers()
         return_err = None
-        for repo in self.repositories:
+        for repo in self.repositories or []:
             try:
                 data = repo.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
             except Exception as err:
@@ -80,7 +86,7 @@ class Artifact(Base, TagMixin):
         raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def download(self, location=None, name=None):
+    def download(self, location: Optional[str] = None, name: Optional[str] = None):
         """Download this artifact's data.
 
         Parameters
@@ -104,17 +110,17 @@ class Artifact(Base, TagMixin):
             f.write(self.data)
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Get the artifact's id."""
         return self._domain.id
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Get the artifact's name."""
         return self._domain.name
 
     @property
-    def description(self):
+    def description(self) -> str:
         """Get the artifact's description."""
         return self._domain.description
 
