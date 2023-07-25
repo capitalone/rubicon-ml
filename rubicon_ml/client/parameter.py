@@ -1,4 +1,11 @@
+from typing import TYPE_CHECKING
+
 from rubicon_ml.client import Base, TagMixin
+
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import Parameter as ParameterDomain
+    from rubicon_ml.client import Experiment
 
 
 class Parameter(Base, TagMixin):
@@ -22,17 +29,17 @@ class Parameter(Base, TagMixin):
         The experiment that the parameter is logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: ParameterDomain, parent: Experiment):
         super().__init__(domain, parent._config)
         self._parent = parent
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Get the parameter's id."""
         return self._domain.id
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Get the parameter's name."""
         return self._domain.name
 

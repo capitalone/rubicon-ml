@@ -153,8 +153,6 @@ def test_get_experiment_fails_neither_set(project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-<<<<<<< HEAD
-=======
 @mock.patch("rubicon_ml.repository.BaseRepository.get_experiment")
 def test_get_experiment_multiple_backend_error(mock_get_experiment, project_client):
     project = project_client
@@ -168,7 +166,6 @@ def test_get_experiment_multiple_backend_error(mock_get_experiment, project_clie
     assert "all configured storage backends failed" in str(e)
 
 
->>>>>>> 34d3bcbccd2fc9079f3f5c9dd0171c7cf04a51c3
 def test_experiment_warning(project_client, test_dataframe):
     project = project_client
     experiment_a = project.log_experiment(name="exp1")
