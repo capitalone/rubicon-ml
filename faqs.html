@@ -1,17 +1,17 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api_reference.html" /><link rel="prev" title="Glossary" href="glossary.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.05.20 -->
-        <title>FAQs - rubicon-ml v0.4.6</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.4 and Furo 2023.08.19 -->
+        <title>FAQs - rubicon-ml v0.4.7</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=4af6793b" />
     
     
 
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.6</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.7</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.6</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.7</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -242,9 +242,9 @@
         </div>
         <article role="main">
           <section id="faqs">
-<span id="id1"></span><h1>FAQs<a class="headerlink" href="#faqs" title="Permalink to this heading">#</a></h1>
+<span id="id1"></span><h1>FAQs<a class="headerlink" href="#faqs" title="Link to this heading">#</a></h1>
 <section id="why-the-name">
-<h2>Why the name?<a class="headerlink" href="#why-the-name" title="Permalink to this heading">#</a></h2>
+<h2>Why the name?<a class="headerlink" href="#why-the-name" title="Link to this heading">#</a></h2>
 <p>The name comes from a historical context; it’s a reference to Caeser
 crossing the Rubicon, which nowadays is synonymous with “passing the point of no
 return”. We chose the name to signify that by using the library, you’re making the
@@ -252,7 +252,7 @@ decision to provide a repeatable and auditable model development process and
 there’s no going back on that commitment!</p>
 </section>
 <section id="how-can-i-log-my-data-to-s3">
-<h2>How can I log my data to S3?<a class="headerlink" href="#how-can-i-log-my-data-to-s3" title="Permalink to this heading">#</a></h2>
+<h2>How can I log my data to S3?<a class="headerlink" href="#how-can-i-log-my-data-to-s3" title="Link to this heading">#</a></h2>
 <p>Data can be logged either <strong>directly to S3</strong> or to the local filesystem first,
 and then <strong>synced with S3</strong>.</p>
 <p><strong>Direct S3 Logging</strong></p>
@@ -301,13 +301,13 @@ specified S3 bucket. Under-the-hood, it uses the AWS CLI <code class="docutils l
 you’d need to have the AWS CLI installed and ensure your credentials are set.</p>
 </section>
 <section id="why-does-rubicon-ml-offer-prefect-integration">
-<h2>Why does rubicon-ml offer Prefect integration?<a class="headerlink" href="#why-does-rubicon-ml-offer-prefect-integration" title="Permalink to this heading">#</a></h2>
+<h2>Why does rubicon-ml offer Prefect integration?<a class="headerlink" href="#why-does-rubicon-ml-offer-prefect-integration" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://docs.prefect.io/">Prefect</a> is a popular workflow management system
 that can be used to create machine learning pipelines. The Prefect
 integration makes it easy to drop logging tasks into existing flows.</p>
 </section>
 <section id="why-was-the-dashboard-built-with-dash">
-<h2>Why was the dashboard built with Dash?<a class="headerlink" href="#why-was-the-dashboard-built-with-dash" title="Permalink to this heading">#</a></h2>
+<h2>Why was the dashboard built with Dash?<a class="headerlink" href="#why-was-the-dashboard-built-with-dash" title="Link to this heading">#</a></h2>
 <p>We decided to use <a class="reference external" href="https://dash.plotly.com/">dash</a> as our initial dashboarding
 solution for the following reasons:</p>
 <ul class="simple">
@@ -322,7 +322,7 @@ solution for the following reasons:</p>
 additional dashboarding solutions!</p>
 </section>
 <section id="could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow">
-<h2>Could rubicon-ml be used outside of a machine learning workflow?<a class="headerlink" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow" title="Permalink to this heading">#</a></h2>
+<h2>Could rubicon-ml be used outside of a machine learning workflow?<a class="headerlink" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow" title="Link to this heading">#</a></h2>
 <p>Yes. The <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">terminology</span></a> was designed for machine learning
 workflows, but the library is flexible! An <code class="docutils literal notranslate"><span class="pre">experiment</span></code> can simply represent any
 unit of work that you’d like to compare multiple runs of. In fact, we’ve used
@@ -331,7 +331,7 @@ could better evaluate areas of improvement and also have a record of the data
 supporting our decisions.</p>
 </section>
 <section id="how-does-rubicon-ml-compare-to-mlflow">
-<h2>How does rubicon-ml compare to MLFlow?<a class="headerlink" href="#how-does-rubicon-ml-compare-to-mlflow" title="Permalink to this heading">#</a></h2>
+<h2>How does rubicon-ml compare to MLFlow?<a class="headerlink" href="#how-does-rubicon-ml-compare-to-mlflow" title="Link to this heading">#</a></h2>
 <p>At the highest level, rubicon-ml isn’t trying to do as much as MLFlow. rubicon-ml is simply a logging library (with some visualizations), while MLFlow is a full model lifecycle management tool. rubicon-ml is designed to be lightweight and not prescribe a full model lifecycle pattern, but instead assist users in enhancing whatever pattern they’ve already established.</p>
 <p>Architecturally, rubicon-ml does not require a hosted server for remote logging like the MLFlow tracking server. rubicon-ml uses <a class="reference external" href="https://github.com/fsspec/filesystem_spec">fsspec</a> to provide a bring-your-own-backend interface where users can log rubicon-ml data to any arbitrary local or S3 filesystem, as well as directly in-memory for experimentation purposes. If the need arose, it should also be trivial to implement any of the other backends that fsspec supports:</p>
 <ul class="simple">
@@ -342,7 +342,7 @@ supporting our decisions.</p>
 <p>Like MLFlow, rubicon-ml also aims to offer integrations with commonly used tools, such as <a class="reference external" href="https://capitalone.github.io/rubicon-ml/integrations/integration-sklearn.html">Scikit-learn</a>. Again, rubicon-ml tries to be less prescriptive in these integrations. For example, <a class="reference external" href="https://mlflow.org/docs/latest/tracking.html#scikit-learn">MLFlow says exactly what it will log</a>  when using with Scikit-learn. rubicon-ml has a set of defaults that are logged to each estimator, but also <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.sklearn.RubiconPipeline">supports user-defined loggers</a> for any estimator, like the built-in <a class="reference external" href="https://github.com/capitalone/rubicon-ml/blob/main/rubicon_ml/sklearn/filter_estimator_logger.py">FilterEstimatorLogger</a>.</p>
 </section>
 <section id="is-rubicon-ml-s-dashboard-compatible-with-docker">
-<h2>Is rubicon-ml’s dashboard compatible with Docker?<a class="headerlink" href="#is-rubicon-ml-s-dashboard-compatible-with-docker" title="Permalink to this heading">#</a></h2>
+<h2>Is rubicon-ml’s dashboard compatible with Docker?<a class="headerlink" href="#is-rubicon-ml-s-dashboard-compatible-with-docker" title="Link to this heading">#</a></h2>
 <p>The rubicon-ml dashboard is just a <a class="reference external" href="https://plotly.com/dash/">Dash app</a>, so it can be dockerized the same way as any other Dash app.
 You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard’s <code class="docutils literal notranslate"><span class="pre">dash_kwargs</span></code> or <code class="docutils literal notranslate"><span class="pre">run_server_kwargs</span></code> in <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.viz.Dashboard.serve">serve</a>.</p>
 </section>
@@ -422,12 +422,12 @@ You may need to write a small python script to run from the container, rather th
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     </body>
 </html>
