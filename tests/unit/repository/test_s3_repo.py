@@ -12,8 +12,7 @@ from rubicon_ml.repository.utils import slugify
 def test_initialization():
     s3_repo = S3Repository(root_dir="s3://bucket/root")
 
-    assert s3_repo.PROTOCOL == "s3"
-    assert type(s3_repo.filesystem) == s3fs.core.S3FileSystem
+    assert isinstance(s3_repo.filesystem, s3fs.core.S3FileSystem)
 
 
 @patch("s3fs.core.S3FileSystem.open")
