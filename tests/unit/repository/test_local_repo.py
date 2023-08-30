@@ -14,7 +14,7 @@ def test_initialization():
     local_repo = LocalRepository(root_dir="/local/root")
 
     assert local_repo.PROTOCOL == "file"
-    assert type(local_repo.filesystem) == fsspec.implementations.local.LocalFileSystem
+    assert isinstance(local_repo.filesystem, fsspec.implementations.local.LocalFileSystem)
 
 
 @patch("fsspec.implementations.local.LocalFileSystem.open")

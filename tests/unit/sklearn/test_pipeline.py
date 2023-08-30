@@ -17,7 +17,7 @@ def test_get_default_estimator_logger(project_client, fake_estimator_cls):
 
     logger = pipeline.get_estimator_logger()
 
-    assert type(logger) == EstimatorLogger
+    assert isinstance(logger, EstimatorLogger)
 
 
 def test_get_user_defined_estimator_logger(project_client, fake_estimator_cls):
@@ -29,7 +29,7 @@ def test_get_user_defined_estimator_logger(project_client, fake_estimator_cls):
 
     logger = pipeline.get_estimator_logger("est")
 
-    assert type(logger) == FilterEstimatorLogger
+    assert isinstance(logger, FilterEstimatorLogger)
 
 
 def test_fit_logs_parameters(project_client, fake_estimator_cls):

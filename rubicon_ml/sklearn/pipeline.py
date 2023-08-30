@@ -318,7 +318,7 @@ def make_pipeline(
     steps = _name_estimators(steps)
     user_defined_loggers = _name_loggers(steps, loggers)
 
-    if type(project) != Project:
+    if not isinstance(project, Project):
         raise ValueError(
             "project" + str(project) + " must be of type rubicon_ml.client.project.Project"
         )
