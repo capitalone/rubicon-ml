@@ -4,6 +4,7 @@ from typing import List, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from rubicon_ml.client import Config
     from rubicon_ml.domain import DOMAIN_TYPES
+    from rubicon_ml.repository import BaseRepository
 
 
 class Base:
@@ -25,11 +26,11 @@ class Base:
         return self._domain.__str__()
 
     @property
-    def repository(self) -> Optional[str]:
+    def repository(self) -> Optional[BaseRepository]:
         return self._config.repository if self._config is not None else None
 
     @property
-    def repositories(self) -> Optional[List[str]]:
+    def repositories(self) -> Optional[List[BaseRepository]]:
         if self._config is None:
             return None
 

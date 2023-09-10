@@ -1,4 +1,11 @@
+from datetime import datetime
+
+from typing import Optional, TYPE_CHECKING
 from rubicon_ml.client import Base, TagMixin
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import Metric as MetricDomain
+    from rubicon_ml.client import Experiment
 
 
 class Metric(Base, TagMixin):
@@ -21,19 +28,19 @@ class Metric(Base, TagMixin):
         logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: MetricDomain, parent: Experiment):
         super().__init__(domain, parent._config)
 
         self._data = None
         self._parent = parent
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Get the metric's id."""
         return self._domain.id
 
     @property
-    def name(self):
+    def name(self) -> Optional[str]:
         """Get the metric's name."""
         return self._domain.name
 
@@ -43,21 +50,21 @@ class Metric(Base, TagMixin):
         return self._domain.value
 
     @property
-    def directionality(self):
+    def directionality(self) -> str:
         """Get the metric's directionality."""
         return self._domain.directionality
 
     @property
-    def description(self):
+    def description(self) -> Optional[str]:
         """Get the metric's description."""
         return self._domain.description
 
     @property
-    def created_at(self):
+    def created_at(self) -> datetime:
         """Get the metric's created_at."""
         return self._domain.created_at
 
     @property
-    def parent(self):
+    def parent(self) -> Experiment:
         """Get the metric's parent client object."""
         return self._parent

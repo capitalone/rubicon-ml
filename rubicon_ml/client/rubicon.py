@@ -1,4 +1,5 @@
 import subprocess
+from typing import Optional
 import warnings
 
 from rubicon_ml import domain
@@ -32,7 +33,11 @@ class Rubicon:
     """
 
     def __init__(
-        self, persistence="filesystem", root_dir=None, auto_git_enabled=False, **storage_options
+        self,
+        persistence: Optional[str] = "filesystem",
+        root_dir=None,
+        auto_git_enabled=False,
+        **storage_options,
     ):
         self.config = Config(persistence, root_dir, auto_git_enabled, **storage_options)
 

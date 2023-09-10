@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING
+from datetime import datetime
+from typing import Optional, TYPE_CHECKING, Union
 
 from rubicon_ml.client import Base, TagMixin
 
@@ -39,26 +40,26 @@ class Parameter(Base, TagMixin):
         return self._domain.id
 
     @property
-    def name(self) -> str:
+    def name(self) -> Optional[str]:
         """Get the parameter's name."""
         return self._domain.name
 
     @property
-    def value(self):
+    def value(self) -> Optional[Union[object, float]]:
         """Get the parameter's value."""
-        return self._domain.value
+        return getattr(self._domain, "value", None)
 
     @property
-    def description(self):
+    def description(self) -> Optional[str]:
         """Get the parameter's description."""
         return self._domain.description
 
     @property
-    def created_at(self):
+    def created_at(self) -> datetime:
         """Get the time the parameter was created."""
         return self._domain.created_at
 
     @property
-    def parent(self):
+    def parent(self) -> Experiment:
         """Get the parameter's parent client object."""
         return self._parent

@@ -36,7 +36,7 @@ class BaseRepository:
         the underlying filesystem class.
     """
 
-    def __init__(self, root_dir, **storage_options):
+    def __init__(self, root_dir: str, **storage_options):
         self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/")
 

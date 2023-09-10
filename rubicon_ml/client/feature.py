@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING
+from datetime import datetime
+from typing import TYPE_CHECKING, Optional
 
 from rubicon_ml.client import Base, TagMixin
 
@@ -38,17 +39,17 @@ class Feature(Base, TagMixin):
         self._parent = parent
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Get the feature's id."""
         return self._domain.id
 
     @property
-    def name(self):
+    def name(self) -> Optional[str]:
         """Get the feature's name."""
         return self._domain.name
 
     @property
-    def description(self):
+    def description(self) -> Optional[str]:
         """Get the feature's description."""
         return self._domain.description
 
@@ -58,11 +59,11 @@ class Feature(Base, TagMixin):
         return self._domain.importance
 
     @property
-    def created_at(self):
+    def created_at(self) -> datetime:
         """Get the feature's created_at."""
         return self._domain.created_at
 
     @property
-    def parent(self):
+    def parent(self) -> Experiment:
         """Get the feature's parent client object."""
         return self._parent

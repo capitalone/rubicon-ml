@@ -1,6 +1,7 @@
 import os
 import pickle
 import subprocess
+from typing import Any, Optional, List, Union
 import warnings
 from datetime import datetime
 
@@ -10,6 +11,12 @@ from rubicon_ml import client, domain
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+
+if TYPE_CHECKING:
+    import pandas as pd
+    import dask.dataframe as dd
+
+    from rubicon_ml.client import Artifact, Dataframe
 
 
 class ArtifactMixin:
@@ -47,14 +54,14 @@ class ArtifactMixin:
     @failsafe
     def log_artifact(
         self,
-        data_bytes=None,
+        data_bytes: Optional[bytes] = None,
         data_file=None,
-        data_object=None,
-        data_path=None,
-        name=None,
-        description=None,
-        tags=[],
-    ):
+        data_object: Optional[Any] = None,
+        data_path: Optional[str] = None,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+    ) -> Artifact:
         """Log an artifact to this client object.
 
         Parameters
@@ -108,7 +115,8 @@ class ArtifactMixin:
         ...     data_path="./path/to/artifact.pkl", description="log artifact from file path"
         ... )
         """
-
+        if tags is None:
+            tags = []
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
@@ -127,7 +135,7 @@ class ArtifactMixin:
 
         return client.Artifact(artifact, self)
 
-    def _get_environment_bytes(self, export_cmd):
+    def _get_environment_bytes(self, export_cmd: List[str]) -> bytes:
         """Get the working environment as a sequence of bytes.
 
         Parameters
@@ -148,7 +156,7 @@ class ArtifactMixin:
         return completed_process.stdout
 
     @failsafe
-    def log_conda_environment(self, artifact_name=None):
+    def log_conda_environment(self, artifact_name: Optional[str] = None) -> Artifact:
         """Log the conda environment as an artifact to this client object.
         Useful for recreating your exact environment at a later date.
 
@@ -175,7 +183,7 @@ class ArtifactMixin:
         return artifact
 
     @failsafe
-    def log_pip_requirements(self, artifact_name=None):
+    def log_pip_requirements(self, artifact_name: Optional[str] = None) -> Artifact:
         """Log the pip requirements as an artifact to this client object.
         Useful for recreating your exact environment at a later date.
 
@@ -198,7 +206,9 @@ class ArtifactMixin:
         return artifact
 
     @failsafe
-    def artifacts(self, name=None, tags=[], qtype="or"):
+    def artifacts(
+        self, name: Optional[str] = None, tags: Optional[List[str]] = None, qtype: str = "or"
+    ) -> List[Artifact]:
         """Get the artifacts logged to this client object.
 
         Parameters
@@ -216,6 +226,8 @@ class ArtifactMixin:
         list of rubicon.client.Artifact
             The artifacts previously logged to this client object.
         """
+        if tags is None:
+            tags = []
         project_name, experiment_id = self._get_identifiers()
         return_err = None
         for repo in self.repositories:
@@ -233,7 +245,7 @@ class ArtifactMixin:
         raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def artifact(self, name=None, id=None):
+    def artifact(self, name: Optional[str] = None, id: Optional[str] = None) -> Artifact:
         """Get an artifact logged to this project by id or name.
 
         Parameters
@@ -279,7 +291,7 @@ class ArtifactMixin:
         raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def delete_artifacts(self, ids):
+    def delete_artifacts(self, ids: List[str]):
         """Delete the artifacts logged to with client object
         with ids `ids`.
 
@@ -299,7 +311,9 @@ class DataframeMixin:
     """Adds dataframe support to a client object."""
 
     @failsafe
-    def log_dataframe(self, df, description=None, name=None, tags=[]):
+    def log_dataframe(
+        self, df: Union[pd.DataFrame, dd.DataFrame], description=None, name=None, tags=[]
+    ) -> Dataframe:
         """Log a dataframe to this client object.
 
         Parameters
@@ -334,7 +348,9 @@ class DataframeMixin:
         return client.Dataframe(dataframe, self)
 
     @failsafe
-    def dataframes(self, name=None, tags=[], qtype="or"):
+    def dataframes(
+        self, name: Optional[str] = None, tags: Optional[List[str]] = None, qtype: str = "or"
+    ) -> List[Dataframe]:
         """Get the dataframes logged to this client object.
 
         Parameters
@@ -352,6 +368,8 @@ class DataframeMixin:
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
+        if tags is None:
+            tags = []
         project_name, experiment_id = self._get_identifiers()
         return_err = None
         for repo in self.repositories:
@@ -369,7 +387,7 @@ class DataframeMixin:
         raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def dataframe(self, name=None, id=None):
+    def dataframe(self, name: Optional[str] = None, id: Optional[str] = None) -> Dataframe:
         """
         Get the dataframe logged to this client object.
 
@@ -419,7 +437,7 @@ class DataframeMixin:
         raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def delete_dataframes(self, ids):
+    def delete_dataframes(self, ids: List[str]):
         """Delete the dataframes with ids `ids` logged to
         this client object.
 
@@ -455,7 +473,7 @@ class TagMixin:
         return project_name, experiment_id, entity_identifier
 
     @failsafe
-    def add_tags(self, tags):
+    def add_tags(self, tags: List[str]):
         """Add tags to this client object.
 
         Parameters
@@ -479,7 +497,7 @@ class TagMixin:
             )
 
     @failsafe
-    def remove_tags(self, tags):
+    def remove_tags(self, tags: List[str]):
         """Remove tags from this client object.
 
         Parameters

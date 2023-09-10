@@ -1,4 +1,7 @@
-def has_tag_requirements(tags, required_tags, qtype):
+from typing import List
+
+
+def has_tag_requirements(tags: List[str], required_tags: List[str], qtype: str) -> bool:
     """Returns True if `tags` meets the requirements based on
     the values of `required_tags` and `qtype`. False otherwise.
     """
