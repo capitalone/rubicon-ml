@@ -1,4 +1,4 @@
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from rubicon_ml import domain
 from rubicon_ml.client import (
@@ -14,10 +14,9 @@ from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
-
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Experiment as ExperimentDomain
     from rubicon_ml.client import Project
+    from rubicon_ml.domain import Experiment as ExperimentDomain
 
 
 class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):

@@ -1,9 +1,14 @@
 import os
-from typing import Dict, Optional, Tuple
 import subprocess
+from typing import Dict, Optional, Tuple
 
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import BaseRepository, LocalRepository, MemoryRepository, S3Repository
+from rubicon_ml.repository import (
+    BaseRepository,
+    LocalRepository,
+    MemoryRepository,
+    S3Repository,
+)
 
 
 class Config:

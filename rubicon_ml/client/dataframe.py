@@ -1,13 +1,12 @@
-from typing import Callable, Literal, Optional, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
 from rubicon_ml.client import Base, TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
 
-
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Dataframe as DataframeDomain
     from rubicon_ml.client import Experiment, Project
+    from rubicon_ml.domain import Dataframe as DataframeDomain
 
 
 class Dataframe(Base, TagMixin):

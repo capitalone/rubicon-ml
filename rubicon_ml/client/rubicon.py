@@ -1,6 +1,6 @@
 import subprocess
-from typing import Optional
 import warnings
+from typing import Optional
 
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project

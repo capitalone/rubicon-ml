@@ -1,8 +1,8 @@
 import functools
 import logging
 import traceback
-from typing import Callable, Optional
 import warnings
+from typing import Callable, Optional
 
 FAILURE_MODE = "raise"
 FAILURE_MODES = ["log", "raise", "warn"]

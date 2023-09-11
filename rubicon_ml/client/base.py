@@ -1,5 +1,4 @@
-from typing import List, Optional, TYPE_CHECKING
-
+from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
     from rubicon_ml.client import Config

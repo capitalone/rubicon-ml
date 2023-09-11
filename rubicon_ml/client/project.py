@@ -1,6 +1,6 @@
 import subprocess
 import warnings
-from typing import Dict, List, Optional, Tuple, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union
 
 import dask.dataframe as dd
 import pandas as pd
@@ -12,9 +12,9 @@ from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Project as ProjectDomain
-    from rubicon_ml.client import Config, Dataframe
     from rubicon_ml import Rubicon
+    from rubicon_ml.client import Config, Dataframe
+    from rubicon_ml.domain import Project as ProjectDomain
 
 
 class Project(Base, ArtifactMixin, DataframeMixin):

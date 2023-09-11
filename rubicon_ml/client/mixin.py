@@ -1,9 +1,9 @@
 import os
 import pickle
 import subprocess
-from typing import Any, Optional, List, Union
 import warnings
 from datetime import datetime
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 import fsspec
 
@@ -13,8 +13,8 @@ from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
-    import pandas as pd
     import dask.dataframe as dd
+    import pandas as pd
 
     from rubicon_ml.client import Artifact, Dataframe
 
@@ -526,7 +526,7 @@ class TagMixin:
             self._domain.remove_tags(tag.get("removed_tags", []))
 
     @property
-    def tags(self):
+    def tags(self) -> List[str]:
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
         return_err = None

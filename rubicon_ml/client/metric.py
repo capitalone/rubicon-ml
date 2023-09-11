@@ -1,11 +1,11 @@
 from datetime import datetime
+from typing import TYPE_CHECKING, Optional
 
-from typing import Optional, TYPE_CHECKING
 from rubicon_ml.client import Base, TagMixin
 
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Metric as MetricDomain
     from rubicon_ml.client import Experiment
+    from rubicon_ml.domain import Metric as MetricDomain
 
 
 class Metric(Base, TagMixin):

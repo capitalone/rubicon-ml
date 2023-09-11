@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from rubicon_ml.client import Base, TagMixin
 
-
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Parameter as ParameterDomain
     from rubicon_ml.client import Experiment
+    from rubicon_ml.domain import Parameter as ParameterDomain
 
 
 class Parameter(Base, TagMixin):

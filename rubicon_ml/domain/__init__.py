@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import Union
 
 from rubicon_ml.domain.artifact import Artifact

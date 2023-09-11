@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING, Optional
 from rubicon_ml.client import Base, TagMixin
 
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Feature as FeatureDomain
     from rubicon_ml.client import Experiment
+    from rubicon_ml.domain import Feature as FeatureDomain
 
 
 class Feature(Base, TagMixin):

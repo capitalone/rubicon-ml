@@ -1,7 +1,7 @@
 import os
 import pickle
-from typing import Optional, TYPE_CHECKING
 import warnings
+from typing import TYPE_CHECKING, Optional
 
 import fsspec
 
@@ -10,10 +10,9 @@ from rubicon_ml.client.mixin import TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
 
-
 if TYPE_CHECKING:
-    from rubicon_ml.domain import Artifact as ArtifactDomain
     from rubicon_ml.client import Project
+    from rubicon_ml.domain import Artifact as ArtifactDomain
 
 
 class Artifact(Base, TagMixin):
