@@ -35,6 +35,8 @@ class Feature(Base, TagMixin):
     def __init__(self, domain: FeatureDomain, parent: Experiment):
         super().__init__(domain, parent._config)
 
+        self._domain: FeatureDomain
+
         self._data = None
         self._parent = parent
 

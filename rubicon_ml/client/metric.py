@@ -31,6 +31,8 @@ class Metric(Base, TagMixin):
     def __init__(self, domain: MetricDomain, parent: Experiment):
         super().__init__(domain, parent._config)
 
+        self._domain: MetricDomain
+
         self._data = None
         self._parent = parent
 

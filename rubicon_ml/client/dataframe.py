@@ -33,6 +33,8 @@ class Dataframe(Base, TagMixin):
     def __init__(self, domain: DataframeDomain, parent: Union[Experiment, Project]):
         super().__init__(domain, parent._config)
 
+        self._domain: DataframeDomain
+
         self._data = None
         self._parent = parent
 

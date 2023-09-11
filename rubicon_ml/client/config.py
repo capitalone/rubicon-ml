@@ -50,7 +50,7 @@ class Config:
     ):
         self.storage_options = storage_options
         if storage_options is not None and "composite_config" in storage_options:
-            composite_config = storage_options.get("composite_config")
+            composite_config = storage_options.get("composite_config", [])
             repositories = []
             for config in composite_config:
                 self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(

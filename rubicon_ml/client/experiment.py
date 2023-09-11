@@ -39,6 +39,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
     def __init__(self, domain: ExperimentDomain, parent: Project):
         super().__init__(domain, parent._config)
 
+        self._domain: ExperimentDomain
+
         self._parent = parent
         self._artifacts = []
         self._dataframes = []

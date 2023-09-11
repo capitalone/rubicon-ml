@@ -17,10 +17,13 @@ if TYPE_CHECKING:
     import pandas as pd
 
     from rubicon_ml.client import Artifact, Dataframe
+    from rubicon_ml.domain import DOMAIN_TYPES, Artifact as ArtifactDomain
 
 
 class ArtifactMixin:
     """Adds artifact support to a client object."""
+
+    _domain: ArtifactDomain
 
     def _validate_data(self, data_bytes, data_file, data_object, data_path, name):
         """Raises a `RubiconException` if the data to log as
@@ -310,6 +313,8 @@ class ArtifactMixin:
 class DataframeMixin:
     """Adds dataframe support to a client object."""
 
+    _domain: DOMAIN_TYPES
+
     @failsafe
     def log_dataframe(
         self, df: Union[pd.DataFrame, dd.DataFrame], description=None, name=None, tags=[]
@@ -455,6 +460,8 @@ class DataframeMixin:
 
 class TagMixin:
     """Adds tag support to a client object."""
+
+    _domain: DOMAIN_TYPES
 
     def _get_taggable_identifiers(self):
         project_name, experiment_id = self._parent._get_identifiers()

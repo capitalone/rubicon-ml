@@ -34,6 +34,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
     def __init__(self, domain: ProjectDomain, config: Optional[Config] = None):
         super().__init__(domain, config)
 
+        self._domain: ProjectDomain
+
         self._artifacts = []
         self._dataframes = []
         self._experiments = []
