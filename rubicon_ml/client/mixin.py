@@ -3,7 +3,7 @@ import pickle
 import subprocess
 import warnings
 from datetime import datetime
-from typing import Any, List, Optional, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 import fsspec
 
