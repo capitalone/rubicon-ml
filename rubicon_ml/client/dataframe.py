@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
 from rubicon_ml.client import Base, TagMixin
@@ -71,7 +73,7 @@ class Dataframe(Base, TagMixin):
         self,
         df_type: Literal["pandas", "dask"] = "pandas",
         plotting_func: Optional[Callable] = None,
-        **kwargs
+        **kwargs,
     ):
         """Render the dataframe using `plotly.express`.
 

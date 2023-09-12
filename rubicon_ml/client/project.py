@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import subprocess
 import warnings
 from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union
