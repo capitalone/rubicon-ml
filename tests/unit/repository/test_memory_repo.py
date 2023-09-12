@@ -11,7 +11,7 @@ def test_initialization():
 
     assert memory_repo.PROTOCOL == "memory"
     assert memory_repo.root_dir == "/root"
-    assert type(memory_repo.filesystem) == fsspec.implementations.memory.MemoryFileSystem
+    assert isinstance(memory_repo.filesystem, fsspec.implementations.memory.MemoryFileSystem)
 
 
 def test_persist_dataframe():
