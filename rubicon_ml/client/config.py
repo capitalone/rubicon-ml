@@ -1,6 +1,6 @@
 import os
 import subprocess
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Tuple, Type
 
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository import (
@@ -35,7 +35,7 @@ class Config:
     """
 
     PERSISTENCE_TYPES = ["filesystem", "memory"]
-    REPOSITORIES: Dict[str, type[BaseRepository]] = {
+    REPOSITORIES: Dict[str, Type[BaseRepository]] = {
         "memory-memory": MemoryRepository,
         "filesystem-local": LocalRepository,
         "filesystem-s3": S3Repository,
