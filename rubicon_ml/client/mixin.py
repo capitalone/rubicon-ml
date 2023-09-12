@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import pickle
 import subprocess
@@ -10,6 +12,7 @@ import fsspec
 from rubicon_ml import client, domain
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
+from rubicon_ml.domain import Artifact as ArtifactDomain
 from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
@@ -17,7 +20,7 @@ if TYPE_CHECKING:
     import pandas as pd
 
     from rubicon_ml.client import Artifact, Dataframe
-    from rubicon_ml.domain import DOMAIN_TYPES, Artifact as ArtifactDomain
+    from rubicon_ml.domain import DOMAIN_TYPES
 
 
 class ArtifactMixin:
