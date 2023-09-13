@@ -1,3 +1,5 @@
+from typing import List, Tuple, Union
+
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -25,7 +27,7 @@ class TrainingMetadata:
     [('s3', ['bucket/a.csv', 'bucket/b.csv'], 'SELECT * FROM x')]
     """
 
-    def __init__(self, training_metadata):
+    def __init__(self, training_metadata: Union[List[Tuple], Tuple]):
         if not isinstance(training_metadata, list):
             training_metadata = [training_metadata]
 
@@ -34,5 +36,5 @@ class TrainingMetadata:
 
         self.training_metadata = training_metadata
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self.training_metadata)

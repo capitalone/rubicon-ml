@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import subprocess
 import warnings
-from typing import List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union
 
 import dask.dataframe as dd
 import pandas as pd
@@ -10,6 +12,11 @@ from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+
+if TYPE_CHECKING:
+    from rubicon_ml import Rubicon
+    from rubicon_ml.client import Config, Dataframe
+    from rubicon_ml.domain import Project as ProjectDomain
 
 
 class Project(Base, ArtifactMixin, DataframeMixin):
@@ -26,14 +33,16 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         The config, which specifies the underlying repository.
     """
 
-    def __init__(self, domain, config=None):
+    def __init__(self, domain: ProjectDomain, config: Optional[Config] = None):
         super().__init__(domain, config)
+
+        self._domain: ProjectDomain
 
         self._artifacts = []
         self._dataframes = []
         self._experiments = []
 
-    def _get_branch_name(self):
+    def _get_branch_name(self) -> str:
         """Returns the name of the active branch of the `git` repo
         it is called from.
         """
@@ -42,7 +51,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return completed_process.stdout.decode("utf8").replace("\n", "")
 
-    def _get_commit_hash(self):
+    def _get_commit_hash(self) -> str:
         """Returns the hash of the last commit to the active branch
         of the `git` repo it is called from.
         """
@@ -51,7 +60,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return completed_process.stdout.decode("utf8").replace("\n", "")
 
-    def _get_identifiers(self):
+    def _get_identifiers(self) -> Tuple[Optional[str], None]:
         """Get the project's name."""
         return self.name, None
 
@@ -86,7 +95,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             tags=tags,
         )
 
-    def _group_experiments(self, experiments, group_by=None):
+    def _group_experiments(self, experiments: List[Experiment], group_by: Optional[str] = None):
         """Groups experiments by `group_by`. Valid options include ["commit_hash"].
 
         Returns
@@ -111,7 +120,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         return grouped_experiments
 
-    def to_dask_df(self, group_by=None):
+    def to_dask_df(self, group_by: Optional[str] = None):
         """DEPRECATED: Available for backwards compatibility."""
         warnings.warn(
             "`to_dask_df` is deprecated and will be removed in a future release. "
@@ -122,7 +131,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return self.to_df(df_type="dask", group_by=group_by)
 
     @failsafe
-    def to_df(self, df_type="pandas", group_by=None):
+    def to_df(
+        self, df_type: str = "pandas", group_by: Optional[str] = None
+    ) -> Union[pd.DataFrame, Dict[str, pd.DataFrame], dd.DataFrame, Dict[str, dd.DataFrame]]:
         """Loads the project's data into dask or pandas dataframe(s) sorted by
         `created_at`. This includes the experiment details along with parameters
         and metrics.
@@ -138,9 +149,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
 
         Returns
         -------
-        pandas.DataFrame or list of pandas.DataFrame or dask.DataFrame or list of dask.DataFrame
+        pandas.DataFrame or dict of pandas.DataFrame or dask.DataFrame or dict of dask.DataFrame
             If `group_by` is `None`, a dask or pandas dataframe holding the project's
-            data. Otherwise a list of dask or pandas dataframes holding the project's
+            data. Otherwise a dict of dask or pandas dataframes holding the project's
             data grouped by `group_by`.
         """
         DEFAULT_COLUMNS = [
@@ -199,14 +210,14 @@ class Project(Base, ArtifactMixin, DataframeMixin):
     @failsafe
     def log_experiment(
         self,
-        name=None,
-        description=None,
-        model_name=None,
-        branch_name=None,
-        commit_hash=None,
-        training_metadata=None,
-        tags=[],
-    ):
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        model_name: Optional[str] = None,
+        branch_name: Optional[str] = None,
+        commit_hash: Optional[str] = None,
+        training_metadata: Optional[Union[Tuple, List[Tuple]]] = None,
+        tags: Optional[List[str]] = None,
+    ) -> Experiment:
         """Log a new experiment to this project.
 
         Parameters
@@ -242,6 +253,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         rubicon.client.Experiment
             The created experiment.
         """
+        if tags is None:
+            tags = []
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
@@ -260,7 +273,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return Experiment(experiment, self)
 
     @failsafe
-    def experiment(self, id=None, name=None):
+    def experiment(self, id: Optional[str] = None, name: Optional[str] = None) -> Experiment:
         """Get an experiment logged to this project by id or name.
 
         Parameters
@@ -303,7 +316,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
             raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def experiments(self, tags=[], qtype="or", name=None):
+    def experiments(
+        self, tags: Optional[List[str]] = None, qtype: str = "or", name: Optional[str] = None
+    ) -> List[Experiment]:
         """Get the experiments logged to this project.
 
         Parameters
@@ -321,6 +336,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         list of rubicon.client.Experiment
             The experiments previously logged to this project.
         """
+        if tags is None:
+            tags = []
         return_err = None
         for repo in self.repositories:
             try:
@@ -334,7 +351,13 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         raise RubiconException("all configured storage backends failed") from return_err
 
     @failsafe
-    def dataframes(self, tags=[], qtype="or", recursive=False, name=None):
+    def dataframes(
+        self,
+        tags: Optional[List[str]] = None,
+        qtype: str = "or",
+        recursive: bool = False,
+        name: Optional[str] = None,
+    ) -> List[Dataframe]:
         """Get the dataframes logged to this project.
 
         Parameters
@@ -355,6 +378,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         list of rubicon.client.Dataframe
             The dataframes previously logged to this client object.
         """
+        if tags is None:
+            tags = []
         super().dataframes(tags=tags, qtype=qtype, name=name)
 
         if recursive is True:
@@ -364,7 +389,11 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         return self._dataframes
 
     @failsafe
-    def archive(self, experiments: Optional[List[Experiment]] = None, remote_rubicon=None):
+    def archive(
+        self,
+        experiments: Optional[List[Experiment]] = None,
+        remote_rubicon: Optional[Rubicon] = None,
+    ):
         """Archive the experiments logged to this project.
 
         Parameters

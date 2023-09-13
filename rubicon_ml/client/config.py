@@ -1,8 +1,14 @@
 import os
 import subprocess
+from typing import Dict, Optional, Tuple, Type
 
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import LocalRepository, MemoryRepository, S3Repository
+from rubicon_ml.repository import (
+    BaseRepository,
+    LocalRepository,
+    MemoryRepository,
+    S3Repository,
+)
 
 
 class Config:
@@ -29,18 +35,22 @@ class Config:
     """
 
     PERSISTENCE_TYPES = ["filesystem", "memory"]
-    REPOSITORIES = {
+    REPOSITORIES: Dict[str, Type[BaseRepository]] = {
         "memory-memory": MemoryRepository,
         "filesystem-local": LocalRepository,
         "filesystem-s3": S3Repository,
     }
 
     def __init__(
-        self, persistence=None, root_dir=None, is_auto_git_enabled=False, **storage_options
+        self,
+        persistence: Optional[str] = None,
+        root_dir: Optional[str] = None,
+        is_auto_git_enabled: bool = False,
+        **storage_options,
     ):
         self.storage_options = storage_options
         if storage_options is not None and "composite_config" in storage_options:
-            composite_config = storage_options.get("composite_config")
+            composite_config = storage_options.get("composite_config", [])
             repositories = []
             for config in composite_config:
                 self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
@@ -62,7 +72,9 @@ class Config:
                 "Not a `git` repo: Falied to locate the '.git' directory in this or any parent directories."
             )
 
-    def _load_config(self, persistence, root_dir, is_auto_git_enabled):
+    def _load_config(
+        self, persistence: Optional[str], root_dir: Optional[str], is_auto_git_enabled: bool
+    ) -> Tuple[str, Optional[str], bool]:
         """Get the configuration values."""
         persistence = os.environ.get("PERSISTENCE", persistence)
         if persistence not in self.PERSISTENCE_TYPES:
@@ -77,7 +89,7 @@ class Config:
 
         return (persistence, root_dir, is_auto_git_enabled)
 
-    def _get_protocol(self):
+    def _get_protocol(self) -> str:
         """Get the file protocol of the configured root directory."""
         if self.persistence == "memory":
             return "memory"
@@ -89,7 +101,7 @@ class Config:
 
         return "custom"  # catch-all for external backends
 
-    def _get_repository(self):
+    def _get_repository(self) -> BaseRepository:
         """Get the repository for the configured persistence type."""
         protocol = self._get_protocol()
 

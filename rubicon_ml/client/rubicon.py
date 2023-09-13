@@ -1,9 +1,11 @@
 import subprocess
 import warnings
+from typing import List, Optional, Tuple, Union
 
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project
 from rubicon_ml.client.utils.exception_handling import failsafe
+from rubicon_ml.domain.utils import TrainingMetadata
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import slugify
 
@@ -32,7 +34,11 @@ class Rubicon:
     """
 
     def __init__(
-        self, persistence="filesystem", root_dir=None, auto_git_enabled=False, **storage_options
+        self,
+        persistence: Optional[str] = "filesystem",
+        root_dir: Optional[str] = None,
+        auto_git_enabled: bool = False,
+        **storage_options,
     ):
         self.config = Config(persistence, root_dir, auto_git_enabled, **storage_options)
 
@@ -64,19 +70,27 @@ class Rubicon:
 
         return github_url
 
-    def _create_project_domain(self, name, description, github_url, training_metadata):
+    def _create_project_domain(
+        self,
+        name: str,
+        description: str,
+        github_url: str,
+        training_metadata: Union[List[Tuple], Tuple],
+    ):
         """Instantiates and returns a project domain object."""
         if self.config.is_auto_git_enabled and github_url is None:
             github_url = self._get_github_url()
 
         if training_metadata is not None:
-            training_metadata = domain.utils.TrainingMetadata(training_metadata)
+            training_metadata_class = TrainingMetadata(training_metadata)
+        else:
+            training_metadata_class = None
 
         return domain.Project(
             name,
             description=description,
             github_url=github_url,
-            training_metadata=training_metadata,
+            training_metadata=training_metadata_class,
         )
 
     @failsafe

@@ -1,4 +1,13 @@
+from __future__ import annotations
+
+from datetime import datetime
+from typing import TYPE_CHECKING, Optional
+
 from rubicon_ml.client import Base, TagMixin
+
+if TYPE_CHECKING:
+    from rubicon_ml.client import Experiment
+    from rubicon_ml.domain import Feature as FeatureDomain
 
 
 class Feature(Base, TagMixin):
@@ -25,24 +34,26 @@ class Feature(Base, TagMixin):
         logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: FeatureDomain, parent: Experiment):
         super().__init__(domain, parent._config)
+
+        self._domain: FeatureDomain
 
         self._data = None
         self._parent = parent
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Get the feature's id."""
         return self._domain.id
 
     @property
-    def name(self):
+    def name(self) -> Optional[str]:
         """Get the feature's name."""
         return self._domain.name
 
     @property
-    def description(self):
+    def description(self) -> Optional[str]:
         """Get the feature's description."""
         return self._domain.description
 
@@ -52,11 +63,11 @@ class Feature(Base, TagMixin):
         return self._domain.importance
 
     @property
-    def created_at(self):
+    def created_at(self) -> datetime:
         """Get the feature's created_at."""
         return self._domain.created_at
 
     @property
-    def parent(self):
+    def parent(self) -> Experiment:
         """Get the feature's parent client object."""
         return self._parent

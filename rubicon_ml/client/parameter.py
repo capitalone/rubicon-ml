@@ -1,4 +1,13 @@
+from __future__ import annotations
+
+from datetime import datetime
+from typing import TYPE_CHECKING, Optional, Union
+
 from rubicon_ml.client import Base, TagMixin
+
+if TYPE_CHECKING:
+    from rubicon_ml.client import Experiment
+    from rubicon_ml.domain import Parameter as ParameterDomain
 
 
 class Parameter(Base, TagMixin):
@@ -22,36 +31,38 @@ class Parameter(Base, TagMixin):
         The experiment that the parameter is logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: ParameterDomain, parent: Experiment):
         super().__init__(domain, parent._config)
         self._parent = parent
 
+        self._domain: ParameterDomain
+
     @property
-    def id(self):
+    def id(self) -> str:
         """Get the parameter's id."""
         return self._domain.id
 
     @property
-    def name(self):
+    def name(self) -> Optional[str]:
         """Get the parameter's name."""
         return self._domain.name
 
     @property
-    def value(self):
+    def value(self) -> Optional[Union[object, float]]:
         """Get the parameter's value."""
         return self._domain.value
 
     @property
-    def description(self):
+    def description(self) -> Optional[str]:
         """Get the parameter's description."""
         return self._domain.description
 
     @property
-    def created_at(self):
+    def created_at(self) -> datetime:
         """Get the time the parameter was created."""
         return self._domain.created_at
 
     @property
-    def parent(self):
+    def parent(self) -> Experiment:
         """Get the parameter's parent client object."""
         return self._parent

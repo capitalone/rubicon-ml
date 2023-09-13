@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from rubicon_ml import domain
 from rubicon_ml.client import (
     ArtifactMixin,
@@ -11,6 +15,10 @@ from rubicon_ml.client import (
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+
+if TYPE_CHECKING:
+    from rubicon_ml.client import Project
+    from rubicon_ml.domain import Experiment as ExperimentDomain
 
 
 class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
@@ -30,8 +38,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         The project that the experiment is logged to.
     """
 
-    def __init__(self, domain, parent):
+    def __init__(self, domain: ExperimentDomain, parent: Project):
         super().__init__(domain, parent._config)
+
+        self._domain: ExperimentDomain
 
         self._parent = parent
         self._artifacts = []

@@ -2,6 +2,7 @@ import functools
 import logging
 import traceback
 import warnings
+from typing import Callable, Optional
 
 FAILURE_MODE = "raise"
 FAILURE_MODES = ["log", "raise", "warn"]
@@ -9,7 +10,9 @@ TRACEBACK_CHAIN = False
 TRACEBACK_LIMIT = None
 
 
-def set_failure_mode(failure_mode, traceback_chain=False, traceback_limit=None):
+def set_failure_mode(
+    failure_mode: str, traceback_chain: bool = False, traceback_limit: Optional[int] = None
+) -> None:
     """Set the failure mode.
 
     Parameters
@@ -38,7 +41,7 @@ def set_failure_mode(failure_mode, traceback_chain=False, traceback_limit=None):
     TRACEBACK_LIMIT = traceback_limit
 
 
-def failsafe(func):
+def failsafe(func: Callable) -> Callable:
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
