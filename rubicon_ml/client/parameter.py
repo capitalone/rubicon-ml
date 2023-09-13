@@ -35,6 +35,8 @@ class Parameter(Base, TagMixin):
         super().__init__(domain, parent._config)
         self._parent = parent
 
+        self._domain: ParameterDomain
+
     @property
     def id(self) -> str:
         """Get the parameter's id."""
@@ -48,7 +50,7 @@ class Parameter(Base, TagMixin):
     @property
     def value(self) -> Optional[Union[object, float]]:
         """Get the parameter's value."""
-        return getattr(self._domain, "value", None)
+        return self._domain.value
 
     @property
     def description(self) -> Optional[str]:

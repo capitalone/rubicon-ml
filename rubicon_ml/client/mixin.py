@@ -5,7 +5,7 @@ import pickle
 import subprocess
 import warnings
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, List, Optional, Union
+from typing import TYPE_CHECKING, Any, List, Optional, TextIO, Union
 
 import fsspec
 
@@ -61,7 +61,7 @@ class ArtifactMixin:
     def log_artifact(
         self,
         data_bytes: Optional[bytes] = None,
-        data_file=None,
+        data_file: Optional[TextIO] = None,
         data_object: Optional[Any] = None,
         data_path: Optional[str] = None,
         name: Optional[str] = None,
@@ -320,7 +320,11 @@ class DataframeMixin:
 
     @failsafe
     def log_dataframe(
-        self, df: Union[pd.DataFrame, dd.DataFrame], description=None, name=None, tags=[]
+        self,
+        df: Union[pd.DataFrame, dd.DataFrame],
+        description: Optional[str] = None,
+        name: Optional[str] = None,
+        tags: Optional[List[str]] = None,
     ) -> Dataframe:
         """Log a dataframe to this client object.
 
@@ -339,6 +343,8 @@ class DataframeMixin:
         rubicon.client.Dataframe
             The new dataframe.
         """
+        if tags is None:
+            tags = []
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
