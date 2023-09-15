@@ -1,3 +1,90 @@
+[project]
+name = "rubicon-ml"
+description = "an ML library for model development and governance"
+license = "Apache-2.0"
+requires-python = ">=3.8"
+
+authors = [
+    "Ryan Soley <ryan.soley@capitalone.com>",
+    "Joe Wolfe <joseph.wolfe@capitalone.com>",
+    "Diane Lee <diane.lee3@capitalone.com>",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Documentation",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+keywords = [
+    "experimenting",
+    "logging",
+    "machine-learning",
+    "model-development",
+    "reproducibility",
+    "tracking",
+]
+
+dynamic = ["readme", "version", "dependencies"]
+
+[project.entry-points."intake.drivers"]
+rubicon_ml_experiment = "rubicon_ml.intake_rubicon.experiment:ExperimentSource"
+
+[project.optional-dependencies]
+docs = []
+notebook = []
+prefect = []
+qa = []
+s3 = []
+tests = []
+ui = []
+
+all = [
+    "rubicon-ml[docs]",
+    "rubicon-ml[notebook]",
+    "rubicon-ml[prefect]",
+    "rubicon-ml[qa]",
+    "rubicon-ml[tests]",
+    "rubicon-ml[ui]",
+]
+dev = ["rubicon-ml[all]"]
+viz = ["rubicon-ml[ui]"]
+
+[project.scripts]
+rubicon_ml = "rubicon_ml.cli:cli"
+
+[project.urls]
+documentation = "https://capitalone.github.io/rubicon-ml"
+repository = "https://github.com/capitalone/rubicon-ml"
+
+# BUILD TOOLS
+
+[build-system]
+requires = ["setuptools>=64.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+readme = {file = "README.md"}
+version = {attr = "rubicon_ml.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["rubicon_ml"]
+
+# DEV TOOLS
+
 [tool.black]
 line-length = 100
 exclude = "(versioneer.py|_version.py)"
