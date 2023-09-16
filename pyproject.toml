@@ -1,14 +1,12 @@
 [project]
 name = "rubicon-ml"
-description = "an ML library for model development and governance"
+description = "an ML experiment tracking library for model development and governance"
 license = "Apache-2.0"
 requires-python = ">=3.8"
 
-authors = [
-    "Ryan Soley <ryan.soley@capitalone.com>",
-    "Joe Wolfe <joseph.wolfe@capitalone.com>",
-    "Diane Lee <diane.lee3@capitalone.com>",
-]
+authors = [{name = "Ryan Soley", email = "ryan.soley@capitalone.com"}]
+maintainers = ["Ryan Soley", "Shania Mahmud", "Srilatha Ranganathan", "Stephen Pardy"]
+
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -16,15 +14,17 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English",
     "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Scientific/Engineering :: Information Analysis",
-    "Topic :: Software Development :: Build Tools",
-    "Topic :: Software Development :: Documentation",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
 keywords = [
+    "experiment-tracking",
     "experimenting",
     "logging",
     "machine-learning",
@@ -39,24 +39,41 @@ dynamic = ["readme", "version", "dependencies"]
 rubicon_ml_experiment = "rubicon_ml.intake_rubicon.experiment:ExperimentSource"
 
 [project.optional-dependencies]
-docs = []
-notebook = []
-prefect = []
-qa = []
-s3 = []
-tests = []
-ui = []
+docs = [
+    "furo",
+    "ipython",
+    "nbsphinx",
+    "numpydoc",
+    "sphinx",
+    "sphinx-copybutton",
+]
+notebook = ["ipykernel", "jupyterlab", "nbconvert"]
+prefect = ["prefect<=1.2.4,>=0.12.0"]
+qa = [
+    "black",
+    "edgetest",
+    "flake8",
+    "isort",
+    "versioneer",
+    "setuptools",
+    "wheel",
+]
+s3 = ["s3fs<=2023.9.0,>=0.4"]
+tests = ["dask", "pytest", "pytest-cov", "rubicon-ml[notebook]"]
+viz = ["dash<=2.13.0,>=2.0.0", "dash-bootstrap-components<=1.5.0,>=1.0.0"]
 
-all = [
+dev = [
     "rubicon-ml[docs]",
     "rubicon-ml[notebook]",
     "rubicon-ml[prefect]",
     "rubicon-ml[qa]",
+    "rubicon-ml[s3]",
     "rubicon-ml[tests]",
     "rubicon-ml[ui]",
 ]
-dev = ["rubicon-ml[all]"]
-viz = ["rubicon-ml[ui]"]
+
+all = ["rubicon-ml[dev]"]  # alias for backwards compatibility
+ui = ["rubicon-ml[viz]"]   # alias for backwards compatibility
 
 [project.scripts]
 rubicon_ml = "rubicon_ml.cli:cli"
