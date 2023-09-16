@@ -54,7 +54,7 @@ qa = [
     "edgetest",
     "flake8",
     "isort",
-    "versioneer",
+    "versioneer[toml]",
     "setuptools",
     "wheel",
 ]
@@ -85,7 +85,7 @@ repository = "https://github.com/capitalone/rubicon-ml"
 # BUILD TOOLS
 
 [build-system]
-requires = ["setuptools>=64.0.0"]
+requires = ["setuptools>=64.0.0", "tomli; python_version < '3.11'"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
@@ -114,3 +114,11 @@ exclude_lines = [
     "if __name__ == .__main__.:",
 ]
 omit = ["versioneer.py", "rubicon_ml/_version.py"]
+
+[tool.versioneer]
+vcs = "git"
+style = "pep440"
+versionfile_source = "rubicon_ml/_version.py"
+versionfile_build = "rubicon_ml/_version.py"
+tag_prefix = ""
+parentdir_prefix = "rubicon-ml-"
