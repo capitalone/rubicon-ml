@@ -88,6 +88,29 @@ repository = "https://github.com/capitalone/rubicon-ml"
 requires = ["setuptools>=64.0.0", "tomli; python_version < '3.11'"]
 build-backend = "setuptools.build_meta"
 
+# DEV TOOLS
+
+[edgetest]
+command = "pytest --no-cov -m 'not run_notebooks and not write_files'"
+extras = ["tests"]
+
+[edgetest.envs.core]
+python_version = "3.9"
+extras = ["all"]
+upgrade = [
+	"click",
+	"dash",
+	"dash-bootstrap-components",
+	"fsspec",
+	"intake[dataframe]",
+	"numpy",
+	"pandas",
+	"pyarrow",
+	"PyYAML",
+	"s3fs",
+	"scikit-learn",
+]
+
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
@@ -99,8 +122,6 @@ version = {attr = "rubicon_ml.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["rubicon_ml"]
-
-# DEV TOOLS
 
 [tool.black]
 line-length = 100
@@ -114,6 +135,24 @@ exclude_lines = [
     "if __name__ == .__main__.:",
 ]
 omit = ["versioneer.py", "rubicon_ml/_version.py"]
+
+[tool.isort]
+line_length = 88
+skip = ["versioneer.py", "rubicon_ml/_version.py", "rubicon_ml/client/__init__.py"]
+filter_files = true
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+
+[tool:pytest]
+markers = [
+	"run_notebooks: tests that run Jupyter notebooks",
+	"write_files: tests that physically write files to local and S3 filesystems",
+]
+addopts = "--cov=./rubicon_ml --cov-report=term-missing --cov-fail-under=90 -m='not write_files'"
+minversion = "3.2"
+xfail_strict = true
 
 [tool.versioneer]
 vcs = "git"
