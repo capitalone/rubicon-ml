@@ -28,16 +28,16 @@ at the root of the repository.
 
 .. code-block:: shell
 
-   conda env create -f environment.yml
+   conda env create -n rubicon-ml-dev python>=3.8
 
-Building ``rubicon_ml``
+Installing ``rubicon_ml``
 =======================
 
 After you've cloned the repository, use ``pip`` to install ``rubicon_ml`` locally:
 
 .. code-block:: shell
 
-   python -m pip install -e .[all]
+   python -m pip install -e ".[dev]"
 
 Style
 =====

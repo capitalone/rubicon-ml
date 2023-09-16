@@ -9,14 +9,10 @@ Create and activate the `conda` environment in the `rubicon/docs`
 directory and install a local copy of `rubicon_ml`.
 
 ```
-conda env create -f docs/docs-environment.yml
+conda env create -n rubicon-ml-docs python>=3.8
 conda activate rubicon-ml-docs
-cd docs
-pip install --no-deps -e ../
+pip install -e ".[docs]"
 ```
-
-*Note:* We're using the `--no-deps` flag because `docs-environment.yml`
-already installed the `rubicon_ml` dependencies we need to build the docs.
 
 Use the provided Makefile to build the docs locally.
 
