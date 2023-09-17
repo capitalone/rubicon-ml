@@ -150,7 +150,7 @@ include_trailing_comma = true
 force_grid_wrap = 0
 combine_as_imports = true
 
-[tool.pytest]
+[tool.pytest.ini_options]
 markers = [
 	"run_notebooks: tests that run Jupyter notebooks",
 	"write_files: tests that physically write files to local and S3 filesystems",
