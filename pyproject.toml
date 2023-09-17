@@ -1,11 +1,16 @@
 [project]
 name = "rubicon-ml"
 description = "an ML experiment tracking library for model development and governance"
-license = "Apache-2.0"
+license = {file = "LICENSE"}
 requires-python = ">=3.8"
 
 authors = [{name = "Ryan Soley", email = "ryan.soley@capitalone.com"}]
-maintainers = ["Ryan Soley", "Shania Mahmud", "Srilatha Ranganathan", "Stephen Pardy"]
+maintainers = [
+    {name = "Ryan Soley"},
+    {name = "Shania Mahmud"},
+    {name = "Srilatha Ranganathan"},
+    {name = "Stephen Pardy"},
+]
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -51,11 +56,13 @@ notebook = ["ipykernel", "jupyterlab", "nbconvert"]
 prefect = ["prefect<=1.2.4,>=0.12.0"]
 qa = [
     "black",
+    "build",
     "edgetest",
     "flake8",
     "isort",
     "versioneer[toml]",
     "setuptools",
+    "twine",
     "wheel",
 ]
 s3 = ["s3fs<=2023.9.0,>=0.4"]
@@ -85,7 +92,7 @@ repository = "https://github.com/capitalone/rubicon-ml"
 # BUILD TOOLS
 
 [build-system]
-requires = ["setuptools>=64.0.0", "tomli; python_version < '3.11'"]
+requires = ["rubicon-ml", "setuptools>=64.0.0", "tomli; python_version < '3.11'"]
 build-backend = "setuptools.build_meta"
 
 # DEV TOOLS
@@ -113,15 +120,13 @@ upgrade = [
 
 [tool.setuptools]
 include-package-data = true
+packages = ["rubicon_ml"]
 zip-safe = false
 
 [tool.setuptools.dynamic]
 dependencies = {file = "requirements.txt"}
 readme = {file = "README.md"}
 version = {attr = "rubicon_ml.__version__"}
-
-[tool.setuptools.packages.find]
-where = ["rubicon_ml"]
 
 [tool.black]
 line-length = 100
@@ -145,7 +150,7 @@ include_trailing_comma = true
 force_grid_wrap = 0
 combine_as_imports = true
 
-[tool:pytest]
+[tool.pytest]
 markers = [
 	"run_notebooks: tests that run Jupyter notebooks",
 	"write_files: tests that physically write files to local and S3 filesystems",
