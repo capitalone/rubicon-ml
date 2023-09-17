@@ -32,13 +32,13 @@ jobs:
         environment-file: environment.yml
     - name: Check formatting with black
       run: |
-        black --check .
+        black --check rubicon_ml/ tests/
     - name: Check imports with isort
       run: |
-        isort -c .
+        isort -c rubicon_ml/ tests/
     - name: Lint with flake8
       run: |
-        flake8 .
+        flake8 rubicon_ml/ tests/
     - name: Validate build
       run: |
         python setup.py sdist bdist_wheel
