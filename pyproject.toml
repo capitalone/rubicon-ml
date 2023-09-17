@@ -60,6 +60,7 @@ qa = [
     "edgetest",
     "flake8",
     "isort",
+    "pre-commit",
     "versioneer[toml]",
     "setuptools",
     "twine",
