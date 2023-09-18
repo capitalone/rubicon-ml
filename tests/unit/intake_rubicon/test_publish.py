@@ -92,9 +92,7 @@ def test_update_catalog(project_client):
         new_experiments = [experiment_c, experiment_d]
 
         # publish new experiments into the exisiting catalog
-        updated_catalog = publish(
-            base_catalog_filepath=catalog_file, experiments=new_experiments
-        )
+        updated_catalog = publish(base_catalog_filepath=catalog_file, experiments=new_experiments)
 
         with fsspec.open(catalog_file, "r") as f:
             written_catalog = f.read()
