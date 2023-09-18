@@ -79,14 +79,12 @@ example notebooks directly from our repo. To reduce the complexity of our
 documentation builds, we only commit executed notebooks to the repo so
 ``nbsphinx`` doesn't have to spend time executing them itself.
 
-To build the documentation locally, use the environment YAML file in the
-``docs`` directory to create a new ``conda`` environment with all necessary
-tools:
+To build the documentation locally, create a new ``conda`` environment with all
+the necessary tools:
 
 .. code-block:: shell
 
-   cd docs/
-   conda env create -f docs-environment.yml
+   conda env create -n rubicon-ml-docs python>=3.8
 
 Activate the new environment, install a local copy of ``rubicon_ml``, and
 use the ``make html`` command from the ``docs`` directory to build the
@@ -95,14 +93,14 @@ documentation locally.
 .. code-block:: shell
 
    conda activate rubicon-ml-docs
-   pip install --no-deps -e ../
-   make html
+   pip install -e ".[docs]"
+   make clean html
 
 The newly built documentation can be opened in a browser.
 
 .. code-block:: shell
 
-   open ./build/html/index.html
+   make open
 
 Never commit built documentation code directly, only the source.
 Our ``.gitignore`` should handle keeping built docs out of the repo, and
