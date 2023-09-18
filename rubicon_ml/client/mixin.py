@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import json
 import os
 import pickle
 import subprocess
 import warnings
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, List, Optional, TextIO, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, TextIO, Union
 
 import fsspec
 
@@ -311,6 +312,47 @@ class ArtifactMixin:
         for artifact_id in ids:
             for repo in self.repositories:
                 repo.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
+
+    @failsafe
+    def log_json(
+        self,
+        json_object: Dict[str, Any],
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+    ) -> Artifact:
+        """Log a python dictionary to a JSON file.
+
+        Parameters
+        ----------
+        json_object : Dict[str, Any]
+            A python dictionary capable of being converted to JSON.
+        name : Optional[str], optional
+            A name for this JSON file, by default None
+        description : Optional[str], optional
+            A description for this file, by default None
+        tags : Optional[List[str]], optional
+            Any Rubicon tags, by default None
+
+        Returns
+        -------
+        Artifact
+            The new artifact.
+
+        """
+        if name is None:
+            json_name = f"dictionary-{datetime.now().strftime('%Y_%m_%d-%I_%M_%S_%p')}.json"
+        else:
+            json_name = name
+
+        artifact = self.log_artifact(
+            data_bytes=bytes(json.dumps(json_object), "utf-8"),
+            name=json_name,
+            description=description,
+            tags=tags,
+        )
+
+        return artifact
 
 
 class DataframeMixin:
