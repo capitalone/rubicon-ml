@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 import fsspec
 import yaml
 
@@ -63,10 +66,12 @@ def test_publish_to_file(project_client):
     project.log_experiment()
     project.log_experiment()
 
-    catalog_yaml = publish(project.experiments(), output_filepath="memory://catalog.yml")
+    with tempfile.TemporaryDirectory() as temp_dir_name:
+        catalog_file = os.path.join(temp_dir_name, "catalog.yaml")
+        catalog_yaml = publish(project.experiments(), output_filepath=catalog_file)
 
-    with fsspec.open("memory://catalog.yml", "r") as f:
-        written_catalog = f.read()
+        with fsspec.open(catalog_file, "r") as f:
+            written_catalog = f.read()
 
     assert catalog_yaml == written_catalog
 
@@ -76,20 +81,22 @@ def test_update_catalog(project_client):
     project.log_experiment()
     project.log_experiment()
 
-    publish(project.experiments(), output_filepath="memory://catalog.yml")
+    with tempfile.TemporaryDirectory() as temp_dir_name:
+        catalog_file = os.path.join(temp_dir_name, "catalog.yaml")
+        publish(project.experiments(), output_filepath=catalog_file)
 
-    # add new experiments to project
-    experiment_c = project.log_experiment()
-    experiment_d = project.log_experiment()
+        # add new experiments to project
+        experiment_c = project.log_experiment()
+        experiment_d = project.log_experiment()
 
-    new_experiments = [experiment_c, experiment_d]
+        new_experiments = [experiment_c, experiment_d]
 
-    # publish new experiments into the exisiting catalog
-    updated_catalog = publish(
-        base_catalog_filepath="memory://catalog.yml", experiments=new_experiments
-    )
+        # publish new experiments into the exisiting catalog
+        updated_catalog = publish(
+            base_catalog_filepath=catalog_file, experiments=new_experiments
+        )
 
-    with fsspec.open("memory://catalog.yml", "r") as f:
-        written_catalog = f.read()
+        with fsspec.open(catalog_file, "r") as f:
+            written_catalog = f.read()
 
     assert updated_catalog == written_catalog
