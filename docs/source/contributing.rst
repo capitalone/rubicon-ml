@@ -31,7 +31,7 @@ at the root of the repository.
    conda env create -n rubicon-ml-dev python>=3.8
 
 Installing ``rubicon_ml``
-=======================
+=========================
 
 After you've cloned the repository, use ``pip`` to install ``rubicon_ml`` locally:
 
@@ -84,7 +84,7 @@ the necessary tools:
 
 .. code-block:: shell
 
-   conda env create -n rubicon-ml-docs python>=3.8
+   conda env create -n rubicon-ml-docs "python>=3.8"
 
 Activate the new environment, install a local copy of ``rubicon_ml``, and
 use the ``make html`` command from the ``docs`` directory to build the

@@ -51,6 +51,8 @@ docs = [
     "numpydoc",
     "sphinx",
     "sphinx-copybutton",
+    "rubicon-ml[prefect]",
+    "rubicon-ml[viz]",
 ]
 lab = ["jupyterlab"]
 prefect = ["prefect<=1.2.4,>=0.12.0"]
