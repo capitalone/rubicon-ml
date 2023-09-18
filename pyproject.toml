@@ -65,6 +65,7 @@ qa = [
     "setuptools",
     "twine",
     "wheel",
+    "rubicon-ml[tests]",
 ]
 s3 = ["s3fs<=2023.9.0,>=0.4"]
 tests = ["dask", "pytest", "pytest-cov", "rubicon-ml[notebook]"]
