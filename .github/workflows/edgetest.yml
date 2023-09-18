@@ -19,5 +19,5 @@ jobs:
         uses: fdosani/run-edgetest-action@v1.2
         with:
           edgetest-flags: '-c pyproject.toml --export'
-          base-branch: 'dotfile-consolidation'
+          base-branch: 'main'
           skip-pr: 'false'
