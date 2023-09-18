@@ -101,7 +101,7 @@ To install all extra modules, use the ``dev`` extra.
 
 .. code-block:: console
 
-    pip install rubicon-ml[all]
+    pip install rubicon-ml[dev]
 
 .. toctree::
    :maxdepth: 2

@@ -28,7 +28,7 @@ at the root of the repository.
 
 .. code-block:: shell
 
-   conda env create -n rubicon-ml-dev python>=3.8
+   conda env create -n rubicon-ml-dev "python>=3.8"
 
 Installing ``rubicon_ml``
 =========================

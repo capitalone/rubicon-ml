@@ -9,7 +9,7 @@ Create and activate the `conda` environment in the `rubicon/docs`
 directory and install a local copy of `rubicon_ml`.
 
 ```
-conda env create -n rubicon-ml-docs python>=3.8
+conda env create -n rubicon-ml-docs "python>=3.8"
 conda activate rubicon-ml-docs
 pip install -e ".[docs]"
 ```
