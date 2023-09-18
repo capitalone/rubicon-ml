@@ -28,8 +28,10 @@ jobs:
         miniforge-variant: Mambaforge
         channels: conda-forge
         channel-priority: true  
-        activate-environment: rubicon-ml-dev
-        environment-file: environment.yml
+        activate-environment: rubicon-ml-tests
+    - name: Install rubicon-ml
+      run: |
+        pip install ".[tests]"
     - name: Check formatting with black
       run: |
         black --check rubicon_ml/ tests/
@@ -41,7 +43,7 @@ jobs:
         flake8 rubicon_ml/ tests/
     - name: Validate build
       run: |
-        python setup.py sdist bdist_wheel
+        python -m build . --wheel
         pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
       run: |

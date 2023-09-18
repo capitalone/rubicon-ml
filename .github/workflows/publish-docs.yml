@@ -27,10 +27,9 @@ jobs:
         channels: conda-forge
         channel-priority: true
         activate-environment: rubicon-ml-docs
-        environment-file: docs/docs-environment.yml
     - name: Install rubicon-ml
       run: |
-        pip install --no-deps -e .
+        pip install -e ".[docs]"
     - name: Build
       run: |
         cd docs
