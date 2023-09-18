@@ -58,6 +58,7 @@ qa = [
     "black",
     "build",
     "edgetest",
+    "edgetest-conda",
     "flake8",
     "isort",
     "pre-commit",
@@ -111,10 +112,9 @@ build-backend = "setuptools.build_meta"
 [edgetest]
 command = "pytest --no-cov -m 'not run_notebooks and not write_files'"
 extras = ["tests"]
+python_version = "3.9"
 
 [edgetest.envs.core]
-python_version = "3.9"
-extras = ["tests"]
 upgrade = [
 	"click",
 	"dash",
