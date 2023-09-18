@@ -29,7 +29,7 @@ jobs:
         activate-environment: rubicon-ml-docs
     - name: Install rubicon-ml
       run: |
-        pip install -e ".[docs]"
+        pip install -e '.[docs]'
     - name: Build
       run: |
         cd docs

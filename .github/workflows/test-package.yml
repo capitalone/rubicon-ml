@@ -31,7 +31,7 @@ jobs:
         activate-environment: rubicon-ml-tests
     - name: Install rubicon-ml
       run: |
-        pip install -e ".[qa]"
+        pip install -e '.[tests]'
     - name: Check formatting with black
       run: |
         black --check rubicon_ml/ tests/

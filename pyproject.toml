@@ -52,7 +52,7 @@ docs = [
     "sphinx",
     "sphinx-copybutton",
 ]
-notebook = ["ipykernel", "jupyterlab", "nbconvert"]
+lab = ["jupyterlab"]
 prefect = ["prefect<=1.2.4,>=0.12.0"]
 qa = [
     "black",
@@ -65,20 +65,29 @@ qa = [
     "setuptools",
     "twine",
     "wheel",
-    "rubicon-ml[tests]",
 ]
 s3 = ["s3fs<=2023.9.0,>=0.4"]
-tests = ["dask", "pytest", "pytest-cov", "rubicon-ml[notebook]"]
+tests = [
+    "dask",
+    "ipykernel",
+    "nbconvert",
+    "pytest",
+    "pytest-cov",
+    "rubicon-ml[prefect]",
+    "rubicon-ml[qa]",
+    "rubicon-ml[s3]",
+    "rubicon-ml[viz]",
+]
 viz = ["dash<=2.13.0,>=2.0.0", "dash-bootstrap-components<=1.5.0,>=1.0.0"]
 
 dev = [
     "rubicon-ml[docs]",
-    "rubicon-ml[notebook]",
+    "rubicon-ml[lab]",
     "rubicon-ml[prefect]",
     "rubicon-ml[qa]",
     "rubicon-ml[s3]",
     "rubicon-ml[tests]",
-    "rubicon-ml[ui]",
+    "rubicon-ml[viz]",
 ]
 
 all = ["rubicon-ml[dev]"]  # alias for backwards compatibility
