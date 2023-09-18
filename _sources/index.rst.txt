@@ -97,7 +97,7 @@ to see the library integrated into a simple Prefect flow.
 
     pip install rubicon-ml[prefect]
 
-To install all extra modules, use the ``all`` extra.
+To install all extra modules, use the ``dev`` extra.
 
 .. code-block:: console
 
