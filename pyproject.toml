@@ -114,7 +114,7 @@ extras = ["tests"]
 
 [edgetest.envs.core]
 python_version = "3.9"
-extras = ["all"]
+extras = ["tests"]
 upgrade = [
 	"click",
 	"dash",

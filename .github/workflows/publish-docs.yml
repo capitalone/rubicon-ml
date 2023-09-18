@@ -28,7 +28,9 @@ jobs:
         channel-priority: true
         activate-environment: rubicon-ml-docs
     - name: Install rubicon-ml
+      # `pandoc` executable is not properly installed via `pip`, requires `conda`
       run: |
+        conda install 'pandoc<3.0.0'
         pip install -e '.[docs]'
     - name: Build
       run: |
