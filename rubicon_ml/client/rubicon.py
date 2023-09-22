@@ -143,18 +143,21 @@ class Rubicon:
 
         if name is not None:
             return_err = None
+
             for repo in self.repositories:
                 try:
                     project = repo.get_project(name)
                 except Exception as err:
                     return_err = err
                 else:
-                    project = Project(project, self.config)
-                    return project
-            raise RubiconException("all configured storage backends failed") from return_err
+                    return Project(project, self.config)
+
+            if len(self.repositories) > 1:
+                raise RubiconException("all configured storage backends failed") from return_err
+            else:
+                raise return_err
         else:
-            project = [p for p in self.projects() if p.id == id][0]
-            return project
+            return [p for p in self.projects() if p.id == id][0]
 
     def get_project_as_dask_df(self, name, group_by=None):
         """DEPRECATED: Available for backwards compatibility."""
@@ -229,6 +232,7 @@ class Rubicon:
             The list of available projects.
         """
         return_err = None
+
         for repo in self.repositories:
             try:
                 projects = [Project(project, self.config) for project in repo.get_projects()]
@@ -236,7 +240,11 @@ class Rubicon:
                 return_err = err
             else:
                 return projects
-        raise RubiconException("all configured storage backends failed") from return_err
+
+        if len(self.repositories) > 1:
+            raise RubiconException("all configured storage backends failed") from return_err
+        else:
+            raise return_err
 
     @failsafe
     def sync(self, project_name, s3_root_dir):

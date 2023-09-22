@@ -248,7 +248,7 @@ class ArtifactMixin:
                 self._artifacts = filter_children(artifacts, tags, qtype, name)
                 return self._artifacts
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        self._raise_rubicon_exception(return_err)
 
     @failsafe
     def artifact(self, name: Optional[str] = None, id: Optional[str] = None) -> Artifact:
@@ -294,7 +294,7 @@ class ArtifactMixin:
                 else:
                     return artifact
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        self._raise_rubicon_exception(return_err)
 
     @failsafe
     def delete_artifacts(self, ids: List[str]):
@@ -398,7 +398,7 @@ class DataframeMixin:
                 self._dataframes = filter_children(dataframes, tags, qtype, name)
                 return self._dataframes
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        self._raise_rubicon_exception(return_err)
 
     @failsafe
     def dataframe(self, name: Optional[str] = None, id: Optional[str] = None) -> Dataframe:
@@ -448,7 +448,7 @@ class DataframeMixin:
                 else:
                     return dataframe
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        self._raise_rubicon_exception(return_err)
 
     @failsafe
     def delete_dataframes(self, ids: List[str]):
@@ -561,4 +561,4 @@ class TagMixin:
 
                 return self._domain.tags
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        self._raise_rubicon_exception(return_err)

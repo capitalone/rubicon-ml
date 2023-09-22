@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Optional
 
+from rubicon_ml.exceptions import RubiconException
+
 if TYPE_CHECKING:
     from rubicon_ml.client import Config
     from rubicon_ml.domain import DOMAIN_TYPES
@@ -25,6 +27,12 @@ class Base:
 
     def __str__(self) -> str:
         return self._domain.__str__()
+
+    def _raise_rubicon_exception(self, exception: Exception):
+        if len(self.repositories) > 1:
+            raise RubiconException("all configured storage backends failed") from exception
+        else:
+            raise exception
 
     @property
     def repository(self) -> Optional[BaseRepository]:
