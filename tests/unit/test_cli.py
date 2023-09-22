@@ -82,7 +82,6 @@ def test_search_cli_base(rubicon_local_filesystem_client_with_project):
 
 
 def test_search_cli_exp_fail(rubicon_local_filesystem_client_with_project):
-
     _, project = rubicon_local_filesystem_client_with_project
     QUERY = "$..experiment[*].metric"
     project = _set_up_rubicon_project(project=project)
