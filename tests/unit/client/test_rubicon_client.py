@@ -22,6 +22,10 @@ class TestRepository:
         return TestFilesystem()
 
 
+def _raise_error():
+    raise RubiconException()
+
+
 def test_get_repository(rubicon_client):
     rubicon = rubicon_client
     assert rubicon.repository == rubicon.config.repository
@@ -124,13 +128,10 @@ def test_get_project_fails_neither_set(rubicon_and_project_client):
 
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_project")
-def test_get_project_multiple_backend_error(mock_get_project, rubicon_client):
-    rubicon = rubicon_client
+def test_get_project_multiple_backend_error(mock_get_project, rubicon_composite_client):
+    rubicon = rubicon_composite_client
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_project.side_effect = raise_error
+    mock_get_project.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         rubicon.get_project(name="Test Project")
     assert "all configured storage backends failed" in str(e)
@@ -149,13 +150,10 @@ def test_get_projects(rubicon_client):
 
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_projects")
-def test_get_projects_multiple_backend_error(mock_get_projects, rubicon_client):
-    rubicon = rubicon_client
+def test_get_projects_multiple_backend_error(mock_get_projects, rubicon_composite_client):
+    rubicon = rubicon_composite_client
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_projects.side_effect = raise_error
+    mock_get_projects.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         rubicon.projects()
     assert "all configured storage backends failed" in str(e)

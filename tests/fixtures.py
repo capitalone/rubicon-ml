@@ -39,7 +39,32 @@ def rubicon_client():
 
     # teardown after yield
     yield rubicon
+
     rubicon.repository.filesystem.rm(rubicon.config.root_dir, recursive=True)
+
+
+@pytest.fixture
+def rubicon_composite_client():
+    """Setup an instance of rubicon configured to log to two memory
+    backends and clean it up afterwards.
+    """
+    from rubicon_ml import Rubicon
+
+    rubicon = Rubicon(
+        composite_config=[
+            {"persistence": "memory", "root_dir": "a"},
+            {"persistence": "memory", "root_dir": "b"},
+        ],
+    )
+
+    # teardown after yield
+    yield rubicon
+
+    for i, repository in enumerate(rubicon.repositories):
+        repository.filesystem.rm(
+            rubicon.config.storage_options["composite_config"][i]["root_dir"],
+            recursive=True,
+        )
 
 
 @pytest.fixture
@@ -75,6 +100,21 @@ def project_client(rubicon_client):
     with a default project and clean it up afterwards.
     """
     rubicon = rubicon_client
+
+    project_name = "Test Project"
+    project = rubicon.get_or_create_project(
+        project_name, description="In memory project for testing."
+    )
+
+    return project
+
+
+@pytest.fixture
+def project_composite_client(rubicon_composite_client):
+    """Setup an instance of rubicon configured to log to two memory
+    backends with a default project and clean it up afterwards.
+    """
+    rubicon = rubicon_composite_client
 
     project_name = "Test Project"
     project = rubicon.get_or_create_project(
