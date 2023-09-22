@@ -10,7 +10,6 @@ import fsspec
 from rubicon_ml.client.base import Base
 from rubicon_ml.client.mixin import TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
-from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
     from rubicon_ml.client import Project
@@ -49,7 +48,9 @@ class Artifact(Base, TagMixin):
         """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_identifiers()
         return_err = None
+
         self._data = None
+
         for repo in self.repositories or []:
             try:
                 self._data = repo.get_artifact_data(
@@ -59,8 +60,9 @@ class Artifact(Base, TagMixin):
                 return_err = err
             else:
                 return
+
         if self._data is None:
-            raise RubiconException("all configured storage backends failed") from return_err
+            self._raise_rubicon_exception(return_err)
 
     @failsafe
     def get_data(self, unpickle: bool = False):
@@ -75,6 +77,7 @@ class Artifact(Base, TagMixin):
         """
         project_name, experiment_id = self.parent._get_identifiers()
         return_err = None
+
         for repo in self.repositories or []:
             try:
                 data = repo.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
@@ -84,7 +87,8 @@ class Artifact(Base, TagMixin):
                 if unpickle:
                     data = pickle.loads(data)
                 return data
-        raise RubiconException("all configured storage backends failed") from return_err
+
+        self._raise_rubicon_exception(return_err)
 
     @failsafe
     def download(self, location: Optional[str] = None, name: Optional[str] = None):
