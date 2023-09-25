@@ -35,6 +35,7 @@ dependencies:
   - nbconvert
   - pytest
   - pytest-cov
+  - xgboost
   
   # for versioning
   - versioneer

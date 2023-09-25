@@ -9,10 +9,9 @@ import os
 from contextlib import contextmanager
 from typing import Any, Dict, Optional
 
-from rubicon_schema import schema_registry
-
-from rubicon_ml import Experiment
+from rubicon_ml.client.experiment import Experiment
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.schema import registry
 
 
 def _get_value(obj, entity_schema):
@@ -96,7 +95,7 @@ def _safe_call_func(obj, func, optional, default=None):
 @contextmanager
 def _set_temporary_schema(project, schema_name):
     original_schema = project.schema_
-    project.set_schema(schema_registry.get_schema(schema_name))
+    project.set_schema(registry.get_schema(schema_name))
 
     yield
 
@@ -116,8 +115,8 @@ class SchemaMixin:
 
         if not hasattr(self, "schema_"):
             try:
-                schema_name = schema_registry.get_schema_name(obj)
-                self.schema_ = schema_registry.get_schema(schema_name)
+                schema_name = registry.get_schema_name(obj)
+                self.schema_ = registry.get_schema(schema_name)
             except ValueError as err:
                 raise ValueError(
                     f"No schema set and no schema could be inferred from object {obj}. "

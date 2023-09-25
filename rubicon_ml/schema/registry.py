@@ -40,7 +40,7 @@ def get_schema(name: str) -> Any:
     if name not in RUBICON_SCHEMA_REGISTRY:
         raise ValueError(
             f"'{name}' is not the name of an available rubicon schema. "
-            "For a list of schema names, use `schema_registry.available_schema()`."
+            "For a list of schema names, use `registry.available_schema()`."
         )
 
     return RUBICON_SCHEMA_REGISTRY[name]()
