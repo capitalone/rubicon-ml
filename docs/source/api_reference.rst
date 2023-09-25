@@ -87,6 +87,15 @@ RubiconJSON
 
 .. _library-reference-sklearn:
 
+schema
+======
+
+.. automodule:: rubicon_ml.schema.logger
+   :members:
+
+.. automodule:: rubicon_ml.schema.registry
+   :members:
+
 sklearn
 =======
 ``rubicon_ml`` offers direct integration with **Scikit-learn** via our
