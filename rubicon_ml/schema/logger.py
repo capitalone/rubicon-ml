@@ -9,10 +9,10 @@ import os
 from contextlib import contextmanager
 from typing import Any, Dict, Optional
 
+from rubicon_schema import schema_registry
+
 from rubicon_ml import Experiment
 from rubicon_ml.exceptions import RubiconException
-
-from rubicon_schema import schema_registry
 
 
 def _get_value(obj, entity_schema):
@@ -72,9 +72,7 @@ def _safe_environ(environ_var, optional, default=None):
         if optional:
             return default
 
-        raise RubiconException(
-            f"Environment variable '{environ_var}' not set."
-        ) from err
+        raise RubiconException(f"Environment variable '{environ_var}' not set.") from err
 
     return value
 
@@ -115,7 +113,7 @@ class SchemaMixin:
         experiment_kwargs: Optional[Dict[str, Any]] = None,
     ) -> Any:
         """Log an experiment leveraging ``self.schema_``."""
-    
+
         if not hasattr(self, "schema_"):
             try:
                 schema_name = schema_registry.get_schema_name(obj)
@@ -125,24 +123,24 @@ class SchemaMixin:
                     f"No schema set and no schema could be inferred from object {obj}. "
                     f"Set a schema with `Project.set_schema(schema)`."
                 ) from err
-    
+
         if experiment_kwargs is None:
             experiment_kwargs = {}
-    
+
         if experiment is None:
             experiment = self.log_experiment(**experiment_kwargs)
-    
+
         base_schema_name = self.schema_.get("extends")
         if base_schema_name is not None:
             with _set_temporary_schema(self, base_schema_name):
                 self.log_with_schema(obj, experiment=experiment)
-    
+
         for feature in self.schema_.get("features", []):
             is_optional = feature.get("optional", False)
-    
+
             if "names_attr" in feature:
                 feature_names = _safe_getattr(obj, feature["names_attr"], is_optional)
-    
+
                 if feature_names is not None:
                     feature_importances = _safe_getattr(
                         obj,
@@ -150,26 +148,26 @@ class SchemaMixin:
                         is_optional,
                         default=[None] * len(feature["names_attr"]),
                     )
-    
+
                     for name, importance in zip(feature_names, feature_importances):
                         experiment.log_feature(name=name, importance=importance)
-    
+
             elif "name_attr" in feature:
                 feature_name = _safe_getattr(obj, feature["name_attr"], is_optional)
-    
+
                 if feature_name is not None:
                     feature_importance = _safe_getattr(
                         obj, feature.get("importance_attr"), is_optional
                     )
-    
+
                     experiment.log_feature(name=feature_name, importance=feature_importance)
-    
+
         for parameter in self.schema_.get("parameters", []):
             experiment.log_parameter(
                 name=parameter["name"],
                 value=_get_value(obj, parameter),
             )
-    
+
         for metric in self.schema_.get("metrics", []):
             experiment.log_metric(
                 name=metric["name"],
@@ -183,45 +181,42 @@ class SchemaMixin:
                 data_object = _get_data_object(obj, artifact)
                 if data_object is not None:
                     experiment.log_artifact(name=artifact["name"], data_object=data_object)
-    
+
         for dataframe in self.schema_.get("dataframes", []):
             df_value = _get_df(obj, dataframe)
-    
+
             if df_value is not None:
                 experiment.log_dataframe(df=df_value, name=dataframe["name"])
-    
+
         for schema in self.schema_.get("schema", []):
-            object_to_log = _safe_getattr(
-                obj, schema["attr"], schema.get("optional", False)
-            )
-    
+            object_to_log = _safe_getattr(obj, schema["attr"], schema.get("optional", False))
+
             if object_to_log is not None:
                 with _set_temporary_schema(self, schema["name"]):
                     self.log_with_schema(object_to_log, experiment=experiment)
-    
+
         has_children = False
-    
+
         for children in self.schema_.get("children", []):
             children_objects = _safe_getattr(
                 obj, children["attr"], children.get("optional", False), default=[]
             )
-    
+
             for child in children_objects:
                 has_children = True
-    
+
                 child_experiment = self.log_experiment(**experiment_kwargs)
                 child_experiment.add_tags(tags=["child", f"parent_id:{experiment.id}"])
-    
+
                 with _set_temporary_schema(self, children["name"]):
                     self.log_with_schema(child, experiment=child_experiment)
-    
+
         if has_children:
             experiment.add_tags(tags=["parent"])
-    
+
         return experiment
-    
-    
+
     def set_schema(self, schema: Dict[str, Any]) -> None:
         """Set the schema for this client object."""
-    
+
         self.schema_ = schema
