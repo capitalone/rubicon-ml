@@ -9,6 +9,10 @@ from rubicon_ml.client.mixin import ArtifactMixin, DataframeMixin, TagMixin
 from rubicon_ml.exceptions import RubiconException
 
 
+def _raise_error():
+    raise RubiconException()
+
+
 # ArtifactMixin
 def test_log_artifact_from_bytes(project_client):
     project = project_client
@@ -159,13 +163,10 @@ def test_artifacts(project_client):
 
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_artifacts_metadata")
-def test_artifacts_multiple_backend_error(mock_get_artifacts_metadata, project_client):
-    project = project_client
+def test_artifacts_multiple_backend_error(mock_get_artifacts_metadata, project_composite_client):
+    project = project_composite_client
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_artifacts_metadata.side_effect = raise_error
+    mock_get_artifacts_metadata.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.artifacts(project)
     assert "all configured storage backends failed" in str(e)
@@ -262,15 +263,12 @@ def test_artifact_by_id(project_client):
 
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_artifact_metadata")
-def test_artifact_multiple_backend_error(mock_get_artifact_metadata, project_client):
-    project = project_client
+def test_artifact_multiple_backend_error(mock_get_artifact_metadata, project_composite_client):
+    project = project_composite_client
     data = b"content"
     artifact = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_artifact_metadata.side_effect = raise_error
+    mock_get_artifact_metadata.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.artifact(project, id=artifact.id)
     assert "all configured storage backends failed" in str(e)
@@ -313,13 +311,10 @@ def test_dataframes(project_client, test_dataframe):
 
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_dataframes_metadata")
-def test_dataframes_multiple_backend_error(mock_get_dataframes_metadata, project_client):
-    project = project_client
+def test_dataframes_multiple_backend_error(mock_get_dataframes_metadata, project_composite_client):
+    project = project_composite_client
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_dataframes_metadata.side_effect = raise_error
+    mock_get_dataframes_metadata.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         DataframeMixin.dataframes(project)
     assert "all configured storage backends failed" in str(e)
@@ -359,15 +354,12 @@ def test_dataframe_by_id(project_client, test_dataframe):
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_dataframe_metadata")
 def test_dataframe_multiple_backend_error(
-    mock_get_dataframe_metadata, project_client, test_dataframe
+    mock_get_dataframe_metadata, project_composite_client, test_dataframe
 ):
-    project = project_client
+    project = project_composite_client
     dataframe = DataframeMixin.log_dataframe(project, test_dataframe)
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_dataframe_metadata.side_effect = raise_error
+    mock_get_dataframe_metadata.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         DataframeMixin.dataframe(project, id=dataframe.id)
     assert "all configured storage backends failed" in str(e)
@@ -534,14 +526,14 @@ def test_remove_tags(project_client):
 
 
 @mock.patch("rubicon_ml.repository.BaseRepository.get_tags")
-def test_tags_multiple_backend_error(mock_get_tags, project_client):
-    project = project_client
+def test_tags_multiple_backend_error(mock_get_tags, project_composite_client):
+    project = project_composite_client
     experiment = project.log_experiment(tags=["x", "y"])
 
     def raise_error():
         raise RubiconException()
 
-    mock_get_tags.side_effect = raise_error
+    mock_get_tags.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         experiment.tags()
     assert "all configured storage backends failed" in str(e)

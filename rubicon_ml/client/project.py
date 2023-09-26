@@ -255,6 +255,7 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         """
         if tags is None:
             tags = []
+
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
@@ -302,10 +303,10 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     " Returning most recently logged."
                 )
 
-            experiment = experiments[-1]
-            return experiment
+            return experiments[-1]
         else:
             return_err = None
+
             for repo in self.repositories:
                 try:
                     experiment = Experiment(repo.get_experiment(self.name, id), self)
@@ -313,7 +314,8 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                     return_err = err
                 else:
                     return experiment
-            raise RubiconException("all configured storage backends failed") from return_err
+
+            self._raise_rubicon_exception(return_err)
 
     @failsafe
     def experiments(
@@ -338,7 +340,9 @@ class Project(Base, ArtifactMixin, DataframeMixin):
         """
         if tags is None:
             tags = []
+
         return_err = None
+
         for repo in self.repositories:
             try:
                 experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
@@ -346,9 +350,10 @@ class Project(Base, ArtifactMixin, DataframeMixin):
                 return_err = err
             else:
                 self._experiments = filter_children(experiments, tags, qtype, name)
+
                 return self._experiments
 
-        raise RubiconException("all configured storage backends failed") from return_err
+        self._raise_rubicon_exception(return_err)
 
     @failsafe
     def dataframes(
