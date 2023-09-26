@@ -29,6 +29,14 @@ def test_get_data(project_client):
     assert artifact.data == data
 
 
+def test_get_json(project_client):
+    project = project_client
+    data = {"hello": "world", "numbers": [1, 2, 3]}
+    artifact = project.log_json(json_object=data, name="test.json")
+
+    assert artifact.get_json() == data
+
+
 def test_internal_get_data_multiple_backend_error():
     rb = Rubicon(
         composite_config=[
