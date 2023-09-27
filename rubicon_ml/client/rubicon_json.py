@@ -1,3 +1,5 @@
+from typing import Any, Dict, List, Optional, Union
+
 from jsonpath_ng.ext import parse
 
 from rubicon_ml.client import Experiment, Project, Rubicon
@@ -17,7 +19,12 @@ class RubiconJSON:
         `rubicon-ml` experiments to convert to JSON for querying.
     """
 
-    def __init__(self, rubicon_objects=None, projects=None, experiments=None):
+    def __init__(
+        self,
+        rubicon_objects: Optional[List[Rubicon]] = None,
+        projects: Optional[List[Project]] = None,
+        experiments: Optional[List[Experiment]] = None,
+    ):
         if rubicon_objects:
             rubicon_objects = self._validate_input(rubicon_objects, Rubicon, "rubicon_objects")
         if projects:
@@ -27,16 +34,27 @@ class RubiconJSON:
 
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
 
-    def _validate_input(self, objs, obj_cls, obj_name):
-        if not isinstance(objs, list):
-            objs = [objs]
+    def _validate_input(
+        self,
+        objects: Union[
+            Rubicon, List[Rubicon], Project, List[Project], Experiment, List[Experiment]
+        ],
+        obj_cls: Union[type[Rubicon], type[Project], type[Experiment]],
+        obj_name: str,
+    ):
+        formatted_objects = [objects] if not isinstance(objects, list) else objects
 
-        if not all([isinstance(o, obj_cls) for o in objs]):
+        if not all([isinstance(o, obj_cls) for o in formatted_objects]):
             raise ValueError(f"`{obj_name}` must be `list` of type `{obj_cls}`.")
 
-        return objs
+        return formatted_objects
 
-    def _convert_to_json(self, rubicon_objects=None, projects=None, experiments=None):
+    def _convert_to_json(
+        self,
+        rubicon_objects: Optional[List[Rubicon]] = None,
+        projects: Optional[List[Project]] = None,
+        experiments: Optional[List[Experiment]] = None,
+    ):
         rubicon_json = {}
 
         if rubicon_objects is not None:
@@ -52,8 +70,8 @@ class RubiconJSON:
 
         return rubicon_json
 
-    def _experiments_to_json(self, experiments):
-        rubicon_json = {"experiment": []}
+    def _experiments_to_json(self, experiments: List[Experiment]):
+        rubicon_json: Dict[str, Any] = {"experiment": []}
 
         for e in experiments:
             experiment_json = e._domain.__dict__
@@ -67,8 +85,8 @@ class RubiconJSON:
 
         return rubicon_json
 
-    def _projects_to_json(self, projects):
-        rubicon_json = {"project": []}
+    def _projects_to_json(self, projects: List[Project]):
+        rubicon_json: Dict[str, Any] = {"project": []}
 
         for p in projects:
             project_json = p._domain.__dict__
@@ -82,15 +100,15 @@ class RubiconJSON:
 
         return rubicon_json
 
-    def _rubicon_to_json(self, rubicon_objects):
-        rubicon_json = {"project": []}
+    def _rubicon_to_json(self, rubicon_objects: List[Rubicon]):
+        rubicon_json: Dict[str, Any] = {"project": []}
 
         for r in rubicon_objects:
             rubicon_json["project"].extend(self._projects_to_json(r.projects())["project"])
 
         return rubicon_json
 
-    def search(self, query):
+    def search(self, query: str):
         """
         Query the JSON generated from the RubiconJSON instantiation in a JSONPath-like manner.
         Can return queries as `rubicon_ml.client` objects by specifying return_type parameter.

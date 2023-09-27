@@ -108,12 +108,8 @@ def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
     is_flag=True,
     required=False,
 )
-@click.argument(
-    "query",
-    nargs=1,
-    required=True,
-)
-def search(root_dir, project_name, pp, query):
+@click.argument("query", nargs=1, required=True)
+def search(root_dir: str, project_name: str, pp: bool, query: str):
     """Query rubicon experiments from the command line with JSONPath syntax."""
 
     if project_name is None or root_dir is None:
