@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Type, Union
 
 from jsonpath_ng.ext import parse
 
@@ -39,7 +39,7 @@ class RubiconJSON:
         objects: Union[
             Rubicon, List[Rubicon], Project, List[Project], Experiment, List[Experiment]
         ],
-        obj_cls: Union[type[Rubicon], type[Project], type[Experiment]],
+        obj_cls: Union[Type[Rubicon], Type[Project], Type[Experiment]],
         obj_name: str,
     ):
         formatted_objects = [objects] if not isinstance(objects, list) else objects
