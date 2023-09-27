@@ -27,10 +27,11 @@ jobs:
         channels: conda-forge
         channel-priority: true
         activate-environment: rubicon-ml-docs
-        environment-file: docs/docs-environment.yml
     - name: Install rubicon-ml
+      # `pandoc` executable is not properly installed via `pip`, requires `conda`
       run: |
-        pip install --no-deps -e .
+        conda install 'pandoc<3.0.0'
+        pip install -e '.[docs]'
     - name: Build
       run: |
         cd docs

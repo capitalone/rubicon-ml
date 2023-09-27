@@ -119,14 +119,14 @@ The project uses conda to manage environments. First, install
 Then use conda to setup a development environment:
 
 ```bash
-conda env create -f environment.yml
+conda create -n rubicon-ml-dev "python>=3.8"
 conda activate rubicon-ml-dev
 ```
 
 Finally, install `rubicon_ml` locally into the newly created environment.
 
 ```bash
-pip install -e ".[all]"
+pip install -e ".[dev]"
 ```
 
 ## Testing
