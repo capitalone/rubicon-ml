@@ -61,6 +61,15 @@ def test_rubicon(rubicon, request):
         df=pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
     )
 
+    json_dict = {"hello": "world", "numbers": [1, 2, 3]}
+
+    written_project_json = written_project.log_json(
+        name=f"Test JSON {uuid.uuid4()}.json", json_object=json_dict
+    )
+    written_experiment_json = written_experiment.log_json(
+        name=f"Test JSON {uuid.uuid4()}.json", json_object=json_dict
+    )
+
     written_project_dataframe.add_tags(["x", "y"])
     written_project_dataframe.remove_tags(["x"])
 
@@ -89,17 +98,22 @@ def test_rubicon(rubicon, request):
     assert written_metric.value == read_metrics[0].value
 
     read_project_artifacts = read_project.artifacts()
-    assert len(read_project_artifacts) == 1
+    assert len(read_project_artifacts) == 2
     assert written_project_artifact.id == read_project_artifacts[0].id
     assert written_project_artifact.data == read_project_artifacts[0].data
+    assert written_project_json.id == read_project_artifacts[1].id
+    assert written_project_json.data == read_project_artifacts[1].data
 
-    read_project.delete_artifacts([read_project_artifacts[0].id])
+    read_project.delete_artifacts([artifact.id for artifact in read_project_artifacts])
     assert len(read_project.artifacts()) == 0
 
     read_experiment_artifacts = read_experiment.artifacts()
-    assert len(read_experiment_artifacts) == 1
+    assert len(read_experiment_artifacts) == 2
     assert written_experiment_artifact.id == read_experiment_artifacts[0].id
     assert written_experiment_artifact.data == read_experiment_artifacts[0].data
+    assert written_experiment_json.id == read_experiment_artifacts[1].id
+    assert written_experiment_json.data == read_experiment_artifacts[1].data
+    assert json_dict == read_experiment_artifacts[1].get_json()
 
     read_project_dataframes = read_project.dataframes()
     assert len(read_project_dataframes) == 1

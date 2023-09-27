@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import pickle
 import warnings
@@ -89,6 +90,11 @@ class Artifact(Base, TagMixin):
                 return data
 
         self._raise_rubicon_exception(return_err)
+
+    @failsafe
+    def get_json(self):
+        data = self.get_data()
+        return json.loads(data)
 
     @failsafe
     def download(self, location: Optional[str] = None, name: Optional[str] = None):

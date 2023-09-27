@@ -135,6 +135,20 @@ def test_log_pip_requirements(project_client, mock_completed_process_empty):
     assert artifact.data == b"\n"
 
 
+def test_log_json(project_client):
+    project = project_client
+
+    data = {"hello": "world", "foo": [1, 2, 3]}
+    artifact_a = ArtifactMixin.log_json(project, data, name="test.json")
+    artifact_b = ArtifactMixin.log_json(project, data, name="test.txt")
+
+    artifacts = ArtifactMixin.artifacts(project)
+
+    assert len(artifacts) == 2
+    assert artifact_a.id in [a.id for a in artifacts]
+    assert artifact_b.id in [a.id for a in artifacts]
+
+
 def test_artifacts(project_client):
     project = project_client
     data = b"content"
