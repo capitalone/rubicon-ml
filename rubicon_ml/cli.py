@@ -89,66 +89,52 @@ def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
 )
 @click.option(
     "--root-dir",
-    type=click.STRING,
     default=os.environ.get("RUBICON_ROOT_DIR"),
-    help="The absolute path to the top level folder holding the rubicon-ml project.",
-    required=False,
+    help="The absolute path to the top level folder holding the project.",
+    required=False,  # due to environment default
+    type=click.STRING,
 )
 @click.option(
     "--project-name",
     default=os.environ.get("RUBICON_PROJECT_NAME"),
+    help="The name of the project to query experiments from.",
+    required=False,  # due to environment default
     type=click.STRING,
-    help="Name of rubicon project to retrieve experiments from",
-    required=False,
 )
 @click.option(
-    "--color",
-    "-c",
-    type=click.STRING,
-    help="Color of query output",
-    required=False,
-)
-@click.option(
-    "--bf",
+    "--pp",
+    default=False,
+    help="Toggle pretty printing.",
     is_flag=True,
-    show_default=True,
-    default=True,
     required=False,
-    help="Flag that switches pretty print output format to basic format",
 )
 @click.argument(
     "query",
     nargs=1,
     required=True,
 )
-def search(root_dir, project_name, color, bf, query):
-    """
-    This function provides capability to query  rubicon experiments from the command line without using python
-    directly and output the JSON in the command line.
-    """
+def search(root_dir, project_name, pp, query):
+    """Query rubicon experiments from the command line with JSONPath syntax."""
 
     if project_name is None or root_dir is None:
         click.secho("No --root-dir or --project-name provided. Exiting...", fg="red")
         sys.exit(1)
 
     rubicon = Rubicon(persistence="filesystem", root_dir=root_dir)
+
     try:
         project = rubicon.get_project(name=project_name)
     except Exception as e:
         click.secho(e, fg="red")
         sys.exit(1)
 
-    rb_json = RubiconJSON(projects=project)
-    res = rb_json.search(query)
-    if not isinstance(res, list):
-        res = [res]
-    matches = [r.value for r in res]
-    if "color" in click.get_current_context().params:
-        fg_color = color
+    rubicon_json = RubiconJSON(projects=project)
 
-    result = matches if bf else pprint.pformat(matches, indent=1)
+    results = rubicon_json.search(query)
+    results = [results] if not isinstance(results, list) else results
+    matches = [r.value for r in results]
 
-    click.secho(result, fg=fg_color)
+    click.secho(pprint.pformat(matches, indent=1) if pp else matches)
 
 
 # CLI groups

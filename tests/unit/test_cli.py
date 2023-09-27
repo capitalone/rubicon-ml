@@ -108,29 +108,3 @@ def test_search_cli_exp_fail(rubicon_local_filesystem_client_with_project):
     assert "No project with name 'NON-EXISTENT-PROJECT' found." in result_b.output
     assert result_a.exit_code == 1
     assert result_b.exit_code == 1
-
-
-def test_search_cli_color(rubicon_local_filesystem_client_with_project):
-    _, project = rubicon_local_filesystem_client_with_project
-
-    QUERY = "$..experiment[*].metric"
-    TEST_COLOR = "yellow"
-    project = _set_up_rubicon_project(project=project)
-
-    runner = CliRunner()
-    result = runner.invoke(
-        cli,
-        [
-            "search",
-            "--root-dir",
-            project.repository.root_dir,
-            "--project-name",
-            project.name,
-            "--color",
-            TEST_COLOR,
-            QUERY,
-        ],
-        env={"RUBICON_PROJECT_NAME": None, "RUBICON_ROOT_DIR": None},
-    )
-
-    assert result.exit_code == 0
