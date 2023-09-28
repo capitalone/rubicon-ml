@@ -1,8 +1,12 @@
+import os
+import pprint
+import sys
 import warnings
 
 import click
 
 from rubicon_ml import Rubicon
+from rubicon_ml.client.rubicon_json import RubiconJSON
 from rubicon_ml.viz import Dashboard
 
 
@@ -78,7 +82,57 @@ def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
     dashboard.serve(run_server_kwargs=run_server_kwargs)
 
 
-# CLI groups
+@cli.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    )
+)
+@click.option(
+    "--root-dir",
+    default=os.environ.get("RUBICON_ROOT_DIR"),
+    help="The absolute path to the top level folder holding the project.",
+    required=False,  # due to environment default
+    type=click.STRING,
+)
+@click.option(
+    "--project-name",
+    default=os.environ.get("RUBICON_PROJECT_NAME"),
+    help="The name of the project to query experiments from.",
+    required=False,  # due to environment default
+    type=click.STRING,
+)
+@click.option(
+    "--pp",
+    default=False,
+    help="Toggle pretty printing.",
+    is_flag=True,
+    required=False,
+)
+@click.argument("query", nargs=1, required=True)
+def search(root_dir: str, project_name: str, pp: bool, query: str):
+    """Query rubicon experiments from the command line with JSONPath syntax."""
 
+    if project_name is None or root_dir is None:
+        click.secho("No --root-dir or --project-name provided. Exiting...", fg="red")
+        sys.exit(1)
+
+    rubicon = Rubicon(persistence="filesystem", root_dir=root_dir)
+
+    try:
+        project = rubicon.get_project(name=project_name)
+    except Exception as e:
+        click.secho(e, fg="red")
+        sys.exit(1)
+
+    rubicon_json = RubiconJSON(projects=project)
+
+    results = rubicon_json.search(query)
+    results = [results] if not isinstance(results, list) else results
+    matches = [r.value for r in results]
+
+    click.secho(pprint.pformat(matches, indent=1) if pp else matches)
+
+
+# CLI groups
 if __name__ == "__main__":
     cli()
