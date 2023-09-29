@@ -1,0 +1,695 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizations" href="../visualizations.html" /><link rel="prev" title="Tagging" href="tagging.html" />
+
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Query projects &amp; experiments with RubiconJSON - rubicon-ml v0.5.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4af6793b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.5.0</div></div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/images/rubicon_ml_logo_only.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.5.0</div></span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Quick Look</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/logging-experiments.html">Logging Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/sharing-experiments.html">Sharing Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-look/visualizing-experiments.html">Visualizing Experiments</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/failure-modes.html">Ignoring Exceptions with Failure Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-training-metadata.html">Logging Training Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-plots.html">Logging Plots as PNGs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Visualizations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dataframe-plot.html">Dataframe Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/experiments-table.html">Experiments Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-correlation-plot.html">Metric Correlation Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/metric-lists-comparisons.html">Metric Lists Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualizations/dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How to...</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-git.html">Integrate with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiple-backend.html">Log with Multiple Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/rubiconJSON-querying.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/rubiconJSON-querying.ipynb" target="_blank">run it yourself on Binder</a>!</p>
+<hr class="docutils" />
+<section id="Query-projects-&amp;-experiments-with-RubiconJSON">
+<h1>Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code><a class="headerlink" href="#Query-projects-&-experiments-with-RubiconJSON" title="Link to this heading">#</a></h1>
+<p>Users can utilize the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class to query <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> logs in a JSONPath-like manner.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> takes in top-level <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects, <code class="docutils literal notranslate"><span class="pre">Projects</span></code>, and/or <code class="docutils literal notranslate"><span class="pre">Experiments</span></code> and composes a JSON representation of them. Then, with the <code class="docutils literal notranslate"><span class="pre">search</span></code> method, users can query their logged data using JSONPath syntax.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> relies on <cite>the ``jsonpath_ng`</cite> library &lt;<a class="reference external" href="https://github.com/h2non/jsonpath-ng">https://github.com/h2non/jsonpath-ng</a>&gt;`__ for query parsing. More information on the allowed syntax can be found <a class="reference external" href="https://github.com/h2non/jsonpath-ng#jsonpath-syntax">here in their documentation</a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">make_scorer</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">ParameterGrid</span><span class="p">,</span> <span class="n">train_test_split</span>
+</pre></div>
+</div>
+</div>
+<section id="Trian-some-models,-log-some-experiments">
+<h2>Trian some models, log some experiments<a class="headerlink" href="#Trian-some-models,-log-some-experiments" title="Link to this heading">#</a></h2>
+<p>We’ll start off by loading a dataset and creating our <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> project.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span> <span class="n">auto_git_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;jsonpath querying&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now, let’s train and evaluate some models and log thier metadata to <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="n">ParameterGrid</span><span class="p">({</span>
+    <span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span>
+    <span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+<span class="p">}):</span>
+    <span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
+
+    <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;large&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">rfc</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">experiment</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">rfc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="n">precision_scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">precision_score</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">precision_scorer</span><span class="p">(</span><span class="n">rfc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+    <span class="n">recall_scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">recall_score</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">recall_scorer</span><span class="p">(</span><span class="n">rfc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">recall</span><span class="p">)</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">data_object</span><span class="o">=</span><span class="n">rfc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">rfc</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;trained&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Load-experiments-into-the-RubiconJSON-class">
+<h2>Load experiments into the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class<a class="headerlink" href="#Load-experiments-into-the-RubiconJSON-class" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class accepts <code class="docutils literal notranslate"><span class="pre">Projects</span></code>, <code class="docutils literal notranslate"><span class="pre">Experiments</span></code>, and top-level <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects as an input. Once instantiated, the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class has a <code class="docutils literal notranslate"><span class="pre">json</span></code> property detailing each project and experiment. Let’s take a look at the representation of one of our experiments:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">RubiconJSON</span>
+
+<span class="n">rubicon_json</span> <span class="o">=</span> <span class="n">RubiconJSON</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span>
+<span class="n">rubicon_json</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;experiment&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;,
+ &#39;id&#39;: &#39;560c116e-0522-4ca9-acf9-d5fd6e5c9b44&#39;,
+ &#39;name&#39;: None,
+ &#39;description&#39;: None,
+ &#39;model_name&#39;: &#39;RandomForestClassifier&#39;,
+ &#39;branch_name&#39;: &#39;jsonpath&#39;,
+ &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;,
+ &#39;training_metadata&#39;: None,
+ &#39;tags&#39;: [],
+ &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 164301),
+ &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;,
+   &#39;id&#39;: &#39;bed69ee3-3af4-45ed-8955-bb3dca3693c7&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 164974)},
+  {&#39;name&#39;: &#39;malic_acid&#39;,
+   &#39;id&#39;: &#39;7714ebf1-7679-47c0-9fe9-e8cbe330c8b0&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165062)},
+  {&#39;name&#39;: &#39;ash&#39;,
+   &#39;id&#39;: &#39;9e63133e-4c35-4bb5-9173-78f17c9c92d3&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165121)},
+  {&#39;name&#39;: &#39;alcalinity_of_ash&#39;,
+   &#39;id&#39;: &#39;9a8a7400-25a3-4651-af11-cc35846d1c04&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165178)},
+  {&#39;name&#39;: &#39;magnesium&#39;,
+   &#39;id&#39;: &#39;98e42e9d-88fc-4fa4-a9bc-b614174cd45e&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165243)},
+  {&#39;name&#39;: &#39;total_phenols&#39;,
+   &#39;id&#39;: &#39;a59f41a1-b610-479a-bc36-c855393c3400&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165301)},
+  {&#39;name&#39;: &#39;flavanoids&#39;,
+   &#39;id&#39;: &#39;2f80679b-7797-4adc-a856-e8e249baf96c&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165354)},
+  {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;,
+   &#39;id&#39;: &#39;0d1013ac-3b67-4997-840c-d83d961ddec7&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165406)},
+  {&#39;name&#39;: &#39;proanthocyanins&#39;,
+   &#39;id&#39;: &#39;32288a47-f832-4757-ae22-2df712d05a1d&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165458)},
+  {&#39;name&#39;: &#39;color_intensity&#39;,
+   &#39;id&#39;: &#39;1cdf37db-d8de-427f-bf50-ff55c5ad5a33&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165506)},
+  {&#39;name&#39;: &#39;hue&#39;,
+   &#39;id&#39;: &#39;3fcabb4b-53f9-4ac9-8583-f49e1dfb18c3&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165557)},
+  {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;,
+   &#39;id&#39;: &#39;24e7245c-c637-423c-ad38-1994d04421d1&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165605)},
+  {&#39;name&#39;: &#39;proline&#39;,
+   &#39;id&#39;: &#39;4091d490-d4b8-425b-b2c7-b6001f017733&#39;,
+   &#39;description&#39;: None,
+   &#39;importance&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 165654)}],
+ &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;,
+   &#39;id&#39;: &#39;c0fef473-d83e-4e84-9c3f-0fe33a28c04b&#39;,
+   &#39;value&#39;: 1,
+   &#39;description&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 164750)},
+  {&#39;name&#39;: &#39;n_estimators&#39;,
+   &#39;id&#39;: &#39;3ce88e6b-ddd1-4db8-9053-289b16663720&#39;,
+   &#39;value&#39;: 5,
+   &#39;description&#39;: None,
+   &#39;tags&#39;: [],
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 164862)}],
+ &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;,
+   &#39;value&#39;: 0.9513333333333333,
+   &#39;id&#39;: &#39;2c87e3c3-56cf-4dc7-b049-d497faab79e0&#39;,
+   &#39;description&#39;: None,
+   &#39;directionality&#39;: &#39;score&#39;,
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 172842),
+   &#39;tags&#39;: []},
+  {&#39;name&#39;: &#39;recall&#39;,
+   &#39;value&#39;: 0.95,
+   &#39;id&#39;: &#39;efd2e6c8-3cfc-4cca-943e-6bbad7a0c777&#39;,
+   &#39;description&#39;: None,
+   &#39;directionality&#39;: &#39;score&#39;,
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 172955),
+   &#39;tags&#39;: []}],
+ &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;,
+   &#39;id&#39;: &#39;b94df717-0628-40c9-8042-d1341a6c7185&#39;,
+   &#39;description&#39;: None,
+   &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 173251),
+   &#39;tags&#39;: [&#39;trained&#39;],
+   &#39;parent_id&#39;: &#39;560c116e-0522-4ca9-acf9-d5fd6e5c9b44&#39;}],
+ &#39;dataframe&#39;: []}
+</pre></div></div>
+</div>
+</section>
+<section id="Query-experiments-with-RubiconJSON.search">
+<h2>Query experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON.search</span></code><a class="headerlink" href="#Query-experiments-with-RubiconJSON.search" title="Link to this heading">#</a></h2>
+<p>Once created, we can use the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class to query our experiment metadata. We’ll start by getting each experiment that was tagged “large” during training.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_query</span> <span class="o">=</span> <span class="s2">&quot;$..experiment[?(@.tags[*]==&#39;large&#39;)]&quot;</span>
+
+<span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">rubicon_json</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">experiment_query</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;, &#39;id&#39;: &#39;e818e604-5b6c-455b-951f-68d87db287d2&#39;, &#39;name&#39;: None, &#39;description&#39;: None, &#39;model_name&#39;: &#39;RandomForestClassifier&#39;, &#39;branch_name&#39;: &#39;jsonpath&#39;, &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;, &#39;training_metadata&#39;: None, &#39;tags&#39;: [&#39;large&#39;], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236186), &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;, &#39;id&#39;: &#39;010d78c9-648b-41c0-9bbb-6ea4c0098c9a&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236763)}, {&#39;name&#39;: &#39;malic_acid&#39;, &#39;id&#39;: &#39;42f821b3-b4c9-459a-ad19-e31dcd861df2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236847)}, {&#39;name&#39;: &#39;ash&#39;, &#39;id&#39;: &#39;79111980-9804-4ae5-9819-0c7a0e30854d&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236908)}, {&#39;name&#39;: &#39;alcalinity_of_ash&#39;, &#39;id&#39;: &#39;11579ad0-bd9b-4a89-a07f-98ee99d77c7e&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236963)}, {&#39;name&#39;: &#39;magnesium&#39;, &#39;id&#39;: &#39;a148b56a-9b6b-47fe-9c55-81a9ced61558&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237015)}, {&#39;name&#39;: &#39;total_phenols&#39;, &#39;id&#39;: &#39;e599909f-3a4e-4b07-a134-0d271b6f54d7&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237068)}, {&#39;name&#39;: &#39;flavanoids&#39;, &#39;id&#39;: &#39;bb26af85-8a8b-4fd0-81dc-c55408644055&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237119)}, {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;, &#39;id&#39;: &#39;9a64ea5d-519e-4ec4-bdd1-24ec8e756c56&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237170)}, {&#39;name&#39;: &#39;proanthocyanins&#39;, &#39;id&#39;: &#39;33f3e24c-ca3e-49a8-a765-7131b9429e98&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237220)}, {&#39;name&#39;: &#39;color_intensity&#39;, &#39;id&#39;: &#39;793acaa7-a443-4cae-b5b5-3555628d095d&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237269)}, {&#39;name&#39;: &#39;hue&#39;, &#39;id&#39;: &#39;90ff3bb2-4c94-4ca4-a75f-b27ad1e31898&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237323)}, {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;, &#39;id&#39;: &#39;e1ab9849-8c1a-4d86-8b09-f97cbaab1a34&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237374)}, {&#39;name&#39;: &#39;proline&#39;, &#39;id&#39;: &#39;b6f55de3-4839-40e5-8cfc-9f88586961b3&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 237427)}], &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;id&#39;: &#39;7c1a20ff-42b1-4100-9515-c17d72f7e602&#39;, &#39;value&#39;: 1, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236557)}, {&#39;name&#39;: &#39;n_estimators&#39;, &#39;id&#39;: &#39;da82e2a1-fded-40b7-916b-0d3c06734b56&#39;, &#39;value&#39;: 50, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 236664)}], &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9684407096171803, &#39;id&#39;: &#39;dfe82079-3a29-4c7a-bc35-4d7d13f05b0b&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 264896), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.9666666666666667, &#39;id&#39;: &#39;0886983e-74c9-44b1-ae98-7437fae22057&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 265031), &#39;tags&#39;: []}], &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;, &#39;id&#39;: &#39;dbeea5f9-d2bc-41c0-aa20-21a737f3d4ba&#39;, &#39;description&#39;: None, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 265855), &#39;tags&#39;: [&#39;trained&#39;], &#39;parent_id&#39;: &#39;e818e604-5b6c-455b-951f-68d87db287d2&#39;}], &#39;dataframe&#39;: []}
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;, &#39;id&#39;: &#39;520c3905-b77b-4fe0-ac65-0fd639fb9e49&#39;, &#39;name&#39;: None, &#39;description&#39;: None, &#39;model_name&#39;: &#39;RandomForestClassifier&#39;, &#39;branch_name&#39;: &#39;jsonpath&#39;, &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;, &#39;training_metadata&#39;: None, &#39;tags&#39;: [&#39;large&#39;], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 344533), &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;, &#39;id&#39;: &#39;15c197be-42e4-4f22-8f55-22491dc70b25&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345176)}, {&#39;name&#39;: &#39;malic_acid&#39;, &#39;id&#39;: &#39;8defd5b7-6b0c-490c-8f22-17885b004a11&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345270)}, {&#39;name&#39;: &#39;ash&#39;, &#39;id&#39;: &#39;9457c126-a9f4-470d-8b28-c96ae4728ea5&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345337)}, {&#39;name&#39;: &#39;alcalinity_of_ash&#39;, &#39;id&#39;: &#39;6dfbaeb2-3d26-4d4a-8606-a1ad157505bb&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345400)}, {&#39;name&#39;: &#39;magnesium&#39;, &#39;id&#39;: &#39;22324317-476f-4168-bd7b-18ba74ef3a97&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345462)}, {&#39;name&#39;: &#39;total_phenols&#39;, &#39;id&#39;: &#39;2020b6b1-1405-4dd2-9dda-b0df5d2d1ffe&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345524)}, {&#39;name&#39;: &#39;flavanoids&#39;, &#39;id&#39;: &#39;8fa210bd-266b-49be-bd3c-5a98382c555b&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345584)}, {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;, &#39;id&#39;: &#39;b4e6b701-ad61-420d-a7ec-0eeeece44664&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345643)}, {&#39;name&#39;: &#39;proanthocyanins&#39;, &#39;id&#39;: &#39;71e17e4f-8ca9-4fcd-8e19-4b06110701b1&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345703)}, {&#39;name&#39;: &#39;color_intensity&#39;, &#39;id&#39;: &#39;7d274784-08bc-46bb-a62d-3b18e40d88b8&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345763)}, {&#39;name&#39;: &#39;hue&#39;, &#39;id&#39;: &#39;bc75d745-7568-47fd-9ab5-fd49d8a282bd&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345826)}, {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;, &#39;id&#39;: &#39;425705a9-8612-4857-8684-7f5617a7b768&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345889)}, {&#39;name&#39;: &#39;proline&#39;, &#39;id&#39;: &#39;c0ac20d1-3513-4b1d-b863-8e35d644e2ad&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345954)}], &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;id&#39;: &#39;ae114625-7626-4927-970d-24f2c69712a0&#39;, &#39;value&#39;: 1, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 344941)}, {&#39;name&#39;: &#39;n_estimators&#39;, &#39;id&#39;: &#39;e5a2f37c-7be4-408c-8d6f-246e88a33945&#39;, &#39;value&#39;: 500, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 345069)}], &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9843137254901961, &#39;id&#39;: &#39;08d9600b-8135-4073-9991-2fb121d90f16&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 579588), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.9833333333333333, &#39;id&#39;: &#39;67edf163-b6f9-4f5c-b36f-1fdccd8af853&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 579752), &#39;tags&#39;: []}], &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;, &#39;id&#39;: &#39;f9299a02-1108-4ffe-b1cb-1cf317736bba&#39;, &#39;description&#39;: None, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 585425), &#39;tags&#39;: [&#39;trained&#39;], &#39;parent_id&#39;: &#39;520c3905-b77b-4fe0-ac65-0fd639fb9e49&#39;}], &#39;dataframe&#39;: []}
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;, &#39;id&#39;: &#39;ef503b29-92d6-4e57-a79b-4a8d1894f72d&#39;, &#39;name&#39;: None, &#39;description&#39;: None, &#39;model_name&#39;: &#39;RandomForestClassifier&#39;, &#39;branch_name&#39;: &#39;jsonpath&#39;, &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;, &#39;training_metadata&#39;: None, &#39;tags&#39;: [&#39;large&#39;], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 750197), &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;, &#39;id&#39;: &#39;faa56976-7722-45a7-8de2-ec6c415c4fd4&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 750902)}, {&#39;name&#39;: &#39;malic_acid&#39;, &#39;id&#39;: &#39;619bad0e-9ca2-4475-a945-4df7129949de&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751025)}, {&#39;name&#39;: &#39;ash&#39;, &#39;id&#39;: &#39;1e3d1c34-d3d5-4e4d-a278-4a81260529ef&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751107)}, {&#39;name&#39;: &#39;alcalinity_of_ash&#39;, &#39;id&#39;: &#39;53b7526b-5f9e-42aa-bcff-a29b92adb63a&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751190)}, {&#39;name&#39;: &#39;magnesium&#39;, &#39;id&#39;: &#39;3246dc94-ae25-4a4b-8ded-2c98b7cdbc85&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751270)}, {&#39;name&#39;: &#39;total_phenols&#39;, &#39;id&#39;: &#39;065d3b37-155a-4987-b744-5e2d4fa4f738&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751350)}, {&#39;name&#39;: &#39;flavanoids&#39;, &#39;id&#39;: &#39;b7a4f44a-05a1-4089-bb24-ff87c3a9dca1&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751431)}, {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;, &#39;id&#39;: &#39;e029320c-5b4b-4b12-86a8-73a5942f2dec&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751512)}, {&#39;name&#39;: &#39;proanthocyanins&#39;, &#39;id&#39;: &#39;c55f8859-f192-4a01-b869-aa040c2da72a&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751592)}, {&#39;name&#39;: &#39;color_intensity&#39;, &#39;id&#39;: &#39;c54dfe8f-112a-43c5-8f50-f2016cddc220&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751671)}, {&#39;name&#39;: &#39;hue&#39;, &#39;id&#39;: &#39;0ddc7fed-83cc-4ffa-a8df-936f9d62c1b2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751752)}, {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;, &#39;id&#39;: &#39;7edd6019-d926-41ed-8762-d5e4f50a8089&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751830)}, {&#39;name&#39;: &#39;proline&#39;, &#39;id&#39;: &#39;5f5f36be-4b84-46b1-be75-62c35bdd8ba6&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 751912)}], &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;id&#39;: &#39;8e25faee-f2a3-4a46-a77b-46d7eeb2a207&#39;, &#39;value&#39;: 10, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 750614)}, {&#39;name&#39;: &#39;n_estimators&#39;, &#39;id&#39;: &#39;c8f45afa-7c21-4d1a-a9f5-06256ea2dc0d&#39;, &#39;value&#39;: 50, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 750783)}], &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9502557544757034, &#39;id&#39;: &#39;a5d28065-9677-4e8a-9151-902ef22038a2&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 779443), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.95, &#39;id&#39;: &#39;63b2cb5e-69cc-406b-a4e8-5fd52b0cd14f&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 779599), &#39;tags&#39;: []}], &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;, &#39;id&#39;: &#39;5a838ff1-edb7-450c-b0e9-6ae0609291d0&#39;, &#39;description&#39;: None, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 780331), &#39;tags&#39;: [&#39;trained&#39;], &#39;parent_id&#39;: &#39;ef503b29-92d6-4e57-a79b-4a8d1894f72d&#39;}], &#39;dataframe&#39;: []}
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;, &#39;id&#39;: &#39;2f7e7339-1a46-4b37-a18d-5de043ac28f3&#39;, &#39;name&#39;: None, &#39;description&#39;: None, &#39;model_name&#39;: &#39;RandomForestClassifier&#39;, &#39;branch_name&#39;: &#39;jsonpath&#39;, &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;, &#39;training_metadata&#39;: None, &#39;tags&#39;: [&#39;large&#39;], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 870483), &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;, &#39;id&#39;: &#39;0c9f75c4-fb2f-414f-a782-00548b2931c2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871190)}, {&#39;name&#39;: &#39;malic_acid&#39;, &#39;id&#39;: &#39;922b6346-59f5-40f4-b210-081829dc69bd&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871329)}, {&#39;name&#39;: &#39;ash&#39;, &#39;id&#39;: &#39;dd67a63d-e597-4b30-a074-095694853d48&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871422)}, {&#39;name&#39;: &#39;alcalinity_of_ash&#39;, &#39;id&#39;: &#39;7d88be0a-bc96-4ee7-8f47-13021047c6fa&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871511)}, {&#39;name&#39;: &#39;magnesium&#39;, &#39;id&#39;: &#39;cdd4b5f6-2272-403c-b0d8-24243e744c6c&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871595)}, {&#39;name&#39;: &#39;total_phenols&#39;, &#39;id&#39;: &#39;efe47186-742e-43f7-836c-b3e0febf8bf2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871687)}, {&#39;name&#39;: &#39;flavanoids&#39;, &#39;id&#39;: &#39;65392f8b-04bb-4737-9046-7a4709ed746c&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871770)}, {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;, &#39;id&#39;: &#39;7d4194da-9ad6-4388-82b3-224622258fae&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871860)}, {&#39;name&#39;: &#39;proanthocyanins&#39;, &#39;id&#39;: &#39;d7aab75d-afe3-4ff5-830a-1f3af96d9fa5&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871947)}, {&#39;name&#39;: &#39;color_intensity&#39;, &#39;id&#39;: &#39;438aefa7-731e-4001-9fe1-94edf2a6b093&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 872032)}, {&#39;name&#39;: &#39;hue&#39;, &#39;id&#39;: &#39;5d1ef085-977c-439e-b603-50c9c91ef8ed&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 872120)}, {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;, &#39;id&#39;: &#39;dba520a8-353e-4193-956e-0f28b12098d2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 872205)}, {&#39;name&#39;: &#39;proline&#39;, &#39;id&#39;: &#39;5204eba4-cfb2-4cc1-b8cc-fb73c829358d&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 872296)}], &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;id&#39;: &#39;5788d0a5-6b8d-487b-a743-26a2c2282885&#39;, &#39;value&#39;: 10, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 870888)}, {&#39;name&#39;: &#39;n_estimators&#39;, &#39;id&#39;: &#39;57aca1e1-5569-4745-b679-97098c43dc0a&#39;, &#39;value&#39;: 500, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 871062)}], &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9684407096171803, &#39;id&#39;: &#39;5c0dd47d-ab4f-4990-a5b4-b30763f0b9df&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 96576), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.9666666666666667, &#39;id&#39;: &#39;be4cf2c9-5c03-4894-95e2-945ee1351f90&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 96747), &#39;tags&#39;: []}], &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;, &#39;id&#39;: &#39;d931f828-e196-4745-a092-ea619560884e&#39;, &#39;description&#39;: None, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 131815), &#39;tags&#39;: [&#39;trained&#39;], &#39;parent_id&#39;: &#39;2f7e7339-1a46-4b37-a18d-5de043ac28f3&#39;}], &#39;dataframe&#39;: []}
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;, &#39;id&#39;: &#39;effc91cd-ad6f-420e-9654-9ba691d744ff&#39;, &#39;name&#39;: None, &#39;description&#39;: None, &#39;model_name&#39;: &#39;RandomForestClassifier&#39;, &#39;branch_name&#39;: &#39;jsonpath&#39;, &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;, &#39;training_metadata&#39;: None, &#39;tags&#39;: [&#39;large&#39;], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 306637), &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;, &#39;id&#39;: &#39;f62bd7cd-ec9c-446d-b6e4-ae30d5210d70&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307470)}, {&#39;name&#39;: &#39;malic_acid&#39;, &#39;id&#39;: &#39;7aa60cd4-4e18-4fa3-90ea-8c4688fbcd9e&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307640)}, {&#39;name&#39;: &#39;ash&#39;, &#39;id&#39;: &#39;45652ac4-3461-48fb-b2dd-2136fd778ee2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307744)}, {&#39;name&#39;: &#39;alcalinity_of_ash&#39;, &#39;id&#39;: &#39;3f293418-9b47-4aec-a494-16db9d185785&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307851)}, {&#39;name&#39;: &#39;magnesium&#39;, &#39;id&#39;: &#39;7ccd8fae-de4b-468e-b821-21f897239b40&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307952)}, {&#39;name&#39;: &#39;total_phenols&#39;, &#39;id&#39;: &#39;4b036fa2-266c-4f44-90c7-b2e1b6b25269&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308052)}, {&#39;name&#39;: &#39;flavanoids&#39;, &#39;id&#39;: &#39;1aafb3c1-a117-4925-a38e-4b91c2c9bf9c&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308151)}, {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;, &#39;id&#39;: &#39;980ae477-bc9f-4af6-8b9a-ab07da862551&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308249)}, {&#39;name&#39;: &#39;proanthocyanins&#39;, &#39;id&#39;: &#39;1f2f977a-6d66-4b39-9b88-f5a2b539fe25&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308346)}, {&#39;name&#39;: &#39;color_intensity&#39;, &#39;id&#39;: &#39;78c9eaae-6e87-4d90-ad14-b14a8d9c5621&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308442)}, {&#39;name&#39;: &#39;hue&#39;, &#39;id&#39;: &#39;9dbd7c25-c927-4194-aacf-d64b92c5fb12&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308539)}, {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;, &#39;id&#39;: &#39;e8743821-d126-47fa-aead-0d768df493c8&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308635)}, {&#39;name&#39;: &#39;proline&#39;, &#39;id&#39;: &#39;e900df94-2c39-49f0-8f35-9d1921937ec2&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 308738)}], &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;id&#39;: &#39;a7295ff0-2af4-43c2-b169-3bb711b29c57&#39;, &#39;value&#39;: 100, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307126)}, {&#39;name&#39;: &#39;n_estimators&#39;, &#39;id&#39;: &#39;03cc53a9-34e1-4a4c-b483-49f0ff59328d&#39;, &#39;value&#39;: 50, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 307321)}], &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.16000000000000003, &#39;id&#39;: &#39;cdaa4982-df37-48d3-adc9-9bc2af70b910&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 334829), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.4, &#39;id&#39;: &#39;c468eb77-6abd-41e3-acd1-e4aa78916c4e&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 334998), &#39;tags&#39;: []}], &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;, &#39;id&#39;: &#39;dd5e09e7-a82b-4873-9509-65060e725d58&#39;, &#39;description&#39;: None, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 335750), &#39;tags&#39;: [&#39;trained&#39;], &#39;parent_id&#39;: &#39;effc91cd-ad6f-420e-9654-9ba691d744ff&#39;}], &#39;dataframe&#39;: []}
+{&#39;project_name&#39;: &#39;jsonpath querying&#39;, &#39;id&#39;: &#39;0eb7ec0c-61d0-4e8e-a662-e03eedad959d&#39;, &#39;name&#39;: None, &#39;description&#39;: None, &#39;model_name&#39;: &#39;RandomForestClassifier&#39;, &#39;branch_name&#39;: &#39;jsonpath&#39;, &#39;commit_hash&#39;: &#39;c60285762eb792f76a8d60bfa1ce6e824cb94531&#39;, &#39;training_metadata&#39;: None, &#39;tags&#39;: [&#39;large&#39;], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 416993), &#39;feature&#39;: [{&#39;name&#39;: &#39;alcohol&#39;, &#39;id&#39;: &#39;84fe1647-4e00-4fd6-bc22-6f8ade193824&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 417745)}, {&#39;name&#39;: &#39;malic_acid&#39;, &#39;id&#39;: &#39;7a1611d4-a515-4cc2-9121-51fec8a4ab18&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 417905)}, {&#39;name&#39;: &#39;ash&#39;, &#39;id&#39;: &#39;6b6d5fa3-e7f0-43a5-a66e-551d5b217763&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418006)}, {&#39;name&#39;: &#39;alcalinity_of_ash&#39;, &#39;id&#39;: &#39;cd111c59-a5e2-4524-83ed-76fc2fd41f94&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418106)}, {&#39;name&#39;: &#39;magnesium&#39;, &#39;id&#39;: &#39;78fdae70-81f0-4c7a-b2d7-e4ebfcf4aafc&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418203)}, {&#39;name&#39;: &#39;total_phenols&#39;, &#39;id&#39;: &#39;dd8e57c8-aea1-49ca-a8d7-0d993e730388&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418299)}, {&#39;name&#39;: &#39;flavanoids&#39;, &#39;id&#39;: &#39;c0e4ff3b-0e99-4c9f-9d1a-422e0a3be042&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418395)}, {&#39;name&#39;: &#39;nonflavanoid_phenols&#39;, &#39;id&#39;: &#39;56e107de-f1a2-4802-8436-cb7a50843297&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418491)}, {&#39;name&#39;: &#39;proanthocyanins&#39;, &#39;id&#39;: &#39;1a3470ca-b181-4e54-acaf-2618154a76eb&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418587)}, {&#39;name&#39;: &#39;color_intensity&#39;, &#39;id&#39;: &#39;18acd547-3bc7-4e32-b8a2-aad3e087c151&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418680)}, {&#39;name&#39;: &#39;hue&#39;, &#39;id&#39;: &#39;4c2726e4-5606-454c-b9ae-f0409f0b58b5&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418787)}, {&#39;name&#39;: &#39;od280/od315_of_diluted_wines&#39;, &#39;id&#39;: &#39;aeec0f25-4cfb-4bf5-a129-486b95cf8395&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418881)}, {&#39;name&#39;: &#39;proline&#39;, &#39;id&#39;: &#39;191c8e1d-7ddd-4ef4-b109-20dbeab296c9&#39;, &#39;description&#39;: None, &#39;importance&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 418982)}], &#39;parameter&#39;: [{&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;id&#39;: &#39;d03ede0e-4062-4da8-99b8-2888f59f2ecd&#39;, &#39;value&#39;: 100, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 417419)}, {&#39;name&#39;: &#39;n_estimators&#39;, &#39;id&#39;: &#39;6a10da8d-78e2-42b7-a0cc-b3d0b11ebfbe&#39;, &#39;value&#39;: 500, &#39;description&#39;: None, &#39;tags&#39;: [], &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 417606)}], &#39;metric&#39;: [{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.16000000000000003, &#39;id&#39;: &#39;cf4db64f-f391-4015-a647-0ee6f71c52e6&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 627515), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.4, &#39;id&#39;: &#39;60a8b8a1-e53c-46ea-aa0b-dd2efdb6263e&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 627702), &#39;tags&#39;: []}], &#39;artifact&#39;: [{&#39;name&#39;: &#39;RandomForestClassifier&#39;, &#39;id&#39;: &#39;f336587d-2ed0-49c1-a354-2edfde3f985c&#39;, &#39;description&#39;: None, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 632643), &#39;tags&#39;: [&#39;trained&#39;], &#39;parent_id&#39;: &#39;0eb7ec0c-61d0-4e8e-a662-e03eedad959d&#39;}], &#39;dataframe&#39;: []}
+</pre></div></div>
+</div>
+<p>We can access any attribute of the queried objects within the query as well. Let’s just get the ID’s of those experiments from the last cell.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_query</span> <span class="o">+=</span> <span class="s2">&quot;.id&quot;</span>
+
+<span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">rubicon_json</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">experiment_query</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e818e604-5b6c-455b-951f-68d87db287d2
+520c3905-b77b-4fe0-ac65-0fd639fb9e49
+ef503b29-92d6-4e57-a79b-4a8d1894f72d
+2f7e7339-1a46-4b37-a18d-5de043ac28f3
+effc91cd-ad6f-420e-9654-9ba691d744ff
+0eb7ec0c-61d0-4e8e-a662-e03eedad959d
+</pre></div></div>
+</div>
+<p>Now, let’s get <em>all</em> the metrics from <em>every</em> experiment:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric_query</span> <span class="o">=</span> <span class="s2">&quot;$..experiment[*].metric&quot;</span>
+
+<span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">rubicon_json</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">metric_query</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9513333333333333, &#39;id&#39;: &#39;2c87e3c3-56cf-4dc7-b049-d497faab79e0&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 172842), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.95, &#39;id&#39;: &#39;efd2e6c8-3cfc-4cca-943e-6bbad7a0c777&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 172955), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9684407096171803, &#39;id&#39;: &#39;dfe82079-3a29-4c7a-bc35-4d7d13f05b0b&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 264896), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.9666666666666667, &#39;id&#39;: &#39;0886983e-74c9-44b1-ae98-7437fae22057&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 265031), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9843137254901961, &#39;id&#39;: &#39;08d9600b-8135-4073-9991-2fb121d90f16&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 579588), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.9833333333333333, &#39;id&#39;: &#39;67edf163-b6f9-4f5c-b36f-1fdccd8af853&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 579752), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9544973544973545, &#39;id&#39;: &#39;fc38af63-597b-4021-9e98-7ef4adfb0027&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 679004), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.95, &#39;id&#39;: &#39;ddd027e5-289a-4f1e-9639-c7f91d8ce387&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 679151), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9502557544757034, &#39;id&#39;: &#39;a5d28065-9677-4e8a-9151-902ef22038a2&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 779443), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.95, &#39;id&#39;: &#39;63b2cb5e-69cc-406b-a4e8-5fd52b0cd14f&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 779599), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9684407096171803, &#39;id&#39;: &#39;5c0dd47d-ab4f-4990-a5b4-b30763f0b9df&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 96576), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.9666666666666667, &#39;id&#39;: &#39;be4cf2c9-5c03-4894-95e2-945ee1351f90&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 96747), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.16000000000000003, &#39;id&#39;: &#39;28c61d9f-d387-410c-9020-51f82ed09ea8&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 222257), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.4, &#39;id&#39;: &#39;a7eb39c8-4b54-4745-895b-d16b1ebe0a27&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 222430), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.16000000000000003, &#39;id&#39;: &#39;cdaa4982-df37-48d3-adc9-9bc2af70b910&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 334829), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.4, &#39;id&#39;: &#39;c468eb77-6abd-41e3-acd1-e4aa78916c4e&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 334998), &#39;tags&#39;: []}]
+[{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.16000000000000003, &#39;id&#39;: &#39;cf4db64f-f391-4015-a647-0ee6f71c52e6&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 627515), &#39;tags&#39;: []}, {&#39;name&#39;: &#39;recall&#39;, &#39;value&#39;: 0.4, &#39;id&#39;: &#39;60a8b8a1-e53c-46ea-aa0b-dd2efdb6263e&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 627702), &#39;tags&#39;: []}]
+</pre></div></div>
+</div>
+<p>Some of those precision scores are a lot better than others - let’s just get the really high ones.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_metric_query</span> <span class="o">=</span> <span class="s2">&quot;$..experiment[*].metric[?(@.name==&#39;precision&#39; &amp; @.value&gt;=0.96)]&quot;</span>
+
+<span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">rubicon_json</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">best_metric_query</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9684407096171803, &#39;id&#39;: &#39;dfe82079-3a29-4c7a-bc35-4d7d13f05b0b&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 264896), &#39;tags&#39;: []}
+{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9843137254901961, &#39;id&#39;: &#39;08d9600b-8135-4073-9991-2fb121d90f16&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 33, 579588), &#39;tags&#39;: []}
+{&#39;name&#39;: &#39;precision&#39;, &#39;value&#39;: 0.9684407096171803, &#39;id&#39;: &#39;5c0dd47d-ab4f-4990-a5b4-b30763f0b9df&#39;, &#39;description&#39;: None, &#39;directionality&#39;: &#39;score&#39;, &#39;created_at&#39;: datetime.datetime(2023, 9, 23, 21, 52, 34, 96576), &#39;tags&#39;: []}
+</pre></div></div>
+</div>
+<p>We can retrieve the ID’s of the experiments those metrics belong to for further exploration.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_experiment_query</span> <span class="o">=</span> <span class="s2">&quot;$..experiment[?(@.metric[?(@.name==&#39;precision&#39; &amp; @.value&gt;=0.96)])].id&quot;</span>
+
+<span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">rubicon_json</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">best_experiment_query</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e818e604-5b6c-455b-951f-68d87db287d2
+520c3905-b77b-4fe0-ac65-0fd639fb9e49
+2f7e7339-1a46-4b37-a18d-5de043ac28f3
+</pre></div></div>
+</div>
+<p>We can use the IDs to retrieve <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> experiments and dig deeper into the metadata.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">rubicon_json</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">best_experiment_query</span><span class="p">):</span>
+    <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">match</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;RandomForestClassifier&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">unpickle</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+RandomForestClassifier(n_estimators=50, random_state=0)
+RandomForestClassifier(n_estimators=500, random_state=0)
+RandomForestClassifier(min_samples_leaf=10, n_estimators=500, random_state=0)
+</pre></div></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../visualizations.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Visualizations</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="tagging.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Tagging</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, rubicon-ml developers
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code></a><ul>
+<li><a class="reference internal" href="#Trian-some-models,-log-some-experiments">Trian some models, log some experiments</a></li>
+<li><a class="reference internal" href="#Load-experiments-into-the-RubiconJSON-class">Load experiments into the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class</a></li>
+<li><a class="reference internal" href="#Query-experiments-with-RubiconJSON.search">Query experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON.search</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

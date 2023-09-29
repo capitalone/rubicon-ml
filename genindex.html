@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 --><title>Index - rubicon-ml v0.4.7</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 --><title>Index - rubicon-ml v0.5.0</title>
 <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.4.7</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.5.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,7 +150,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.4.7</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.5.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -171,6 +171,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/tagging.html">Tagging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/rubiconJSON-querying.html">Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code></a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Visualizations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualizations/experiments-table.html">Experiments Table</a></li>
@@ -509,14 +510,20 @@
         </ul></li>
         <li><a href="api_reference.html#rubicon_ml.workflow.prefect.log_dataframe_task">log_dataframe_task() (in module rubicon_ml.workflow.prefect)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api_reference.html#rubicon_ml.Project.log_experiment">log_experiment() (rubicon_ml.Project method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api_reference.html#rubicon_ml.Experiment.log_feature">log_feature() (rubicon_ml.Experiment method)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.workflow.prefect.log_feature_task">log_feature_task() (in module rubicon_ml.workflow.prefect)</a>
 </li>
+        <li><a href="api_reference.html#rubicon_ml.Experiment.log_json">log_json() (rubicon_ml.Experiment method)</a>
+
+        <ul>
+          <li><a href="api_reference.html#rubicon_ml.Project.log_json">(rubicon_ml.Project method)</a>
+</li>
+        </ul></li>
         <li><a href="api_reference.html#rubicon_ml.Experiment.log_metric">log_metric() (rubicon_ml.Experiment method)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.workflow.prefect.log_metric_task">log_metric_task() (in module rubicon_ml.workflow.prefect)</a>
@@ -657,6 +664,8 @@
           <li><a href="api_reference.html#module-rubicon_ml.workflow.prefect">module</a>
 </li>
         </ul></li>
+        <li><a href="api_reference.html#rubicon_ml.RubiconJSON">RubiconJSON (class in rubicon_ml)</a>
+</li>
         <li><a href="api_reference.html#rubicon_ml.sklearn.RubiconPipeline">RubiconPipeline (class in rubicon_ml.sklearn)</a>
 </li>
     </ul></td>
@@ -671,6 +680,8 @@
 </li>
         <li><a href="api_reference.html#rubicon_ml.sklearn.RubiconPipeline.score_samples">score_samples() (rubicon_ml.sklearn.RubiconPipeline method)</a>
 </li>
+        <li><a href="api_reference.html#rubicon_ml.RubiconJSON.search">search() (rubicon_ml.RubiconJSON method)</a>
+</li>
         <li><a href="api_reference.html#rubicon_ml.viz.Dashboard.serve">serve() (rubicon_ml.viz.Dashboard method)</a>
 
         <ul>
@@ -683,10 +694,10 @@
           <li><a href="api_reference.html#rubicon_ml.viz.MetricListsComparison.serve">(rubicon_ml.viz.MetricListsComparison method)</a>
 </li>
         </ul></li>
-        <li><a href="api_reference.html#rubicon_ml.set_failure_mode">set_failure_mode() (in module rubicon_ml)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api_reference.html#rubicon_ml.set_failure_mode">set_failure_mode() (in module rubicon_ml)</a>
+</li>
         <li><a href="api_reference.html#rubicon_ml.sklearn.RubiconPipeline.set_fit_request">set_fit_request() (rubicon_ml.sklearn.RubiconPipeline method)</a>
 </li>
         <li><a href="api_reference.html#rubicon_ml.sklearn.RubiconPipeline.set_score_request">set_score_request() (rubicon_ml.sklearn.RubiconPipeline method)</a>
