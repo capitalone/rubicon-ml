@@ -21,6 +21,7 @@ dependencies:
   - dash-bootstrap-components<=1.5.0,>=1.0.0
   - fsspec<=2023.9.2,>=2021.4.0
   - intake[dataframe]<=0.7.0,>=0.5.2
+  - jsonpath-ng<=1.6.0,>=1.5.3
   - numpy<=1.26.0,>=1.22.0
   - pandas<=2.1.1,>=1.0.0
   - prefect<=1.2.4,>=0.12.0
