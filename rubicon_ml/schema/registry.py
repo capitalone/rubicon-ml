@@ -9,11 +9,20 @@ RUBICON_SCHEMA_REGISTRY = {
     "sklearn__RandomForestClassifier": lambda: _load_schema(
         os.path.join("schema", "sklearn__RandomForestClassifier.yaml")
     ),
+    "xgboost__XGBModel": lambda: _load_schema(
+        os.path.join("schema", "xgboost__XGBModel.yaml")
+    ),
     "xgboost__XGBClassifier": lambda: _load_schema(
         os.path.join("schema", "xgboost__XGBClassifier.yaml")
     ),
+    "xgboost__XGBRegressor": lambda: _load_schema(
+        os.path.join("schema", "xgboost__XGBRegressor.yaml")
+    ),
     "xgboost__DaskXGBClassifier": lambda: _load_schema(
         os.path.join("schema", "xgboost__DaskXGBClassifier.yaml")
+    ),
+    "xgboost__DaskXGBRegressor": lambda: _load_schema(
+        os.path.join("schema", "xgboost__DaskXGBRegressor.yaml")
     ),
 }
 

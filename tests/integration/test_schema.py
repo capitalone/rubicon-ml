@@ -1,10 +1,10 @@
 import pytest
 from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
-from xgboost.dask import DaskXGBClassifier
+from xgboost import XGBClassifier, XGBRegressor
+from xgboost.dask import DaskXGBClassifier, DaskXGBRegressor
 
-PANDAS_SCHEMA_CLS = [RandomForestClassifier, XGBClassifier]
-DASK_SCHEMA_CLS = [DaskXGBClassifier]
+PANDAS_SCHEMA_CLS = [RandomForestClassifier, XGBClassifier, XGBRegressor]
+DASK_SCHEMA_CLS = [DaskXGBClassifier, DaskXGBRegressor]
 
 
 def _fit_and_log(X, y, schema_cls, rubicon_project):
