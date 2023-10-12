@@ -11,9 +11,7 @@ def test_available_schema():
     for schema_name in registry.available_schema():
         assert schema_name in registry.RUBICON_SCHEMA_REGISTRY
 
-    assert len(registry.available_schema()) == len(
-        registry.RUBICON_SCHEMA_REGISTRY
-    )
+    assert len(registry.available_schema()) == len(registry.RUBICON_SCHEMA_REGISTRY)
 
 
 def test_get_schema():
@@ -31,10 +29,7 @@ def test_get_schema_raises_error():
     with pytest.raises(ValueError) as err:
         registry.get_schema("InvalidSchemaClass")
 
-    assert (
-        "'InvalidSchemaClass' is not the name of an available rubicon schema."
-        in str(err)
-    )
+    assert "'InvalidSchemaClass' is not the name of an available rubicon schema." in str(err)
 
 
 def test_get_schema_name(objects_to_log):

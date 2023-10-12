@@ -1,7 +1,6 @@
 """Testing ``schema_logger``."""
 
 import os
-import uuid
 from copy import deepcopy
 from unittest import mock
 
@@ -58,7 +57,7 @@ def test_safe_call_func_reraises_error(objects_to_log):
             optional=False,
         )
 
-    assert f"raised from `_ObjectToLog.erroring_function`" in str(e)
+    assert "raised from `_ObjectToLog.erroring_function`" in str(e)
 
 
 def test_safe_environ_raises_error(objects_to_log):
@@ -85,9 +84,7 @@ def test_log_inferred_schema(objects_to_log, rubicon_project, another_object_sch
     with mock.patch.dict(RUBICON_SCHEMA_REGISTRY, schema_to_patch, clear=True):
         experiment = rubicon_project.log_with_schema(another_object)
 
-    parameter = experiment.parameter(
-        name=another_object_schema["parameters"][0]["name"]
-    )
+    parameter = experiment.parameter(name=another_object_schema["parameters"][0]["name"])
     metric = experiment.metric(name=another_object_schema["metrics"][0]["name"])
 
     assert rubicon_project.schema_ == another_object_schema
@@ -149,9 +146,7 @@ def test_log_features_with_schema(objects_to_log, rubicon_project, feature_schem
     rubicon_project.set_schema(feature_schema)
     experiment = rubicon_project.log_with_schema(object_to_log)
 
-    expected_feature_names = getattr(
-        object_to_log, feature_schema["features"][0]["names_attr"]
-    )
+    expected_feature_names = getattr(object_to_log, feature_schema["features"][0]["names_attr"])
     expected_feature_names.extend(
         getattr(object_to_log, feature_schema["features"][1]["names_attr"])
     )
@@ -191,9 +186,7 @@ def test_log_metrics_with_schema(objects_to_log, rubicon_project, metric_schema)
     metric_b = experiment.metric(name=metric_schema["metrics"][1]["name"])
     metric_c = experiment.metric(name=metric_schema["metrics"][2]["name"])
 
-    assert metric_a.value == getattr(
-        object_to_log, metric_schema["metrics"][0]["value_attr"]
-    )
+    assert metric_a.value == getattr(object_to_log, metric_schema["metrics"][0]["value_attr"])
     assert metric_b.value == "metric env value"
 
     method = getattr(object_to_log, metric_schema["metrics"][2]["value_func"])
@@ -219,9 +212,7 @@ def test_log_parameters_with_schema(objects_to_log, rubicon_project, parameter_s
     assert parameter_b.value == "param env value"
 
 
-def test_log_nested_schema(
-    objects_to_log, rubicon_project, another_object_schema, nested_schema
-):
+def test_log_nested_schema(objects_to_log, rubicon_project, another_object_schema, nested_schema):
     """Testing ``Project.log_with_schema`` can log nested schema."""
 
     object_to_log, another_object = objects_to_log
@@ -231,9 +222,7 @@ def test_log_nested_schema(
         rubicon_project.set_schema(nested_schema)
         experiment = rubicon_project.log_with_schema(object_to_log)
 
-    parameter = experiment.parameter(
-        name=another_object_schema["parameters"][0]["name"]
-    )
+    parameter = experiment.parameter(name=another_object_schema["parameters"][0]["name"])
     metric = experiment.metric(name=another_object_schema["metrics"][0]["name"])
 
     assert parameter.value == getattr(
@@ -266,9 +255,7 @@ def test_log_extended_schema(objects_to_log, rubicon_project, another_object_sch
         experiment = rubicon_project.log_with_schema(another_object)
 
     feature = experiment.feature(name=feature_name_value)
-    parameter = experiment.parameter(
-        name=another_object_schema["parameters"][0]["name"]
-    )
+    parameter = experiment.parameter(name=another_object_schema["parameters"][0]["name"])
     metric = experiment.metric(name=another_object_schema["metrics"][0]["name"])
 
     assert feature.name == feature_name_value

@@ -18,14 +18,12 @@ def _fit_and_log(X, y, schema_cls, rubicon_project):
     model = schema_cls()
     model.fit(X, y)
 
-    experiment = rubicon_project.log_with_schema(model)
+    rubicon_project.log_with_schema(model)
 
 
 @pytest.mark.integration
 @pytest.mark.parametrize("schema_cls", PANDAS_SCHEMA_CLS)
-def test_estimator_schema_fit_array(
-    schema_cls, make_classification_array, rubicon_project
-):
+def test_estimator_schema_fit_array(schema_cls, make_classification_array, rubicon_project):
     X, y = make_classification_array
 
     _fit_and_log(X, y, schema_cls, rubicon_project)
