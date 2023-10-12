@@ -7,17 +7,6 @@ from jsonpath_ng.ext import parse
 from rubicon_ml.client import Experiment, Project, Rubicon
 
 
-def _numericize_domain(domain):
-    """Replace non-numerics in a domain dictionary with 0."""
-    domain_copy = copy.deepcopy(domain)
-
-    for key, value in domain_copy.items():
-        if key == "value" and not isinstance(value, numbers.Number):
-            domain_copy[key] = 0
-
-    return domain_copy
-
-
 class RubiconJSON:
     """`RubiconJSON` converts top-level `rubicon_ml` objects, `projects`, and `experiments`
     into a JSON structured dictionary for JSONPath-like querying with `jsonpath-ng`.
@@ -47,7 +36,7 @@ class RubiconJSON:
 
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
         self._json_numeric = self._convert_to_json(
-            rubicon_objects, projects, experiments, numericize=True
+            rubicon_objects, projects, experiments, filter_nonnumeric=True
         )
 
     def _validate_input(
@@ -70,39 +59,46 @@ class RubiconJSON:
         rubicon_objects: Optional[List[Rubicon]] = None,
         projects: Optional[List[Project]] = None,
         experiments: Optional[List[Experiment]] = None,
-        numericize: bool = False,
+        filter_nonnumeric: bool = False,
     ):
         rubicon_json = {}
 
         if rubicon_objects is not None:
-            rubicon_json["project"] = self._rubicon_to_json(rubicon_objects, numericize=numericize)[
-                "project"
-            ]
+            rubicon_json["project"] = self._rubicon_to_json(
+                rubicon_objects, filter_nonnumeric=filter_nonnumeric
+            )["project"]
 
         if projects is not None:
             project_json = rubicon_json.get("project", [])
-            project_json.extend(self._projects_to_json(projects, numericize=numericize)["project"])
+            project_json.extend(
+                self._projects_to_json(projects, filter_nonnumeric=filter_nonnumeric)["project"]
+            )
             rubicon_json["project"] = project_json
 
         if experiments is not None:
             rubicon_json["experiment"] = self._experiments_to_json(
-                experiments, numericize=numericize
+                experiments, filter_nonnumeric=filter_nonnumeric
             )["experiment"]
 
         return rubicon_json
 
-    def _experiments_to_json(self, experiments: List[Experiment], numericize: bool = False):
-        update_domain = _numericize_domain if numericize else lambda domain: domain
-
+    def _experiments_to_json(self, experiments: List[Experiment], filter_nonnumeric: bool = False):
         rubicon_json: Dict[str, Any] = {"experiment": []}
 
         for e in experiments:
             experiment_json = copy.deepcopy(e._domain.__dict__)
             experiment_json["feature"] = [f._domain.__dict__ for f in e.features()]
-            experiment_json["parameter"] = [
-                update_domain(p._domain.__dict__) for p in e.parameters()
-            ]
-            experiment_json["metric"] = [update_domain(m._domain.__dict__) for m in e.metrics()]
+
+            experiment_json["parameter"] = []
+            for parameter in e.parameters():
+                if not filter_nonnumeric or isinstance(parameter.value, numbers.Number):
+                    experiment_json["parameter"].append(parameter._domain.__dict__)
+
+            experiment_json["metric"] = []
+            for metric in e.metrics():
+                if not filter_nonnumeric or isinstance(metric.value, numbers.Number):
+                    experiment_json["metric"].append(metric._domain.__dict__)
+
             experiment_json["artifact"] = [a._domain.__dict__ for a in e.artifacts()]
             experiment_json["dataframe"] = [d._domain.__dict__ for d in e.dataframes()]
 
@@ -110,7 +106,7 @@ class RubiconJSON:
 
         return rubicon_json
 
-    def _projects_to_json(self, projects: List[Project], numericize: bool = False):
+    def _projects_to_json(self, projects: List[Project], filter_nonnumeric: bool = False):
         rubicon_json: Dict[str, Any] = {"project": []}
 
         for p in projects:
@@ -118,19 +114,21 @@ class RubiconJSON:
             project_json["artifact"] = [a._domain.__dict__ for a in p.artifacts()]
             project_json["dataframe"] = [d._domain.__dict__ for d in p.dataframes()]
 
-            experiment_json = self._experiments_to_json(p.experiments(), numericize=numericize)
+            experiment_json = self._experiments_to_json(
+                p.experiments(), filter_nonnumeric=filter_nonnumeric
+            )
             project_json["experiment"] = experiment_json["experiment"]
 
             rubicon_json["project"].append(project_json)
 
         return rubicon_json
 
-    def _rubicon_to_json(self, rubicon_objects: List[Rubicon], numericize: bool = False):
+    def _rubicon_to_json(self, rubicon_objects: List[Rubicon], filter_nonnumeric: bool = False):
         rubicon_json: Dict[str, Any] = {"project": []}
 
         for r in rubicon_objects:
             rubicon_json["project"].extend(
-                self._projects_to_json(r.projects(), numericize=numericize)["project"]
+                self._projects_to_json(r.projects(), filter_nonnumeric=filter_nonnumeric)["project"]
             )
 
         return rubicon_json

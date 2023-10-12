@@ -42,7 +42,8 @@ def test_experiment_to_json_single_experiment(rubicon_and_project_client):
 
     assert isinstance(json_numeric["experiment"][0]["metric"][0]["value"], float)
     assert isinstance(json_numeric["experiment"][0]["metric"][1]["value"], int)
-    assert isinstance(json_numeric["experiment"][0]["metric"][2]["value"], int)
+
+    assert len(json_numeric["experiment"][0]["metric"]) == 2
 
 
 def test_experiment_to_json_multiple_experiments(rubicon_and_project_client_with_experiments):
