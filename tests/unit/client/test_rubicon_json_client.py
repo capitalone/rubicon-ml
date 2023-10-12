@@ -11,6 +11,7 @@ def test_experiment_to_json_single_experiment(rubicon_and_project_client):
     experiment.log_feature("year")
     experiment.log_metric("accuracy", 0.87)
     experiment.log_metric("runtime(s)", 45)
+    experiment.log_metric("kernel", "linear")
     experiment.log_artifact(name="example artifact", data_bytes=b"a")
     experiment.log_dataframe(pd.DataFrame([[0, 1], [1, 0]]))
 
@@ -30,8 +31,19 @@ def test_experiment_to_json_single_experiment(rubicon_and_project_client):
     assert isinstance(json["experiment"][0]["artifact"], list)
     assert isinstance(json["experiment"][0]["dataframe"], list)
 
+    assert isinstance(json["experiment"][0]["metric"][0]["value"], float)
+    assert isinstance(json["experiment"][0]["metric"][1]["value"], int)
+    assert isinstance(json["experiment"][0]["metric"][2]["value"], str)
+
     assert json["experiment"][0]["tags"] == ["a", "b"]
-    assert len(json["experiment"][0]["metric"]) == 2
+    assert len(json["experiment"][0]["metric"]) == 3
+
+    json_numeric = experiment_as_json.json_numeric
+
+    assert isinstance(json_numeric["experiment"][0]["metric"][0]["value"], float)
+    assert isinstance(json_numeric["experiment"][0]["metric"][1]["value"], int)
+
+    assert len(json_numeric["experiment"][0]["metric"]) == 2
 
 
 def test_experiment_to_json_multiple_experiments(rubicon_and_project_client_with_experiments):
@@ -158,3 +170,24 @@ def test_convert_to_json_projects_and_experiments_input(
     assert isinstance(json, dict)
     assert isinstance(json["project"], list)
     assert len(json["experiment"]) == 2
+
+
+@pytest.mark.parametrize(
+    ["query", "expected_results"],
+    [
+        ("$..experiment[*].metric[?(@.value>0.0)].name", ["accuracy", "runtime(s)"]),
+        ("$..experiment[*].metric[?(@.name='kernel')].value", ["linear"]),
+    ],
+)
+def test_search(query, expected_results, rubicon_and_project_client):
+    _, project = rubicon_and_project_client
+    experiment = project.log_experiment("search experiment", tags=["a", "b"])
+    experiment.log_metric("accuracy", 0.87)
+    experiment.log_metric("runtime(s)", 45)
+    experiment.log_metric("kernel", "linear")
+
+    experiment_as_json = RubiconJSON(experiments=experiment)
+    results = experiment_as_json.search(query)
+
+    for result, expected_result in zip(results, expected_results):
+        assert result.value == expected_result
