@@ -32,6 +32,7 @@ dependencies:
   - ipykernel
   - isort
   - jupyterlab
+  - lightgbm
   - nbconvert
   - pytest
   - pytest-cov

@@ -1,9 +1,16 @@
 import pytest
+from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier, XGBRegressor
 from xgboost.dask import DaskXGBClassifier, DaskXGBRegressor
 
-PANDAS_SCHEMA_CLS = [RandomForestClassifier, XGBClassifier, XGBRegressor]
+PANDAS_SCHEMA_CLS = [
+    LGBMClassifier,
+    LGBMRegressor,
+    RandomForestClassifier,
+    XGBClassifier,
+    XGBRegressor,
+]
 DASK_SCHEMA_CLS = [DaskXGBClassifier, DaskXGBRegressor]
 
 

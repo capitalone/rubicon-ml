@@ -1,0 +1,9 @@
+name: lightgbm__LGBMRegressor
+extends: lightgbm__LGBMModel
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.1.1
+docs_url: https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMModel.html#lightgbm.LGBMRegressor

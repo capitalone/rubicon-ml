@@ -6,6 +6,15 @@ from typing import Any, List
 import yaml
 
 RUBICON_SCHEMA_REGISTRY = {
+    "lightgbm__LGBMModel": lambda: _load_schema(
+        os.path.join("schema", "lightgbm__LGBMModel.yaml")
+    ),
+    "lightgbm__LGBMClassifier": lambda: _load_schema(
+        os.path.join("schema", "lightgbm__LGBMClassifier.yaml")
+    ),
+    "lightgbm__LGBMRegressor": lambda: _load_schema(
+        os.path.join("schema", "lightgbm__LGBMRegressor.yaml")
+    ),
     "sklearn__RandomForestClassifier": lambda: _load_schema(
         os.path.join("schema", "sklearn__RandomForestClassifier.yaml")
     ),
