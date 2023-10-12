@@ -97,30 +97,26 @@ class RubiconJSON:
         rubicon_json: Dict[str, Any] = {"experiment": []}
 
         for e in experiments:
-            experiment_json = update_domain(e._domain.__dict__)
-            experiment_json["feature"] = [update_domain(f._domain.__dict__) for f in e.features()]
+            experiment_json = copy.deepcopy(e._domain.__dict__)
+            experiment_json["feature"] = [f._domain.__dict__ for f in e.features()]
             experiment_json["parameter"] = [
                 update_domain(p._domain.__dict__) for p in e.parameters()
             ]
             experiment_json["metric"] = [update_domain(m._domain.__dict__) for m in e.metrics()]
-            experiment_json["artifact"] = [update_domain(a._domain.__dict__) for a in e.artifacts()]
-            experiment_json["dataframe"] = [
-                update_domain(d._domain.__dict__) for d in e.dataframes()
-            ]
+            experiment_json["artifact"] = [a._domain.__dict__ for a in e.artifacts()]
+            experiment_json["dataframe"] = [d._domain.__dict__ for d in e.dataframes()]
 
             rubicon_json["experiment"].append(experiment_json)
 
         return rubicon_json
 
     def _projects_to_json(self, projects: List[Project], numericize: bool = False):
-        update_domain = _numericize_domain if numericize else lambda domain: domain
-
         rubicon_json: Dict[str, Any] = {"project": []}
 
         for p in projects:
-            project_json = update_domain(p._domain.__dict__)
-            project_json["artifact"] = [update_domain(a._domain.__dict__) for a in p.artifacts()]
-            project_json["dataframe"] = [update_domain(d._domain.__dict__) for d in p.dataframes()]
+            project_json = p._domain.__dict__
+            project_json["artifact"] = [a._domain.__dict__ for a in p.artifacts()]
+            project_json["dataframe"] = [d._domain.__dict__ for d in p.dataframes()]
 
             experiment_json = self._experiments_to_json(p.experiments(), numericize=numericize)
             project_json["experiment"] = experiment_json["experiment"]
