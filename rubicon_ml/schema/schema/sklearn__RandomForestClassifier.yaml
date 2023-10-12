@@ -1,0 +1,61 @@
+name: sklearn__RandomForestClassifier
+verison: 1.0.0
+
+compatibility:
+  scikit-learn:
+    max_version:
+    min_version: 1.0.2
+docs_url: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+
+artifacts:
+  - self
+features:
+  - names_attr: feature_names_in_
+    importances_attr: feature_importances_
+    optional: true
+metrics:
+  - name: classes
+    value_attr: classes_
+  - name: n_classes
+    value_attr: n_classes_
+  - name: n_features_in
+    value_attr: n_features_in_
+  - name: n_outputs
+    value_attr: n_outputs_
+  - name: oob_decision_function
+    value_attr: oob_decision_function_
+    optional: true
+  - name: oob_score
+    value_attr: oob_score_
+    optional: true
+parameters:
+  - name: bootstrap
+    value_attr: bootstrap
+  - name: ccp_alpha
+    value_attr: ccp_alpha
+  - name: class_weight
+    value_attr: class_weight
+  - name: criterion
+    value_attr: criterion
+  - name: max_depth
+    value_attr: max_depth
+  - name: max_features
+    value_attr: max_features
+  - name: min_impurity_decrease
+    value_attr: min_impurity_decrease
+  - name: max_leaf_nodes
+    value_attr: max_leaf_nodes
+  - name: max_samples
+    value_attr: max_samples
+  - name: min_samples_split
+    value_attr: min_samples_split
+  - name: min_samples_leaf
+    value_attr: min_samples_leaf
+  - name: min_weight_fraction_leaf
+    value_attr: min_weight_fraction_leaf
+  - name: n_estimators
+    value_attr: n_estimators
+  - name: oob_score
+    value_attr: oob_score
+  - name: random_state
+    value_attr: random_state

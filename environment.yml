@@ -32,9 +32,11 @@ dependencies:
   - ipykernel
   - isort
   - jupyterlab
+  - lightgbm
   - nbconvert
   - pytest
   - pytest-cov
+  - xgboost
   
   # for versioning
   - versioneer

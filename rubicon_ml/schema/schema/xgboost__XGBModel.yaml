@@ -1,0 +1,120 @@
+name: xgboost__XGBModel
+version: 1.0.0
+
+compatibility:
+  xgboost:
+    max_version:
+    min_version: 1.7.0
+docs_url: https://xgboost.readthedocs.io/en/stable/python/python_api.html
+
+artifacts:
+  - self
+  - name: booster
+    data_object_func: get_booster
+features: 
+  - names_attr: feature_names_in_
+    importances_attr: feature_importances_
+    optional: true
+metrics:
+  - name: best_iteration
+    value_attr: best_iteration
+    optional: true
+  - name: best_score
+    value_attr: best_score
+    optional: true
+  - name: coef_
+    value_attr: coef_
+    optional: true
+  - name: intercept_
+    value_attr: intercept_
+    optional: true
+  - name: n_features_in_
+    value_attr: n_features_in_
+  - name: evals_result
+    value_func: evals_result
+    optional: true
+  - name: num_boosting_rounds
+    value_func: get_num_boosting_rounds
+parameters:
+  - name: n_estimators
+    value_attr: n_estimators
+  - name: max_depth
+    value_attr: max_depth
+  - name: max_leaves
+    value_attr: max_leaves
+  - name: max_bin
+    value_attr: max_bin
+  - name: grow_policy
+    value_attr: grow_policy
+  - name: learning_rate
+    value_attr: learning_rate
+  - name: verbosity
+    value_attr: verbosity
+  - name: objective
+    value_attr: objective
+  - name: booster
+    value_attr: booster
+  - name: tree_method
+    value_attr: tree_method
+  - name: n_jobs
+    value_attr: n_jobs
+  - name: gamma
+    value_attr: gamma
+  - name: min_child_weight
+    value_attr: min_child_weight
+  - name: max_delta_step
+    value_attr: max_delta_step
+  - name: subsample
+    value_attr: subsample
+  - name: sampling_method
+    value_attr: sampling_method
+  - name: colsample_bytree
+    value_attr: colsample_bytree
+  - name: colsample_bylevel
+    value_attr: colsample_bylevel
+  - name: colsample_bynode
+    value_attr: colsample_bynode
+  - name: reg_alpha
+    value_attr: reg_alpha
+  - name: reg_lambda
+    value_attr: reg_lambda
+  - name: scale_pos_weight
+    value_attr: scale_pos_weight
+  - name: base_score
+    value_attr: base_score
+  - name: random_state
+    value_attr: random_state
+  - name: missing
+    value_attr: missing
+  - name: num_parallel_tree
+    value_attr: num_parallel_tree
+  - name: monotone_constraints
+    value_attr: monotone_constraints
+  - name: interaction_constraints
+    value_attr: interaction_constraints
+  - name: importance_type
+    value_attr: importance_type
+  - name: gpu_id
+    value_attr: gpu_id
+    optional: true  # removed in xgboost 2.0.0
+  - name: device
+    value_attr: device
+    optional: true  # added in xgboost 2.0.0
+  - name: validate_parameters
+    value_attr: validate_parameters
+  - name: predictor
+    value_attr: predictor
+    optional: true  # removed in xgboost 2.0.0
+  - name: enable_categorical
+    value_attr: enable_categorical
+  - name: max_cat_to_onehot
+    value_attr: max_cat_to_onehot
+  - name: max_cat_threshold
+    value_attr: max_cat_threshold
+  - name: multi-strategy
+    value_attr: multi_strategy
+    optional: true  # added in xgboost 2.0.0
+  - name: eval_metric
+    value_attr: eval_metric
+  - name: early_stopping_rounds
+    value_attr: early_stopping_rounds

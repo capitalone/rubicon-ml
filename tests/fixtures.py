@@ -1,17 +1,59 @@
 import os
 import random
+import uuid
 
+import dask.array as da
+import dask.dataframe as dd
 import numpy as np
 import pandas as pd
 import pytest
+from dask.distributed import Client
+from sklearn.datasets import make_classification
 
+from rubicon_ml import Rubicon
 from rubicon_ml.repository import MemoryRepository
 
 
-class MockCompletedProcess:
-    """Use to mock a CompletedProcess result from
-    `subprocess.run()`.
-    """
+class _AnotherObject:
+    """Another object to log for schema testing."""
+
+    def __init__(self):
+        self.another_parameter = 100
+        self.another_metric = 100
+
+
+class _ObjectToLog:
+    """An object to log for schema testing."""
+
+    def __init__(self):
+        """Initialize an object to log."""
+
+        self.object_ = _AnotherObject()
+        self.feature_names_ = ["var_001", "var_002"]
+        self.other_feature_names_ = ["var_003", "var_004"]
+        self.feature_importances_ = [0.75, 0.25]
+        self.feature_name_ = "var_005"
+        self.other_feature_name_ = "var_006"
+        self.feature_importance_ = 1.0
+        self.dataframe = pd.DataFrame([[100, 0], [0, 100]], columns=["x", "y"])
+        self.parameter = 100
+        self.metric = 100
+
+    def metric_function(self):
+        return self.metric
+
+    def artifact_function(self):
+        return self
+
+    def dataframe_function(self):
+        return pd.DataFrame([[100, 0], [0, 100]], columns=["x", "y"])
+
+    def erroring_function(self):
+        raise RuntimeError("raised from `_ObjectToLog.erroring_function`")
+
+
+class _MockCompletedProcess:
+    """Use to mock a CompletedProcess result from `subprocess.run()`."""
 
     def __init__(self, stdout="", returncode=0):
         self.stdout = stdout
@@ -20,12 +62,12 @@ class MockCompletedProcess:
 
 @pytest.fixture
 def mock_completed_process_empty():
-    return MockCompletedProcess(stdout=b"\n")
+    return _MockCompletedProcess(stdout=b"\n")
 
 
 @pytest.fixture
 def mock_completed_process_git():
-    return MockCompletedProcess(stdout=b"origin github.com (fetch)\n")
+    return _MockCompletedProcess(stdout=b"origin github.com (fetch)\n")
 
 
 @pytest.fixture
@@ -250,3 +292,229 @@ def viz_experiments(rubicon_and_project_client):
         experiment.log_dataframe(data_df, name="test dataframe")
 
     return project.experiments()
+
+
+@pytest.fixture
+def objects_to_log():
+    """Returns objects for testing."""
+
+    return _ObjectToLog(), _AnotherObject()
+
+
+@pytest.fixture
+def another_object_schema():
+    """Returns a schema representing ``_AnotherObject``."""
+
+    return {
+        "parameters": [{"name": "another_parameter", "value_attr": "another_parameter"}],
+        "metrics": [{"name": "another_metric", "value_attr": "another_metric"}],
+    }
+
+
+@pytest.fixture
+def artifact_schema():
+    """Returns a schema for testing artifacts."""
+
+    return {
+        "artifacts": [
+            "self",
+            {"name": "object_", "data_object_attr": "object_"},
+            {"name": "object_b", "data_object_func": "artifact_function"},
+        ]
+    }
+
+
+@pytest.fixture
+def dataframe_schema():
+    """Returns a schema for testing dataframes."""
+
+    return {
+        "dataframes": [
+            {"name": "dataframe", "df_attr": "dataframe"},
+            {"name": "dataframe_b", "df_func": "dataframe_function"},
+        ]
+    }
+
+
+@pytest.fixture
+def feature_schema():
+    """Returns a schema for testing features."""
+
+    return {
+        "features": [
+            {
+                "names_attr": "feature_names_",
+                "importances_attr": "feature_importances_",
+            },
+            {"names_attr": "other_feature_names_"},
+            {"name_attr": "feature_name_", "importance_attr": "feature_importance_"},
+            {"name_attr": "other_feature_name_"},
+        ]
+    }
+
+
+@pytest.fixture
+def metric_schema():
+    """Returns a schema for testing metrics."""
+
+    return {
+        "metrics": [
+            {"name": "metric_a", "value_attr": "metric"},
+            {"name": "metric_b", "value_env": "METRIC"},
+            {"name": "metric_c", "value_func": "metric_function"},
+        ],
+    }
+
+
+@pytest.fixture
+def parameter_schema():
+    """Returns a schema for testing parameters."""
+
+    return {
+        "parameters": [
+            {"name": "parameter_a", "value_attr": "parameter"},
+            {"name": "parameter_b", "value_env": "PARAMETER"},
+        ],
+    }
+
+
+@pytest.fixture
+def nested_schema():
+    """Returns a schema for testing nested schema."""
+
+    return {"schema": [{"name": "AnotherObject", "attr": "object_"}]}
+
+
+@pytest.fixture
+def optional_schema():
+    """Returns a schema for testing optional attributes."""
+
+    return {
+        "artifacts": [
+            {
+                "name": "object",
+                "data_object_attr": "missing_object",
+                "optional": "true",
+            },
+            {
+                "name": "object_b",
+                "data_object_func": "missing_object_func",
+                "optional": "true",
+            },
+        ],
+        "dataframes": [
+            {"name": "dataframe", "df_attr": "missing_dataframe", "optional": "true"},
+            {
+                "name": "dataframe_b",
+                "df_func": "missing_dataframe_func",
+                "optional": "true",
+            },
+        ],
+        "features": [
+            {"names_attr": "missing_feature_names", "optional": "true"},
+            {"name_attr": "missing_feature_name", "optional": "true"},
+        ],
+        "metrics": [
+            {"name": "metric_a", "value_attr": "missing_metric", "optional": "true"},
+            {"name": "metric_b", "value_env": "MISSING_METRIC", "optional": "true"},
+            {
+                "name": "metric_c",
+                "value_func": "missing_metric_func",
+                "optional": "true",
+            },
+        ],
+        "parameters": [
+            {
+                "name": "parameter_a",
+                "value_attr": "missing_parameter",
+                "optional": "true",
+            },
+            {
+                "name": "parameter_b",
+                "value_env": "MISSING_PARAMETER",
+                "optional": "true",
+            },
+        ],
+        "schema": [
+            {
+                "name": "MissingObject",
+                "attr": "another_missing_object",
+                "optional": "true",
+            }
+        ],
+    }
+
+
+@pytest.fixture
+def hierarchical_schema():
+    """Returns a schema for testing hierarchical schema."""
+
+    return {"children": [{"name": "AnotherObject", "attr": "children"}]}
+
+
+@pytest.fixture
+def rubicon_project():
+    """Returns an in-memory rubicon project for testing."""
+
+    rubicon = Rubicon(persistence="memory", root_dir="/tmp")
+
+    random_name = str(uuid.uuid4())
+    return rubicon.create_project(name=random_name)
+
+
+@pytest.fixture
+def make_classification_array():
+    """Returns classification data generated by scikit-learn as an array."""
+
+    X, y = make_classification(
+        n_samples=1000,
+        n_features=10,
+        n_informative=5,
+        n_redundant=5,
+        n_classes=2,
+        class_sep=1,
+        random_state=3211,
+    )
+
+    return X, y
+
+
+@pytest.fixture
+def make_classification_df(make_classification_array):
+    """Returns classification data generated by scikit-learn as dataframes."""
+
+    X, y = make_classification_array
+    X_df = pd.DataFrame(X, columns=[f"var_{i}" for i in range(10)])
+
+    return X_df, y
+
+
+@pytest.fixture
+def dask_client():
+    """Returns a dask client and shuts it down upon test completion."""
+
+    client = Client()
+
+    yield client
+
+    client.shutdown()
+
+
+@pytest.fixture
+def make_classification_dask_array(make_classification_array):
+    """Returns classification data generated by scikit-learn as a dask array."""
+
+    X, y = make_classification_array
+    X_da, y_da = da.from_array(X), da.from_array(y)
+
+    return X_da, y_da
+
+
+@pytest.fixture
+def make_classification_dask_df(make_classification_df):
+    """Returns classification data generated by scikit-learn as dataframes."""
+
+    X, y = make_classification_df
+    X_df, y_da = dd.from_pandas(X, npartitions=1), da.from_array(y)
+
+    return X_df, y_da

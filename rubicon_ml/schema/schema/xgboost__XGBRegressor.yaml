@@ -1,0 +1,9 @@
+name: xgboost__XGBRegressor
+extends: xgboost__XGBModel
+version: 1.0.0
+
+compatibility:
+  xgboost:
+    max_version:
+    min_version: 1.7.0
+docs_url: https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.XGBRegressor

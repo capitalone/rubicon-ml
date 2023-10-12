@@ -12,6 +12,7 @@ from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.schema.logger import SchemaMixin
 
 if TYPE_CHECKING:
     from rubicon_ml import Rubicon
@@ -19,7 +20,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import Project as ProjectDomain
 
 
-class Project(Base, ArtifactMixin, DataframeMixin):
+class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
     """A client project.
 
     A `project` is a collection of `experiments`,

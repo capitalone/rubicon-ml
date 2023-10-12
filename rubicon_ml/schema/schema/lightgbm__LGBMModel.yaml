@@ -1,0 +1,75 @@
+name: lightgbm__LGBMModel
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.1.1
+docs_url: https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMModel.html#lightgbm.LGBMModel
+
+artifacts:
+  - self
+  - name: booster
+    data_object_attr: booster_
+features: 
+  - names_attr: feature_name_
+    importances_attr: feature_importances_
+    optional: true
+metrics:
+  - name: best_iteration
+    value_attr: best_iteration_
+    optional: true
+  - name: best_score
+    value_attr: best_score_
+    optional: true
+  - name: evals_result
+    value_attr: evals_result_
+    optional: true
+  - name: n_features
+    value_attr: n_features_
+  - name: n_features_in
+    value_attr: n_features_in_
+  - name: n_iter
+    value_attr: n_iter_
+    optional: true
+  - name: objective
+    value_attr: objective_
+parameters:
+  - name: boosting_type
+    value_attr: boosting_type
+  - name: num_leaves
+    value_attr: num_leaves
+  - name: max_depth
+    value_attr: max_depth
+  - name: learning_rate
+    value_attr: learning_rate
+  - name: n_estimators
+    value_attr: n_estimators
+  - name: subsample_for_bin
+    value_attr: subsample_for_bin
+  - name: objective
+    value_attr: objective
+  - name: class_weight
+    value_attr: class_weight
+  - name: min_split_gain
+    value_attr: min_split_gain
+  - name: min_child_weight
+    value_attr: min_child_weight
+  - name: min_child_samples
+    value_attr: min_child_samples
+  - name: subsample
+    value_attr: subsample
+  - name: subsample_freq
+    value_attr: subsample_freq
+  - name: colsample_bytree
+    value_attr: colsample_bytree
+  - name: reg_alpha
+    value_attr: reg_alpha
+  - name: reg_lambda
+    value_attr: reg_lambda
+  - name: random_state
+    value_attr: random_state
+  - name: n_jobs
+    value_attr: n_jobs
+  - name: importance_type
+    value_attr: importance_type
