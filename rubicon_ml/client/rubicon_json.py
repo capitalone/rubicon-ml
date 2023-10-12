@@ -1,8 +1,21 @@
+import copy
+import numbers
 from typing import Any, Dict, List, Optional, Type, Union
 
 from jsonpath_ng.ext import parse
 
 from rubicon_ml.client import Experiment, Project, Rubicon
+
+
+def _numericize_domain(domain):
+    """Replace non-numerics in a domain dictionary with 0."""
+    domain_copy = copy.deepcopy(domain)
+
+    for key, value in domain_copy.items():
+        if key == "value" and not isinstance(value, numbers.Number):
+            domain_copy[key] = 0
+
+    return domain_copy
 
 
 class RubiconJSON:
@@ -33,6 +46,9 @@ class RubiconJSON:
             experiments = self._validate_input(experiments, Experiment, "experiments")
 
         self._json = self._convert_to_json(rubicon_objects, projects, experiments)
+        self._json_numeric = self._convert_to_json(
+            rubicon_objects, projects, experiments, numericize=True
+        )
 
     def _validate_input(
         self,
@@ -54,57 +70,72 @@ class RubiconJSON:
         rubicon_objects: Optional[List[Rubicon]] = None,
         projects: Optional[List[Project]] = None,
         experiments: Optional[List[Experiment]] = None,
+        numericize: bool = False,
     ):
         rubicon_json = {}
 
         if rubicon_objects is not None:
-            rubicon_json["project"] = self._rubicon_to_json(rubicon_objects)["project"]
+            rubicon_json["project"] = self._rubicon_to_json(rubicon_objects, numericize=numericize)[
+                "project"
+            ]
 
         if projects is not None:
             project_json = rubicon_json.get("project", [])
-            project_json.extend(self._projects_to_json(projects)["project"])
+            project_json.extend(self._projects_to_json(projects, numericize=numericize)["project"])
             rubicon_json["project"] = project_json
 
         if experiments is not None:
-            rubicon_json["experiment"] = self._experiments_to_json(experiments)["experiment"]
+            rubicon_json["experiment"] = self._experiments_to_json(
+                experiments, numericize=numericize
+            )["experiment"]
 
         return rubicon_json
 
-    def _experiments_to_json(self, experiments: List[Experiment]):
+    def _experiments_to_json(self, experiments: List[Experiment], numericize: bool = False):
+        update_domain = _numericize_domain if numericize else lambda domain: domain
+
         rubicon_json: Dict[str, Any] = {"experiment": []}
 
         for e in experiments:
-            experiment_json = e._domain.__dict__
-            experiment_json["feature"] = [f._domain.__dict__ for f in e.features()]
-            experiment_json["parameter"] = [p._domain.__dict__ for p in e.parameters()]
-            experiment_json["metric"] = [m._domain.__dict__ for m in e.metrics()]
-            experiment_json["artifact"] = [a._domain.__dict__ for a in e.artifacts()]
-            experiment_json["dataframe"] = [d._domain.__dict__ for d in e.dataframes()]
+            experiment_json = update_domain(e._domain.__dict__)
+            experiment_json["feature"] = [update_domain(f._domain.__dict__) for f in e.features()]
+            experiment_json["parameter"] = [
+                update_domain(p._domain.__dict__) for p in e.parameters()
+            ]
+            experiment_json["metric"] = [update_domain(m._domain.__dict__) for m in e.metrics()]
+            experiment_json["artifact"] = [update_domain(a._domain.__dict__) for a in e.artifacts()]
+            experiment_json["dataframe"] = [
+                update_domain(d._domain.__dict__) for d in e.dataframes()
+            ]
 
             rubicon_json["experiment"].append(experiment_json)
 
         return rubicon_json
 
-    def _projects_to_json(self, projects: List[Project]):
+    def _projects_to_json(self, projects: List[Project], numericize: bool = False):
+        update_domain = _numericize_domain if numericize else lambda domain: domain
+
         rubicon_json: Dict[str, Any] = {"project": []}
 
         for p in projects:
-            project_json = p._domain.__dict__
-            project_json["artifact"] = [a._domain.__dict__ for a in p.artifacts()]
-            project_json["dataframe"] = [d._domain.__dict__ for d in p.dataframes()]
+            project_json = update_domain(p._domain.__dict__)
+            project_json["artifact"] = [update_domain(a._domain.__dict__) for a in p.artifacts()]
+            project_json["dataframe"] = [update_domain(d._domain.__dict__) for d in p.dataframes()]
 
-            experiment_json = self._experiments_to_json(p.experiments())
+            experiment_json = self._experiments_to_json(p.experiments(), numericize=numericize)
             project_json["experiment"] = experiment_json["experiment"]
 
             rubicon_json["project"].append(project_json)
 
         return rubicon_json
 
-    def _rubicon_to_json(self, rubicon_objects: List[Rubicon]):
+    def _rubicon_to_json(self, rubicon_objects: List[Rubicon], numericize: bool = False):
         rubicon_json: Dict[str, Any] = {"project": []}
 
         for r in rubicon_objects:
-            rubicon_json["project"].extend(self._projects_to_json(r.projects())["project"])
+            rubicon_json["project"].extend(
+                self._projects_to_json(r.projects(), numericize=numericize)["project"]
+            )
 
         return rubicon_json
 
@@ -119,7 +150,15 @@ class RubiconJSON:
         query: JSONPath-like query
         """
 
-        return parse(query).find(self._json)
+        if ">" in query or "<" in query:
+            # non-numerics break greater than and less than comparisons in `jsonpath_ng`
+            # so we use the json with replaced non-numeric values when '>' or '<' appear
+            # in the `query`
+            json = self._json_numeric
+        else:
+            json = self._json
+
+        return parse(query).find(json)
 
     @property
     def json(self):
@@ -127,3 +166,10 @@ class RubiconJSON:
         The json representation of the `rubicon-ml` objects.
         """
         return self._json
+
+    @property
+    def json_numeric(self):
+        """
+        The json representation of the `rubicon-ml` objects with numeric values.
+        """
+        return self._json_numeric
