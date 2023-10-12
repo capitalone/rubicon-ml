@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrate with Git" href="../integrations/integration-git.html" /><link rel="prev" title="Dashboard" href="../visualizations/dashboard.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualize Logged Dataframes" href="visualizing-logged-dataframes.html" /><link rel="prev" title="Register a custom schema" href="register-custom-schema.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Distinguish Failed Experiments - rubicon-ml v0.6.0</title>
+        <title>Set a schema on a project - rubicon-ml v0.6.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -137,7 +137,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -187,14 +187,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">How to...</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Distinguish Failed Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-experiment-failures.html">Distinguish Failed Experiments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../integrations/integration-git.html">Integrate with Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../integrations/integration-prefect-workflows.html">Integrate with Prefect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiple-backend.html">Log with Multiple Backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="register-custom-schema.html">Register a custom schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set-schema.html">Set a schema on a project</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Set a schema on a project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
@@ -242,7 +242,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -251,77 +251,45 @@
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-experiment-failures.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/logging-experiment-failures.ipynb" target="_blank">run it yourself on Binder</a>!</p>
+<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/set-schema.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/set-schema.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
-<section id="Distinguish-Failed-Experiments">
-<h1>Distinguish Failed Experiments<a class="headerlink" href="#Distinguish-Failed-Experiments" title="Link to this heading">#</a></h1>
-<p>Modeling runs can fail for a number of reasons. When logging with rubicon_ml, a failed run may result in an empty or incomplete experiment. In this example, we’ll walk through how to handle such experiments.</p>
-<p>First lets simulate the problem. To do this we’ll create an estimator that will fail on it’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> 30% of the time. We will consider any pipeline that has a learned attribute <code class="docutils literal notranslate"><span class="pre">self.state_</span></code> to have “succeeded,” and any that does not to have “failed.”</p>
-<div class="nbinput nblast docutils container">
+<section id="Set-a-schema-on-a-project">
+<h1>Set a schema on a project<a class="headerlink" href="#Set-a-schema-on-a-project" title="Link to this heading">#</a></h1>
+<p>“Log a <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> experiment with a <code class="docutils literal notranslate"><span class="pre">rubicon_schema</span></code>” showed how <code class="docutils literal notranslate"><span class="pre">rubicon_schema</span></code> can infer schema from the object to log - sometimes, this may not be possible and a schema may need to be set manually</p>
+<section id="Select-a-schema">
+<h2>Select a schema<a class="headerlink" href="#Select-a-schema" title="Link to this heading">#</a></h2>
+<p>View all available schema</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span>
-<span class="kn">import</span> <span class="nn">random</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.schema</span> <span class="kn">import</span> <span class="n">registry</span>
 
-<span class="k">class</span> <span class="nc">BadEstimator</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-        <span class="n">output</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">output</span><span class="o">&gt;</span><span class="mf">.3</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state_</span><span class="o">=</span><span class="n">output</span>
-    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="n">knn_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">knn_score</span>
+<span class="n">available_schema</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">available_schema</span><span class="p">()</span>
+<span class="n">available_schema</span>
 </pre></div>
 </div>
 </div>
-<p>Next, lets create a <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project to log our experimenation to.</p>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;sklearn__RandomForestClassifier&#39;,
+ &#39;xgboost__XGBClassifier&#39;,
+ &#39;xgboost__DaskXGBClassifier&#39;]
+</pre></div></div>
+</div>
+<p>Load a schema</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.sklearn</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
-<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pprint</span>
 
-<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
-
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span>
-    <span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Failed Experiments&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>Now let’s create a <code class="docutils literal notranslate"><span class="pre">rubicon_ml.sklearn</span></code> pipeline with this sporadically failing estimator and attempt to <code class="docutils literal notranslate"><span class="pre">fit</span></code> the pipeline twenty times. Tag any experiment that doesn’t have a valid <code class="docutils literal notranslate"><span class="pre">state_</span></code> attribute for failures with <code class="docutils literal notranslate"><span class="pre">exp.add_tags([&quot;failed&quot;])</span></code> and passed experiments with <code class="docutils literal notranslate"><span class="pre">exp.add_tags([&quot;passed&quot;])</span></code>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
-    <span class="n">pipe</span><span class="o">=</span><span class="n">make_pipeline</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">),</span><span class="n">BadEstimator</span><span class="p">())</span>
-    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pipe</span><span class="p">[</span><span class="s2">&quot;badestimator&quot;</span><span class="p">],</span><span class="s2">&quot;state_&quot;</span><span class="p">):</span>
-         <span class="n">pipe</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;failed&quot;</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span>
-         <span class="n">pipe</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;passed&quot;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<p>Finally, we can now retrieve all our failed experiments by passing the <code class="docutils literal notranslate"><span class="pre">tags=[&quot;failed&quot;]</span></code> to <code class="docutils literal notranslate"><span class="pre">project.experiments()</span></code>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;failed&quot;</span><span class="p">]):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+<span class="n">rfc_schema</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">get_schema</span><span class="p">(</span><span class="s2">&quot;sklearn__RandomForestClassifier&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">rfc_schema</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -330,48 +298,81 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;375a55ec-9e50-4c59-86c8-e06be471d45e&#39;, name=&#39;RubiconPipeline experiment&#39;, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=None, tags=[&#39;failed&#39;], created_at=datetime.datetime(2022, 5, 10, 14, 50, 44, 669757))
-Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;fce82fb6-58d8-42df-a40b-304bc83826b5&#39;, name=&#39;RubiconPipeline experiment&#39;, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=None, tags=[&#39;failed&#39;], created_at=datetime.datetime(2022, 5, 10, 14, 50, 44, 676902))
-Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;912b9efe-db1f-4ff2-b7c3-51d23bc60acf&#39;, name=&#39;RubiconPipeline experiment&#39;, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=None, tags=[&#39;failed&#39;], created_at=datetime.datetime(2022, 5, 10, 14, 50, 44, 678565))
-Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;75f4d429-b67e-4d16-a634-700b600224fc&#39;, name=&#39;RubiconPipeline experiment&#39;, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=None, tags=[&#39;failed&#39;], created_at=datetime.datetime(2022, 5, 10, 14, 50, 44, 683442))
-Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;e0ca4d92-5c37-4118-bfc8-96253fe390c9&#39;, name=&#39;RubiconPipeline experiment&#39;, description=None, model_name=None, branch_name=None, commit_hash=None, training_metadata=None, tags=[&#39;failed&#39;], created_at=datetime.datetime(2022, 5, 10, 14, 50, 44, 697318))
+{&#39;artifacts&#39;: [&#39;self&#39;],
+ &#39;compatibility&#39;: {&#39;scikit-learn&#39;: {&#39;max_version&#39;: None,
+                                    &#39;min_version&#39;: &#39;1.0.2&#39;}},
+ &#39;docs_url&#39;: &#39;https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html&#39;,
+ &#39;features&#39;: [{&#39;importances_attr&#39;: &#39;feature_importances_&#39;,
+               &#39;names_attr&#39;: &#39;feature_names_in_&#39;,
+               &#39;optional&#39;: True}],
+ &#39;metrics&#39;: [{&#39;name&#39;: &#39;classes&#39;, &#39;value_attr&#39;: &#39;classes_&#39;},
+             {&#39;name&#39;: &#39;n_classes&#39;, &#39;value_attr&#39;: &#39;n_classes_&#39;},
+             {&#39;name&#39;: &#39;n_features_in&#39;, &#39;value_attr&#39;: &#39;n_features_in_&#39;},
+             {&#39;name&#39;: &#39;n_outputs&#39;, &#39;value_attr&#39;: &#39;n_outputs_&#39;},
+             {&#39;name&#39;: &#39;oob_decision_function&#39;,
+              &#39;optional&#39;: True,
+              &#39;value_attr&#39;: &#39;oob_decision_function_&#39;},
+             {&#39;name&#39;: &#39;oob_score&#39;,
+              &#39;optional&#39;: True,
+              &#39;value_attr&#39;: &#39;oob_score_&#39;}],
+ &#39;name&#39;: &#39;sklearn__RandomForestClassifier&#39;,
+ &#39;parameters&#39;: [{&#39;name&#39;: &#39;bootstrap&#39;, &#39;value_attr&#39;: &#39;bootstrap&#39;},
+                {&#39;name&#39;: &#39;ccp_alpha&#39;, &#39;value_attr&#39;: &#39;ccp_alpha&#39;},
+                {&#39;name&#39;: &#39;class_weight&#39;, &#39;value_attr&#39;: &#39;class_weight&#39;},
+                {&#39;name&#39;: &#39;criterion&#39;, &#39;value_attr&#39;: &#39;criterion&#39;},
+                {&#39;name&#39;: &#39;max_depth&#39;, &#39;value_attr&#39;: &#39;max_depth&#39;},
+                {&#39;name&#39;: &#39;max_features&#39;, &#39;value_attr&#39;: &#39;max_features&#39;},
+                {&#39;name&#39;: &#39;min_impurity_decrease&#39;,
+                 &#39;value_attr&#39;: &#39;min_impurity_decrease&#39;},
+                {&#39;name&#39;: &#39;max_leaf_nodes&#39;, &#39;value_attr&#39;: &#39;max_leaf_nodes&#39;},
+                {&#39;name&#39;: &#39;max_samples&#39;, &#39;value_attr&#39;: &#39;max_samples&#39;},
+                {&#39;name&#39;: &#39;min_samples_split&#39;,
+                 &#39;value_attr&#39;: &#39;min_samples_split&#39;},
+                {&#39;name&#39;: &#39;min_samples_leaf&#39;, &#39;value_attr&#39;: &#39;min_samples_leaf&#39;},
+                {&#39;name&#39;: &#39;min_weight_fraction_leaf&#39;,
+                 &#39;value_attr&#39;: &#39;min_weight_fraction_leaf&#39;},
+                {&#39;name&#39;: &#39;n_estimators&#39;, &#39;value_attr&#39;: &#39;n_estimators&#39;},
+                {&#39;name&#39;: &#39;oob_score&#39;, &#39;value_attr&#39;: &#39;oob_score&#39;},
+                {&#39;name&#39;: &#39;random_state&#39;, &#39;value_attr&#39;: &#39;random_state&#39;}],
+ &#39;verison&#39;: &#39;1.0.0&#39;}
 </pre></div></div>
 </div>
-<p>We can also see that the pipeline passed ~70% of the time and ~30% of the time.</p>
+</section>
+<section id="Apply-the-schema-to-a-project">
+<h2>Apply the schema to a project<a class="headerlink" href="#Apply-the-schema-to-a-project" title="Link to this heading">#</a></h2>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;failed&quot;</span><span class="p">]))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+
+<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;apply schema&quot;</span><span class="p">)</span>
+<span class="n">project</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-5
+&lt;rubicon_ml.client.project.Project at 0x134d4fd50&gt;
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<p>Set the schema on the project</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">.</span><span class="n">set_schema</span><span class="p">(</span><span class="n">rfc_schema</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-15
-</pre></div></div>
-</div>
+<p>Now, <code class="docutils literal notranslate"><span class="pre">log_with_schema</span></code> will leverage the schema <code class="docutils literal notranslate"><span class="pre">rfc_schema</span></code> instead of trying to infer one</p>
+</section>
 </section>
 
         </article>
@@ -379,23 +380,23 @@ Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;e0ca4d92-5c37-4118
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../integrations/integration-git.html">
+          <a class="next-page" href="visualizing-logged-dataframes.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Integrate with Git</div>
+                <div class="title">Visualize Logged Dataframes</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../visualizations/dashboard.html">
+          <a class="prev-page" href="register-custom-schema.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Dashboard</div>
+                <div class="title">Register a custom schema</div>
                 
               </div>
             </a>
@@ -417,8 +418,28 @@ Experiment(project_name=&#39;Failed Experiments&#39;, id=&#39;e0ca4d92-5c37-4118
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Set a schema on a project</a><ul>
+<li><a class="reference internal" href="#Select-a-schema">Select a schema</a></li>
+<li><a class="reference internal" href="#Apply-the-schema-to-a-project">Apply the schema to a project</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

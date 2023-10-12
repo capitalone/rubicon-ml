@@ -121,6 +121,7 @@ To install all extra modules, use the ``all`` extra.
    logging-examples/logging-training-metadata
    logging-examples/logging-plots
    logging-examples/logging-concurrently
+   logging-examples/log-with-schema
    logging-examples/tagging
    logging-examples/rubiconJSON-querying
    visualizations.rst
@@ -136,6 +137,8 @@ To install all extra modules, use the ``all`` extra.
    integrations/integration-sklearn
    logging-examples/logging-feature-plots
    logging-examples/multiple-backend
+   logging-examples/register-custom-schema
+   logging-examples/set-schema
    logging-examples/visualizing-logged-dataframes
 
 .. toctree::
@@ -152,6 +155,7 @@ To install all extra modules, use the ``all`` extra.
    :caption: Reference
 
    api_reference.rst
+   schema-representation.rst
 
 .. toctree::
    :maxdepth: 2
@@ -159,6 +163,7 @@ To install all extra modules, use the ``all`` extra.
    :caption: Community
 
    contributing.rst
+   contribute-schema.rst
    Changelog<https://github.com/capitalone/rubicon-ml/releases>
    Feedback<https://github.com/capitalone/rubicon-ml/issues/new/choose>
    GitHub<https://github.com/capitalone/rubicon-ml>

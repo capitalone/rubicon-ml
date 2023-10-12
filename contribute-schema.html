@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api_reference.html" /><link rel="prev" title="Glossary" href="glossary.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Contributing" href="contributing.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>FAQs - rubicon-ml v0.6.0</title>
+        <title>Contribute a schema - rubicon-ml v0.6.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -197,9 +197,9 @@
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
@@ -207,9 +207,9 @@
 <li class="toctree-l1"><a class="reference internal" href="schema-representation.html">Representing model metadata with a schema</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Community</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contribute-schema.html">Contribute a schema</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Contribute a schema</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
@@ -247,110 +247,58 @@
           </label>
         </div>
         <article role="main">
-          <section id="faqs">
-<span id="id1"></span><h1>FAQs<a class="headerlink" href="#faqs" title="Link to this heading">#</a></h1>
-<section id="why-the-name">
-<h2>Why the name?<a class="headerlink" href="#why-the-name" title="Link to this heading">#</a></h2>
-<p>The name comes from a historical context; it’s a reference to Caeser
-crossing the Rubicon, which nowadays is synonymous with “passing the point of no
-return”. We chose the name to signify that by using the library, you’re making the
-decision to provide a repeatable and auditable model development process and
-there’s no going back on that commitment!</p>
-</section>
-<section id="how-can-i-log-my-data-to-s3">
-<h2>How can I log my data to S3?<a class="headerlink" href="#how-can-i-log-my-data-to-s3" title="Link to this heading">#</a></h2>
-<p>Data can be logged either <strong>directly to S3</strong> or to the local filesystem first,
-and then <strong>synced with S3</strong>.</p>
-<p><strong>Direct S3 Logging</strong></p>
-<p>Configure the <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object to log to S3:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+          <section id="contribute-a-schema">
+<span id="contribute-schema"></span><h1>Contribute a schema<a class="headerlink" href="#contribute-a-schema" title="Link to this heading">#</a></h1>
+<p>Consider the following schema that was created in the “Register a custom schema” section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extended_schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sklearn__RandomForestClassifier__ext&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extends&quot;</span><span class="p">:</span> <span class="s2">&quot;sklearn__RandomForestClassifier&quot;</span><span class="p">,</span>
 
-<span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span>
-    <span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span>
-    <span class="n">root_dir</span><span class="o">=</span><span class="s2">&quot;s3://my-bucket/path/to/rubicon-root&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>If you’re logging from your local machine, be sure to
-<a class="reference external" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html">configure your AWS credentials</a>.</p>
-<p>If you’re logging from an EC2, ensure that the IAM role that your EC2 instance
-is using has at least <code class="docutils literal notranslate"><span class="pre">s3:GetObject</span></code>, <code class="docutils literal notranslate"><span class="pre">s3:PutObject</span></code>, and <code class="docutils literal notranslate"><span class="pre">s3:DeleteObject</span></code>
-actions allowed for your S3 bucket:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;AllowS3Objects&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;s3:PutObject&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;s3:DeleteObject&quot;</span>
+    <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;runtime_environment&quot;</span><span class="p">,</span> <span class="s2">&quot;value_env&quot;</span><span class="p">:</span> <span class="s2">&quot;RUNTIME_ENV&quot;</span><span class="p">},</span>
     <span class="p">],</span>
-    <span class="s2">&quot;Resource&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;arn:aws:s3:::[BUCKET_NAME]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;arn:aws:s3:::[BUCKET_NAME]/*&quot;</span>
-    <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>Syncing the Local Filesystem with S3</strong></p>
-<p>Local logging can easily be synced with an S3 bucket using <code class="docutils literal notranslate"><span class="pre">Rubicon.sync()</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">local_rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">&quot;/rubicon-root&quot;</span><span class="p">)</span>
-<span class="n">local_project</span> <span class="o">=</span> <span class="n">local_rubicon</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;Sync Example&quot;</span><span class="p">)</span>
+<p>To contribute “sklearn__RandomForestClassifier__ext” to the <code class="docutils literal notranslate"><span class="pre">rubicon_ml.schema</span></code> registry,
+first write the dictionary out to a YAML file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="n">local_rubicon</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span>
-    <span class="n">project_name</span><span class="o">=</span><span class="n">local_project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-    <span class="n">s3_root_dir</span><span class="o">=</span><span class="s2">&quot;s3://my-bucket/path/to/rubicon-root&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">schema_filename</span> <span class="o">=</span> <span class="s2">&quot;sklearn__RandomForestClassifier__ext.yaml&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">schema_filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">extended_schema</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>This would result in the local “Sync Demo” project being copied to the
-specified S3 bucket. Under-the-hood, it uses the AWS CLI <code class="docutils literal notranslate"><span class="pre">sync</span></code> method. So,
-you’d need to have the AWS CLI installed and ensure your credentials are set.</p>
-</section>
-<section id="why-does-rubicon-ml-offer-prefect-integration">
-<h2>Why does rubicon-ml offer Prefect integration?<a class="headerlink" href="#why-does-rubicon-ml-offer-prefect-integration" title="Link to this heading">#</a></h2>
-<p><a class="reference external" href="https://docs.prefect.io/">Prefect</a> is a popular workflow management system
-that can be used to create machine learning pipelines. The Prefect
-integration makes it easy to drop logging tasks into existing flows.</p>
-</section>
-<section id="why-was-the-dashboard-built-with-dash">
-<h2>Why was the dashboard built with Dash?<a class="headerlink" href="#why-was-the-dashboard-built-with-dash" title="Link to this heading">#</a></h2>
-<p>We decided to use <a class="reference external" href="https://dash.plotly.com/">dash</a> as our initial dashboarding
-solution for the following reasons:</p>
-<ul class="simple">
-<li><p>low barrier to entry for Python developers</p></li>
-<li><p>built in support of the <code class="docutils literal notranslate"><span class="pre">plotly</span></code> data visualization library</p></li>
-<li><p>can be rendered inside Jupyter Notebooks or JupyterLab with minimal effort</p></li>
-<li><p>can be easily deployed to static URL</p></li>
-<li><p>compatible with the Python ecosystem (HoloViews)</p></li>
-<li><p>compatible with React components</p></li>
-</ul>
-<p>We welcome suggestions to improve the dashboard or even contributions of
-additional dashboarding solutions!</p>
-</section>
-<section id="could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow">
-<h2>Could rubicon-ml be used outside of a machine learning workflow?<a class="headerlink" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow" title="Link to this heading">#</a></h2>
-<p>Yes. The <a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">terminology</span></a> was designed for machine learning
-workflows, but the library is flexible! An <code class="docutils literal notranslate"><span class="pre">experiment</span></code> can simply represent any
-unit of work that you’d like to compare multiple runs of. In fact, we’ve used
-<code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to capture performance benchmarks while developing the library so we
-could better evaluate areas of improvement and also have a record of the data
-supporting our decisions.</p>
-</section>
-<section id="how-does-rubicon-ml-compare-to-mlflow">
-<h2>How does rubicon-ml compare to MLFlow?<a class="headerlink" href="#how-does-rubicon-ml-compare-to-mlflow" title="Link to this heading">#</a></h2>
-<p>At the highest level, rubicon-ml isn’t trying to do as much as MLFlow. rubicon-ml is simply a logging library (with some visualizations), while MLFlow is a full model lifecycle management tool. rubicon-ml is designed to be lightweight and not prescribe a full model lifecycle pattern, but instead assist users in enhancing whatever pattern they’ve already established.</p>
-<p>Architecturally, rubicon-ml does not require a hosted server for remote logging like the MLFlow tracking server. rubicon-ml uses <a class="reference external" href="https://github.com/fsspec/filesystem_spec">fsspec</a> to provide a bring-your-own-backend interface where users can log rubicon-ml data to any arbitrary local or S3 filesystem, as well as directly in-memory for experimentation purposes. If the need arose, it should also be trivial to implement any of the other backends that fsspec supports:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations">https://filesystem-spec.readthedocs.io/en/latest/api.html#built-in-implementations</a></p></li>
-<li><p><a class="reference external" href="https://filesystem-spec.readthedocs.io/en/latest/api.html#other-known-implementations">https://filesystem-spec.readthedocs.io/en/latest/api.html#other-known-implementations</a></p></li>
-</ul>
-<p>That being said, rubicon-ml’s logging capabilities do have some overlap with the MLFlow Tracking part of their service. Largely, both libraries are logging the same information, albeit in different ways.</p>
-<p>Like MLFlow, rubicon-ml also aims to offer integrations with commonly used tools, such as <a class="reference external" href="https://capitalone.github.io/rubicon-ml/integrations/integration-sklearn.html">Scikit-learn</a>. Again, rubicon-ml tries to be less prescriptive in these integrations. For example, <a class="reference external" href="https://mlflow.org/docs/latest/tracking.html#scikit-learn">MLFlow says exactly what it will log</a>  when using with Scikit-learn. rubicon-ml has a set of defaults that are logged to each estimator, but also <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.sklearn.RubiconPipeline">supports user-defined loggers</a> for any estimator, like the built-in <a class="reference external" href="https://github.com/capitalone/rubicon-ml/blob/main/rubicon_ml/sklearn/filter_estimator_logger.py">FilterEstimatorLogger</a>.</p>
-</section>
-<section id="is-rubicon-ml-s-dashboard-compatible-with-docker">
-<h2>Is rubicon-ml’s dashboard compatible with Docker?<a class="headerlink" href="#is-rubicon-ml-s-dashboard-compatible-with-docker" title="Link to this heading">#</a></h2>
-<p>The rubicon-ml dashboard is just a <a class="reference external" href="https://plotly.com/dash/">Dash app</a>, so it can be dockerized the same way as any other Dash app.
-You may need to write a small python script to run from the container, rather than the dashboard module or CLI itself, in order to pass necessary parameters to the dashboard’s <code class="docutils literal notranslate"><span class="pre">dash_kwargs</span></code> or <code class="docutils literal notranslate"><span class="pre">run_server_kwargs</span></code> in <a class="reference external" href="https://capitalone.github.io/rubicon-ml/api_reference.html#rubicon_ml.viz.Dashboard.serve">serve</a>.</p>
+<p>Once “sklearn__RandomForestClassifier__ext.yaml” is created, follow the “Developer
+instructions” to fork the rubicon-ml GitHub repository and prepare to make a contribution.</p>
+<p>From the root of the forked repository, copy the new schema into the library’s schema directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span><span class="o">[</span>PATH_TO<span class="o">]</span>/sklearn__RandomForestClassifier__ext.yaml<span class="w"> </span>rubicon_ml/schema/schema/
+</pre></div>
+</div>
+<p>Then update <strong>rubicon_ml/schema/registry.py</strong>, adding the new schema to the
+<code class="docutils literal notranslate"><span class="pre">RUBICON_SCHEMA_REGISTRY</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">RUBICON_SCHEMA_REGISTRY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># other schema entries...</span>
+    <span class="s2">&quot;sklearn__RandomForestClassifier__ext&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">_load_schema</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;schema&quot;</span><span class="p">,</span> <span class="s2">&quot;sklearn__RandomForestClassifier__ext.yaml&quot;</span><span class="p">)</span>
+    <span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Finally refer back to the “Contribute” section of the “Developer instructions” to push your
+changes to GitHub and open a pull request. Once the pull request is merged,
+“sklearn__RandomForestClassifier__ext” will be available in the next release of
+<code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>.</p>
+<section id="schema-naming-conventions">
+<h2>Schema naming conventions<a class="headerlink" href="#schema-naming-conventions" title="Link to this heading">#</a></h2>
+<p>When naming a schema that extends a schema already made available by <code class="docutils literal notranslate"><span class="pre">rubicon_ml.schema</span></code>, simply
+append a double-underscore and a unique identifier. The “sklearn__RandomForestClassifier__ext”
+above is named following this convention.</p>
+<p>When naming a schema that represents an object that is not yet present in schema,
+leverage the <code class="docutils literal notranslate"><span class="pre">registry.get_schema_name</span></code> function to generate a name. For example, if
+you are making a schema for an object <code class="docutils literal notranslate"><span class="pre">my_obj</span></code> of class <code class="docutils literal notranslate"><span class="pre">Model</span></code> from a module <code class="docutils literal notranslate"><span class="pre">my_model</span></code>,
+<code class="docutils literal notranslate"><span class="pre">registry.get_schema_name(my_obj)</span></code> will return the name “my_model__Model”.</p>
 </section>
 </section>
 
@@ -359,23 +307,15 @@ You may need to write a small python script to run from the container, rather th
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api_reference.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">API Reference</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="glossary.html">
+          
+          <a class="prev-page" href="contributing.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Glossary</div>
+                <div class="title">Contributing</div>
                 
               </div>
             </a>
@@ -409,14 +349,8 @@ You may need to write a small python script to run from the container, rather th
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">FAQs</a><ul>
-<li><a class="reference internal" href="#why-the-name">Why the name?</a></li>
-<li><a class="reference internal" href="#how-can-i-log-my-data-to-s3">How can I log my data to S3?</a></li>
-<li><a class="reference internal" href="#why-does-rubicon-ml-offer-prefect-integration">Why does rubicon-ml offer Prefect integration?</a></li>
-<li><a class="reference internal" href="#why-was-the-dashboard-built-with-dash">Why was the dashboard built with Dash?</a></li>
-<li><a class="reference internal" href="#could-rubicon-ml-be-used-outside-of-a-machine-learning-workflow">Could rubicon-ml be used outside of a machine learning workflow?</a></li>
-<li><a class="reference internal" href="#how-does-rubicon-ml-compare-to-mlflow">How does rubicon-ml compare to MLFlow?</a></li>
-<li><a class="reference internal" href="#is-rubicon-ml-s-dashboard-compatible-with-docker">Is rubicon-ml’s dashboard compatible with Docker?</a></li>
+<li><a class="reference internal" href="#">Contribute a schema</a><ul>
+<li><a class="reference internal" href="#schema-naming-conventions">Schema naming conventions</a></li>
 </ul>
 </li>
 </ul>

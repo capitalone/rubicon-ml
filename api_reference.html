@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="FAQs" href="faqs.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Representing model metadata with a schema" href="schema-representation.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>API Reference - rubicon-ml v0.5.0</title>
+        <title>API Reference - rubicon-ml v0.6.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.5.0</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.5.0</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -172,6 +172,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-training-metadata.html">Logging Training Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-plots.html">Logging Plots as PNGs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-concurrently.html">Logging Concurrently</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/log-with-schema.html">Logging with a schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/tagging.html">Tagging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/rubiconJSON-querying.html">Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code></a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visualizations.html">Visualizations</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Visualizations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -191,6 +192,8 @@
 <li class="toctree-l1"><a class="reference internal" href="integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-feature-plots.html">Link Plots to Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/multiple-backend.html">Log with Multiple Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/register-custom-schema.html">Register a custom schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/set-schema.html">Set a schema on a project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
@@ -201,10 +204,12 @@
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema-representation.html">Representing model metadata with a schema</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Community</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute-schema.html">Contribute a schema</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/releases">Changelog</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml/issues/new/choose">Feedback</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/capitalone/rubicon-ml">GitHub</a></li>
@@ -867,10 +872,22 @@ Useful for recreating your exact environment at a later date.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.log_with_schema">
+<span class="sig-name descname"><span class="pre">log_with_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#rubicon_ml.Project.log_with_schema" title="Link to this definition">#</a></dt>
+<dd><p>Log an experiment leveraging <code class="docutils literal notranslate"><span class="pre">self.schema_</span></code>.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Project.name" title="Link to this definition">#</a></dt>
 <dd><p>Get the project’s name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.set_schema">
+<span class="sig-name descname"><span class="pre">set_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#rubicon_ml.Project.set_schema" title="Link to this definition">#</a></dt>
+<dd><p>Set the schema for this client object.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2205,8 +2222,58 @@ Will return as JSON structured <cite>dict</cite> by default.</p>
 </dd></dl>
 
 </section>
+<section id="module-rubicon_ml.schema.logger">
+<span id="schema"></span><span id="library-reference-sklearn"></span><h2>schema<a class="headerlink" href="#module-rubicon_ml.schema.logger" title="Link to this heading">#</a></h2>
+<p>Methods and a mixin to enable schema logging.</p>
+<p>The functions available in the <code class="docutils literal notranslate"><span class="pre">schema</span></code> submodule are applied to
+<code class="docutils literal notranslate"><span class="pre">rubicon_ml.Project</span></code> via the <code class="docutils literal notranslate"><span class="pre">SchemaMixin</span></code> class. They can be
+called directly as a method of an existing project.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubicon_ml.schema.logger.SchemaMixin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.schema.logger.</span></span><span class="sig-name descname"><span class="pre">SchemaMixin</span></span><a class="headerlink" href="#rubicon_ml.schema.logger.SchemaMixin" title="Link to this definition">#</a></dt>
+<dd><p>Adds schema logging support to a client object.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.schema.logger.SchemaMixin.log_with_schema">
+<span class="sig-name descname"><span class="pre">log_with_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#rubicon_ml.schema.logger.SchemaMixin.log_with_schema" title="Link to this definition">#</a></dt>
+<dd><p>Log an experiment leveraging <code class="docutils literal notranslate"><span class="pre">self.schema_</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.schema.logger.SchemaMixin.set_schema">
+<span class="sig-name descname"><span class="pre">set_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#rubicon_ml.schema.logger.SchemaMixin.set_schema" title="Link to this definition">#</a></dt>
+<dd><p>Set the schema for this client object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-rubicon_ml.schema.registry">Mehtods for interacting with the existing rubicon-ml <code class="docutils literal notranslate"><span class="pre">schema</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.schema.registry.available_schema">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.schema.registry.</span></span><span class="sig-name descname"><span class="pre">available_schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rubicon_ml.schema.registry.available_schema" title="Link to this definition">#</a></dt>
+<dd><p>Get the names of all available schema.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.schema.registry.get_schema">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.schema.registry.</span></span><span class="sig-name descname"><span class="pre">get_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#rubicon_ml.schema.registry.get_schema" title="Link to this definition">#</a></dt>
+<dd><p>Get the schema with name <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.schema.registry.get_schema_name">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.schema.registry.</span></span><span class="sig-name descname"><span class="pre">get_schema_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#rubicon_ml.schema.registry.get_schema_name" title="Link to this definition">#</a></dt>
+<dd><p>Get the name of the schema that represents object <code class="docutils literal notranslate"><span class="pre">obj</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.schema.registry.register_schema">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.schema.registry.</span></span><span class="sig-name descname"><span class="pre">register_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.schema.registry.register_schema" title="Link to this definition">#</a></dt>
+<dd><p>Add a schema to the schema registry.</p>
+</dd></dl>
+
+</section>
 <section id="sklearn">
-<span id="library-reference-sklearn"></span><h2>sklearn<a class="headerlink" href="#sklearn" title="Link to this heading">#</a></h2>
+<h2>sklearn<a class="headerlink" href="#sklearn" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers direct integration with <strong>Scikit-learn</strong> via our
 own pipeline object.</p>
 <dl class="py class">
@@ -3136,12 +3203,12 @@ log a parameter to an existing experiment.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="contributing.html">
+          <a class="next-page" href="schema-representation.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Contributing</div>
+                <div class="title">Representing model metadata with a schema</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -3222,7 +3289,9 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_experiment"><code class="docutils literal notranslate"><span class="pre">Project.log_experiment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_json"><code class="docutils literal notranslate"><span class="pre">Project.log_json()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Project.log_pip_requirements()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_with_schema"><code class="docutils literal notranslate"><span class="pre">Project.log_with_schema()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.set_schema"><code class="docutils literal notranslate"><span class="pre">Project.set_schema()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.to_dask_df"><code class="docutils literal notranslate"><span class="pre">Project.to_dask_df()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.to_df"><code class="docutils literal notranslate"><span class="pre">Project.to_df()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.training_metadata"><code class="docutils literal notranslate"><span class="pre">Project.training_metadata</span></code></a></li>
@@ -3360,6 +3429,18 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.RubiconJSON.search"><code class="docutils literal notranslate"><span class="pre">RubiconJSON.search()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-rubicon_ml.schema.logger">schema</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.schema.logger.SchemaMixin"><code class="docutils literal notranslate"><span class="pre">SchemaMixin</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.schema.logger.SchemaMixin.log_with_schema"><code class="docutils literal notranslate"><span class="pre">SchemaMixin.log_with_schema()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.schema.logger.SchemaMixin.set_schema"><code class="docutils literal notranslate"><span class="pre">SchemaMixin.set_schema()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.schema.registry.available_schema"><code class="docutils literal notranslate"><span class="pre">available_schema()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.schema.registry.get_schema"><code class="docutils literal notranslate"><span class="pre">get_schema()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.schema.registry.get_schema_name"><code class="docutils literal notranslate"><span class="pre">get_schema_name()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.schema.registry.register_schema"><code class="docutils literal notranslate"><span class="pre">register_schema()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#sklearn">sklearn</a><ul>
