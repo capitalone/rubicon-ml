@@ -386,6 +386,24 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         self.add_tags([child_tag])
         experiment.add_tags([parent_tag])
 
+    def _get_experiments_from_tags(self, tag_key: str):
+        """Get the experiments with `experiment_id`s in this experiment's tags
+        that match the format `tag_key:experiment_id`.
+
+        Returns
+        -------
+        list of rubicon_ml.client.Experiment
+            The experiments with `experiment_id`s in this experiment's tags.
+        """
+        experiments = []
+
+        for tag in self.tags:
+            if f"{tag_key}:" in tag:
+                experiment_id = tag.split(":")[-1]
+                experiments.append(self.project.experiment(id=experiment_id))
+
+        return experiments
+
     def get_child_experiments(self):
         """Get the experiments that are tagged as children of this experiment.
 
@@ -394,16 +412,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         list of rubicon_ml.client.Experiment
             The experiments that are tagged as children of this experiment.
         """
-        children = []
+        return self._get_experiments_from_tags("child")
 
-        for tag in self.tags:
-            if "child:" in tag:
-                child_id = tag.split(":")[-1]
-                children.append(self.project.experiment(id=child_id))
-
-        return children
-
-    def get_parent_experiment(self):
+    def get_parent_experiments(self):
         """Get the experiments that are tagged as parents of this experiment.
 
         Returns
@@ -411,14 +422,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         list of rubicon_ml.client.Experiment
             The experiments that are tagged as parents of this experiment.
         """
-        parent = None
-
-        for tag in self.tags:
-            if "parent:" in tag:
-                parent_id = tag.split(":")[-1]
-                parent = self.project.experiment(id=parent_id)
-
-        return parent
+        return self._get_experiments_from_tags("parent")
 
     @property
     def id(self):

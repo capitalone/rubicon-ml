@@ -437,4 +437,4 @@ def test_get_parent_experiment(project_client):
 
     parent.add_child_experiment(child)
 
-    assert child.get_parent_experiment().id == parent.id
+    assert child.get_parent_experiments()[0].id == parent.id
