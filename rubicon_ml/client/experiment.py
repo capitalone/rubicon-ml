@@ -14,6 +14,7 @@ from rubicon_ml.client import (
 )
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
+from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
     from rubicon_ml.client import Project
@@ -359,6 +360,39 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             self._raise_rubicon_exception(return_err)
         else:
             return [p for p in self.parameters() if p.id == id][0]
+
+    def add_child_experiment(self, experiment: Experiment):
+        if experiment.project.id != self.project.id:
+            raise RubiconException(
+                "Descendents must be logged to the same project. Project"
+                f"{experiment.project.id} does not match project {self.project.id}."
+            )
+
+        child_tag = f"child:{experiment.id}"
+        parent_tag = f"parent:{self.id}"
+
+        self.add_tags([child_tag])
+        experiment.add_tags([parent_tag])
+
+    def get_child_experiments(self):
+        children = []
+
+        for tag in self.tags:
+            if "child:" in tag:
+                child_id = tag.split(":")[-1]
+                children.append(self.project.experiment(id=child_id))
+
+        return children
+
+    def get_parent_experiment(self):
+        parent = None
+
+        for tag in self.tags:
+            if "parent:" in tag:
+                parent_id = tag.split(":")[-1]
+                parent = self.project.experiment(id=parent_id)
+
+        return parent
 
     @property
     def id(self):
