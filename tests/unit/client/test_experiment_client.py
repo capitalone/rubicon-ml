@@ -430,7 +430,7 @@ def test_get_child_experiments(project_client):
     assert parent.get_child_experiments()[0].id == child.id
 
 
-def test_get_parent_experiment(project_client):
+def test_get_parent_experiments(project_client):
     project = project_client
     parent = project.log_experiment(name="parent")
     child = project.log_experiment(name="child")
