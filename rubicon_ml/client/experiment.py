@@ -362,6 +362,18 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             return [p for p in self.parameters() if p.id == id][0]
 
     def add_child_experiment(self, experiment: Experiment):
+        """Add tags to denote `experiment` as a descendent of this experiment.
+
+        Parameters
+        ----------
+        experiment : rubicon_ml.client.Experiment
+            The experiment to mark as a descendent of this experiment.
+
+        Raises
+        ------
+        RubiconException
+            If `experiment` and this experiment are not logged to the same project.
+        """
         if experiment.project.id != self.project.id:
             raise RubiconException(
                 "Descendents must be logged to the same project. Project"
@@ -375,6 +387,13 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         experiment.add_tags([parent_tag])
 
     def get_child_experiments(self):
+        """Get the experiments that are tagged as children of this experiment.
+
+        Returns
+        -------
+        list of rubicon_ml.client.Experiment
+            The experiments that are tagged as children of this experiment.
+        """
         children = []
 
         for tag in self.tags:
@@ -385,6 +404,13 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         return children
 
     def get_parent_experiment(self):
+        """Get the experiments that are tagged as parents of this experiment.
+
+        Returns
+        -------
+        list of rubicon_ml.client.Experiment
+            The experiments that are tagged as parents of this experiment.
+        """
         parent = None
 
         for tag in self.tags:
