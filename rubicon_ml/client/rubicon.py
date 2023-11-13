@@ -1,6 +1,6 @@
 import subprocess
 import warnings
-from typing import List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project
@@ -38,24 +38,51 @@ class Rubicon:
         persistence: Optional[str] = "filesystem",
         root_dir: Optional[str] = None,
         auto_git_enabled: bool = False,
+        composite_config: Optional[List[Dict[str, Any]]] = None,
         **storage_options,
     ):
-        self.config = Config(persistence, root_dir, auto_git_enabled, **storage_options)
+        if composite_config is not None:
+            self.configs = [
+                Config(
+                    persistence=config["persistence"],
+                    root_dir=config["root_dir"],
+                    auto_git_enabled=auto_git_enabled,
+                )
+                for config in composite_config
+            ]
+        else:
+            self.configs = [Config(persistence, root_dir, auto_git_enabled, **storage_options)]
+
+    @property
+    def config(self):
+        """
+        Returns a single config.
+
+        Exists to promote backwards compatibility.
+
+        Returns
+        -------
+        Config
+            A single Config
+        """
+        return self.configs[0]
 
     @property
     def repository(self):
-        return self.config.repository
+        if len(self.configs) > 1:
+            raise ValueError("More than one repository available. Use `.repositories` instead.")
+        return self.configs[0].repository
 
     @property
     def repositories(self):
-        if hasattr(self.config, "repositories"):
-            return self.config.repositories
-        else:
-            return [self.config.repository]
+        return [config.repository for config in self.configs]
 
     @repository.setter
     def repository(self, value):
-        self.config.repository = value
+        if len(self.configs) > 1:
+            raise ValueError("Cannot set when more than one repository available!")
+
+        self.configs[0].repository = value
 
     def _get_github_url(self):
         """Returns the repository URL of the `git` repo it is called from."""
