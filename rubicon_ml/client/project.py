@@ -34,7 +34,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
         The config, which specifies the underlying repository.
     """
 
-    def __init__(self, domain: ProjectDomain, config: Optional[Config] = None):
+    def __init__(self, domain: ProjectDomain, config: Optional[Union[Config, List[Config]]] = None):
         super().__init__(domain, config)
 
         self._domain: ProjectDomain
@@ -76,7 +76,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
         tags,
     ):
         """Instantiates and returns an experiment domain object."""
-        if self._config.is_auto_git_enabled:
+        if self.is_auto_git_enabled:
             if branch_name is None:
                 branch_name = self._get_branch_name()
             if commit_hash is None:

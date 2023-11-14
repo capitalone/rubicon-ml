@@ -100,9 +100,9 @@ class Rubicon:
     def _create_project_domain(
         self,
         name: str,
-        description: str,
-        github_url: str,
-        training_metadata: Union[List[Tuple], Tuple],
+        description: Optional[str],
+        github_url: Optional[str],
+        training_metadata: Optional[Union[List[Tuple], Tuple]],
     ):
         """Instantiates and returns a project domain object."""
         if self.config.is_auto_git_enabled and github_url is None:
@@ -121,7 +121,13 @@ class Rubicon:
         )
 
     @failsafe
-    def create_project(self, name, description=None, github_url=None, training_metadata=None):
+    def create_project(
+        self,
+        name: str,
+        description: Optional[str] = None,
+        github_url: Optional[str] = None,
+        training_metadata: Optional[Union[Tuple, List[Tuple]]] = None,
+    ) -> Project:
         """Create a project.
 
         Parameters
@@ -147,10 +153,10 @@ class Rubicon:
         for repo in self.repositories:
             repo.create_project(project)
 
-        return Project(project, self.config)
+        return Project(project, self.configs)
 
     @failsafe
-    def get_project(self, name=None, id=None):
+    def get_project(self, name: Optional[str] = None, id: Optional[str] = None) -> Project:
         """Get a project.
 
         Parameters
@@ -223,7 +229,7 @@ class Rubicon:
         return project.to_df(df_type=df_type, group_by=None)
 
     @failsafe
-    def get_or_create_project(self, name, **kwargs):
+    def get_or_create_project(self, name: str, **kwargs):
         """Get or create a project.
 
         Parameters
