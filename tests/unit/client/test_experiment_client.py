@@ -394,3 +394,47 @@ def test_parameters_tagged_or(project_client):
     assert len(parameters) == 2
     assert param_a.id in [d.id for d in parameters]
     assert param_b.id in [d.id for d in parameters]
+
+
+def test_add_child_experiment(project_client):
+    project = project_client
+    parent = project.log_experiment(name="parent")
+    child = project.log_experiment(name="child")
+
+    parent.add_child_experiment(child)
+
+    assert f"parent:{parent.id}" in child.tags
+    assert f"child:{child.id}" in parent.tags
+
+
+def test_add_child_experiment_error(rubicon_and_project_client):
+    rubicon, project = rubicon_and_project_client
+    another_project = rubicon.create_project(name="another one")
+
+    parent = project.log_experiment(name="parent")
+    child = another_project.log_experiment(name="child")
+
+    with pytest.raises(RubiconException) as error:
+        parent.add_child_experiment(child)
+
+    assert "Descendents must be logged to the same project." in str(error)
+
+
+def test_get_child_experiments(project_client):
+    project = project_client
+    parent = project.log_experiment(name="parent")
+    child = project.log_experiment(name="child")
+
+    parent.add_child_experiment(child)
+
+    assert parent.get_child_experiments()[0].id == child.id
+
+
+def test_get_parent_experiments(project_client):
+    project = project_client
+    parent = project.log_experiment(name="parent")
+    child = project.log_experiment(name="child")
+
+    parent.add_child_experiment(child)
+
+    assert child.get_parent_experiments()[0].id == parent.id

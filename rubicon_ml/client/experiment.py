@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from rubicon_ml import domain
 from rubicon_ml.client import (
@@ -14,6 +14,7 @@ from rubicon_ml.client import (
 )
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
+from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
     from rubicon_ml.client import Project
@@ -359,6 +360,69 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
             self._raise_rubicon_exception(return_err)
         else:
             return [p for p in self.parameters() if p.id == id][0]
+
+    def add_child_experiment(self, experiment: Experiment):
+        """Add tags to denote `experiment` as a descendent of this experiment.
+
+        Parameters
+        ----------
+        experiment : rubicon_ml.client.Experiment
+            The experiment to mark as a descendent of this experiment.
+
+        Raises
+        ------
+        RubiconException
+            If `experiment` and this experiment are not logged to the same project.
+        """
+        if experiment.project.id != self.project.id:
+            raise RubiconException(
+                "Descendents must be logged to the same project. Project"
+                f"{experiment.project.id} does not match project {self.project.id}."
+            )
+
+        child_tag = f"child:{experiment.id}"
+        parent_tag = f"parent:{self.id}"
+
+        self.add_tags([child_tag])
+        experiment.add_tags([parent_tag])
+
+    def _get_experiments_from_tags(self, tag_key: str):
+        """Get the experiments with `experiment_id`s in this experiment's tags
+        that match the format `tag_key:experiment_id`.
+
+        Returns
+        -------
+        list of rubicon_ml.client.Experiment
+            The experiments with `experiment_id`s in this experiment's tags.
+        """
+        experiments = []
+
+        for tag in self.tags:
+            if f"{tag_key}:" in tag:
+                experiment_id = tag.split(":")[-1]
+                experiments.append(self.project.experiment(id=experiment_id))
+
+        return experiments
+
+    def get_child_experiments(self) -> List[Experiment]:
+        """Get the experiments that are tagged as children of this experiment.
+
+        Returns
+        -------
+        list of rubicon_ml.client.Experiment
+            The experiments that are tagged as children of this experiment.
+        """
+        return self._get_experiments_from_tags("child")
+
+    def get_parent_experiments(self) -> List[Experiment]:
+        """Get the experiments that are tagged as parents of this experiment.
+
+        Returns
+        -------
+        list of rubicon_ml.client.Experiment
+            The experiments that are tagged as parents of this experiment.
+        """
+        return self._get_experiments_from_tags("parent")
 
     @property
     def id(self):
