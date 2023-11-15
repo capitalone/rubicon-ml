@@ -7,7 +7,7 @@ from dash import Dash, html
 
 from rubicon_ml import __version__ as rubicon_ml_version
 
-_next_available_port = 8051
+_next_available_port = 8050
 
 
 class VizBase:
@@ -120,7 +120,7 @@ class VizBase:
             else:
                 host = f"http://localhost:{port}"
 
-            time.sleep(0.1)  # wait for thread to see if requested port is available
+            time.sleep(1.0)  # wait for thread to see if requested port is available
             if not running_server_thread.is_alive():
                 raise RuntimeError(f"port {port} may already be in use")
 
