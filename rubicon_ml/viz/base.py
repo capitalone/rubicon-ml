@@ -7,7 +7,7 @@ from dash import Dash, html
 
 from rubicon_ml import __version__ as rubicon_ml_version
 
-_next_available_port = 8050
+_next_available_port = 8051
 
 
 class VizBase:
