@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from rubicon_ml import domain
 from rubicon_ml.client import (
@@ -404,7 +404,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
 
         return experiments
 
-    def get_child_experiments(self):
+    def get_child_experiments(self) -> List[Experiment]:
         """Get the experiments that are tagged as children of this experiment.
 
         Returns
@@ -414,7 +414,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
         """
         return self._get_experiments_from_tags("child")
 
-    def get_parent_experiments(self):
+    def get_parent_experiments(self) -> List[Experiment]:
         """Get the experiments that are tagged as parents of this experiment.
 
         Returns
