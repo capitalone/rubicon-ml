@@ -47,6 +47,7 @@ class Rubicon:
                     persistence=config["persistence"],
                     root_dir=config["root_dir"],
                     auto_git_enabled=auto_git_enabled,
+                    **storage_options,
                 )
                 for config in composite_config
             ]
