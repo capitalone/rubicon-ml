@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Glossary" href="../glossary.html" /><link rel="prev" title="Set a schema on a project" href="set-schema.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Register a custom schema" href="register-custom-schema.html" /><link rel="prev" title="Log with Multiple Backends" href="multiple-backend.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Visualize Logged Dataframes - rubicon-ml v0.6.1</title>
+        <title>Manage Experiment Relationships - rubicon-ml v0.6.1</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -193,10 +193,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-feature-plots.html">Link Plots to Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiple-backend.html">Log with Multiple Backends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manage-experiment-relationships.html">Manage Experiment Relationships</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Manage Experiment Relationships</a></li>
 <li class="toctree-l1"><a class="reference internal" href="register-custom-schema.html">Register a custom schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set-schema.html">Set a schema on a project</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Visualize Logged Dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
 <ul>
@@ -252,26 +252,20 @@
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/visualizing-logged-dataframes.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/visualizing-logged-dataframes.ipynb" target="_blank">run it yourself on Binder</a>!</p>
+<p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/manage-experiment-relationships.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/manage-experiment-relationships.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
-<section id="Visualize-Logged-Dataframes">
-<h1>Visualize Logged Dataframes<a class="headerlink" href="#Visualize-Logged-Dataframes" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> makes it easy to log dataframes and comes with default visualization support, using <a class="reference external" href="https://plotly.com/dash/">Dash and Plotly</a> under the hood. Specifically, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> leverages <a class="reference external" href="https://plotly.com/python/plotly-express/">Plotly express</a> to provide many robust visualization options.</p>
-<section id="Setup">
-<h2>Setup<a class="headerlink" href="#Setup" title="Link to this heading">#</a></h2>
-<p>Let’s create a project and log a sample dataframe to it so we can visualize it.</p>
+<section id="Manage-Experiment-Relationships">
+<h1>Manage Experiment Relationships<a class="headerlink" href="#Manage-Experiment-Relationships" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> experiments can be tagged with special identifiers to denote a parent/child relationship. This can be used to track hierarchical or iterative experiments, among other things.</p>
+<p>First, let’s create a project.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
-
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Plotting Example&quot;</span><span class="p">)</span>
-
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;hierarchical experiments&quot;</span><span class="p">)</span>
 <span class="n">project</span>
 </pre></div>
 </div>
@@ -282,106 +276,41 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;rubicon_ml.client.project.Project at 0x1629cf2e0&gt;
+&lt;rubicon_ml.client.project.Project at 0x121d7af50&gt;
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
+<section id="Hierarchical-experiments">
+<h2>Hierarchical experiments<a class="headerlink" href="#Hierarchical-experiments" title="Link to this heading">#</a></h2>
+<p>Now we can log some experiments in a nested loop. Imagine logging an experiment for each node of a gradient boosted tree, or something along those lines.</p>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">parent_experiment.add_child_experiment(child_experiment)</span></code> to automatically add tags to both <code class="docutils literal notranslate"><span class="pre">parent_experiment</span></code> and <code class="docutils literal notranslate"><span class="pre">child_experiment</span></code> that represent their relationship.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
 
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">node_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;node_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">root_experiment</span><span class="o">.</span><span class="n">add_child_experiment</span><span class="p">(</span><span class="n">node_experiment</span><span class="p">)</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="s2">&quot;Walmart&quot;</span><span class="p">,</span> <span class="mi">514405</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;Exxon Mobil&quot;</span><span class="p">,</span> <span class="mi">290212</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;Apple&quot;</span><span class="p">,</span> <span class="mi">265595</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;Berkshire Hathaway&quot;</span><span class="p">,</span> <span class="mi">247837</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;Amazon.com&quot;</span><span class="p">,</span> <span class="mi">232887</span><span class="p">]</span>
-    <span class="p">],</span>
-    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Revenue (in millions)&quot;</span><span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">()</span>
-<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sample revenue df&quot;</span><span class="p">)</span>
-
-<span class="n">dataframe</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">nested_node_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;node_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">node_experiment</span><span class="o">.</span><span class="n">add_child_experiment</span><span class="p">(</span><span class="n">nested_node_experiment</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-&lt;rubicon_ml.client.dataframe.Dataframe at 0x1629ce170&gt;
-</pre></div></div>
-</div>
-</section>
-<section id="Visualizing-Dataframes">
-<h2>Visualizing Dataframes<a class="headerlink" href="#Visualizing-Dataframes" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon_ml.Dataframe.plot</span></code> exposes plotting functionality to create simple plots like line, bar, or scatter plots and tables. There are even more complex plots available in <code class="docutils literal notranslate"><span class="pre">plotly.express</span></code> - any can be passed into <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> for visualization!</p>
-<blockquote>
-<div><p><a class="reference external" href="https://plotly.com/python/plotly-express/">https://plotly.com/python/plotly-express/</a></p>
-</div></blockquote>
-<p>Here we’ll visualize the dataframe with the default line chart (<code class="docutils literal notranslate"><span class="pre">px.line</span></code>). Any keyword arguments will be passed directly to the underlying Plotly express function.</p>
-<blockquote>
-<div><p><strong>Note</strong>: If you’re viewing this notebook from the <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> docs, the plots and widget below are only images since we can’t run a Dash server on GitHub pages. Running locally will produce fully interactive plots!</p>
-</div></blockquote>
+<p>To retrieve experiments, start at the root experiment and call <code class="docutils literal notranslate"><span class="pre">get_child_experiments</span></code> to return a list of <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> objects representing each of the tagged child experiments.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">revenue_line</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Revenue (in millions)&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">root_experiment</span><span class="o">.</span><span class="n">get_child_experiments</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;id:&quot;</span><span class="p">,</span> <span class="n">experiment</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tags:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">tags</span> <span class="k">if</span> <span class="s2">&quot;child&quot;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="n">revenue_line</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<img alt="dataframe line" src="../_images/visualizing-logged-dataframes-line.png" />
-<p>This time we’ll provide <code class="docutils literal notranslate"><span class="pre">px.scatter</span></code> as the <code class="docutils literal notranslate"><span class="pre">plotting_func</span></code> argument to generate a scatter plot.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
-
-<span class="n">revenue_scatter</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">plotting_func</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Revenue (in millions)&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">revenue_scatter</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<img alt="dataframe scatter" src="../_images/visualizing-logged-dataframes-scatter.png" />
-<p>Dataframes can also be visualzied with the dataframe plot widget. For more info the dataframe plot, check out <a class="reference external" href="https://capitalone.github.io/rubicon-ml/visualizations/dataframe-plot.html">this example</a>. For more info on <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s visualization widgets in general, check out <a class="reference external" href="https://capitalone.github.io/rubicon-ml/visualizations.html">the docs</a>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">DataframePlot</span>
-
-<span class="n">DataframePlot</span><span class="p">(</span>
-    <span class="n">experiments</span><span class="o">=</span><span class="p">[</span><span class="n">experiment</span><span class="p">],</span>
-    <span class="n">dataframe_name</span><span class="o">=</span><span class="s2">&quot;sample revenue df&quot;</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">nested_experiment</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get_child_experiments</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">id:&quot;</span><span class="p">,</span> <span class="n">nested_experiment</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">tags:&quot;</span><span class="p">,</span> <span class="n">nested_experiment</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -390,16 +319,96 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dash is running on http://127.0.0.1:8050/
+id: f8c897d7-852d-4020-8715-264452a5b8ab
+tags: [&#39;child:754dff35-aa87-4385-9bcd-af5c1f5b0b7e&#39;, &#39;child:fdf25d72-d1bb-47bc-8cb2-4a088ed0ba33&#39;]
 
- * Serving Flask app &#39;rubicon_ml.viz.base&#39; (lazy loading)
- * Environment: production
-<span class="ansi-red-fg">   WARNING: This is a development server. Do not use it in a production deployment.</span>
-   Use a production WSGI server instead.
- * Debug mode: off
+        id: 754dff35-aa87-4385-9bcd-af5c1f5b0b7e
+        tags: [&#39;parent:f8c897d7-852d-4020-8715-264452a5b8ab&#39;]
+
+        id: fdf25d72-d1bb-47bc-8cb2-4a088ed0ba33
+        tags: [&#39;parent:f8c897d7-852d-4020-8715-264452a5b8ab&#39;]
+
+id: 5f8c14c1-50d9-4c49-b0b2-6a59c6f3d707
+tags: [&#39;child:d9012c99-2888-43d1-833b-78d51de75a3a&#39;, &#39;child:c65f8c5e-bf5b-4a82-94cb-8b669545b951&#39;]
+
+        id: d9012c99-2888-43d1-833b-78d51de75a3a
+        tags: [&#39;parent:5f8c14c1-50d9-4c49-b0b2-6a59c6f3d707&#39;]
+
+        id: c65f8c5e-bf5b-4a82-94cb-8b669545b951
+        tags: [&#39;parent:5f8c14c1-50d9-4c49-b0b2-6a59c6f3d707&#39;]
+
+id: da33e918-96c0-4e56-9075-7941515cc18f
+tags: [&#39;child:7c5b2f4b-1e7c-40be-8cda-8f3a00067e98&#39;, &#39;child:cd30f3b2-bd63-4318-974a-6668648bf4ac&#39;]
+
+        id: 7c5b2f4b-1e7c-40be-8cda-8f3a00067e98
+        tags: [&#39;parent:da33e918-96c0-4e56-9075-7941515cc18f&#39;]
+
+        id: cd30f3b2-bd63-4318-974a-6668648bf4ac
+        tags: [&#39;parent:da33e918-96c0-4e56-9075-7941515cc18f&#39;]
+
 </pre></div></div>
 </div>
-<img alt="dataframe widget" src="../_images/visualizing-logged-dataframes-widget.png" />
+</section>
+<section id="Iterative-experiments">
+<h2>Iterative experiments<a class="headerlink" href="#Iterative-experiments" title="Link to this heading">#</a></h2>
+<p>We can leverage <code class="docutils literal notranslate"><span class="pre">add_child_experiment</span></code> to maintain iterative relationships too. This could be used to log metadata about of each iteration of recursive feature elimination and preserve the linear history of the model training.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">current_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;experiment_0&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">next_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;experiment_</span><span class="si">{</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">current_experiment</span><span class="o">.</span><span class="n">add_child_experiment</span><span class="p">(</span><span class="n">next_experiment</span><span class="p">)</span>
+
+    <span class="n">current_experiment</span> <span class="o">=</span> <span class="n">next_experiment</span>
+
+<span class="n">last_experiment</span> <span class="o">=</span> <span class="n">current_experiment</span>
+</pre></div>
+</div>
+</div>
+<p>Similarly to <code class="docutils literal notranslate"><span class="pre">get_child_experiments</span></code>, we can use <code class="docutils literal notranslate"><span class="pre">get_parent_experiment</span></code> to return a <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> object representing the tagged parent experiment.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiments</span> <span class="o">=</span> <span class="p">[</span><span class="n">last_experiment</span><span class="p">]</span>
+
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">experiment</span> <span class="o">=</span> <span class="n">experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;name:&quot;</span><span class="p">,</span> <span class="n">experiment</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">id:&quot;</span><span class="p">,</span> <span class="n">experiment</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">tags:&quot;</span><span class="p">,</span> <span class="n">experiment</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">experiments</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get_parent_experiments</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+name: experiment_3
+        id: a85ba9d9-1473-44c2-b3e9-8a744534485b
+        tags: [&#39;parent:47ecf8a7-b799-4308-994b-aa6d8698dc2b&#39;]
+
+name: experiment_2
+        id: 47ecf8a7-b799-4308-994b-aa6d8698dc2b
+        tags: [&#39;child:a85ba9d9-1473-44c2-b3e9-8a744534485b&#39;, &#39;parent:aea5f005-9792-442c-b98c-8d9b9e39f99b&#39;]
+
+name: experiment_1
+        id: aea5f005-9792-442c-b98c-8d9b9e39f99b
+        tags: [&#39;child:47ecf8a7-b799-4308-994b-aa6d8698dc2b&#39;, &#39;parent:f4a393ef-0b32-4f70-ac82-07a0877da328&#39;]
+
+name: experiment_0
+        id: f4a393ef-0b32-4f70-ac82-07a0877da328
+        tags: [&#39;child:aea5f005-9792-442c-b98c-8d9b9e39f99b&#39;]
+
+</pre></div></div>
+</div>
 </section>
 </section>
 
@@ -408,23 +417,23 @@ Dash is running on http://127.0.0.1:8050/
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../glossary.html">
+          <a class="next-page" href="register-custom-schema.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Glossary</div>
+                <div class="title">Register a custom schema</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="set-schema.html">
+          <a class="prev-page" href="multiple-backend.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Set a schema on a project</div>
+                <div class="title">Log with Multiple Backends</div>
                 
               </div>
             </a>
@@ -458,9 +467,9 @@ Dash is running on http://127.0.0.1:8050/
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Visualize Logged Dataframes</a><ul>
-<li><a class="reference internal" href="#Setup">Setup</a></li>
-<li><a class="reference internal" href="#Visualizing-Dataframes">Visualizing Dataframes</a></li>
+<li><a class="reference internal" href="#">Manage Experiment Relationships</a><ul>
+<li><a class="reference internal" href="#Hierarchical-experiments">Hierarchical experiments</a></li>
+<li><a class="reference internal" href="#Iterative-experiments">Iterative experiments</a></li>
 </ul>
 </li>
 </ul>

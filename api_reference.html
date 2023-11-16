@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Representing model metadata with a schema" href="schema-representation.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>API Reference - rubicon-ml v0.6.0</title>
+        <title>API Reference - rubicon-ml v0.6.1</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.0</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.1</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.0</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.1</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -192,6 +192,7 @@
 <li class="toctree-l1"><a class="reference internal" href="integrations/integration-sklearn.html">Integrate with Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/logging-feature-plots.html">Link Plots to Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/multiple-backend.html">Log with Multiple Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging-examples/manage-experiment-relationships.html">Manage Experiment Relationships</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/register-custom-schema.html">Register a custom schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/set-schema.html">Set a schema on a project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging-examples/visualizing-logged-dataframes.html">Visualize Logged Dataframes</a></li>
@@ -954,6 +955,26 @@ its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</c
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.add_child_experiment">
+<span class="sig-name descname"><span class="pre">add_child_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.add_child_experiment" title="Link to this definition">#</a></dt>
+<dd><p>Add tags to denote <cite>experiment</cite> as a descendent of this experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiment</strong><span class="classifier">rubicon_ml.client.Experiment</span></dt><dd><p>The experiment to mark as a descendent of this experiment.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>RubiconException</dt><dd><p>If <cite>experiment</cite> and this experiment are not logged to the same project.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -1154,6 +1175,34 @@ this client object.</p>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt>list of rubicon.client.Feature</dt><dd><p>The features previously logged to this experiment.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.get_child_experiments">
+<span class="sig-name descname"><span class="pre">get_child_experiments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rubicon_ml.Experiment.get_child_experiments" title="Link to this definition">#</a></dt>
+<dd><p>Get the experiments that are tagged as children of this experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>list of rubicon_ml.client.Experiment</dt><dd><p>The experiments that are tagged as children of this experiment.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.get_parent_experiments">
+<span class="sig-name descname"><span class="pre">get_parent_experiments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rubicon_ml.Experiment.get_parent_experiments" title="Link to this definition">#</a></dt>
+<dd><p>Get the experiments that are tagged as parents of this experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>list of rubicon_ml.client.Experiment</dt><dd><p>The experiments that are tagged as parents of this experiment.</p>
 </dd>
 </dl>
 </dd>
@@ -3301,6 +3350,7 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#experiment">Experiment</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.add_child_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.add_child_experiment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.add_tags"><code class="docutils literal notranslate"><span class="pre">Experiment.add_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.artifact"><code class="docutils literal notranslate"><span class="pre">Experiment.artifact()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.artifacts"><code class="docutils literal notranslate"><span class="pre">Experiment.artifacts()</span></code></a></li>
@@ -3314,6 +3364,8 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.description"><code class="docutils literal notranslate"><span class="pre">Experiment.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.feature"><code class="docutils literal notranslate"><span class="pre">Experiment.feature()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.features"><code class="docutils literal notranslate"><span class="pre">Experiment.features()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.get_child_experiments"><code class="docutils literal notranslate"><span class="pre">Experiment.get_child_experiments()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.get_parent_experiments"><code class="docutils literal notranslate"><span class="pre">Experiment.get_parent_experiments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.id"><code class="docutils literal notranslate"><span class="pre">Experiment.id</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_artifact"><code class="docutils literal notranslate"><span class="pre">Experiment.log_artifact()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Experiment.log_conda_environment()</span></code></a></li>

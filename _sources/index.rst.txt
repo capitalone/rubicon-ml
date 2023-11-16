@@ -137,6 +137,7 @@ To install all extra modules, use the ``all`` extra.
    integrations/integration-sklearn
    logging-examples/logging-feature-plots
    logging-examples/multiple-backend
+   logging-examples/manage-experiment-relationships
    logging-examples/register-custom-schema
    logging-examples/set-schema
    logging-examples/visualizing-logged-dataframes
