@@ -97,6 +97,16 @@ class Rubicon:
 
         return github_url
 
+    def is_auto_git_enabled(self) -> bool:
+        """Is git enabled for any of the configs."""
+        if isinstance(self.configs, list):
+            return any(_config.is_auto_git_enabled for _config in self.configs)
+
+        if self.configs is None:
+            return False
+
+        return self.configs.is_auto_git_enabled
+
     def _create_project_domain(
         self,
         name: str,
@@ -105,7 +115,7 @@ class Rubicon:
         training_metadata: Optional[Union[List[Tuple], Tuple]],
     ):
         """Instantiates and returns a project domain object."""
-        if self.config.is_auto_git_enabled and github_url is None:
+        if self.is_auto_git_enabled and github_url is None:
             github_url = self._get_github_url()
 
         if training_metadata is not None:
