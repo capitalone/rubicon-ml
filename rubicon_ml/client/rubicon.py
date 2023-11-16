@@ -98,7 +98,7 @@ class Rubicon:
         return github_url
 
     def is_auto_git_enabled(self) -> bool:
-        """Is git enabled for any of the configs."""
+        """Check if git is enabled for any of the configs."""
         if isinstance(self.configs, list):
             return any(_config.is_auto_git_enabled for _config in self.configs)
 
