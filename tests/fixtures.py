@@ -104,7 +104,7 @@ def rubicon_composite_client():
 
     for i, repository in enumerate(rubicon.repositories):
         repository.filesystem.rm(
-            rubicon.config.storage_options["composite_config"][i]["root_dir"],
+            rubicon.configs[i].root_dir,
             recursive=True,
         )
 

@@ -1,6 +1,6 @@
 import subprocess
 import warnings
-from typing import List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from rubicon_ml import domain
 from rubicon_ml.client import Config, Project
@@ -38,24 +38,52 @@ class Rubicon:
         persistence: Optional[str] = "filesystem",
         root_dir: Optional[str] = None,
         auto_git_enabled: bool = False,
+        composite_config: Optional[List[Dict[str, Any]]] = None,
         **storage_options,
     ):
-        self.config = Config(persistence, root_dir, auto_git_enabled, **storage_options)
+        if composite_config is not None:
+            self.configs = [
+                Config(
+                    persistence=config["persistence"],
+                    root_dir=config["root_dir"],
+                    auto_git_enabled=auto_git_enabled,
+                    **storage_options,
+                )
+                for config in composite_config
+            ]
+        else:
+            self.configs = [Config(persistence, root_dir, auto_git_enabled, **storage_options)]
+
+    @property
+    def config(self):
+        """
+        Returns a single config.
+
+        Exists to promote backwards compatibility.
+
+        Returns
+        -------
+        Config
+            A single Config
+        """
+        return self.configs[0]
 
     @property
     def repository(self):
-        return self.config.repository
+        if len(self.configs) > 1:
+            raise ValueError("More than one repository available. Use `.repositories` instead.")
+        return self.configs[0].repository
 
     @property
     def repositories(self):
-        if hasattr(self.config, "repositories"):
-            return self.config.repositories
-        else:
-            return [self.config.repository]
+        return [config.repository for config in self.configs]
 
     @repository.setter
     def repository(self, value):
-        self.config.repository = value
+        if len(self.configs) > 1:
+            raise ValueError("Cannot set when more than one repository available!")
+
+        self.configs[0].repository = value
 
     def _get_github_url(self):
         """Returns the repository URL of the `git` repo it is called from."""
@@ -70,15 +98,25 @@ class Rubicon:
 
         return github_url
 
+    def is_auto_git_enabled(self) -> bool:
+        """Check if git is enabled for any of the configs."""
+        if isinstance(self.configs, list):
+            return any(_config.is_auto_git_enabled for _config in self.configs)
+
+        if self.configs is None:
+            return False
+
+        return self.configs.is_auto_git_enabled
+
     def _create_project_domain(
         self,
         name: str,
-        description: str,
-        github_url: str,
-        training_metadata: Union[List[Tuple], Tuple],
+        description: Optional[str],
+        github_url: Optional[str],
+        training_metadata: Optional[Union[List[Tuple], Tuple]],
     ):
         """Instantiates and returns a project domain object."""
-        if self.config.is_auto_git_enabled and github_url is None:
+        if self.is_auto_git_enabled and github_url is None:
             github_url = self._get_github_url()
 
         if training_metadata is not None:
@@ -94,7 +132,13 @@ class Rubicon:
         )
 
     @failsafe
-    def create_project(self, name, description=None, github_url=None, training_metadata=None):
+    def create_project(
+        self,
+        name: str,
+        description: Optional[str] = None,
+        github_url: Optional[str] = None,
+        training_metadata: Optional[Union[Tuple, List[Tuple]]] = None,
+    ) -> Project:
         """Create a project.
 
         Parameters
@@ -120,10 +164,10 @@ class Rubicon:
         for repo in self.repositories:
             repo.create_project(project)
 
-        return Project(project, self.config)
+        return Project(project, self.configs)
 
     @failsafe
-    def get_project(self, name=None, id=None):
+    def get_project(self, name: Optional[str] = None, id: Optional[str] = None) -> Project:
         """Get a project.
 
         Parameters
@@ -196,7 +240,7 @@ class Rubicon:
         return project.to_df(df_type=df_type, group_by=None)
 
     @failsafe
-    def get_or_create_project(self, name, **kwargs):
+    def get_or_create_project(self, name: str, **kwargs):
         """Get or create a project.
 
         Parameters

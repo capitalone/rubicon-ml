@@ -49,43 +49,35 @@ class Config:
         **storage_options,
     ):
         self.storage_options = storage_options
-        if storage_options is not None and "composite_config" in storage_options:
-            composite_config = storage_options.get("composite_config", [])
-            repositories = []
-            for config in composite_config:
-                self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
-                    config["persistence"], config["root_dir"], is_auto_git_enabled
-                )
-                repositories.append(self._get_repository())
 
-            self.repositories = repositories
-        else:
-            self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
-                persistence, root_dir, is_auto_git_enabled
-            )
-            self.repository = self._get_repository()
+        self.persistence, self.root_dir, self.is_auto_git_enabled = self._load_config(
+            persistence, root_dir, is_auto_git_enabled
+        )
+        self.repository = self._get_repository()
 
-    def _check_is_in_git_repo(self):
+    @staticmethod
+    def _check_is_in_git_repo():
         """Raise a `RubiconException` if not called from within a `git` repository."""
         if subprocess.run(["git", "rev-parse", "--git-dir"], capture_output=True).returncode != 0:
             raise RubiconException(
                 "Not a `git` repo: Falied to locate the '.git' directory in this or any parent directories."
             )
 
+    @classmethod
     def _load_config(
-        self, persistence: Optional[str], root_dir: Optional[str], is_auto_git_enabled: bool
+        cls, persistence: Optional[str], root_dir: Optional[str], is_auto_git_enabled: bool
     ) -> Tuple[str, Optional[str], bool]:
         """Get the configuration values."""
         persistence = os.environ.get("PERSISTENCE", persistence)
-        if persistence not in self.PERSISTENCE_TYPES:
-            raise ValueError(f"PERSISTENCE must be one of {self.PERSISTENCE_TYPES}.")
+        if persistence not in cls.PERSISTENCE_TYPES:
+            raise ValueError(f"PERSISTENCE must be one of {cls.PERSISTENCE_TYPES}.")
 
         root_dir = os.environ.get("ROOT_DIR", root_dir)
         if root_dir is None and persistence == "filesystem":
             raise ValueError("root_dir cannot be None.")
 
         if is_auto_git_enabled:
-            self._check_is_in_git_repo()
+            cls._check_is_in_git_repo()
 
         return (persistence, root_dir, is_auto_git_enabled)
 
