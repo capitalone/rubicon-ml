@@ -70,7 +70,8 @@ class VizBase:
             "external" to serve the dashboard at an external link. "tab" to serve
             the dashboard at an external link and open a new browser tab to
             said link. "jupyterlab" to render the dashboard in a new window within
-            the current Jupyter session.
+            the current Jupyterlab session. Defaults to "inline", which is a no-op
+            outside of Jupyterlab sessions.
         dash_kwargs : dict, optional
             Keyword arguments to be passed along to the newly instantiated
             Dash object. Available options can be found at
@@ -86,7 +87,7 @@ class VizBase:
         if jupyter_mode not in JUPYTER_MODES:
             raise RuntimeError(
                 f"Invalid `jupyter_mode` '{jupyter_mode}'. Must be one of "
-                f"{' '.join(JUPYTER_MODES)}"
+                f"{', '.join(JUPYTER_MODES)}"
             )
 
         if self.experiments is None:
