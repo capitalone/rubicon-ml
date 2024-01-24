@@ -59,15 +59,18 @@ class VizBase:
             "extensions of `VizBase` must implement `register_callbacks(self)`"
         )
 
-    def serve(self, in_background=False, dash_kwargs={}, run_server_kwargs={}):
+    def serve(self, jupyter_mode="inline", dash_kwargs={}, run_server_kwargs={}):
         """Serve the Dash app on the next available port to render the visualization.
 
         Parameters
         ----------
-        in_background : bool, optional
-            True to run the Dash app on a thread and return execution to the
-            interpreter. False to run the Dash app inline and block execution.
-            Defaults to False.
+        jupyter_mode : "external", "inline", "jupyterlab", or "tab", optional
+            How to render the dashboard when running from Jupyterlab. "inline"
+            to render the dashboard in the current notebook's output cell.
+            "external" to serve the dashboard at an external link. "tab" to serve
+            the dashboard at an external link and open a new browser tab to
+            said link. "jupyterlab" to render the dashboard in a new window within
+            the current Jupyter session.
         dash_kwargs : dict, optional
             Keyword arguments to be passed along to the newly instantiated
             Dash object. Available options can be found at
@@ -79,6 +82,13 @@ class VizBase:
             the 'port' argument can be provided here to serve the app on a
             specific port.
         """
+        JUPYTER_MODES = ["external", "inline", "jupyterlab", "tab"]
+        if jupyter_mode not in JUPYTER_MODES:
+            raise RuntimeError(
+                f"Invalid `jupyter_mode` '{jupyter_mode}'. Must be one of "
+                f"{' '.join(JUPYTER_MODES)}"
+            )
+
         if self.experiments is None:
             raise RuntimeError(
                 f"`{self.__class__}.experiments` can not be None when `serve` is called"
@@ -103,61 +113,9 @@ class VizBase:
         }
         default_run_server_kwargs.update(run_server_kwargs)
 
+        if jupyter_mode != "inline":
+            default_run_server_kwargs["jupyter_mode"] = jupyter_mode
+
         _next_available_port = default_run_server_kwargs["port"] + 1
 
-        if in_background:
-            running_server_thread = threading.Thread(
-                name="run_server",
-                target=self.app.run_server,
-                kwargs=default_run_server_kwargs,
-            )
-            running_server_thread.daemon = True
-            running_server_thread.start()
-
-            port = default_run_server_kwargs.get("port")
-            if "proxy" in run_server_kwargs:
-                host = default_run_server_kwargs.get("proxy").split("::")[-1]
-            else:
-                host = f"http://localhost:{port}"
-
-            time.sleep(0.1)  # wait for thread to see if requested port is available
-            if not running_server_thread.is_alive():
-                raise RuntimeError(f"port {port} may already be in use")
-
-            return host
-        else:
-            self.app.run_server(**default_run_server_kwargs)
-
-    def show(self, i_frame_kwargs={}, dash_kwargs={}, run_server_kwargs={}):
-        """Show the Dash app inline in a Jupyter notebook.
-
-        Parameters
-        ----------
-        i_frame_kwargs : dict, optional
-            Keyword arguments to be passed along to the newly instantiated
-            IFrame object. Available options include 'height' and 'width'.
-        dash_kwargs : dict, optional
-            Keyword arguments to be passed along to the newly instantiated
-            Dash object. Available options can be found at
-            https://dash.plotly.com/reference#dash.dash.
-        run_server_kwargs : dict, optional
-            Keyword arguments to be passed along to `Dash.run_server`.
-            Available options can be found at
-            https://dash.plotly.com/reference#app.run_server. Most commonly,
-            the 'port' argument can be provided here to serve the app on a
-            specific port.
-        """
-        from IPython.display import IFrame
-
-        host = self.serve(
-            in_background=True, dash_kwargs=dash_kwargs, run_server_kwargs=run_server_kwargs
-        )
-        proxied_host = os.path.join(host, self.app.config["requests_pathname_prefix"].lstrip("/"))
-
-        default_i_frame_kwargs = {
-            "height": "600px",
-            "width": "100%",
-        }
-        default_i_frame_kwargs.update(i_frame_kwargs)
-
-        return IFrame(proxied_host, **default_i_frame_kwargs)
+        self.app.run_server(**default_run_server_kwargs)
