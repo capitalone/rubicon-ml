@@ -57,18 +57,22 @@ class VizBase:
             "extensions of `VizBase` must implement `register_callbacks(self)`"
         )
 
-    def serve(self, jupyter_mode="external", dash_kwargs={}, run_server_kwargs={}):
+    def serve(
+        self, in_background=False, jupyter_mode="external", dash_kwargs={}, run_server_kwargs={}
+    ):
         """Serve the Dash app on the next available port to render the visualization.
 
         Parameters
         ----------
+        in_background : bool, optional
+            DEPRECATED. Background processing is now handled by `jupyter_mode`.
         jupyter_mode : "external", "inline", "jupyterlab", or "tab", optional
             How to render the dashboard when running from Jupyterlab. "external"
             to serve the dashboard at an external link. "inline" to render the
             dashboard in the current notebook's output cell. "jupyterlab" to
-            render the dashboard in a new window within the current Jupyterlab session.
-            "tab" to serve the dashboard at an external link and open a new
-            browser tab to said link. Defaults to "external".
+            render the dashboard in a new window within the current Jupyterlab
+            session. "tab" to serve the dashboard at an external link and open a
+            new browser tab to said link. Defaults to "external".
         dash_kwargs : dict, optional
             Keyword arguments to be passed along to the newly instantiated
             Dash object. Available options can be found at
@@ -80,6 +84,12 @@ class VizBase:
             the 'port' argument can be provided here to serve the app on a
             specific port.
         """
+        if in_background:
+            warnings.warn(
+                "The `in_background` argument is deprecated and will have no effect, "
+                "Background processing is now handled by `jupyter_mode`."
+            )
+
         JUPYTER_MODES = ["external", "inline", "jupyterlab", "tab"]
         if jupyter_mode not in JUPYTER_MODES:
             raise ValueError(
@@ -121,6 +131,33 @@ class VizBase:
     def show(
         self, i_frame_kwargs={}, dash_kwargs={}, run_server_kwargs={}, height=None, width=None
     ):
+        """Serve the Dash app on the next available port to render the visualization.
+
+        Additionally, renders the visualization inline in the current Jupyter notebook.
+
+        Parameters
+        ----------
+        i_frame_kwargs: dict, optional
+            DEPRECATED. Use `height` and `width` instead.
+        dash_kwargs : dict, optional
+            Keyword arguments to be passed along to the newly instantiated
+            Dash object. Available options can be found at
+            https://dash.plotly.com/reference#dash.dash.
+        run_server_kwargs : dict, optional
+            Keyword arguments to be passed along to `Dash.run_server`.
+            Available options can be found at
+            https://dash.plotly.com/reference#app.run_server. Most commonly,
+            the 'port' argument can be provided here to serve the app on a
+            specific port.
+        height : int, str or None, optional
+            The height of the inline visualizaiton. Integers represent number
+            of pixels, strings represent a percentage of the window and must
+            end with '%'.
+        width : int, str or None, optional
+            The width of the inline visualizaiton. Integers represent number
+            of pixels, strings represent a percentage of the window and must
+            end with '%'.
+        """
         if i_frame_kwargs:
             warnings.warn(
                 "The `i_frame_kwargs` argument is deprecated and will have no effect, "
