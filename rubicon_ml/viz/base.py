@@ -85,7 +85,7 @@ class VizBase:
         """
         JUPYTER_MODES = ["external", "inline", "jupyterlab", "tab"]
         if jupyter_mode not in JUPYTER_MODES:
-            raise RuntimeError(
+            raise ValueError(
                 f"Invalid `jupyter_mode` '{jupyter_mode}'. Must be one of "
                 f"{', '.join(JUPYTER_MODES)}"
             )
