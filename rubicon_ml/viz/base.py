@@ -1,3 +1,5 @@
+import warnings
+
 import dash_bootstrap_components as dbc
 from dash import Dash, html
 
@@ -55,19 +57,18 @@ class VizBase:
             "extensions of `VizBase` must implement `register_callbacks(self)`"
         )
 
-    def serve(self, jupyter_mode="inline", dash_kwargs={}, run_server_kwargs={}):
+    def serve(self, jupyter_mode="external", dash_kwargs={}, run_server_kwargs={}):
         """Serve the Dash app on the next available port to render the visualization.
 
         Parameters
         ----------
         jupyter_mode : "external", "inline", "jupyterlab", or "tab", optional
-            How to render the dashboard when running from Jupyterlab. "inline"
-            to render the dashboard in the current notebook's output cell.
-            "external" to serve the dashboard at an external link. "tab" to serve
-            the dashboard at an external link and open a new browser tab to
-            said link. "jupyterlab" to render the dashboard in a new window within
-            the current Jupyterlab session. Defaults to "inline", which is a no-op
-            outside of Jupyterlab sessions.
+            How to render the dashboard when running from Jupyterlab. "external"
+            to serve the dashboard at an external link. "inline" to render the
+            dashboard in the current notebook's output cell. "jupyterlab" to
+            render the dashboard in a new window within the current Jupyterlab session.
+            "tab" to serve the dashboard at an external link and open a new
+            browser tab to said link. Defaults to "external".
         dash_kwargs : dict, optional
             Keyword arguments to be passed along to the newly instantiated
             Dash object. Available options can be found at
@@ -116,3 +117,23 @@ class VizBase:
         _next_available_port = default_run_server_kwargs["port"] + 1
 
         self.app.run_server(**default_run_server_kwargs)
+
+    def show(
+        self, i_frame_kwargs={}, dash_kwargs={}, run_server_kwargs={}, height=None, width=None
+    ):
+        if i_frame_kwargs:
+            warnings.warn(
+                "The `i_frame_kwargs` argument is deprecated and will have no effect, "
+                "use `height` and `width` instead."
+            )
+
+        if height is not None:
+            run_server_kwargs["jupyter_height"] = height
+        if width is not None:
+            run_server_kwargs["jupyter_width"] = width
+
+        self.serve(
+            jupyter_mode="inline",
+            dash_kwargs=dash_kwargs,
+            run_server_kwargs=run_server_kwargs,
+        )
