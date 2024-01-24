@@ -1,7 +1,3 @@
-import os
-import threading
-import time
-
 import dash_bootstrap_components as dbc
 from dash import Dash, html
 
