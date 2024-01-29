@@ -126,7 +126,7 @@ class VizBase:
 
         _next_available_port = default_run_server_kwargs["port"] + 1
 
-        self.app.run_server(**default_run_server_kwargs)
+        self.app.run(**default_run_server_kwargs)
 
     def show(
         self, i_frame_kwargs={}, dash_kwargs={}, run_server_kwargs={}, height=None, width=None
