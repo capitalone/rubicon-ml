@@ -90,7 +90,8 @@ class VizBase:
         if in_background:
             warnings.warn(
                 "The `in_background` argument is deprecated and will have no effect, "
-                "Background processing is now handled by `jupyter_mode`."
+                "Background processing is now handled by `jupyter_mode`.",
+                DeprecationWarning,
             )
 
         JUPYTER_MODES = ["external", "inline", "jupyterlab", "tab"]
@@ -164,7 +165,8 @@ class VizBase:
         if i_frame_kwargs:
             warnings.warn(
                 "The `i_frame_kwargs` argument is deprecated and will have no effect, "
-                "use `height` and `width` instead."
+                "use `height` and `width` instead.",
+                DeprecationWarning,
             )
 
         if height is not None:
