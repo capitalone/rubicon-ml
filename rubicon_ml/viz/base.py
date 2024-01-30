@@ -67,12 +67,15 @@ class VizBase:
         in_background : bool, optional
             DEPRECATED. Background processing is now handled by `jupyter_mode`.
         jupyter_mode : "external", "inline", "jupyterlab", or "tab", optional
-            How to render the dashboard when running from Jupyterlab. "external"
-            to serve the dashboard at an external link. "inline" to render the
-            dashboard in the current notebook's output cell. "jupyterlab" to
-            render the dashboard in a new window within the current Jupyterlab
-            session. "tab" to serve the dashboard at an external link and open a
-            new browser tab to said link. Defaults to "external".
+            How to render the dashboard when running from Jupyterlab.
+            * "external" to serve the dashboard at an external link.
+            * "inline" to render the dashboard in the current notebook's output
+              cell.
+            * "jupyterlab" to render the dashboard in a new window within the
+              current Jupyterlab session.
+            * "tab" to serve the dashboard at an external link and open a new
+              browser tab to said link.
+            Defaults to "external".
         dash_kwargs : dict, optional
             Keyword arguments to be passed along to the newly instantiated
             Dash object. Available options can be found at
