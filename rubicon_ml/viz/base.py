@@ -1,4 +1,5 @@
 import warnings
+from typing import Dict, Literal, Optional, Union
 
 import dash_bootstrap_components as dbc
 from dash import Dash, html
@@ -17,7 +18,7 @@ class VizBase:
 
     def __init__(
         self,
-        dash_title="base",
+        dash_title: Optional[str] = "base",
     ):
         self.dash_title = f"rubicon-ml: {dash_title}"
 
@@ -52,13 +53,17 @@ class VizBase:
             "extensions of `VizBase` must implement `load_experiment_data(self)`"
         )
 
-    def register_callbacks(self, link_experiment_table=False):
+    def register_callbacks(self, link_experiment_table: Optional[bool] = False):
         raise NotImplementedError(
             "extensions of `VizBase` must implement `register_callbacks(self)`"
         )
 
     def serve(
-        self, in_background=False, jupyter_mode="external", dash_kwargs={}, run_server_kwargs={}
+        self,
+        in_background: Optional[bool] = False,
+        jupyter_mode: Optional[Literal["external", "inline", "jupyterlab", "tab"]] = "external",
+        dash_kwargs: Optional[Dict] = {},
+        run_server_kwargs: Optional[Dict] = {},
     ):
         """Serve the Dash app on the next available port to render the visualization.
 
@@ -133,7 +138,12 @@ class VizBase:
         self.app.run(**default_run_server_kwargs)
 
     def show(
-        self, i_frame_kwargs={}, dash_kwargs={}, run_server_kwargs={}, height=None, width=None
+        self,
+        i_frame_kwargs: Optional[Dict] = {},
+        dash_kwargs: Optional[Dict] = {},
+        run_server_kwargs: Optional[Dict] = {},
+        height: Optional[Union[bool, None]] = None,
+        width: Optional[Union[bool, None]] = None,
     ):
         """Serve the Dash app on the next available port to render the visualization.
 
