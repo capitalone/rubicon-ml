@@ -18,7 +18,7 @@ class VizBase:
 
     def __init__(
         self,
-        dash_title: Optional[str] = "base",
+        dash_title: str = "base",
     ):
         self.dash_title = f"rubicon-ml: {dash_title}"
 
@@ -53,17 +53,17 @@ class VizBase:
             "extensions of `VizBase` must implement `load_experiment_data(self)`"
         )
 
-    def register_callbacks(self, link_experiment_table: Optional[bool] = False):
+    def register_callbacks(self, link_experiment_table: bool = False):
         raise NotImplementedError(
             "extensions of `VizBase` must implement `register_callbacks(self)`"
         )
 
     def serve(
         self,
-        in_background: Optional[bool] = False,
-        jupyter_mode: Optional[Literal["external", "inline", "jupyterlab", "tab"]] = "external",
-        dash_kwargs: Optional[Dict] = {},
-        run_server_kwargs: Optional[Dict] = {},
+        in_background: bool = False,
+        jupyter_mode: Literal["external", "inline", "jupyterlab", "tab"] = "external",
+        dash_kwargs: Dict = {},
+        run_server_kwargs: Dict = {},
     ):
         """Serve the Dash app on the next available port to render the visualization.
 
@@ -139,11 +139,11 @@ class VizBase:
 
     def show(
         self,
-        i_frame_kwargs: Optional[Dict] = {},
-        dash_kwargs: Optional[Dict] = {},
-        run_server_kwargs: Optional[Dict] = {},
-        height: Optional[Union[bool, None]] = None,
-        width: Optional[Union[bool, None]] = None,
+        i_frame_kwargs: Dict = {},
+        dash_kwargs: Dict = {},
+        run_server_kwargs: Dict = {},
+        height: Optional[Union[int, str]] = None,
+        width: Optional[Union[int, str]] = None,
     ):
         """Serve the Dash app on the next available port to render the visualization.
 
