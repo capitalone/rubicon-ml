@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Representing model metadata with a schema" href="schema-representation.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>API Reference - rubicon-ml v0.6.1</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>API Reference - rubicon-ml v0.6.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.1</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -254,7 +254,7 @@
 <h2>Rubicon<a class="headerlink" href="#rubicon" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Rubicon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'filesystem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">composite_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">storage_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon" title="Link to this definition">#</a></dt>
 <dd><p>The <cite>rubicon</cite> client’s entry point.</p>
 <p>Creates a <cite>Config</cite> and injects it into the client level
 objects at run-time.</p>
@@ -277,9 +277,24 @@ are passed directly to the underlying filesystem class.</p>
 </dl>
 </dd>
 </dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Rubicon.config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#rubicon_ml.Rubicon.config" title="Link to this definition">#</a></dt>
+<dd><p>Returns a single config.</p>
+<p>Exists to promote backwards compatibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Config</dt><dd><p>A single Config</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.create_project">
-<span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">github_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.create_project" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">github_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Project" title="rubicon_ml.client.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#rubicon_ml.Rubicon.create_project" title="Link to this definition">#</a></dt>
 <dd><p>Create a project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -308,7 +323,7 @@ used across each experiment in this project.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.get_or_create_project">
-<span class="sig-name descname"><span class="pre">get_or_create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_or_create_project" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_or_create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_or_create_project" title="Link to this definition">#</a></dt>
 <dd><p>Get or create a project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -331,7 +346,7 @@ used across each experiment in this project.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.get_project">
-<span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.get_project" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Project" title="rubicon_ml.client.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#rubicon_ml.Rubicon.get_project" title="Link to this definition">#</a></dt>
 <dd><p>Get a project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -386,6 +401,12 @@ data grouped by <cite>group_by</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Rubicon.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Rubicon.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Check if git is enabled for any of the configs.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Rubicon.projects">
 <span class="sig-name descname"><span class="pre">projects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Rubicon.projects" title="Link to this definition">#</a></dt>
 <dd><p>Get a list of available projects.</p>
@@ -427,7 +448,7 @@ is on.</p>
 <span id="library-reference-project"></span><h2>Project<a class="headerlink" href="#project" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubicon_ml.Project">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ProjectDomain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Config</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ProjectDomain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Config</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Config</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Project" title="Link to this definition">#</a></dt>
 <dd><p>A client project.</p>
 <p>A <cite>project</cite> is a collection of <cite>experiments</cite>,
 <cite>dataframes</cite>, and <cite>artifacts</cite> identified by a unique name.</p>
@@ -675,6 +696,12 @@ this client object.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Project.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.log_artifact">
 <span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextIO</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_artifact" title="Link to this definition">#</a></dt>
 <dd><p>Log an artifact to this client object.</p>
@@ -883,6 +910,18 @@ Useful for recreating your exact environment at a later date.</p>
 <dt class="sig sig-object py" id="rubicon_ml.Project.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Project.name" title="Link to this definition">#</a></dt>
 <dd><p>Get the project’s name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Project.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Project.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Project.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Project.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1213,6 +1252,12 @@ this client object.</p>
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rubicon_ml.Experiment.id" title="Link to this definition">#</a></dt>
 <dd><p>Get the experiment’s id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Experiment.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1590,6 +1635,18 @@ belongs to.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Experiment.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Experiment.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.tags">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Experiment.tags" title="Link to this definition">#</a></dt>
 <dd><p>Get this client object’s tags.</p>
@@ -1659,6 +1716,12 @@ be a parameter.</p>
 <dd><p>Get the parameter’s id.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Parameter.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Parameter.name" title="Link to this definition">#</a></dt>
@@ -1683,6 +1746,18 @@ be a parameter.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Parameter.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Parameter.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1764,6 +1839,12 @@ logged to.</p>
 <dd><p>Get the feature’s importance.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Feature.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Feature.name" title="Link to this definition">#</a></dt>
@@ -1788,6 +1869,18 @@ logged to.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Feature.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Feature.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1859,6 +1952,12 @@ logged to.</p>
 <dd><p>Get the metric’s id.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Metric.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Metric.name" title="Link to this definition">#</a></dt>
@@ -1883,6 +1982,18 @@ logged to.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Metric.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Metric.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1971,6 +2082,12 @@ into a <cite>pandas</cite> or <cite>dask</cite> dataframe.</p>
 <dd><p>Get the dataframe’s id.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Dataframe.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Dataframe.name" title="Link to this definition">#</a></dt>
@@ -2029,6 +2146,18 @@ URL above.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Dataframe.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Dataframe.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2138,6 +2267,12 @@ unpickled. Will be returned as bytes by default.</p>
 <dd><p>Get the artifact’s id.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.is_auto_git_enabled">
+<span class="sig-name descname"><span class="pre">is_auto_git_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rubicon_ml.Artifact.is_auto_git_enabled" title="Link to this definition">#</a></dt>
+<dd><p>Is git enabled for any of the configs.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#rubicon_ml.Artifact.name" title="Link to this definition">#</a></dt>
@@ -2162,6 +2297,18 @@ unpickled. Will be returned as bytes by default.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.repositories">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repositories</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseRepository</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Artifact.repositories" title="Link to this definition">#</a></dt>
+<dd><p>Get all repositories.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.repository">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseRepository</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#rubicon_ml.Artifact.repository" title="Link to this definition">#</a></dt>
+<dd><p>Get the repository.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2683,14 +2830,26 @@ to plot across the y-axis.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.DataframePlot.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot.serve" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot.serve" title="Link to this definition">#</a></dt>
 <dd><p>Serve the Dash app on the next available port to render the visualization.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>True to run the Dash app on a thread and return execution to the
-interpreter. False to run the Dash app inline and block execution.
-Defaults to False.</p>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2709,13 +2868,13 @@ specific port.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.DataframePlot.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot.show" title="Link to this definition">#</a></dt>
-<dd><p>Show the Dash app inline in a Jupyter notebook.</p>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot.show" title="Link to this definition">#</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>i_frame_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
-IFrame object. Available options include ‘height’ and ‘width’.</p>
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2726,6 +2885,14 @@ Available options can be found at
 <a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
 the ‘port’ argument can be provided here to serve the app on a
 specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
 </dd>
 </dl>
 </dd>
@@ -2753,14 +2920,26 @@ Defaults to True.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.ExperimentsTable.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable.serve" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable.serve" title="Link to this definition">#</a></dt>
 <dd><p>Serve the Dash app on the next available port to render the visualization.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>True to run the Dash app on a thread and return execution to the
-interpreter. False to run the Dash app inline and block execution.
-Defaults to False.</p>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2779,13 +2958,13 @@ specific port.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.ExperimentsTable.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable.show" title="Link to this definition">#</a></dt>
-<dd><p>Show the Dash app inline in a Jupyter notebook.</p>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable.show" title="Link to this definition">#</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>i_frame_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
-IFrame object. Available options include ‘height’ and ‘width’.</p>
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2796,6 +2975,14 @@ Available options can be found at
 <a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
 the ‘port’ argument can be provided here to serve the app on a
 specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
 </dd>
 </dl>
 </dd>
@@ -2831,14 +3018,26 @@ selects the metric loaded first.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.MetricCorrelationPlot.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot.serve" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot.serve" title="Link to this definition">#</a></dt>
 <dd><p>Serve the Dash app on the next available port to render the visualization.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>True to run the Dash app on a thread and return execution to the
-interpreter. False to run the Dash app inline and block execution.
-Defaults to False.</p>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2857,13 +3056,13 @@ specific port.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.MetricCorrelationPlot.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot.show" title="Link to this definition">#</a></dt>
-<dd><p>Show the Dash app inline in a Jupyter notebook.</p>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot.show" title="Link to this definition">#</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>i_frame_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
-IFrame object. Available options include ‘height’ and ‘width’.</p>
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2874,6 +3073,14 @@ Available options can be found at
 <a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
 the ‘port’ argument can be provided here to serve the app on a
 specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
 </dd>
 </dl>
 </dd>
@@ -2905,14 +3112,26 @@ selects the metric loaded first.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.MetricListsComparison.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison.serve" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison.serve" title="Link to this definition">#</a></dt>
 <dd><p>Serve the Dash app on the next available port to render the visualization.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>True to run the Dash app on a thread and return execution to the
-interpreter. False to run the Dash app inline and block execution.
-Defaults to False.</p>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2931,13 +3150,13 @@ specific port.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.MetricListsComparison.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison.show" title="Link to this definition">#</a></dt>
-<dd><p>Show the Dash app inline in a Jupyter notebook.</p>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison.show" title="Link to this definition">#</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>i_frame_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
-IFrame object. Available options include ‘height’ and ‘width’.</p>
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -2948,6 +3167,14 @@ Available options can be found at
 <a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
 the ‘port’ argument can be provided here to serve the app on a
 specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
 </dd>
 </dl>
 </dd>
@@ -2979,14 +3206,26 @@ otherwise. Defaults to True.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.Dashboard.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard.serve" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard.serve" title="Link to this definition">#</a></dt>
 <dd><p>Serve the Dash app on the next available port to render the visualization.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>True to run the Dash app on a thread and return execution to the
-interpreter. False to run the Dash app inline and block execution.
-Defaults to False.</p>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -3005,13 +3244,13 @@ specific port.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.viz.Dashboard.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard.show" title="Link to this definition">#</a></dt>
-<dd><p>Show the Dash app inline in a Jupyter notebook.</p>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard.show" title="Link to this definition">#</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>i_frame_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
-IFrame object. Available options include ‘height’ and ‘width’.</p>
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
 </dd>
 <dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
 Dash object. Available options can be found at
@@ -3022,6 +3261,14 @@ Available options can be found at
 <a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
 the ‘port’ argument can be provided here to serve the app on a
 specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
 </dd>
 </dl>
 </dd>
@@ -3305,11 +3552,13 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#">API Reference</a><ul>
 <li><a class="reference internal" href="#rubicon">Rubicon</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon"><code class="docutils literal notranslate"><span class="pre">Rubicon</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.config"><code class="docutils literal notranslate"><span class="pre">Rubicon.config</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.create_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.create_project()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_or_create_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_or_create_project()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project_as_dask_df"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project_as_dask_df()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.get_project_as_df"><code class="docutils literal notranslate"><span class="pre">Rubicon.get_project_as_df()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Rubicon.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Rubicon.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.projects"><code class="docutils literal notranslate"><span class="pre">Rubicon.projects()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Rubicon.sync"><code class="docutils literal notranslate"><span class="pre">Rubicon.sync()</span></code></a></li>
 </ul>
@@ -3332,6 +3581,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.experiments_from_archive"><code class="docutils literal notranslate"><span class="pre">Project.experiments_from_archive()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.github_url"><code class="docutils literal notranslate"><span class="pre">Project.github_url</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.id"><code class="docutils literal notranslate"><span class="pre">Project.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Project.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_artifact"><code class="docutils literal notranslate"><span class="pre">Project.log_artifact()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Project.log_conda_environment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_dataframe"><code class="docutils literal notranslate"><span class="pre">Project.log_dataframe()</span></code></a></li>
@@ -3340,6 +3590,8 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Project.log_pip_requirements()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_with_schema"><code class="docutils literal notranslate"><span class="pre">Project.log_with_schema()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.repositories"><code class="docutils literal notranslate"><span class="pre">Project.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.repository"><code class="docutils literal notranslate"><span class="pre">Project.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.set_schema"><code class="docutils literal notranslate"><span class="pre">Project.set_schema()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.to_dask_df"><code class="docutils literal notranslate"><span class="pre">Project.to_dask_df()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.to_df"><code class="docutils literal notranslate"><span class="pre">Project.to_df()</span></code></a></li>
@@ -3367,6 +3619,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.get_child_experiments"><code class="docutils literal notranslate"><span class="pre">Experiment.get_child_experiments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.get_parent_experiments"><code class="docutils literal notranslate"><span class="pre">Experiment.get_parent_experiments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.id"><code class="docutils literal notranslate"><span class="pre">Experiment.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Experiment.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_artifact"><code class="docutils literal notranslate"><span class="pre">Experiment.log_artifact()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Experiment.log_conda_environment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.log_dataframe()</span></code></a></li>
@@ -3383,6 +3636,8 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.parameters"><code class="docutils literal notranslate"><span class="pre">Experiment.parameters()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.project"><code class="docutils literal notranslate"><span class="pre">Experiment.project</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.remove_tags"><code class="docutils literal notranslate"><span class="pre">Experiment.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.repositories"><code class="docutils literal notranslate"><span class="pre">Experiment.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.repository"><code class="docutils literal notranslate"><span class="pre">Experiment.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.tags"><code class="docutils literal notranslate"><span class="pre">Experiment.tags</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.training_metadata"><code class="docutils literal notranslate"><span class="pre">Experiment.training_metadata</span></code></a></li>
 </ul>
@@ -3395,9 +3650,12 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.created_at"><code class="docutils literal notranslate"><span class="pre">Parameter.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.description"><code class="docutils literal notranslate"><span class="pre">Parameter.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.id"><code class="docutils literal notranslate"><span class="pre">Parameter.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Parameter.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.name"><code class="docutils literal notranslate"><span class="pre">Parameter.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.parent"><code class="docutils literal notranslate"><span class="pre">Parameter.parent</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.remove_tags"><code class="docutils literal notranslate"><span class="pre">Parameter.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.repositories"><code class="docutils literal notranslate"><span class="pre">Parameter.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.repository"><code class="docutils literal notranslate"><span class="pre">Parameter.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.tags"><code class="docutils literal notranslate"><span class="pre">Parameter.tags</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.value"><code class="docutils literal notranslate"><span class="pre">Parameter.value</span></code></a></li>
 </ul>
@@ -3411,9 +3669,12 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Feature.description"><code class="docutils literal notranslate"><span class="pre">Feature.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.id"><code class="docutils literal notranslate"><span class="pre">Feature.id</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.importance"><code class="docutils literal notranslate"><span class="pre">Feature.importance</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Feature.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.name"><code class="docutils literal notranslate"><span class="pre">Feature.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.parent"><code class="docutils literal notranslate"><span class="pre">Feature.parent</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.remove_tags"><code class="docutils literal notranslate"><span class="pre">Feature.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.repositories"><code class="docutils literal notranslate"><span class="pre">Feature.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.repository"><code class="docutils literal notranslate"><span class="pre">Feature.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.tags"><code class="docutils literal notranslate"><span class="pre">Feature.tags</span></code></a></li>
 </ul>
 </li>
@@ -3426,9 +3687,12 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Metric.description"><code class="docutils literal notranslate"><span class="pre">Metric.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.directionality"><code class="docutils literal notranslate"><span class="pre">Metric.directionality</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.id"><code class="docutils literal notranslate"><span class="pre">Metric.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Metric.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.name"><code class="docutils literal notranslate"><span class="pre">Metric.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.parent"><code class="docutils literal notranslate"><span class="pre">Metric.parent</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.remove_tags"><code class="docutils literal notranslate"><span class="pre">Metric.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.repositories"><code class="docutils literal notranslate"><span class="pre">Metric.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.repository"><code class="docutils literal notranslate"><span class="pre">Metric.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.tags"><code class="docutils literal notranslate"><span class="pre">Metric.tags</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.value"><code class="docutils literal notranslate"><span class="pre">Metric.value</span></code></a></li>
 </ul>
@@ -3442,10 +3706,13 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.description"><code class="docutils literal notranslate"><span class="pre">Dataframe.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.get_data"><code class="docutils literal notranslate"><span class="pre">Dataframe.get_data()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.id"><code class="docutils literal notranslate"><span class="pre">Dataframe.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Dataframe.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.name"><code class="docutils literal notranslate"><span class="pre">Dataframe.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.parent"><code class="docutils literal notranslate"><span class="pre">Dataframe.parent</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.plot"><code class="docutils literal notranslate"><span class="pre">Dataframe.plot()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.remove_tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.repositories"><code class="docutils literal notranslate"><span class="pre">Dataframe.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.repository"><code class="docutils literal notranslate"><span class="pre">Dataframe.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.tags</span></code></a></li>
 </ul>
 </li>
@@ -3460,9 +3727,12 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.download"><code class="docutils literal notranslate"><span class="pre">Artifact.download()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.get_data"><code class="docutils literal notranslate"><span class="pre">Artifact.get_data()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.id"><code class="docutils literal notranslate"><span class="pre">Artifact.id</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Artifact.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.name"><code class="docutils literal notranslate"><span class="pre">Artifact.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.parent"><code class="docutils literal notranslate"><span class="pre">Artifact.parent</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.remove_tags"><code class="docutils literal notranslate"><span class="pre">Artifact.remove_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.repositories"><code class="docutils literal notranslate"><span class="pre">Artifact.repositories</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.repository"><code class="docutils literal notranslate"><span class="pre">Artifact.repository</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.tags"><code class="docutils literal notranslate"><span class="pre">Artifact.tags</span></code></a></li>
 </ul>
 </li>
