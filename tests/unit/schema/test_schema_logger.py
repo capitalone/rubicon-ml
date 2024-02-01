@@ -213,7 +213,9 @@ def test_log_parameters_with_schema(objects_to_log, rubicon_project, parameter_s
 
 
 @pytest.mark.parametrize("infer", [True, False])
-def test_log_nested_schema(objects_to_log, rubicon_project, another_object_schema, nested_schema, infer):
+def test_log_nested_schema(
+    objects_to_log, rubicon_project, another_object_schema, nested_schema, infer
+):
     """Testing ``Project.log_with_schema`` can log nested schema."""
 
     if infer:
