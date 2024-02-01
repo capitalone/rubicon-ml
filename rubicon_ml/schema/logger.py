@@ -95,7 +95,11 @@ def _safe_call_func(obj, func, optional, default=None):
 @contextmanager
 def _set_temporary_schema(project, schema_name):
     original_schema = project.schema_
-    project.set_schema(registry.get_schema(schema_name))
+
+    if schema_name == "infer":
+        delattr(project, "schema_")
+    else:
+        project.set_schema(registry.get_schema(schema_name))
 
     yield
 

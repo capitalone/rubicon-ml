@@ -212,11 +212,15 @@ def test_log_parameters_with_schema(objects_to_log, rubicon_project, parameter_s
     assert parameter_b.value == "param env value"
 
 
-def test_log_nested_schema(objects_to_log, rubicon_project, another_object_schema, nested_schema):
+@pytest.mark.parametrize("infer", [True, False])
+def test_log_nested_schema(objects_to_log, rubicon_project, another_object_schema, nested_schema, infer):
     """Testing ``Project.log_with_schema`` can log nested schema."""
 
+    if infer:
+        nested_schema["schema"][0]["name"] = "infer"
+
     object_to_log, another_object = objects_to_log
-    schema_to_patch = {"AnotherObject": lambda: another_object_schema}
+    schema_to_patch = {"tests___AnotherObject": lambda: another_object_schema}
 
     with mock.patch.dict(RUBICON_SCHEMA_REGISTRY, schema_to_patch, clear=True):
         rubicon_project.set_schema(nested_schema)
