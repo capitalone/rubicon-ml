@@ -382,7 +382,7 @@ def parameter_schema():
 def nested_schema():
     """Returns a schema for testing nested schema."""
 
-    return {"schema": [{"name": "AnotherObject", "attr": "object_"}]}
+    return {"schema": [{"name": "tests___AnotherObject", "attr": "object_"}]}
 
 
 @pytest.fixture
