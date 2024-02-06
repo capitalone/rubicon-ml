@@ -4,12 +4,12 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
-from rubicon_ml.domain.mixin import TagMixin
+from rubicon_ml.domain.mixin import TagMixin, CommentMixin
 from rubicon_ml.domain.utils import TrainingMetadata, uuid
 
 
 @dataclass
-class Experiment(TagMixin):
+class Experiment(TagMixin, CommentMixin):
     project_name: str
 
     id: str = field(default_factory=uuid.uuid4)
@@ -20,4 +20,5 @@ class Experiment(TagMixin):
     commit_hash: Optional[str] = None
     training_metadata: Optional[TrainingMetadata] = None
     tags: List[str] = field(default_factory=list)
+    comments: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.utcnow)

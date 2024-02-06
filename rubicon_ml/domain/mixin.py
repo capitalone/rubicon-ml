@@ -25,3 +25,18 @@ class TagMixin:
             A list of string tags to remove from this domain model.
         """
         self.tags = list(set(self.tags).difference(set(tags)))
+
+
+class CommentMixin:
+    """Adds comment support to a domain model."""
+
+    def add_comments(self, comments: List[str]):
+        """
+        Add new comments to this model.
+
+        Parameters
+        ----------
+        comments : List[str]
+            A list of string comments to add to the domain model.
+        """
+        self.comments = list(set(self.comments).union(set(comments)))

@@ -1212,3 +1212,64 @@ class BaseRepository:
         sorted_tag_data = [json.loads(tag_data[p]) for _, p in sorted_tag_paths]
 
         return sorted_tag_data
+
+    # ---------- Comments ----------
+
+    def _get_comment_metadata_root(
+        self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
+    ):
+        """Returns the directory to write comments to."""
+        get_metadata_root_lookup = {
+            "Artifact": self._get_artifact_metadata_root,
+            "Dataframe": self._get_dataframe_metadata_root,
+            "Experiment": self._get_experiment_metadata_root,
+            "Metric": self._get_metric_metadata_root,
+            "Feature": self._get_feature_metadata_root,
+            "Parameter": self._get_parameter_metadata_root,
+        }
+
+        try:
+            get_metadata_root = get_metadata_root_lookup[entity_type]
+        except KeyError:
+            raise ValueError("`experiment_id` and `entity_identifier` can not both be `None`.")
+
+        if entity_type == "Experiment":
+            experiment_metadata_root = get_metadata_root(project_name)
+
+            return f"{experiment_metadata_root}/{experiment_id}"
+        else:
+            entity_metadata_root = get_metadata_root(project_name, experiment_id)
+
+            # We want to slugify the names of Metrics, Features, and Parameters- not Artifacts, Dataframes, or Experiments
+            if entity_type in ["Metric", "Feature", "Parameter"]:
+                entity_identifier = slugify(entity_identifier)
+            return f"{entity_metadata_root}/{entity_identifier}"
+
+    def add_comments(
+        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
+    ):
+        """Persist comments to the configured filesystem.
+
+        Parameters
+        ----------
+        project_name : str
+            The name of the project the object to comment
+            belongs to.
+        comments : list of str
+            The comment values to persist.
+        experiment_id : str, optional
+            The ID of the experiment to apply the comments
+            `comments` to.
+        entity_identifier : str, optional
+            The ID or name of the entity to apply the comments
+            `comments` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
+        """
+        comment_metadata_root = self._get_comment_metadata_root(
+            project_name, experiment_id, entity_identifier, entity_type
+        )
+        comment_metadata_path = f"{comment_metadata_root}/comments_{domain.utils.uuid.uuid4()}.json"
+
+        self._persist_domain({"added_comments": comments}, comment_metadata_path)

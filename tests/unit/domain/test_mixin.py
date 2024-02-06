@@ -1,9 +1,10 @@
-from rubicon_ml.domain.mixin import TagMixin
+from rubicon_ml.domain.mixin import TagMixin, CommentMixin
 
 
-class Taggable(TagMixin):
-    def __init__(self, tags=[]):
+class Taggable(TagMixin, CommentMixin):
+    def __init__(self, tags=[], comments=[]):
         self.tags = tags
+        self.comments = comments
 
 
 def test_add_tags():
@@ -25,3 +26,10 @@ def test_remove_tags():
     taggable.remove_tags(["x"])
 
     assert taggable.tags == ["y"]
+
+
+def test_add_comments():
+    taggable = Taggable()
+    taggable.add_comments(["x"])
+
+    assert taggable.comments == ["x"]

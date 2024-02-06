@@ -980,3 +980,25 @@ def test_get_tags_with_no_results(memory_repository):
     )
 
     assert tags == []
+
+
+def test_add_comments(memory_repository):
+    repository = memory_repository
+    experiment = _create_experiment(repository)
+    repository.add_comments(
+        experiment.project_name,
+        ["wow"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    comments_glob = f"{repository.root_dir}/{slugify(experiment.project_name)}/experiments/{experiment.id}/comments_*.json"
+    comments_files = repository.filesystem.glob(comments_glob)
+
+    assert len(comments_files) == 1
+
+    open_file = repository.filesystem.open(comments_files[0])
+    with open_file as f:
+        comments_json = json.load(f)
+
+    assert ["wow"] == comments_json["added_comments"]
