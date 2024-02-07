@@ -45,4 +45,4 @@ jobs:
         pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
       run: |
-        pytest -m 
+        pytest 
