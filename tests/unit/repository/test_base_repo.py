@@ -987,7 +987,7 @@ def test_add_comments(memory_repository):
     experiment = _create_experiment(repository)
     repository.add_comments(
         experiment.project_name,
-        ["wow"],
+        ["this is a comment"],
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
@@ -1001,4 +1001,4 @@ def test_add_comments(memory_repository):
     with open_file as f:
         comments_json = json.load(f)
 
-    assert ["wow"] == comments_json["added_comments"]
+    assert ["this is a comment"] == comments_json["added_comments"]

@@ -39,4 +39,4 @@ class CommentMixin:
         comments : List[str]
             A list of string comments to add to the domain model.
         """
-        self.comments = list(set(self.comments).union(set(comments)))
+        self.comments.extend(comments)

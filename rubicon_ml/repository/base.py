@@ -1219,31 +1219,10 @@ class BaseRepository:
         self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
     ):
         """Returns the directory to write comments to."""
-        get_metadata_root_lookup = {
-            "Artifact": self._get_artifact_metadata_root,
-            "Dataframe": self._get_dataframe_metadata_root,
-            "Experiment": self._get_experiment_metadata_root,
-            "Metric": self._get_metric_metadata_root,
-            "Feature": self._get_feature_metadata_root,
-            "Parameter": self._get_parameter_metadata_root,
-        }
-
-        try:
-            get_metadata_root = get_metadata_root_lookup[entity_type]
-        except KeyError:
-            raise ValueError("`experiment_id` and `entity_identifier` can not both be `None`.")
-
-        if entity_type == "Experiment":
-            experiment_metadata_root = get_metadata_root(project_name)
-
-            return f"{experiment_metadata_root}/{experiment_id}"
-        else:
-            entity_metadata_root = get_metadata_root(project_name, experiment_id)
-
-            # We want to slugify the names of Metrics, Features, and Parameters- not Artifacts, Dataframes, or Experiments
-            if entity_type in ["Metric", "Feature", "Parameter"]:
-                entity_identifier = slugify(entity_identifier)
-            return f"{entity_metadata_root}/{entity_identifier}"
+        # comments and tags are currently written to the same root with a different filename
+        return self._get_tag_metadata_root(
+            project_name, experiment_id, entity_identifier, entity_type
+        )
 
     def add_comments(
         self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
