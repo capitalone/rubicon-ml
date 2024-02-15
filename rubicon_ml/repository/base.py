@@ -1252,3 +1252,51 @@ class BaseRepository:
         comment_metadata_path = f"{comment_metadata_root}/comments_{domain.utils.uuid.uuid4()}.json"
 
         self._persist_domain({"added_comments": comments}, comment_metadata_path)
+
+    def _sort_comment_paths(self, comment_paths):
+        """Sorts the paths in `comment_paths` by when they were
+        created.
+        """
+        return self._sort_tag_paths(comment_paths)
+
+    def get_comments(
+        self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
+    ):
+        """Retrieve comments from the configured filesystem.
+
+        Parameters
+        ----------
+        project_name : str
+            The name of the project the object to retrieve
+            comments from belongs to.
+        experiment_id : str, optional
+            The ID of the experiment to retrieve comments from.
+        entity_identifier : str, optional
+            The ID or name of the entity to apply the comments
+            `comments` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
+
+        Returns
+        -------
+        dict
+            A dictionary, `added_comments` where the
+            value is a list of comment names that have
+            been added to the specified object.
+        """
+        comment_metadata_root = self._get_comment_metadata_root(
+            project_name, experiment_id, entity_identifier, entity_type
+        )
+        comment_metadata_glob = f"{comment_metadata_root}/comments_*.json"
+
+        comment_paths = self._glob(comment_metadata_glob)
+        if len(comment_paths) == 0:
+            return []
+
+        sorted_comment_paths = self._sort_comment_paths(comment_paths)
+
+        comment_data = self._cat([p for _, p in sorted_comment_paths])
+        sorted_comment_data = [json.loads(comment_data[p]) for _, p in sorted_comment_paths]
+
+        return sorted_comment_data
