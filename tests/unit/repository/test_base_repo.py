@@ -21,12 +21,12 @@ def _create_project(repository):
     return project
 
 
-def _create_experiment(repository, project=None, tags=[]):
+def _create_experiment(repository, project=None, tags=[], comments=[]):
     if project is None:
         project = _create_project(repository)
 
     experiment = domain.Experiment(
-        name=f"Test Experiment {uuid.uuid4()}", project_name=project.name, tags=[]
+        name=f"Test Experiment {uuid.uuid4()}", project_name=project.name, tags=[], comments=[]
     )
     repository.create_experiment(experiment)
 
@@ -1002,3 +1002,35 @@ def test_add_comments(memory_repository):
         comments_json = json.load(f)
 
     assert ["this is a comment"] == comments_json["added_comments"]
+
+
+def test_get_comments(memory_repository):
+    repository = memory_repository
+    experiment = _create_experiment(repository)
+    repository.add_comments(
+        experiment.project_name,
+        ["this is a comment"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    comments = repository.get_comments(
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    assert {"added_comments": ["this is a comment"]} in comments
+
+
+def test_get_comments_with_no_results(memory_repository):
+    repository = memory_repository
+    experiment = _create_experiment(repository)
+
+    comments = repository.get_comments(
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    assert comments == []
