@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
-from rubicon_ml.domain.mixin import TagMixin, CommentMixin
+from rubicon_ml.domain.mixin import CommentMixin, TagMixin
 from rubicon_ml.domain.utils import TrainingMetadata, uuid
 
 
