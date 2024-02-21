@@ -5,7 +5,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from rubicon_ml.client.mixin import ArtifactMixin, DataframeMixin, TagMixin
+from rubicon_ml.client.mixin import (
+    ArtifactMixin,
+    CommentMixin,
+    DataframeMixin,
+    TagMixin,
+)
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -537,3 +542,12 @@ def test_tags_multiple_backend_error(mock_get_tags, project_composite_client):
     with pytest.raises(RubiconException) as e:
         experiment.tags()
     assert "all configured storage backends failed" in str(e)
+
+
+def test_add_comments(project_client):
+    project = project_client
+    experiment = project.log_experiment()
+
+    CommentMixin.add_comments(experiment, ["this is a comment"])
+
+    assert experiment.comments == ["this is a comment"]

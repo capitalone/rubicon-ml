@@ -604,3 +604,102 @@ class TagMixin:
                 return self._domain.tags
 
         self._raise_rubicon_exception(return_err)
+
+
+class CommentMixin:
+    """Adds comment support to a client object."""
+
+    _domain: DOMAIN_TYPES
+
+    def _get_taggable_identifiers(self):
+        project_name, experiment_id = self._parent._get_identifiers()
+        entity_identifier = None
+
+        # experiments do not return an entity identifier - they are the entity
+        if isinstance(self, client.Experiment):
+            experiment_id = self.id
+        # dataframes and artifacts are identified by their `id`s
+        elif isinstance(self, client.Dataframe) or isinstance(self, client.Artifact):
+            entity_identifier = self.id
+        # everything else is identified by its `name`
+        else:
+            entity_identifier = self.name
+
+        return project_name, experiment_id, entity_identifier
+
+    @failsafe
+    def add_comments(self, comments: List[str]):
+        """Add comments to this client object.
+
+        Parameters
+        ----------
+        comments : list of str
+            The comment values to add.
+        """
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
+        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+
+        self._domain.add_comments(comments)
+        for repo in self.repositories:
+            repo.add_comments(
+                project_name,
+                comments,
+                experiment_id=experiment_id,
+                entity_identifier=entity_identifier,
+                entity_type=self.__class__.__name__,
+            )
+
+    @failsafe
+    def remove_comments(self, comments: List[str]):
+        """Remove comments from this client object.
+
+        Parameters
+        ----------
+        comments : list of str
+             The comment values to remove.
+        """
+        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+
+        self._domain.remove_comments(comments)
+        for repo in self.repositories:
+            repo.remove_comments(
+                project_name,
+                comments,
+                experiment_id=experiment_id,
+                entity_identifier=entity_identifier,
+                entity_type=self.__class__.__name__,
+            )
+
+    def _update_comments(self, comment_data):
+        """Add or remove the comments in `comment_data` based on
+        their key.
+        """
+        for comment in comment_data:
+            self._domain.add_comments(comment.get("added_comments", []))
+            self._domain.remove_comments(comment.get("removed_comments", []))
+
+    @property
+    def comments(self) -> List[str]:
+        """Get this client object's comments."""
+        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        return_err = None
+        for repo in self.repositories:
+            try:
+                comment_data = repo.get_comments(
+                    project_name,
+                    experiment_id=experiment_id,
+                    entity_identifier=entity_identifier,
+                    entity_type=self.__class__.__name__,
+                )
+            except Exception as err:
+                return_err = err
+            else:
+                self._update_comments(comment_data)
+
+                return self._domain.comments
+
+        self._raise_rubicon_exception(return_err)
