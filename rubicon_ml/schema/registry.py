@@ -6,6 +6,9 @@ from typing import Any, List
 import yaml
 
 RUBICON_SCHEMA_REGISTRY = {
+    "h2o__H2OGradientBoostingEstimator": lambda: _load_schema(
+        os.path.join("schema", "h2o__H2OGradientBoostingEstimator.yaml")
+    ),
     "lightgbm__LGBMModel": lambda: _load_schema(os.path.join("schema", "lightgbm__LGBMModel.yaml")),
     "lightgbm__LGBMClassifier": lambda: _load_schema(
         os.path.join("schema", "lightgbm__LGBMClassifier.yaml")
