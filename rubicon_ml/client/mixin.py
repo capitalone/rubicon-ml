@@ -611,7 +611,7 @@ class CommentMixin:
 
     _domain: DOMAIN_TYPES
 
-    def _get_taggable_identifiers(self):
+    def _get_commentable_identifiers(self):
         project_name, experiment_id = self._parent._get_identifiers()
         entity_identifier = None
 
@@ -641,7 +641,7 @@ class CommentMixin:
         ):
             raise ValueError("`comments` must be `list` of type `str`")
 
-        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
 
         self._domain.add_comments(comments)
         for repo in self.repositories:
@@ -662,7 +662,7 @@ class CommentMixin:
         comments : list of str
              The comment values to remove.
         """
-        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
 
         self._domain.remove_comments(comments)
         for repo in self.repositories:
@@ -685,7 +685,7 @@ class CommentMixin:
     @property
     def comments(self) -> List[str]:
         """Get this client object's comments."""
-        project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
         return_err = None
         for repo in self.repositories:
             try:

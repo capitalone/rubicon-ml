@@ -1,12 +1,12 @@
 from rubicon_ml.client.base import Base  # noqa F401
 from rubicon_ml.client.config import Config
 
-from rubicon_ml.client.mixin import (
+from rubicon_ml.client.mixin import (  # noqa F401
     ArtifactMixin,
     DataframeMixin,
     TagMixin,
     CommentMixin,
-)  # noqa F401
+)
 
 from rubicon_ml.client.artifact import Artifact
 from rubicon_ml.client.dataframe import Dataframe
