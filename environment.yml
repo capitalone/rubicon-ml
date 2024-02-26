@@ -6,20 +6,20 @@ dependencies:
   - pip
 
   - click<=8.1.7,>=7.1
-  - fsspec<=2023.12.2,>=2021.4.0
-  - intake[dataframe]<=0.7.0,>=0.5.2
+  - fsspec<=2024.2.0,>=2021.4.0
+  - intake[dataframe]<=2.0.1,>=0.5.2
   - jsonpath-ng<=1.6.1,>=1.5.3
-  - numpy<=1.26.3,>=1.22.0
-  - pandas<=2.2.0,>=1.0.0
+  - numpy<=1.26.4,>=1.22.0
+  - pandas<=2.2.1,>=1.0.0
   - pyarrow<=15.0.0,>=14.0.1
   - PyYAML<=6.0.1,>=5.4.0
-  - scikit-learn<=1.4.0,>=0.22.0
+  - scikit-learn<=1.4.1.post1,>=0.22.0
 
   # for prefect extras
   - prefect<=1.2.4,>=0.12.0
 
   # for s3fs extras
-  - s3fs<=2023.12.2,>=0.4
+  - s3fs<=2024.2.0,>=0.4
 
   # for viz extras
   - dash<=2.15.0,>=2.11.0
