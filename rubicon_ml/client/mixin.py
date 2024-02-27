@@ -213,14 +213,18 @@ class ArtifactMixin:
         """
         import h2o
 
+        if self.repository.PROTOCOL == "memory":
+            raise RubiconException("`h2o` models cannot be logged in memory with `log_h2o_model`.")
+
         if artifact_name is None:
             artifact_name = h2o_model.__class__.__name__
 
         with tempfile.TemporaryDirectory() as temp_dir_name:
             model_data_path = h2o.save_model(
                 h2o_model,
-                path=temp_dir_name,
                 export_cross_validation_predictions=export_cross_validation_predictions,
+                filename=artifact_name,
+                path=temp_dir_name,
             )
 
             artifact = self.log_artifact(

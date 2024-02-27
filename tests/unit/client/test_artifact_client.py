@@ -1,7 +1,11 @@
 import os
 from unittest.mock import MagicMock, patch
 
+import h2o
+import pandas as pd
 import pytest
+from h2o import H2OFrame
+from h2o.estimators.random_forest import H2ORandomForestEstimator
 
 from rubicon_ml import domain
 from rubicon_ml.client import Artifact, Rubicon
@@ -126,3 +130,31 @@ def test_download_location(mock_open, project_client):
 
     mock_open.assert_called_once_with("/path/to/tests/new_name.txt", mode="wb")
     mock_file().write.assert_called_once_with(data)
+
+
+def test_get_data_deserialize_h2o(
+    make_classification_df, rubicon_local_filesystem_client_with_project
+):
+    """Test logging `h2o` model data."""
+    _, project = rubicon_local_filesystem_client_with_project
+    X, y = make_classification_df
+
+    target_name = "target"
+    training_frame = pd.concat([X, pd.Series(y)], axis=1)
+    training_frame.columns = [*X.columns, target_name]
+
+    h2o.init()
+
+    training_frame_h2o = H2OFrame(training_frame)
+    h2o_model = H2ORandomForestEstimator()
+
+    h2o_model.train(
+        training_frame=training_frame_h2o,
+        x=list(X.columns),
+        y=target_name,
+    )
+
+    artifact = project.log_h2o_model(h2o_model)
+    artifact_data = artifact.get_data(deserialize="h2o")
+
+    assert artifact_data.__class__ == h2o_model.__class__

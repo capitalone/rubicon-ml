@@ -3,7 +3,11 @@ import warnings
 from unittest import mock
 from unittest.mock import MagicMock, patch
 
+import h2o
+import pandas as pd
 import pytest
+from h2o import H2OFrame
+from h2o.estimators.random_forest import H2ORandomForestEstimator
 
 from rubicon_ml.client.mixin import (
     ArtifactMixin,
@@ -152,6 +156,46 @@ def test_log_json(project_client):
     assert len(artifacts) == 2
     assert artifact_a.id in [a.id for a in artifacts]
     assert artifact_b.id in [a.id for a in artifacts]
+
+
+def test_log_h2o_model(make_classification_df, rubicon_local_filesystem_client_with_project):
+    """Test logging `h2o` model data."""
+    _, project = rubicon_local_filesystem_client_with_project
+    X, y = make_classification_df
+
+    target_name = "target"
+    training_frame = pd.concat([X, pd.Series(y)], axis=1)
+    training_frame.columns = [*X.columns, target_name]
+
+    h2o.init()
+
+    training_frame_h2o = H2OFrame(training_frame)
+    h2o_model = H2ORandomForestEstimator()
+
+    h2o_model.train(
+        training_frame=training_frame_h2o,
+        x=list(X.columns),
+        y=target_name,
+    )
+
+    artifact = project.log_h2o_model(h2o_model, tags=["h2o"])
+    read_artifact = project.artifact(name=artifact.name)
+
+    assert artifact.id == read_artifact.id
+    assert artifact.name == h2o_model.__class__.__name__
+    assert artifact.tags == ["h2o"]
+
+
+def test_log_h2o_model_raises_error(project_client):
+    """Test logging `h2o` model in memory raises error."""
+    project = project_client
+
+    h2o_model = H2ORandomForestEstimator()
+
+    with pytest.raises(RubiconException) as error:
+        project.log_h2o_model(h2o_model, tags=["h2o"])
+
+    assert "`h2o` models cannot be logged in memory" in str(error)
 
 
 def test_artifacts(project_client):
