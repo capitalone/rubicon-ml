@@ -4,6 +4,7 @@ import pytest
 from h2o import H2OFrame
 from h2o.estimators.gbm import H2OGradientBoostingEstimator
 from h2o.estimators.glm import H2OGeneralizedLinearEstimator
+from h2o.estimators.random_forest import H2ORandomForestEstimator
 from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier, XGBRegressor
@@ -12,6 +13,7 @@ from xgboost.dask import DaskXGBClassifier, DaskXGBRegressor
 H2O_SCHEMA_CLS = [
     H2OGeneralizedLinearEstimator,
     H2OGradientBoostingEstimator,
+    H2ORandomForestEstimator,
 ]
 PANDAS_SCHEMA_CLS = [
     LGBMClassifier,
