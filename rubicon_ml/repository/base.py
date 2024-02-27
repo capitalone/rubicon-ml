@@ -1253,6 +1253,35 @@ class BaseRepository:
 
         self._persist_domain({"added_comments": comments}, comment_metadata_path)
 
+    def remove_comments(
+        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
+    ):
+        """Delete comments from the configured filesystem.
+
+        Parameters
+        ----------
+        project_name : str
+            The name of the project the object to delete
+            comments from belongs to.
+        comments : list of str
+            The comment values to delete.
+        experiment_id : str, optional
+            The ID of the experiment to delete the comments
+            `comments` from.
+        entity_identifier : str, optional
+            The ID or name of the entity to apply the comments
+            `comments` to.
+        entity_type : str, optional
+            The name of the entity's type as returned by
+            `entity_cls.__class__.__name__`.
+        """
+        comment_metadata_root = self._get_comment_metadata_root(
+            project_name, experiment_id, entity_identifier, entity_type
+        )
+        comment_metadata_path = f"{comment_metadata_root}/comments_{domain.utils.uuid.uuid4()}.json"
+
+        self._persist_domain({"removed_comments": comments}, comment_metadata_path)
+
     def _sort_comment_paths(self, comment_paths):
         """Sorts the paths in `comment_paths` by when they were
         created.

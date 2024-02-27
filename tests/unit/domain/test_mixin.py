@@ -33,3 +33,10 @@ def test_add_comments():
     taggable.add_comments(["x"])
 
     assert taggable.comments == ["x"]
+
+
+def test_remove_comments():
+    taggable = Taggable(comments=["comment 1", "comment 2"])
+    taggable.remove_comments(["comment 1"])
+
+    assert taggable.comments == ["comment 2"]

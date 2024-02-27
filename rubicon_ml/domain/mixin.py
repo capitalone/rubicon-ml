@@ -40,3 +40,14 @@ class CommentMixin:
             A list of string comments to add to the domain model.
         """
         self.comments.extend(comments)
+
+    def remove_comments(self, comments: List[str]):
+        """
+        Remove comments from this model.
+
+        Parameters
+        ----------
+        comments : List[str]
+            A list of string comments to remove from this domain model.
+        """
+        self.comments = list(set(self.comments).difference(set(comments)))

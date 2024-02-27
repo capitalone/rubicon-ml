@@ -1004,6 +1004,28 @@ def test_add_comments(memory_repository):
     assert ["this is a comment"] == comments_json["added_comments"]
 
 
+def test_remove_comments(memory_repository):
+    repository = memory_repository
+    experiment = _create_experiment(repository, comments=["this is a comment"])
+    repository.remove_comments(
+        experiment.project_name,
+        ["this is a comment"],
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    comments_glob = f"{repository.root_dir}/{slugify(experiment.project_name)}/experiments/{experiment.id}/comments_*.json"
+    comments_files = repository.filesystem.glob(comments_glob)
+
+    assert len(comments_files) == 1
+
+    open_file = repository.filesystem.open(comments_files[0])
+    with open_file as f:
+        comments_json = json.load(f)
+
+    assert ["this is a comment"] == comments_json["removed_comments"]
+
+
 def test_get_comments(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
