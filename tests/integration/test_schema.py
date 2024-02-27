@@ -6,17 +6,12 @@ from h2o.estimators.gbm import H2OGradientBoostingEstimator
 from h2o.estimators.glm import H2OGeneralizedLinearEstimator
 from h2o.estimators.random_forest import H2ORandomForestEstimator
 from h2o.estimators.targetencoder import H2OTargetEncoderEstimator
+from h2o.estimators.xgboost import H2OXGBoostEstimator
 from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier, XGBRegressor
 from xgboost.dask import DaskXGBClassifier, DaskXGBRegressor
 
-H2O_SCHEMA_CLS = [
-    H2OGeneralizedLinearEstimator,
-    H2OGradientBoostingEstimator,
-    H2ORandomForestEstimator,
-    H2OTargetEncoderEstimator,
-]
 PANDAS_SCHEMA_CLS = [
     LGBMClassifier,
     LGBMRegressor,
@@ -25,6 +20,17 @@ PANDAS_SCHEMA_CLS = [
     XGBRegressor,
 ]
 DASK_SCHEMA_CLS = [DaskXGBClassifier, DaskXGBRegressor]
+H2O_SCHEMA_CLS = [
+    H2OGeneralizedLinearEstimator,
+    H2OGradientBoostingEstimator,
+    H2ORandomForestEstimator,
+    H2OTargetEncoderEstimator,
+]
+
+h2o.init()
+
+if H2OXGBoostEstimator.available():
+    H2O_SCHEMA_CLS.append(H2OXGBoostEstimator)
 
 
 def _fit_and_log(X, y, schema_cls, rubicon_project):
@@ -94,8 +100,6 @@ def test_estimator_schema_fit_dask_df(
 def test_estimator_h2o_schema_train(schema_cls, make_classification_df, rubicon_project):
     X, y = make_classification_df
     y = y > y.mean()
-
-    h2o.init(nthreads=-1)
 
     experiment = _train_and_log(X, y, schema_cls, rubicon_project)
 
