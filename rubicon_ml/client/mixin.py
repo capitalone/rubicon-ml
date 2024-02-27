@@ -4,6 +4,7 @@ import json
 import os
 import pickle
 import subprocess
+import tempfile
 import warnings
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, TextIO, Union
@@ -186,6 +187,47 @@ class ArtifactMixin:
 
         env_bytes = self._get_environment_bytes(["conda", "env", "export"])
         artifact = self.log_artifact(data_bytes=env_bytes, name=artifact_name)
+
+        return artifact
+
+    @failsafe
+    def log_h2o_model(
+        self,
+        h2o_model,
+        artifact_name: Optional[str] = None,
+        export_cross_validation_predictions: bool = False,
+        **log_artifact_kwargs,
+    ) -> Artifact:
+        """Log an `h2o` model as an artifact using `h2o.save_model`.
+
+        Parameters
+        ----------
+        h2o_model : h2o.model.ModelBase
+            The `h2o` model to log as an artifact.
+        artifact_name : str, optional (default None)
+            The name of the artifact. Defaults to None, using `h2o_model`'s class name.
+        export_cross_validation_predictions: bool, optional (default False)
+            Passed directly to `h2o.save_model`.
+        log_artifact_kwargs : dict
+            Additional kwargs to be passed directly to `self.log_artifact`.
+        """
+        import h2o
+
+        if artifact_name is None:
+            artifact_name = h2o_model.__class__.__name__
+
+        with tempfile.TemporaryDirectory() as temp_dir_name:
+            model_data_path = h2o.save_model(
+                h2o_model,
+                path=temp_dir_name,
+                export_cross_validation_predictions=export_cross_validation_predictions,
+            )
+
+            artifact = self.log_artifact(
+                name=artifact_name,
+                data_path=model_data_path,
+                **log_artifact_kwargs,
+            )
 
         return artifact
 

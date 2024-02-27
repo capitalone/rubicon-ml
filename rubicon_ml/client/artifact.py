@@ -4,7 +4,7 @@ import json
 import os
 import pickle
 import warnings
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Literal, Optional
 
 import fsspec
 
@@ -66,12 +66,21 @@ class Artifact(Base, TagMixin):
             self._raise_rubicon_exception(return_err)
 
     @failsafe
-    def get_data(self, unpickle: bool = False):
+    def get_data(
+        self,
+        deserialize: Optional[Literal["h2o"]] = None,
+        unpickle: bool = False,  # TODO: deprecate & move to `deserialize`
+    ):
         """Loads the data associated with this artifact and
         unpickles if needed.
 
         Parameters
         ----------
+        deseralize : str, optional
+            Method to use to deseralize this artifact's data.
+            * None to disable deseralization and return the raw data.
+            * "h2o" to use `h2o.load_model` to load the data.
+            Defaults to None.
         unpickle : bool, optional
             Flag indicating whether artifact data must be
             unpickled. Will be returned as bytes by default.
@@ -85,8 +94,16 @@ class Artifact(Base, TagMixin):
             except Exception as err:
                 return_err = err
             else:
+                if deserialize == "h2o":
+                    import h2o
+
+                    data = h2o.load_model(
+                        repo._get_artifact_data_path(project_name, experiment_id, self.id)
+                    )
+
                 if unpickle:
                     data = pickle.loads(data)
+
                 return data
 
         self._raise_rubicon_exception(return_err)
