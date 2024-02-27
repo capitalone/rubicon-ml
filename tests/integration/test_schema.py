@@ -5,6 +5,7 @@ from h2o import H2OFrame
 from h2o.estimators.gbm import H2OGradientBoostingEstimator
 from h2o.estimators.glm import H2OGeneralizedLinearEstimator
 from h2o.estimators.random_forest import H2ORandomForestEstimator
+from h2o.estimators.targetencoder import H2OTargetEncoderEstimator
 from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier, XGBRegressor
@@ -14,6 +15,7 @@ H2O_SCHEMA_CLS = [
     H2OGeneralizedLinearEstimator,
     H2OGradientBoostingEstimator,
     H2ORandomForestEstimator,
+    H2OTargetEncoderEstimator,
 ]
 PANDAS_SCHEMA_CLS = [
     LGBMClassifier,
