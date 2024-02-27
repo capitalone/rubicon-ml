@@ -6,6 +6,7 @@ from rubicon_ml import domain
 from rubicon_ml.client import (
     ArtifactMixin,
     Base,
+    CommentMixin,
     DataframeMixin,
     Feature,
     Metric,
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import Experiment as ExperimentDomain
 
 
-class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin):
+class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
     """A client experiment.
 
     An `experiment` represents a model run and is identified by
