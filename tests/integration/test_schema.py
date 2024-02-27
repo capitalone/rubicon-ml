@@ -3,12 +3,16 @@ import pandas as pd
 import pytest
 from h2o import H2OFrame
 from h2o.estimators.gbm import H2OGradientBoostingEstimator
+from h2o.estimators.glm import H2OGeneralizedLinearEstimator
 from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier, XGBRegressor
 from xgboost.dask import DaskXGBClassifier, DaskXGBRegressor
 
-H2O_SCHEMA_CLS = [H2OGradientBoostingEstimator]
+H2O_SCHEMA_CLS = [
+    H2OGeneralizedLinearEstimator,
+    H2OGradientBoostingEstimator,
+]
 PANDAS_SCHEMA_CLS = [
     LGBMClassifier,
     LGBMRegressor,
@@ -39,7 +43,7 @@ def _train_and_log(X, y, schema_cls, rubicon_project):
         y=target_name,
     )
 
-    rubicon_project.log_with_schema(model)
+    return rubicon_project.log_with_schema(model)
 
 
 @pytest.mark.integration
@@ -83,10 +87,12 @@ def test_estimator_schema_fit_dask_df(
 
 @pytest.mark.integration
 @pytest.mark.parametrize("schema_cls", H2O_SCHEMA_CLS)
-def test_estimator_h2o_schema_fit_df(schema_cls, make_classification_df, rubicon_project):
+def test_estimator_h2o_schema_train(schema_cls, make_classification_df, rubicon_project):
     X, y = make_classification_df
     y = y > y.mean()
 
     h2o.init(nthreads=-1)
 
-    _train_and_log(X, y, schema_cls, rubicon_project)
+    experiment = _train_and_log(X, y, schema_cls, rubicon_project)
+
+    assert len(rubicon_project.schema_["parameters"]) == len(experiment.parameters())
