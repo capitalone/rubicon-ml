@@ -82,8 +82,8 @@ class Artifact(Base, TagMixin):
             * "h2o" to use `h2o.load_model` to load the data.
             Defaults to None.
         unpickle : bool, optional
-            Flag indicating whether artifact data must be
-            unpickled. Will be returned as bytes by default.
+            Flag indicating whether or not to unpickle artifact data.
+            `deserialize` takes precedence. Defaults to False.
         """
         project_name, experiment_id = self.parent._get_identifiers()
         return_err = None
@@ -100,8 +100,7 @@ class Artifact(Base, TagMixin):
                     data = h2o.load_model(
                         repo._get_artifact_data_path(project_name, experiment_id, self.id)
                     )
-
-                if unpickle:
+                elif unpickle:
                     data = pickle.loads(data)
 
                 return data
@@ -110,8 +109,7 @@ class Artifact(Base, TagMixin):
 
     @failsafe
     def get_json(self):
-        data = self.get_data()
-        return json.loads(data)
+        return json.loads(self.get_data())
 
     @failsafe
     def download(self, location: Optional[str] = None, name: Optional[str] = None):
