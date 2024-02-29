@@ -113,6 +113,8 @@ def test_log_artifacts_with_schema(objects_to_log, rubicon_project, artifact_sch
     def custom_logging_func(self, obj):
         self.custom_logging_func_called = True
 
+    artifact_schema["artifacts"].append({"self": "custom_logging_func"})
+
     with mock.patch.object(
         rubicon_ml.client.experiment.Experiment,
         "custom_logging_func",
@@ -123,8 +125,8 @@ def test_log_artifacts_with_schema(objects_to_log, rubicon_project, artifact_sch
         experiment = rubicon_project.log_with_schema(object_to_log)
 
     otl_artifact = experiment.artifact(name=otl_cls.__name__)
-    ao_artifact = experiment.artifact(name=artifact_schema["artifacts"][2]["name"])
-    obj_b_artifact = experiment.artifact(name=artifact_schema["artifacts"][3]["name"])
+    ao_artifact = experiment.artifact(name=artifact_schema["artifacts"][1]["name"])
+    obj_b_artifact = experiment.artifact(name=artifact_schema["artifacts"][2]["name"])
 
     assert experiment.custom_logging_func_called
     assert isinstance(otl_artifact.get_data(unpickle=True), otl_cls)
