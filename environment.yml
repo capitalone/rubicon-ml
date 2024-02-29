@@ -29,6 +29,7 @@ dependencies:
   - black
   - dask
   - flake8
+  - h2o-py
   - ipykernel
   - isort
   - jupyterlab
