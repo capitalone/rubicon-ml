@@ -181,9 +181,15 @@ class SchemaMixin:
                 if artifact == "self":
                     experiment.log_artifact(name=obj.__class__.__name__, data_object=obj)
             elif isinstance(artifact, dict):
-                data_object = _get_data_object(obj, artifact)
-                if data_object is not None:
-                    experiment.log_artifact(name=artifact["name"], data_object=data_object)
+                if "self" in artifact:
+                    logging_func_name = artifact["self"]
+                    logging_func = getattr(experiment, logging_func_name)
+                    logging_func(obj)
+                else:
+                    data_object = _get_data_object(obj, artifact)
+
+                    if data_object is not None:
+                        experiment.log_artifact(name=artifact["name"], data_object=data_object)
 
         for dataframe in self.schema_.get("dataframes", []):
             df_value = _get_df(obj, dataframe)

@@ -97,10 +97,18 @@ def test_estimator_schema_fit_dask_df(
 
 @pytest.mark.integration
 @pytest.mark.parametrize("schema_cls", H2O_SCHEMA_CLS)
-def test_estimator_h2o_schema_train(schema_cls, make_classification_df, rubicon_project):
+def test_estimator_h2o_schema_train(
+    schema_cls,
+    make_classification_df,
+    rubicon_local_filesystem_client_with_project,
+):
+    _, project = rubicon_local_filesystem_client_with_project
+
     X, y = make_classification_df
     y = y > y.mean()
 
-    experiment = _train_and_log(X, y, schema_cls, rubicon_project)
+    experiment = _train_and_log(X, y, schema_cls, project)
+    model_artifact = experiment.artifact(name=schema_cls.__name__)
 
-    assert len(rubicon_project.schema_["parameters"]) == len(experiment.parameters())
+    assert len(project.schema_["parameters"]) == len(experiment.parameters())
+    assert model_artifact.get_data(deserialize="h2o").__class__.__name__ == schema_cls.__name__
