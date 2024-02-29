@@ -7,6 +7,7 @@ from unittest import mock
 import pandas as pd
 import pytest
 
+import rubicon_ml
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.schema import logger
 from rubicon_ml.schema.registry import RUBICON_SCHEMA_REGISTRY
@@ -109,13 +110,23 @@ def test_log_artifacts_with_schema(objects_to_log, rubicon_project, artifact_sch
         object_b.__class__,
     )
 
-    rubicon_project.set_schema(artifact_schema)
-    experiment = rubicon_project.log_with_schema(object_to_log)
+    def custom_logging_func(self, obj):
+        self.custom_logging_func_called = True
+
+    with mock.patch.object(
+        rubicon_ml.client.experiment.Experiment,
+        "custom_logging_func",
+        custom_logging_func,
+        create=True,
+    ):
+        rubicon_project.set_schema(artifact_schema)
+        experiment = rubicon_project.log_with_schema(object_to_log)
 
     otl_artifact = experiment.artifact(name=otl_cls.__name__)
-    ao_artifact = experiment.artifact(name=artifact_schema["artifacts"][1]["name"])
-    obj_b_artifact = experiment.artifact(name=artifact_schema["artifacts"][2]["name"])
+    ao_artifact = experiment.artifact(name=artifact_schema["artifacts"][2]["name"])
+    obj_b_artifact = experiment.artifact(name=artifact_schema["artifacts"][3]["name"])
 
+    assert experiment.custom_logging_func_called
     assert isinstance(otl_artifact.get_data(unpickle=True), otl_cls)
     assert isinstance(ao_artifact.get_data(unpickle=True), ao_cls)
     assert isinstance(obj_b_artifact.get_data(unpickle=True), obj_b_cls)

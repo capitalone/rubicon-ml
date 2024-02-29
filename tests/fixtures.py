@@ -318,6 +318,7 @@ def artifact_schema():
     return {
         "artifacts": [
             "self",
+            {"self": "custom_logging_func"},
             {"name": "object_", "data_object_attr": "object_"},
             {"name": "object_b", "data_object_func": "artifact_function"},
         ]
