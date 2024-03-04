@@ -57,8 +57,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
 
     @failsafe
     def log_metric(
-        self, name, value, directionality="score", description=None, tags=[], comments=[]
-    ):
+        self,
+        name: str,
+        value: float,
+        directionality: str = "score",
+        description: str = None,
+        tags: list[str] = [],
+        comments: list[str] = [],
+    ) -> Metric:
         """Create a metric under the experiment.
 
         Parameters
@@ -176,7 +182,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             return [m for m in self.metrics() if m.id == id][0]
 
     @failsafe
-    def log_feature(self, name, description=None, importance=None, tags=[], comments=[]):
+    def log_feature(
+        self,
+        name: str,
+        description: str = None,
+        importance: float = None,
+        tags: list[str] = [],
+        comments: list[str] = [],
+    ) -> Feature:
         """Create a feature under the experiment.
 
         Parameters
@@ -285,7 +298,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             return [f for f in self.features() if f.id == id][0]
 
     @failsafe
-    def log_parameter(self, name, value=None, description=None, tags=[], comments=[]):
+    def log_parameter(
+        self,
+        name: str,
+        value: object = None,
+        description: str = None,
+        tags: list[str] = [],
+        comments: list[str] = [],
+    ) -> Parameter:
         """Create a parameter under the experiment.
 
         Parameters
