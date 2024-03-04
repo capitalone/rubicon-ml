@@ -9,7 +9,10 @@ def test_properties(project_client):
     parent = project_client
 
     domain_dataframe = domain.Dataframe(
-        description="some description", tags=["x"], name="test title"
+        description="some description",
+        tags=["x"],
+        comments=["this is a comment"],
+        name="test title",
     )
     dataframe = Dataframe(domain_dataframe, parent)
 
@@ -17,6 +20,7 @@ def test_properties(project_client):
     assert dataframe.name == domain_dataframe.name
     assert dataframe.description == domain_dataframe.description
     assert dataframe.tags == domain_dataframe.tags
+    assert dataframe.comments == domain_dataframe.comments
     assert dataframe.created_at == domain_dataframe.created_at
     assert dataframe.parent == parent
 
