@@ -3,14 +3,14 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, Optional, Union
 
-from rubicon_ml.client import Base, TagMixin
+from rubicon_ml.client import Base, CommentMixin, TagMixin
 
 if TYPE_CHECKING:
     from rubicon_ml.client import Experiment
     from rubicon_ml.domain import Parameter as ParameterDomain
 
 
-class Parameter(Base, TagMixin):
+class Parameter(Base, TagMixin, CommentMixin):
     """A client parameter.
 
     A `parameter` is an input to an `experiment` (model run)

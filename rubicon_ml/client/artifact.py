@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Literal, Optional
 import fsspec
 
 from rubicon_ml.client.base import Base
-from rubicon_ml.client.mixin import TagMixin
+from rubicon_ml.client.mixin import CommentMixin, TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
 
 if TYPE_CHECKING:
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import Artifact as ArtifactDomain
 
 
-class Artifact(Base, TagMixin):
+class Artifact(Base, TagMixin, CommentMixin):
     """A client artifact.
 
     An `artifact` is a catch-all for any other type of

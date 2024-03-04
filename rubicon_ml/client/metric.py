@@ -3,14 +3,14 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, Optional
 
-from rubicon_ml.client import Base, TagMixin
+from rubicon_ml.client import Base, CommentMixin, TagMixin
 
 if TYPE_CHECKING:
     from rubicon_ml.client import Experiment
     from rubicon_ml.domain import Metric as MetricDomain
 
 
-class Metric(Base, TagMixin):
+class Metric(Base, TagMixin, CommentMixin):
     """A client metric.
 
     A `metric` is a single-value output of an `experiment` that
