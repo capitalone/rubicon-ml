@@ -8,7 +8,14 @@ import dask.dataframe as dd
 import pandas as pd
 
 from rubicon_ml import domain
-from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
+from rubicon_ml.client import (
+    ArtifactMixin,
+    Base,
+    CommentMixin,
+    DataframeMixin,
+    Experiment,
+    TagMixin,
+)
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
@@ -20,7 +27,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import Project as ProjectDomain
 
 
-class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
+class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin, CommentMixin):
     """A client project.
 
     A `project` is a collection of `experiments`,
@@ -164,6 +171,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             "model_name",
             "commit_hash",
             "tags",
+            "comments",
             "created_at",
         ]
 
@@ -184,6 +192,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
                     "model_name": experiment.model_name,
                     "commit_hash": experiment.commit_hash,
                     "tags": experiment.tags,
+                    "comments": experiment.comments,
                     "created_at": experiment.created_at,
                 }
 

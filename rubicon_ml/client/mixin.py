@@ -69,6 +69,7 @@ class ArtifactMixin:
         name: Optional[str] = None,
         description: Optional[str] = None,
         tags: Optional[List[str]] = None,
+        comments: Optional[List[str]] = None,
     ) -> Artifact:
         """Log an artifact to this client object.
 
@@ -92,6 +93,9 @@ class ArtifactMixin:
             additional context.
         tags : list of str, optional
             Values to tag the experiment with. Use tags to organize and
+            filter your artifacts.
+        comments : list of str, optional
+            Values to comment the experiment with. Use comments to organize and
             filter your artifacts.
 
         Notes
@@ -128,6 +132,13 @@ class ArtifactMixin:
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
+        if comments is None:
+            comments = []
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
         data_bytes, name = self._validate_data(data_bytes, data_file, data_object, data_path, name)
 
         artifact = domain.Artifact(
@@ -135,6 +146,7 @@ class ArtifactMixin:
             description=description,
             parent_id=self._domain.id,
             tags=tags,
+            comments=comments,
         )
 
         project_name, experiment_id = self._get_identifiers()
@@ -413,6 +425,7 @@ class DataframeMixin:
         description: Optional[str] = None,
         name: Optional[str] = None,
         tags: Optional[List[str]] = None,
+        comments: Optional[List[str]] = None,
     ) -> Dataframe:
         """Log a dataframe to this client object.
 
@@ -425,6 +438,8 @@ class DataframeMixin:
             additional context.
         tags : list of str
             The values to tag the dataframe with.
+        comments: list of str
+            The values to comment the dataframe with.
 
         Returns
         -------
@@ -436,11 +451,19 @@ class DataframeMixin:
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
+        if comments is None:
+            comments = []
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
         dataframe = domain.Dataframe(
             parent_id=self._domain.id,
             description=description,
             name=name,
             tags=tags,
+            comments=comments,
         )
 
         project_name, experiment_id = self._get_identifiers()

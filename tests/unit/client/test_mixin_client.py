@@ -339,9 +339,15 @@ def test_log_dataframe(project_client, test_dataframe):
     project = project_client
     df = test_dataframe
     test_df_name = "test_df"
-    dataframe = DataframeMixin.log_dataframe(project, df, name=test_df_name, tags=["x"])
-    DataframeMixin.log_dataframe(project, df, name="secondary test df", tags=["x"])
+    dataframe = DataframeMixin.log_dataframe(
+        project, df, name=test_df_name, tags=["x"], comments=["this is a comment"]
+    )
+    DataframeMixin.log_dataframe(
+        project, df, name="secondary test df", tags=["x"], comments=["this is a comment"]
+    )
     assert dataframe.name == test_df_name
+    assert dataframe.tags == ["x"]
+    assert dataframe.comments == ["this is a comment"]
 
     assert dataframe.id in [df.id for df in project.dataframes()]
 
