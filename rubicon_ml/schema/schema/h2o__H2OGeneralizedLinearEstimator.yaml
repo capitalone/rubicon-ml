@@ -1,0 +1,158 @@
+name: h2o__H2OGeneralizedLinearEstimator
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.44.0.1
+docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/modeling.html#h2ogeneralizedlinearestimator
+
+artifacts:
+  - self: log_h2o_model
+parameters:
+  - name: alpha
+    value_attr: alpha
+  - name: auc_type
+    value_attr: auc_type
+  - name: balance_classes
+    value_attr: balance_classes
+  - name: beta_constraints
+    value_attr: beta_constraints
+  - name: beta_epsilon
+    value_attr: beta_epsilon
+  - name: build_null_model
+    value_attr: build_null_model
+  - name: calc_like
+    value_attr: calc_like
+  - name: class_sampling_factors
+    value_attr: class_sampling_factors
+  - name: cold_start
+    value_attr: cold_start
+  - name: compute_p_values
+    value_attr: compute_p_values
+  - name: custom_metric_func
+    value_attr: custom_metric_func
+  - name: dispersion_epsilon
+    value_attr: dispersion_epsilon
+  - name: dispersion_learning_rate
+    value_attr: dispersion_learning_rate
+  - name: dispersion_parameter_method
+    value_attr: dispersion_parameter_method
+  - name: early_stopping
+    value_attr: early_stopping
+  - name: export_checkpoints_dir
+    value_attr: export_checkpoints_dir
+  - name: family
+    value_attr: family
+  - name: fix_dispersion_parameter
+    value_attr: fix_dispersion_parameter
+  - name: fix_tweedie_variance_power
+    value_attr: fix_tweedie_variance_power
+  - name: fold_assignment
+    value_attr: fold_assignment
+  - name: fold_column
+    value_attr: fold_column
+  - name: gainslift_bins
+    value_attr: gainslift_bins
+  - name: generate_scoring_history
+    value_attr: generate_scoring_history
+  - name: generate_variable_inflation_factors
+    value_attr: generate_variable_inflation_factors
+  - name: gradient_epsilon
+    value_attr: gradient_epsilon
+  - name: HGLM
+    value_attr: HGLM
+  - name: ignore_const_cols
+    value_attr: ignore_const_cols
+  - name: ignored_columns
+    value_attr: ignored_columns
+  - name: influence
+    value_attr: influence
+  - name: init_dispersion_parameter
+    value_attr: init_dispersion_parameter
+  - name: interaction_pairs
+    value_attr: interaction_pairs
+  - name: interactions
+    value_attr: interactions
+  - name: intercept
+    value_attr: intercept
+  - name: keep_cross_validation_fold_assignment
+    value_attr: keep_cross_validation_fold_assignment
+  - name: keep_cross_validation_models
+    value_attr: keep_cross_validation_models
+  - name: keep_cross_validation_predictions
+    value_attr: keep_cross_validation_predictions
+  - name: lambda_
+    value_attr: lambda_
+  - name: lambda_min_ratio
+    value_attr: lambda_min_ratio
+  - name: lambda_search
+    value_attr: lambda_search
+  - name: link
+    value_attr: link
+  - name: max_active_predictors
+    value_attr: max_active_predictors
+  - name: max_after_balance_size
+    value_attr: max_after_balance_size
+  - name: max_confusion_matrix_size
+    value_attr: max_confusion_matrix_size
+  - name: max_iterations
+    value_attr: max_iterations
+  - name: max_iterations_dispersion
+    value_attr: max_iterations_dispersion
+  - name: max_runtime_secs
+    value_attr: max_runtime_secs
+  - name: missing_values_handling
+    value_attr: missing_values_handling
+  - name: nfolds
+    value_attr: nfolds
+  - name: nlambdas
+    value_attr: nlambdas
+  - name: non_negative
+    value_attr: non_negative
+  - name: obj_reg
+    value_attr: obj_reg
+  - name: objective_epsilon
+    value_attr: objective_epsilon
+  - name: offset_column
+    value_attr: offset_column
+  - name: prior
+    value_attr: prior
+  - name: rand_family
+    value_attr: rand_family
+  - name: rand_link
+    value_attr: rand_link
+  - name: random_columns
+    value_attr: random_columns
+  - name: remove_collinear_columns
+    value_attr: remove_collinear_columns
+  - name: response_column
+    value_attr: response_column
+  - name: score_each_iteration
+    value_attr: score_each_iteration
+  - name: score_iteration_interval
+    value_attr: score_iteration_interval
+  - name: seed
+    value_attr: seed
+  - name: solver
+    value_attr: solver
+  - name: standardize
+    value_attr: standardize
+  - name: startval
+    value_attr: startval
+  - name: stopping_metric
+    value_attr: stopping_metric
+  - name: stopping_rounds
+    value_attr: stopping_rounds
+  - name: stopping_tolerance
+    value_attr: stopping_tolerance
+  - name: theta
+    value_attr: theta
+  - name: tweedie_epsilon
+    value_attr: tweedie_epsilon
+  - name: tweedie_link_power
+    value_attr: tweedie_link_power
+  - name: tweedie_variance_power
+    value_attr: tweedie_variance_power
+  - name: weights_column
+    value_attr: weights_column

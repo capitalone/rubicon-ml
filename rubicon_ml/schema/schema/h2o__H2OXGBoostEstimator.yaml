@@ -1,0 +1,145 @@
+name: h2o__H2OXGBoostEstimator
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.44.0.1
+docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/modeling.html#h2oxgboostestimator
+
+artifacts:
+  - self: log_h2o_model
+parameters:
+  - name: auc_type
+    value_attr: auc_type
+  - name: backend
+    value_attr: backend
+  - name: booster
+    value_attr: booster
+  - name: build_tree_one_node
+    value_attr: build_tree_one_node
+  - name: calibrate_model
+    value_attr: calibrate_model
+  - name: calibration_method
+    value_attr: calibration_method
+  - name: categorical_encoding
+    value_attr: categorical_encoding
+  - name: col_sample_rate
+    value_attr: col_sample_rate
+  - name: col_sample_rate_per_tree
+    value_attr: col_sample_rate_per_tree
+  - name: colsample_bylevel
+    value_attr: colsample_bylevel
+  - name: colsample_bynode
+    value_attr: colsample_bynode
+  - name: colsample_bytree
+    value_attr: colsample_bytree
+  - name: distribution
+    value_attr: distribution
+  - name: dmatrix_type
+    value_attr: dmatrix_type
+  - name: eta
+    value_attr: eta
+  - name: eval_metric
+    value_attr: eval_metric
+  - name: export_checkpoints_dir
+    value_attr: export_checkpoints_dir
+  - name: fold_assignment
+    value_attr: fold_assignment
+  - name: fold_column
+    value_attr: fold_column
+  - name: gainslift_bins
+    value_attr: gainslift_bins
+  - name: gamma
+    value_attr: gamma
+  - name: gpu_id
+    value_attr: gpu_id
+  - name: grow_policy
+    value_attr: grow_policy
+  - name: ignore_const_cols
+    value_attr: ignore_const_cols
+  - name: ignored_columns
+    value_attr: ignored_columns
+  - name: interaction_constraints
+    value_attr: interaction_constraints
+  - name: keep_cross_validation_fold_assignment
+    value_attr: keep_cross_validation_fold_assignment
+  - name: keep_cross_validation_models
+    value_attr: keep_cross_validation_models
+  - name: keep_cross_validation_predictions
+    value_attr: keep_cross_validation_predictions
+  - name: learn_rate
+    value_attr: learn_rate
+  - name: max_abs_leafnode_pred
+    value_attr: max_abs_leafnode_pred
+  - name: max_bins
+    value_attr: max_bins
+  - name: max_delta_step
+    value_attr: max_delta_step
+  - name: max_depth
+    value_attr: max_depth
+  - name: max_leaves
+    value_attr: max_leaves
+  - name: max_runtime_secs
+    value_attr: max_runtime_secs
+  - name: min_child_weight
+    value_attr: min_child_weight
+  - name: min_rows
+    value_attr: min_rows
+  - name: monotone_constraints
+    value_attr: monotone_constraints
+  - name: nfolds
+    value_attr: nfolds
+  - name: normalize_type
+    value_attr: normalize_type
+  - name: nthread
+    value_attr: nthread
+  - name: ntrees
+    value_attr: ntrees
+  - name: offset_column
+    value_attr: offset_column
+  - name: one_drop
+    value_attr: one_drop
+  - name: parallelize_cross_validation
+    value_attr: parallelize_cross_validation
+  - name: quiet_mode
+    value_attr: quiet_mode
+  - name: rate_drop
+    value_attr: rate_drop
+  - name: reg_alpha
+    value_attr: reg_alpha
+  - name: reg_lambda
+    value_attr: reg_lambda
+  - name: response_column
+    value_attr: response_column
+  - name: sample_rate
+    value_attr: sample_rate
+  - name: sample_type
+    value_attr: sample_type
+  - name: save_matrix_directory
+    value_attr: save_matrix_directory
+  - name: scale_pos_weight
+    value_attr: scale_pos_weight
+  - name: score_each_iteration
+    value_attr: score_each_iteration
+  - name: score_eval_metric_only
+    value_attr: score_eval_metric_only
+  - name: score_tree_interval
+    value_attr: score_tree_interval
+  - name: seed
+    value_attr: seed
+  - name: skip_drop
+    value_attr: skip_drop
+  - name: stopping_metric
+    value_attr: stopping_metric
+  - name: stopping_rounds
+    value_attr: stopping_rounds
+  - name: stopping_tolerance
+    value_attr: stopping_tolerance
+  - name: subsample
+    value_attr: subsample
+  - name: tree_method
+    value_attr: tree_method
+  - name: tweedie_power
+    value_attr: tweedie_power
+  - name: weights_column
