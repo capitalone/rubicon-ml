@@ -1,0 +1,130 @@
+name: h2o__H2OGradientBoostingEstimator 
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.44.0.1
+docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/modeling.html#h2ogradientboostingestimator
+
+artifacts:
+  - self: log_h2o_model
+parameters:
+  - name: auc_type
+    value_attr: auc_type
+  - name: auto_rebalance
+    value_attr: auto_rebalance
+  - name: balance_classes
+    value_attr: balance_classes
+  - name: build_tree_one_node
+    value_attr: build_tree_one_node
+  - name: calibrate_model
+    value_attr: calibrate_model
+  - name: calibration_method
+    value_attr: calibration_method
+  - name: categorical_encoding
+    value_attr: categorical_encoding
+  - name: check_constant_response
+    value_attr: check_constant_response
+  - name: class_sampling_factors
+    value_attr: class_sampling_factors
+  - name: col_sample_rate
+    value_attr: col_sample_rate
+  - name: col_sample_rate_change_per_level
+    value_attr: col_sample_rate_change_per_level
+  - name: col_sample_rate_per_tree
+    value_attr: col_sample_rate_per_tree
+  - name: custom_distribution_func
+    value_attr: custom_distribution_func
+  - name: custom_metric_func
+    value_attr: custom_metric_func
+  - name: distribution
+    value_attr: distribution
+  - name: export_checkpoints_dir
+    value_attr: export_checkpoints_dir
+  - name: fold_assignment
+    value_attr: fold_assignment
+  - name: fold_column
+    value_attr: fold_column
+  - name: gainslift_bins
+    value_attr: gainslift_bins
+  - name: histogram_type
+    value_attr: histogram_type
+  - name: huber_alpha
+    value_attr: huber_alpha
+  - name: ignore_const_cols
+    value_attr: ignore_const_cols
+  - name: ignored_columns
+    value_attr: ignored_columns
+  - name: in_training_checkpoints_dir
+    value_attr: in_training_checkpoints_dir
+  - name: in_training_checkpoints_tree_interval
+    value_attr: in_training_checkpoints_tree_interval
+  - name: interaction_constraints
+    value_attr: interaction_constraints
+  - name: keep_cross_validation_fold_assignment
+    value_attr: keep_cross_validation_fold_assignment
+  - name: keep_cross_validation_models
+    value_attr: keep_cross_validation_models
+  - name: keep_cross_validation_predictions
+    value_attr: keep_cross_validation_predictions
+  - name: learn_rate
+    value_attr: learn_rate
+  - name: learn_rate_annealing
+    value_attr: learn_rate_annealing
+  - name: max_abs_leafnode_pred
+    value_attr: max_abs_leafnode_pred
+  - name: max_after_balance_size
+    value_attr: max_after_balance_size
+  - name: max_confusion_matrix_size
+    value_attr: max_confusion_matrix_size
+  - name: max_depth
+    value_attr: max_depth
+  - name: max_runtime_secs
+    value_attr: max_runtime_secs
+  - name: min_rows
+    value_attr: min_rows
+  - name: min_split_improvement
+    value_attr: min_split_improvement
+  - name: monotone_constraints
+    value_attr: monotone_constraints
+  - name: nbins
+    value_attr: nbins
+  - name: nbins_cats
+    value_attr: nbins_cats
+  - name: nbins_top_level
+    value_attr: nbins_top_level
+  - name: nfolds
+    value_attr: nfolds
+  - name: ntrees
+    value_attr: ntrees
+  - name: offset_column
+    value_attr: offset_column
+  - name: pred_noise_bandwidth
+    value_attr: pred_noise_bandwidth
+  - name: quantile_alpha
+    value_attr: quantile_alpha
+  - name: r2_stopping
+    value_attr: r2_stopping
+  - name: response_column
+    value_attr: response_column
+  - name: sample_rate
+    value_attr: sample_rate
+  - name: sample_rate_per_class
+    value_attr: sample_rate_per_class
+  - name: score_each_iteration
+    value_attr: score_each_iteration
+  - name: score_tree_interval
+    value_attr: score_tree_interval
+  - name: seed
+    value_attr: seed
+  - name: stopping_metric
+    value_attr: stopping_metric
+  - name: stopping_rounds
+    value_attr: stopping_rounds
+  - name: stopping_tolerance
+    value_attr: stopping_tolerance
+  - name: tweedie_power
+    value_attr: tweedie_power
+  - name: weights_column
+    value_attr: weights_column

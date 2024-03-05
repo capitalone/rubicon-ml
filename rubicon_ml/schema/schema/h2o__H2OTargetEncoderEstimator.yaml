@@ -1,0 +1,34 @@
+name: h2o__H2OTargetEncoderEstimator
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.44.0.1
+docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/modeling.html#h2otargetencoderestimator
+
+artifacts:
+  - self: log_h2o_model
+parameters:
+  - name: blending
+    value_attr: blending
+  - name: columns_to_encode
+    value_attr: columns_to_encode
+  - name: data_leakage_handling
+    value_attr: data_leakage_handling
+  - name: fold_column
+    value_attr: fold_column
+  - name: ignored_columns
+    value_attr: ignored_columns
+  - name: inflection_point
+    value_attr: inflection_point
+  - name: keep_original_categorical_columns
+    value_attr: keep_original_categorical_columns
+  - name: noise
+    value_attr: noise
+  - name: response_column
+    value_attr: response_column
+  - name: seed
+    value_attr: seed
+  - name: smoothing
+    value_attr: smoothing
