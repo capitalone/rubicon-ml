@@ -14,12 +14,18 @@ from rubicon_ml.exceptions import RubiconException
 
 def test_properties(project_client):
     parent = project_client
-    domain_artifact = domain.Artifact(name="test.txt")
+    domain_artifact = domain.Artifact(
+        name="test.txt",
+        tags=["x"],
+        comments=["this is a comment"],
+    )
     artifact = Artifact(domain_artifact, parent)
 
     assert artifact.id == domain_artifact.id
     assert artifact.name == domain_artifact.name
     assert artifact.description == domain_artifact.description
+    assert artifact.tags == domain_artifact.tags
+    assert artifact.comments == domain_artifact.comments
     assert artifact.created_at == domain_artifact.created_at
     assert artifact.parent == parent
 

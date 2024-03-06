@@ -56,7 +56,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         return self.project.name, self.id
 
     @failsafe
-    def log_metric(self, name, value, directionality="score", description=None, tags=[]):
+    def log_metric(
+        self,
+        name: str,
+        value: float,
+        directionality: str = "score",
+        description: str = None,
+        tags: list[str] = [],
+        comments: list[str] = [],
+    ) -> Metric:
         """Create a metric under the experiment.
 
         Parameters
@@ -76,6 +84,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         tags : list of str, optional
             Values to tag the experiment with. Use tags to organize and
             filter your metrics.
+        comments : list of str, optional
+            Values to comment the experiment with. Use comments to organize and
+            filter your metrics.
 
         Returns
         -------
@@ -85,8 +96,18 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
         metric = domain.Metric(
-            name, value, directionality=directionality, description=description, tags=tags
+            name,
+            value,
+            directionality=directionality,
+            description=description,
+            tags=tags,
+            comments=comments,
         )
         for repo in self.repositories:
             repo.create_metric(metric, self.project.name, self.id)
@@ -161,7 +182,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             return [m for m in self.metrics() if m.id == id][0]
 
     @failsafe
-    def log_feature(self, name, description=None, importance=None, tags=[]):
+    def log_feature(
+        self,
+        name: str,
+        description: str = None,
+        importance: float = None,
+        tags: list[str] = [],
+        comments: list[str] = [],
+    ) -> Feature:
         """Create a feature under the experiment.
 
         Parameters
@@ -176,6 +204,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         tags : list of str, optional
             Values to tag the experiment with. Use tags to organize and
             filter your features.
+        comments : list of str, optional
+            Values to comment the experiment with. Use comments to organize and
+            filter your features.
 
         Returns
         -------
@@ -185,7 +216,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
-        feature = domain.Feature(name, description=description, importance=importance, tags=tags)
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
+        feature = domain.Feature(
+            name, description=description, importance=importance, tags=tags, comments=comments
+        )
 
         for repo in self.repositories:
             repo.create_feature(feature, self.project.name, self.id)
@@ -260,7 +298,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             return [f for f in self.features() if f.id == id][0]
 
     @failsafe
-    def log_parameter(self, name, value=None, description=None, tags=[]):
+    def log_parameter(
+        self,
+        name: str,
+        value: object = None,
+        description: str = None,
+        tags: list[str] = [],
+        comments: list[str] = [],
+    ) -> Parameter:
         """Create a parameter under the experiment.
 
         Parameters
@@ -277,6 +322,9 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         tags : list of str, optional
             Values to tag the parameter with. Use tags to organize and
             filter your parameters.
+        comments : list of str, optional
+            Values to comment the experiment with. Use comments to organize and
+            filter your features.
 
         Returns
         -------
@@ -286,7 +334,14 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
-        parameter = domain.Parameter(name, value=value, description=description, tags=tags)
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
+        parameter = domain.Parameter(
+            name, value=value, description=description, tags=tags, comments=comments
+        )
 
         for repo in self.repositories:
             repo.create_parameter(parameter, self.project.name, self.id)

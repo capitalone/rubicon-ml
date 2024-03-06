@@ -23,6 +23,7 @@ def test_properties(project_client):
         commit_hash="a-commit-hash",
         training_metadata=domain.utils.TrainingMetadata([("test/path", "SELECT * FROM test")]),
         tags=["x"],
+        comments=["this is a comment"],
     )
     experiment = Experiment(domain_experiment, project)
 
@@ -35,6 +36,7 @@ def test_properties(project_client):
     assert experiment.commit_hash == domain_experiment.commit_hash
     assert experiment.training_metadata == domain_experiment.training_metadata.training_metadata[0]
     assert experiment.tags == domain_experiment.tags
+    assert experiment.comments == domain_experiment.comments
     assert experiment.created_at == domain_experiment.created_at
     assert experiment.id == domain_experiment.id
     assert experiment.project == project

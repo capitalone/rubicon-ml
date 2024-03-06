@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
-from rubicon_ml.client import Base, TagMixin
+from rubicon_ml.client import Base, CommentMixin, TagMixin
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.exceptions import RubiconException
 
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import Dataframe as DataframeDomain
 
 
-class Dataframe(Base, TagMixin):
+class Dataframe(Base, TagMixin, CommentMixin):
     """A client dataframe.
 
     A `dataframe` is a two-dimensional, tabular dataset with
