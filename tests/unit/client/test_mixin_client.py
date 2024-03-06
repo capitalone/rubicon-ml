@@ -25,22 +25,30 @@ def _raise_error():
 # ArtifactMixin
 def test_log_artifact_from_bytes(project_client):
     project = project_client
-    artifact = ArtifactMixin.log_artifact(project, data_bytes=b"content", name="test.txt")
+    artifact = ArtifactMixin.log_artifact(
+        project, data_bytes=b"content", name="test.txt", tags=["x"], comments=["this is a comment"]
+    )
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert artifact.name == "test.txt"
     assert artifact.data == b"content"
+    assert artifact.tags == ["x"]
+    assert artifact.comments == ["this is a comment"]
 
 
 def test_log_artifact_from_file(project_client):
     project = project_client
     mock_file = MagicMock()
     mock_file.__enter__().read.side_effect = [b"content"]
-    artifact = ArtifactMixin.log_artifact(project, data_file=mock_file, name="test.txt")
+    artifact = ArtifactMixin.log_artifact(
+        project, data_file=mock_file, name="test.txt", tags=["x"], comments=["this is a comment"]
+    )
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert artifact.name == "test.txt"
     assert artifact.data == b"content"
+    assert artifact.tags == ["x"]
+    assert artifact.comments == ["this is a comment"]
 
 
 @patch("fsspec.implementations.local.LocalFileSystem.open")
@@ -49,11 +57,15 @@ def test_log_artifact_from_path(mock_open, project_client):
     mock_file = MagicMock()
     mock_file().read.side_effect = [b"content"]
     mock_open.side_effect = mock_file
-    artifact = ArtifactMixin.log_artifact(project, data_path="/path/to/test.txt")
+    artifact = ArtifactMixin.log_artifact(
+        project, data_path="/path/to/test.txt", tags=["x"], comments=["this is a comment"]
+    )
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert artifact.name == "test.txt"
     assert artifact.data == b"content"
+    assert artifact.tags == ["x"]
+    assert artifact.comments == ["this is a comment"]
 
 
 def test_log_artifact_throws_error_if_data_missing(project_client):
