@@ -8,7 +8,7 @@ import dask.dataframe as dd
 import pandas as pd
 
 from rubicon_ml import domain
-from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment, TagMixin
+from rubicon_ml.client import ArtifactMixin, Base, DataframeMixin, Experiment
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import filter_children
 from rubicon_ml.exceptions import RubiconException
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import Project as ProjectDomain
 
 
-class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
+class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
     """A client project.
 
     A `project` is a collection of `experiments`,
@@ -74,6 +74,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
         commit_hash,
         training_metadata,
         tags,
+        comments,
     ):
         """Instantiates and returns an experiment domain object."""
         if self.is_auto_git_enabled:
@@ -94,6 +95,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
             commit_hash=commit_hash,
             training_metadata=training_metadata,
             tags=tags,
+            comments=comments,
         )
 
     def _group_experiments(self, experiments: List[Experiment], group_by: Optional[str] = None):
@@ -218,6 +220,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
         commit_hash: Optional[str] = None,
         training_metadata: Optional[Union[Tuple, List[Tuple]]] = None,
         tags: Optional[List[str]] = None,
+        comments: Optional[List[str]] = None,
     ) -> Experiment:
         """Log a new experiment to this project.
 
@@ -248,6 +251,8 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
             to differentiate between the type of model or classifier
             used during the experiment (i.e. `linear regression`
             or `random forest`).
+        comments : list of str, optional
+            Values to comment the experiment with.
 
         Returns
         -------
@@ -260,6 +265,14 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
+        if comments is None:
+            comments = []
+
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
         experiment = self._create_experiment_domain(
             name,
             description,
@@ -268,6 +281,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin, TagMixin):
             commit_hash,
             training_metadata,
             tags,
+            comments,
         )
         for repo in self.repositories:
             repo.create_experiment(experiment)
