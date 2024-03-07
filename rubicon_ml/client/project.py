@@ -4,7 +4,6 @@ import subprocess
 import warnings
 from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union
 
-import dask.dataframe as dd
 import pandas as pd
 
 from rubicon_ml import domain
@@ -15,6 +14,8 @@ from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.schema.logger import SchemaMixin
 
 if TYPE_CHECKING:
+    import dask.dataframe as dd
+
     from rubicon_ml import Rubicon
     from rubicon_ml.client import Config, Dataframe
     from rubicon_ml.domain import Project as ProjectDomain
@@ -204,6 +205,15 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             df = df.sort_values(by=["created_at"], ascending=False).reset_index(drop=True)
 
             if df_type == "dask":
+                try:
+                    from dask import dataframe as dd
+                except ImportError:
+                    raise RubiconException(
+                        "`rubicon_ml` requires `dask` to be installed in the current "
+                        "environment to create dataframes with `df_type`='dask'. `pip install "
+                        "dask[dataframe]` or `conda install dask` to continue."
+                    )
+
                 df = dd.from_pandas(df, npartitions=1)
 
             experiment_dfs[group] = df
