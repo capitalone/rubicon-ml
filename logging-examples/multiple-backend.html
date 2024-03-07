@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Manage Experiment Relationships" href="manage-experiment-relationships.html" /><link rel="prev" title="Link Plots to Features" href="logging-feature-plots.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Log with Multiple Backends - rubicon-ml v0.6.3</title>
+        <title>Log with Multiple Backends - rubicon-ml v0.6.4</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -126,7 +126,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.3</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +153,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -256,7 +256,7 @@
 <hr class="docutils" />
 <section id="Log-with-Multiple-Backends">
 <h1>Log with Multiple Backends<a class="headerlink" href="#Log-with-Multiple-Backends" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> allows users to instantiate <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects with multiple backends to write to/read from. These backends include local, memory, and S3 repositories. Here’s a walk through of how one might instantiate and use a <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object with multiple backends.</p>
+<p>rubicon-ml allows users to instantiate <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects with multiple backends to write to/read from at once. These backends include local, memory, and S3 repositories. Here’s a walk through of how one might instantiate and use a <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> object with multiple backends.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -265,199 +265,128 @@
 </pre></div>
 </div>
 </div>
+<p>Let’s say we want to log to two separate locations on our local filesystem. This example is a bit contrived, but you could imagine writing to both a local filesystem for quick, ad-hoc exploration and an S3 bucket for persistent storage.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#rb = Rubicon(persistence=&quot;memory&quot;)</span>
-<span class="c1">#or</span>
-<span class="c1">#rb = Rubicon(persistence=&quot;filesystem&quot;)</span>
-</pre></div>
-</div>
-</div>
-<p>However, when we want multiple backends we utilize the <code class="docutils literal notranslate"><span class="pre">composite_config</span></code> kwarg:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#example multiple backend instantiaiton</span>
-<span class="n">rb</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">composite_config</span><span class="o">=</span><span class="p">[</span>
-    <span class="p">{</span><span class="s2">&quot;persistence&quot;</span><span class="p">:</span> <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="s2">&quot;root_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./rubicon-root/rootA&quot;</span><span class="p">},</span>
-    <span class="p">{</span><span class="s2">&quot;persistence&quot;</span><span class="p">:</span> <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="s2">&quot;root_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./rubicon-root/rootB&quot;</span><span class="p">},</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon_composite</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">composite_config</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;persistence&quot;</span><span class="p">:</span> <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="s2">&quot;root_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./rubicon-root/root_a&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;persistence&quot;</span><span class="p">:</span> <span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="s2">&quot;root_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./rubicon-root/root_b&quot;</span><span class="p">},</span>
 <span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<section id="Write-Commands">
-<h2>Write Commands<a class="headerlink" href="#Write-Commands" title="Link to this heading">#</a></h2>
-<p>The following commands write to all insantiated backend repositories:</p>
-<div class="nbinput nblast docutils container">
+<section id="Writing">
+<h2>Writing<a class="headerlink" href="#Writing" title="Link to this heading">#</a></h2>
+<p>All of rubicon-ml’s logging functions will now log to both locations in the filesystem with a single function call.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">project_composite</span> <span class="o">=</span> <span class="n">rubicon_composite</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple backends&quot;</span><span class="p">)</span>
+<span class="n">experiment_composite</span> <span class="o">=</span> <span class="n">project_composite</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">()</span>
+
+<span class="n">feature</span> <span class="o">=</span> <span class="n">experiment_composite</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="n">experiment_composite</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">parameter</span> <span class="o">=</span> <span class="n">experiment_composite</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">artifact</span> <span class="o">=</span> <span class="n">experiment_composite</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span>
+    <span class="n">data_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;example artifact&quot;</span>
+<span class="p">)</span>
+<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment_composite</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;example dataframe&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">experiment_composite</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;8abfbff9-a9a1-46de-b782-3bb4ad1c41a0&#39;
+</pre></div></div>
+</div>
+<p>Let’s verify both of our backends have been written to by retrieving the data one location at a time.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s2">&quot;example_project&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon_a</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">&quot;./rubicon-root/root_a&quot;</span><span class="p">)</span>
+<span class="n">project_a</span> <span class="o">=</span> <span class="n">rubicon_a</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple backends&quot;</span><span class="p">)</span>
 
-<span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="s2">&quot;example_experiment&quot;</span><span class="p">)</span>
-
-<span class="n">artifact</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">data_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_artifact&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]))</span>
-<span class="n">feature</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
-<span class="n">metric</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="mf">.8</span><span class="p">)</span>
-<span class="n">parameter</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">)</span>
+<span class="n">project_a</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
 </pre></div>
 </div>
 </div>
-<p>Let’s verify both of our backends have been written to:</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;8abfbff9-a9a1-46de-b782-3bb4ad1c41a0&#39;
+</pre></div></div>
+</div>
+<p>Each experiments’ IDs match, confirming they are the same.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/artifacts&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/dataframes&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/features&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/metrics&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootA/exampleproject/experiments/{experiment.id}/parameters&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rubicon_b</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="s2">&quot;./rubicon-root/root_b&quot;</span><span class="p">)</span>
+<span class="n">project_b</span> <span class="o">=</span> <span class="n">rubicon_a</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple backends&quot;</span><span class="p">)</span>
+
+<span class="n">project_b</span><span class="o">.</span><span class="n">experiments</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">exampleproject</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">experiments</span>   metadata.json
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">8661b18a-afe3-4779-8ed4-e7d2a9aba244</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">artifacts</span>     <span class="ansi-cyan-intense-fg ansi-bold">features</span>      <span class="ansi-cyan-intense-fg ansi-bold">metrics</span>
-<span class="ansi-cyan-intense-fg ansi-bold">dataframes</span>    metadata.json <span class="ansi-cyan-intense-fg ansi-bold">parameters</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">e3b53858-ae06-4a11-996b-17b077821168</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">8cd7f032-3206-480b-948b-44d878f6bb56</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">year</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">accuracy</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">nestimators</span>
+&#39;8abfbff9-a9a1-46de-b782-3bb4ad1c41a0&#39;
 </pre></div></div>
 </div>
+</section>
+<section id="Reading">
+<h2>Reading<a class="headerlink" href="#Reading" title="Link to this heading">#</a></h2>
+<p>rubicon-ml’s reading functions will iterate over all backend repositories and return from the first one they are able to read from. A <code class="docutils literal notranslate"><span class="pre">RubiconException</span></code> will be raised if none of the backend repositories can be read the requested item(s).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/artifacts&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/dataframes&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/features&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/metrics&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="o">!</span>ls<span class="w"> </span><span class="s2">&quot;./rubicon-root/rootB/exampleproject/experiments/{experiment.id}/parameters&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project_read</span> <span class="o">=</span> <span class="n">rubicon_composite</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple backends&quot;</span><span class="p">)</span>
+<span class="n">project_read</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">exampleproject</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">experiments</span>   metadata.json
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">8661b18a-afe3-4779-8ed4-e7d2a9aba244</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">artifacts</span>     <span class="ansi-cyan-intense-fg ansi-bold">features</span>      <span class="ansi-cyan-intense-fg ansi-bold">metrics</span>
-<span class="ansi-cyan-intense-fg ansi-bold">dataframes</span>    metadata.json <span class="ansi-cyan-intense-fg ansi-bold">parameters</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">e3b53858-ae06-4a11-996b-17b077821168</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">8cd7f032-3206-480b-948b-44d878f6bb56</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">year</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">accuracy</span>
-
-
-<span class="ansi-cyan-intense-fg ansi-bold">nestimators</span>
+&lt;rubicon_ml.client.project.Project at 0x16aeb83e0&gt;
 </pre></div></div>
 </div>
-</section>
-<section id="Read-Commands">
-<h2>Read Commands<a class="headerlink" href="#Read-Commands" title="Link to this heading">#</a></h2>
-<p>Now that we’ve seen both of our backends have been written to, let’s see the read commands. Read commands will iterate over all backend repositories and return from the first one they are able to read from. A <code class="docutils literal notranslate"><span class="pre">RubiconException</span></code> will be raised if none of the backend repositories can be read the requested item(s).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">projects</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">projects</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;projects: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">projects</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="n">experiments</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;experiments: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">experiments</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="n">artifacts</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">artifacts</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;artifacts: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">artifacts</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="n">dataframes</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">dataframes</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dataframes: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dataframes</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="n">features</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">features</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;features: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="n">metrics</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;metrics: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">metrics</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="n">parameters</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parameters: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">parameters</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">project_read</span><span class="o">.</span><span class="n">experiments</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;features: </span><span class="si">{</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">experiment</span><span class="o">.</span><span class="n">features</span><span class="p">()]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;metrics: </span><span class="si">{</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">()]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameters: </span><span class="si">{</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;artifact data: </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;example artifact&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dataframe data:</span><span class="se">\n</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;example dataframe&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -466,50 +395,17 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-projects: [&lt;rubicon_ml.client.project.Project object at 0x12782ba60&gt;]
-
-
-experiments: [&lt;rubicon_ml.client.experiment.Experiment object at 0x12792ae60&gt;]
-
-
-artifacts: [&lt;rubicon_ml.client.artifact.Artifact object at 0x12792ae90&gt;]
-
-
-dataframes: [&lt;rubicon_ml.client.dataframe.Dataframe object at 0x1278f1b40&gt;]
-
-
-features: [&lt;rubicon_ml.client.feature.Feature object at 0x127978130&gt;]
-
-
-metrics: [&lt;rubicon_ml.client.metric.Metric object at 0x1279780a0&gt;]
-
-
-parameters: [&lt;rubicon_ml.client.parameter.Parameter object at 0x127978310&gt;]
-
-
+features: [&#39;year&#39;]
+metrics: [&#39;accuracy&#39;]
+parameters: [&#39;n_estimators&#39;]
+artifact data: b&#39;bytes&#39;
+dataframe data:
+   x  y  z
+0  5  0  0
+1  0  5  1
+2  0  0  4
 </pre></div></div>
 </div>
-<section id="Additional-Read-Commands">
-<h3>Additional Read Commands<a class="headerlink" href="#Additional-Read-Commands" title="Link to this heading">#</a></h3>
-<p>Along with the commands demonstrated above, all other “read” type rubicon commands work the same way in that they will iterate over backend repositories and return from the first one they are able to read from. These include commands which read a specific logged object like <code class="docutils literal notranslate"><span class="pre">get_project()</span></code>, <code class="docutils literal notranslate"><span class="pre">experiment()</span></code>, <code class="docutils literal notranslate"><span class="pre">artifact()</span></code>, <code class="docutils literal notranslate"><span class="pre">dataframe()</span></code>, <code class="docutils literal notranslate"><span class="pre">metric()</span></code>, and <code class="docutils literal notranslate"><span class="pre">parameter()</span></code>.</p>
-<p>Cleaning up local repository folders</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">rubicon</span><span class="o">-</span><span class="n">root</span><span class="o">/</span><span class="n">rootA</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">rubicon</span><span class="o">-</span><span class="n">root</span><span class="o">/</span><span class="n">rootB</span>
-</pre></div>
-</div>
-</div>
-</section>
 </section>
 </section>
 
@@ -569,11 +465,8 @@ parameters: [&lt;rubicon_ml.client.parameter.Parameter object at 0x127978310&gt;
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Log with Multiple Backends</a><ul>
-<li><a class="reference internal" href="#Write-Commands">Write Commands</a></li>
-<li><a class="reference internal" href="#Read-Commands">Read Commands</a><ul>
-<li><a class="reference internal" href="#Additional-Read-Commands">Additional Read Commands</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#Writing">Writing</a></li>
+<li><a class="reference internal" href="#Reading">Reading</a></li>
 </ul>
 </li>
 </ul>

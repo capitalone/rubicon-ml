@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Representing model metadata with a schema" href="schema-representation.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>API Reference - rubicon-ml v0.6.3</title>
+        <title>API Reference - rubicon-ml v0.6.4</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -125,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.3</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.6.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.6.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -703,7 +703,7 @@ this client object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.log_artifact">
-<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextIO</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_artifact" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextIO</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_artifact" title="Link to this definition">#</a></dt>
 <dd><p>Log an artifact to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -725,6 +725,9 @@ must be prepended with ‘s3://’.</p>
 additional context.</p>
 </dd>
 <dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the experiment with. Use tags to organize and
+filter your artifacts.</p>
+</dd>
+<dt><strong>comments</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to comment the experiment with. Use comments to organize and
 filter your artifacts.</p>
 </dd>
 </dl>
@@ -787,7 +790,7 @@ Useful for recreating your exact environment at a later date.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.log_dataframe">
-<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dd.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Dataframe" title="rubicon_ml.Dataframe"><span class="pre">Dataframe</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_dataframe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dd.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Dataframe" title="rubicon_ml.Dataframe"><span class="pre">Dataframe</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_dataframe" title="Link to this definition">#</a></dt>
 <dd><p>Log a dataframe to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -798,6 +801,8 @@ Useful for recreating your exact environment at a later date.</p>
 additional context.</p>
 </dd>
 <dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The values to tag the dataframe with.</p>
+</dd>
+<dt><strong>comments: list of str</strong></dt><dd><p>The values to comment the dataframe with.</p>
 </dd>
 </dl>
 </dd>
@@ -812,7 +817,7 @@ additional context.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Project.log_experiment">
-<span class="sig-name descname"><span class="pre">log_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit_hash</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_experiment" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit_hash</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.client.experiment.Experiment"><span class="pre">Experiment</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_experiment" title="Link to this definition">#</a></dt>
 <dd><p>Log a new experiment to this project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -842,11 +847,33 @@ to differentiate between the type of model or classifier
 used during the experiment (i.e. <cite>linear regression</cite>
 or <cite>random forest</cite>).</p>
 </dd>
+<dt><strong>comments</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to comment the experiment with.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt>rubicon.client.Experiment</dt><dd><p>The created experiment.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.log_h2o_model">
+<span class="sig-name descname"><span class="pre">log_h2o_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h2o_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_cross_validation_predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">log_artifact_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_h2o_model" title="Link to this definition">#</a></dt>
+<dd><p>Log an <cite>h2o</cite> model as an artifact using <cite>h2o.save_model</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>h2o_model</strong><span class="classifier">h2o.model.ModelBase</span></dt><dd><p>The <cite>h2o</cite> model to log as an artifact.</p>
+</dd>
+<dt><strong>artifact_name</strong><span class="classifier">str, optional (default None)</span></dt><dd><p>The name of the artifact. Defaults to None, using <cite>h2o_model</cite>’s class name.</p>
+</dd>
+<dt><strong>export_cross_validation_predictions: bool, optional (default False)</strong></dt><dd><p>Passed directly to <cite>h2o.save_model</cite>.</p>
+</dd>
+<dt><strong>log_artifact_kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional kwargs to be passed directly to <cite>self.log_artifact</cite>.</p>
 </dd>
 </dl>
 </dd>
@@ -1014,6 +1041,20 @@ its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</c
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.add_comments">
+<span class="sig-name descname"><span class="pre">add_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.add_comments" title="Link to this definition">#</a></dt>
+<dd><p>Add comments to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -1078,6 +1119,12 @@ its ‘created_at’ time. It can have <cite>metrics</cite>, <cite>parameters</c
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.branch_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">branch_name</span></span><a class="headerlink" href="#rubicon_ml.Experiment.branch_name" title="Link to this definition">#</a></dt>
 <dd><p>Get the experiment’s branch name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Experiment.comments" title="Link to this definition">#</a></dt>
+<dd><p>Get this client object’s comments.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1262,7 +1309,7 @@ this client object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_artifact">
-<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextIO</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_artifact" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextIO</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_artifact" title="Link to this definition">#</a></dt>
 <dd><p>Log an artifact to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1284,6 +1331,9 @@ must be prepended with ‘s3://’.</p>
 additional context.</p>
 </dd>
 <dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the experiment with. Use tags to organize and
+filter your artifacts.</p>
+</dd>
+<dt><strong>comments</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to comment the experiment with. Use comments to organize and
 filter your artifacts.</p>
 </dd>
 </dl>
@@ -1346,7 +1396,7 @@ Useful for recreating your exact environment at a later date.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_dataframe">
-<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dd.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Dataframe" title="rubicon_ml.Dataframe"><span class="pre">Dataframe</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_dataframe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dd.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Dataframe" title="rubicon_ml.Dataframe"><span class="pre">Dataframe</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_dataframe" title="Link to this definition">#</a></dt>
 <dd><p>Log a dataframe to this client object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1357,6 +1407,8 @@ Useful for recreating your exact environment at a later date.</p>
 additional context.</p>
 </dd>
 <dt><strong>tags</strong><span class="classifier">list of str</span></dt><dd><p>The values to tag the dataframe with.</p>
+</dd>
+<dt><strong>comments: list of str</strong></dt><dd><p>The values to comment the dataframe with.</p>
 </dd>
 </dl>
 </dd>
@@ -1371,7 +1423,7 @@ additional context.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_feature">
-<span class="sig-name descname"><span class="pre">log_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_feature" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Feature" title="rubicon_ml.client.feature.Feature"><span class="pre">Feature</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_feature" title="Link to this definition">#</a></dt>
 <dd><p>Create a feature under the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1386,11 +1438,34 @@ additional context.</p>
 <dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the experiment with. Use tags to organize and
 filter your features.</p>
 </dd>
+<dt><strong>comments</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to comment the experiment with. Use comments to organize and
+filter your features.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt>rubicon.client.Feature</dt><dd><p>The created feature.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.log_h2o_model">
+<span class="sig-name descname"><span class="pre">log_h2o_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h2o_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_cross_validation_predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">log_artifact_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_h2o_model" title="Link to this definition">#</a></dt>
+<dd><p>Log an <cite>h2o</cite> model as an artifact using <cite>h2o.save_model</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>h2o_model</strong><span class="classifier">h2o.model.ModelBase</span></dt><dd><p>The <cite>h2o</cite> model to log as an artifact.</p>
+</dd>
+<dt><strong>artifact_name</strong><span class="classifier">str, optional (default None)</span></dt><dd><p>The name of the artifact. Defaults to None, using <cite>h2o_model</cite>’s class name.</p>
+</dd>
+<dt><strong>export_cross_validation_predictions: bool, optional (default False)</strong></dt><dd><p>Passed directly to <cite>h2o.save_model</cite>.</p>
+</dd>
+<dt><strong>log_artifact_kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional kwargs to be passed directly to <cite>self.log_artifact</cite>.</p>
 </dd>
 </dl>
 </dd>
@@ -1425,7 +1500,7 @@ filter your features.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_metric">
-<span class="sig-name descname"><span class="pre">log_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'score'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_metric" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directionality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'score'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Metric" title="rubicon_ml.client.metric.Metric"><span class="pre">Metric</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_metric" title="Link to this definition">#</a></dt>
 <dd><p>Create a metric under the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1445,6 +1520,9 @@ context.</p>
 <dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the experiment with. Use tags to organize and
 filter your metrics.</p>
 </dd>
+<dt><strong>comments</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to comment the experiment with. Use comments to organize and
+filter your metrics.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1458,7 +1536,7 @@ filter your metrics.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.log_parameter">
-<span class="sig-name descname"><span class="pre">log_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.log_parameter" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Parameter" title="rubicon_ml.client.parameter.Parameter"><span class="pre">Parameter</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_parameter" title="Link to this definition">#</a></dt>
 <dd><p>Create a parameter under the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1474,6 +1552,9 @@ additional context.</p>
 </dd>
 <dt><strong>tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to tag the parameter with. Use tags to organize and
 filter your parameters.</p>
+</dd>
+<dt><strong>comments</strong><span class="classifier">list of str, optional</span></dt><dd><p>Values to comment the experiment with. Use comments to organize and
+filter your features.</p>
 </dd>
 </dl>
 </dd>
@@ -1621,6 +1702,20 @@ belongs to.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.remove_comments">
+<span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.remove_comments" title="Link to this definition">#</a></dt>
+<dd><p>Remove comments from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Experiment.remove_tags">
 <span class="sig-name descname"><span class="pre">remove_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Experiment.remove_tags" title="Link to this definition">#</a></dt>
 <dd><p>Remove tags from this client object.</p>
@@ -1685,6 +1780,20 @@ be a parameter.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.add_comments">
+<span class="sig-name descname"><span class="pre">add_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter.add_comments" title="Link to this definition">#</a></dt>
+<dd><p>Add comments to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -1696,6 +1805,12 @@ be a parameter.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Parameter.comments" title="Link to this definition">#</a></dt>
+<dd><p>Get this client object’s comments.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1732,6 +1847,20 @@ be a parameter.</p>
 <dt class="sig sig-object py" id="rubicon_ml.Parameter.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.Experiment"><span class="pre">Experiment</span></a></em><a class="headerlink" href="#rubicon_ml.Parameter.parent" title="Link to this definition">#</a></dt>
 <dd><p>Get the parameter’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Parameter.remove_comments">
+<span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Parameter.remove_comments" title="Link to this definition">#</a></dt>
+<dd><p>Remove comments from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1802,6 +1931,20 @@ logged to.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.add_comments">
+<span class="sig-name descname"><span class="pre">add_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature.add_comments" title="Link to this definition">#</a></dt>
+<dd><p>Add comments to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Feature.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -1813,6 +1956,12 @@ logged to.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Feature.comments" title="Link to this definition">#</a></dt>
+<dd><p>Get this client object’s comments.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1855,6 +2004,20 @@ logged to.</p>
 <dt class="sig sig-object py" id="rubicon_ml.Feature.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.Experiment"><span class="pre">Experiment</span></a></em><a class="headerlink" href="#rubicon_ml.Feature.parent" title="Link to this definition">#</a></dt>
 <dd><p>Get the feature’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Feature.remove_comments">
+<span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Feature.remove_comments" title="Link to this definition">#</a></dt>
+<dd><p>Remove comments from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1915,6 +2078,20 @@ logged to.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.add_comments">
+<span class="sig-name descname"><span class="pre">add_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric.add_comments" title="Link to this definition">#</a></dt>
+<dd><p>Add comments to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Metric.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -1926,6 +2103,12 @@ logged to.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Metric.comments" title="Link to this definition">#</a></dt>
+<dd><p>Get this client object’s comments.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1968,6 +2151,20 @@ logged to.</p>
 <dt class="sig sig-object py" id="rubicon_ml.Metric.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#rubicon_ml.Experiment" title="rubicon_ml.Experiment"><span class="pre">Experiment</span></a></em><a class="headerlink" href="#rubicon_ml.Metric.parent" title="Link to this definition">#</a></dt>
 <dd><p>Get the metric’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Metric.remove_comments">
+<span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Metric.remove_comments" title="Link to this definition">#</a></dt>
+<dd><p>Remove comments from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -2035,6 +2232,20 @@ logged to.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.add_comments">
+<span class="sig-name descname"><span class="pre">add_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe.add_comments" title="Link to this definition">#</a></dt>
+<dd><p>Add comments to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -2046,6 +2257,12 @@ logged to.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Dataframe.comments" title="Link to this definition">#</a></dt>
+<dd><p>Get this client object’s comments.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2135,6 +2352,20 @@ URL above.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Dataframe.remove_comments">
+<span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe.remove_comments" title="Link to this definition">#</a></dt>
+<dd><p>Remove comments from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Dataframe.remove_tags">
 <span class="sig-name descname"><span class="pre">remove_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Dataframe.remove_tags" title="Link to this definition">#</a></dt>
 <dd><p>Remove tags from this client object.</p>
@@ -2194,6 +2425,20 @@ logged to.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.add_comments">
+<span class="sig-name descname"><span class="pre">add_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.add_comments" title="Link to this definition">#</a></dt>
+<dd><p>Add comments to this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to add.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.add_tags">
 <span class="sig-name descname"><span class="pre">add_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.add_tags" title="Link to this definition">#</a></dt>
 <dd><p>Add tags to this client object.</p>
@@ -2205,6 +2450,12 @@ logged to.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rubicon_ml.Artifact.comments" title="Link to this definition">#</a></dt>
+<dd><p>Get this client object’s comments.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2247,14 +2498,19 @@ Defaults to the artifact’s given name when logged.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.get_data">
-<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unpickle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.get_data" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deserialize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'h2o'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unpickle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.get_data" title="Link to this definition">#</a></dt>
 <dd><p>Loads the data associated with this artifact and
 unpickles if needed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>unpickle</strong><span class="classifier">bool, optional</span></dt><dd><p>Flag indicating whether artifact data must be
-unpickled. Will be returned as bytes by default.</p>
+<dt><strong>deseralize</strong><span class="classifier">str, optional</span></dt><dd><p>Method to use to deseralize this artifact’s data.
+* None to disable deseralization and return the raw data.
+* “h2o” to use <cite>h2o.load_model</cite> to load the data.
+Defaults to None.</p>
+</dd>
+<dt><strong>unpickle</strong><span class="classifier">bool, optional</span></dt><dd><p>Flag indicating whether or not to unpickle artifact data.
+<cite>deserialize</cite> takes precedence. Defaults to False.</p>
 </dd>
 </dl>
 </dd>
@@ -2283,6 +2539,20 @@ unpickled. Will be returned as bytes by default.</p>
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#rubicon_ml.Artifact.parent" title="Link to this definition">#</a></dt>
 <dd><p>Get the artifact’s parent client object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Artifact.remove_comments">
+<span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.remove_comments" title="Link to this definition">#</a></dt>
+<dd><p>Remove comments from this client object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>comments</strong><span class="classifier">list of str</span></dt><dd><p>The comment values to remove.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -3586,6 +3856,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Project.log_conda_environment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_dataframe"><code class="docutils literal notranslate"><span class="pre">Project.log_dataframe()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_experiment"><code class="docutils literal notranslate"><span class="pre">Project.log_experiment()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_h2o_model"><code class="docutils literal notranslate"><span class="pre">Project.log_h2o_model()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_json"><code class="docutils literal notranslate"><span class="pre">Project.log_json()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Project.log_pip_requirements()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_with_schema"><code class="docutils literal notranslate"><span class="pre">Project.log_with_schema()</span></code></a></li>
@@ -3603,10 +3874,12 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#experiment">Experiment</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.add_child_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.add_child_experiment()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.add_comments"><code class="docutils literal notranslate"><span class="pre">Experiment.add_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.add_tags"><code class="docutils literal notranslate"><span class="pre">Experiment.add_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.artifact"><code class="docutils literal notranslate"><span class="pre">Experiment.artifact()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.artifacts"><code class="docutils literal notranslate"><span class="pre">Experiment.artifacts()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.branch_name"><code class="docutils literal notranslate"><span class="pre">Experiment.branch_name</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.comments"><code class="docutils literal notranslate"><span class="pre">Experiment.comments</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.commit_hash"><code class="docutils literal notranslate"><span class="pre">Experiment.commit_hash</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.created_at"><code class="docutils literal notranslate"><span class="pre">Experiment.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.dataframe()</span></code></a></li>
@@ -3624,6 +3897,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_conda_environment"><code class="docutils literal notranslate"><span class="pre">Experiment.log_conda_environment()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.log_dataframe()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_feature"><code class="docutils literal notranslate"><span class="pre">Experiment.log_feature()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_h2o_model"><code class="docutils literal notranslate"><span class="pre">Experiment.log_h2o_model()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_json"><code class="docutils literal notranslate"><span class="pre">Experiment.log_json()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_metric"><code class="docutils literal notranslate"><span class="pre">Experiment.log_metric()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_parameter"><code class="docutils literal notranslate"><span class="pre">Experiment.log_parameter()</span></code></a></li>
@@ -3635,6 +3909,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.parameter"><code class="docutils literal notranslate"><span class="pre">Experiment.parameter()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.parameters"><code class="docutils literal notranslate"><span class="pre">Experiment.parameters()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.project"><code class="docutils literal notranslate"><span class="pre">Experiment.project</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.remove_comments"><code class="docutils literal notranslate"><span class="pre">Experiment.remove_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.remove_tags"><code class="docutils literal notranslate"><span class="pre">Experiment.remove_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.repositories"><code class="docutils literal notranslate"><span class="pre">Experiment.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.repository"><code class="docutils literal notranslate"><span class="pre">Experiment.repository</span></code></a></li>
@@ -3646,13 +3921,16 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#parameter">Parameter</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.add_comments"><code class="docutils literal notranslate"><span class="pre">Parameter.add_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.add_tags"><code class="docutils literal notranslate"><span class="pre">Parameter.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.comments"><code class="docutils literal notranslate"><span class="pre">Parameter.comments</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.created_at"><code class="docutils literal notranslate"><span class="pre">Parameter.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.description"><code class="docutils literal notranslate"><span class="pre">Parameter.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.id"><code class="docutils literal notranslate"><span class="pre">Parameter.id</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Parameter.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.name"><code class="docutils literal notranslate"><span class="pre">Parameter.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.parent"><code class="docutils literal notranslate"><span class="pre">Parameter.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Parameter.remove_comments"><code class="docutils literal notranslate"><span class="pre">Parameter.remove_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.remove_tags"><code class="docutils literal notranslate"><span class="pre">Parameter.remove_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.repositories"><code class="docutils literal notranslate"><span class="pre">Parameter.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Parameter.repository"><code class="docutils literal notranslate"><span class="pre">Parameter.repository</span></code></a></li>
@@ -3664,7 +3942,9 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#feature">Feature</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Feature"><code class="docutils literal notranslate"><span class="pre">Feature</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Feature.add_comments"><code class="docutils literal notranslate"><span class="pre">Feature.add_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.add_tags"><code class="docutils literal notranslate"><span class="pre">Feature.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.comments"><code class="docutils literal notranslate"><span class="pre">Feature.comments</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.created_at"><code class="docutils literal notranslate"><span class="pre">Feature.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.description"><code class="docutils literal notranslate"><span class="pre">Feature.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.id"><code class="docutils literal notranslate"><span class="pre">Feature.id</span></code></a></li>
@@ -3672,6 +3952,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Feature.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Feature.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.name"><code class="docutils literal notranslate"><span class="pre">Feature.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.parent"><code class="docutils literal notranslate"><span class="pre">Feature.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Feature.remove_comments"><code class="docutils literal notranslate"><span class="pre">Feature.remove_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.remove_tags"><code class="docutils literal notranslate"><span class="pre">Feature.remove_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.repositories"><code class="docutils literal notranslate"><span class="pre">Feature.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Feature.repository"><code class="docutils literal notranslate"><span class="pre">Feature.repository</span></code></a></li>
@@ -3682,7 +3963,9 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#metric">Metric</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Metric"><code class="docutils literal notranslate"><span class="pre">Metric</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Metric.add_comments"><code class="docutils literal notranslate"><span class="pre">Metric.add_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.add_tags"><code class="docutils literal notranslate"><span class="pre">Metric.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.comments"><code class="docutils literal notranslate"><span class="pre">Metric.comments</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.created_at"><code class="docutils literal notranslate"><span class="pre">Metric.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.description"><code class="docutils literal notranslate"><span class="pre">Metric.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.directionality"><code class="docutils literal notranslate"><span class="pre">Metric.directionality</span></code></a></li>
@@ -3690,6 +3973,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Metric.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Metric.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.name"><code class="docutils literal notranslate"><span class="pre">Metric.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.parent"><code class="docutils literal notranslate"><span class="pre">Metric.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Metric.remove_comments"><code class="docutils literal notranslate"><span class="pre">Metric.remove_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.remove_tags"><code class="docutils literal notranslate"><span class="pre">Metric.remove_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.repositories"><code class="docutils literal notranslate"><span class="pre">Metric.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Metric.repository"><code class="docutils literal notranslate"><span class="pre">Metric.repository</span></code></a></li>
@@ -3701,7 +3985,9 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#dataframe">Dataframe</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe"><code class="docutils literal notranslate"><span class="pre">Dataframe</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.add_comments"><code class="docutils literal notranslate"><span class="pre">Dataframe.add_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.add_tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.comments"><code class="docutils literal notranslate"><span class="pre">Dataframe.comments</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.created_at"><code class="docutils literal notranslate"><span class="pre">Dataframe.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.description"><code class="docutils literal notranslate"><span class="pre">Dataframe.description</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.get_data"><code class="docutils literal notranslate"><span class="pre">Dataframe.get_data()</span></code></a></li>
@@ -3710,6 +3996,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.name"><code class="docutils literal notranslate"><span class="pre">Dataframe.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.parent"><code class="docutils literal notranslate"><span class="pre">Dataframe.parent</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.plot"><code class="docutils literal notranslate"><span class="pre">Dataframe.plot()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Dataframe.remove_comments"><code class="docutils literal notranslate"><span class="pre">Dataframe.remove_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.remove_tags"><code class="docutils literal notranslate"><span class="pre">Dataframe.remove_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.repositories"><code class="docutils literal notranslate"><span class="pre">Dataframe.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Dataframe.repository"><code class="docutils literal notranslate"><span class="pre">Dataframe.repository</span></code></a></li>
@@ -3720,7 +4007,9 @@ log a parameter to an existing experiment.</p>
 </li>
 <li><a class="reference internal" href="#artifact">Artifact</a><ul>
 <li><a class="reference internal" href="#rubicon_ml.Artifact"><code class="docutils literal notranslate"><span class="pre">Artifact</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.add_comments"><code class="docutils literal notranslate"><span class="pre">Artifact.add_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.add_tags"><code class="docutils literal notranslate"><span class="pre">Artifact.add_tags()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.comments"><code class="docutils literal notranslate"><span class="pre">Artifact.comments</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.created_at"><code class="docutils literal notranslate"><span class="pre">Artifact.created_at</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.data"><code class="docutils literal notranslate"><span class="pre">Artifact.data</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.description"><code class="docutils literal notranslate"><span class="pre">Artifact.description</span></code></a></li>
@@ -3730,6 +4019,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.is_auto_git_enabled"><code class="docutils literal notranslate"><span class="pre">Artifact.is_auto_git_enabled()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.name"><code class="docutils literal notranslate"><span class="pre">Artifact.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.parent"><code class="docutils literal notranslate"><span class="pre">Artifact.parent</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Artifact.remove_comments"><code class="docutils literal notranslate"><span class="pre">Artifact.remove_comments()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.remove_tags"><code class="docutils literal notranslate"><span class="pre">Artifact.remove_tags()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.repositories"><code class="docutils literal notranslate"><span class="pre">Artifact.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Artifact.repository"><code class="docutils literal notranslate"><span class="pre">Artifact.repository</span></code></a></li>
