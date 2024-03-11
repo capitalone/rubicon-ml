@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import pickle
+import tempfile
 import warnings
+import zipfile
 from typing import TYPE_CHECKING, Literal, Optional
 
 import fsspec
@@ -112,7 +115,12 @@ class Artifact(Base, TagMixin, CommentMixin):
         return json.loads(self.get_data())
 
     @failsafe
-    def download(self, location: Optional[str] = None, name: Optional[str] = None):
+    def download(
+        self,
+        location: Optional[str] = None,
+        name: Optional[str] = None,
+        unzip: bool = False,
+    ):
         """Download this artifact's data.
 
         Parameters
@@ -125,15 +133,35 @@ class Artifact(Base, TagMixin, CommentMixin):
         name : str, optional
             The name to give the downloaded artifact file.
             Defaults to the artifact's given name when logged.
+        unzip : bool, optional
+            True to unzip the artifact data. False otherwise.
+            Defaults to False.
         """
+        project_name, experiment_id = self.parent._get_identifiers()
+
         if location is None:
             location = os.getcwd()
 
         if name is None:
             name = self._domain.name
 
-        with fsspec.open(os.path.join(location, name), "wb", auto_mkdir=False) as f:
-            f.write(self.data)
+        if unzip:
+            temp_file_context = tempfile.TemporaryDirectory
+        else:
+            temp_file_context = contextlib.nullcontext
+
+        with temp_file_context() as temp_dir:
+            if unzip:
+                location_path = os.path.join(temp_dir, "temp_file.zip")
+            else:
+                location_path = os.path.join(location, name)
+
+            with fsspec.open(location_path, "wb", auto_mkdir=False) as f:
+                f.write(self.data)
+
+            if unzip:
+                with zipfile.ZipFile(location_path, "r") as zip_file:
+                    zip_file.extractall(location)
 
     @property
     def id(self) -> str:
