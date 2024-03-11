@@ -171,6 +171,13 @@ class Artifact(Base, TagMixin, CommentMixin):
         unzip : bool, optional
             True to unzip the artifact data. False otherwise.
             Defaults to False.
+
+        Yields
+        ------
+        file
+            An open file pointer into the directory the artifact data was
+            temporarily downloaded into. If the artifact is a single file,
+            its name is stored in the `artifact.name` attribute.
         """
         with tempfile.TemporaryDirectory() as temp_dir:
             self.download(location=temp_dir, unzip=unzip)

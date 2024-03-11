@@ -74,7 +74,8 @@ def test_log_artifact_throws_error_if_data_missing(project_client):
         ArtifactMixin.log_artifact(project, name="test.txt")
 
     assert (
-        "One of `data_bytes`, `data_file`, `data_object` or `data_path` must be provided." in str(e)
+        "One of `data_bytes`, `data_directory`, `data_file`, `data_object` "
+        "or `data_path` must be provided." in str(e)
     )
 
 
