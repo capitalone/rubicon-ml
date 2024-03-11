@@ -137,8 +137,6 @@ class Artifact(Base, TagMixin, CommentMixin):
             True to unzip the artifact data. False otherwise.
             Defaults to False.
         """
-        project_name, experiment_id = self.parent._get_identifiers()
-
         if location is None:
             location = os.getcwd()
 
@@ -162,6 +160,22 @@ class Artifact(Base, TagMixin, CommentMixin):
             if unzip:
                 with zipfile.ZipFile(location_path, "r") as zip_file:
                     zip_file.extractall(location)
+
+    @contextlib.contextmanager
+    @failsafe
+    def temporary_download(self, unzip: bool = False):
+        """Temporarily download this artifact's data within a context manager.
+
+        Parameters
+        ----------
+        unzip : bool, optional
+            True to unzip the artifact data. False otherwise.
+            Defaults to False.
+        """
+        with tempfile.TemporaryDirectory() as temp_dir:
+            self.download(location=temp_dir, unzip=unzip)
+
+            yield temp_dir
 
     @property
     def id(self) -> str:
