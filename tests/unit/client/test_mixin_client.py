@@ -1,5 +1,7 @@
 import subprocess
+import tempfile
 import warnings
+from pathlib import Path
 from unittest import mock
 from unittest.mock import MagicMock, patch
 
@@ -34,6 +36,35 @@ def test_log_artifact_from_bytes(project_client):
     assert artifact.data == b"content"
     assert artifact.tags == ["x"]
     assert artifact.comments == ["this is a comment"]
+
+
+def test_log_artifact_from_directory(project_client):
+    """Test logging artifacts from a directory."""
+    project = project_client
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        with open(Path(temp_dir, "test_file_a.txt"), "w") as file:
+            file.write("testing rubicon")
+
+        with open(Path(temp_dir, "test_file_b.txt"), "w") as file:
+            file.write("testing rubicon again")
+
+        artifact = ArtifactMixin.log_artifact(
+            project,
+            data_directory=temp_dir,
+            name="test.zip",
+            tags=["x"],
+            comments=["this is a comment"],
+        )
+
+    assert artifact.id in [a.id for a in project.artifacts()]
+    assert artifact.name == "test.zip"
+    assert artifact.tags == ["x"]
+    assert artifact.comments == ["this is a comment"]
+
+    with artifact.temporary_download(unzip=True) as temp_artifact_dir:
+        assert Path(temp_artifact_dir, "test_file_a.txt").exists()
+        assert Path(temp_artifact_dir, "test_file_b.txt").exists()
 
 
 def test_log_artifact_from_file(project_client):
