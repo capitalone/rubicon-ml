@@ -1,4 +1,6 @@
 import os
+import tempfile
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import h2o
@@ -164,3 +166,42 @@ def test_get_data_deserialize_h2o(
     artifact_data = artifact.get_data(deserialize="h2o")
 
     assert artifact_data.__class__ == h2o_model.__class__
+
+
+def test_download_data_unzip(project_client):
+    """Test downloading and unzipping artifact data."""
+    project = project_client
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        with open(Path(temp_dir, "test_file_a.txt"), "w") as file:
+            file.write("testing rubicon")
+
+        with open(Path(temp_dir, "test_file_b.txt"), "w") as file:
+            file.write("testing rubicon again")
+
+        artifact = project.log_artifact(
+            data_directory=temp_dir,
+            name="test.zip",
+            tags=["x"],
+            comments=["this is a comment"],
+        )
+
+        Path(temp_dir, "test_file_a.txt").unlink()
+        Path(temp_dir, "test_file_b.txt").unlink()
+
+        artifact.download(location=temp_dir, unzip=True)
+
+        assert Path(temp_dir, "test_file_a.txt").exists()
+        assert Path(temp_dir, "test_file_b.txt").exists()
+
+
+def test_temporary_download(project_client):
+    """Test temporarily downloading artifact data."""
+    project = project_client
+    data = b"content"
+    artifact = project.log_artifact(name="test.txt", data_bytes=data)
+
+    with artifact.temporary_download() as temp_artifact_dir:
+        assert Path(temp_artifact_dir, "test.txt").exists()
+
+    assert not Path(temp_artifact_dir, "test.txt").exists()
