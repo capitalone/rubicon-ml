@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import pickle
 import subprocess
 import tempfile
 import warnings
+import zipfile
 from datetime import datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, TextIO, Union
 
 import fsspec
@@ -30,13 +33,12 @@ class ArtifactMixin:
 
     _domain: ArtifactDomain
 
-    def _validate_data(self, data_bytes, data_file, data_object, data_path, name):
-        """Raises a `RubiconException` if the data to log as
-        an artifact is improperly provided.
-        """
-        if not any([data_bytes, data_file, data_object, data_path]):
+    def _validate_data(self, data_bytes, data_directory, data_file, data_object, data_path, name):
+        """Raises a `RubiconException` if the data to log as an artifact is improperly provided."""
+        if not any([data_bytes, data_directory, data_file, data_object, data_path]):
             raise RubiconException(
-                "One of `data_bytes`, `data_file`, `data_object` or `data_path` must be provided."
+                "One of `data_bytes`, `data_directory`, `data_file`, `data_object` or "
+                "`data_path` must be provided."
             )
 
         if name is None:
@@ -45,17 +47,32 @@ class ArtifactMixin:
             else:
                 raise RubiconException("`name` must be provided if not using `data_path`.")
 
-        if data_bytes is None:
-            if data_object is not None:
-                data_bytes = pickle.dumps(data_object)
-            else:
-                if data_file is not None:
-                    f = data_file
-                elif data_path is not None:
-                    f = fsspec.open(data_path, "rb")
+        if data_directory is not None:
+            temp_file_context = tempfile.TemporaryDirectory
+        else:
+            temp_file_context = contextlib.nullcontext
 
-                with f as open_file:
-                    data_bytes = open_file.read()
+        if data_bytes is None:
+            with temp_file_context() as temp_dir:
+                if data_object is not None:
+                    data_bytes = pickle.dumps(data_object)
+                else:
+                    if data_directory is not None:
+                        temp_zip_name = Path(f"{temp_dir}/{name}")
+
+                        with zipfile.ZipFile(str(temp_zip_name), "w") as zip_file:
+                            for dir_path, _, files in os.walk(data_directory):
+                                for file in files:
+                                    zip_file.write(Path(f"{dir_path}/{file}"), arcname=file)
+
+                        file = fsspec.open(temp_zip_name, "rb")
+                    elif data_file is not None:
+                        file = data_file
+                    elif data_path is not None:
+                        file = fsspec.open(data_path, "rb")
+
+                    with file as open_file:
+                        data_bytes = open_file.read()
 
         return data_bytes, name
 
@@ -63,6 +80,7 @@ class ArtifactMixin:
     def log_artifact(
         self,
         data_bytes: Optional[bytes] = None,
+        data_directory: Optional[str] = None,
         data_file: Optional[TextIO] = None,
         data_object: Optional[Any] = None,
         data_path: Optional[str] = None,
@@ -77,6 +95,8 @@ class ArtifactMixin:
         ----------
         data_bytes : bytes, optional
             The raw bytes to log as an artifact.
+        data_directory : str, optional
+            The path to a directory to zip and log as an artifact.
         data_file : TextIOWrapper, optional
             The open file to log as an artifact.
         data_object : python object, optional
@@ -113,18 +133,30 @@ class ArtifactMixin:
         --------
         >>> # Log with bytes
         >>> experiment.log_artifact(
-        ...     data_bytes=b'hello rubicon!', name='bytes_artifact', description="log artifact from bytes"
+        ...     data_bytes=b'hello rubicon!',
+        ...     name="bytes_artifact",
+        ...     description="log artifact from bytes",
+        ... )
+
+        >>> # Log zipped directory
+        >>> experiment.log_artifact(
+        ...     data_directory="./path/to/directory/",
+        ...     name="directory.zip",
+        ...     description="log artifact from zipped directory",
         ... )
 
         >>> # Log with file
-        >>> with open('some_relevant_file', 'rb') as f:
+        >>> with open('./path/to/artifact.txt', 'rb') as file:
         >>>     project.log_artifact(
-        ...         data_file=f, name='file_artifact', description="log artifact from file"
-        ... )
+        ...         data_file=file,
+        ...         name="file_artifact",
+        ...         description="log artifact from file",
+        ...     )
 
         >>> # Log with file path
         >>> experiment.log_artifact(
-        ...     data_path="./path/to/artifact.pkl", description="log artifact from file path"
+        ...     data_path="./path/to/artifact.pkl",
+        ...     description="log artifact from file path",
         ... )
         """
         if tags is None:
@@ -139,7 +171,9 @@ class ArtifactMixin:
         ):
             raise ValueError("`comments` must be `list` of type `str`")
 
-        data_bytes, name = self._validate_data(data_bytes, data_file, data_object, data_path, name)
+        data_bytes, name = self._validate_data(
+            data_bytes, data_directory, data_file, data_object, data_path, name
+        )
 
         artifact = domain.Artifact(
             name=name,
