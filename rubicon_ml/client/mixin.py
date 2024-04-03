@@ -734,7 +734,7 @@ class CommentMixin:
     def add_comments(self, comments: List[str]):
         """Add comments to this client object.
 
-        Parameters
+        Parameter
         ----------
         comments : list of str
             The comment values to add.
