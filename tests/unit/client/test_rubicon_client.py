@@ -227,7 +227,7 @@ def test_get_project_as_dask_df(rubicon_and_project_client_with_experiments):
     rubicon, project = rubicon_and_project_client_with_experiments
     ddf = rubicon.get_project_as_df(name="Test Project", df_type="dask")
 
-    assert isinstance(ddf, dd.core.DataFrame)
+    assert isinstance(ddf, dd.DataFrame)
 
 
 def test_get_project_as_pandas_df(rubicon_and_project_client_with_experiments):
