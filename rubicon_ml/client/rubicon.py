@@ -46,13 +46,20 @@ class Rubicon:
                 Config(
                     persistence=config["persistence"],
                     root_dir=config["root_dir"],
-                    auto_git_enabled=auto_git_enabled,
+                    is_auto_git_enabled=auto_git_enabled,
                     **storage_options,
                 )
                 for config in composite_config
             ]
         else:
-            self.configs = [Config(persistence, root_dir, auto_git_enabled, **storage_options)]
+            self.configs = [
+                Config(
+                    persistence=persistence,
+                    root_dir=root_dir,
+                    is_auto_git_enabled=auto_git_enabled,
+                    **storage_options,
+                ),
+            ]
 
     @property
     def config(self):
@@ -116,7 +123,7 @@ class Rubicon:
         training_metadata: Optional[Union[List[Tuple], Tuple]],
     ):
         """Instantiates and returns a project domain object."""
-        if self.is_auto_git_enabled and github_url is None:
+        if self.is_auto_git_enabled() and github_url is None:
             github_url = self._get_github_url()
 
         if training_metadata is not None:
