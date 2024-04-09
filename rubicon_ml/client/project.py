@@ -78,7 +78,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
         comments,
     ):
         """Instantiates and returns an experiment domain object."""
-        if self.is_auto_git_enabled:
+        if self.is_auto_git_enabled():
             if branch_name is None:
                 branch_name = self._get_branch_name()
             if commit_hash is None:

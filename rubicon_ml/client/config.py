@@ -25,7 +25,7 @@ class Config:
     root_dir : str, optional
         Absolute or relative filepath. Defaults to using the local
         filesystem. Prefix with s3:// to use s3 instead.
-    auto_git_enabled : bool, optional
+    is_auto_git_enabled : bool, optional
         True to use the `git` command to automatically log relevant repository
         information to projects and experiments logged with this client instance,
         False otherwise. Defaults to False.

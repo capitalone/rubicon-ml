@@ -113,6 +113,20 @@ def test_create_project_with_auto_git(mock_completed_process_git):
     rubicon.repository.filesystem.store = {}
 
 
+def test_create_project_withouy_auto_git(mock_completed_process_git):
+    with mock.patch("subprocess.run") as mock_run:
+        mock_run.return_value = mock_completed_process_git
+
+        rubicon = Rubicon("memory", "test-root", auto_git_enabled=False)
+        rubicon.create_project("test_create_project_withouy_auto_git")
+
+        expected = []
+
+    assert mock_run.mock_calls == expected
+
+    rubicon.repository.filesystem.store = {}
+
+
 def test_get_project_by_name(rubicon_and_project_client):
     rubicon, project = rubicon_and_project_client
 

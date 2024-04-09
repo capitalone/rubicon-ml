@@ -241,7 +241,7 @@ class ExperimentsTable(VizBase):
                 "tags": ", ".join(str(tag) for tag in experiment.tags),
             }
 
-            if experiment.commit_hash is not None:
+            if experiment.commit_hash:
                 experiment_record["commit_hash"] = experiment.commit_hash[:7]
 
                 commit_hashes.add(experiment.commit_hash)

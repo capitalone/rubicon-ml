@@ -17,6 +17,15 @@ def test_experiments_table(viz_experiments):
     assert experiments_table.is_selectable is True
 
 
+def test_experiments_table_no_git_commit(viz_experiments):
+    for experiment in viz_experiments:
+        experiment._domain.commit_hash = ""
+
+    experiments_table = ExperimentsTable(experiments=viz_experiments, is_selectable=True)
+
+    assert len(viz_experiments) == len(experiments_table.experiments)
+
+
 def test_experiments_table_load_data(viz_experiments):
     experiments_table = ExperimentsTable(experiments=viz_experiments)
     experiments_table.load_experiment_data()
