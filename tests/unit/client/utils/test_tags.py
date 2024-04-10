@@ -43,6 +43,6 @@ def test_tag_container_errors():
     tags = TagContainer([])
 
     with pytest.raises(KeyError) as error:
-        tag_value = tags["missing"]
+        tags["missing"]
 
     assert "KeyError('missing')" in str(error)

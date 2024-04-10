@@ -5,6 +5,7 @@ class TagContainer(list):
     """List-based container for tags that allows indexing into tags
     with colons in them by string, like a dictionary.
     """
+
     def __getitem__(self, index_or_key):
         if isinstance(index_or_key, str):
             for tag in self:
