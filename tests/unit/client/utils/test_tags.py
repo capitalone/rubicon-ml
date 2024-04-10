@@ -1,4 +1,6 @@
-from rubicon_ml.client.utils.tags import has_tag_requirements
+import pytest
+
+from rubicon_ml.client.utils.tags import TagContainer, has_tag_requirements
 
 
 def test_or_single_success():
@@ -27,3 +29,20 @@ def test_and_single_failure():
 
 def test_and_multiple_failure():
     assert not has_tag_requirements(["x", "y", "z"], ["a", "z"], "and")
+
+
+def test_tag_container():
+    tags = TagContainer(["a", "b:c"])
+
+    assert tags[0] == "a"
+    assert tags[1] == "b:c"
+    assert tags["b"] == "c"
+
+
+def test_tag_container_errors():
+    tags = TagContainer([])
+
+    with pytest.raises(KeyError) as error:
+        tag_value = tags["missing"]
+
+    assert "KeyError('missing')" in str(error)
