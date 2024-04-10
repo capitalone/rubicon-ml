@@ -16,7 +16,7 @@ import fsspec
 
 from rubicon_ml import client, domain
 from rubicon_ml.client.utils.exception_handling import failsafe
-from rubicon_ml.client.utils.tags import filter_children
+from rubicon_ml.client.utils.tags import TagContainer, filter_children
 from rubicon_ml.domain import Artifact as ArtifactDomain
 from rubicon_ml.exceptions import RubiconException
 
@@ -704,7 +704,7 @@ class TagMixin:
             else:
                 self._update_tags(tag_data)
 
-                return self._domain.tags
+                return TagContainer(self._domain.tags)
 
         self._raise_rubicon_exception(return_err)
 
