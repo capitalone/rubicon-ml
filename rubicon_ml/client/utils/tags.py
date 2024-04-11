@@ -8,18 +8,24 @@ class TagContainer(list):
 
     def __getitem__(self, index_or_key):
         if isinstance(index_or_key, str):
+            values = []
+
             for tag in self:
                 key_value = tag.split(":", 1)
 
                 if len(key_value) > 1 and key_value[0] == index_or_key:
-                    return key_value[1]
+                    values.append(key_value[1])
 
-            raise KeyError(index_or_key)
+            if len(values) == 0:
+                raise KeyError(index_or_key)
+            elif len(values) == 1:
+                return values[0]
+            else:
+                return values
         else:
             item = super().__getitem__(index_or_key)
-            item = TagContainer(item) if isinstance(item, list) else item
 
-            return item
+            return TagContainer(item) if isinstance(item, list) else item
 
 
 def has_tag_requirements(tags: List[str], required_tags: List[str], qtype: str) -> bool:

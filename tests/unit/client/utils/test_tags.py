@@ -32,11 +32,14 @@ def test_and_multiple_failure():
 
 
 def test_tag_container():
-    tags = TagContainer(["a", "b:c"])
+    tags = TagContainer(["a", "b:c", "d:e", "d:f"])
 
     assert tags[0] == "a"
     assert tags[1] == "b:c"
+    assert tags[2] == "d:e"
+    assert tags[3] == "d:f"
     assert tags["b"] == "c"
+    assert tags["d"] == ["e", "f"]
 
 
 def test_tag_container_errors():
