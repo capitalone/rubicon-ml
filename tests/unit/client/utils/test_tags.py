@@ -42,6 +42,14 @@ def test_tag_container():
     assert tags["d"] == ["e", "f"]
 
 
+def test_tag_container_nested():
+    tags = TagContainer(["a", "b:c", "d:e", "d:f"])
+
+    assert tags[1:] == ["b:c", "d:e", "d:f"]
+    assert tags[1:2]["b"] == "c"
+    assert tags[2:4]["d"] == ["e", "f"]
+
+
 def test_tag_container_errors():
     tags = TagContainer([])
 
