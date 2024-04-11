@@ -444,8 +444,7 @@ def test_get_parent_experiments(project_client):
 
 def test_get_relative_experiments_none(project_client):
     project = project_client
-    parent = project.log_experiment(name="parent")
-    child = project.log_experiment(name="child")
+    experiment = project.log_experiment()
 
-    assert child.get_child_experiments() == []
-    assert child.get_parent_experiments() == []
+    assert experiment.get_child_experiments() == []
+    assert experiment.get_parent_experiments() == []
