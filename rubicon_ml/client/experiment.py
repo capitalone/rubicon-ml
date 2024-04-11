@@ -451,7 +451,10 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         list of rubicon_ml.client.Experiment
             The experiments with `experiment_id`s in this experiment's tags.
         """
-        experiment_ids = self.tags[tag_key]
+        try:
+            experiment_ids = self.tags[tag_key]
+        except KeyError:
+            return []
 
         if not isinstance(experiment_ids, list):
             experiment_ids = [experiment_ids]
