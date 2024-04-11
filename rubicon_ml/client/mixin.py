@@ -687,7 +687,7 @@ class TagMixin:
             self._domain.remove_tags(tag.get("removed_tags", []))
 
     @property
-    def tags(self) -> List[str]:
+    def tags(self) -> TagContainer:
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
         return_err = None
