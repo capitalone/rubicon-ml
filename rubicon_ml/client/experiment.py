@@ -451,14 +451,12 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         list of rubicon_ml.client.Experiment
             The experiments with `experiment_id`s in this experiment's tags.
         """
-        experiments = []
+        experiment_ids = self.tags[tag_key]
 
-        for tag in self.tags:
-            if f"{tag_key}:" in tag:
-                experiment_id = tag.split(":")[-1]
-                experiments.append(self.project.experiment(id=experiment_id))
+        if not isinstance(experiment_ids, list):
+            experiment_ids = [experiment_ids]
 
-        return experiments
+        return [self.project.experiment(id=exp_id) for exp_id in experiment_ids]
 
     def get_child_experiments(self) -> List[Experiment]:
         """Get the experiments that are tagged as children of this experiment.
