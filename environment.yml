@@ -10,7 +10,7 @@ dependencies:
   - intake<=2.0.4,>=0.5.2
   - jsonpath-ng<=1.6.1,>=1.5.3
   - numpy<=1.26.4,>=1.22.0
-  - pandas<=2.2.1,>=1.0.0
+  - pandas<=2.2.2,>=1.0.0
   - pyarrow<=15.0.2,>=14.0.1
   - PyYAML<=6.0.1,>=5.4.0
   - scikit-learn<=1.4.2,>=0.22.0
