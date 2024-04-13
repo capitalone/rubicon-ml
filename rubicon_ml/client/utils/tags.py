@@ -1,12 +1,14 @@
-from typing import List
+import re
+from typing import List, Optional, Union
 
 
 class TagContainer(list):
-    """List-based container for tags that allows indexing into tags
-    with colons in them by string, like a dictionary.
+    """List-based container for tags.
+
+    Allows indexing into tags with colons in them by string, like a dictionary.
     """
 
-    def __getitem__(self, index_or_key):
+    def __getitem__(self, index_or_key: Union[int, str]):
         if isinstance(index_or_key, str):
             values = []
 
@@ -29,25 +31,38 @@ class TagContainer(list):
 
 
 def has_tag_requirements(tags: List[str], required_tags: List[str], qtype: str) -> bool:
-    """Returns True if `tags` meets the requirements based on
-    the values of `required_tags` and `qtype`. False otherwise.
+    """Determines if the `required_tags` are in `tags`.
+
+    Returns True if all `required_tags` are in `tags` and `qtype` is "and" or if
+    any `required_tags` are in `tags` and `qtype` is "or". The tags in
+    `required_tags` may contain contain wildcard (*) characters.
     """
     qtype_func = any if qtype == "or" else all
 
-    return qtype_func(tag in tags for tag in required_tags)
+    if any(["*" in tag for tag in required_tags]):
+
+        def _wildcard_match(pattern, tag):
+            return re.match(f"^{pattern.replace('*', '.*')}$", tag) is not None
+
+        return qtype_func(
+            [
+                any([_wildcard_match(required_tag, tag) for tag in tags])
+                for required_tag in required_tags
+            ]
+        )
+    else:
+        return qtype_func(tag in tags for tag in required_tags)
 
 
-def filter_children(children, tags, qtype, name):
-    """Filters the provided rubicon objects by `tags` using
-    query type `qtype` and by `name`.
+def filter_children(children, tags: List[str], qtype: str, name: Optional[str]):
+    """Return the children in `children` with the given tags or name.
+
+    If both are provided, children are first filtered by tags and then by names.
     """
-    filtered_children = children
-
     if len(tags) > 0:
-        filtered_children = [
-            c for c in filtered_children if has_tag_requirements(c.tags, tags, qtype)
-        ]
-    if name is not None:
-        filtered_children = [c for c in filtered_children if c.name == name]
+        children = [c for c in children if has_tag_requirements(c.tags, tags, qtype)]
 
-    return filtered_children
+    if name is not None:
+        children = [c for c in children if c.name == name]
+
+    return children
