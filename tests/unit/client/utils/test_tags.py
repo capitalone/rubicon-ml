@@ -3,32 +3,45 @@ import pytest
 from rubicon_ml.client.utils.tags import TagContainer, has_tag_requirements
 
 
-def test_or_single_success():
-    assert has_tag_requirements(["x", "y", "z"], ["y"], "or")
+@pytest.mark.parametrize(
+    ["required_tags", "qtype"],
+    [
+        (["pre_y_post"], "or"),
+        (["missing", "pre_y_post"], "or"),
+        (["pre_y_post"], "and"),
+        (["pre_y_post", "pre_z"], "and"),
+        (["x_post", "pre_y_post"], "and"),
+        (["*y*"], "or"),
+        (["missing", "*y*"], "or"),
+        (["*y*"], "and"),
+        (["*y*", "*z"], "and"),
+        (["x*", "*y*"], "and"),
+        (["*_*_*", "*_*"], "and"),
+    ],
+)
+def test_has_tags(required_tags, qtype):
+    tags = ["x_post", "pre_y_post", "pre_z"]
+
+    assert has_tag_requirements(tags, required_tags, qtype)
 
 
-def test_or_multiple_success():
-    assert has_tag_requirements(["x", "y", "z"], ["a", "y"], "or")
+@pytest.mark.parametrize(
+    ["required_tags", "qtype"],
+    [
+        (["missing"], "or"),
+        (["missing"], "and"),
+        (["missing", "pre_z"], "and"),
+        (["*y"], "or"),
+        (["y*"], "or"),
+        (["*y"], "and"),
+        (["y*"], "and"),
+        (["missing", "*z"], "and"),
+    ],
+)
+def test_not_has_tags(required_tags, qtype):
+    tags = ["x_post", "pre_y_post", "pre_z"]
 
-
-def test_or_single_failure():
-    assert not has_tag_requirements(["x", "y", "z"], ["a"], "or")
-
-
-def test_and_single_success():
-    assert has_tag_requirements(["x", "y", "z"], ["y"], "and")
-
-
-def test_and_multiple_success():
-    assert has_tag_requirements(["x", "y", "z"], ["y", "z"], "and")
-
-
-def test_and_single_failure():
-    assert not has_tag_requirements(["x", "y", "z"], ["a"], "and")
-
-
-def test_and_multiple_failure():
-    assert not has_tag_requirements(["x", "y", "z"], ["a", "z"], "and")
+    assert not has_tag_requirements(tags, required_tags, qtype)
 
 
 def test_tag_container():
