@@ -23,7 +23,7 @@ dependencies:
 
   # for viz extras
   - dash<=2.16.1,>=2.11.0
-  - dash-bootstrap-components<=1.5.0,>=1.0.0
+  - dash-bootstrap-components<=1.6.0,>=1.0.0
 
   # for testing
   - black
