@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Query projects &amp; experiments with RubiconJSON" href="rubiconJSON-querying.html" /><link rel="prev" title="Logging with a schema" href="log-with-schema.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Tagging - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Tagging - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,63 +250,42 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/tagging.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/tagging.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Tagging">
-<h1>Tagging<a class="headerlink" href="#Tagging" title="Link to this heading">#</a></h1>
-<p>Sometimes we might want to tag <strong>experiments</strong> and objects with distinct values to organize and filter them later on. For example, tags could be used to differentiate between the type of model or classifier used during the <strong>experiment</strong> (i.e. <code class="docutils literal notranslate"><span class="pre">linear</span> <span class="pre">regression</span></code> or <code class="docutils literal notranslate"><span class="pre">random</span> <span class="pre">forest</span></code>). Besides, <strong>experiments</strong>, <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> can tag artifacts, dataframes, features, metrics, and parameters.</p>
-<p>Below, we’ll see examples of tagging functionality.</p>
-<section id="Adding-tags-when-logging">
-<h2>Adding tags when logging<a class="headerlink" href="#Adding-tags-when-logging" title="Link to this heading">#</a></h2>
-<p>By utilizing the tags parameter:</p>
+<h1>Tagging<a class="headerlink" href="#Tagging" title="Link to this heading">¶</a></h1>
+<p>Tags can be used to group and indentify specific rubicon-ml entities by shared characteristics. Any rubicon-ml entity can be tagged when logged with any number of tags. Later, tags can be leveraged to query rubicon-ml logs during retrieval.</p>
+<p>In general, a tag is any arbitrary string. rubicon-ml provides additonal functionality for tags that follow a <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;:&lt;value&gt;</span></code> format.</p>
+<section id="Logging-with-tags">
+<h2>Logging with tags<a class="headerlink" href="#Logging-with-tags" title="Link to this heading">¶</a></h2>
+<p>First, create a <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> entrypoint.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">get_or_create_project</span><span class="p">(</span><span class="s2">&quot;Tagging&quot;</span><span class="p">)</span>
-
-<span class="c1">#logging experiments with tags</span>
-<span class="n">experiment1</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;experiment1&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;odd_num_exp&quot;</span><span class="p">])</span>
-<span class="n">experiment2</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;experiment2&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;even_num_exp&quot;</span><span class="p">])</span>
-
-<span class="c1">#logging artifacts, dataframes, features, metrics and parameters with tags</span>
-<span class="n">first_artifact</span> <span class="o">=</span> <span class="n">experiment1</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="n">data_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data_path&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
-
-<span class="n">confusion_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">])</span>
-<span class="n">first_dataframe</span> <span class="o">=</span> <span class="n">experiment1</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;three_column&quot;</span><span class="p">])</span>
-
-<span class="n">first_feature</span> <span class="o">=</span> <span class="n">experiment1</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
-
-<span class="n">first_metric</span> <span class="o">=</span> <span class="n">experiment1</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="mf">.8</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;scalar&quot;</span><span class="p">])</span>
-
-<span class="c1">#can add multiple tags at logging (works for all objects)</span>
-<span class="n">first_parameter</span> <span class="o">=</span> <span class="n">experiment1</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag1&quot;</span><span class="p">,</span> <span class="s2">&quot;tag2&quot;</span><span class="p">])</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s2">&quot;tagging&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Viewing-tags">
-<h2>Viewing tags<a class="headerlink" href="#Viewing-tags" title="Link to this heading">#</a></h2>
-<p>Use the .tags attribute to view tags associated with an object:</p>
+<p>Now we’ll log three experiments with tags “a” and “b”.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">experiment1</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">experiment2</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_artifact</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_dataframe</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_feature</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_metric</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_parameter</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_a</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_a&quot;</span><span class="p">])</span>
+<span class="n">experiment_b</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;other_tag_a&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_b&quot;</span><span class="p">])</span>
+<span class="n">experiment_c</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_a&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_b&quot;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`experiment_a` ID: </span><span class="si">{</span><span class="n">experiment_a</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, tags: </span><span class="si">{</span><span class="n">experiment_a</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`experiment_b` ID: </span><span class="si">{</span><span class="n">experiment_b</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, tags: </span><span class="si">{</span><span class="n">experiment_b</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`experiment_c` ID: </span><span class="si">{</span><span class="n">experiment_c</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, tags: </span><span class="si">{</span><span class="n">experiment_c</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -313,162 +294,379 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&#39;odd_num_exp&#39;]
-[&#39;even_num_exp&#39;]
-[&#39;data&#39;]
-[&#39;three_column&#39;]
-[&#39;time&#39;]
-[&#39;scalar&#39;]
-[&#39;tag1&#39;, &#39;tag2&#39;]
+`experiment_a` ID: 7e08c0bf-7f88-46d1-89de-4e0da7e2a448, tags: [&#39;tag_a&#39;]
+`experiment_b` ID: 75e54061-5910-43a0-a036-c5a6bdd77ca1, tags: [&#39;other_tag_a&#39;, &#39;tag_b&#39;]
+`experiment_c` ID: cc09ea5c-18df-48b1-888e-e692f5d9e71a, tags: [&#39;tag_a&#39;, &#39;tag_b&#39;]
 </pre></div></div>
 </div>
-</section>
-<section id="Adding-tags-to-existing-objects">
-<h2>Adding tags to existing objects<a class="headerlink" href="#Adding-tags-to-existing-objects" title="Link to this heading">#</a></h2>
-<p>Use the object’s add_tags() method. Works the same for all taggable objects. Here’s an example:</p>
-<div class="nbinput docutils container">
+<p>Any other entity logged to an experiment can also be tagged.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment1</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;linear regression&quot;</span><span class="p">])</span>
-<span class="n">experiment2</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;random forrest&quot;</span><span class="p">])</span>
-<span class="n">first_artifact</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-<span class="n">first_dataframe</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-<span class="n">first_feature</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-<span class="n">first_metric</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="c1">#can add multiple tags (works for all objects)</span>
-<span class="n">first_parameter</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;added_tag1&quot;</span><span class="p">,</span> <span class="s2">&quot;added_tag2&quot;</span><span class="p">])</span>
-
-
-<span class="nb">print</span><span class="p">(</span><span class="n">experiment1</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">experiment2</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_artifact</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_dataframe</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_feature</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_metric</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_parameter</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+<span class="n">artifact</span> <span class="o">=</span> <span class="n">experiment_a</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span>
+    <span class="n">data_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;artifact&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;artifact&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_c&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">dataframe</span> <span class="o">=</span> <span class="n">experiment_a</span><span class="o">.</span><span class="n">log_dataframe</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_d&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">feature</span> <span class="o">=</span> <span class="n">experiment_a</span><span class="o">.</span><span class="n">log_feature</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;var_0&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_e&quot;</span><span class="p">])</span>
+<span class="n">parameter</span> <span class="o">=</span> <span class="n">experiment_a</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_f&quot;</span><span class="p">])</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="n">experiment_a</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_g&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;linear regression&#39;, &#39;odd_num_exp&#39;]
-[&#39;even_num_exp&#39;, &#39;random forrest&#39;]
-[&#39;data&#39;, &#39;added_tag&#39;]
-[&#39;added_tag&#39;, &#39;three_column&#39;]
-[&#39;time&#39;, &#39;added_tag&#39;]
-[&#39;added_tag&#39;, &#39;scalar&#39;]
-[&#39;added_tag2&#39;, &#39;tag1&#39;, &#39;tag2&#39;, &#39;added_tag1&#39;]
-</pre></div></div>
-</div>
 </section>
-<section id="Removing-tags-from-existing-objects">
-<h2>Removing tags from existing objects<a class="headerlink" href="#Removing-tags-from-existing-objects" title="Link to this heading">#</a></h2>
-<p>Use the object’s remove_tags() method. Works the same for all taggable objects. Here’s an example:</p>
+<section id="Retrieving-with-tags">
+<h2>Retrieving with tags<a class="headerlink" href="#Retrieving-with-tags" title="Link to this heading">¶</a></h2>
+<p>Each of the retrieval functions on a project or experiment (<code class="docutils literal notranslate"><span class="pre">experiments</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics</span></code>, etc.) accept the <code class="docutils literal notranslate"><span class="pre">tags</span></code> and <code class="docutils literal notranslate"><span class="pre">qtype</span></code> (“or” or “and”, default “or”) arguments to filter retrieval.</p>
+<p>First, grab all the experiments with tag “a”.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment1</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;linear regression&quot;</span><span class="p">])</span>
-<span class="n">experiment2</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;random forrest&quot;</span><span class="p">])</span>
-<span class="n">first_artifact</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-<span class="n">first_dataframe</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-<span class="n">first_feature</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-<span class="n">first_metric</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;added_tag&quot;</span><span class="p">])</span>
-
-<span class="c1">#can remove multiple tags (works for all objects)</span>
-<span class="n">first_parameter</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;added_tag2&quot;</span><span class="p">,</span> <span class="s2">&quot;added_tag1&quot;</span><span class="p">])</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">experiment1</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">experiment2</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_artifact</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_dataframe</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_feature</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_metric</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_parameter</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_a&quot;</span><span class="p">])]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&#39;odd_num_exp&#39;]
-[&#39;even_num_exp&#39;]
-[&#39;data&#39;]
-[&#39;three_column&#39;]
-[&#39;time&#39;]
-[&#39;scalar&#39;]
-[&#39;tag2&#39;, &#39;tag1&#39;]
+[&#34;7e08c0bf-7f88-46d1-89de-4e0da7e2a448: [&#39;tag_a&#39;]&#34;,
+ &#34;cc09ea5c-18df-48b1-888e-e692f5d9e71a: [&#39;tag_a&#39;, &#39;tag_b&#39;]&#34;]
 </pre></div></div>
 </div>
-</section>
-<section id="Retreiving-objects-by-their-tags">
-<h2>Retreiving objects by their tags<a class="headerlink" href="#Retreiving-objects-by-their-tags" title="Link to this heading">#</a></h2>
-<p>After logging objects, here’s how we can include tags as a paramter to filter our results. We can specify the <code class="docutils literal notranslate"><span class="pre">qtype</span></code> parameter to change the search type to “and” from “or” (default). Here this is only shown with experiments, but works for any taggable object when doing parentObject.retrievalObjects():</p>
+<p>Next, get each experiment with tag “b”. Note that the final experiment is the same as the last output since it has both tags “a” and “b”.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment1</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;old_exp&quot;</span><span class="p">])</span>
-<span class="n">experiment2</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;old_exp&quot;</span><span class="p">])</span>
-<span class="n">experiment3</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;experiment3&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;odd_num_exp&quot;</span><span class="p">,</span><span class="s2">&quot;new_exp&quot;</span><span class="p">])</span>
-
-<span class="c1">#want just old experiments</span>
-<span class="n">old_experiments</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;old_exp&quot;</span><span class="p">])</span>
-
-<span class="c1">#want just new experiments</span>
-<span class="n">new_experiments</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;new_exp&quot;</span><span class="p">])</span>
-
-<span class="c1">#want just the odd number experiments</span>
-<span class="n">odd_experiments</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;odd_num_exp&quot;</span><span class="p">])</span>
-
-<span class="c1">#this will return the same result as above since qtype=&quot;or&quot; by default</span>
-<span class="n">same_experiments</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;odd_num_exp&quot;</span><span class="p">,</span> <span class="s2">&quot;new_exp&quot;</span><span class="p">])</span>
-
-<span class="c1">#this will return just experiment3</span>
-<span class="n">expected_experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;odd_num_exp&quot;</span><span class="p">,</span> <span class="s2">&quot;new_exp&quot;</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">)</span>
-
-
-<span class="c1">#getting both the old experiments 1 and 2</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;old experiments: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_experiments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1">#getting just the new experiment 3</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;new experiments: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1">#getting both odd experiments 1 and 3</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;odd experiments: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">odd_experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">odd_experiments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1">#again getting both experiments 1 and 3</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;same experiments: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">same_experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">same_experiments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1">#getting just experiment 3</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;expected experiment: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">expected_experiment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_b&quot;</span><span class="p">])]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-old experiments: experiment1, experiment2
-
-new experiments: experiment3
-
-odd experiments: experiment1, experiment3
-
-same experiments: experiment1, experiment3
-
-expected experiment: experiment3
-
+[&#34;75e54061-5910-43a0-a036-c5a6bdd77ca1: [&#39;other_tag_a&#39;, &#39;tag_b&#39;]&#34;,
+ &#34;cc09ea5c-18df-48b1-888e-e692f5d9e71a: [&#39;tag_a&#39;, &#39;tag_b&#39;]&#34;]
 </pre></div></div>
 </div>
+<p>Querying with multiple tags uses a logical <em>or</em> to return results by default.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_a&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_b&quot;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#34;7e08c0bf-7f88-46d1-89de-4e0da7e2a448: [&#39;tag_a&#39;]&#34;,
+ &#34;75e54061-5910-43a0-a036-c5a6bdd77ca1: [&#39;other_tag_a&#39;, &#39;tag_b&#39;]&#34;,
+ &#34;cc09ea5c-18df-48b1-888e-e692f5d9e71a: [&#39;tag_a&#39;, &#39;tag_b&#39;]&#34;]
+</pre></div></div>
+</div>
+<p>This can be switched to a logical <em>and</em> with the <code class="docutils literal notranslate"><span class="pre">qtype</span></code> argument.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_a&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_b&quot;</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#34;cc09ea5c-18df-48b1-888e-e692f5d9e71a: [&#39;tag_a&#39;, &#39;tag_b&#39;]&#34;]
+</pre></div></div>
+</div>
+<section id="Wildcards">
+<h3>Wildcards<a class="headerlink" href="#Wildcards" title="Link to this heading">¶</a></h3>
+<p>Retrieval by tags also supports wildcards (<code class="docutils literal notranslate"><span class="pre">*</span></code>) while querying.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*_a&quot;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#34;7e08c0bf-7f88-46d1-89de-4e0da7e2a448: [&#39;tag_a&#39;]&#34;,
+ &#34;75e54061-5910-43a0-a036-c5a6bdd77ca1: [&#39;other_tag_a&#39;, &#39;tag_b&#39;]&#34;,
+ &#34;cc09ea5c-18df-48b1-888e-e692f5d9e71a: [&#39;tag_a&#39;, &#39;tag_b&#39;]&#34;]
+</pre></div></div>
+</div>
+<p>Multiple wildcards can be used in a single query. A single wildcard character will match any number of characters in the tag.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*_*_*&quot;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#34;75e54061-5910-43a0-a036-c5a6bdd77ca1: [&#39;other_tag_a&#39;, &#39;tag_b&#39;]&#34;]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Updating-tags">
+<h2>Updating tags<a class="headerlink" href="#Updating-tags" title="Link to this heading">¶</a></h2>
+<p>Tags can be update later, after logging as well.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_c</span><span class="o">.</span><span class="n">tags</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;tag_a&#39;, &#39;tag_b&#39;]
+</pre></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">add_tags</span></code> adds any number of new tags to an existing entity. Each entity that allows tagging will have both the <code class="docutils literal notranslate"><span class="pre">add_tags</span></code> and <code class="docutils literal notranslate"><span class="pre">remove_tags</span></code> functions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_c</span><span class="o">.</span><span class="n">add_tags</span><span class="p">([</span><span class="s2">&quot;tag_h&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_i&quot;</span><span class="p">])</span>
+<span class="n">experiment_c</span><span class="o">.</span><span class="n">tags</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;tag_i&#39;, &#39;tag_h&#39;, &#39;tag_b&#39;, &#39;tag_a&#39;]
+</pre></div></div>
+</div>
+<p>Removal works similarly.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_c</span><span class="o">.</span><span class="n">remove_tags</span><span class="p">([</span><span class="s2">&quot;tag_a&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_b&quot;</span><span class="p">])</span>
+<span class="n">experiment_c</span><span class="o">.</span><span class="n">tags</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;tag_i&#39;, &#39;tag_h&#39;]
+</pre></div></div>
+</div>
+<p>Now, the same query from above for an experiment with tags “a” and “b” returns no results.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_a&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_b&quot;</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;and&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[]
+</pre></div></div>
+</div>
+</section>
+<section id="Key-value-tags">
+<h2>Key-value tags<a class="headerlink" href="#Key-value-tags" title="Link to this heading">¶</a></h2>
+<p>rubicon-ml provides extended support for tags that follow the <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;:&lt;value&gt;</span></code> format.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_d</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_j:k&quot;</span><span class="p">])</span>
+<span class="n">experiment_e</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_j:l&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_m:n&quot;</span><span class="p">,</span> <span class="s2">&quot;tag_m:o&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>The list returned by the <code class="docutils literal notranslate"><span class="pre">tags</span></code> property of any entity can be indexed into like a regular list to retrieve the full tags, just like with normal tags.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_d</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;tag_j:k&#39;
+</pre></div></div>
+</div>
+<p>But it also supports string indexing, like a dictionary. To retrieve the value of a key-value tag, just index into the <code class="docutils literal notranslate"><span class="pre">tags</span></code> property with its key.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_d</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s2">&quot;tag_j&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;k&#39;
+</pre></div></div>
+</div>
+<p>If there are multiple keys, a list containing each value will be returned.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_e</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s2">&quot;tag_m&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;n&#39;, &#39;o&#39;]
+</pre></div></div>
+</div>
+<p>Combine key-value tags and wildcards to examine the value of <em>“tag_j”</em> on every experiment that has one.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;tag_j&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tag_j:*&quot;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;0962a69f-1db5-4f42-884c-60ad179bdb5c: k&#39;,
+ &#39;d5c9d775-e546-4b02-93ac-f5cee6d17aea: l&#39;]
+</pre></div></div>
+</div>
+<section id="Managing-experiment-relationships">
+<h3>Managing experiment relationships<a class="headerlink" href="#Managing-experiment-relationships" title="Link to this heading">¶</a></h3>
+<p>A common use for key-value tags is managing relationships between experiments. rubicon-ml has built-in support for managing such relationships in this manner.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_a</span><span class="o">.</span><span class="n">add_child_experiment</span><span class="p">(</span><span class="n">experiment_d</span><span class="p">)</span>
+<span class="n">experiment_a</span><span class="o">.</span><span class="n">add_child_experiment</span><span class="p">(</span><span class="n">experiment_e</span><span class="p">)</span>
+
+<span class="n">experiment_a</span><span class="o">.</span><span class="n">tags</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;child:0962a69f-1db5-4f42-884c-60ad179bdb5c&#39;,
+ &#39;child:d5c9d775-e546-4b02-93ac-f5cee6d17aea&#39;,
+ &#39;tag_a&#39;]
+</pre></div></div>
+</div>
+<p>Now let’s say we’ve only been given <code class="docutils literal notranslate"><span class="pre">experiment_a</span></code> and we don’t know anything about its children or how they were logged.</p>
+<p>The child experiment IDs themselves can be retrieved by indexing into the tags with the “child” key.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_a</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;0962a69f-1db5-4f42-884c-60ad179bdb5c&#39;,
+ &#39;d5c9d775-e546-4b02-93ac-f5cee6d17aea&#39;]
+</pre></div></div>
+</div>
+<p>From there, we can use the IDs grab the complete child experiments from the original project.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">exp_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">exp_id</span> <span class="ow">in</span> <span class="n">experiment_a</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;rubicon_ml.client.experiment.Experiment at 0x163cad2a0&gt;,
+ &lt;rubicon_ml.client.experiment.Experiment at 0x163cad030&gt;]
+</pre></div></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -528,11 +726,16 @@ expected experiment: experiment3
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Tagging</a><ul>
-<li><a class="reference internal" href="#Adding-tags-when-logging">Adding tags when logging</a></li>
-<li><a class="reference internal" href="#Viewing-tags">Viewing tags</a></li>
-<li><a class="reference internal" href="#Adding-tags-to-existing-objects">Adding tags to existing objects</a></li>
-<li><a class="reference internal" href="#Removing-tags-from-existing-objects">Removing tags from existing objects</a></li>
-<li><a class="reference internal" href="#Retreiving-objects-by-their-tags">Retreiving objects by their tags</a></li>
+<li><a class="reference internal" href="#Logging-with-tags">Logging with tags</a></li>
+<li><a class="reference internal" href="#Retrieving-with-tags">Retrieving with tags</a><ul>
+<li><a class="reference internal" href="#Wildcards">Wildcards</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Updating-tags">Updating tags</a></li>
+<li><a class="reference internal" href="#Key-value-tags">Key-value tags</a><ul>
+<li><a class="reference internal" href="#Managing-experiment-relationships">Managing experiment relationships</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -545,9 +748,9 @@ expected experiment: experiment3
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

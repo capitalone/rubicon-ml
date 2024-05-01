@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Dataframe Plot" href="visualizations/dataframe-plot.html" /><link rel="prev" title="Query projects &amp; experiments with RubiconJSON" href="logging-examples/rubiconJSON-querying.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Visualizations - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Visualizations - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=4af6793b" />
@@ -114,6 +114,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -125,7 +127,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +154,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -247,9 +249,9 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <section id="visualizations">
-<span id="id1"></span><h1>Visualizations<a class="headerlink" href="#visualizations" title="Link to this heading">#</a></h1>
+<span id="id1"></span><h1>Visualizations<a class="headerlink" href="#visualizations" title="Link to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml.viz</span></code> contains a number of visualization widgets powered by
 <a class="reference external" href="https://dash.plotly.com">Dash</a> and <a class="reference external" href="https://plotly.com/">Plotly</a>.
 Each widget provides a unique UI for exploring and visualizing projects and
@@ -264,11 +266,11 @@ extra work, they could be deployed to a static URL using Docker.</p>
 <img alt="rubicon-ml dashboard" src="_images/dashboard.png" />
 <figcaption>
 <p><span class="caption-text">A <strong>Dashboard</strong> composed of an <strong>Experiments Table</strong> and a <strong>Metric
-Correlation Plot</strong>.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+Correlation Plot</strong>.</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <section id="available-widgets">
-<h2>Available Widgets<a class="headerlink" href="#available-widgets" title="Link to this heading">#</a></h2>
+<h2>Available Widgets<a class="headerlink" href="#available-widgets" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="visualizations/dataframe-plot.html">Dataframe Plot</a></li>
@@ -279,7 +281,7 @@ Correlation Plot</strong>.</span><a class="headerlink" href="#id2" title="Link t
 </div>
 </section>
 <section id="dashboarding">
-<h2>Dashboarding<a class="headerlink" href="#dashboarding" title="Link to this heading">#</a></h2>
+<h2>Dashboarding<a class="headerlink" href="#dashboarding" title="Link to this heading">¶</a></h2>
 <p>The widgets detailed in the examples above can also be compiled into an
 interactive dashboard.</p>
 <div class="toctree-wrapper compound">
@@ -289,7 +291,7 @@ interactive dashboard.</p>
 </div>
 </section>
 <section id="basic-usage">
-<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h2>
 <p>Each individual widget can be launched directly from Python code. Widgets
 will be hosted locally. You can navigate to the provided link in each widgets’
 output, or visualize the widget in-line if you are running from a Jupyter
@@ -324,7 +326,7 @@ few extra parameters:</p>
 <a class="reference external" href="https://dash.plotly.com/reference">Dash API Reference</a>.</p>
 </section>
 <section id="cli">
-<h2>CLI<a class="headerlink" href="#cli" title="Link to this heading">#</a></h2>
+<h2>CLI<a class="headerlink" href="#cli" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> CLI can lauch a dashboard containing an <strong>Experiments
 Table</strong> stacked on top of a <strong>Metric Correlation Plot</strong>, as shown in the
 figure above.</p>
@@ -410,11 +412,13 @@ figure above.</p>
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

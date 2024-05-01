@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Visualize Logged Dataframes" href="logging-examples/visualizing-logged-dataframes.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Glossary - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Glossary - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=4af6793b" />
@@ -114,6 +114,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -125,7 +127,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +154,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -247,11 +249,11 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <section id="glossary">
-<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h1>
+<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">¶</a></h1>
 <section id="project-rubicon-ml-project">
-<h2>Project (<a class="reference internal" href="api_reference.html#library-reference-project"><span class="std std-ref">rubicon_ml.Project</span></a>)<a class="headerlink" href="#project-rubicon-ml-project" title="Link to this heading">#</a></h2>
+<h2>Project (<a class="reference internal" href="api_reference.html#library-reference-project"><span class="std std-ref">rubicon_ml.Project</span></a>)<a class="headerlink" href="#project-rubicon-ml-project" title="Link to this heading">¶</a></h2>
 <p>A <strong>project</strong> is a collection of <strong>experiments</strong>, <strong>dataframes</strong>, and <strong>artifacts</strong>
 identified by a unique name.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
@@ -262,7 +264,7 @@ identified by a unique name.</p>
 </div>
 </section>
 <section id="experiment-rubicon-ml-experiment">
-<h2>Experiment (<a class="reference internal" href="api_reference.html#library-reference-experiment"><span class="std std-ref">rubicon_ml.Experiment</span></a>)<a class="headerlink" href="#experiment-rubicon-ml-experiment" title="Link to this heading">#</a></h2>
+<h2>Experiment (<a class="reference internal" href="api_reference.html#library-reference-experiment"><span class="std std-ref">rubicon_ml.Experiment</span></a>)<a class="headerlink" href="#experiment-rubicon-ml-experiment" title="Link to this heading">¶</a></h2>
 <p>An <strong>experiment</strong> represents a model run and is identified by its <code class="docutils literal notranslate"><span class="pre">created_at</span></code> time.
 It can have <strong>metrics</strong>, <strong>parameters</strong>, <strong>features</strong>, <strong>dataframes</strong>, and <strong>artifacts</strong>
 logged to it.</p>
@@ -272,7 +274,7 @@ logged to it.</p>
 </div>
 </section>
 <section id="parameter-rubicon-ml-parameter">
-<h2>Parameter (<a class="reference internal" href="api_reference.html#library-reference-parameter"><span class="std std-ref">rubicon_ml.Parameter</span></a>)<a class="headerlink" href="#parameter-rubicon-ml-parameter" title="Link to this heading">#</a></h2>
+<h2>Parameter (<a class="reference internal" href="api_reference.html#library-reference-parameter"><span class="std std-ref">rubicon_ml.Parameter</span></a>)<a class="headerlink" href="#parameter-rubicon-ml-parameter" title="Link to this heading">¶</a></h2>
 <p>A <strong>parameter</strong> is an input to an <strong>experiment</strong> (model run) that depends on the type
 of model being used. It affects the model’s predictions.</p>
 <p>For example, if you were using a random forest classifier, <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> (the number
@@ -283,7 +285,7 @@ of trees in the forest) could be a <strong>parameter</strong>.</p>
 </div>
 </section>
 <section id="feature-rubicon-ml-feature">
-<h2>Feature (<a class="reference internal" href="api_reference.html#library-reference-feature"><span class="std std-ref">rubicon_ml.Feature</span></a>)<a class="headerlink" href="#feature-rubicon-ml-feature" title="Link to this heading">#</a></h2>
+<h2>Feature (<a class="reference internal" href="api_reference.html#library-reference-feature"><span class="std std-ref">rubicon_ml.Feature</span></a>)<a class="headerlink" href="#feature-rubicon-ml-feature" title="Link to this heading">¶</a></h2>
 <p>A <strong>feature</strong> is an input to an <strong>experiment</strong> (model run) that’s an independent,
 measurable property of a phenomenon being observed. It affects the model’s predictions.</p>
 <p>For example, consider a model that predicts how likely a customer is to pay back a loan.
@@ -295,7 +297,7 @@ Possible <strong>features</strong> could be <code class="docutils literal notran
 </div>
 </section>
 <section id="metric-rubicon-ml-metric">
-<h2>Metric (<a class="reference internal" href="api_reference.html#library-reference-metric"><span class="std std-ref">rubicon_ml.Metric</span></a>)<a class="headerlink" href="#metric-rubicon-ml-metric" title="Link to this heading">#</a></h2>
+<h2>Metric (<a class="reference internal" href="api_reference.html#library-reference-metric"><span class="std std-ref">rubicon_ml.Metric</span></a>)<a class="headerlink" href="#metric-rubicon-ml-metric" title="Link to this heading">¶</a></h2>
 <p>A <strong>metric</strong> is a single-value output of an <strong>experiment</strong> that helps evaluate the
 quality of the model’s predictions.</p>
 <p>It can be either a <code class="docutils literal notranslate"><span class="pre">score</span></code> (value to maximize) or a <code class="docutils literal notranslate"><span class="pre">loss</span></code> (value to minimize).</p>
@@ -305,7 +307,7 @@ quality of the model’s predictions.</p>
 </div>
 </section>
 <section id="dataframe-rubicon-ml-dataframe">
-<h2>Dataframe (<a class="reference internal" href="api_reference.html#library-reference-dataframe"><span class="std std-ref">rubicon_ml.Dataframe</span></a>)<a class="headerlink" href="#dataframe-rubicon-ml-dataframe" title="Link to this heading">#</a></h2>
+<h2>Dataframe (<a class="reference internal" href="api_reference.html#library-reference-dataframe"><span class="std std-ref">rubicon_ml.Dataframe</span></a>)<a class="headerlink" href="#dataframe-rubicon-ml-dataframe" title="Link to this heading">¶</a></h2>
 <p>A <strong>dataframe</strong> is a two-dimensional, tabular dataset with labeled axes (rows and
 columns) that provides value to the model developer and/or reviewer when visualized.</p>
 <p>For example, confusion matrices, feature importance tables and marginal residuals can
@@ -322,7 +324,7 @@ all be logged as a <strong>dataframe</strong>.</p>
 </div>
 </section>
 <section id="artifact-rubicon-ml-artifact">
-<h2>Artifact (<a class="reference internal" href="api_reference.html#library-reference-artifact"><span class="std std-ref">rubicon_ml.Artifact</span></a>)<a class="headerlink" href="#artifact-rubicon-ml-artifact" title="Link to this heading">#</a></h2>
+<h2>Artifact (<a class="reference internal" href="api_reference.html#library-reference-artifact"><span class="std std-ref">rubicon_ml.Artifact</span></a>)<a class="headerlink" href="#artifact-rubicon-ml-artifact" title="Link to this heading">¶</a></h2>
 <p>An <strong>artifact</strong> is a catch-all for any other type of data that can be logged to a file.</p>
 <p>For example, a snapshot of a trained model (.pkl) can be logged to the <strong>experiment</strong>
 created during its run. Or, a base model for the model in development can be logged to
@@ -409,9 +411,9 @@ a <strong>project</strong> when leveraging transfer learning.</p>
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

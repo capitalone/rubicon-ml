@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="API Reference" href="api_reference.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Representing model metadata with a schema - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Representing model metadata with a schema - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=4af6793b" />
@@ -114,6 +114,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -125,7 +127,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +154,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -247,9 +249,9 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <section id="representing-model-metadata-with-a-schema">
-<span id="schema-representation"></span><h1>Representing model metadata with a schema<a class="headerlink" href="#representing-model-metadata-with-a-schema" title="Link to this heading">#</a></h1>
+<span id="schema-representation"></span><h1>Representing model metadata with a schema<a class="headerlink" href="#representing-model-metadata-with-a-schema" title="Link to this heading">¶</a></h1>
 <p>A rubicon-ml schema is a YAML file defining how attributes of a Python object, generally
 representing a model, will be logged to a rubicon-ml experiment. Schema can
 be used to automatically instrument and standardize the rubicon-ml logging of commonly
@@ -258,7 +260,7 @@ used model objects.</p>
 Experiments consist of features, parameters, metrics, artifacts, and dataframes. More info
 on each of these can be found in rubicon-ml’s glossary.</p>
 <section id="a-simple-schema">
-<h2>A simple schema<a class="headerlink" href="#a-simple-schema" title="Link to this heading">#</a></h2>
+<h2>A simple schema<a class="headerlink" href="#a-simple-schema" title="Link to this heading">¶</a></h2>
 <p>Consider the following objects from a module called <code class="docutils literal notranslate"><span class="pre">my_model</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -334,7 +336,7 @@ on each of these can be found in rubicon-ml’s glossary.</p>
 </pre></div>
 </div>
 <section id="schema-metadata">
-<h3>Schema metadata<a class="headerlink" href="#schema-metadata" title="Link to this heading">#</a></h3>
+<h3>Schema metadata<a class="headerlink" href="#schema-metadata" title="Link to this heading">¶</a></h3>
 <p>The first section of the schema defines metadata about the schema itself,
 like the name and version. <strong>The name of a schema should be the name of the
 library the class it represents comes from and the name of the Python class itself separated
@@ -359,7 +361,7 @@ for the object to be logged can also be included in this section.</p>
 containing the value to log.</p>
 </section>
 <section id="artifacts">
-<h3>Artifacts<a class="headerlink" href="#artifacts" title="Link to this heading">#</a></h3>
+<h3>Artifacts<a class="headerlink" href="#artifacts" title="Link to this heading">¶</a></h3>
 <p>Define a <a class="reference internal" href="api_reference.html#library-reference-artifact"><span class="std std-ref">rubicon_ml.Artifact</span></a>
 for logging by providing a <code class="docutils literal notranslate"><span class="pre">name</span></code> for the logged artifact and the attribute <code class="docutils literal notranslate"><span class="pre">data_object_attr</span></code>
 containing the object to log. The special keyword <code class="docutils literal notranslate"><span class="pre">self</span></code> will log the full object the schema
@@ -372,7 +374,7 @@ represents as an artifact with the same name as the object’s class.</p>
 </div>
 </section>
 <section id="dataframes">
-<h3>Dataframes<a class="headerlink" href="#dataframes" title="Link to this heading">#</a></h3>
+<h3>Dataframes<a class="headerlink" href="#dataframes" title="Link to this heading">¶</a></h3>
 <p>Define a <a class="reference internal" href="api_reference.html#library-reference-dataframe"><span class="std std-ref">rubicon_ml.Dataframe</span></a>
 for logging by providing a <code class="docutils literal notranslate"><span class="pre">name</span></code> for the logged dataframe and the attribute <code class="docutils literal notranslate"><span class="pre">df_attr</span></code>
 containing the DataFrame to log.</p>
@@ -383,7 +385,7 @@ containing the DataFrame to log.</p>
 </div>
 </section>
 <section id="features">
-<h3>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h3>
+<h3>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h3>
 <p>Define a single <a class="reference internal" href="api_reference.html#library-reference-feature"><span class="std std-ref">rubicon_ml.Feature</span></a>
 for logging by providing the attribute <code class="docutils literal notranslate"><span class="pre">name_attr</span></code> containing the name of the feature to log
 and optionally the attribute <code class="docutils literal notranslate"><span class="pre">importance_attr</span></code> containing the feature’s importance.</p>
@@ -400,7 +402,7 @@ importances.</p>
 </div>
 </section>
 <section id="metrics">
-<h3>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">#</a></h3>
+<h3>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">¶</a></h3>
 <p>Define a <a class="reference internal" href="api_reference.html#library-reference-metric"><span class="std std-ref">rubicon_ml.Metric</span></a>
 for logging by providing a <code class="docutils literal notranslate"><span class="pre">name</span></code> for the logged metric and the attribute <code class="docutils literal notranslate"><span class="pre">value_attr</span></code>
 containing the metric value to log.</p>
@@ -418,7 +420,7 @@ leverage <code class="docutils literal notranslate"><span class="pre">os.environ
 </div>
 </section>
 <section id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h3>
 <p>Define a <a class="reference internal" href="api_reference.html#library-reference-parameter"><span class="std std-ref">rubicon_ml.Parameter</span></a>
 for logging by providing a <code class="docutils literal notranslate"><span class="pre">name</span></code> for the logged parameter and the attribute <code class="docutils literal notranslate"><span class="pre">value_attr</span></code>
 containing the parameter value to log.</p>
@@ -436,7 +438,7 @@ leverage <code class="docutils literal notranslate"><span class="pre">os.environ
 </section>
 </section>
 <section id="optional-attributes">
-<h2>Optional attributes<a class="headerlink" href="#optional-attributes" title="Link to this heading">#</a></h2>
+<h2>Optional attributes<a class="headerlink" href="#optional-attributes" title="Link to this heading">¶</a></h2>
 <p>In some cases, the attribute containing the value to log may not always be set on the underlying object. A model
 may have been trained on a dataset with no feature names, or perhaps some learned attributes are only learned
 if certain parameters have certain values while fitting.</p>
@@ -462,7 +464,7 @@ entity from logging entirely if an optional attribute is not set. Optional items
 will log the associated entity with the given name and a value of <strong>None</strong> if an optional attribute is not set.</p>
 </section>
 <section id="nested-schema">
-<h2>Nested schema<a class="headerlink" href="#nested-schema" title="Link to this heading">#</a></h2>
+<h2>Nested schema<a class="headerlink" href="#nested-schema" title="Link to this heading">¶</a></h2>
 <p>The following is a complete YAML representation of the <code class="docutils literal notranslate"><span class="pre">Optimizer</span></code> object’s schema:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_model__Optimizer</span>
 <span class="nt">verison</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0</span>
@@ -528,7 +530,7 @@ schema.</p>
 </div>
 </section>
 <section id="hierarchical-schema">
-<h2>Hierarchical schema<a class="headerlink" href="#hierarchical-schema" title="Link to this heading">#</a></h2>
+<h2>Hierarchical schema<a class="headerlink" href="#hierarchical-schema" title="Link to this heading">¶</a></h2>
 <p>Some objects may contain a list of other objects that are already represented by a scehma, like
 a feature eliminator or hyperparameter optimizer that trained multiple iterations of an underlying model
 object.</p>
@@ -589,7 +591,7 @@ defined by the <code class="docutils literal notranslate"><span class="pre">Opti
 </div>
 </section>
 <section id="extending-a-schema">
-<h2>Extending a schema<a class="headerlink" href="#extending-a-schema" title="Link to this heading">#</a></h2>
+<h2>Extending a schema<a class="headerlink" href="#extending-a-schema" title="Link to this heading">¶</a></h2>
 <p>Consider an extension of <code class="docutils literal notranslate"><span class="pre">Model</span></code> named <code class="docutils literal notranslate"><span class="pre">NewModel</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NewModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
@@ -720,9 +722,9 @@ schema” section.</p>
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizations" href="../visualizations.html" /><link rel="prev" title="Tagging" href="tagging.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Query projects &amp; experiments with RubiconJSON - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Query projects &amp; experiments with RubiconJSON - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,14 +250,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/rubiconJSON-querying.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/rubiconJSON-querying.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Query-projects-&amp;-experiments-with-RubiconJSON">
-<h1>Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code><a class="headerlink" href="#Query-projects-&-experiments-with-RubiconJSON" title="Link to this heading">#</a></h1>
+<h1>Query projects &amp; experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code><a class="headerlink" href="#Query-projects-&-experiments-with-RubiconJSON" title="Link to this heading">¶</a></h1>
 <p>Users can utilize the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class to query <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> logs in a JSONPath-like manner.</p>
 <p><code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> takes in top-level <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects, <code class="docutils literal notranslate"><span class="pre">Projects</span></code>, and/or <code class="docutils literal notranslate"><span class="pre">Experiments</span></code> and composes a JSON representation of them. Then, with the <code class="docutils literal notranslate"><span class="pre">search</span></code> method, users can query their logged data using JSONPath syntax.</p>
 <p><code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> relies on <cite>the ``jsonpath_ng`</cite> library &lt;<a class="reference external" href="https://github.com/h2non/jsonpath-ng">https://github.com/h2non/jsonpath-ng</a>&gt;`__ for query parsing. More information on the allowed syntax can be found <a class="reference external" href="https://github.com/h2non/jsonpath-ng#jsonpath-syntax">here in their documentation</a>.</p>
@@ -273,7 +275,7 @@
 </div>
 </div>
 <section id="Trian-some-models,-log-some-experiments">
-<h2>Trian some models, log some experiments<a class="headerlink" href="#Trian-some-models,-log-some-experiments" title="Link to this heading">#</a></h2>
+<h2>Trian some models, log some experiments<a class="headerlink" href="#Trian-some-models,-log-some-experiments" title="Link to this heading">¶</a></h2>
 <p>We’ll start off by loading a dataset and creating our <code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> project.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -326,7 +328,7 @@
 </div>
 </section>
 <section id="Load-experiments-into-the-RubiconJSON-class">
-<h2>Load experiments into the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class<a class="headerlink" href="#Load-experiments-into-the-RubiconJSON-class" title="Link to this heading">#</a></h2>
+<h2>Load experiments into the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class<a class="headerlink" href="#Load-experiments-into-the-RubiconJSON-class" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class accepts <code class="docutils literal notranslate"><span class="pre">Projects</span></code>, <code class="docutils literal notranslate"><span class="pre">Experiments</span></code>, and top-level <code class="docutils literal notranslate"><span class="pre">Rubicon</span></code> objects as an input. Once instantiated, the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class has a <code class="docutils literal notranslate"><span class="pre">json</span></code> property detailing each project and experiment. Let’s take a look at the representation of one of our experiments:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -470,7 +472,7 @@
 </div>
 </section>
 <section id="Query-experiments-with-RubiconJSON.search">
-<h2>Query experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON.search</span></code><a class="headerlink" href="#Query-experiments-with-RubiconJSON.search" title="Link to this heading">#</a></h2>
+<h2>Query experiments with <code class="docutils literal notranslate"><span class="pre">RubiconJSON.search</span></code><a class="headerlink" href="#Query-experiments-with-RubiconJSON.search" title="Link to this heading">¶</a></h2>
 <p>Once created, we can use the <code class="docutils literal notranslate"><span class="pre">RubiconJSON</span></code> class to query our experiment metadata. We’ll start by getting each experiment that was tagged “large” during training.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -689,9 +691,9 @@ RandomForestClassifier(min_samples_leaf=10, n_estimators=500, random_state=0)
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

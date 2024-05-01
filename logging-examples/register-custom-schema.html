@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Set a schema on a project" href="set-schema.html" /><link rel="prev" title="Manage Experiment Relationships" href="manage-experiment-relationships.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Register a custom schema - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Register a custom schema - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,17 +250,17 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/register-custom-schema.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/register-custom-schema.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Register-a-custom-schema">
-<h1>Register a custom schema<a class="headerlink" href="#Register-a-custom-schema" title="Link to this heading">#</a></h1>
+<h1>Register a custom schema<a class="headerlink" href="#Register-a-custom-schema" title="Link to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_schema</span></code> can be constructed within a Python session in addition to being read from the registry’s YAML files</p>
 <section id="Define-additional-metadata-to-log">
-<h2>Define additional metadata to log<a class="headerlink" href="#Define-additional-metadata-to-log" title="Link to this heading">#</a></h2>
+<h2>Define additional metadata to log<a class="headerlink" href="#Define-additional-metadata-to-log" title="Link to this heading">¶</a></h2>
 <p>Add an additional variable to the environment to record with our <code class="docutils literal notranslate"><span class="pre">rubicon_schema</span></code></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -282,7 +284,7 @@ AWS
 </div>
 </section>
 <section id="Construct-a-custom-schema">
-<h2>Construct a custom schema<a class="headerlink" href="#Construct-a-custom-schema" title="Link to this heading">#</a></h2>
+<h2>Construct a custom schema<a class="headerlink" href="#Construct-a-custom-schema" title="Link to this heading">¶</a></h2>
 <p>Create a dictionary representation of the new, custom schema. This new schema will extend the existing <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code> schema with an additional parameter that logs the new environment variable</p>
 <p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">extends</span></code> key is not required - custom schema do not need to extend existing schema</p>
 <div class="nbinput docutils container">
@@ -315,7 +317,7 @@ AWS
 </div>
 </section>
 <section id="Apply-a-custom-schema-to-a-project">
-<h2>Apply a custom schema to a project<a class="headerlink" href="#Apply-a-custom-schema-to-a-project" title="Link to this heading">#</a></h2>
+<h2>Apply a custom schema to a project<a class="headerlink" href="#Apply-a-custom-schema-to-a-project" title="Link to this heading">¶</a></h2>
 <p>Create a <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -349,7 +351,7 @@ AWS
 </div>
 </section>
 <section id="Log-model-metadata-with-a-custom-schema">
-<h2>Log model metadata with a custom schema<a class="headerlink" href="#Log-model-metadata-with-a-custom-schema" title="Link to this heading">#</a></h2>
+<h2>Log model metadata with a custom schema<a class="headerlink" href="#Log-model-metadata-with-a-custom-schema" title="Link to this heading">¶</a></h2>
 <p>Load a training dataset</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -420,7 +422,7 @@ RandomForestClassifier(ccp_alpha=0.005, criterion=&#39;log_loss&#39;,
 </div>
 </section>
 <section id="View-the-experiment's-logged-metadata">
-<h2>View the experiment’s logged metadata<a class="headerlink" href="#View-the-experiment's-logged-metadata" title="Link to this heading">#</a></h2>
+<h2>View the experiment’s logged metadata<a class="headerlink" href="#View-the-experiment's-logged-metadata" title="Link to this heading">¶</a></h2>
 <p>Each experiment contains all the data represented in the base <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code> schema plus the additional parameter from the environment</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -465,7 +467,7 @@ runtime_environment: AWS
 </div>
 </section>
 <section id="Persisting-and-sharing-a-custom-schema">
-<h2>Persisting and sharing a custom schema<a class="headerlink" href="#Persisting-and-sharing-a-custom-schema" title="Link to this heading">#</a></h2>
+<h2>Persisting and sharing a custom schema<a class="headerlink" href="#Persisting-and-sharing-a-custom-schema" title="Link to this heading">¶</a></h2>
 <p>To share custom schema with all <code class="docutils literal notranslate"><span class="pre">rubicon_schema</span></code> users, check out the “Contribute a <code class="docutils literal notranslate"><span class="pre">rubicon_schema</span></code>” section</p>
 </section>
 </section>
@@ -544,9 +546,9 @@ runtime_environment: AWS
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

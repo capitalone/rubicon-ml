@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Plots as PNGs" href="logging-plots.html" /><link rel="prev" title="Ignoring Exceptions with Failure Modes" href="../tutorials/failure-modes.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Logging Training Metadata - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Logging Training Metadata - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,14 +250,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-training-metadata.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/logging-training-metadata.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Logging-Training-Metadata">
-<h1>Logging Training Metadata<a class="headerlink" href="#Logging-Training-Metadata" title="Link to this heading">#</a></h1>
+<h1>Logging Training Metadata<a class="headerlink" href="#Logging-Training-Metadata" title="Link to this heading">¶</a></h1>
 <p>We can’t train a model without a lot of data. Keeping track of where that data is and how to get it can be difficult. <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> isn’t in the business of storing full training datasets, but it can store metadata about our training datasets on both <strong>projects</strong> (for high level datasource configuration) and <strong>experiments</strong> (for indiviual model runs).</p>
 <p>Below, we’ll use <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> to reference a dataset stored in S3.</p>
 <div class="nbinput nblast docutils container">
@@ -331,7 +333,7 @@
 </pre></div></div>
 </div>
 <section id="Experiment-level-training-metadata">
-<h2>Experiment level training metadata<a class="headerlink" href="#Experiment-level-training-metadata" title="Link to this heading">#</a></h2>
+<h2>Experiment level training metadata<a class="headerlink" href="#Experiment-level-training-metadata" title="Link to this heading">¶</a></h2>
 <p>Before we create an <strong>experiment</strong>, we’ll construct some training metadata to pass along so future collaborators, reviewers, or even future us can reference the same training dataset later.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -490,7 +492,7 @@ S3TrainingMetadata(config={&#39;region_name&#39;: &#39;us-west-2&#39;, &#39;sign
 </div>
 </section>
 <section id="Projects-for-complex-training-metadata">
-<h2>Projects for complex training metadata<a class="headerlink" href="#Projects-for-complex-training-metadata" title="Link to this heading">#</a></h2>
+<h2>Projects for complex training metadata<a class="headerlink" href="#Projects-for-complex-training-metadata" title="Link to this heading">¶</a></h2>
 <p>Each <strong>experiment</strong> on the <em>S3 Training Metadata</em> project below uses the same config to connect to S3, so no need to duplicate it. We’ll only log it to the <strong>project</strong>. Then we’ll run three experiments, with each one using a different key to load data from S3. We can represent that training metadata as a different <code class="docutils literal notranslate"><span class="pre">namedtuple</span></code> and log one to each experiment.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -624,9 +626,9 @@ S3DatasetMetadata(bucket=&#39;my-bucket&#39;, key=&#39;path/to/my/data_1.parquet
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

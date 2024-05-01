@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Sharing Experiments" href="sharing-experiments.html" /><link rel="prev" title="Welcome to the rubicon-ml Docs!" href="../index.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Logging Experiments - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Logging Experiments - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,14 +250,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/quick-look/logging-experiments.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/quick-look/logging-experiments.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Logging-Experiments">
-<h1>Logging Experiments<a class="headerlink" href="#Logging-Experiments" title="Link to this heading">#</a></h1>
+<h1>Logging Experiments<a class="headerlink" href="#Logging-Experiments" title="Link to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>’s core functionality is centered around logging <strong>experiments</strong> to explain and explore various model runs throughout the model development lifecycle. This example will take a quick look at how we can log model metadata to <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> in the context of a simple classification project.</p>
 <p>We’ll leverage the <code class="docutils literal notranslate"><span class="pre">palmerpenguins</span></code> dataset collected by Dr. Kristen Gorman as our training/testing data. More information on the dataset can be <a class="reference external" href="https://allisonhorst.github.io/palmerpenguins/">found here</a>.</p>
 <p>Our goal is to create a simple classification model to differentiate the species of penguins present in the dataset. We’ll leverage <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> logging to make it easy to compare runs of our model as well as preserve important information for reproducibility later.</p>
@@ -828,9 +830,9 @@ KNeighborsClassifier(n_neighbors=20)
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Concurrently" href="logging-concurrently.html" /><link rel="prev" title="Logging Training Metadata" href="logging-training-metadata.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Logging Plots as PNGs - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Logging Plots as PNGs - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,14 +250,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/logging-plots.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/logging-plots.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Logging-Plots-as-PNGs">
-<h1>Logging Plots as PNGs<a class="headerlink" href="#Logging-Plots-as-PNGs" title="Link to this heading">#</a></h1>
+<h1>Logging Plots as PNGs<a class="headerlink" href="#Logging-Plots-as-PNGs" title="Link to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> makes it easy to log <code class="docutils literal notranslate"><span class="pre">Plotly</span></code> plots and images with <code class="docutils literal notranslate"><span class="pre">artifacts</span></code>. In this example we’ll walk through creating a plot using <code class="docutils literal notranslate"><span class="pre">plotly.express</span></code> and saving it as an <code class="docutils literal notranslate"><span class="pre">artifact</span></code>.</p>
 <p>Before getting started, we’ll have to install some dependencies for this example.</p>
 <div class="nbinput docutils container">
@@ -275,7 +277,7 @@ Requirement already satisfied: Pillow in /Users/nvd215/mambaforge/envs/rubicon-m
 </pre></div></div>
 </div>
 <section id="Set-up">
-<h2>Set up<a class="headerlink" href="#Set-up" title="Link to this heading">#</a></h2>
+<h2>Set up<a class="headerlink" href="#Set-up" title="Link to this heading">¶</a></h2>
 <p>First lets set up our <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> project.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -390,7 +392,7 @@ Requirement already satisfied: Pillow in /Users/nvd215/mambaforge/envs/rubicon-m
 </div>
 </section>
 <section id="Logging-your-plot">
-<h2>Logging your plot<a class="headerlink" href="#Logging-your-plot" title="Link to this heading">#</a></h2>
+<h2>Logging your plot<a class="headerlink" href="#Logging-your-plot" title="Link to this heading">¶</a></h2>
 <p>In <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> , <code class="docutils literal notranslate"><span class="pre">artifacts</span></code> are a catch-all for any other type of data that can be logged to a file. We can use artifacts to capture information that doesn’t fall into the <code class="docutils literal notranslate"><span class="pre">experiment</span></code>, <code class="docutils literal notranslate"><span class="pre">dataframe</span></code>, <code class="docutils literal notranslate"><span class="pre">feature</span></code>, and <code class="docutils literal notranslate"><span class="pre">parameter</span></code> categories.</p>
 <p>Leveraging <code class="docutils literal notranslate"><span class="pre">artifacts</span></code>, plots can be logged just by passing its file location in the <code class="docutils literal notranslate"><span class="pre">data_path</span></code> argument to <code class="docutils literal notranslate"><span class="pre">project.log_artifact()</span></code>.</p>
 <div class="nbinput nblast docutils container">
@@ -418,7 +420,7 @@ Requirement already satisfied: Pillow in /Users/nvd215/mambaforge/envs/rubicon-m
 </div>
 </section>
 <section id="Retrieving-your-logged-plot-programmatically">
-<h2>Retrieving your logged plot programmatically<a class="headerlink" href="#Retrieving-your-logged-plot-programmatically" title="Link to this heading">#</a></h2>
+<h2>Retrieving your logged plot programmatically<a class="headerlink" href="#Retrieving-your-logged-plot-programmatically" title="Link to this heading">¶</a></h2>
 <p>Since the <code class="docutils literal notranslate"><span class="pre">PNG</span></code> representations of both plots were logged, we can retrieve our artifact plots programmatically. Using <code class="docutils literal notranslate"><span class="pre">io</span></code> and <code class="docutils literal notranslate"><span class="pre">PIL</span></code> we can visualize our plots as <code class="docutils literal notranslate"><span class="pre">PNG</span></code> images.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -551,9 +553,9 @@ Requirement already satisfied: Pillow in /Users/nvd215/mambaforge/envs/rubicon-m
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

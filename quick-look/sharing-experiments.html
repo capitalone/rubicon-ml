@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualizing Experiments" href="visualizing-experiments.html" /><link rel="prev" title="Logging Experiments" href="logging-experiments.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Sharing Experiments - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Sharing Experiments - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,14 +250,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/quick-look/sharing-experiments.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/quick-look/sharing-experiments.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Sharing-Experiments">
-<h1>Sharing Experiments<a class="headerlink" href="#Sharing-Experiments" title="Link to this heading">#</a></h1>
+<h1>Sharing Experiments<a class="headerlink" href="#Sharing-Experiments" title="Link to this heading">¶</a></h1>
 <p>In the <a class="reference external" href="https://capitalone.github.io/rubicon-ml/quick-look/logging-experiments.html">first part</a> of the quick look, we learned how to log <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> experiments in the context of a simple classification problem. We also performed a small hyperparameter search to show how <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> can be used to compare the results of multiple model fits.</p>
 <p>Inspecting our model fit results in the same session that we trained the model is certainly useful, but sharing experiments can help us collaborate with teammates and compare new model training results to old experiments.</p>
 <p>First, we’ll create a <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> entry point and get the project we logged in the first part of the quick look.</p>
@@ -359,7 +361,7 @@ shared experiments:
 </pre></div></div>
 </div>
 <section id="Updating-Existing-Catalogs">
-<h2>Updating Existing Catalogs<a class="headerlink" href="#Updating-Existing-Catalogs" title="Link to this heading">#</a></h2>
+<h2>Updating Existing Catalogs<a class="headerlink" href="#Updating-Existing-Catalogs" title="Link to this heading">¶</a></h2>
 <p>Suppose we have an existing <code class="docutils literal notranslate"><span class="pre">intake</span> <span class="pre">catalog</span></code> and would like to update and append experiments to that the same catalog file. To do this, let’s create a project with 2 random experiments Next, in order to update an exisiting catalog file with new experiments, we can utilize the <code class="docutils literal notranslate"><span class="pre">penguin_catalog</span></code> and then directly update it with our new experiments. To do this, we leverage an optional argument in the <code class="docutils literal notranslate"><span class="pre">publish</span></code> function called <code class="docutils literal notranslate"><span class="pre">base_catalog_filepath</span></code> as seen below. The result shows the new
 experiments added to the <code class="docutils literal notranslate"><span class="pre">penguin</span> <span class="pre">catalog</span></code>. We can verify this by noticing the different project name that the new experiments fall under.</p>
 <div class="nbinput docutils container">
@@ -464,9 +466,9 @@ sources:
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

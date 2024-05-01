@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Register a custom schema" href="register-custom-schema.html" /><link rel="prev" title="Log with Multiple Backends" href="multiple-backend.html" />
 
-    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Manage Experiment Relationships - rubicon-ml v0.7.1</title>
+    <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>Manage Experiment Relationships - rubicon-ml v0.7.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -115,6 +115,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -126,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.1</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.2</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -153,7 +155,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.1</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.2</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,14 +250,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><a href="https://github.com/capitalone/rubicon-ml/tree/main/notebooks/logging-examples/manage-experiment-relationships.ipynb" target="_blank">View this notebook on GitHub</a> or <a href="https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=notebooks/logging-examples/manage-experiment-relationships.ipynb" target="_blank">run it yourself on Binder</a>!</p>
 <hr class="docutils" />
 <section id="Manage-Experiment-Relationships">
-<h1>Manage Experiment Relationships<a class="headerlink" href="#Manage-Experiment-Relationships" title="Link to this heading">#</a></h1>
+<h1>Manage Experiment Relationships<a class="headerlink" href="#Manage-Experiment-Relationships" title="Link to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon-ml</span></code> experiments can be tagged with special identifiers to denote a parent/child relationship. This can be used to track hierarchical or iterative experiments, among other things.</p>
 <p>First, let’s create a project.</p>
 <div class="nbinput docutils container">
@@ -280,7 +282,7 @@
 </pre></div></div>
 </div>
 <section id="Hierarchical-experiments">
-<h2>Hierarchical experiments<a class="headerlink" href="#Hierarchical-experiments" title="Link to this heading">#</a></h2>
+<h2>Hierarchical experiments<a class="headerlink" href="#Hierarchical-experiments" title="Link to this heading">¶</a></h2>
 <p>Now we can log some experiments in a nested loop. Imagine logging an experiment for each node of a gradient boosted tree, or something along those lines.</p>
 <p>We can use <code class="docutils literal notranslate"><span class="pre">parent_experiment.add_child_experiment(child_experiment)</span></code> to automatically add tags to both <code class="docutils literal notranslate"><span class="pre">parent_experiment</span></code> and <code class="docutils literal notranslate"><span class="pre">child_experiment</span></code> that represent their relationship.</p>
 <div class="nbinput nblast docutils container">
@@ -350,7 +352,7 @@ tags: [&#39;child:7c5b2f4b-1e7c-40be-8cda-8f3a00067e98&#39;, &#39;child:cd30f3b2
 </div>
 </section>
 <section id="Iterative-experiments">
-<h2>Iterative experiments<a class="headerlink" href="#Iterative-experiments" title="Link to this heading">#</a></h2>
+<h2>Iterative experiments<a class="headerlink" href="#Iterative-experiments" title="Link to this heading">¶</a></h2>
 <p>We can leverage <code class="docutils literal notranslate"><span class="pre">add_child_experiment</span></code> to maintain iterative relationships too. This could be used to log metadata about of each iteration of recursive feature elimination and preserve the linear history of the model training.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -482,9 +484,9 @@ name: experiment_0
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
