@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING, Literal, Union
 
 import fsspec
 
+from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.imports import try_import_dask_dataframe, try_import_pandas_dataframe
 from rubicon_ml.repository._repository.repository import RepositoryABC
 from rubicon_ml.repository.utils import json
 from rubicon_ml.types import safe_is_pandas_dataframe
@@ -90,6 +92,38 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         with self.filesystem.open(location, mode) as file:
             file.write(data)
+
+    def _read_bytes(self, location: str, *args) -> bytes:
+        """"""
+        try:
+            file = self.filesystem.open(location, "rb")
+        except FileNotFoundError as error:
+            raise RubiconException() from error
+
+        return file.read()
+
+    def _read_dataframe(self, location: str, df_type: Literal["dask", "pandas"], *args):
+        """"""
+        acceptable_types = ["pandas", "dask"]
+
+        if df_type == "pandas":
+            df_library = try_import_pandas_dataframe()
+            location = os.path.join(location, "data.parquet")
+        elif df_type == "dask":
+            df_library = try_import_dask_dataframe()
+        else:
+            raise ValueError(f"`df_type` must be one of {acceptable_types}")
+
+        return df_library.read_parquet(location, engine="pyarrow")
+
+    def _read_domain(self, location: str, *args) -> "DOMAIN_TYPES":
+        """TODO: ACTUALLY RETURN DOMAIN TYPES, NOT JSON"""
+        try:
+            file = self.filesystem.open(location)
+        except FileNotFoundError as error:
+            raise RubiconException() from error
+
+        return json.load(file)
 
     def _write_bytes(self, data: bytes, location: str, *args):
         """"""
