@@ -28,9 +28,7 @@ class MemoryRepository(FSSpecRepositoryABC):
         """"""
         return "memory"
 
-    def write_dataframe(self, data: "DATAFRAME_TYPES", *args):
+    def _write_dataframe(self, data: "DATAFRAME_TYPES", path: str, *args):
         """"""
-        path = self._get_path(*args)
-
         with self.filesystem.open(path, "wb") as file:
             pickle.dump(data, file)

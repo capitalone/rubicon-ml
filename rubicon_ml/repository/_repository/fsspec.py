@@ -1,6 +1,6 @@
 import os
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Dict, Literal, Union
+from typing import TYPE_CHECKING, Literal, Union
 
 import fsspec
 
@@ -9,7 +9,7 @@ from rubicon_ml.repository.utils import json
 from rubicon_ml.types import safe_is_pandas_dataframe
 
 if TYPE_CHECKING:
-    from rubicon_ml.types import DATAFRAME_TYPES
+    from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_TYPES
 
 
 class FSSpecRepositoryABC(RepositoryABC):
@@ -26,18 +26,58 @@ class FSSpecRepositoryABC(RepositoryABC):
         self.protocol = protocol
         self.root_dir = root_dir
 
-    def _get_path(self) -> str:
-        """"""
-        return "./"
-
     @abstractmethod
     def _get_protocol(self) -> str:
         """"""
         ...
 
+    def _get_artifact_data_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_artifact_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_comment_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_dataframe_data_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_dataframe_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_experiment_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_feature_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_metric_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_parameter_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_project_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
+    def _get_tag_metadata_path(self, *args) -> str:
+        """"""
+        return "."
+
     def _write(
         self,
-        data: Union[bytes, Dict, "DATAFRAME_TYPES"],
+        data: Union[bytes, "DOMAIN_TYPES", "DATAFRAME_TYPES"],
         path: str,
         *args,
         make_dir: bool = True,
@@ -45,29 +85,25 @@ class FSSpecRepositoryABC(RepositoryABC):
     ):
         """"""
         if make_dir:
-            self.filesystem.mkdirs(os.path.dirname(path), exist_ok=True)
+            dir_name = os.path.dirname(path)
+            self.filesystem.mkdirs(dir_name, exist_ok=True)
+
         with self.filesystem.open(path, mode) as file:
             file.write(data)
 
-    def write_bytes(self, data: bytes, *args):
+    def _write_bytes(self, data: bytes, path: str, *args):
         """"""
-        path = self._get_path(*args)
-
         self._write(data, path, "wb", *args)
 
-    def write_dataframe(self, data: "DATAFRAME_TYPES", *args):
+    def _write_dataframe(self, data: "DATAFRAME_TYPES", path: str, *args):
         """"""
-        path = self._get_path(*args)
-
         if safe_is_pandas_dataframe(data):
-            self._mkdir(path)
+            self.filesystem.mkdirs(path, exist_ok=True)
 
             path = os.path.join(path, "data.parquet")
 
         data.to_parquet(path, engine="pyarrow")
 
-    def write_json(self, data: Dict, *args):
+    def _write_domain(self, data: "DOMAIN_TYPES", path: str, *args):
         """"""
-        path = self._get_path(*args)
-
         self._write(json.dumps(data), path, *args)

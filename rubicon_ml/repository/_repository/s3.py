@@ -1,7 +1,10 @@
-from typing import Dict
+from typing import TYPE_CHECKING
 
 from rubicon_ml.repository._repository.fsspec import FSSpecRepositoryABC
 from rubicon_ml.repository.utils import json
+
+if TYPE_CHECKING:
+    from rubicon_ml.types import DOMAIN_TYPES
 
 
 class S3Repository(FSSpecRepositoryABC):
@@ -10,22 +13,21 @@ class S3Repository(FSSpecRepositoryABC):
     Leverages `fsspec` and its 's3' protocol (`s3fs`).
     """
 
-    def _get_path(self) -> str:
+    def __init__(self, root_dir: str, **storage_options):
         """"""
-        return "s3://"
+        if not root_dir.startswith("s3://"):
+            raise ValueError(f"`{self.__class__.__name__}` `root_dir` must start with 's3://'")
+
+        super().__init__(root_dir, **storage_options)
 
     def _get_protocol(self) -> str:
         """"""
         return "s3"
 
-    def write_bytes(self, data: bytes, *args):
+    def _write_bytes(self, data: bytes, path: str, *args):
         """"""
-        path = self._get_path(*args)
-
         self._write(data, path, "wb", *args, make_dir=False)
 
-    def write_json(self, data: Dict, *args):
+    def _write_json(self, data: "DOMAIN_TYPES", path: str, *args):
         """"""
-        path = self._get_path(*args)
-
         self._write(json.dumps(data), path, *args, make_dir=False)
