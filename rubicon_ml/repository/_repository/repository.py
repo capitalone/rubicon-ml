@@ -1,35 +1,39 @@
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Dict
+
+if TYPE_CHECKING:
+    from rubicon_ml.types import DATAFRAME_TYPES
 
 
 class RepositoryABC(ABC):
     """Abstract base for rubicon-ml backend repositories."""
 
     @abstractmethod
-    def write_bytes(self):
+    def read_bytes(self) -> bytes:
         """"""
         ...
 
     @abstractmethod
-    def write_dataframe(self):
+    def read_dataframe(self) -> "DATAFRAME_TYPES":
         """"""
         ...
 
     @abstractmethod
-    def write_json(self):
+    def read_json(self) -> Dict:
         """"""
         ...
 
     @abstractmethod
-    def read_bytes(self):
+    def write_bytes(self, data: bytes, *args):
         """"""
         ...
 
     @abstractmethod
-    def read_dataframe(self):
+    def write_dataframe(self, data: "DATAFRAME_TYPES", *args):
         """"""
         ...
 
     @abstractmethod
-    def read_json(self):
+    def write_json(self, data: Dict, *args):
         """"""
         ...
