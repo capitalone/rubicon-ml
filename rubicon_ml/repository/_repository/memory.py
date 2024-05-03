@@ -1,5 +1,5 @@
 import pickle
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from rubicon_ml.repository._repository.fsspec import FSSpecRepositoryABC
 
@@ -17,16 +17,21 @@ class MemoryRepository(FSSpecRepositoryABC):
         """"""
         super().__init__(root_dir, **storage_options)
 
-        self._create_filesystem()
-
-    def _create_filesystem(self):
-        """"""
         if not self.filesystem.exists(self.root_dir):
             self.filesystem.mkdir(self.root_dir)
 
     def _get_protocol(self) -> str:
         """"""
         return "memory"
+
+    def _read_dataframe(
+        self, location: str, df_type: Literal["dask", "pandas"], *args
+    ) -> "DATAFRAME_TYPES":
+        """"""
+        with self.filesystem.open(location, "rb") as file:
+            data = pickle.load(file)
+
+        return data
 
     def _write_dataframe(self, data: "DATAFRAME_TYPES", location: str, *args):
         """"""

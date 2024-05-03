@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Literal, Union
 
 from rubicon_ml.domain.artifact import Artifact
 from rubicon_ml.domain.dataframe import Dataframe
@@ -77,7 +77,9 @@ class RepositoryABC(ABC):
         ...
 
     @abstractmethod
-    def _read_dataframe(self, location: str, *args) -> "DATAFRAME_TYPES":
+    def _read_dataframe(
+        self, location: str, df_type: Literal["dask", "pandas"], *args
+    ) -> "DATAFRAME_TYPES":
         """"""
         ...
 
@@ -128,11 +130,11 @@ class RepositoryABC(ABC):
 
         return self._read_bytes(location, *args)
 
-    def read_dataframe(self, *args) -> "DATAFRAME_TYPES":
+    def read_dataframe(self, df_type: Literal["dask", "pandas"], *args) -> "DATAFRAME_TYPES":
         """"""
         location = self._get_location(*args)
 
-        return self._read_dataframe(location, *args)
+        return self._read_dataframe(location, df_type, *args)
 
     def read_domain(self, *args) -> "DOMAIN_TYPES":
         """"""
