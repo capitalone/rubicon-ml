@@ -31,79 +31,79 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         ...
 
-    def _get_artifact_data_path(self, *args) -> str:
+    def _get_artifact_data_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_artifact_metadata_path(self, *args) -> str:
+    def _get_artifact_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_comment_metadata_path(self, *args) -> str:
+    def _get_comment_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_dataframe_data_path(self, *args) -> str:
+    def _get_dataframe_data_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_dataframe_metadata_path(self, *args) -> str:
+    def _get_dataframe_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_experiment_metadata_path(self, *args) -> str:
+    def _get_experiment_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_feature_metadata_path(self, *args) -> str:
+    def _get_feature_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_metric_metadata_path(self, *args) -> str:
+    def _get_metric_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_parameter_metadata_path(self, *args) -> str:
+    def _get_parameter_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_project_metadata_path(self, *args) -> str:
+    def _get_project_metadata_location(self, *args) -> str:
         """"""
         return "."
 
-    def _get_tag_metadata_path(self, *args) -> str:
+    def _get_tag_metadata_location(self, *args) -> str:
         """"""
         return "."
 
     def _write(
         self,
         data: Union[bytes, "DOMAIN_TYPES", "DATAFRAME_TYPES"],
-        path: str,
+        location: str,
         *args,
         make_dir: bool = True,
         mode: Literal["w", "wb"] = "w",
     ):
         """"""
         if make_dir:
-            dir_name = os.path.dirname(path)
+            dir_name = os.path.dirname(location)
             self.filesystem.mkdirs(dir_name, exist_ok=True)
 
-        with self.filesystem.open(path, mode) as file:
+        with self.filesystem.open(location, mode) as file:
             file.write(data)
 
-    def _write_bytes(self, data: bytes, path: str, *args):
+    def _write_bytes(self, data: bytes, location: str, *args):
         """"""
-        self._write(data, path, "wb", *args)
+        self._write(data, location, "wb", *args)
 
-    def _write_dataframe(self, data: "DATAFRAME_TYPES", path: str, *args):
+    def _write_dataframe(self, data: "DATAFRAME_TYPES", location: str, *args):
         """"""
         if safe_is_pandas_dataframe(data):
-            self.filesystem.mkdirs(path, exist_ok=True)
+            self.filesystem.mkdirs(location, exist_ok=True)
 
-            path = os.path.join(path, "data.parquet")
+            location = os.path.join(location, "data.parquet")
 
-        data.to_parquet(path, engine="pyarrow")
+        data.to_parquet(location, engine="pyarrow")
 
-    def _write_domain(self, data: "DOMAIN_TYPES", path: str, *args):
+    def _write_domain(self, data: "DOMAIN_TYPES", location: str, *args):
         """"""
-        self._write(json.dumps(data), path, *args)
+        self._write(json.dumps(data), location, *args)

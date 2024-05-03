@@ -24,10 +24,10 @@ class S3Repository(FSSpecRepositoryABC):
         """"""
         return "s3"
 
-    def _write_bytes(self, data: bytes, path: str, *args):
+    def _write_bytes(self, data: bytes, location: str, *args):
         """"""
-        self._write(data, path, "wb", *args, make_dir=False)
+        self._write(data, location, "wb", *args, make_dir=False)
 
-    def _write_json(self, data: "DOMAIN_TYPES", path: str, *args):
+    def _write_json(self, data: "DOMAIN_TYPES", location: str, *args):
         """"""
-        self._write(json.dumps(data), path, *args, make_dir=False)
+        self._write(json.dumps(data), location, *args, make_dir=False)
