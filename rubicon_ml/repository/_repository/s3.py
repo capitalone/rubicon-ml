@@ -1,3 +1,5 @@
+from typing import Dict
+
 from rubicon_ml.repository._repository.fsspec import FSSpecRepositoryABC
 from rubicon_ml.repository.utils import json
 
@@ -16,13 +18,13 @@ class S3Repository(FSSpecRepositoryABC):
         """"""
         return "s3"
 
-    def write_bytes(self, data, *args):
+    def write_bytes(self, data: bytes, *args):
         """"""
         path = self._get_path(*args)
 
         self._write(data, path, "wb", *args, make_dir=False)
 
-    def write_json(self, data, *args):
+    def write_json(self, data: Dict, *args):
         """"""
         path = self._get_path(*args)
 

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Dict, List, Union
+from typing import TYPE_CHECKING, Dict, List
 
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository._repository.repository import RepositoryABC
@@ -14,13 +14,11 @@ class CompositeRepository(RepositoryABC):
         """"""
         self.repositories = repositories
 
-    def _read_all_return_one(
-        self, func_name, *args, **kwargs
-    ) -> Union[bytes, Dict, "DATAFRAME_TYPES"]:
+    def read_bytes(self) -> bytes:
         """"""
         for repository in self.repositories:
             try:
-                data = getattr(repository, func_name)(*args, **kwargs)
+                data = repository.read_bytes()
             except Exception:
                 pass
             else:
@@ -28,29 +26,41 @@ class CompositeRepository(RepositoryABC):
 
         raise RubiconException("All backends failed.")
 
-    def read_bytes(self) -> bytes:
-        """"""
-        return self._read_all_return_one("read_bytes")
-
     def read_dataframe(self) -> "DATAFRAME_TYPES":
         """"""
-        return self._read_all_return_one("read_dataframe")
+        for repository in self.repositories:
+            try:
+                data = repository.read_dataframe()
+            except Exception:
+                pass
+            else:
+                return data
+
+        raise RubiconException("All backends failed.")
 
     def read_json(self) -> Dict:
         """"""
-        return self._read_all_return_one("read_json")
+        for repository in self.repositories:
+            try:
+                data = repository.read_json()
+            except Exception:
+                pass
+            else:
+                return data
 
-    def write_bytes(self):
+        raise RubiconException("All backends failed.")
+
+    def write_bytes(self, data: bytes, *args):
         """"""
         for repository in self.repositories:
-            repository.write_bytes()
+            repository.write_bytes(data, *args)
 
-    def write_dataframe(self):
+    def write_dataframe(self, data: "DATAFRAME_TYPES", *args):
         """"""
         for repository in self.repositories:
-            repository.write_dataframe()
+            repository.write_dataframe(data, *args)
 
-    def write_json(self):
+    def write_json(self, data: Dict, *args):
         """"""
         for repository in self.repositories:
-            repository.write_json()
+            repository.write_json(data, *args)
