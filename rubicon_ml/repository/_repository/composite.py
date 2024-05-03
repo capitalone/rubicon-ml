@@ -28,10 +28,13 @@ class CompositeRepository(RepositoryABC):
 
         raise RubiconException("All backends failed.")
 
-    def write_json(self):
+    def read_bytes(self) -> bytes:
         """"""
-        for repository in self.repositories:
-            repository.write_json()
+        return self._read_all_return_one("read_bytes")
+
+    def read_dataframe(self) -> "DATAFRAME_TYPES":
+        """"""
+        return self._read_all_return_one("read_dataframe")
 
     def read_json(self) -> Dict:
         """"""
@@ -42,15 +45,12 @@ class CompositeRepository(RepositoryABC):
         for repository in self.repositories:
             repository.write_bytes()
 
-    def read_bytes(self) -> bytes:
-        """"""
-        return self._read_all_return_one("read_bytes")
-
     def write_dataframe(self):
         """"""
         for repository in self.repositories:
             repository.write_dataframe()
 
-    def read_dataframe(self) -> "DATAFRAME_TYPES":
+    def write_json(self):
         """"""
-        return self._read_all_return_one("read_dataframe")
+        for repository in self.repositories:
+            repository.write_json()

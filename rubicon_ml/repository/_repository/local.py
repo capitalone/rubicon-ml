@@ -8,4 +8,5 @@ class LocalRepository(FSSpecRepositoryABC):
     """
 
     def _get_protocol(self) -> str:
+        """"""
         return "file"
