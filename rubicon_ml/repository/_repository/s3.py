@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, Union
 
 from rubicon_ml.repository._repository.fsspec import FSSpecRepositoryABC
 from rubicon_ml.repository.utils import json
@@ -28,6 +28,6 @@ class S3Repository(FSSpecRepositoryABC):
         """"""
         self._write(data, location, "wb", *args, make_dir=False)
 
-    def _write_json(self, data: "DOMAIN_TYPES", location: str, *args):
+    def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
         """"""
         self._write(json.dumps(data), location, *args, make_dir=False)
