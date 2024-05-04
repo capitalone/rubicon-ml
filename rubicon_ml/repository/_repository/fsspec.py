@@ -1,6 +1,6 @@
 import os
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Literal, Union
+from typing import TYPE_CHECKING, Dict, Literal, Union
 
 import fsspec
 
@@ -79,7 +79,7 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def _write(
         self,
-        data: Union[bytes, "DOMAIN_TYPES", "DATAFRAME_TYPES"],
+        data: Union[bytes, Dict, "DOMAIN_TYPES", "DATAFRAME_TYPES"],
         location: str,
         *args,
         make_dir: bool = True,
@@ -116,7 +116,7 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         return df_library.read_parquet(location, engine="pyarrow")
 
-    def _read_domain(self, location: str, *args) -> "DOMAIN_TYPES":
+    def _read_json(self, location: str, *args) -> Union[Dict, "DOMAIN_TYPES"]:
         """TODO: ACTUALLY RETURN DOMAIN TYPES, NOT JSON"""
         try:
             file = self.filesystem.open(location)
@@ -138,6 +138,6 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         data.to_parquet(location, engine="pyarrow")
 
-    def _write_domain(self, data: "DOMAIN_TYPES", location: str, *args):
+    def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
         """"""
         self._write(json.dumps(data), location, *args)

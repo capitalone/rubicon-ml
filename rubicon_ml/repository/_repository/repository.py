@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Literal, Union
+from typing import TYPE_CHECKING, Dict, Literal, Union
 
 from rubicon_ml.domain.artifact import Artifact
 from rubicon_ml.domain.dataframe import Dataframe
@@ -84,7 +84,7 @@ class RepositoryABC(ABC):
         ...
 
     @abstractmethod
-    def _read_domain(self, location: str, *args) -> "DOMAIN_TYPES":
+    def _read_json(self, location: str, *args) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
         ...
 
@@ -99,12 +99,13 @@ class RepositoryABC(ABC):
         ...
 
     @abstractmethod
-    def _write_domain(self, data: "DOMAIN_TYPES", location: str, *args):
+    def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
         """"""
         ...
 
-    def _get_location(self, data: Union[bytes, "DOMAIN_TYPES", "DATAFRAME_TYPES"], *args) -> str:
-        """TODO: HANDLE TAGS AND COMMENTS"""
+    def _get_location(
+        self, data: Union[bytes, Dict, "DOMAIN_TYPES", "DATAFRAME_TYPES"], *args
+    ) -> str:
         if isinstance(data, Artifact):
             return self._get_artifact_metadata_location(*args)
         elif isinstance(data, Dataframe):
@@ -121,6 +122,11 @@ class RepositoryABC(ABC):
             return self._get_project_metadata_location(*args)
         elif isinstance(data, bytes):
             return self._get_artifact_data_location(*args)
+        elif isinstance(data, Dict):
+            if "added_comments" in data or "removed_comments" in data:
+                return self._get_comment_metadata_location(*args)
+            else:
+                return self._get_tag_metadata_location(*args)
         else:
             return self._get_dataframe_data_location(*args)
 
@@ -136,11 +142,11 @@ class RepositoryABC(ABC):
 
         return self._read_dataframe(location, df_type, *args)
 
-    def read_domain(self, *args) -> "DOMAIN_TYPES":
+    def read_json(self, *args) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
         location = self._get_location(*args)
 
-        return self._read_domain(location, *args)
+        return self._read_json(location, *args)
 
     def write_bytes(self, data: bytes, *args):
         """"""
@@ -154,8 +160,8 @@ class RepositoryABC(ABC):
 
         self._write_dataframe(data, location, *args)
 
-    def write_domain(self, data: "DOMAIN_TYPES", *args):
+    def write_json(self, data: Union[Dict, "DOMAIN_TYPES"], *args):
         """"""
         location = self._get_location(*args)
 
-        self._write_domain(data, location, *args)
+        self._write_json(data, location, *args)
