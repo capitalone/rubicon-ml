@@ -1,6 +1,6 @@
 import os
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Dict, Literal, Union
+from typing import TYPE_CHECKING, Dict, Literal, Optional, Union
 
 import fsspec
 
@@ -11,7 +11,7 @@ from rubicon_ml.repository.utils import json
 from rubicon_ml.types import safe_is_pandas_dataframe
 
 if TYPE_CHECKING:
-    from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_TYPES
+    from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 
 class FSSpecRepositoryABC(RepositoryABC):
@@ -116,14 +116,20 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         return df_library.read_parquet(location, engine="pyarrow")
 
-    def _read_json(self, location: str, *args) -> Union[Dict, "DOMAIN_TYPES"]:
+    def _read_json(
+        self, location: str, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
+    ) -> Union[Dict, "DOMAIN_TYPES"]:
         """TODO: ACTUALLY RETURN DOMAIN TYPES, NOT JSON"""
         try:
             file = self.filesystem.open(location)
         except FileNotFoundError as error:
             raise RubiconException() from error
 
-        return json.load(file)
+        data = json.load(file)
+        if domain_cls:
+            data = domain_cls(**data)
+
+        return data
 
     def _write_bytes(self, data: bytes, location: str, *args):
         """"""

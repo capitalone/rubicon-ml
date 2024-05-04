@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Union
+    from typing import Type, Union
 
     import dask.dataframe as dd
     import pandas as pd
@@ -15,6 +15,15 @@ if TYPE_CHECKING:
     from rubicon_ml.domain.project import Project
 
     DATAFRAME_TYPES = Union[dd.DataFrame, pd.DataFrame]
+    DOMAIN_CLASS_TYPES = Union[
+        Type[Artifact],
+        Type[Dataframe],
+        Type[Experiment],
+        Type[Feature],
+        Type[Metric],
+        Type[Parameter],
+        Type[Project],
+    ]
     DOMAIN_TYPES = Union[Artifact, Dataframe, Experiment, Feature, Metric, Parameter, Project]
 
 
