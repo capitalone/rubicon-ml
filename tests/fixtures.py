@@ -272,14 +272,20 @@ def viz_experiments(rubicon_and_project_client):
         experiment.log_parameter(name="test param 0", value=random.choice([True, False]))
         experiment.log_parameter(name="test param 1", value=random.randrange(2, 10, 2))
         experiment.log_parameter(
-            name="test param 2", value=random.choice(["A", "B", "C", "D", "E"])
+            name="test param 2",
+            value=random.choice(["A", "B", "C", "D", "E"]),
+            tags=["a", "b"],
         )
 
         experiment.log_metric(name="test metric 0", value=random.random())
         experiment.log_metric(name="test metric 1", value=random.random())
 
         experiment.log_metric(name="test metric 2", value=[random.random() for _ in range(0, 5)])
-        experiment.log_metric(name="test metric 3", value=[random.random() for _ in range(0, 5)])
+        experiment.log_metric(
+            name="test metric 3",
+            value=[random.random() for _ in range(0, 5)],
+            tags=["a", "b"],
+        )
 
         data = np.array(
             [
