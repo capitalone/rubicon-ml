@@ -1,3 +1,4 @@
+import pytest
 from dash import Dash
 
 from rubicon_ml.viz import ExperimentsTable
@@ -39,8 +40,74 @@ def test_experiments_table_load_data(viz_experiments):
         assert all([record.get(name) is not None for name in expected_metric_names])
         assert all([record.get(name) is not None for name in expected_parameter_names])
 
+    assert all(
+        [
+            name not in experiments_table.hidden_columns
+            for name in expected_metric_names + expected_parameter_names
+        ]
+    )
+
     assert experiments_table.commit_hash == viz_experiments[0].commit_hash
     assert experiments_table.github_url == f"test.github.url/tree/{viz_experiments[0].commit_hash}"
+
+
+@pytest.mark.parametrize("filter_by", ["tags", "names"])
+def test_experiments_table_load_filtered_data(filter_by, viz_experiments):
+    if filter_by == "tags":
+        tags = ["a", "b"]
+        qtype = "and"
+
+        expected_metric_names = [m.name for m in viz_experiments[0].metrics(tags=tags, qtype=qtype)]
+        expected_parameter_names = [
+            p.name for p in viz_experiments[0].parameters(tags=tags, qtype=qtype)
+        ]
+
+        experiments_table_kwargs = {
+            "metric_query_tags": tags,
+            "metric_query_type": qtype,
+            "parameter_query_tags": tags,
+            "parameter_query_type": qtype,
+        }
+    elif filter_by == "names":
+        expected_metric_names = ["test metric 0"]
+        expected_parameter_names = ["test param 1", "test param 2"]
+
+        experiments_table_kwargs = {
+            "metric_names": expected_metric_names,
+            "parameter_names": expected_parameter_names,
+        }
+
+    experiments_table = ExperimentsTable(
+        experiments=viz_experiments,
+        **experiments_table_kwargs,
+    )
+    experiments_table.load_experiment_data()
+
+    expected_experiment_ids = [e.id for e in viz_experiments]
+
+    all_metric_names = [m.name for m in viz_experiments[0].metrics()]
+    all_parameter_names = [p.name for p in viz_experiments[0].parameters()]
+    unexpected_metric_names = list(set(all_metric_names).difference(set(expected_metric_names)))
+    unexpected_parameter_names = list(
+        set(all_parameter_names).difference(set(expected_parameter_names))
+    )
+
+    for record in experiments_table.experiment_records:
+        assert record["id"] in expected_experiment_ids
+        assert all([record.get(name) is not None for name in expected_metric_names])
+        assert all([record.get(name) is not None for name in expected_parameter_names])
+
+        # unexpected should still be in table...
+        assert all([record.get(name) is not None for name in unexpected_metric_names])
+        assert all([record.get(name) is not None for name in unexpected_parameter_names])
+
+    # ...but they should be hidden
+    assert all(
+        [
+            name in experiments_table.hidden_columns
+            for name in unexpected_metric_names + unexpected_parameter_names
+        ]
+    )
 
 
 def test_experiments_table_layout(viz_experiments):

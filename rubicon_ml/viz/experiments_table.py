@@ -21,13 +21,48 @@ class ExperimentsTable(VizBase):
     is_selectable : bool, optional
         True to enable selection of the rows in the table, False otherwise.
         Defaults to True.
+    metric_names : list of str
+        If provided, only show the metrics with names in the given list. If
+        `metric_query_tags` are also provided, this will only select metrics
+        from the tag-filtered results.
+    metric_query_tags : list of str, optional
+        If provided, only show the metrics with the given tags in the table.
+    metric_query_type : 'and' or 'or', optional
+        When `metric_query_tags` are given, 'and' shows the metrics with all of
+        the given tags and 'or' shows the metrics with any of the given tags.
+    parameter_names : list of str
+        If provided, only show the parameters with names in the given list. If
+        `parameter_query_tags` are also provided, this will only select
+        parameters from the tag-filtered results.
+    parameter_query_tags : list of str, optional
+        If provided, only show the parameters with the given tags in the table.
+    parameter_query_type : 'and' or 'or', optional
+        When `parameter_query_tags` are given, 'and' shows the paramters with
+        all of the given tags and 'or' shows the parameters with any of the
+        given tags.
     """
 
-    def __init__(self, experiments=None, is_selectable=True):
+    def __init__(
+        self,
+        experiments=None,
+        is_selectable=True,
+        metric_names=None,
+        metric_query_tags=None,
+        metric_query_type=None,
+        parameter_names=None,
+        parameter_query_tags=None,
+        parameter_query_type=None,
+    ):
         super().__init__(dash_title="experiment table")
 
         self.experiments = experiments
         self.is_selectable = is_selectable
+        self.metric_names = metric_names
+        self.metric_query_tags = metric_query_tags
+        self.metric_query_type = metric_query_type
+        self.parameter_names = parameter_names
+        self.parameter_query_tags = parameter_query_tags
+        self.parameter_query_type = parameter_query_type
 
     @property
     def layout(self):
@@ -219,8 +254,6 @@ class ExperimentsTable(VizBase):
         if applicable.
         """
         self.experiment_records = []
-        self.metric_names = set()
-        self.parameter_names = set()
 
         self.all_columns = ["id", "name", "created_at", "model_name", "commit_hash", "tags"]
         self.hidden_columns = []
@@ -228,6 +261,8 @@ class ExperimentsTable(VizBase):
         self.commit_hash = None
         self.github_url = None
 
+        all_parameter_names = set()
+        all_metric_names = set()
         commit_hashes = set()
         show_columns = {"id", "created_at"}
 
@@ -259,23 +294,48 @@ class ExperimentsTable(VizBase):
             for parameter in experiment.parameters():
                 experiment_record[parameter.name] = str(parameter.value)
 
-                self.parameter_names.add(parameter.name)
+                all_parameter_names.add(parameter.name)
 
             for metric in experiment.metrics():
                 experiment_record[metric.name] = str(metric.value)
 
-                self.metric_names.add(metric.name)
+                all_metric_names.add(metric.name)
 
             self.experiment_records.append(experiment_record)
 
-        self.metric_names = list(self.metric_names)
-        self.parameter_names = list(self.parameter_names)
+        if self.parameter_query_tags is not None:
+            parameters = experiment.parameters(
+                tags=self.parameter_query_tags,
+                qtype=self.parameter_query_type,
+            )
+            show_parameter_names = set([p.name for p in parameters])
+        else:
+            show_parameter_names = all_parameter_names
 
-        self.all_columns.extend(self.parameter_names + self.metric_names)
+        if self.parameter_names is not None:
+            show_parameter_names = set(
+                [name for name in show_parameter_names if name in self.parameter_names]
+            )
+
+        if self.metric_query_tags is not None:
+            metrics = experiment.metrics(
+                tags=self.metric_query_tags,
+                qtype=self.metric_query_type,
+            )
+            show_metric_names = set([m.name for m in metrics])
+        else:
+            show_metric_names = all_metric_names
+
+        if self.metric_names is not None:
+            show_metric_names = set(
+                [name for name in show_metric_names if name in self.metric_names]
+            )
+
+        self.all_columns.extend(list(all_parameter_names) + list(all_metric_names))
         self.hidden_columns = [
             column
             for column in self.all_columns
-            if column not in list(show_columns) + self.metric_names + self.parameter_names
+            if column not in show_columns | show_metric_names | show_parameter_names
         ]
 
         if len(commit_hashes) == 1:
