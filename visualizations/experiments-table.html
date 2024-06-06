@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Metric Correlation Plot" href="metric-correlation-plot.html" /><link rel="prev" title="Dataframe Plot" href="dataframe-plot.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Experiments Table - rubicon-ml v0.7.3</title>
+        <title>Experiments Table - rubicon-ml v0.7.4</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -182,7 +182,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.3</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.7.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -210,7 +210,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.7.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -343,30 +343,27 @@
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">):</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">log_experiment</span><span class="p">()</span>
-    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;show me&quot;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;show me&quot;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;extra_parameter&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;show me&quot;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;extra_metric&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <p>Now, we can instantiate the <code class="docutils literal notranslate"><span class="pre">ExperimentsTable</span></code> object with the experiments we just logged and view the table right in this notebook with <code class="docutils literal notranslate"><span class="pre">show</span></code>. The Dash application itself will be running on <a class="reference external" href="http://127.0.0.1:8050/">http://127.0.0.1:8050/</a> when running locally. Use the <code class="docutils literal notranslate"><span class="pre">serve</span></code> command to launch the server directly without rendering the widget in the current Python interpreter.</p>
-<div class="nbinput docutils container">
+<p><strong>Note:</strong> The parameters and metrics shown when the <code class="docutils literal notranslate"><span class="pre">ExperimentsTable</span></code> first renders can be controlled by the class’ other input arguments. The configuration below will only show the metrics and parameters tagged with “show me” when the table first renders.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ExperimentsTable</span><span class="p">(</span>
     <span class="n">experiments</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(),</span>
+    <span class="n">parameter_query_tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;show me&quot;</span><span class="p">],</span>
+    <span class="n">metric_query_tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;show me&quot;</span><span class="p">],</span>
 <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Dash is running on http://127.0.0.1:8050/
-</pre></div></div>
 </div>
 <p><img alt="experiments-table" src="../_images/experiments-table.png" /></p>
 </section>
