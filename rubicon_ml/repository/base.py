@@ -160,7 +160,8 @@ class BaseRepository:
 
             loaded_domains.append(loaded_domain)
 
-        loaded_domains.sort(key=lambda d: d.created_at)
+        if loaded_domains:
+            loaded_domains.sort(key=lambda d: d.created_at)
 
         return loaded_domains
 
