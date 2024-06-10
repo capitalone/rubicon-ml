@@ -4,7 +4,7 @@ import tempfile
 import warnings
 from datetime import datetime
 from json import JSONDecodeError
-from typing import Any, Dict, List, Optional, TypeVar
+from typing import Any, Dict, List, Optional, Type, TypeVar
 from zipfile import ZipFile
 
 import fsspec
@@ -137,7 +137,7 @@ class BaseRepository:
         """Recursively remove all files at `path`."""
         return self.filesystem.rm(path, recursive=True)
 
-    def _load_metadata_files(self, metadata_root: str, domain_type: type[Domains]) -> List[Domains]:
+    def _load_metadata_files(self, metadata_root: str, domain_type: Type[Domains]) -> List[Domains]:
         """Load metadata files from the given root directory and return a list of domain objects."""
         # find all directories, prepare a list of those plus `metadata.yaml`
         metadata_paths = self._ls_directories_only(metadata_root)
