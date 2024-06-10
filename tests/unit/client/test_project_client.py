@@ -237,7 +237,15 @@ def test_to_dask_df(rubicon_and_project_client_with_experiments):
     assert len(df) == 10
 
     # check the cols within the df
-    exp_details = ["id", "name", "description", "model_name", "commit_hash", "tags", "created_at"]
+    exp_details = [
+        "id",
+        "name",
+        "description",
+        "model_name",
+        "commit_hash",
+        "tags",
+        "created_at",
+    ]
     for detail in exp_details:
         assert detail in df.columns
 
@@ -250,7 +258,15 @@ def test_to_pandas_df(rubicon_and_project_client_with_experiments):
     assert len(df) == 10
 
     # check the cols within the df
-    exp_details = ["id", "name", "description", "model_name", "commit_hash", "tags", "created_at"]
+    exp_details = [
+        "id",
+        "name",
+        "description",
+        "model_name",
+        "commit_hash",
+        "tags",
+        "created_at",
+    ]
     for detail in exp_details:
         assert detail in df.columns
 
@@ -280,7 +296,9 @@ def test_to_dask_df_grouped_by_commit_hash(rubicon_and_project_client_with_exper
             assert detail in df.columns
 
 
-def test_to_pandas_df_grouped_by_commit_hash(rubicon_and_project_client_with_experiments):
+def test_to_pandas_df_grouped_by_commit_hash(
+    rubicon_and_project_client_with_experiments,
+):
     project = rubicon_and_project_client_with_experiments[1]
     dfs = project.to_df(df_type="pandas", group_by="commit_hash")
 
@@ -509,3 +527,23 @@ def test_archive_remote_rubicon_s3(mock_open):
 
     mock_open.assert_called_once_with(zip_archive_filename, "wb")
     rubicon_a.repository.filesystem.rm(rubicon_a.config.root_dir, recursive=True)
+
+
+def test_wrong_json_schema_experiment(rubicon_local_filesystem_client_with_project):
+    """Test that our new error catchers work for bad json schemas."""
+    rubicon, project = rubicon_local_filesystem_client_with_project
+    experiment_location = rubicon.repository._get_experiment_metadata_root(project.name)
+    os.mkdir(experiment_location)
+    with open(os.path.join(experiment_location, "bad_experiment.json"), "w") as f:
+        f.write("bad json")
+
+    assert project.experiments() == []
+
+
+def test_no_json_schema_experiment(rubicon_local_filesystem_client_with_project):
+    """Test that our new error catchers work when we are missing json schemas."""
+    rubicon, project = rubicon_local_filesystem_client_with_project
+    experiment_location = rubicon.repository._get_experiment_metadata_root(project.name)
+    os.mkdir(experiment_location)
+
+    assert project.experiments() == []
