@@ -63,7 +63,13 @@ class BaseRepository:
         Ignore FileNotFoundErrors to avoid misc file errors, like hidden
         dotfiles.
         """
+        if not isinstance(metadata_paths, list):
+            metadata_paths = [metadata_paths]
+        if not metadata_paths:
+            return {}
+
         files = {}
+
         for path, metadata in self.filesystem.cat(metadata_paths, on_error="return").items():
             if isinstance(metadata, FileNotFoundError):
                 warning = f"{path} not found. Was this file unintentionally created?"
@@ -140,7 +146,10 @@ class BaseRepository:
     def _load_metadata_files(self, metadata_root: str, domain_type: Type[Domains]) -> List[Domains]:
         """Load metadata files from the given root directory and return a list of domain objects."""
         # find all directories, prepare a list of those plus `metadata.yaml`
-        metadata_paths = self._ls_directories_only(metadata_root)
+        try:
+            metadata_paths = self._ls_directories_only(metadata_root)
+        except FileNotFoundError:
+            return []
 
         loaded_domains = []
         # cat_paths will check for FileNotFoundErrors and skip any missing files
@@ -218,7 +227,10 @@ class BaseRepository:
         list of rubicon.domain.Project
             The list of projects from the filesystem.
         """
-        return self._load_metadata_files(self.root_dir, domain.Project)
+        try:
+            return self._load_metadata_files(self.root_dir, domain.Project)
+        except FileNotFoundError:
+            return []
 
     # ------ Experiments -------
 
@@ -290,7 +302,11 @@ class BaseRepository:
             The experiments logged to the project with name
             `project_name`.
         """
-        experiment_metadata_root = self._get_experiment_metadata_root(project_name)
+        try:
+            experiment_metadata_root = self._get_experiment_metadata_root(project_name)
+        except FileNotFoundError:
+            return []
+
         return self._load_metadata_files(experiment_metadata_root, domain.Experiment)
 
     # ------- Archiving --------
@@ -506,7 +522,11 @@ class BaseRepository:
         list of rubicon.domain.Artifact
             The artifacts logged to the specified object.
         """
-        artifact_metadata_root = self._get_artifact_metadata_root(project_name, experiment_id)
+        try:
+            artifact_metadata_root = self._get_artifact_metadata_root(project_name, experiment_id)
+        except FileNotFoundError:
+            return []
+
         return self._load_metadata_files(artifact_metadata_root, domain.Artifact)
 
     def get_artifact_data(self, project_name, artifact_id, experiment_id=None):
@@ -704,7 +724,11 @@ class BaseRepository:
         list of rubicon.domain.Dataframe
             The dataframes logged to the specified object.
         """
-        dataframe_metadata_root = self._get_dataframe_metadata_root(project_name, experiment_id)
+        try:
+            dataframe_metadata_root = self._get_dataframe_metadata_root(project_name, experiment_id)
+        except FileNotFoundError:
+            return []
+
         return self._load_metadata_files(dataframe_metadata_root, domain.Dataframe)
 
     def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None, df_type="pandas"):
@@ -855,7 +879,10 @@ class BaseRepository:
             The features logged to the experiment with ID
             `experiment_id`.
         """
-        feature_metadata_root = self._get_feature_metadata_root(project_name, experiment_id)
+        try:
+            feature_metadata_root = self._get_feature_metadata_root(project_name, experiment_id)
+        except FileNotFoundError:
+            return []
         return self._load_metadata_files(feature_metadata_root, domain.Feature)
 
     # -------- Metrics ---------
@@ -946,7 +973,10 @@ class BaseRepository:
             The metrics logged to the experiment with ID
             `experiment_id`.
         """
-        metric_metadata_root = self._get_metric_metadata_root(project_name, experiment_id)
+        try:
+            metric_metadata_root = self._get_metric_metadata_root(project_name, experiment_id)
+        except FileNotFoundError:
+            return []
         return self._load_metadata_files(metric_metadata_root, domain.Metric)
 
     # ------- Parameters -------
@@ -1036,7 +1066,11 @@ class BaseRepository:
             The parameters logged to the experiment with ID
             `experiment_id`.
         """
-        parameter_metadata_root = self._get_parameter_metadata_root(project_name, experiment_id)
+        try:
+            parameter_metadata_root = self._get_parameter_metadata_root(project_name, experiment_id)
+        except FileNotFoundError:
+            return []
+
         return self._load_metadata_files(parameter_metadata_root, domain.Parameter)
 
     # ---------- Tags ----------
