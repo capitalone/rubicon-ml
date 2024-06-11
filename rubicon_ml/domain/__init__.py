@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Union
+from typing import TypeVar, Union
 
 from rubicon_ml.domain import utils
 from rubicon_ml.domain.artifact import Artifact
@@ -12,6 +12,11 @@ from rubicon_ml.domain.parameter import Parameter
 from rubicon_ml.domain.project import Project
 
 DOMAIN_TYPES = Union[Artifact, Dataframe, Experiment, Feature, Metric, Parameter, Project]
+
+DomainsVar = TypeVar(
+    "DomainsVar", Artifact, Dataframe, Experiment, Feature, Metric, Parameter, Project
+)
+
 
 __all__ = [
     "Artifact",

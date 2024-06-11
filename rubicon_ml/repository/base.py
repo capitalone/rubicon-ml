@@ -4,7 +4,7 @@ import tempfile
 import warnings
 from datetime import datetime
 from json import JSONDecodeError
-from typing import Any, Dict, List, Optional, Type, TypeVar
+from typing import Any, Dict, List, Optional, Type
 from zipfile import ZipFile
 
 import fsspec
@@ -13,17 +13,6 @@ import pandas as pd
 from rubicon_ml import domain
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
-
-Domains = TypeVar(
-    "Domains",
-    domain.Project,
-    domain.Experiment,
-    domain.Artifact,
-    domain.Dataframe,
-    domain.Feature,
-    domain.Metric,
-    domain.Parameter,
-)
 
 
 class BaseRepository:
@@ -143,7 +132,9 @@ class BaseRepository:
         """Recursively remove all files at `path`."""
         return self.filesystem.rm(path, recursive=True)
 
-    def _load_metadata_files(self, metadata_root: str, domain_type: Type[Domains]) -> List[Domains]:
+    def _load_metadata_files(
+        self, metadata_root: str, domain_type: Type[domain.DomainsVar]
+    ) -> List[domain.DomainsVar]:
         """Load metadata files from the given root directory and return a list of domain objects."""
         # find all directories, prepare a list of those plus `metadata.yaml`
         try:
@@ -302,10 +293,7 @@ class BaseRepository:
             The experiments logged to the project with name
             `project_name`.
         """
-        try:
-            experiment_metadata_root = self._get_experiment_metadata_root(project_name)
-        except FileNotFoundError:
-            return []
+        experiment_metadata_root = self._get_experiment_metadata_root(project_name)
 
         return self._load_metadata_files(experiment_metadata_root, domain.Experiment)
 
