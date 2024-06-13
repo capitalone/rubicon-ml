@@ -247,7 +247,7 @@ class Rubicon:
         return project.to_df(df_type=df_type, group_by=None)
 
     @failsafe
-    def get_or_create_project(self, name: str, **kwargs):
+    def get_or_create_project(self, name: str, **kwargs) -> Project:
         """Get or create a project.
 
         Parameters
