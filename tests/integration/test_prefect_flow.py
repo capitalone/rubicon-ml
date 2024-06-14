@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from prefect import Flow
+from prefect import flow
 
 from rubicon_ml import Rubicon
 from rubicon_ml.client import (
@@ -29,37 +29,33 @@ def test_flow():
     project_name = "Prefect Integration Test"
     df = pd.DataFrame(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), columns=["a", "b", "c"])
     artifact = b"byte artifact"
-    with Flow("testing-rubicon-tasks") as flow:
+
+    @flow
+    def rubicon_flow():
         project_t = get_or_create_project_task(persistence, root_dir, project_name)
         experiment_t = create_experiment_task(project_t)
-        feature_t = log_feature_task(experiment_t, "test feature")
-        parameter_t = log_parameter_task(experiment_t, "test parameter", 0)
-        metric_t = log_metric_task(experiment_t, "test metric", 0)
-        dataframe_t = log_dataframe_task(experiment_t, df, description="a test df")
-        artifact_t = log_artifact_task(experiment_t, data_bytes=artifact, name="my artifact")
+        log_feature_task(experiment_t, "test feature")
+        log_parameter_task(experiment_t, "test parameter", 0)
+        log_metric_task(experiment_t, "test metric", 0)
+        log_dataframe_task(experiment_t, df, description="a test df")
+        log_artifact_task(experiment_t, data_bytes=artifact, name="my artifact")
 
-    assert len(flow.tasks) == 7
+    outputs = rubicon_flow()
 
-    state = flow.run()
+    assert len(outputs) == 7
 
-    assert state.is_successful()
-
-    # outside of the flow, the objects are Task references
-    assert state.result[project_t].is_successful()
-    assert state.result[experiment_t].is_successful()
-    assert state.result[feature_t].is_successful()
-    assert state.result[parameter_t].is_successful()
-    assert state.result[metric_t].is_successful()
-    assert state.result[dataframe_t].is_successful()
-    assert state.result[artifact_t].is_successful()
-
-    assert isinstance(state.result[project_t].result, Project)
-    assert isinstance(state.result[experiment_t].result, Experiment)
-    assert isinstance(state.result[feature_t].result, Feature)
-    assert isinstance(state.result[parameter_t].result, Parameter)
-    assert isinstance(state.result[metric_t].result, Metric)
-    assert isinstance(state.result[dataframe_t].result, Dataframe)
-    assert isinstance(state.result[artifact_t].result, Artifact)
+    expected_output_types = [
+        Project,
+        Experiment,
+        Feature,
+        Parameter,
+        Metric,
+        Dataframe,
+        Artifact,
+    ]
+    for output, expected_output_type in zip(outputs, expected_output_types):
+        assert output.type == "COMPLETED"
+        assert isinstance(output.result(), expected_output_type)
 
     # use Rubicon to grab the logged data
     rubicon = Rubicon(persistence, root_dir)

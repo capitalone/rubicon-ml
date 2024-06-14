@@ -16,7 +16,7 @@ dependencies:
   - scikit-learn<=1.5.0,>=0.22.0
 
   # for prefect extras
-  - prefect<=1.2.4,>=0.12.0
+  - prefect<=2.19.5,>=2.16.5
 
   # for s3fs extras
   - s3fs<=2024.6.0,>=0.4
@@ -35,6 +35,7 @@ dependencies:
   - jupyterlab
   - lightgbm
   - nbconvert
+  - pre-commit
   - pytest
   - pytest-cov
   - xgboost
