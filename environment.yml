@@ -22,7 +22,7 @@ dependencies:
   - s3fs<=2024.6.0,>=0.4
 
   # for viz extras
-  - dash<=2.17.0,>=2.11.0
+  - dash<=2.17.1,>=2.11.0
   - dash-bootstrap-components<=1.6.0,>=1.0.0
 
   # for testing
