@@ -34,11 +34,11 @@ def test_flow():
     def rubicon_flow():
         project_t = get_or_create_project_task(persistence, root_dir, project_name)
         experiment_t = create_experiment_task(project_t)
-        feature_t = log_feature_task(experiment_t, "test feature")
-        parameter_t = log_parameter_task(experiment_t, "test parameter", 0)
-        metric_t = log_metric_task(experiment_t, "test metric", 0)
-        dataframe_t = log_dataframe_task(experiment_t, df, description="a test df")
-        artifact_t = log_artifact_task(experiment_t, data_bytes=artifact, name="my artifact")
+        log_feature_task(experiment_t, "test feature")
+        log_parameter_task(experiment_t, "test parameter", 0)
+        log_metric_task(experiment_t, "test metric", 0)
+        log_dataframe_task(experiment_t, df, description="a test df")
+        log_artifact_task(experiment_t, data_bytes=artifact, name="my artifact")
 
     outputs = rubicon_flow()
 
