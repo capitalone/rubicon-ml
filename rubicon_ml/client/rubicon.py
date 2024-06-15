@@ -255,20 +255,9 @@ class Rubicon:
         list of rubicon.client.Project
             The list of available projects.
         """
-        return_err = None
-
-        for repo in self.repositories:
-            try:
-                projects = [Project(project, self.config) for project in repo.get_projects()]
-            except Exception as err:
-                return_err = err
-            else:
-                return projects
-
-        if len(self.repositories) > 1:
-            raise RubiconException("all configured storage backends failed") from return_err
-        else:
-            raise return_err
+        return [
+            Project(project, self.config) for project in self.repository.read_jsons(domain.Project)
+        ]
 
     @failsafe
     def sync(

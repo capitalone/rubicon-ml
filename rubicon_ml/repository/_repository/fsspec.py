@@ -1,6 +1,8 @@
 import os
+import warnings
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Dict, Literal, Optional, Union
+from json import JSONDecodeError
+from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Type, Union
 
 import fsspec
 
@@ -53,9 +55,18 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         return "."
 
-    def _get_experiment_metadata_location(self, project_name: str, experiment_id: str) -> str:
+    def _get_experiment_metadata_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> str:
         """"""
-        return f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/metadata.json"
+        experiment_root = f"{self.root_dir}/{slugify(project_name)}/experiments"
+
+        if experiment_id:
+            return f"{experiment_root}/{experiment_id}/metadata.json"
+        else:
+            return experiment_root
 
     def _get_feature_metadata_location(self, *args) -> str:
         """"""
@@ -69,9 +80,12 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         return "."
 
-    def _get_project_metadata_location(self, project_name: str) -> str:
+    def _get_project_metadata_location(self, project_name: Optional[str] = None) -> str:
         """"""
-        return f"{self.root_dir}/{slugify(project_name)}/metadata.json"
+        if project_name:
+            return f"{self.root_dir}/{slugify(project_name)}/metadata.json"
+        else:
+            return self.root_dir
 
     def _get_tag_metadata_location(self, *args) -> str:
         """"""
@@ -117,7 +131,7 @@ class FSSpecRepositoryABC(RepositoryABC):
         return df_library.read_parquet(location, engine="pyarrow")
 
     def _read_json(
-        self, location: str, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
+        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
         try:
@@ -130,6 +144,48 @@ class FSSpecRepositoryABC(RepositoryABC):
             data = domain_cls(**data)
 
         return data
+
+    def _read_jsons(
+        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
+    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
+        """"""
+        try:
+            metadata_paths = [
+                os.path.join(p.get("name"), "metadata.json")
+                for p in self.filesystem.ls(location, detail=True)
+                if p.get("type", p.get("StorageClass")).lower() == "directory"
+            ]
+        except FileNotFoundError:
+            return []
+
+        domains = []
+
+        for path, metadata in self.filesystem.cat(metadata_paths, on_error="return").items():
+            if isinstance(metadata, FileNotFoundError):
+                warning = f"{path} not found. Was this file unintentionally created?"
+                warnings.warn(warning)
+            else:
+                try:
+                    metadata_contents = json.loads(metadata)
+                    domain = domain_cls(**metadata_contents)
+                except (JSONDecodeError, TypeError) as error:
+                    if isinstance(error, JSONDecodeError):
+                        warning = f"Failed to load metadata for `{domain_cls.__name__}` at {path}"
+                    else:
+                        warning = (
+                            f"Failed to instantiate `{domain_cls.__name__}` from metadata at {path}"
+                        )
+
+                    warnings.warn(warning)
+
+                    continue
+
+                domains.append(domain)
+
+        if domains:
+            domains.sort(key=lambda d: d.created_at)
+
+        return domains
 
     def _write_bytes(self, data: bytes, location: str, *args):
         """"""
