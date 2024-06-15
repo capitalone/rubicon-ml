@@ -7,7 +7,7 @@ import fsspec
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.imports import try_import_dask_dataframe, try_import_pandas_dataframe
 from rubicon_ml.repository._repository.repository import RepositoryABC
-from rubicon_ml.repository.utils import json
+from rubicon_ml.repository.utils import json, slugify
 from rubicon_ml.types import safe_is_pandas_dataframe
 
 if TYPE_CHECKING:
@@ -53,9 +53,9 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         return "."
 
-    def _get_experiment_metadata_location(self, *args) -> str:
+    def _get_experiment_metadata_location(self, project_name: str, experiment_id: str) -> str:
         """"""
-        return "."
+        return f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/metadata.json"
 
     def _get_feature_metadata_location(self, *args) -> str:
         """"""
@@ -69,9 +69,9 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         return "."
 
-    def _get_project_metadata_location(self, *args) -> str:
+    def _get_project_metadata_location(self, project_name: str) -> str:
         """"""
-        return "."
+        return f"{self.root_dir}/{slugify(project_name)}/metadata.json"
 
     def _get_tag_metadata_location(self, *args) -> str:
         """"""
@@ -119,7 +119,7 @@ class FSSpecRepositoryABC(RepositoryABC):
     def _read_json(
         self, location: str, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
-        """TODO: ACTUALLY RETURN DOMAIN TYPES, NOT JSON"""
+        """"""
         try:
             file = self.filesystem.open(location)
         except FileNotFoundError as error:
@@ -146,4 +146,9 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
         """"""
+        if self.filesystem.exists(location):
+            raise RubiconException(
+                f"A `{type(data).__name__}` already exists at '{os.path.dirname(location)}'"
+            )
+
         self._write(json.dumps(data), location, *args)

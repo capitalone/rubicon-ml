@@ -1,4 +1,4 @@
-from typing import ModuleType
+from types import ModuleType
 
 from rubicon_ml.exceptions import RubiconException
 

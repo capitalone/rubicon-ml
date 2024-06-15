@@ -115,29 +115,6 @@ class Rubicon:
 
         return self.configs.is_auto_git_enabled
 
-    def _create_project_domain(
-        self,
-        name: str,
-        description: Optional[str],
-        github_url: Optional[str],
-        training_metadata: Optional[Union[List[Tuple], Tuple]],
-    ):
-        """Instantiates and returns a project domain object."""
-        if self.is_auto_git_enabled() and github_url is None:
-            github_url = self._get_github_url()
-
-        if training_metadata is not None:
-            training_metadata_class = TrainingMetadata(training_metadata)
-        else:
-            training_metadata_class = None
-
-        return domain.Project(
-            name,
-            description=description,
-            github_url=github_url,
-            training_metadata=training_metadata_class,
-        )
-
     @failsafe
     def create_project(
         self,
@@ -167,9 +144,17 @@ class Rubicon:
         rubicon.client.Project
             The created project.
         """
-        project = self._create_project_domain(name, description, github_url, training_metadata)
-        for repo in self.repositories:
-            repo.create_project(project)
+        if self.is_auto_git_enabled() and github_url is None:
+            github_url = self._get_github_url()
+
+        project = domain.Project(
+            name,
+            description=description,
+            github_url=github_url,
+            training_metadata=TrainingMetadata(training_metadata) if training_metadata else None,
+        )
+
+        self.repository.write_json(project, name)
 
         return Project(project, self.configs)
 
@@ -193,20 +178,7 @@ class Rubicon:
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            return_err = None
-
-            for repo in self.repositories:
-                try:
-                    project = repo.get_project(name)
-                except Exception as err:
-                    return_err = err
-                else:
-                    return Project(project, self.config)
-
-            if len(self.repositories) > 1:
-                raise RubiconException("all configured storage backends failed") from return_err
-            else:
-                raise return_err
+            return Project(self.repository.read_json(domain.Project, name), self.config)
         else:
             return [p for p in self.projects() if p.id == id][0]
 

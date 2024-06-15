@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Dict, Literal, Optional, Union
+from typing import TYPE_CHECKING, Dict, Literal, Optional, Type, Union
 
 from rubicon_ml.domain.artifact import Artifact
 from rubicon_ml.domain.dataframe import Dataframe
@@ -105,42 +105,35 @@ class RepositoryABC(ABC):
         """"""
         ...
 
-    def _get_location(
-        self, data: Union[bytes, Dict, "DOMAIN_TYPES", "DATAFRAME_TYPES"], *args
-    ) -> str:
-        if isinstance(data, Artifact):
+    def _get_location(self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args) -> str:
+        if domain_cls == Artifact:
             return self._get_artifact_metadata_location(*args)
-        elif isinstance(data, Dataframe):
+        elif domain_cls == Dataframe:
             return self._get_dataframe_metadata_location(*args)
-        elif isinstance(data, Experiment):
+        elif domain_cls == Experiment:
             return self._get_experiment_metadata_location(*args)
-        elif isinstance(data, Feature):
+        elif domain_cls == Feature:
             return self._get_feature_metadata_location(*args)
-        elif isinstance(data, Metric):
+        elif domain_cls == Metric:
             return self._get_metric_metadata_location(*args)
-        elif isinstance(data, Parameter):
+        elif domain_cls == Parameter:
             return self._get_parameter_metadata_location(*args)
-        elif isinstance(data, Project):
+        elif domain_cls == Project:
             return self._get_project_metadata_location(*args)
-        elif isinstance(data, bytes):
-            return self._get_artifact_data_location(*args)
-        elif isinstance(data, Dict):
-            if "added_comments" in data or "removed_comments" in data:
-                return self._get_comment_metadata_location(*args)
-            else:
-                return self._get_tag_metadata_location(*args)
         else:
-            return self._get_dataframe_data_location(*args)
+            # TODO: differentiate tags and comments
+            # return self._get_comment_metadata_location(*args)
+            return self._get_tag_metadata_location(*args)
 
     def read_bytes(self, *args) -> bytes:
         """"""
-        location = self._get_location(*args)
+        location = self._get_artifact_data_location(*args)
 
         return self._read_bytes(location, *args)
 
     def read_dataframe(self, df_type: Literal["dask", "pandas"], *args) -> "DATAFRAME_TYPES":
         """"""
-        location = self._get_location(*args)
+        location = self._get_dataframe_data_location(*args)
 
         return self._read_dataframe(location, df_type, *args)
 
@@ -148,24 +141,24 @@ class RepositoryABC(ABC):
         self, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
-        location = self._get_location(*args)
+        location = self._get_location(domain_cls, *args)
 
         return self._read_json(location, domain_cls, *args)
 
     def write_bytes(self, data: bytes, *args):
         """"""
-        location = self._get_location(*args)
+        location = self._get_artifact_data_location(*args)
 
-        self._write_bytes(data, location, *args)
+        return self._write_bytes(data, location, *args)
 
     def write_dataframe(self, data: "DATAFRAME_TYPES", *args):
         """"""
-        location = self._get_location(*args)
+        location = self._get_dataframe_data_location(*args)
 
-        self._write_dataframe(data, location, *args)
+        return self._write_dataframe(data, location, *args)
 
     def write_json(self, data: Union[Dict, "DOMAIN_TYPES"], *args):
         """"""
-        location = self._get_location(*args)
+        location = self._get_location(type(data), *args)
 
-        self._write_json(data, location, *args)
+        return self._write_json(data, location, *args)
