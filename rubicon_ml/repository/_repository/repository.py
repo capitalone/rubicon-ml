@@ -128,7 +128,7 @@ class RepositoryABC(ABC):
         elif domain_cls == Project:
             return self._get_project_metadata_location(*args)
         else:
-            # TODO: differentiate tags and comments
+            # TODO: differentiate tags and comments using new domain objects
             # return self._get_comment_metadata_location(*args)
             return self._get_tag_metadata_location(*args)
 
