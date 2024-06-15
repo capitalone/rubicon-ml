@@ -293,8 +293,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             tags,
             comments,
         )
-        for repo in self.repositories:
-            repo.create_experiment(experiment)
+        self.repository.write_json(experiment, self.name, experiment.id)
 
         return Experiment(experiment, self)
 
@@ -330,17 +329,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
 
             return experiments[-1]
         else:
-            return_err = None
-
-            for repo in self.repositories:
-                try:
-                    experiment = Experiment(repo.get_experiment(self.name, id), self)
-                except Exception as err:
-                    return_err = err
-                else:
-                    return experiment
-
-            self._raise_rubicon_exception(return_err)
+            return Experiment(self.repository.read_json(domain.Experiment, self.name, id), self)
 
     @failsafe
     def experiments(
@@ -363,22 +352,14 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
         list of rubicon.client.Experiment
             The experiments previously logged to this project.
         """
-        if tags is None:
-            tags = []
+        experiments = [
+            Experiment(experiment, self)
+            for experiment in self.repository.read_jsons(domain.Experiment, self.name)
+        ]
 
-        return_err = None
+        self._experiments = filter_children(experiments, tags if tags else [], qtype, name)
 
-        for repo in self.repositories:
-            try:
-                experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
-            except Exception as err:
-                return_err = err
-            else:
-                self._experiments = filter_children(experiments, tags, qtype, name)
-
-                return self._experiments
-
-        self._raise_rubicon_exception(return_err)
+        return self._experiments
 
     @failsafe
     def dataframes(
