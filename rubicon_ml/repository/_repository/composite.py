@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Type, Union
 
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository._repository.repository import RepositoryABC
 
 if TYPE_CHECKING:
+    from rubicon_ml.repository._repository.repository import RepositoryABC
     from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 
@@ -17,10 +17,10 @@ def _safe_call_func(func: Callable, *args) -> Any:
         return data
 
 
-class CompositeRepository(RepositoryABC):
+class CompositeRepository:
     """Composite repository for multiple rubicon-ml backends."""
 
-    def __init__(self, repositories: List[RepositoryABC]):
+    def __init__(self, repositories: List["RepositoryABC"]):
         """"""
         self.repositories = repositories
 
