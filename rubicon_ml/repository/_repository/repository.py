@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Dict, Literal, Optional, Type, Union
+from typing import TYPE_CHECKING, Dict, List, Literal, Type, Union
 
 from rubicon_ml.domain.artifact import Artifact
 from rubicon_ml.domain.dataframe import Dataframe
@@ -85,8 +85,15 @@ class RepositoryABC(ABC):
 
     @abstractmethod
     def _read_json(
-        self, location: str, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
+        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
+        """"""
+        ...
+
+    @abstractmethod
+    def _read_jsons(
+        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
+    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
         """"""
         ...
 
@@ -138,12 +145,20 @@ class RepositoryABC(ABC):
         return self._read_dataframe(location, df_type, *args)
 
     def read_json(
-        self, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
+        self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
         location = self._get_location(domain_cls, *args)
 
         return self._read_json(location, domain_cls, *args)
+
+    def read_jsons(
+        self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
+    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
+        """"""
+        location = self._get_location(domain_cls, *args)
+
+        return self._read_jsons(location, domain_cls, *args)
 
     def write_bytes(self, data: bytes, *args):
         """"""

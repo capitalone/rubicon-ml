@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Type, Union
 
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository._repository.repository import RepositoryABC
@@ -39,11 +39,20 @@ class CompositeRepository(RepositoryABC):
         raise RubiconException("All backends failed.")
 
     def read_json(
-        self, domain_cls: Optional["DOMAIN_CLASS_TYPES"], *args
+        self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
         for repository in self.repositories:
             return _safe_call_func(repository.read_json, domain_cls, *args)
+
+        raise RubiconException("All backends failed.")
+
+    def read_jsons(
+        self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
+    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
+        """"""
+        for repository in self.repositories:
+            return _safe_call_func(repository.read_jsons, domain_cls, *args)
 
         raise RubiconException("All backends failed.")
 
