@@ -225,8 +225,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             name, description=description, importance=importance, tags=tags, comments=comments
         )
 
-        for repo in self.repositories:
-            repo.create_feature(feature, self.project.name, self.id)
+        self.repository.write_json(feature, self.project.name, self.id, name)
 
         return Feature(feature, self)
 

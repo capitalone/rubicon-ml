@@ -68,9 +68,19 @@ class FSSpecRepositoryABC(RepositoryABC):
         else:
             return experiment_root
 
-    def _get_feature_metadata_location(self, *args) -> str:
+    def _get_feature_metadata_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        feature_name: str = None,
+    ) -> str:
         """"""
-        return "."
+        feature_root = f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/features"
+
+        if experiment_id:
+            return f"{feature_root}/{slugify(feature_name)}/metadata.json"
+        else:
+            return feature_root
 
     def _get_metric_metadata_location(self, *args) -> str:
         """"""
