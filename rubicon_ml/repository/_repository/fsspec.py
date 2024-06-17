@@ -75,20 +75,44 @@ class FSSpecRepositoryABC(RepositoryABC):
         feature_name: str = None,
     ) -> str:
         """"""
-        feature_root = f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/features"
+        feature_root = (
+            f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/features"
+        )
 
-        if experiment_id:
+        if feature_name:
             return f"{feature_root}/{slugify(feature_name)}/metadata.json"
         else:
             return feature_root
 
-    def _get_metric_metadata_location(self, *args) -> str:
+    def _get_metric_metadata_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        metric_name: str = None,
+    ) -> str:
         """"""
-        return "."
+        metric_root = f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/metrics"
 
-    def _get_parameter_metadata_location(self, *args) -> str:
+        if metric_name:
+            return f"{metric_root}/{slugify(metric_name)}/metadata.json"
+        else:
+            return metric_root
+
+    def _get_parameter_metadata_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        parameter_name: str = None,
+    ) -> str:
         """"""
-        return "."
+        parameter_root = (
+            f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/parameters"
+        )
+
+        if parameter_name:
+            return f"{parameter_root}/{slugify(parameter_name)}/metadata.json"
+        else:
+            return parameter_root
 
     def _get_project_metadata_location(self, project_name: Optional[str] = None) -> str:
         """"""
@@ -199,7 +223,11 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def _write_bytes(self, data: bytes, location: str, *args):
         """"""
-        self._write(data, location, "wb", *args)
+        dir_name = os.path.dirname(location)
+        self.filesystem.mkdirs(dir_name, exist_ok=True)
+
+        with self.filesystem.open(location, "wb") as file:
+            file.write(data)
 
     def _write_dataframe(self, data: "DATAFRAME_TYPES", location: str, *args):
         """"""
@@ -217,4 +245,8 @@ class FSSpecRepositoryABC(RepositoryABC):
                 f"A `{type(data).__name__}` already exists at '{os.path.dirname(location)}'"
             )
 
-        self._write(json.dumps(data), location, *args)
+        dir_name = os.path.dirname(location)
+        self.filesystem.mkdirs(dir_name, exist_ok=True)
+
+        with self.filesystem.open(location, "w") as file:
+            file.write(json.dumps(data))
