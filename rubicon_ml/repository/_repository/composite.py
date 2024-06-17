@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Type, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Type, Union
 
 from rubicon_ml.exceptions import RubiconException
 
@@ -11,8 +11,8 @@ def _safe_call_func(func: Callable, *args) -> Any:
     """"""
     try:
         data = func(*args)
-    except Exception:
-        pass
+    except Exception as error:
+        return error
     else:
         return data
 
@@ -24,37 +24,59 @@ class CompositeRepository:
         """"""
         self.repositories = repositories
 
+        self._last_error: Optional[Exception] = None
+
     def read_bytes(self, *args) -> bytes:
         """"""
         for repository in self.repositories:
-            return _safe_call_func(repository.read_bytes, *args)
+            result = _safe_call_func(repository.read_bytes, *args)
 
-        raise RubiconException("All backends failed.")
+            if not isinstance(result, Exception):
+                return result
+            else:
+                self._last_error = result
+
+        raise RubiconException("All backends failed.") from self._last_error
 
     def read_dataframe(self, *args) -> "DATAFRAME_TYPES":
         """"""
         for repository in self.repositories:
-            return _safe_call_func(repository.read_dataframe, *args)
+            result = _safe_call_func(repository.read_dataframe, *args)
 
-        raise RubiconException("All backends failed.")
+            if not isinstance(result, Exception):
+                return result
+            else:
+                self._last_error = result
+
+        raise RubiconException("All backends failed.") from self._last_error
 
     def read_json(
         self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
     ) -> Union[Dict, "DOMAIN_TYPES"]:
         """"""
         for repository in self.repositories:
-            return _safe_call_func(repository.read_json, domain_cls, *args)
+            result = _safe_call_func(repository.read_json, domain_cls, *args)
 
-        raise RubiconException("All backends failed.")
+            if not isinstance(result, Exception):
+                return result
+            else:
+                self._last_error = result
+
+        raise RubiconException("All backends failed.") from self._last_error
 
     def read_jsons(
         self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
     ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
         """"""
         for repository in self.repositories:
-            return _safe_call_func(repository.read_jsons, domain_cls, *args)
+            result = _safe_call_func(repository.read_jsons, domain_cls, *args)
 
-        raise RubiconException("All backends failed.")
+            if not isinstance(result, Exception):
+                return result
+            else:
+                self._last_error = result
+
+        raise RubiconException("All backends failed.") from self._last_error
 
     def write_bytes(self, data: bytes, *args):
         """"""

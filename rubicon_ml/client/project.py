@@ -391,6 +391,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
         """
         if tags is None:
             tags = []
+
         super().dataframes(tags=tags, qtype=qtype, name=name)
 
         if recursive is True:
