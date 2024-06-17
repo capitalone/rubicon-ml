@@ -173,9 +173,14 @@ class ArtifactMixin:
             raise ValueError("`comments` must be `list` of type `str`")
 
         data_bytes, name = self._validate_data(
-            data_bytes, data_directory, data_file, data_object, data_path, name
+            data_bytes,
+            data_directory,
+            data_file,
+            data_object,
+            data_path,
+            name,
         )
-
+        project_name, experiment_id = self._get_identifiers()
         artifact = domain.Artifact(
             name=name,
             description=description,
@@ -184,9 +189,8 @@ class ArtifactMixin:
             comments=comments,
         )
 
-        project_name, experiment_id = self._get_identifiers()
-        for repo in self.repositories:
-            repo.create_artifact(artifact, data_bytes, project_name, experiment_id=experiment_id)
+        self.repository.write_json(artifact, project_name, experiment_id, artifact.id)
+        self.repository.write_bytes(data_bytes, project_name, experiment_id, artifact.id)
 
         return client.Artifact(artifact, self)
 
@@ -331,21 +335,20 @@ class ArtifactMixin:
         """
         if tags is None:
             tags = []
-        project_name, experiment_id = self._get_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                artifacts = [
-                    client.Artifact(a, self)
-                    for a in repo.get_artifacts_metadata(project_name, experiment_id=experiment_id)
-                ]
-            except Exception as err:
-                return_err = err
-            else:
-                self._artifacts = filter_children(artifacts, tags, qtype, name)
-                return self._artifacts
 
-        self._raise_rubicon_exception(return_err)
+        project_name, experiment_id = self._get_identifiers()
+        artifacts = [
+            client.Artifact(artifact, self)
+            for artifact in self.repository.read_jsons(
+                domain.Artifact,
+                project_name,
+                experiment_id,
+            )
+        ]
+
+        self._artifacts = filter_children(artifacts, tags, qtype, name)
+
+        return self._artifacts
 
     @failsafe
     def artifact(self, name: Optional[str] = None, id: Optional[str] = None) -> Artifact:
@@ -376,23 +379,19 @@ class ArtifactMixin:
                     f"Multiple artifacts found with name '{name}'. Returning most recently logged."
                 )
 
-            artifact = artifacts[-1]
-            return artifact
+            return artifacts[-1]
         else:
             project_name, experiment_id = self._get_identifiers()
-            return_err = None
-            for repo in self.repositories:
-                try:
-                    artifact = client.Artifact(
-                        repo.get_artifact_metadata(project_name, id, experiment_id),
-                        self,
-                    )
-                except Exception as err:
-                    return_err = err
-                else:
-                    return artifact
 
-        self._raise_rubicon_exception(return_err)
+            return client.Artifact(
+                self.repository.read_json(
+                    domain.Artifact,
+                    project_name,
+                    experiment_id,
+                    id,
+                ),
+                self,
+            )
 
     @failsafe
     def delete_artifacts(self, ids: List[str]):
