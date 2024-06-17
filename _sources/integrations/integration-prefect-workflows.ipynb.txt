@@ -158,20 +158,21 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "from prefect import Flow\n",
+    "from prefect import flow\n",
     "\n",
     "\n",
     "n_components = 2\n",
     "n_neighbors = 5\n",
     "is_standardized = True\n",
     "\n",
-    "with Flow(\"Wine Classification\") as flow:\n",
+    "@flow\n",
+    "def wine_flow():\n",
     "    wine_dataset = load_data()\n",
     "    \n",
     "    feature_names = get_feature_names(wine_dataset)\n",
     "    train_test_split = split_data(wine_dataset)\n",
     "    \n",
-    "    accuracy = fit_pred_model(\n",
+    "    return fit_pred_model(\n",
     "        train_test_split,\n",
     "        n_components,\n",
     "        n_neighbors,\n",
@@ -185,15 +186,7 @@
    "source": [
     "### Running a flow and viewing results\n",
     "\n",
-    "Now we'll register our **flow** with the local server. First, we'll have to\n",
-    "use the ``prefect`` CLI one more time to create a project.\n",
-    "\n",
-    "```bash\n",
-    "prefect create project 'Wine Classification'\n",
-    "```\n",
-    "\n",
-    "The URL printed from the call to ``flow.register`` opens the local Prefect UI.\n",
-    "We can use it to run and monitor our **flows**. "
+    "Now we'll run the flow."
    ]
   },
   {
@@ -202,114 +195,207 @@
    "metadata": {},
    "outputs": [
     {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Flow URL: http://localhost:8080/default/flow/aef9fb65-c49b-4c46-89be-e31c357a165e\n",
-      " └── ID: 531ffe8c-fb2b-4855-b5d8-f9bcef51ad2d\n",
-      " └── Project: Wine Classification\n",
-      " └── Labels: ['8c859084633f']\n"
-     ]
-    }
-   ],
-   "source": [
-    "flow_id = flow.register(project_name=\"Wine Classification\")"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "We'll also put together a function to run our **flows** and wait for them to finish."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
-   "metadata": {},
-   "outputs": [
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:44.598 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | prefect.engine - Created flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> for flow<span style=\"color: #800080; text-decoration-color: #800080; font-weight: bold\"> 'wine-flow'</span>\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:44.598 | \u001b[36mINFO\u001b[0m    | prefect.engine - Created flow run\u001b[35m 'rugged-pony'\u001b[0m for flow\u001b[1;35m 'wine-flow'\u001b[0m\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
     {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Flow run scheduled. Waiting...\n",
-      "Flow run scheduled. Waiting...\n",
-      "All reference tasks succeeded. Waiting...\n",
-      "Flow run 024457a5-aac4-449a-a5a3-7b3986f90cba was successful!\n"
-     ]
-    }
-   ],
-   "source": [
-    "import time\n",
-    "from prefect import Client\n",
-    "\n",
-    "\n",
-    "prefect_client = Client()\n",
-    "\n",
-    "def run_flow(client, flow_id):\n",
-    "    flow_run_id = client.create_flow_run(flow_id=flow_id)\n",
-    "    \n",
-    "    is_finished = False\n",
-    "    while not is_finished:\n",
-    "        state = client.get_flow_run_info(flow_run_id).state\n",
-    "        print(f\"{state.message.strip('.')}. Waiting...\")\n",
-    "        \n",
-    "        time.sleep(3)\n",
-    "        \n",
-    "        is_finished = state.is_finished()\n",
-    "\n",
-    "    assert state.is_successful()\n",
-    "    print(f\"Flow run {flow_run_id} was successful!\")\n",
-    "    \n",
-    "    return flow_run_id\n",
-    "    \n",
-    "flow_run_id = run_flow(prefect_client, flow_id)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "We assigned a few variables in our **flow**, most notably the result of ``fit_pred_model``, ``accuracy``.\n",
-    "This accuracy metric is how we'll determine whether or not the model we trained is a success. However,\n",
-    "retrieving state variables from **flows** is a bit cumbersome."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 9,
-   "metadata": {},
-   "outputs": [
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:44.646 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Created task run 'load_data-0' for task 'load_data'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:44.646 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Created task run 'load_data-0' for task 'load_data'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:44.647 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Executing 'load_data-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:44.647 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Executing 'load_data-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.352 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'load_data-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.352 | \u001b[36mINFO\u001b[0m    | Task run 'load_data-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.372 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Created task run 'get_feature_names-0' for task 'get_feature_names'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.372 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Created task run 'get_feature_names-0' for task 'get_feature_names'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.373 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Executing 'get_feature_names-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.373 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Executing 'get_feature_names-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.423 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'get_feature_names-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.423 | \u001b[36mINFO\u001b[0m    | Task run 'get_feature_names-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.440 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Created task run 'split_data-0' for task 'split_data'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.440 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Created task run 'split_data-0' for task 'split_data'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.441 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Executing 'split_data-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.441 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Executing 'split_data-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.547 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'split_data-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.547 | \u001b[36mINFO\u001b[0m    | Task run 'split_data-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.566 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Created task run 'fit_pred_model-0' for task 'fit_pred_model'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.566 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Created task run 'fit_pred_model-0' for task 'fit_pred_model'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.567 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Executing 'fit_pred_model-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.567 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Executing 'fit_pred_model-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.693 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'fit_pred_model-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.693 | \u001b[36mINFO\u001b[0m    | Task run 'fit_pred_model-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.719 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'rugged-pony'</span> - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.719 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'rugged-pony'\u001b[0m - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
     {
      "data": {
       "text/plain": [
-       "0.9555555555555556"
+       "0.9333333333333333"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "info = prefect_client.get_flow_run_info(flow_run_id)\n",
-    "\n",
-    "slugs = [t.task_slug for t in info.task_runs]\n",
-    "index = slugs.index(accuracy.slug)\n",
-    "\n",
-    "result = info.task_runs[index].state._result.read(\n",
-    "    info.task_runs[index].state._result.location,\n",
-    ")\n",
-    "result.value"
+    "accuracy = wine_flow()\n",
+    "accuracy"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "What's going on here isn't exactly intuitive, and all that only extracted one\n",
-    "piece of data from one task.\n",
-    " \n",
     "### Adding Rubicon to your flow\n",
     "\n",
     "We can leverage the Prefect tasks within the ``rubicon_ml`` library to log all the\n",
@@ -323,7 +409,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -332,17 +418,15 @@
     "from prefect import unmapped\n",
     "\n",
     "\n",
-    "root_dir = os.environ.get(\"RUBICON_ROOT\", \"rubicon-root\")\n",
-    "root_path = f\"{os.path.dirname(os.getcwd())}/{root_dir}\"\n",
-    "\n",
     "n_components = 2\n",
     "n_neighbors = 5\n",
     "is_standardized = True\n",
     "\n",
-    "with Flow(\"Wine Classification with Rubicon\") as flow:    \n",
+    "@flow\n",
+    "def rubicon_wine_flow():    \n",
     "    project = get_or_create_project_task(\n",
-    "        \"filesystem\",\n",
-    "        root_path,\n",
+    "        \"memory\",\n",
+    "        \".\",\n",
     "        \"Wine Classification with Prefect\",\n",
     "    )\n",
     "    experiment = create_experiment_task(\n",
@@ -366,7 +450,9 @@
     "        is_standardized,\n",
     "    )\n",
     "    \n",
-    "    log_metric_task(experiment, \"accuracy\", accuracy)"
+    "    log_metric_task(experiment, \"accuracy\", accuracy)\n",
+    "\n",
+    "    return accuracy"
    ]
   },
   {
@@ -378,28 +464,946 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Flow URL: http://localhost:8080/default/flow/9b91bafc-7e8b-4361-b1d0-bc57dac4cebc\n",
-      " └── ID: 081b9522-5db8-4ce6-ae64-ea8afd5b323e\n",
-      " └── Project: Wine Classification\n",
-      " └── Labels: ['8c859084633f']\n",
-      "Flow run scheduled. Waiting...\n",
-      "Submitted for execution. Waiting...\n",
-      "Running flow. Waiting...\n",
-      "All reference tasks succeeded. Waiting...\n",
-      "Flow run 29cef175-c115-4da2-a9f7-40f79bdb6104 was successful!\n"
-     ]
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.890 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | prefect.engine - Created flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> for flow<span style=\"color: #800080; text-decoration-color: #800080; font-weight: bold\"> 'rubicon-wine-flow'</span>\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.890 | \u001b[36mINFO\u001b[0m    | prefect.engine - Created flow run\u001b[35m 'laughing-newt'\u001b[0m for flow\u001b[1;35m 'rubicon-wine-flow'\u001b[0m\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.942 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'get_or_create_project_task-0' for task 'get_or_create_project_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.942 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'get_or_create_project_task-0' for task 'get_or_create_project_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.943 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'get_or_create_project_task-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.943 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'get_or_create_project_task-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:45.995 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'get_or_create_project_task-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:45.995 | \u001b[36mINFO\u001b[0m    | Task run 'get_or_create_project_task-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.011 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'create_experiment_task-0' for task 'create_experiment_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.011 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'create_experiment_task-0' for task 'create_experiment_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.012 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'create_experiment_task-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.012 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'create_experiment_task-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.052 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'create_experiment_task-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.052 | \u001b[36mINFO\u001b[0m    | Task run 'create_experiment_task-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.068 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'load_data-0' for task 'load_data'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.068 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'load_data-0' for task 'load_data'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.069 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'load_data-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.069 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'load_data-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.112 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'load_data-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.112 | \u001b[36mINFO\u001b[0m    | Task run 'load_data-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.129 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'get_feature_names-0' for task 'get_feature_names'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.129 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'get_feature_names-0' for task 'get_feature_names'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.129 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'get_feature_names-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.129 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'get_feature_names-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.168 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'get_feature_names-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.168 | \u001b[36mINFO\u001b[0m    | Task run 'get_feature_names-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.184 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'split_data-0' for task 'split_data'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.184 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'split_data-0' for task 'split_data'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.185 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'split_data-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.185 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'split_data-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.232 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'split_data-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.232 | \u001b[36mINFO\u001b[0m    | Task run 'split_data-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.311 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-12' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.311 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-12' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.312 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-12' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.312 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-12' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.322 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-7' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.322 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-7' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.323 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-7' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.323 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-7' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.334 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-8' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.334 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-8' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.335 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-8' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.335 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-8' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.356 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-6' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.356 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-6' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.357 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-6' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.357 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-6' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.399 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-3' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.399 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-3' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.400 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-3' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.400 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-3' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.417 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-12' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.417 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-12' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.425 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-8' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.425 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-8' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.444 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-10' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.444 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-10' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.445 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-10' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.445 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-10' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.459 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-4' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.459 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-4' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.461 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-4' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.461 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-4' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.499 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-6' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.499 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-6' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.508 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-0' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.508 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-0' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.509 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-0' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.509 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-0' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.524 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-7' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.524 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-7' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.543 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-10' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.543 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-10' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.556 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-11' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.556 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-11' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.557 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-11' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.557 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-11' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.567 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_parameter_task-0' for task 'log_parameter_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.567 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_parameter_task-0' for task 'log_parameter_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.568 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'log_parameter_task-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.568 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'log_parameter_task-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.612 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-11' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.612 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-11' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.620 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-3' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.620 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-3' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.627 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_parameter_task-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.627 | \u001b[36mINFO\u001b[0m    | Task run 'log_parameter_task-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.640 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_parameter_task-1' for task 'log_parameter_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.640 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_parameter_task-1' for task 'log_parameter_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.641 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'log_parameter_task-1' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.641 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'log_parameter_task-1' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.651 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.651 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.668 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-1' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.668 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-1' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.669 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-1' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.669 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-1' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.696 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_parameter_task-1' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.696 | \u001b[36mINFO\u001b[0m    | Task run 'log_parameter_task-1' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.713 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_parameter_task-2' for task 'log_parameter_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.713 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_parameter_task-2' for task 'log_parameter_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.714 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'log_parameter_task-2' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.714 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'log_parameter_task-2' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.724 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-1' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.724 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-1' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.749 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_parameter_task-2' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.749 | \u001b[36mINFO\u001b[0m    | Task run 'log_parameter_task-2' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.761 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'fit_pred_model-0' for task 'fit_pred_model'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.761 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'fit_pred_model-0' for task 'fit_pred_model'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.761 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'fit_pred_model-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.761 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'fit_pred_model-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.771 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-2' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.771 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-2' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.772 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-2' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.772 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-2' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.817 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'fit_pred_model-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.817 | \u001b[36mINFO\u001b[0m    | Task run 'fit_pred_model-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.839 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_metric_task-0' for task 'log_metric_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.839 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_metric_task-0' for task 'log_metric_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.840 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Executing 'log_metric_task-0' immediately...\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.840 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Executing 'log_metric_task-0' immediately...\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.854 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-2' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.854 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-2' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.871 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-4' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.871 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-4' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.885 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_metric_task-0' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.885 | \u001b[36mINFO\u001b[0m    | Task run 'log_metric_task-0' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.971 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-5' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.971 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-5' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:46.972 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-5' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:46.972 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-5' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:47.004 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-5' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:47.004 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-5' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:47.083 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Created task run 'log_feature_task-9' for task 'log_feature_task'\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:47.083 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Created task run 'log_feature_task-9' for task 'log_feature_task'\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:47.084 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Submitted task run 'log_feature_task-9' for execution.\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:47.084 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Submitted task run 'log_feature_task-9' for execution.\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:47.132 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Task run 'log_feature_task-9' - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:47.132 | \u001b[36mINFO\u001b[0m    | Task run 'log_feature_task-9' - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">00:56:47.152 | <span style=\"color: #008080; text-decoration-color: #008080\">INFO</span>    | Flow run<span style=\"color: #800080; text-decoration-color: #800080\"> 'laughing-newt'</span> - Finished in state <span style=\"color: #008000; text-decoration-color: #008000\">Completed</span>()\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "00:56:47.152 | \u001b[36mINFO\u001b[0m    | Flow run\u001b[35m 'laughing-newt'\u001b[0m - Finished in state \u001b[32mCompleted\u001b[0m()\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/plain": [
+       "1.0"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
     }
    ],
    "source": [
-    "flow_with_rubicon_id = flow.register(project_name=\"Wine Classification\")\n",
-    "flow_run_with_rubicon_id = run_flow(prefect_client, flow_with_rubicon_id)"
+    "accuracy = rubicon_wine_flow()\n",
+    "accuracy"
    ]
   },
   {
@@ -411,16 +1415,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "experiment 6b1c3846-5aab-4bda-8c16-15b279d8616c\n",
-      "features: ['alcalinity_of_ash', 'alcohol', 'ash', 'color_intensity', 'flavanoids', 'hue', 'magnesium', 'malic_acid', 'nonflavanoid_phenols', 'od280/od315_of_diluted_wines', 'proanthocyanins', 'proline', 'total_phenols']\n",
-      "parameters: [('is_standardized', True), ('n_components', 2), ('n_neighbors', 5)]\n",
+      "experiment 35173154-a912-4ed0-9920-188d62e6f3d2\n",
+      "features: ['proline', 'proanthocyanins', 'flavanoids', 'alcalinity_of_ash', 'nonflavanoid_phenols', 'hue', 'alcohol', 'od280/od315_of_diluted_wines', 'malic_acid', 'ash', 'magnesium', 'total_phenols', 'color_intensity']\n",
+      "parameters: [('n_components', 2), ('n_neighbors', 5), ('is_standardized', True)]\n",
       "metrics: [('accuracy', 1.0)]\n"
      ]
     }
@@ -429,7 +1433,7 @@
     "from rubicon_ml import Rubicon\n",
     "\n",
     "\n",
-    "rubicon = Rubicon(persistence=\"filesystem\", root_dir=root_path)\n",
+    "rubicon = Rubicon(persistence=\"memory\", root_dir=\".\")\n",
     "project = rubicon.get_project(\"Wine Classification with Prefect\")\n",
     "    \n",
     "experiment = project.experiments()[0]\n",
@@ -443,220 +1447,6 @@
     "    f\"features: {features}\\nparameters: {parameters}\\n\"\n",
     "    f\"metrics: {metrics}\"\n",
     ")"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Extracting data from ``rubicon_ml`` is much simpler than pulling it from the various\n",
-    "**tasks** as they succeed. Especially in the case where we're running thousands\n",
-    "of **tasks** in a **flow**.\n",
-    "\n",
-    "### Concurrent Logging with Dask\n",
-    "\n",
-    "Prefect plays nicely with Dask in order to provide parallel computing when possible.\n",
-    "The Prefect scheduler is smart enough to know which **tasks** do and do not depend\n",
-    "on each other, so it can intelligently decide when to run independent **tasks** at\n",
-    "the same time.\n",
-    "\n",
-    "Let's run the same **flow** as above, except this time we'll log eight different\n",
-    "experiments with eight different feature sets and accuracy results. First, we'll\n",
-    "need to use Dask to start a local cluster."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 13,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import dask.distributed\n",
-    "from prefect.executors import DaskExecutor\n",
-    "\n",
-    "\n",
-    "dask_client = dask.distributed.Client()\n",
-    "dask_executor = DaskExecutor(address=dask_client.cluster.scheduler.address)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Before we look at the new **flow**, let's see how easy it is to make our own \n",
-    "``rubicon_ml`` Prefect **tasks**. Currently, the ``log_feature_task`` logs one \n",
-    "feature to one experiment. Let's say in this example, we want to log our entire\n",
-    "feature set in one **task**. That's slightly different than what we currently\n",
-    "have in the ``log_feature_task``, so let's see how we can make a new one using\n",
-    "the ``rubicon_ml`` logging library."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 14,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "@task\n",
-    "def log_feature_set(experiment, feature_names):\n",
-    "    \"\"\"log a set of features to a rubicon experiment\n",
-    "    \n",
-    "    Parameters\n",
-    "    ----------\n",
-    "    experiment : rubicon.Experiment\n",
-    "        the experiment to log the feature set to\n",
-    "    feature_names : list of str\n",
-    "        the names of the features to log to `experiment`\n",
-    "    \"\"\"\n",
-    "    features = []\n",
-    "    \n",
-    "    for name in feature_names:\n",
-    "        features.append(experiment.log_feature(name=name))\n",
-    "        \n",
-    "    return features"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Easy! Even though its so simple, this particular **task** is actually more in-depth\n",
-    "than the ones you'll find in the library. The Prefect **tasks** in the library are\n",
-    "simply wrappers around existing logging library functions, like ``experiment.log_feature``.\n",
-    "\n",
-    "Now we can make our new **flow** to log multiple experiments in parallel."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 15,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "n_components =    [2,    2,     2,    2,     4,    4,     4,    4    ]\n",
-    "n_neighbors =     [5,    5,     10,   10,    5,    5,     10,   10   ]\n",
-    "is_standardized = [True, False, True, False, True, False, True, False]\n",
-    "\n",
-    "experiment_names = [f\"mapped run {i}\" for i in range(len(n_components))]\n",
-    "\n",
-    "with Flow(\n",
-    "    \"Wine Classification with Rubicon - Mapped\",\n",
-    "    executor=dask_executor,\n",
-    ") as mapped_flow:\n",
-    "    project = get_or_create_project_task(\n",
-    "        \"filesystem\",\n",
-    "        root_path,\n",
-    "        \"Wine Classification with Prefect - Mapped\",\n",
-    "    )\n",
-    "    experiments = create_experiment_task.map(\n",
-    "        unmapped(project),\n",
-    "        name=experiment_names,\n",
-    "        description=unmapped(\"concurrent example with Prefect\"),\n",
-    "    )\n",
-    "    \n",
-    "    wine_dataset = load_data()\n",
-    "    \n",
-    "    feature_names = get_feature_names(wine_dataset)\n",
-    "    train_test_split = split_data(wine_dataset)\n",
-    "    \n",
-    "    log_feature_set.map(experiments, unmapped(feature_names))\n",
-    "    log_parameter_task.map(experiments, unmapped(\"n_components\"), n_components)\n",
-    "    log_parameter_task.map(experiments, unmapped(\"n_neighbors\"), n_neighbors)\n",
-    "    log_parameter_task.map(experiments, unmapped(\"is_standardized\"), is_standardized)\n",
-    "    \n",
-    "    accuracies = fit_pred_model.map(\n",
-    "        unmapped(train_test_split),\n",
-    "        n_components,\n",
-    "        n_neighbors,\n",
-    "        is_standardized,\n",
-    "    )\n",
-    " \n",
-    "    log_metric_task.map(experiments, unmapped(\"accuracy\"), accuracies)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Let's register and run one last **flow**. If you check out the timeline for your completed\n",
-    "**flows** on the UI linked by `mapped_flow.register`, you'll notice tasks executing at the same\n",
-    "time now."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 16,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Flow URL: http://localhost:8080/default/flow/1ff30ad8-530c-4502-a9ad-cfed39b145fd\n",
-      " └── ID: 5f925f68-877c-4922-952c-927da5cf5a34\n",
-      " └── Project: Wine Classification\n",
-      " └── Labels: ['8c859084633f']\n",
-      "Flow run scheduled. Waiting...\n",
-      "Flow run scheduled. Waiting...\n",
-      "Running flow. Waiting...\n",
-      "Running flow. Waiting...\n",
-      "Running flow. Waiting...\n",
-      "All reference tasks succeeded. Waiting...\n",
-      "Flow run 418550e0-01eb-4d48-b78b-fbe101da0622 was successful!\n"
-     ]
-    }
-   ],
-   "source": [
-    "flow_with_concurrent_rubicon_id = mapped_flow.register(\n",
-    "    project_name=\"Wine Classification\",\n",
-    ")\n",
-    "flow_run_with_concurrent_rubicon_id = run_flow(\n",
-    "    prefect_client,\n",
-    "    flow_with_concurrent_rubicon_id,\n",
-    ")"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Retrieving all the results of a mapped **task** is even more cumbersome than\n",
-    "retrieving just the accuracy above. We'll simply use the ``rubicon_ml`` Dashboard to\n",
-    "check out all the data we just logged!"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 17,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      " * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)\n",
-      "127.0.0.1 - - [16/Apr/2021 15:29:39] \"\u001b[37mGET /_alive_71180c28-37bc-4127-a50b-e754fe3e6812 HTTP/1.1\u001b[0m\" 200 -\n"
-     ]
-    },
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Dash app running on http://127.0.0.1:8050/\n"
-     ]
-    }
-   ],
-   "source": [
-    "from rubicon_ml.viz import Dashboard\n",
-    "\n",
-    "\n",
-    "project = get_project(\n",
-    "    \"filesystem\",\n",
-    "    root_path,\n",
-    "    \"Wine Classification with Prefect - Mapped\",\n",
-    ")\n",
-    "\n",
-    "Dashboard(project.experiments()).show()"
    ]
   }
  ],
@@ -676,7 +1466,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.10.4"
+   "version": "3.12.3"
   }
  },
  "nbformat": 4,
