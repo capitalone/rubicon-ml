@@ -109,8 +109,8 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             tags=tags,
             comments=comments,
         )
-        for repo in self.repositories:
-            repo.create_metric(metric, self.project.name, self.id)
+
+        self.repository.write_json(metric, self.project.name, self.id, name)
 
         return Metric(metric, self)
 
@@ -133,19 +133,18 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         list of rubicon.client.Metric
             The metrics previously logged to this experiment.
         """
-        return_err = None
+        metrics = [
+            Metric(metric, self)
+            for metric in self.repository.read_jsons(
+                domain.Metric,
+                self.project.name,
+                self.id,
+            )
+        ]
 
-        for repo in self.repositories:
-            try:
-                metrics = [Metric(m, self) for m in repo.get_metrics(self.project.name, self.id)]
-            except Exception as err:
-                return_err = err
-            else:
-                self._metrics = filter_children(metrics, tags, qtype, name)
+        self._metrics = filter_children(metrics, tags, qtype, name)
 
-                return self._metrics
-
-        self._raise_rubicon_exception(return_err)
+        return self._metrics
 
     @failsafe
     def metric(self, name=None, id=None):
@@ -167,17 +166,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            return_err = None
-
-            for repo in self.repositories:
-                try:
-                    metric = repo.get_metric(self.project.name, self.id, name)
-                except Exception as err:
-                    return_err = err
-                else:
-                    return Metric(metric, self)
-
-            self._raise_rubicon_exception(return_err)
+            return Metric(
+                self.repository.read_json(
+                    domain.Metric,
+                    self.project.name,
+                    self.id,
+                    name,
+                ),
+                self,
+            )
         else:
             return [m for m in self.metrics() if m.id == id][0]
 
@@ -248,19 +245,18 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         list of rubicon.client.Feature
             The features previously logged to this experiment.
         """
-        return_err = None
+        features = [
+            Feature(feature, self)
+            for feature in self.repository.read_jsons(
+                domain.Feature,
+                self.project.name,
+                self.id,
+            )
+        ]
 
-        for repo in self.repositories:
-            try:
-                features = [Feature(f, self) for f in repo.get_features(self.project.name, self.id)]
-            except Exception as err:
-                return_err = err
-            else:
-                self._features = filter_children(features, tags, qtype, name)
+        self._features = filter_children(features, tags, qtype, name)
 
-                return self._features
-
-        self._raise_rubicon_exception(return_err)
+        return self._features
 
     @failsafe
     def feature(self, name=None, id=None):
@@ -282,17 +278,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            return_err = None
-
-            for repo in self.repositories:
-                try:
-                    feature = repo.get_feature(self.project.name, self.id, name)
-                except Exception as err:
-                    return_err = err
-                else:
-                    return Feature(feature, self)
-
-            self._raise_rubicon_exception(return_err)
+            return Feature(
+                self.repository.read_json(
+                    domain.Feature,
+                    self.project.name,
+                    self.id,
+                    name,
+                ),
+                self,
+            )
         else:
             return [f for f in self.features() if f.id == id][0]
 
@@ -342,8 +336,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             name, value=value, description=description, tags=tags, comments=comments
         )
 
-        for repo in self.repositories:
-            repo.create_parameter(parameter, self.project.name, self.id)
+        self.repository.write_json(parameter, self.project.name, self.id, name)
 
         return Parameter(parameter, self)
 
@@ -366,21 +359,18 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
         list of rubicon.client.Parameter
             The parameters previously logged to this experiment.
         """
-        return_err = None
+        parameters = [
+            Parameter(parameter, self)
+            for parameter in self.repository.read_jsons(
+                domain.Parameter,
+                self.project.name,
+                self.id,
+            )
+        ]
 
-        for repo in self.repositories:
-            try:
-                parameters = [
-                    Parameter(p, self) for p in repo.get_parameters(self.project.name, self.id)
-                ]
-            except Exception as err:
-                return_err = err
-            else:
-                self._parameters = filter_children(parameters, tags, qtype, name)
+        self._parameters = filter_children(parameters, tags, qtype, name)
 
-                return self._parameters
-
-        self._raise_rubicon_exception(return_err)
+        return self._parameters
 
     @failsafe
     def parameter(self, name=None, id=None):
@@ -402,17 +392,15 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
             raise ValueError("`name` OR `id` required.")
 
         if name is not None:
-            return_err = None
-
-            for repo in self.repositories:
-                try:
-                    parameter = repo.get_parameter(self.project.name, self.id, name)
-                except Exception as err:
-                    return_err = err
-                else:
-                    return Parameter(parameter, self)
-
-            self._raise_rubicon_exception(return_err)
+            return Parameter(
+                self.repository.read_json(
+                    domain.Parameter,
+                    self.project.name,
+                    self.id,
+                    name,
+                ),
+                self,
+            )
         else:
             return [p for p in self.parameters() if p.id == id][0]
 

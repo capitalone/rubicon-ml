@@ -26,8 +26,10 @@ class S3Repository(FSSpecRepositoryABC):
 
     def _write_bytes(self, data: bytes, location: str, *args):
         """"""
-        self._write(data, location, "wb", *args, make_dir=False)
+        with self.filesystem.open(location, "wb") as file:
+            file.write(data)
 
     def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
         """"""
-        self._write(json.dumps(data), location, *args, make_dir=False)
+        with self.filesystem.open(location, "w") as file:
+            file.write(json.dumps(data))
