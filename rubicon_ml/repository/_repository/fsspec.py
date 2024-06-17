@@ -36,13 +36,38 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         ...
 
-    def _get_artifact_data_location(self, *args) -> str:
+    def _get_artifact_data_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        artifact_id: str,
+    ) -> str:
         """"""
-        return "."
+        artifact_root = f"{self.root_dir}/{slugify(project_name)}"
 
-    def _get_artifact_metadata_location(self, *args) -> str:
+        if experiment_id:
+            artifact_root = f"{artifact_root}/experiments/{experiment_id}"
+
+        return f"{artifact_root}/artifacts/{artifact_id}/data"
+
+    def _get_artifact_metadata_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+        artifact_id: Optional[str] = None,
+    ) -> str:
         """"""
-        return "."
+        artifact_root = f"{self.root_dir}/{slugify(project_name)}"
+
+        if experiment_id:
+            artifact_root = f"{artifact_root}/experiments/{experiment_id}"
+
+        artifact_root = f"{artifact_root}/artifacts"
+
+        if artifact_id:
+            return f"{artifact_root}/{artifact_id}/metadata.json"
+        else:
+            return artifact_root
 
     def _get_comment_metadata_location(self, *args) -> str:
         """"""

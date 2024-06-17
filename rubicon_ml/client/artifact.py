@@ -48,31 +48,11 @@ class Artifact(Base, TagMixin, CommentMixin):
         self._data = None
         self._parent = parent
 
-    def _get_data(self):
-        """Loads the data associated with this artifact."""
-        project_name, experiment_id = self.parent._get_identifiers()
-        return_err = None
-
-        self._data = None
-
-        for repo in self.repositories or []:
-            try:
-                self._data = repo.get_artifact_data(
-                    project_name, self.id, experiment_id=experiment_id
-                )
-            except Exception as err:
-                return_err = err
-            else:
-                return
-
-        if self._data is None:
-            self._raise_rubicon_exception(return_err)
-
     @failsafe
     def get_data(
         self,
         deserialize: Optional[Literal["h2o", "pickle", "xgboost"]] = None,
-        unpickle: bool = False,  # TODO: deprecate & move to `deserialize`
+        unpickle: bool = False,
     ):
         """Loads the data associated with this artifact and
         unpickles if needed.
@@ -83,17 +63,12 @@ class Artifact(Base, TagMixin, CommentMixin):
             Method to use to deseralize this artifact's data.
             * None to disable deseralization and return the raw data.
             * "h2o" to use `h2o.load_model` to load the data.
-            * "pickle" to use pickles to load the data.
+            * "pickle" to use the builtin `pickle` library to load the data.
             * "xgboost" to use xgboost's JSON loader to load the data as a fitted model.
             Defaults to None.
         unpickle : bool, optional
-            Flag indicating whether or not to unpickle artifact data.
-            `deserialize` takes precedence. Defaults to False.
-            **Deprecated**: Please use `deserialize="pickle"` in the future.
+            DEPRECATED. Set `deserialize` to 'pickle' instead.
         """
-        project_name, experiment_id = self.parent._get_identifiers()
-        return_err = None
-
         if unpickle:
             warnings.warn(
                 "`unpickle` is deprecated, please use `deserialize='pickle'` instead",
@@ -101,36 +76,32 @@ class Artifact(Base, TagMixin, CommentMixin):
             )
             deserialize = "pickle"
 
-        for repo in self.repositories or []:
-            try:
-                if deserialize == "xgboost":
-                    # xgboost can only handle string file name locations
-                    import xgboost
+        project_name, experiment_id = self.parent._get_identifiers()
 
-                    artifact_data_path = repo._get_artifact_data_path(
-                        project_name, experiment_id, self.id
-                    )
-                    data = xgboost.Booster()
-                    data.load_model(artifact_data_path)
-                else:
-                    data = repo.get_artifact_data(
-                        project_name, self.id, experiment_id=experiment_id
-                    )
-            except Exception as err:
-                return_err = err
-            else:
-                if deserialize == "h2o":
-                    import h2o
+        if deserialize == "h2o":
+            import h2o
 
-                    data = h2o.load_model(
-                        repo._get_artifact_data_path(project_name, experiment_id, self.id)
-                    )
-                elif deserialize == "pickle":
-                    data = pickle.loads(data)
+            self._data = h2o.load_model(
+                self.repository._get_artifact_data_location(project_name, experiment_id, self.id)
+            )
+        elif deserialize == "xgboost":
+            import xgboost
 
-                return data
+            self._data = xgboost.Booster()
+            self._data.load_model(
+                self.repository._get_artifact_data_location(project_name, experiment_id, self.id)
+            )
+        else:
+            self._data = self.repository.read_bytes(
+                project_name,
+                experiment_id,
+                self.id,
+            )
 
-        self._raise_rubicon_exception(return_err)
+            if deserialize == "pickle":
+                self._data = pickle.loads(self._data)
+
+        return self._data
 
     @failsafe
     def get_json(self):
@@ -177,7 +148,7 @@ class Artifact(Base, TagMixin, CommentMixin):
                 location_path = os.path.join(location, name)
 
             with fsspec.open(location_path, "wb", auto_mkdir=False) as f:
-                f.write(self.data)
+                f.write(self.get_data())
 
             if unzip:
                 with zipfile.ZipFile(location_path, "r") as zip_file:
@@ -225,18 +196,6 @@ class Artifact(Base, TagMixin, CommentMixin):
     def created_at(self):
         """Get the time this dataframe was created."""
         return self._domain.created_at
-
-    @property
-    def data(self):
-        """Get the artifact's raw data."""
-        warnings.warn(
-            "`data` is deprecated, use `get_data()` instead",
-            DeprecationWarning,
-        )
-        if self._data is None:
-            self._get_data()
-
-        return self._data
 
     @property
     def parent(self):
