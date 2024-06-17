@@ -23,6 +23,7 @@ class FSSpecRepositoryABC(RepositoryABC):
     """
 
     def __init__(self, root_dir: str, **storage_options):
+        """"""
         protocol = self._get_protocol()
         filesystem = fsspec.filesystem(protocol, **storage_options)
 
@@ -47,13 +48,38 @@ class FSSpecRepositoryABC(RepositoryABC):
         """"""
         return "."
 
-    def _get_dataframe_data_location(self, *args) -> str:
+    def _get_dataframe_data_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        dataframe_id: str,
+    ) -> str:
         """"""
-        return "."
+        dataframe_root = f"{self.root_dir}/{slugify(project_name)}"
 
-    def _get_dataframe_metadata_location(self, *args) -> str:
+        if experiment_id:
+            dataframe_root = f"{dataframe_root}/experiments/{experiment_id}"
+
+        return f"{dataframe_root}/dataframes/{dataframe_id}/data"
+
+    def _get_dataframe_metadata_location(
+        self,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+    ) -> str:
         """"""
-        return "."
+        dataframe_root = f"{self.root_dir}/{slugify(project_name)}"
+
+        if experiment_id:
+            dataframe_root = f"{dataframe_root}/experiments/{experiment_id}"
+
+        dataframe_root = f"{dataframe_root}/dataframes"
+
+        if dataframe_id:
+            return f"{dataframe_root}/{dataframe_id}/metadata.json"
+        else:
+            return dataframe_root
 
     def _get_experiment_metadata_location(
         self,
@@ -71,8 +97,8 @@ class FSSpecRepositoryABC(RepositoryABC):
     def _get_feature_metadata_location(
         self,
         project_name: str,
-        experiment_id: Optional[str],
-        feature_name: str = None,
+        experiment_id: str,
+        feature_name: Optional[str] = None,
     ) -> str:
         """"""
         feature_root = (
@@ -87,8 +113,8 @@ class FSSpecRepositoryABC(RepositoryABC):
     def _get_metric_metadata_location(
         self,
         project_name: str,
-        experiment_id: Optional[str],
-        metric_name: str = None,
+        experiment_id: str,
+        metric_name: Optional[str] = None,
     ) -> str:
         """"""
         metric_root = f"{self.root_dir}/{slugify(project_name)}/experiments/{experiment_id}/metrics"
@@ -101,8 +127,8 @@ class FSSpecRepositoryABC(RepositoryABC):
     def _get_parameter_metadata_location(
         self,
         project_name: str,
-        experiment_id: Optional[str],
-        parameter_name: str = None,
+        experiment_id: str,
+        parameter_name: Optional[str] = None,
     ) -> str:
         """"""
         parameter_root = (
@@ -124,22 +150,6 @@ class FSSpecRepositoryABC(RepositoryABC):
     def _get_tag_metadata_location(self, *args) -> str:
         """"""
         return "."
-
-    def _write(
-        self,
-        data: Union[bytes, Dict, "DOMAIN_TYPES", "DATAFRAME_TYPES"],
-        location: str,
-        *args,
-        make_dir: bool = True,
-        mode: Literal["w", "wb"] = "w",
-    ):
-        """"""
-        if make_dir:
-            dir_name = os.path.dirname(location)
-            self.filesystem.mkdirs(dir_name, exist_ok=True)
-
-        with self.filesystem.open(location, mode) as file:
-            file.write(data)
 
     def _read_bytes(self, location: str, *args) -> bytes:
         """"""

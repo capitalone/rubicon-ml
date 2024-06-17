@@ -541,6 +541,7 @@ class DataframeMixin:
         ):
             raise ValueError("`comments` must be `list` of type `str`")
 
+        project_name, experiment_id = self._get_identifiers()
         dataframe = domain.Dataframe(
             parent_id=self._domain.id,
             description=description,
@@ -549,9 +550,8 @@ class DataframeMixin:
             comments=comments,
         )
 
-        project_name, experiment_id = self._get_identifiers()
-        for repo in self.repositories:
-            repo.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
+        self.repository.write_json(dataframe, project_name, experiment_id, dataframe.id)
+        self.repository.write_dataframe(df, project_name, experiment_id, dataframe.id)
 
         return client.Dataframe(dataframe, self)
 
@@ -581,21 +581,20 @@ class DataframeMixin:
         """
         if tags is None:
             tags = []
-        project_name, experiment_id = self._get_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                dataframes = [
-                    client.Dataframe(d, self)
-                    for d in repo.get_dataframes_metadata(project_name, experiment_id=experiment_id)
-                ]
-            except Exception as err:
-                return_err = err
-            else:
-                self._dataframes = filter_children(dataframes, tags, qtype, name)
-                return self._dataframes
 
-        self._raise_rubicon_exception(return_err)
+        project_name, experiment_id = self._get_identifiers()
+        dataframes = [
+            client.Dataframe(dataframe, self)
+            for dataframe in self.repository.read_jsons(
+                domain.Dataframe,
+                project_name,
+                experiment_id,
+            )
+        ]
+
+        self._dataframes = filter_children(dataframes, tags, qtype, name)
+
+        return self._dataframes
 
     @failsafe
     def dataframe(self, name: Optional[str] = None, id: Optional[str] = None) -> Dataframe:
@@ -627,25 +626,19 @@ class DataframeMixin:
                     " Returning most recently logged."
                 )
 
-            dataframe = dataframes[-1]
-            return dataframe
+            return dataframes[-1]
         else:
             project_name, experiment_id = self._get_identifiers()
-            return_err = None
-            for repo in self.repositories:
-                try:
-                    dataframe = client.Dataframe(
-                        repo.get_dataframe_metadata(
-                            project_name, experiment_id=experiment_id, dataframe_id=id
-                        ),
-                        self,
-                    )
-                except Exception as err:
-                    return_err = err
-                else:
-                    return dataframe
 
-        self._raise_rubicon_exception(return_err)
+            return client.Dataframe(
+                self.repository.read_json(
+                    domain.Dataframe,
+                    project_name,
+                    experiment_id,
+                    id,
+                ),
+                self,
+            )
 
     @failsafe
     def delete_dataframes(self, ids: List[str]):
