@@ -6,4 +6,4 @@ dependencies:
   - pip
 
   - jupyter-server-proxy
-  - rubicon-ml
+  - rubicon-ml>=0.8.0
