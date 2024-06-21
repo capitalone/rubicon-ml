@@ -1,14 +1,17 @@
 import fsspec
 import yaml
-
+from typing import TYPE_CHECKING, Optional
 from rubicon_ml import Rubicon, publish
 
+if TYPE_CHECKING:
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
 
-def test_publish(project_client):
+
+def test_publish(project_client, visualization_object: Optional["ExperimentsTable"] = None):
     project = project_client
     experiment = project.log_experiment()
-
-    catalog_yaml = publish(project.experiments())
+    
+    catalog_yaml = publish(project.experiments(), visualization_object)
     catalog = yaml.safe_load(catalog_yaml)
 
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
@@ -32,7 +35,8 @@ def test_publish(project_client):
             "project_name"
         ]
     )
-
+    # Hardcoded assertions for the visualization aspect can be added later when expanding from just
+    # the experiment table implementation at the moment. 
 
 def test_publish_from_multiple_sources():
     rubicon_a = Rubicon(persistence="memory", root_dir="path/a")
