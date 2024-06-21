@@ -14,6 +14,7 @@ def test_publish(project_client, visualization_object: Optional["ExperimentsTabl
     catalog_yaml = publish(project.experiments(), visualization_object)
     catalog = yaml.safe_load(catalog_yaml)
 
+    
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
     assert (
         "rubicon_ml_experiment"
