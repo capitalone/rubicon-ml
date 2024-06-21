@@ -1,6 +1,8 @@
+from typing import TYPE_CHECKING, Optional
+
 import fsspec
 import yaml
-from typing import TYPE_CHECKING, Optional
+
 from rubicon_ml import Rubicon, publish
 
 if TYPE_CHECKING:
@@ -10,11 +12,9 @@ if TYPE_CHECKING:
 def test_publish(project_client, visualization_object: Optional["ExperimentsTable"] = None):
     project = project_client
     experiment = project.log_experiment()
-    
     catalog_yaml = publish(project.experiments(), visualization_object)
     catalog = yaml.safe_load(catalog_yaml)
 
-    
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
     assert (
         "rubicon_ml_experiment"
@@ -36,8 +36,6 @@ def test_publish(project_client, visualization_object: Optional["ExperimentsTabl
             "project_name"
         ]
     )
-    # Hardcoded assertions for the visualization aspect can be added later when expanding from just
-    # the experiment table implementation at the moment. 
 
 
 def test_publish_from_multiple_sources():
