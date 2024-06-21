@@ -13,7 +13,7 @@ def test_publish(project_client, visualization_object: Optional["ExperimentsTabl
     
     catalog_yaml = publish(project.experiments(), visualization_object)
     catalog = yaml.safe_load(catalog_yaml)
-
+    print(catalog)
     assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
     assert (
         "rubicon_ml_experiment"
@@ -37,6 +37,7 @@ def test_publish(project_client, visualization_object: Optional["ExperimentsTabl
     )
     # Hardcoded assertions for the visualization aspect can be added later when expanding from just
     # the experiment table implementation at the moment. 
+
 
 def test_publish_from_multiple_sources():
     rubicon_a = Rubicon(persistence="memory", root_dir="path/a")
