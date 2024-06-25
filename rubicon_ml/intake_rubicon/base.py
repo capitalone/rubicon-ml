@@ -46,3 +46,42 @@ class DataSourceMixin(base.DataSource):
     def _close(self):
         self._rubicon = None
         self._rubicon_object = None
+
+
+class VizDataSourceMixin(base.DataSource):
+    """The base for all `rubicon' visualization Intake data sources."""
+
+    version = __version__
+
+    container = "python"
+    name = "rubicon_ml_visualization"
+
+    def __init__(
+        self,
+        metadata=None,
+    ):
+        self._metadata = metadata or {}
+        self._visualization_object = None
+
+        super().__init__(metadata=metadata)
+
+    def _get_schema(self):
+        """Returns the schema associated with the visualization."""
+        self._schema = base.Schema(
+            datashape=None,
+            dtype=None,
+            shape=None,
+            npartitions=None,
+            extra_metadata=self._metadata,
+        )
+
+        return self._schema
+
+    def read(self):
+        """Returns the visualization object."""
+        if self._visualization_object is None:
+            raise ValueError("Visualization not initialized or has been closed.")
+        return self._visualization_object
+
+    def _close(self):
+        self._visualization_object = None
