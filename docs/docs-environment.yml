@@ -24,7 +24,7 @@ dependencies:
   - jsonpath-ng<=1.6.1,>=1.5.3
   - numpy<=2.0.0,>=1.22.0
   - pandas<=2.2.2,>=1.0.0
-  - prefect<=2.19.5,>=2.16.5
+  - prefect<=2.19.6,>=2.16.5
   - pyarrow<=16.1.0,>=14.0.1
   - PyYAML<=6.0.1,>=5.4.0
   - scikit-learn<=1.5.0,>=0.22.0
