@@ -49,13 +49,7 @@ class DataSourceMixin(base.DataSource):
 
 
 class VizDataSourceMixin(base.DataSource):
-    """The base for all `rubicon' visualization Intake data sources.
-
-    Parameters
-    ----------
-    visualization_title : str
-        The title of the visualization.
-    """
+    """The base for all `rubicon' visualization Intake data sources."""
 
     version = __version__
 
@@ -64,10 +58,8 @@ class VizDataSourceMixin(base.DataSource):
 
     def __init__(
         self,
-        visualization_title,
         metadata=None,
     ):
-        self._visualization_title = visualization_title
         self._metadata = metadata or {}
         self._visualization_object = None
 
