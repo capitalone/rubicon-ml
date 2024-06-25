@@ -1,9 +1,16 @@
+from typing import TYPE_CHECKING, Optional
+
 import fsspec
 import yaml
+
+if TYPE_CHECKING:
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
 
 
 def publish(
     experiments,
+    # visualization object passed, defaulted to None
+    visualization_object: Optional["ExperimentsTable"] = None,
     output_filepath=None,
     base_catalog_filepath=None,
 ):
@@ -35,10 +42,12 @@ def publish(
         return _update_catalog(
             base_catalog_filepath=base_catalog_filepath,
             new_experiments=experiments,
+            # pass to update catalog
+            new_visualization=visualization_object,
             output_filepath=output_filepath,
         )
-
-    catalog = _build_catalog(experiments=experiments)
+    # if new file then just pass viz object straight to build catalog
+    catalog = _build_catalog(experiments=experiments, visualization=visualization_object)
     catalog_yaml = yaml.dump(catalog)
 
     if output_filepath is not None:
@@ -48,7 +57,9 @@ def publish(
     return catalog_yaml
 
 
-def _update_catalog(base_catalog_filepath, new_experiments, output_filepath=None):
+def _update_catalog(
+    base_catalog_filepath, new_experiments, new_visualization, output_filepath=None
+):
     """Helper function to update exisiting intake catalog.
 
     Parameters
@@ -73,8 +84,8 @@ def _update_catalog(base_catalog_filepath, new_experiments, output_filepath=None
     dict
         The dictionary of all sources given as experiments to eventually publish
     """
-
-    updated_catalog = _build_catalog(experiments=new_experiments)
+    # rebuild a temp catalog with new visualization
+    updated_catalog = _build_catalog(experiments=new_experiments, visualization=new_visualization)
 
     with fsspec.open(base_catalog_filepath, "r") as yamlfile:
         curr_catalog = yaml.safe_load(yamlfile)
@@ -90,7 +101,7 @@ def _update_catalog(base_catalog_filepath, new_experiments, output_filepath=None
     return updated_catalog
 
 
-def _build_catalog(experiments):
+def _build_catalog(experiments, visualization):
     """Helper function to build catalog dictionary from given experiments.
 
     Parameters
@@ -118,5 +129,23 @@ def _build_catalog(experiments):
 
         experiment_catalog_name = f"experiment_{experiment.id.replace('-', '_')}"
         catalog["sources"][experiment_catalog_name] = appended_experiment_catalog
+
+    # create visualization entry to the catalog file
+    if visualization is not None:
+        appended_visualization_catalog = {
+            "driver": "rubicon_ml_experiment_table",
+            "args": {
+                "is_selectable": visualization.is_selectable,
+                "metric_names": visualization.metric_names,
+                "metric_query_tags": visualization.metric_query_tags,
+                "metric_query_type": visualization.metric_query_type,
+                "parameter_names": visualization.parameter_names,
+                "parameter_query_tags": visualization.parameter_query_tags,
+                "parameter_query_type": visualization.parameter_query_type,
+            },
+        }
+
+        # append visualization object to end of catalog file
+        catalog["sources"]["experiment_table"] = appended_visualization_catalog
 
     return catalog
