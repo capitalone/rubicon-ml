@@ -51,7 +51,7 @@ class Artifact(Base, TagMixin, CommentMixin):
     def _get_data(self):
         """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_identifiers()
-        return_err = RuntimeError("Data was not loaded properly.")
+        return_err = None
 
         self._data = None
 
@@ -91,9 +91,7 @@ class Artifact(Base, TagMixin, CommentMixin):
             **Deprecated**: Please use `deserialize="pickle"` in the future.
         """
         project_name, experiment_id = self.parent._get_identifiers()
-        return_err = RuntimeError(
-            f"Valid deseralization methods are 'h2o' and 'pickle', found {deserialize}"
-        )
+        return_err = None
 
         if unpickle:
             warnings.warn(
