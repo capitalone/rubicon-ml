@@ -282,6 +282,42 @@ class ArtifactMixin:
         return artifact
 
     @failsafe
+    def log_xgboost_model(self, xgboost_model, artifact_name: Optional[str] = None, **log_artifact_kwargs: Any) -> Artifact:
+        """Log an XGBoost model as a JSON file to this client object.
+
+        Parameters
+        ----------
+        xgboost_model
+            An xgboost model object.
+        artifact_name : str, optional
+            The name of the artifact (the exported XGBoost model).
+        log_artifact_kwargs : Any
+            Additional kwargs to be passed directly to `self.log_artifact`.
+            
+        Returns
+        -------
+        rubicon.client.Artifact
+            The new artifact.
+        """
+        if artifact_name is None:
+            artifact_name = xgboost_model.__class__.__name__
+
+        # TODO: handle sklearn
+        booster = xgboost_model
+
+        with tempfile.TemporaryDirectory() as temp_dir_name:
+            model_location = f"{temp_dir_name}/{artifact_name}.json"
+            booster.save_model(model_location)
+            
+            artifact = self.log_artifact(
+                name=artifact_name,
+                data_path=model_location,
+                **log_artifact_kwargs,
+            )
+
+        return artifact
+
+    @failsafe
     def log_pip_requirements(self, artifact_name: Optional[str] = None) -> Artifact:
         """Log the pip requirements as an artifact to this client object.
         Useful for recreating your exact environment at a later date.
