@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Dict, List, Literal, Type, Union
+from typing import TYPE_CHECKING, List, Literal
 
 from rubicon_ml.domain.artifact import Artifact
 from rubicon_ml.domain.dataframe import Dataframe
 from rubicon_ml.domain.experiment import Experiment
 from rubicon_ml.domain.feature import Feature
 from rubicon_ml.domain.metric import Metric
+from rubicon_ml.domain.mixin import CommentUpdate
 from rubicon_ml.domain.parameter import Parameter
 from rubicon_ml.domain.project import Project
 
@@ -84,16 +85,14 @@ class RepositoryABC(ABC):
         ...
 
     @abstractmethod
-    def _read_json(
-        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
-    ) -> Union[Dict, "DOMAIN_TYPES"]:
+    def _read_json(self, location: str, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> "DOMAIN_TYPES":
         """"""
         ...
 
     @abstractmethod
     def _read_jsons(
-        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
-    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
+        self, location: str, domain_cls: "DOMAIN_CLASS_TYPES", *args
+    ) -> List["DOMAIN_TYPES"]:
         """"""
         ...
 
@@ -108,13 +107,15 @@ class RepositoryABC(ABC):
         ...
 
     @abstractmethod
-    def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
+    def _write_json(self, data: "DOMAIN_TYPES", location: str, *args):
         """"""
         ...
 
-    def _get_location(self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args) -> str:
+    def _get_location(self, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> str:
         if domain_cls == Artifact:
             return self._get_artifact_metadata_location(*args)
+        elif domain_cls == CommentUpdate:
+            return self._get_comment_metadata_location(*args)
         elif domain_cls == Dataframe:
             return self._get_dataframe_metadata_location(*args)
         elif domain_cls == Experiment:
@@ -128,8 +129,6 @@ class RepositoryABC(ABC):
         elif domain_cls == Project:
             return self._get_project_metadata_location(*args)
         else:
-            # TODO: differentiate tags and comments using new domain objects
-            # return self._get_comment_metadata_location(*args)
             return self._get_tag_metadata_location(*args)
 
     def read_bytes(self, *args) -> bytes:
@@ -144,17 +143,13 @@ class RepositoryABC(ABC):
 
         return self._read_dataframe(location, df_type, *args)
 
-    def read_json(
-        self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
-    ) -> Union[Dict, "DOMAIN_TYPES"]:
+    def read_json(self, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> "DOMAIN_TYPES":
         """"""
         location = self._get_location(domain_cls, *args)
 
         return self._read_json(location, domain_cls, *args)
 
-    def read_jsons(
-        self, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
-    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
+    def read_jsons(self, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> List["DOMAIN_TYPES"]:
         """"""
         location = self._get_location(domain_cls, *args)
 
@@ -172,7 +167,7 @@ class RepositoryABC(ABC):
 
         return self._write_dataframe(data, location, *args)
 
-    def write_json(self, data: Union[Dict, "DOMAIN_TYPES"], *args):
+    def write_json(self, data: "DOMAIN_TYPES", *args):
         """"""
         location = self._get_location(type(data), *args)
 

@@ -1,6 +1,7 @@
 import datetime
 import logging
 import uuid
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 LOGGER = logging.getLogger()
@@ -30,6 +31,14 @@ class CommentMixin:
             A list of string comments to remove from this domain model.
         """
         self.comments = list(set(self.comments).difference(set(comments)))
+
+
+@dataclass
+class CommentUpdate:
+    id: str = field(default_factory=uuid.uuid4)
+    added_comments: List[str] = field(default_factory=list)
+    removed_comments: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.utcnow)
 
 
 class InitMixin:
@@ -91,3 +100,11 @@ class TagMixin:
             A list of string tags to remove from this domain model.
         """
         self.tags = list(set(self.tags).difference(set(tags)))
+
+
+@dataclass
+class TagUpdate:
+    id: str = field(default_factory=uuid.uuid4)
+    added_tags: List[str] = field(default_factory=list)
+    removed_tags: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.utcnow)

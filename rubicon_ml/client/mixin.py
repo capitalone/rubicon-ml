@@ -689,17 +689,18 @@ class TagMixin:
         if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
             raise ValueError("`tags` must be `list` of type `str`")
 
+        tag_update_domain = domain.TagUpdate(added_tags=tags)
+
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        self.repository.write_json(
+            tag_update_domain,
+            self._domain.__class__,
+            project_name,
+            experiment_id,
+            entity_identifier,
+        )
 
         self._domain.add_tags(tags)
-        for repo in self.repositories:
-            repo.add_tags(
-                project_name,
-                tags,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
 
     @failsafe
     def remove_tags(self, tags: List[str]):
@@ -710,47 +711,40 @@ class TagMixin:
         tags : list of str
              The tag values to remove.
         """
+        if not isinstance(tags, list) or not all([isinstance(tag, str) for tag in tags]):
+            raise ValueError("`tags` must be `list` of type `str`")
+
+        tag_update_domain = domain.TagUpdate(removed_tags=tags)
+
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
+        self.repository.write_json(
+            tag_update_domain,
+            self._domain.__class__,
+            project_name,
+            experiment_id,
+            entity_identifier,
+        )
 
         self._domain.remove_tags(tags)
-        for repo in self.repositories:
-            repo.remove_tags(
-                project_name,
-                tags,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
-
-    def _update_tags(self, tag_data):
-        """Add or remove the tags in `tag_data` based on
-        their key.
-        """
-        for tag in tag_data:
-            self._domain.add_tags(tag.get("added_tags", []))
-            self._domain.remove_tags(tag.get("removed_tags", []))
 
     @property
     def tags(self) -> TagContainer:
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                tag_data = repo.get_tags(
-                    project_name,
-                    experiment_id=experiment_id,
-                    entity_identifier=entity_identifier,
-                    entity_type=self.__class__.__name__,
-                )
-            except Exception as err:
-                return_err = err
-            else:
-                self._update_tags(tag_data)
+        tags = self.repository.read_jsons(
+            domain.TagUpdate,
+            self._domain.__class__,
+            project_name,
+            experiment_id,
+            entity_identifier,
+            True,
+        )
 
-                return TagContainer(self._domain.tags)
+        for tag in tags:
+            self._domain.add_tags(tag.added_tags)
+            self._domain.remove_tags(tag.removed_tags)
 
-        self._raise_rubicon_exception(return_err)
+        return TagContainer(self._domain.tags)
 
 
 class CommentMixin:
