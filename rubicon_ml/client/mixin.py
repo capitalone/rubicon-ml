@@ -23,6 +23,7 @@ from rubicon_ml.exceptions import RubiconException
 if TYPE_CHECKING:
     import dask.dataframe as dd
     import pandas as pd
+    from polars import DataFrame as polars_DataFrame
 
     from rubicon_ml.client import Artifact, Dataframe
     from rubicon_ml.domain import DOMAIN_TYPES
@@ -455,7 +456,7 @@ class DataframeMixin:
     @failsafe
     def log_dataframe(
         self,
-        df: Union[pd.DataFrame, dd.DataFrame],
+        df: Union[pd.DataFrame, dd.DataFrame, polars_DataFrame],
         description: Optional[str] = None,
         name: Optional[str] = None,
         tags: Optional[List[str]] = None,
@@ -465,8 +466,8 @@ class DataframeMixin:
 
         Parameters
         ----------
-        df : pandas.DataFrame or dask.dataframe.DataFrame
-            The `dask` or `pandas` dataframe to log.
+        df : pandas.DataFrame, dask.dataframe.DataFrame, or polars DataFrame
+            The dataframe to log.
         description : str, optional
             The dataframe's description. Use to provide
             additional context.

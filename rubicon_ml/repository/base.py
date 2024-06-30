@@ -4,7 +4,7 @@ import tempfile
 import warnings
 from datetime import datetime
 from json import JSONDecodeError
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Literal, Optional, Type, TYPE_CHECKING, Union
 from zipfile import ZipFile
 
 import fsspec
@@ -13,6 +13,11 @@ import pandas as pd
 from rubicon_ml import domain
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
+
+if TYPE_CHECKING:
+    import dask.dataframe as dd
+    import pandas as pd
+    from polars import DataFrame as polars_DataFrame
 
 
 class BaseRepository:
@@ -167,13 +172,13 @@ class BaseRepository:
 
     # -------- Projects --------
 
-    def _get_project_metadata_path(self, project_name):
+    def _get_project_metadata_path(self, project_name: str):
         """Returns the path of the project with name `project_name`'s
         metadata.
         """
         return f"{self.root_dir}/{slugify(project_name)}/metadata.json"
 
-    def create_project(self, project):
+    def create_project(self, project: domain.Project):
         """Persist a project to the configured filesystem.
 
         Parameters
@@ -221,7 +226,7 @@ class BaseRepository:
 
     # ------ Experiments -------
 
-    def _get_experiment_metadata_root(self, project_name):
+    def _get_experiment_metadata_root(self, project_name: str):
         """Returns the experiments directory of the project with
         name `project_name`.
         """
@@ -235,7 +240,7 @@ class BaseRepository:
 
         return f"{experiment_metadata_root}/{experiment_id}/metadata.json"
 
-    def create_experiment(self, experiment):
+    def create_experiment(self, experiment: domain.Experiment):
         """Persist an experiment to the configured filesystem.
 
         Parameters
@@ -589,7 +594,7 @@ class BaseRepository:
 
         return f"{dataframe_metadata_root}/{dataframe_id}/data"
 
-    def _persist_dataframe(self, df, path):
+    def _persist_dataframe(self, df: Union[pd.DataFrame, dd.DataFrame, polars_DataFrame], path: str):
         """Persists the dataframe `df` to the configured filesystem.
 
         Note
@@ -602,9 +607,14 @@ class BaseRepository:
             self._mkdir(path)
             path = f"{path}/data.parquet"
 
-        df.to_parquet(path, engine="pyarrow")
+        if hasattr(df, "write_parquet"):
+            # handle Polars
+            df.write_parquet(path)
+        else:
+            # Dask or pandas
+            df.to_parquet(path, engine="pyarrow")
 
-    def _read_dataframe(self, path, df_type="pandas"):
+    def _read_dataframe(self, path, df_type: Literal["pandas", "dask", "polars"]="pandas"):
         """Reads the dataframe `df` from the configured filesystem."""
         df = None
         acceptable_types = ["pandas", "dask"]
@@ -628,7 +638,7 @@ class BaseRepository:
 
         return df
 
-    def create_dataframe(self, dataframe, data, project_name, experiment_id=None):
+    def create_dataframe(self, dataframe: domain.Dataframe, data: Union[pd.DataFrame, dd.DataFrame, polars_DataFrame], project_name: str, experiment_id: Optional[str]=None):
         """Persist a dataframe to the configured filesystem.
 
         Parameters
