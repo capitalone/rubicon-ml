@@ -1,4 +1,8 @@
+from dataclasses import dataclass, field
+from datetime import datetime
 from typing import List
+
+from rubicon_ml.domain.utils import uuid
 
 
 class TagMixin:
@@ -27,6 +31,14 @@ class TagMixin:
         self.tags = list(set(self.tags).difference(set(tags)))
 
 
+@dataclass
+class TagUpdate:
+    id: str = field(default_factory=uuid.uuid4)
+    added_tags: List[str] = field(default_factory=list)
+    removed_tags: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.utcnow)
+
+
 class CommentMixin:
     """Adds comment support to a domain model."""
 
@@ -51,3 +63,11 @@ class CommentMixin:
             A list of string comments to remove from this domain model.
         """
         self.comments = list(set(self.comments).difference(set(comments)))
+
+
+@dataclass
+class CommentUpdate:
+    id: str = field(default_factory=uuid.uuid4)
+    added_comments: List[str] = field(default_factory=list)
+    removed_comments: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.utcnow)

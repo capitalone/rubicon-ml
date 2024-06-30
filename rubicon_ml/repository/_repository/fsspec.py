@@ -1,11 +1,13 @@
 import os
+import uuid
 import warnings
 from abc import abstractmethod
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Type, Union
+from typing import TYPE_CHECKING, List, Literal, Optional
 
 import fsspec
 
+from rubicon_ml.domain import Experiment, TagUpdate
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.imports import try_import_dask_dataframe, try_import_pandas_dataframe
 from rubicon_ml.repository._repository.repository import RepositoryABC
@@ -172,9 +174,28 @@ class FSSpecRepositoryABC(RepositoryABC):
         else:
             return self.root_dir
 
-    def _get_tag_metadata_location(self, *args) -> str:
+    def _get_tag_metadata_location(
+        self,
+        taggable_type: "DOMAIN_CLASS_TYPES",
+        project_name: str,
+        experiment_id: str,
+        taggable_identifier: Optional[str] = None,
+        return_directory: bool = False,
+    ) -> str:
         """"""
-        return "."
+        if taggable_type == Experiment:
+            tag_root = self._get_location(taggable_type, project_name, experiment_id)
+        else:
+            tag_root = self._get_location(
+                taggable_type, project_name, experiment_id, taggable_identifier
+            )
+
+        tag_root_directory = os.path.dirname(tag_root)
+
+        if return_directory:
+            return tag_root_directory
+        else:
+            return f"{tag_root_directory}/tags_{uuid.uuid4()}.json"
 
     def _read_bytes(self, location: str, *args) -> bytes:
         """"""
@@ -199,9 +220,7 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         return df_library.read_parquet(location, engine="pyarrow")
 
-    def _read_json(
-        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
-    ) -> Union[Dict, "DOMAIN_TYPES"]:
+    def _read_json(self, location: str, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> "DOMAIN_TYPES":
         """"""
         try:
             file = self.filesystem.open(location)
@@ -215,15 +234,25 @@ class FSSpecRepositoryABC(RepositoryABC):
         return data
 
     def _read_jsons(
-        self, location: str, domain_cls: Union[Type[Dict], "DOMAIN_CLASS_TYPES"], *args
-    ) -> List[Union[Dict, "DOMAIN_TYPES"]]:
+        self, location: str, domain_cls: "DOMAIN_CLASS_TYPES", *args
+    ) -> List["DOMAIN_TYPES"]:
         """"""
         try:
-            metadata_paths = [
-                os.path.join(p.get("name"), "metadata.json")
-                for p in self.filesystem.ls(location, detail=True)
-                if p.get("type", p.get("StorageClass")).lower() == "directory"
-            ]
+            if domain_cls == TagUpdate:
+                metadata_paths = [
+                    p.get("name")
+                    for p in self.filesystem.ls(location, detail=True)
+                    if "tags_" in p.get("name") and p.get("name").endswith(".json")
+                ]
+
+                if not metadata_paths:
+                    return []
+            else:
+                metadata_paths = [
+                    os.path.join(p.get("name"), "metadata.json")
+                    for p in self.filesystem.ls(location, detail=True)
+                    if p.get("type", p.get("StorageClass")).lower() == "directory"
+                ]
         except FileNotFoundError:
             return []
 
@@ -273,7 +302,7 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         data.to_parquet(location, engine="pyarrow")
 
-    def _write_json(self, data: Union[Dict, "DOMAIN_TYPES"], location: str, *args):
+    def _write_json(self, data: "DOMAIN_TYPES", location: str, *args):
         """"""
         if self.filesystem.exists(location):
             raise RubiconException(
