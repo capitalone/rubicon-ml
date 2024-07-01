@@ -88,7 +88,25 @@ def test_get_data_unpickle_true(project_client):
     test_object = TestObject()
     artifact = project.log_artifact(name="test object", data_object=test_object)
 
-    assert artifact.get_data(unpickle=True).value == test_object.value
+    with pytest.deprecated_call():
+        assert artifact.get_data(unpickle=True).value == test_object.value
+
+
+def test_get_data_deserialize_with_pickle(project_client):
+    """deserialize="pickle" intended for retrieving python objects
+    that were logged as artifacts, hence dummy object is needed.
+    """
+
+    project = project_client
+    global TestObject  # cannot pickle local variable
+
+    class TestObject:
+        value = 1
+
+    test_object = TestObject()
+    artifact = project.log_artifact(name="test object", data_object=test_object)
+
+    assert artifact.get_data(deserialize="pickle").value == test_object.value
 
 
 def test_get_data_multiple_backend_error():

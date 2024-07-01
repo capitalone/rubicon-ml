@@ -71,7 +71,7 @@ class Artifact(Base, TagMixin, CommentMixin):
     @failsafe
     def get_data(
         self,
-        deserialize: Optional[Literal["h2o"]] = None,
+        deserialize: Optional[Literal["h2o", "pickle"]] = None,
         unpickle: bool = False,  # TODO: deprecate & move to `deserialize`
     ):
         """Loads the data associated with this artifact and
@@ -83,13 +83,22 @@ class Artifact(Base, TagMixin, CommentMixin):
             Method to use to deseralize this artifact's data.
             * None to disable deseralization and return the raw data.
             * "h2o" to use `h2o.load_model` to load the data.
+            * "pickle" to use pickles to load the data.
             Defaults to None.
         unpickle : bool, optional
             Flag indicating whether or not to unpickle artifact data.
             `deserialize` takes precedence. Defaults to False.
+            **Deprecated**: Please use `deserialize="pickle"` in the future.
         """
         project_name, experiment_id = self.parent._get_identifiers()
         return_err = None
+
+        if unpickle:
+            warnings.warn(
+                "`unpickle` is deprecated, please use `deserialize='pickle'` instead",
+                DeprecationWarning,
+            )
+            deserialize = "pickle"
 
         for repo in self.repositories or []:
             try:
@@ -103,7 +112,7 @@ class Artifact(Base, TagMixin, CommentMixin):
                     data = h2o.load_model(
                         repo._get_artifact_data_path(project_name, experiment_id, self.id)
                     )
-                elif unpickle:
+                elif deserialize == "pickle":
                     data = pickle.loads(data)
 
                 return data
