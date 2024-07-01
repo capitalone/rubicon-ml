@@ -282,7 +282,12 @@ class ArtifactMixin:
         return artifact
 
     @failsafe
-    def log_xgboost_model(self, xgboost_model, artifact_name: Optional[str] = None, **log_artifact_kwargs: Any) -> Artifact:
+    def log_xgboost_model(
+        self,
+        xgboost_model,
+        artifact_name: Optional[str] = None,
+        **log_artifact_kwargs: Any,
+    ) -> Artifact:
         """Log an XGBoost model as a JSON file to this client object.
 
         Parameters
@@ -293,7 +298,7 @@ class ArtifactMixin:
             The name of the artifact (the exported XGBoost model).
         log_artifact_kwargs : Any
             Additional kwargs to be passed directly to `self.log_artifact`.
-            
+
         Returns
         -------
         rubicon.client.Artifact
@@ -308,7 +313,7 @@ class ArtifactMixin:
         with tempfile.TemporaryDirectory() as temp_dir_name:
             model_location = f"{temp_dir_name}/{artifact_name}.json"
             booster.save_model(model_location)
-            
+
             artifact = self.log_artifact(
                 name=artifact_name,
                 data_path=model_location,
@@ -342,7 +347,10 @@ class ArtifactMixin:
 
     @failsafe
     def artifacts(
-        self, name: Optional[str] = None, tags: Optional[List[str]] = None, qtype: str = "or"
+        self,
+        name: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        qtype: str = "or",
     ) -> List[Artifact]:
         """Get the artifacts logged to this client object.
 
@@ -416,7 +424,8 @@ class ArtifactMixin:
             for repo in self.repositories:
                 try:
                     artifact = client.Artifact(
-                        repo.get_artifact_metadata(project_name, id, experiment_id), self
+                        repo.get_artifact_metadata(project_name, id, experiment_id),
+                        self,
                     )
                 except Exception as err:
                     return_err = err
@@ -544,7 +553,10 @@ class DataframeMixin:
 
     @failsafe
     def dataframes(
-        self, name: Optional[str] = None, tags: Optional[List[str]] = None, qtype: str = "or"
+        self,
+        name: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        qtype: str = "or",
     ) -> List[Dataframe]:
         """Get the dataframes logged to this client object.
 

@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 import h2o
 import pandas as pd
 import pytest
+import xgboost
 from h2o import H2OFrame
 from h2o.estimators.random_forest import H2ORandomForestEstimator
 
@@ -184,6 +185,23 @@ def test_get_data_deserialize_h2o(
     artifact_data = artifact.get_data(deserialize="h2o")
 
     assert artifact_data.__class__ == h2o_model.__class__
+
+
+def test_get_data_deserialize_xgboost(
+    make_classification_df, rubicon_local_filesystem_client_with_project
+):
+    """Test logging `xgboost` model data."""
+    _, project = rubicon_local_filesystem_client_with_project
+    X, y = make_classification_df
+
+    model = xgboost.XGBClassifier(n_estimators=2)
+    model.fit(X, y)
+    model = model.get_booster()
+
+    artifact = project.log_xgboost_model(model)
+    artifact_data = artifact.get_data(deserialize="xgboost")
+
+    assert artifact_data.__class__ == model.__class__
 
 
 def test_download_data_unzip(project_client):

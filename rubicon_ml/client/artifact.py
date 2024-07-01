@@ -103,7 +103,19 @@ class Artifact(Base, TagMixin, CommentMixin):
 
         for repo in self.repositories or []:
             try:
-                data = repo.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
+                if deserialize == "xgboost":
+                    # xgboost can only handle string file name locations
+                    import xgboost
+
+                    artifact_data_path = repo._get_artifact_data_path(
+                        project_name, experiment_id, self.id
+                    )
+                    data = xgboost.Booster()
+                    data.load_model(artifact_data_path)
+                else:
+                    data = repo.get_artifact_data(
+                        project_name, self.id, experiment_id=experiment_id
+                    )
             except Exception as err:
                 return_err = err
             else:
@@ -115,11 +127,6 @@ class Artifact(Base, TagMixin, CommentMixin):
                     )
                 elif deserialize == "pickle":
                     data = pickle.loads(data)
-                elif deserialize == "xgboost":
-                    import xgboost 
-                    model_data = data
-                    data = xgboost.Booster()
-                    data.load_model(model_data)
 
                 return data
 
