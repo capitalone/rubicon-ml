@@ -540,6 +540,19 @@ def test_create_polars_dataframe(memory_repository):
     assert dataframe.id == dataframe_json["id"]
 
 
+def test_get_polars_dataframe(memory_repository):
+    repository = memory_repository
+    project = _create_project(repository)
+    written_dataframe = _create_polars_dataframe(repository, project=project)
+    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+
+    data = repository.get_dataframe_data(project.name, written_dataframe.id, df_type="polars")
+    assert not data.is_empty()
+
+    assert dataframe.id == written_dataframe.id
+    assert dataframe.parent_id == written_dataframe.parent_id
+
+
 def test_get_pandas_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
@@ -572,7 +585,7 @@ def test_get_dask_dataframe(memory_repository):
     written_dataframe = _create_dask_dataframe(repository, project=project)
     dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
 
-    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    data = repository.get_dataframe_data(project.name, written_dataframe.id, df_type="dask")
     assert not data.compute().empty
 
     assert dataframe.id == written_dataframe.id

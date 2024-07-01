@@ -618,14 +618,23 @@ class BaseRepository:
     def _read_dataframe(self, path, df_type: Literal["pandas", "dask", "polars"] = "pandas"):
         """Reads the dataframe `df` from the configured filesystem."""
         df = None
-        acceptable_types = ["pandas", "dask"]
-        if df_type not in acceptable_types:
-            raise ValueError(f"`df_type` must be one of {acceptable_types}")
+        acceptable_types = ["pandas", "dask", "polars"]
 
         if df_type == "pandas":
             path = f"{path}/data.parquet"
             df = pd.read_parquet(path, engine="pyarrow")
-        else:
+        elif df_type == "polars":
+            try:
+                from polars import read_parquet
+            except ImportError:
+                raise RubiconException(
+                    "`rubicon_ml` requires `polars` to be installed in the current environment "
+                    "to read dataframes with `df_type`='polars'. `pip install polars` "
+                    "or `conda install polars` to continue."
+                )
+            df = read_parquet(path)
+
+        elif df_type == "dask":
             try:
                 from dask import dataframe as dd
             except ImportError:
@@ -636,6 +645,8 @@ class BaseRepository:
                 )
 
             df = dd.read_parquet(path, engine="pyarrow")
+        else:
+            raise ValueError(f"`df_type` must be one of {acceptable_types}")
 
         return df
 
@@ -726,7 +737,13 @@ class BaseRepository:
 
         return self._load_metadata_files(dataframe_metadata_root, domain.Dataframe)
 
-    def get_dataframe_data(self, project_name, dataframe_id, experiment_id=None, df_type="pandas"):
+    def get_dataframe_data(
+        self,
+        project_name: str,
+        dataframe_id: str,
+        experiment_id: Optional[str] = None,
+        df_type: Literal["pandas", "dask", "polars"] = "pandas",
+    ):
         """Retrieve a dataframe's raw data.
 
         Parameters
@@ -741,7 +758,7 @@ class BaseRepository:
             `artifact_id` is logged to. Dataframes do not
             need to belong to an experiment.
         df_type : str, optional
-            The type of dataframe. Can be either `pandas` or `dask`.
+            The type of dataframe. Can be `pandas`, `dask`, or `polars`.
 
         Returns
         -------
