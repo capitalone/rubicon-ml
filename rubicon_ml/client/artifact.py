@@ -71,7 +71,7 @@ class Artifact(Base, TagMixin, CommentMixin):
     @failsafe
     def get_data(
         self,
-        deserialize: Optional[Literal["h2o", "pickle"]] = None,
+        deserialize: Optional[Literal["h2o", "pickle", "xgboost"]] = None,
         unpickle: bool = False,  # TODO: deprecate & move to `deserialize`
     ):
         """Loads the data associated with this artifact and
@@ -84,6 +84,7 @@ class Artifact(Base, TagMixin, CommentMixin):
             * None to disable deseralization and return the raw data.
             * "h2o" to use `h2o.load_model` to load the data.
             * "pickle" to use pickles to load the data.
+            * "xgboost" to use xgboost's JSON loader to load the data as a fitted model.
             Defaults to None.
         unpickle : bool, optional
             Flag indicating whether or not to unpickle artifact data.
@@ -102,7 +103,19 @@ class Artifact(Base, TagMixin, CommentMixin):
 
         for repo in self.repositories or []:
             try:
-                data = repo.get_artifact_data(project_name, self.id, experiment_id=experiment_id)
+                if deserialize == "xgboost":
+                    # xgboost can only handle string file name locations
+                    import xgboost
+
+                    artifact_data_path = repo._get_artifact_data_path(
+                        project_name, experiment_id, self.id
+                    )
+                    data = xgboost.Booster()
+                    data.load_model(artifact_data_path)
+                else:
+                    data = repo.get_artifact_data(
+                        project_name, self.id, experiment_id=experiment_id
+                    )
             except Exception as err:
                 return_err = err
             else:
