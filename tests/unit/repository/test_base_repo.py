@@ -3,6 +3,7 @@ import uuid
 from unittest.mock import patch
 
 import pandas as pd
+import polars as pl
 import pytest
 from dask import dataframe as dd
 
@@ -26,7 +27,10 @@ def _create_experiment(repository, project=None, tags=[], comments=[]):
         project = _create_project(repository)
 
     experiment = domain.Experiment(
-        name=f"Test Experiment {uuid.uuid4()}", project_name=project.name, tags=[], comments=[]
+        name=f"Test Experiment {uuid.uuid4()}",
+        project_name=project.name,
+        tags=[],
+        comments=[],
     )
     repository.create_experiment(experiment)
 
@@ -52,7 +56,8 @@ def _create_pandas_dataframe(repository, project=None, dataframe_data=None, mult
 
     if dataframe_data is None:
         dataframe_data = pd.DataFrame(
-            [[0, 1, "a"], [1, 1, "b"], [2, 2, "c"], [3, 2, "d"]], columns=["a", "b", "c"]
+            [[0, 1, "a"], [1, 1, "b"], [2, 2, "c"], [3, 2, "d"]],
+            columns=["a", "b", "c"],
         )
         if multi_index:
             dataframe_data = dataframe_data.set_index(["b", "a"])  # Set multiindex
@@ -72,6 +77,24 @@ def _create_dask_dataframe(repository, project=None):
 
     dataframe = domain.Dataframe(parent_id=project.id)
     repository.create_dataframe(dataframe, ddf, project.name)
+
+    return dataframe
+
+
+def _create_polars_dataframe(repository, project=None):
+    if project is None:
+        project = _create_project(repository)
+
+    df = pl.DataFrame(
+        {
+            "a": [0, 1, 2, 3],
+            "b": [1, 1, 2, 2],
+            "c": ["a", "b", "c", "d"],
+        }
+    )
+
+    dataframe = domain.Dataframe(parent_id=project.id)
+    repository.create_dataframe(dataframe, df, project.name)
 
     return dataframe
 
@@ -383,6 +406,18 @@ def test_persist_dataframe(mock_to_parquet, memory_repository):
     mock_to_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
 
 
+@patch("polars.DataFrame.write_parquet")
+def test_persist_dataframe_polars(mock_write_parquet, memory_repository):
+    repository = memory_repository
+    df = pl.DataFrame({"a": [1, 2], "b": [3, 4]})
+    path = "./local/root"
+
+    # calls `BaseRepository._persist_dataframe` despite class using `MemoryRepository`
+    super(MemoryRepository, repository)._persist_dataframe(df, path)
+
+    mock_write_parquet.assert_called_once_with(f"{path}")
+
+
 @patch("pandas.read_parquet")
 def test_read_dataframe(mock_read_parquet, memory_repository):
     repository = memory_repository
@@ -475,6 +510,23 @@ def test_create_dask_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     dataframe = _create_dask_dataframe(repository, project=project)
+
+    dataframe_root = f"{repository.root_dir}/{slugify(project.name)}/dataframes/{dataframe.id}"
+    dataframe_metadata_path = f"{dataframe_root}/metadata.json"
+    dataframe_data_path = f"{dataframe_root}/data"
+
+    open_file = repository.filesystem.open(dataframe_metadata_path)
+    with open_file as f:
+        dataframe_json = json.load(f)
+
+    assert repository.filesystem.exists(dataframe_data_path)
+    assert dataframe.id == dataframe_json["id"]
+
+
+def test_create_polars_dataframe(memory_repository):
+    repository = memory_repository
+    project = _create_project(repository)
+    dataframe = _create_polars_dataframe(repository, project=project)
 
     dataframe_root = f"{repository.root_dir}/{slugify(project.name)}/dataframes/{dataframe.id}"
     dataframe_metadata_path = f"{dataframe_root}/metadata.json"
@@ -858,7 +910,9 @@ def test_get_dataframe_tags_with_project_parent_root(memory_repository):
     project = _create_project(repository)
     dataframe = _create_pandas_dataframe(repository, project=project)
     dataframe_tags_root = repository._get_tag_metadata_root(
-        project.name, entity_identifier=dataframe.id, entity_type=dataframe.__class__.__name__
+        project.name,
+        entity_identifier=dataframe.id,
+        entity_type=dataframe.__class__.__name__,
     )
 
     assert (

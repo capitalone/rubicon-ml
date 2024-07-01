@@ -39,6 +39,7 @@ dependencies:
   - pytest
   - pytest-cov
   - xgboost
+  - polars<1.0
   
   # for versioning
   - versioneer

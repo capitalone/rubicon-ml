@@ -4,7 +4,7 @@ import tempfile
 import warnings
 from datetime import datetime
 from json import JSONDecodeError
-from typing import Any, Dict, List, Literal, Optional, Type, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Type, Union
 from zipfile import ZipFile
 
 import fsspec
@@ -16,8 +16,7 @@ from rubicon_ml.repository.utils import json, slugify
 
 if TYPE_CHECKING:
     import dask.dataframe as dd
-    import pandas as pd
-    from polars import DataFrame as polars_DataFrame
+    import polars as pl
 
 
 class BaseRepository:
@@ -594,7 +593,9 @@ class BaseRepository:
 
         return f"{dataframe_metadata_root}/{dataframe_id}/data"
 
-    def _persist_dataframe(self, df: Union[pd.DataFrame, dd.DataFrame, polars_DataFrame], path: str):
+    def _persist_dataframe(
+        self, df: Union[pd.DataFrame, "dd.DataFrame", "pl.DataFrame"], path: str
+    ):
         """Persists the dataframe `df` to the configured filesystem.
 
         Note
@@ -614,7 +615,7 @@ class BaseRepository:
             # Dask or pandas
             df.to_parquet(path, engine="pyarrow")
 
-    def _read_dataframe(self, path, df_type: Literal["pandas", "dask", "polars"]="pandas"):
+    def _read_dataframe(self, path, df_type: Literal["pandas", "dask", "polars"] = "pandas"):
         """Reads the dataframe `df` from the configured filesystem."""
         df = None
         acceptable_types = ["pandas", "dask"]
@@ -638,7 +639,13 @@ class BaseRepository:
 
         return df
 
-    def create_dataframe(self, dataframe: domain.Dataframe, data: Union[pd.DataFrame, dd.DataFrame, polars_DataFrame], project_name: str, experiment_id: Optional[str]=None):
+    def create_dataframe(
+        self,
+        dataframe: domain.Dataframe,
+        data: Union[pd.DataFrame, "dd.DataFrame", "pl.DataFrame"],
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
         """Persist a dataframe to the configured filesystem.
 
         Parameters
