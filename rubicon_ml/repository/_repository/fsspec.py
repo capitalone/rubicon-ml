@@ -16,7 +16,7 @@ from rubicon_ml.imports import (
 )
 from rubicon_ml.repository._repository.repository import RepositoryABC
 from rubicon_ml.repository.utils import json, slugify
-from rubicon_ml.types import safe_is_dask_dataframe, safe_is_polars_dataframe
+from rubicon_ml.types import safe_is_dask_dataframe, safe_is_pandas_dataframe
 
 if TYPE_CHECKING:
     from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
@@ -311,10 +311,10 @@ class FSSpecRepositoryABC(RepositoryABC):
             self.filesystem.mkdirs(location, exist_ok=True)
             file_location = os.path.join(location, "data.parquet")
 
-            if safe_is_polars_dataframe(data):
-                data.write_parquet(file_location)
-            else:
+            if safe_is_pandas_dataframe(data):
                 data.to_parquet(file_location, engine="pyarrow")
+            else:
+                data.write_parquet(file_location)
 
     def _write_json(self, data: "DOMAIN_TYPES", location: str, *args):
         """"""

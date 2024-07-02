@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Type, Union
+    from typing import Type, TypeGuard, Union
 
     import dask.dataframe as dd
     import pandas as pd
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     DOMAIN_TYPES = Union[Artifact, Dataframe, Experiment, Feature, Metric, Parameter, Project]
 
 
-def safe_is_dask_dataframe(dataframe):
+def safe_is_dask_dataframe(dataframe: "DATAFRAME_TYPES") -> "TypeGuard[dd.DataFrame]":
     """"""
     try:
         import dask.dataframe as dd
@@ -38,7 +38,7 @@ def safe_is_dask_dataframe(dataframe):
         return isinstance(dataframe, dd.DataFrame)
 
 
-def safe_is_pandas_dataframe(dataframe):
+def safe_is_pandas_dataframe(dataframe: "DATAFRAME_TYPES") -> "TypeGuard[pd.DataFrame]":
     """"""
     try:
         import pandas as pd
@@ -48,7 +48,7 @@ def safe_is_pandas_dataframe(dataframe):
         return isinstance(dataframe, pd.DataFrame)
 
 
-def safe_is_polars_dataframe(dataframe):
+def safe_is_polars_dataframe(dataframe: "DATAFRAME_TYPES") -> "TypeGuard[pl.DataFrame]":
     """"""
     try:
         import polars as pl
