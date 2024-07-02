@@ -5,6 +5,7 @@ if TYPE_CHECKING:
 
     import dask.dataframe as dd
     import pandas as pd
+    import polars as pl
 
     from rubicon_ml.domain.artifact import Artifact
     from rubicon_ml.domain.dataframe import Dataframe
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain.parameter import Parameter
     from rubicon_ml.domain.project import Project
 
-    DATAFRAME_TYPES = Union[dd.DataFrame, pd.DataFrame]
+    DATAFRAME_TYPES = Union[dd.DataFrame, pd.DataFrame, pl.DataFrame]
     DOMAIN_CLASS_TYPES = Union[
         Type[Artifact],
         Type[Dataframe],
@@ -45,3 +46,13 @@ def safe_is_pandas_dataframe(dataframe):
         return False
     else:
         return isinstance(dataframe, pd.DataFrame)
+
+
+def safe_is_polars_dataframe(dataframe):
+    """"""
+    try:
+        import polars as pl
+    except ImportError:
+        return False
+    else:
+        return isinstance(dataframe, pl.DataFrame)

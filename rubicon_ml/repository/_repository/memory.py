@@ -25,7 +25,7 @@ class MemoryRepository(FSSpecRepositoryABC):
         return "memory"
 
     def _read_dataframe(
-        self, location: str, df_type: Literal["dask", "pandas"], *args
+        self, location: str, df_type: Literal["dask", "pandas", "polars"], *args
     ) -> "DATAFRAME_TYPES":
         """"""
         with self.filesystem.open(location, "rb") as file:

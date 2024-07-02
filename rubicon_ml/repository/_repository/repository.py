@@ -79,7 +79,7 @@ class RepositoryABC(ABC):
 
     @abstractmethod
     def _read_dataframe(
-        self, location: str, df_type: Literal["dask", "pandas"], *args
+        self, location: str, df_type: Literal["dask", "pandas", "polars"], *args
     ) -> "DATAFRAME_TYPES":
         """"""
         ...
@@ -137,7 +137,9 @@ class RepositoryABC(ABC):
 
         return self._read_bytes(location, *args)
 
-    def read_dataframe(self, df_type: Literal["dask", "pandas"], *args) -> "DATAFRAME_TYPES":
+    def read_dataframe(
+        self, df_type: Literal["dask", "pandas", "polars"], *args
+    ) -> "DATAFRAME_TYPES":
         """"""
         location = self._get_dataframe_data_location(*args)
 

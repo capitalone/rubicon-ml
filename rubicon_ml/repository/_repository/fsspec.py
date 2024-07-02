@@ -9,10 +9,14 @@ import fsspec
 
 from rubicon_ml.domain import Experiment, TagUpdate
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.imports import try_import_dask_dataframe, try_import_pandas_dataframe
+from rubicon_ml.imports import (
+    try_import_dask_dataframe,
+    try_import_pandas_dataframe,
+    try_import_polars_dataframe,
+)
 from rubicon_ml.repository._repository.repository import RepositoryABC
 from rubicon_ml.repository.utils import json, slugify
-from rubicon_ml.types import safe_is_pandas_dataframe
+from rubicon_ml.types import safe_is_dask_dataframe, safe_is_polars_dataframe
 
 if TYPE_CHECKING:
     from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
@@ -206,19 +210,25 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         return file.read()
 
-    def _read_dataframe(self, location: str, df_type: Literal["dask", "pandas"], *args):
+    def _read_dataframe(self, location: str, df_type: Literal["dask", "pandas", "polars"], *args):
         """"""
-        acceptable_types = ["pandas", "dask"]
+        acceptable_types = ["dask", "pandas", "polars"]
+        read_kwargs = {}
 
-        if df_type == "pandas":
+        if df_type == "dask":
+            df_library = try_import_dask_dataframe()
+            read_kwargs["engine"] = "pyarrow"
+        elif df_type == "pandas":
             df_library = try_import_pandas_dataframe()
             location = os.path.join(location, "data.parquet")
-        elif df_type == "dask":
-            df_library = try_import_dask_dataframe()
+            read_kwargs["engine"] = "pyarrow"
+        elif df_type == "polars":
+            df_library = try_import_polars_dataframe()
+            location = os.path.join(location, "data.parquet")
         else:
             raise ValueError(f"`df_type` must be one of {acceptable_types}")
 
-        return df_library.read_parquet(location, engine="pyarrow")
+        return df_library.read_parquet(location, **read_kwargs)
 
     def _read_json(self, location: str, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> "DOMAIN_TYPES":
         """"""
@@ -295,12 +305,16 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def _write_dataframe(self, data: "DATAFRAME_TYPES", location: str, *args):
         """"""
-        if safe_is_pandas_dataframe(data):
+        if safe_is_dask_dataframe(data):
+            data.to_parquet(location, engine="pyarrow")
+        else:
             self.filesystem.mkdirs(location, exist_ok=True)
+            file_location = os.path.join(location, "data.parquet")
 
-            location = os.path.join(location, "data.parquet")
-
-        data.to_parquet(location, engine="pyarrow")
+            if safe_is_polars_dataframe(data):
+                data.write_parquet(file_location)
+            else:
+                data.to_parquet(file_location, engine="pyarrow")
 
     def _write_json(self, data: "DOMAIN_TYPES", location: str, *args):
         """"""
