@@ -738,17 +738,18 @@ class CommentMixin:
         ):
             raise ValueError("`comments` must be `list` of type `str`")
 
+        comment_update_domain = domain.CommentUpdate(added_comments=comments)
+
         project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
+        self.repository.write_json(
+            comment_update_domain,
+            self._domain.__class__,
+            project_name,
+            experiment_id,
+            entity_identifier,
+        )
 
         self._domain.add_comments(comments)
-        for repo in self.repositories:
-            repo.add_comments(
-                project_name,
-                comments,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
 
     @failsafe
     def remove_comments(self, comments: List[str]):
@@ -759,44 +760,39 @@ class CommentMixin:
         comments : list of str
              The comment values to remove.
         """
+        if not isinstance(comments, list) or not all(
+            [isinstance(comment, str) for comment in comments]
+        ):
+            raise ValueError("`comments` must be `list` of type `str`")
+
+        comment_update_domain = domain.CommentUpdate(removed_comments=comments)
+
         project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
+        self.repository.write_json(
+            comment_update_domain,
+            self._domain.__class__,
+            project_name,
+            experiment_id,
+            entity_identifier,
+        )
 
         self._domain.remove_comments(comments)
-        for repo in self.repositories:
-            repo.remove_comments(
-                project_name,
-                comments,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
-
-    def _update_comments(self, comment_data):
-        """Add or remove the comments in `comment_data` based on
-        their key.
-        """
-        for comment in comment_data:
-            self._domain.add_comments(comment.get("added_comments", []))
-            self._domain.remove_comments(comment.get("removed_comments", []))
 
     @property
     def comments(self) -> List[str]:
         """Get this client object's comments."""
         project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                comment_data = repo.get_comments(
-                    project_name,
-                    experiment_id=experiment_id,
-                    entity_identifier=entity_identifier,
-                    entity_type=self.__class__.__name__,
-                )
-            except Exception as err:
-                return_err = err
-            else:
-                self._update_comments(comment_data)
+        comments = self.repository.read_jsons(
+            domain.CommentUpdate,
+            self._domain.__class__,
+            project_name,
+            experiment_id,
+            entity_identifier,
+            True,
+        )
 
-                return self._domain.comments
+        for comment in comments:
+            self._domain.add_comments(comment.added_comments)
+            self._domain.remove_comments(comment.removed_comments)
 
-        self._raise_rubicon_exception(return_err)
+        return self._domain.comments

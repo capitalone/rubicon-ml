@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, List, Literal, Optional
 
 import fsspec
 
-from rubicon_ml.domain import Experiment, TagUpdate
+from rubicon_ml.domain import CommentUpdate, Experiment, TagUpdate
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.imports import (
     try_import_dask_dataframe,
@@ -75,9 +75,28 @@ class FSSpecRepositoryABC(RepositoryABC):
         else:
             return artifact_root
 
-    def _get_comment_metadata_location(self, *args) -> str:
+    def _get_comment_metadata_location(
+        self,
+        commentable_type: "DOMAIN_CLASS_TYPES",
+        project_name: str,
+        experiment_id: str,
+        taggable_identifier: Optional[str] = None,
+        return_directory: bool = False,
+    ) -> str:
         """"""
-        return "."
+        if commentable_type == Experiment:
+            comment_root = self._get_location(commentable_type, project_name, experiment_id)
+        else:
+            comment_root = self._get_location(
+                commentable_type, project_name, experiment_id, taggable_identifier
+            )
+
+        comment_root_directory = os.path.dirname(comment_root)
+
+        if return_directory:
+            return comment_root_directory
+        else:
+            return f"{comment_root_directory}/comments_{uuid.uuid4()}.json"
 
     def _get_dataframe_data_location(
         self,
@@ -248,11 +267,12 @@ class FSSpecRepositoryABC(RepositoryABC):
     ) -> List["DOMAIN_TYPES"]:
         """"""
         try:
-            if domain_cls == TagUpdate:
+            if domain_cls == TagUpdate or domain_cls == CommentUpdate:
+                path_prefix = "tags_" if domain_cls == TagUpdate else "comments_"
                 metadata_paths = [
                     p.get("name")
                     for p in self.filesystem.ls(location, detail=True)
-                    if "tags_" in p.get("name") and p.get("name").endswith(".json")
+                    if path_prefix in p.get("name") and p.get("name").endswith(".json")
                 ]
 
                 if not metadata_paths:
