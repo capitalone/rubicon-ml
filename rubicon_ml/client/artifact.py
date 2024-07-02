@@ -75,6 +75,10 @@ class Artifact(Base, TagMixin, CommentMixin):
             )
             deserialize = "pickle"
 
+        acceptable_types = ["h2o", "pickle"]
+        if deserialize and deserialize not in acceptable_types:
+            raise ValueError(f"`deserialize` must be one of {acceptable_types}")
+
         project_name, experiment_id = self.parent._get_identifiers()
 
         if deserialize == "h2o":

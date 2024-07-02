@@ -27,3 +27,13 @@ def try_import_pandas_dataframe() -> ModuleType:
         raise RubiconException(dataframe_message.format(library="pandas", extras=""))
 
     return pd
+
+
+def try_import_polars_dataframe() -> ModuleType:
+    """"""
+    try:
+        import polars as pl
+    except ImportError:
+        raise RubiconException(dataframe_message.format(library="polars", extras=""))
+
+    return pl

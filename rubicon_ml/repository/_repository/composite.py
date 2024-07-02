@@ -6,6 +6,11 @@ if TYPE_CHECKING:
     from rubicon_ml.repository._repository.repository import RepositoryABC
     from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
+ALL_FAILED_MESSAGE = (
+    "All backends failed. See the original stack trace above for one of the failing "
+    "backend's exceptions."
+)
+
 
 def _safe_call_func(func: Callable, *args) -> Any:
     """"""
@@ -36,7 +41,7 @@ class CompositeRepository:
             else:
                 self._last_error = result
 
-        raise RubiconException("All backends failed.") from self._last_error
+        raise RubiconException(ALL_FAILED_MESSAGE) from self._last_error
 
     def read_dataframe(self, *args) -> "DATAFRAME_TYPES":
         """"""
@@ -48,7 +53,7 @@ class CompositeRepository:
             else:
                 self._last_error = result
 
-        raise RubiconException("All backends failed.") from self._last_error
+        raise RubiconException(ALL_FAILED_MESSAGE) from self._last_error
 
     def read_json(self, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> "DOMAIN_TYPES":
         """"""
@@ -60,7 +65,7 @@ class CompositeRepository:
             else:
                 self._last_error = result
 
-        raise RubiconException("All backends failed.") from self._last_error
+        raise RubiconException(ALL_FAILED_MESSAGE) from self._last_error
 
     def read_jsons(self, domain_cls: "DOMAIN_CLASS_TYPES", *args) -> List["DOMAIN_TYPES"]:
         """"""
@@ -72,7 +77,7 @@ class CompositeRepository:
             else:
                 self._last_error = result
 
-        raise RubiconException("All backends failed.") from self._last_error
+        raise RubiconException(ALL_FAILED_MESSAGE) from self._last_error
 
     def write_bytes(self, data: bytes, *args):
         """"""
