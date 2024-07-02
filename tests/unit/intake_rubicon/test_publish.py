@@ -1,17 +1,14 @@
-from typing import TYPE_CHECKING, Optional
-
 import fsspec
 import yaml
 
 from rubicon_ml import Rubicon, publish
-
-if TYPE_CHECKING:
-    from rubicon_ml.viz.experiments_table import ExperimentsTable
+from rubicon_ml.viz.experiments_table import ExperimentsTable
 
 
-def test_publish(project_client, visualization_object: Optional["ExperimentsTable"] = None):
+def test_publish(project_client):
     project = project_client
     experiment = project.log_experiment()
+    visualization_object = ExperimentsTable()
     catalog_yaml = publish(project.experiments(), visualization_object)
     catalog = yaml.safe_load(catalog_yaml)
 
@@ -36,6 +33,7 @@ def test_publish(project_client, visualization_object: Optional["ExperimentsTabl
             "project_name"
         ]
     )
+    assert catalog["sources"]["experiment_table"] is not None
 
 
 def test_publish_from_multiple_sources():
