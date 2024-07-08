@@ -49,21 +49,17 @@ class Base:
         """Get the repository."""
         if self._config is None:
             return None
-
-        if isinstance(self._config, list):
-            if len(self._config) > 1:
-                raise ValueError("More than one repository available. Use `.repositories` instead.")
+        elif isinstance(self._config, list):
             return self._config[0].repository
-
-        return self._config.repository
+        else:
+            return self._config.repository
 
     @property
     def repositories(self) -> Optional[List[BaseRepository]]:
         """Get all repositories."""
         if self._config is None:
             return None
-
-        if isinstance(self._config, list):
-            return [_config.repository for _config in self._config]
-
-        return [self._config.repository]
+        elif isinstance(self._config, list):
+            return [self._config[0].repository]
+        else:
+            return [self._config.repository]
