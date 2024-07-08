@@ -53,6 +53,9 @@ class Rubicon:
                 for config in composite_config
             ]
             self._repository = CompositeRepository([c.repository for c in self.configs])
+
+            for config in self.configs:
+                config._composite_repository = self._repository
         else:
             self.configs = [
                 Config(

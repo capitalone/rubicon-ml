@@ -1,8 +1,6 @@
 import pandas as pd
-import pytest
+import polars as pl
 from dask import dataframe as dd
-
-from rubicon_ml.exceptions import RubiconException
 
 
 def test_pandas_df(rubicon_local_filesystem_client):
@@ -42,13 +40,13 @@ def test_dask_df(rubicon_local_filesystem_client):
     assert read_dataframe.get_data(df_type="dask").compute().equals(ddf.compute())
 
 
-def test_df_read_error(rubicon_local_filesystem_client):
+def test_polars_df(rubicon_local_filesystem_client):
     rubicon = rubicon_local_filesystem_client
     project = rubicon.create_project("Dataframe Test Project")
 
-    ddf = dd.from_pandas(pd.DataFrame([0, 1], columns=["a"]), npartitions=1)
+    pl_df = pl.DataFrame({"a": [1, 2], "b": [3, 4]})
 
-    written_dataframe = project.log_dataframe(ddf)
+    written_dataframe = project.log_dataframe(pl_df)
 
     read_dataframes = project.dataframes()
     read_dataframe = read_dataframes[0]
@@ -56,11 +54,4 @@ def test_df_read_error(rubicon_local_filesystem_client):
     assert len(read_dataframes) == 1
 
     assert read_dataframe.id == written_dataframe.id
-
-    # simulate user forgetting to set `df_type` to `dask` when reading a logged dask df
-    with pytest.raises(RubiconException) as e:
-        read_dataframe.get_data()
-    assert (
-        "This might have happened if you forgot to set `df_type='dask'` when trying to read a `dask` dataframe."
-        in str(e)
-    )
+    assert read_dataframe.get_data(df_type="polars").equals(pl_df)

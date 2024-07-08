@@ -37,7 +37,7 @@ def test_set_repository(rubicon_client):
     test_repo = TestRepository()
     rubicon.repository = test_repo
 
-    assert rubicon.config.repository == test_repo
+    assert rubicon.repository == test_repo
 
 
 def test_repository_storage_options():
@@ -156,14 +156,15 @@ def test_get_project_fails_neither_set(rubicon_and_project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_project")
+@mock.patch("rubicon_ml.repository._repository.RepositoryABC.read_json")
 def test_get_project_multiple_backend_error(mock_get_project, rubicon_composite_client):
     rubicon = rubicon_composite_client
 
     mock_get_project.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         rubicon.get_project(name="Test Project")
-    assert "all configured storage backends failed" in str(e)
+
+    assert "All backends failed." in str(e)
 
 
 def test_get_projects(rubicon_client):
@@ -178,14 +179,15 @@ def test_get_projects(rubicon_client):
     assert projects[1].name == "Project B"
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_projects")
+@mock.patch("rubicon_ml.repository._repository.RepositoryABC.read_jsons")
 def test_get_projects_multiple_backend_error(mock_get_projects, rubicon_composite_client):
     rubicon = rubicon_composite_client
 
     mock_get_projects.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         rubicon.projects()
-    assert "all configured storage backends failed" in str(e)
+
+    assert "All backends failed." in str(e)
 
 
 def test_get_or_create_project(rubicon_client):
