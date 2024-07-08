@@ -81,8 +81,7 @@ def test_get_metrics_multiple_backend_error(mock_get_metrics, project_composite_
     project = project_composite_client
     experiment = project.log_experiment(name="exp1")
 
-    for repository in project.repository.repositories:
-        repository.read_jsons = _raise_error
+    mock_get_metrics.side_effect = _raise_error
 
     with pytest.raises(RubiconException) as e:
         experiment.metrics()
