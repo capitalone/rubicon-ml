@@ -4,7 +4,7 @@ import tempfile
 import warnings
 from datetime import datetime
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Type, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Union
 from zipfile import ZipFile
 
 import fsspec
@@ -18,6 +18,8 @@ from rubicon_ml.repository.utils import json, slugify
 if TYPE_CHECKING:
     import dask.dataframe as dd
     import polars as pl
+
+    from rubicon_ml.types import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 
 class BaseRepository:
@@ -140,8 +142,8 @@ class BaseRepository:
         return self.filesystem.rm(path, recursive=True)
 
     def _load_metadata_files(
-        self, metadata_root: str, domain_type: Type[domain.DomainsVar]
-    ) -> List[domain.DomainsVar]:
+        self, metadata_root: str, domain_type: "DOMAIN_CLASS_TYPES"
+    ) -> List["DOMAIN_TYPES"]:
         """Load metadata files from the given root directory and return a list of domain objects."""
         # find all directories, prepare a list of those plus `metadata.yaml`
         try:
