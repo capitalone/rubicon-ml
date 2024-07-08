@@ -33,7 +33,7 @@ def test_log_artifact_from_bytes(project_client):
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert artifact.name == "test.txt"
-    assert artifact.data == b"content"
+    assert artifact.get_data() == b"content"
     assert artifact.tags == ["x"]
     assert artifact.comments == ["this is a comment"]
 
@@ -77,7 +77,7 @@ def test_log_artifact_from_file(project_client):
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert artifact.name == "test.txt"
-    assert artifact.data == b"content"
+    assert artifact.get_data() == b"content"
     assert artifact.tags == ["x"]
     assert artifact.comments == ["this is a comment"]
 
@@ -94,7 +94,7 @@ def test_log_artifact_from_path(mock_open, project_client):
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert artifact.name == "test.txt"
-    assert artifact.data == b"content"
+    assert artifact.get_data() == b"content"
     assert artifact.tags == ["x"]
     assert artifact.comments == ["this is a comment"]
 
@@ -173,7 +173,7 @@ def test_log_conda_env(project_client, mock_completed_process_empty):
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert ".yml" in artifact.name
-    assert artifact.data == b"\n"
+    assert artifact.get_data() == b"\n"
 
 
 def test_log_pip_requirements(project_client, mock_completed_process_empty):
@@ -185,7 +185,7 @@ def test_log_pip_requirements(project_client, mock_completed_process_empty):
 
     assert artifact.id in [a.id for a in project.artifacts()]
     assert ".txt" in artifact.name
-    assert artifact.data == b"\n"
+    assert artifact.get_data() == b"\n"
 
 
 def test_log_json(project_client):

@@ -36,9 +36,8 @@ def test_get_data(project_client):
     project = project_client
     data = b"content"
     artifact = project.log_artifact(name="test.txt", data_bytes=data)
-    artifact._get_data()
 
-    assert artifact.data == data
+    assert artifact.get_data() == data
 
 
 def test_get_json(project_client):
@@ -131,7 +130,6 @@ def test_download_cwd(mock_open, project_client):
     project = project_client
     data = b"content"
     artifact = project.log_artifact(name="test.txt", data_bytes=data)
-    artifact.data
 
     mock_file = MagicMock()
     mock_open.side_effect = mock_file
@@ -147,7 +145,6 @@ def test_download_location(mock_open, project_client):
     project = project_client
     data = b"content"
     artifact = project.log_artifact(name="test.txt", data_bytes=data)
-    artifact.data
 
     mock_file = MagicMock()
     mock_open.side_effect = mock_file

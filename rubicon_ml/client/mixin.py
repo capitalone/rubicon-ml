@@ -264,7 +264,7 @@ class ArtifactMixin:
         """
         import h2o
 
-        if self.repository.PROTOCOL == "memory":
+        if self.repository.protocol == "memory":
             raise RubiconException("`h2o` models cannot be logged in memory with `log_h2o_model`.")
 
         if artifact_name is None:

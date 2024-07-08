@@ -3,7 +3,7 @@ import uuid
 import warnings
 from abc import abstractmethod
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, List, Literal, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 import fsspec
 
@@ -19,7 +19,12 @@ from rubicon_ml.repository.utils import json, slugify
 from rubicon_ml.types import safe_is_dask_dataframe, safe_is_pandas_dataframe
 
 if TYPE_CHECKING:
-    from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
+    from rubicon_ml.types import (
+        DATAFRAME_TYPE_NAMES,
+        DATAFRAME_TYPES,
+        DOMAIN_CLASS_TYPES,
+        DOMAIN_TYPES,
+    )
 
 
 class FSSpecRepositoryABC(RepositoryABC):
@@ -30,11 +35,7 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def __init__(self, root_dir: str, **storage_options):
         """"""
-        protocol = self._get_protocol()
-        filesystem = fsspec.filesystem(protocol, **storage_options)
-
-        self.filesystem = filesystem
-        self.protocol = protocol
+        self.filesystem = fsspec.filesystem(self.protocol, **storage_options)
         self.root_dir = root_dir
 
     @abstractmethod
@@ -229,7 +230,7 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         return file.read()
 
-    def _read_dataframe(self, location: str, df_type: Literal["dask", "pandas", "polars"], *args):
+    def _read_dataframe(self, location: str, df_type: "DATAFRAME_TYPE_NAMES", *args):
         """"""
         acceptable_types = ["dask", "pandas", "polars"]
         read_kwargs = {}
@@ -348,3 +349,8 @@ class FSSpecRepositoryABC(RepositoryABC):
 
         with self.filesystem.open(location, "w") as file:
             file.write(json.dumps(data))
+
+    @property
+    def protocol(self):
+        """"""
+        return self._get_protocol()

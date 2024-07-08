@@ -4,7 +4,12 @@ from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
     from rubicon_ml.repository._repository.repository import RepositoryABC
-    from rubicon_ml.types import DATAFRAME_TYPES, DOMAIN_CLASS_TYPES, DOMAIN_TYPES
+    from rubicon_ml.types import (
+        DATAFRAME_TYPE_NAMES,
+        DATAFRAME_TYPES,
+        DOMAIN_CLASS_TYPES,
+        DOMAIN_TYPES,
+    )
 
 ALL_FAILED_MESSAGE = (
     "All backends failed. See the original stack trace above for one of the failing "
@@ -43,7 +48,7 @@ class CompositeRepository:
 
         raise RubiconException(ALL_FAILED_MESSAGE) from self._last_error
 
-    def read_dataframe(self, *args) -> "DATAFRAME_TYPES":
+    def read_dataframe(self, df_type: "DATAFRAME_TYPE_NAMES", *args) -> "DATAFRAME_TYPES":
         """"""
         for repository in self.repositories:
             result = _safe_call_func(repository.read_dataframe, *args)
