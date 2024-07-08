@@ -94,4 +94,4 @@ def test_flow():
     artifacts = experiment.artifacts()
     assert len(artifacts) == 1
     assert artifacts[0].name == "my artifact"
-    assert artifacts[0].data == artifact
+    assert artifacts[0].get_data() == artifact

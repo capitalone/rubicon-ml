@@ -3,10 +3,10 @@ import subprocess
 from typing import Dict, Optional, Tuple, Type
 
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import (
-    BaseRepository,
+from rubicon_ml.repository._repository import (
     LocalRepository,
     MemoryRepository,
+    RepositoryABC,
     S3Repository,
 )
 
@@ -35,7 +35,7 @@ class Config:
     """
 
     PERSISTENCE_TYPES = ["filesystem", "memory"]
-    REPOSITORIES: Dict[str, Type[BaseRepository]] = {
+    REPOSITORIES: Dict[str, Type[RepositoryABC]] = {
         "memory-memory": MemoryRepository,
         "filesystem-local": LocalRepository,
         "filesystem-s3": S3Repository,
@@ -73,8 +73,11 @@ class Config:
             raise ValueError(f"PERSISTENCE must be one of {cls.PERSISTENCE_TYPES}.")
 
         root_dir = os.environ.get("ROOT_DIR", root_dir)
-        if root_dir is None and persistence == "filesystem":
-            raise ValueError("root_dir cannot be None.")
+        if root_dir is None:
+            if persistence == "filesystem":
+                raise ValueError("root_dir cannot be None.")
+            else:
+                root_dir = "/root"
 
         if is_auto_git_enabled:
             cls._check_is_in_git_repo()
@@ -93,18 +96,18 @@ class Config:
 
         return "custom"  # catch-all for external backends
 
-    def _get_repository(self) -> BaseRepository:
+    def _get_repository(self) -> RepositoryABC:
         """Get the repository for the configured persistence type."""
         protocol = self._get_protocol()
 
         repository_key = f"{self.persistence}-{protocol}"
-        repository = self.REPOSITORIES.get(repository_key)
+        repository_cls = self.REPOSITORIES.get(repository_key)
 
-        if repository is None:
+        if repository_cls is None:
             raise RubiconException(
                 f"{self.__class__.__module__}.{self.__class__.__name__} has no persistence "
                 + f"layer for the provided configuration: `persistence`: {self.persistence}, "
                 + f"`protocol` (from `root_dir`): {protocol}"
             )
 
-        return repository(root_dir=self.root_dir, **self.storage_options)
+        return repository_cls(self.root_dir, **self.storage_options)
