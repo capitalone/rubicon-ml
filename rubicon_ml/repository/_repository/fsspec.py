@@ -226,11 +226,13 @@ class FSSpecRepositoryABC(RepositoryABC):
         try:
             file = self.filesystem.open(location, "rb")
         except FileNotFoundError as error:
-            raise RubiconException() from error
+            raise RubiconException(f"Failed to read bytes at {location}.") from error
 
         return file.read()
 
-    def _read_dataframe(self, location: str, df_type: "DATAFRAME_TYPE_NAMES", *args):
+    def _read_dataframe(
+        self, location: str, df_type: "DATAFRAME_TYPE_NAMES", *args
+    ) -> "DATAFRAME_TYPES":
         """"""
         acceptable_types = ["dask", "pandas", "polars"]
         read_kwargs = {}
@@ -255,7 +257,9 @@ class FSSpecRepositoryABC(RepositoryABC):
         try:
             file = self.filesystem.open(location)
         except FileNotFoundError as error:
-            raise RubiconException() from error
+            raise RubiconException(
+                f"Failed to read `{domain_cls.__name__}` at {location}."
+            ) from error
 
         data = json.load(file)
         if domain_cls:

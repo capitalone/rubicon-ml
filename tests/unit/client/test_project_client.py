@@ -12,7 +12,7 @@ from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import slugify
 
 
-def _raise_error():
+def _raise_error(*args, **kwargs):
     raise RubiconException()
 
 
@@ -108,14 +108,15 @@ def test_experiments_log_and_retrieval(project_client):
     assert experiment2.id in [e.id for e in project.experiments()]
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_experiments")
+@mock.patch("rubicon_ml.repository._repository.RepositoryABC.read_jsons")
 def test_get_experiments_multiple_backend_error(mock_get_experiments, project_composite_client):
     project = project_composite_client
 
     mock_get_experiments.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         project.experiments()
-    assert "all configured storage backends failed" in str(e)
+
+    assert "All backends failed." in str(e)
 
 
 def test_experiment_by_id(rubicon_and_project_client):
@@ -154,14 +155,15 @@ def test_get_experiment_fails_neither_set(project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_experiment")
+@mock.patch("rubicon_ml.repository._repository.RepositoryABC.read_json")
 def test_get_experiment_multiple_backend_error(mock_get_experiment, project_composite_client):
     project = project_composite_client
 
     mock_get_experiment.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         project.experiment("exp1")
-    assert "all configured storage backends failed" in str(e)
+
+    assert "All backends failed." in str(e)
 
 
 def test_experiment_warning(project_client, test_dataframe):
