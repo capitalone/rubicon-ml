@@ -102,7 +102,7 @@ def rubicon_composite_client():
     # teardown after yield
     yield rubicon
 
-    for i, repository in enumerate(rubicon.repositories):
+    for i, repository in enumerate(rubicon.repository.repositories):
         repository.filesystem.rm(
             rubicon.configs[i].root_dir,
             recursive=True,

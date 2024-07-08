@@ -7,6 +7,7 @@ from rubicon_ml.client import Config, Project
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.domain.utils import TrainingMetadata
 from rubicon_ml.exceptions import RubiconException
+from rubicon_ml.repository._repository import CompositeRepository
 from rubicon_ml.repository.utils import slugify
 
 
@@ -51,6 +52,7 @@ class Rubicon:
                 )
                 for config in composite_config
             ]
+            self._repository = CompositeRepository([c.repository for c in self.configs])
         else:
             self.configs = [
                 Config(
@@ -60,11 +62,11 @@ class Rubicon:
                     **storage_options,
                 ),
             ]
+            self._repository = self.config.repository
 
     @property
     def config(self):
-        """
-        Returns a single config.
+        """Returns a single config.
 
         Exists to promote backwards compatibility.
 
@@ -77,20 +79,15 @@ class Rubicon:
 
     @property
     def repository(self):
-        if len(self.configs) > 1:
-            raise ValueError("More than one repository available. Use `.repositories` instead.")
-        return self.configs[0].repository
+        return self._repository
 
     @property
     def repositories(self):
-        return [config.repository for config in self.configs]
+        return [self._repository]
 
     @repository.setter
     def repository(self, value):
-        if len(self.configs) > 1:
-            raise ValueError("Cannot set when more than one repository available!")
-
-        self.configs[0].repository = value
+        self._repository = value
 
     def _get_github_url(self):
         """Returns the repository URL of the `git` repo it is called from."""
