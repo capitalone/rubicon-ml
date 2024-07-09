@@ -512,7 +512,6 @@ def test_experiments_from_archive_latest_only():
 
 @patch("fsspec.open")
 def test_archive_remote_rubicon_s3(mock_open):
-    print("buffer")
     rubicon_a = Rubicon(
         persistence="filesystem",
         root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubiconA"),
@@ -534,8 +533,9 @@ def test_archive_remote_rubicon_s3(mock_open):
 def test_wrong_json_schema_experiment(rubicon_local_filesystem_client_with_project):
     """Test that our new error catchers work for bad json schemas."""
     rubicon, project = rubicon_local_filesystem_client_with_project
-    experiment_location = rubicon.repository._get_experiment_metadata_root(project.name)
+    experiment_location = rubicon.repository._get_experiment_metadata_location(project.name)
     os.mkdir(experiment_location)
+
     with open(os.path.join(experiment_location, "bad_experiment.json"), "w") as f:
         f.write("bad json")
 
@@ -545,7 +545,7 @@ def test_wrong_json_schema_experiment(rubicon_local_filesystem_client_with_proje
 def test_no_json_schema_experiment(rubicon_local_filesystem_client_with_project):
     """Test that our new error catchers work when we are missing json schemas."""
     rubicon, project = rubicon_local_filesystem_client_with_project
-    experiment_location = rubicon.repository._get_experiment_metadata_root(project.name)
+    experiment_location = rubicon.repository._get_experiment_metadata_location(project.name)
     os.mkdir(experiment_location)
 
     assert project.experiments() == []

@@ -279,15 +279,15 @@ class FSSpecRepositoryABC(RepositoryABC):
                     for p in self.filesystem.ls(location, detail=True)
                     if path_prefix in p.get("name") and p.get("name").endswith(".json")
                 ]
-
-                if not metadata_paths:
-                    return []
             else:
                 metadata_paths = [
                     os.path.join(p.get("name"), "metadata.json")
                     for p in self.filesystem.ls(location, detail=True)
                     if p.get("type", p.get("StorageClass")).lower() == "directory"
                 ]
+
+            if not metadata_paths:
+                return []
         except FileNotFoundError:
             return []
 
