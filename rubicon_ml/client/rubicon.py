@@ -299,7 +299,13 @@ class Rubicon:
             raise return_err
 
     @failsafe
-    def sync(self, project_name, s3_root_dir, aws_profile=None, aws_shared_credentials_file=None):
+    def sync(
+        self,
+        project_name: str,
+        s3_root_dir: str,
+        aws_profile: Optional[str] = None,
+        aws_shared_credentials_file: Optional[str] = None,
+    ):
         """Sync a local project to S3.
 
         Parameters
