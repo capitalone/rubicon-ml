@@ -237,13 +237,15 @@ def test_sync_aws_inputs(mock_get_project, mock_run, default_cred_path):
 
     if default_cred_path:
         assert os.environ.get("AWS_SHARED_CREDENTIALS_FILE") == default_cred_path
+        del os.environ["AWS_SHARED_CREDENTIALS_FILE"]  # cleanup for next test
     else:
         assert os.environ.get("AWS_SHARED_CREDENTIALS_FILE") is None
 
 
 @mock.patch("subprocess.run")
 @mock.patch("rubicon_ml.client.Rubicon.get_project")
-def test_sync_cli_error(mock_get_project, mock_run):
+@pytest.mark.parametrize("default_cred_path", [None, "./default-creds"])
+def test_sync_cli_error(mock_get_project, mock_run, default_cred_path):
     rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
     project_name = "Sync Test Project"
     mock_get_project.return_value = client.Project(domain.Project(project_name))
@@ -253,10 +255,19 @@ def test_sync_cli_error(mock_get_project, mock_run):
         returncode=1,
     )
 
+    if default_cred_path:
+        os.environ["AWS_SHARED_CREDENTIALS_FILE"] = default_cred_path
+
     with pytest.raises(RubiconException) as e:
         rubicon.sync(project_name, "s3://test/path")
 
     assert "ERROR" in str(e)
+
+    if default_cred_path:
+        assert os.environ.get("AWS_SHARED_CREDENTIALS_FILE") == default_cred_path
+        del os.environ["AWS_SHARED_CREDENTIALS_FILE"]  # cleanup for next test
+    else:
+        assert os.environ.get("AWS_SHARED_CREDENTIALS_FILE") is None
 
 
 def test_sync_from_memory_error(rubicon_and_project_client):
