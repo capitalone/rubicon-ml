@@ -1,3 +1,4 @@
+import os
 import subprocess
 from unittest import mock
 
@@ -198,18 +199,9 @@ def test_get_or_create_project(rubicon_client):
     assert created_project.id == fetched_project.id
 
 
-def test_sync_from_memory(rubicon_and_project_client):
-    rubicon, project = rubicon_and_project_client
-
-    with pytest.raises(RubiconException) as e:
-        rubicon.sync("Test Project", "s3://test/path")
-
-    assert "can't sync projects written to memory" in str(e)
-
-
 @mock.patch("subprocess.run")
 @mock.patch("rubicon_ml.client.Rubicon.get_project")
-def test_sync_from_local(mock_get_project, mock_run):
+def test_sync(mock_get_project, mock_run):
     rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
     project_name = "Sync Test Project"
     mock_get_project.return_value = client.Project(domain.Project(project_name))
@@ -223,18 +215,57 @@ def test_sync_from_local(mock_get_project, mock_run):
 
 @mock.patch("subprocess.run")
 @mock.patch("rubicon_ml.client.Rubicon.get_project")
-def test_sync_from_local_error(mock_get_project, mock_run):
+@pytest.mark.parametrize("default_cred_path", [None, "./default-creds"])
+def test_sync_aws_inputs(mock_get_project, mock_run, default_cred_path):
+    rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
+    project_name = "Sync Test Project"
+    mock_get_project.return_value = client.Project(domain.Project(project_name))
+
+    if default_cred_path:
+        os.environ["AWS_SHARED_CREDENTIALS_FILE"] = default_cred_path
+
+    rubicon.sync(
+        project_name,
+        "s3://test/path",
+        aws_profile="my-profile",
+        aws_shared_credentials_file="./my-creds",
+    )
+
+    assert (
+        "aws s3 sync --profile my-profile " "./local/path/sync-test-project s3://test/path"
+    ) in str(mock_run._mock_call_args_list)
+
+    if default_cred_path:
+        assert os.environ.get("AWS_SHARED_CREDENTIALS_FILE") == default_cred_path
+    else:
+        assert os.environ.get("AWS_SHARED_CREDENTIALS_FILE") is None
+
+
+@mock.patch("subprocess.run")
+@mock.patch("rubicon_ml.client.Rubicon.get_project")
+def test_sync_cli_error(mock_get_project, mock_run):
     rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
     project_name = "Sync Test Project"
     mock_get_project.return_value = client.Project(domain.Project(project_name))
     mock_run.side_effect = subprocess.CalledProcessError(
-        cmd="aws cli sync", stderr="Some error. I bet it was proxy tho.", returncode=1
+        cmd="aws cli sync",
+        stderr="ERROR",
+        returncode=1,
     )
 
     with pytest.raises(RubiconException) as e:
         rubicon.sync(project_name, "s3://test/path")
 
-    assert "Some error. I bet it was proxy tho." in str(e)
+    assert "ERROR" in str(e)
+
+
+def test_sync_from_memory_error(rubicon_and_project_client):
+    rubicon, project = rubicon_and_project_client
+
+    with pytest.raises(RubiconException) as e:
+        rubicon.sync("Test Project", "s3://test/path")
+
+    assert "can only be synced from local or S3" in str(e)
 
 
 def test_get_project_as_dask_df(rubicon_and_project_client_with_experiments):

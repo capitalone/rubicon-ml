@@ -1,3 +1,4 @@
+import os
 import subprocess
 import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -298,7 +299,7 @@ class Rubicon:
             raise return_err
 
     @failsafe
-    def sync(self, project_name, s3_root_dir):
+    def sync(self, project_name, s3_root_dir, aws_profile=None, aws_shared_credentials_file=None):
         """Sync a local project to S3.
 
         Parameters
@@ -308,23 +309,43 @@ class Rubicon:
         s3_root_dir : str
             The S3 path where the project's data
             will be synced.
+        aws_profile : str
+            Specifies the name of the AWS CLI profile with the credentials and options to use.
+            Defaults to None, using the AWS default name 'default'.
+        aws_shared_credentials_file : str
+            Specifies the location of the file that the AWS CLI uses to store access keys.
+            Defaults to None, using the AWS default path '~/.aws/credentials'.
 
         Notes
         -----
-        Use to backup your local project data to S3, as an alternative to direct S3 logging.
-        Relies on AWS CLI's sync. Ensure that your credentials are set and that your Proxy
-        is on.
+        Use sync to backup your local project data to S3 as an alternative to direct S3 logging.
+        Leverages the AWS CLI's `aws s3 sync`. Ensure that any credentials are set and that any
+        proxies are enabled.
         """
         if self.config.persistence != "filesystem":
-            raise RubiconException(
-                "You can't sync projects written to memory. Sync from either local filesystem or S3."
-            )
+            raise RubiconException("Projects can only be synced from local or S3 filesystems.")
+
+        cmd_root = "aws s3 sync"
+
+        if aws_profile:
+            cmd_root += f" --profile {aws_profile}"
+
+        original_aws_shared_credentials_file = os.environ.get("AWS_SHARED_CREDENTIALS_FILE")
+
+        if aws_shared_credentials_file:
+            os.environ["AWS_SHARED_CREDENTIALS_FILE"] = aws_shared_credentials_file
 
         project = self.get_project(project_name)
         local_path = f"{self.config.root_dir}/{slugify(project.name)}"
-        cmd = f"aws s3 sync {local_path} {s3_root_dir}/{slugify(project.name)}"
+        cmd = f"{cmd_root} {local_path} {s3_root_dir}/{slugify(project.name)}"
 
         try:
             subprocess.run(cmd, shell=True, check=True, capture_output=True)
         except subprocess.CalledProcessError as e:
             raise RubiconException(e.stderr)
+        finally:
+            if aws_shared_credentials_file:
+                if original_aws_shared_credentials_file:
+                    os.environ["AWS_SHARED_CREDENTIALS_FILE"] = original_aws_shared_credentials_file
+                else:
+                    del os.environ["AWS_SHARED_CREDENTIALS_FILE"]
