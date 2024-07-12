@@ -219,7 +219,14 @@ def test_sync(mock_get_project, mock_run):
 def test_sync_aws_inputs(mock_get_project, mock_run, default_cred_path):
     rubicon = Rubicon(persistence="filesystem", root_dir="./local/path")
     project_name = "Sync Test Project"
-    mock_get_project.return_value = client.Project(domain.Project(project_name))
+    cred_path = "./my-creds"
+
+    def __get_project_check_cred_path(*args):
+        assert os.environ["AWS_SHARED_CREDENTIALS_FILE"] == cred_path
+
+        return client.Project(domain.Project(project_name))
+
+    mock_get_project.side_effect = __get_project_check_cred_path
 
     if default_cred_path:
         os.environ["AWS_SHARED_CREDENTIALS_FILE"] = default_cred_path
@@ -228,7 +235,7 @@ def test_sync_aws_inputs(mock_get_project, mock_run, default_cred_path):
         project_name,
         "s3://test/path",
         aws_profile="my-profile",
-        aws_shared_credentials_file="./my-creds",
+        aws_shared_credentials_file=cred_path,
     )
 
     assert (
