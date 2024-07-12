@@ -232,7 +232,7 @@ def test_sync_aws_inputs(mock_get_project, mock_run, default_cred_path):
     )
 
     assert (
-        "aws s3 sync --profile my-profile " "./local/path/sync-test-project s3://test/path"
+        "aws s3 sync --profile my-profile ./local/path/sync-test-project s3://test/path"
     ) in str(mock_run._mock_call_args_list)
 
     if default_cred_path:
