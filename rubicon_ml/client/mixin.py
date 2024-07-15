@@ -23,6 +23,7 @@ from rubicon_ml.exceptions import RubiconException
 if TYPE_CHECKING:
     import dask.dataframe as dd
     import pandas as pd
+    import xgboost as xgb
 
     from rubicon_ml.client import Artifact, Dataframe
     from rubicon_ml.domain import DOMAIN_TYPES
@@ -284,16 +285,18 @@ class ArtifactMixin:
     @failsafe
     def log_xgboost_model(
         self,
-        xgboost_model,
+        xgboost_model: "xgb.Booster",
         artifact_name: Optional[str] = None,
         **log_artifact_kwargs: Any,
     ) -> Artifact:
         """Log an XGBoost model as a JSON file to this client object.
 
+        Please note that we do not currently support logging directly from the SKLearn interface.
+
         Parameters
         ----------
-        xgboost_model
-            An xgboost model object.
+        xgboost_model: Booster
+            An xgboost model object in the Booster format
         artifact_name : str, optional
             The name of the artifact (the exported XGBoost model).
         log_artifact_kwargs : Any
