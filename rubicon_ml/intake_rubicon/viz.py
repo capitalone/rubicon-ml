@@ -1,6 +1,5 @@
 from rubicon_ml import __version__
 from rubicon_ml.intake_rubicon.base import VizDataSourceMixin
-from rubicon_ml.viz import ExperimentsTable
 
 
 class ExperimentsTableDataSource(VizDataSourceMixin):
@@ -18,5 +17,8 @@ class ExperimentsTableDataSource(VizDataSourceMixin):
 
     def _get_schema(self):
         """Creates an Experiments Table visualization and sets it as the visualization object attribute"""
+        from rubicon_ml.viz import ExperimentsTable
+
         self._visualization_object = ExperimentsTable(**self._catalog_data)
+
         return super()._get_schema()
