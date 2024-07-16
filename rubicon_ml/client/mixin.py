@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     import dask.dataframe as dd
     import pandas as pd
     import polars as pl
+    import xgboost as xgb
 
     from rubicon_ml.client import Artifact, Dataframe
     from rubicon_ml.domain import DOMAIN_TYPES
@@ -277,6 +278,49 @@ class ArtifactMixin:
             artifact = self.log_artifact(
                 name=artifact_name,
                 data_path=model_data_path,
+                **log_artifact_kwargs,
+            )
+
+        return artifact
+
+    @failsafe
+    def log_xgboost_model(
+        self,
+        xgboost_model: "xgb.Booster",
+        artifact_name: Optional[str] = None,
+        **log_artifact_kwargs: Any,
+    ) -> Artifact:
+        """Log an XGBoost model as a JSON file to this client object.
+
+        Please note that we do not currently support logging directly from the SKLearn interface.
+
+        Parameters
+        ----------
+        xgboost_model: Booster
+            An xgboost model object in the Booster format
+        artifact_name : str, optional
+            The name of the artifact (the exported XGBoost model).
+        log_artifact_kwargs : Any
+            Additional kwargs to be passed directly to `self.log_artifact`.
+
+        Returns
+        -------
+        rubicon.client.Artifact
+            The new artifact.
+        """
+        if artifact_name is None:
+            artifact_name = xgboost_model.__class__.__name__
+
+        # TODO: handle sklearn
+        booster = xgboost_model
+
+        with tempfile.TemporaryDirectory() as temp_dir_name:
+            model_location = f"{temp_dir_name}/{artifact_name}.json"
+            booster.save_model(model_location)
+
+            artifact = self.log_artifact(
+                name=artifact_name,
+                data_path=model_location,
                 **log_artifact_kwargs,
             )
 
