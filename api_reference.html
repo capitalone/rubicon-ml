@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Representing model metadata with a schema" href="schema-representation.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
-    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.3 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.5 and Furo 2024.05.06 -->
         <title>API Reference - rubicon-ml v0.8.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
@@ -1017,6 +1017,31 @@ Useful for recreating your exact environment at a later date.</p>
 <dd><p>Log an experiment leveraging <code class="docutils literal notranslate"><span class="pre">self.schema_</span></code>.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Project.log_xgboost_model">
+<span class="sig-name descname"><span class="pre">log_xgboost_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xgboost_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgb.Booster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">log_artifact_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Project.log_xgboost_model" title="Link to this definition">¶</a></dt>
+<dd><p>Log an XGBoost model as a JSON file to this client object.</p>
+<p>Please note that we do not currently support logging directly from the SKLearn interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xgboost_model: Booster</strong></dt><dd><p>An xgboost model object in the Booster format</p>
+</dd>
+<dt><strong>artifact_name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the artifact (the exported XGBoost model).</p>
+</dd>
+<dt><strong>log_artifact_kwargs</strong><span class="classifier">Any</span></dt><dd><p>Additional kwargs to be passed directly to <cite>self.log_artifact</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Artifact</dt><dd><p>The new artifact.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="rubicon_ml.Project.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubicon_ml.Project.name" title="Link to this definition">¶</a></dt>
@@ -1675,6 +1700,31 @@ Useful for recreating your exact environment at a later date.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>artifact_name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the artifact (the exported pip environment).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Artifact</dt><dd><p>The new artifact.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.Experiment.log_xgboost_model">
+<span class="sig-name descname"><span class="pre">log_xgboost_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xgboost_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgb.Booster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">log_artifact_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubicon_ml.Artifact" title="rubicon_ml.Artifact"><span class="pre">Artifact</span></a></span></span><a class="headerlink" href="#rubicon_ml.Experiment.log_xgboost_model" title="Link to this definition">¶</a></dt>
+<dd><p>Log an XGBoost model as a JSON file to this client object.</p>
+<p>Please note that we do not currently support logging directly from the SKLearn interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xgboost_model: Booster</strong></dt><dd><p>An xgboost model object in the Booster format</p>
+</dd>
+<dt><strong>artifact_name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the artifact (the exported XGBoost model).</p>
+</dd>
+<dt><strong>log_artifact_kwargs</strong><span class="classifier">Any</span></dt><dd><p>Additional kwargs to be passed directly to <cite>self.log_artifact</cite>.</p>
 </dd>
 </dl>
 </dd>
@@ -2600,7 +2650,7 @@ Defaults to False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rubicon_ml.Artifact.get_data">
-<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deserialize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'h2o'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'pickle'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unpickle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.get_data" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deserialize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'h2o'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'pickle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unpickle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.Artifact.get_data" title="Link to this definition">¶</a></dt>
 <dd><p>Loads the data associated with this artifact and
 unpickles if needed.</p>
 <dl class="field-list simple">
@@ -2610,6 +2660,7 @@ unpickles if needed.</p>
 * None to disable deseralization and return the raw data.
 * “h2o” to use <cite>h2o.load_model</cite> to load the data.
 * “pickle” to use pickles to load the data.
+* “xgboost” to use xgboost’s JSON loader to load the data as a fitted model.
 Defaults to None.</p>
 </dd>
 <dt><strong>unpickle</strong><span class="classifier">bool, optional</span></dt><dd><p>Flag indicating whether or not to unpickle artifact data.
@@ -4006,6 +4057,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_json"><code class="docutils literal notranslate"><span class="pre">Project.log_json()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Project.log_pip_requirements()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.log_with_schema"><code class="docutils literal notranslate"><span class="pre">Project.log_with_schema()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Project.log_xgboost_model"><code class="docutils literal notranslate"><span class="pre">Project.log_xgboost_model()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.repositories"><code class="docutils literal notranslate"><span class="pre">Project.repositories</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Project.repository"><code class="docutils literal notranslate"><span class="pre">Project.repository</span></code></a></li>
@@ -4048,6 +4100,7 @@ log a parameter to an existing experiment.</p>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_metric"><code class="docutils literal notranslate"><span class="pre">Experiment.log_metric()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_parameter"><code class="docutils literal notranslate"><span class="pre">Experiment.log_parameter()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.log_pip_requirements"><code class="docutils literal notranslate"><span class="pre">Experiment.log_pip_requirements()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.Experiment.log_xgboost_model"><code class="docutils literal notranslate"><span class="pre">Experiment.log_xgboost_model()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.metric"><code class="docutils literal notranslate"><span class="pre">Experiment.metric()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.metrics"><code class="docutils literal notranslate"><span class="pre">Experiment.metrics()</span></code></a></li>
 <li><a class="reference internal" href="#rubicon_ml.Experiment.model_name"><code class="docutils literal notranslate"><span class="pre">Experiment.model_name</span></code></a></li>
