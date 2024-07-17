@@ -1,6 +1,7 @@
 import os
 
 from rubicon_ml.intake_rubicon.viz import ExperimentsTableDataSource
+from rubicon_ml.intake_rubicon.viz import DataframePlotDataSource
 
 root = os.path.dirname(__file__)
 
@@ -31,5 +32,31 @@ def test_experiments_table_source():
     assert visualization.parameter_names == catalog_data_sample["parameter_names"]
     assert visualization.parameter_query_tags == catalog_data_sample["parameter_query_tags"]
     assert visualization.parameter_query_type == catalog_data_sample["parameter_query_type"]
+
+    source.close()
+
+
+def test_datatable_plot_source():
+    catalog_data_sample = {
+       "experiments": None,
+       "plotting_func": None,
+       "plotting_func_kwargs": None,
+       "x": None,
+       "y": None
+    }
+
+    source = DataframePlotDataSource(catalog_data_sample)
+    assert source is not None
+
+    source.discover()
+
+    visualization = source.read()
+
+    assert visualization is not None
+    assert visualization.experiments == catalog_data_sample["experiments"]
+    assert visualization.plotting_func == catalog_data_sample["plotting_func"]
+    assert visualization.plotting_func_kwargs == catalog_data_sample["plotting_func_kwargs"]
+    assert visualization.x == catalog_data_sample["x"]
+    assert visualization.y == catalog_data_sample["y"]
 
     source.close()
