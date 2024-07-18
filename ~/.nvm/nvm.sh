@@ -1,1 +1,0 @@
-/opt/homebrew/opt/nvm/libexec/nvm.sh
