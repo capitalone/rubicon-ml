@@ -7,7 +7,6 @@ from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
 
 
 def test_publish(project_client):
-
     # Experiment Table
 
     project = project_client

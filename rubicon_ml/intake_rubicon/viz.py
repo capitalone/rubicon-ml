@@ -23,7 +23,8 @@ class ExperimentsTableDataSource(VizDataSourceMixin):
         self._visualization_object = ExperimentsTable(**self._catalog_data)
 
         return super()._get_schema()
-    
+
+
 class MetricCorrelationPlotDataSource(VizDataSourceMixin):
     """An Intake data source for reading `rubicon` Metric Correlation Plot visualizations."""
 

@@ -6,7 +6,6 @@ import yaml
 if TYPE_CHECKING:
     from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
-    
 
 
 def publish(
@@ -105,7 +104,7 @@ def _update_catalog(
 def _build_catalog(experiments, visualization):
     from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
-    
+
     """Helper function to build catalog dictionary from given experiments.
 
     Parameters
@@ -162,5 +161,5 @@ def _build_catalog(experiments, visualization):
             catalog["sources"]["metric_correlation_plot"] = appended_visualization_catalog
 
         # append visualization object to end of catalog file
-        
+
     return catalog

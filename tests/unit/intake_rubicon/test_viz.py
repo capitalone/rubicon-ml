@@ -1,6 +1,9 @@
 import os
 
-from rubicon_ml.intake_rubicon.viz import ExperimentsTableDataSource, MetricCorrelationPlotDataSource
+from rubicon_ml.intake_rubicon.viz import (
+    ExperimentsTableDataSource,
+    MetricCorrelationPlotDataSource,
+)
 
 root = os.path.dirname(__file__)
 
@@ -34,6 +37,7 @@ def test_experiments_table_source():
 
     source.close()
 
+
 def test_metric_correlation_plot_source():
     catalog_data_sample = {
         "metric_names": None,
@@ -54,4 +58,3 @@ def test_metric_correlation_plot_source():
     assert visualization.selected_metric == catalog_data_sample["selected_metric"]
 
     source.close()
-
