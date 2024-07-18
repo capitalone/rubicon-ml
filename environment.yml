@@ -45,7 +45,7 @@ dependencies:
   - versioneer
 
   # for packaging
-  - setuptools
+  - setuptools<71.0.0
   - wheel
 
   # for edgetest
