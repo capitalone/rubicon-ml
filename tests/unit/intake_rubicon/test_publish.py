@@ -3,9 +3,13 @@ import yaml
 
 from rubicon_ml import Rubicon, publish
 from rubicon_ml.viz.experiments_table import ExperimentsTable
+from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
 
 
 def test_publish(project_client):
+
+    # Experiment Table
+
     project = project_client
     experiment = project.log_experiment()
     visualization_object = ExperimentsTable()
@@ -34,6 +38,35 @@ def test_publish(project_client):
         ]
     )
     assert catalog["sources"]["experiment_table"] is not None
+
+    # Metric Correlation Plot
+
+    visualization_object = MetricCorrelationPlot()
+    catalog_yaml = publish(project.experiments(), visualization_object)
+    catalog = yaml.safe_load(catalog_yaml)
+
+    assert f"experiment_{experiment.id.replace('-', '_')}" in catalog["sources"]
+    assert (
+        "rubicon_ml_experiment"
+        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["driver"]
+    )
+    assert (
+        experiment.repository.root_dir
+        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["args"]["urlpath"]
+    )
+    assert (
+        experiment.id
+        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["args"][
+            "experiment_id"
+        ]
+    )
+    assert (
+        project.name
+        == catalog["sources"][f"experiment_{experiment.id.replace('-', '_')}"]["args"][
+            "project_name"
+        ]
+    )
+    assert catalog["sources"]["metric_correlation_plot"] is not None
 
 
 def test_publish_from_multiple_sources():
