@@ -70,7 +70,7 @@ def test_publish(project_client):
 
     # Dataframe Plot
 
-    visualization_object = DataframePlot()
+    visualization_object = DataframePlot(dataframe_name="test_dataframe")
     catalog_yaml = publish(project.experiments(), visualization_object)
     catalog = yaml.safe_load(catalog_yaml)
 
