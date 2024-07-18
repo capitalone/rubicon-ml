@@ -1,7 +1,9 @@
 import os
 
-from rubicon_ml.intake_rubicon.viz import ExperimentsTableDataSource
-from rubicon_ml.intake_rubicon.viz import DataframePlotDataSource
+from rubicon_ml.intake_rubicon.viz import (
+    DataframePlotDataSource,
+    ExperimentsTableDataSource,
+)
 
 root = os.path.dirname(__file__)
 
@@ -38,11 +40,11 @@ def test_experiments_table_source():
 
 def test_datatable_plot_source():
     catalog_data_sample = {
-       "experiments": None,
-       "plotting_func": None,
-       "plotting_func_kwargs": None,
-       "x": None,
-       "y": None
+        "experiments": None,
+        "plotting_func": None,
+        "plotting_func_kwargs": None,
+        "x": None,
+        "y": None,
     }
 
     source = DataframePlotDataSource(catalog_data_sample)

@@ -4,14 +4,14 @@ import fsspec
 import yaml
 
 if TYPE_CHECKING:
-    from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz import DataframePlot
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
 
 
 def publish(
     experiments,
     # visualization object passed, defaulted to None
-    visualization_object: Optional[Union["DataframePlot","ExperimentsTable"]] = None,
+    visualization_object: Optional[Union["DataframePlot", "ExperimentsTable"]] = None,
     output_filepath=None,
     base_catalog_filepath=None,
 ):
@@ -103,8 +103,9 @@ def _update_catalog(
 
 
 def _build_catalog(experiments, visualization):
-    from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz import DataframePlot
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
+
     """Helper function to build catalog dictionary from given experiments.
 
     Parameters
@@ -136,7 +137,7 @@ def _build_catalog(experiments, visualization):
     # create visualization entry to the catalog file
     if visualization is not None:
         # vizualization is an ExperimentsTable
-        if isinstance(visualization,ExperimentsTable):
+        if isinstance(visualization, ExperimentsTable):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_experiment_table",
                 "args": {
@@ -153,14 +154,14 @@ def _build_catalog(experiments, visualization):
             catalog["sources"]["experiment_table"] = appended_visualization_catalog
 
         # vizualization is an DataframePlot
-        if isinstance(visualization,DataframePlot):
+        if isinstance(visualization, DataframePlot):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_dataframe_plot",
                 "args": {
                     "dataframe_name": visualization.dataframe_name,
                     "x": visualization.x,
                     "y": visualization.y,
-                }
+                },
             }
 
             # append visualization object to end of catalog file

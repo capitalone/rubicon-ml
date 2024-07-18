@@ -2,6 +2,7 @@ from rubicon_ml import __version__
 from rubicon_ml.intake_rubicon.base import VizDataSourceMixin
 from rubicon_ml.viz import DataframePlot
 
+
 class ExperimentsTableDataSource(VizDataSourceMixin):
     """An Intake data source for reading `rubicon` Experiment Table visualizations."""
 
@@ -41,5 +42,5 @@ class DataframePlotDataSource(VizDataSourceMixin):
         """Creates an Experiments Table visualization and sets it as the visualization object attribute"""
         print(self._catalog_data)
         self._visualization_object = DataframePlot(**self._catalog_data)
-    
+
         return super()._get_schema()
