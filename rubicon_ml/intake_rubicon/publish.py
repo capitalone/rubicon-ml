@@ -1,16 +1,16 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 import fsspec
 import yaml
 
 if TYPE_CHECKING:
     from rubicon_ml.viz.experiments_table import ExperimentsTable
+    from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
 
 
 def publish(
     experiments,
-    # visualization object passed, defaulted to None
-    visualization_object: Optional["ExperimentsTable"] = None,
+    visualization_object: Optional[Union["ExperimentsTable", "MetricCorrelationPlot"]] = None,
     output_filepath=None,
     base_catalog_filepath=None,
 ):
@@ -102,6 +102,9 @@ def _update_catalog(
 
 
 def _build_catalog(experiments, visualization):
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
+    from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
+
     """Helper function to build catalog dictionary from given experiments.
 
     Parameters
@@ -132,20 +135,31 @@ def _build_catalog(experiments, visualization):
 
     # create visualization entry to the catalog file
     if visualization is not None:
-        appended_visualization_catalog = {
-            "driver": "rubicon_ml_experiment_table",
-            "args": {
-                "is_selectable": visualization.is_selectable,
-                "metric_names": visualization.metric_names,
-                "metric_query_tags": visualization.metric_query_tags,
-                "metric_query_type": visualization.metric_query_type,
-                "parameter_names": visualization.parameter_names,
-                "parameter_query_tags": visualization.parameter_query_tags,
-                "parameter_query_type": visualization.parameter_query_type,
-            },
-        }
+        if isinstance(visualization, ExperimentsTable):
+            appended_visualization_catalog = {
+                "driver": "rubicon_ml_experiment_table",
+                "args": {
+                    "is_selectable": visualization.is_selectable,
+                    "metric_names": visualization.metric_names,
+                    "metric_query_tags": visualization.metric_query_tags,
+                    "metric_query_type": visualization.metric_query_type,
+                    "parameter_names": visualization.parameter_names,
+                    "parameter_query_tags": visualization.parameter_query_tags,
+                    "parameter_query_type": visualization.parameter_query_type,
+                },
+            }
+            catalog["sources"]["experiment_table"] = appended_visualization_catalog
+        if isinstance(visualization, MetricCorrelationPlot):
+            appended_visualization_catalog = {
+                "driver": "rubicon_ml_metric_correlation_plot",
+                "args": {
+                    "metric_names": visualization.metric_names,
+                    "parameter_names": visualization.parameter_names,
+                    "selected_metric": visualization.selected_metric,
+                },
+            }
+            catalog["sources"]["metric_correlation_plot"] = appended_visualization_catalog
 
         # append visualization object to end of catalog file
-        catalog["sources"]["experiment_table"] = appended_visualization_catalog
 
     return catalog
