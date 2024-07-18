@@ -163,14 +163,14 @@ def _build_catalog(experiments, visualization):
             catalog["sources"]["metric_correlation_plot"] = appended_visualization_catalog
 
         # vizualization is an DataframePlot
-        if isinstance(visualization,DataframePlot):
+        if isinstance(visualization, DataframePlot):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_dataframe_plot",
                 "args": {
                     "dataframe_name": visualization.dataframe_name,
                     "x": visualization.x,
                     "y": visualization.y,
-                }
+                },
             }
 
             # append visualization object to end of catalog file

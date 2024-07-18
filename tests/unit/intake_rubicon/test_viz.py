@@ -59,3 +59,30 @@ def test_metric_correlation_plot_source():
     assert visualization.selected_metric == catalog_data_sample["selected_metric"]
 
     source.close()
+
+
+def test_datatable_plot_source():
+    catalog_data_sample = {
+        "dataframe_name": "dataframe_name",
+        "experiments": None,
+        "plotting_func": None,
+        "plotting_func_kwargs": None,
+        "x": None,
+        "y": None,
+    }
+
+    source = DataframePlotDataSource(catalog_data_sample)
+    assert source is not None
+
+    source.discover()
+
+    visualization = source.read()
+
+    assert visualization is not None
+    assert visualization.experiments == catalog_data_sample["experiments"]
+    assert visualization.plotting_func == catalog_data_sample["plotting_func"]
+    assert visualization.plotting_func_kwargs == catalog_data_sample["plotting_func_kwargs"]
+    assert visualization.x == catalog_data_sample["x"]
+    assert visualization.y == catalog_data_sample["y"]
+
+    source.close()

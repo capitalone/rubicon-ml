@@ -11,4 +11,5 @@ __all__ = [
     "ExperimentSource",
     "ExperimentsTableDataSource",
     "MetricCorrelationPlotDataSource",
+    "DataframePlotDataSource"
 ]
