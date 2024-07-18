@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 def publish(
     experiments,
     # visualization object passed, defaulted to None
-    visualization_object: Optional[Union[DataframePlot,ExperimentsTable]] = None,
+    visualization_object: Optional[Union["DataframePlot","ExperimentsTable"]] = None,
     output_filepath=None,
     base_catalog_filepath=None,
 ):
@@ -103,6 +103,8 @@ def _update_catalog(
 
 
 def _build_catalog(experiments, visualization):
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
+    from rubicon_ml.viz import DataframePlot
     """Helper function to build catalog dictionary from given experiments.
 
     Parameters
