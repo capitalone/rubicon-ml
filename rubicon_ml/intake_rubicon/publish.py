@@ -4,14 +4,16 @@ import fsspec
 import yaml
 
 if TYPE_CHECKING:
+    from rubicon_ml.viz import DataframePlot
     from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
-    from rubicon_ml.viz import DataframePlot
 
 
 def publish(
     experiments,
-    visualization_object: Optional[Union["ExperimentsTable", "MetricCorrelationPlot", "DataframePlot"]] = None,
+    visualization_object: Optional[
+        Union["ExperimentsTable", "MetricCorrelationPlot", "DataframePlot"]
+    ] = None,
     output_filepath=None,
     base_catalog_filepath=None,
 ):
@@ -103,8 +105,8 @@ def _update_catalog(
 
 
 def _build_catalog(experiments, visualization):
-    from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz import DataframePlot
+    from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
 
     """Helper function to build catalog dictionary from given experiments.

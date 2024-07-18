@@ -1,9 +1,5 @@
 from rubicon_ml import __version__
 from rubicon_ml.intake_rubicon.base import VizDataSourceMixin
-from rubicon_ml.viz import MetricCorrelationPlot
-from rubicon_ml.viz import DataframePlot
-from rubicon_ml.viz import ExperimentsTable
-
 
 
 class ExperimentsTableDataSource(VizDataSourceMixin):
@@ -21,6 +17,7 @@ class ExperimentsTableDataSource(VizDataSourceMixin):
 
     def _get_schema(self):
         """Creates an Experiments Table visualization and sets it as the visualization object attribute"""
+        from rubicon_ml.viz import ExperimentsTable
 
         self._visualization_object = ExperimentsTable(**self._catalog_data)
 
@@ -29,6 +26,7 @@ class ExperimentsTableDataSource(VizDataSourceMixin):
 
 class MetricCorrelationPlotDataSource(VizDataSourceMixin):
     """An Intake data source for reading `rubicon` Metric Correlation Plot visualizations."""
+
     version = __version__
 
     container = "python"
@@ -41,8 +39,10 @@ class MetricCorrelationPlotDataSource(VizDataSourceMixin):
 
     def _get_schema(self):
         """Creates a Metric Correlation Plot visualization and sets it as the visualization object attribute"""
+        from rubicon_ml.viz import MetricCorrelationPlot
+
         self._visualization_object = MetricCorrelationPlot(**self._catalog_data)
-    
+
         return super()._get_schema()
 
 
@@ -61,6 +61,8 @@ class DataframePlotDataSource(VizDataSourceMixin):
 
     def _get_schema(self):
         """Creates a Dataframe Plot visualization and sets it as the visualization object attribute"""
+        from rubicon_ml.viz import DataframePlot
+
         self._visualization_object = DataframePlot(**self._catalog_data)
 
         return super()._get_schema()

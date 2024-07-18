@@ -1,9 +1,9 @@
 import os
 
 from rubicon_ml.intake_rubicon.viz import (
+    DataframePlotDataSource,
     ExperimentsTableDataSource,
     MetricCorrelationPlotDataSource,
-    DataframePlotDataSource
 )
 
 root = os.path.dirname(__file__)
