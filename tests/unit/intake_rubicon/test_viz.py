@@ -40,7 +40,7 @@ def test_experiments_table_source():
 
 def test_dataframe_plot_source():
     catalog_data_sample = {
-        "dataframe_name": None,
+        "dataframe_name": "dataframe_name",
         "experiments": None,
         "plotting_func": None,
         "plotting_func_kwargs": None,
