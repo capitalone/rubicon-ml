@@ -38,8 +38,9 @@ def test_experiments_table_source():
     source.close()
 
 
-def test_datatable_plot_source():
+def test_dataframe_plot_source():
     catalog_data_sample = {
+        "dataframe_name": None,
         "experiments": None,
         "plotting_func": None,
         "plotting_func_kwargs": None,
