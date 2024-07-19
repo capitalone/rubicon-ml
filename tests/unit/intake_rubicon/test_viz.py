@@ -86,8 +86,7 @@ def test_datatable_plot_source():
     visualization = source.read()
 
     assert visualization is not None
-    assert visualization.experiments == catalog_data_sample["dataframe_name"]
-    assert visualization.experiments == catalog_data_sample["experiments"]
+    assert visualization.dataframe_name == catalog_data_sample["dataframe_name"]
     assert visualization.plotting_func == catalog_data_sample["plotting_func"]
     assert visualization.plotting_func_kwargs == catalog_data_sample["plotting_func_kwargs"]
     assert visualization.x == catalog_data_sample["x"]
