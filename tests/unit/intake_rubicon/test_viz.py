@@ -71,7 +71,14 @@ def test_datatable_plot_source():
         "y": None,
     }
 
-    source = DataframePlotDataSource(catalog_data_sample)
+    source = DataframePlotDataSource(
+        dataframe_name="dataframe_name",
+        experiments=None,
+        plotting_func=None,
+        plotting_func_kwargs=None,
+        x=None,
+        y=None,
+    )
     assert source is not None
 
     source.discover()
@@ -79,6 +86,7 @@ def test_datatable_plot_source():
     visualization = source.read()
 
     assert visualization is not None
+    assert visualization.experiments == catalog_data_sample["dataframe_name"]
     assert visualization.experiments == catalog_data_sample["experiments"]
     assert visualization.plotting_func == catalog_data_sample["plotting_func"]
     assert visualization.plotting_func_kwargs == catalog_data_sample["plotting_func_kwargs"]
