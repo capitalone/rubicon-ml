@@ -4,6 +4,7 @@ from rubicon_ml.intake_rubicon.viz import (
     DataframePlotDataSource,
     ExperimentsTableDataSource,
     MetricCorrelationPlotDataSource,
+    MetricListComparisonDataSource,
 )
 
 root = os.path.dirname(__file__)
@@ -91,5 +92,22 @@ def test_datatable_plot_source():
     assert visualization.plotting_func_kwargs == catalog_data_sample["plotting_func_kwargs"]
     assert visualization.x == catalog_data_sample["x"]
     assert visualization.y == catalog_data_sample["y"]
+
+    source.close()
+
+
+def test_metric_list_source():
+    catalog_data_sample = {"columns_names": None, "selected_metric": None}
+
+    source = MetricListComparisonDataSource(catalog_data_sample)
+    assert source is not None
+
+    source.discover()
+
+    visualization = source.read()
+
+    assert visualization is not None
+    assert visualization.columns_names == catalog_data_sample["columns_names"]
+    assert visualization.selected_metric == catalog_data_sample["selected_metric"]
 
     source.close()

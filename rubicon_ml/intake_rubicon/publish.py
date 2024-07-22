@@ -7,12 +7,13 @@ if TYPE_CHECKING:
     from rubicon_ml.viz import DataframePlot
     from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
+    from rubicon_ml.viz.metric_lists_comparison import MetricListsComparison
 
 
 def publish(
     experiments,
     visualization_object: Optional[
-        Union["ExperimentsTable", "MetricCorrelationPlot", "DataframePlot"]
+        Union["ExperimentsTable", "MetricCorrelationPlot", "DataframePlot", "MetricListsComparison"]
     ] = None,
     output_filepath=None,
     base_catalog_filepath=None,
@@ -108,6 +109,7 @@ def _build_catalog(experiments, visualization):
     from rubicon_ml.viz import DataframePlot
     from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
+    from rubicon_ml.viz.metric_lists_comparison import MetricListsComparison
 
     """Helper function to build catalog dictionary from given experiments.
 
@@ -178,6 +180,22 @@ def _build_catalog(experiments, visualization):
 
             # append visualization object to end of catalog file
             catalog["sources"]["dataframe_plot"] = appended_visualization_catalog
+
+        # append visualization object to end of catalog file
+
+        # vizualization is an MetricListsComparison
+        if isinstance(visualization, MetricListsComparison):
+            appended_visualization_catalog = {
+                "driver": "rubicon_ml_metric_list",
+                "args": {
+                    "column_names": visualization.column_names,
+                    "experiments": visualization.experiments,
+                    "selected_metric": visualization.selected_metric,
+                },
+            }
+
+            # append visualization object to end of catalog file
+            catalog["sources"]["metric_list"] = appended_visualization_catalog
 
         # append visualization object to end of catalog file
 
