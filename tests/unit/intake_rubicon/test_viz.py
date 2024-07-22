@@ -97,7 +97,7 @@ def test_datatable_plot_source():
 
 
 def test_metric_list_source():
-    catalog_data_sample = {"columns_names": None, "selected_metric": None}
+    catalog_data_sample = {"column_names": None, "selected_metric": None}
 
     source = MetricListComparisonDataSource(catalog_data_sample)
     assert source is not None
