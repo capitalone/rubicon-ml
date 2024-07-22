@@ -167,7 +167,7 @@ def _build_catalog(experiments, visualization):
             }
             catalog["sources"]["metric_correlation_plot"] = appended_visualization_catalog
 
-        # vizualization is an DataframePlot
+        # vizualization is an DataframePlot   tests/unit/intake_rubicon/test_publish.py
         if isinstance(visualization, DataframePlot):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_dataframe_plot",
@@ -189,7 +189,6 @@ def _build_catalog(experiments, visualization):
                 "driver": "rubicon_ml_metric_list",
                 "args": {
                     "column_names": visualization.column_names,
-                    "experiments": visualization.experiments,
                     "selected_metric": visualization.selected_metric,
                 },
             }

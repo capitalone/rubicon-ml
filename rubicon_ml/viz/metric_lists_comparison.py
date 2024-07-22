@@ -78,7 +78,7 @@ class MetricListsComparison(VizBase):
 
         for experiment in self.experiments:
             for metric in experiment.metrics():
-                if isinstance(metric.value, float):
+                if isinstance(metric.value, list):
                     self.metric_names.add(metric.name)
 
                     experiment_record = self.experiment_records.get(experiment.id, {})
@@ -154,7 +154,7 @@ class MetricListsComparison(VizBase):
 
             data_array = np.array(heatmap_data)
             numerator = data_array - data_array.min(axis=0)
-            denominator = np.array(data_array.max(axis=0) - data_array.min(axis=0))
+            denominator = data_array.max(axis=0) - data_array.min(axis=0)
             denominator[denominator == 0] = 1
             scaled_heatmap_data = numerator / denominator
 
