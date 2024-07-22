@@ -107,6 +107,7 @@ def _update_catalog(
 
 def _build_catalog(experiments, visualization):
     from rubicon_ml.viz import DataframePlot
+    from rubicon_ml.viz import DataframePlot
     from rubicon_ml.viz.experiments_table import ExperimentsTable
     from rubicon_ml.viz.metric_correlation_plot import MetricCorrelationPlot
     from rubicon_ml.viz.metric_lists_comparison import MetricListsComparison
@@ -155,6 +156,7 @@ def _build_catalog(experiments, visualization):
                 },
             }
             catalog["sources"]["experiment_table"] = appended_visualization_catalog
+
 
         if isinstance(visualization, MetricCorrelationPlot):
             appended_visualization_catalog = {

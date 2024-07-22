@@ -96,6 +96,40 @@ def test_datatable_plot_source():
     source.close()
 
 
+def test_datatable_plot_source():
+    catalog_data_sample = {
+        "dataframe_name": "dataframe_name",
+        "experiments": None,
+        "plotting_func": None,
+        "plotting_func_kwargs": None,
+        "x": None,
+        "y": None,
+    }
+
+    source = DataframePlotDataSource(
+        dataframe_name="dataframe_name",
+        experiments=None,
+        plotting_func=None,
+        plotting_func_kwargs=None,
+        x=None,
+        y=None,
+    )
+    assert source is not None
+
+    source.discover()
+
+    visualization = source.read()
+
+    assert visualization is not None
+    assert visualization.dataframe_name == catalog_data_sample["dataframe_name"]
+    assert visualization.plotting_func == catalog_data_sample["plotting_func"]
+    assert visualization.plotting_func_kwargs == catalog_data_sample["plotting_func_kwargs"]
+    assert visualization.x == catalog_data_sample["x"]
+    assert visualization.y == catalog_data_sample["y"]
+
+    source.close()
+
+
 def test_metric_list_source():
     catalog_data_sample = {"columns_names": None, "selected_metric": None}
 
