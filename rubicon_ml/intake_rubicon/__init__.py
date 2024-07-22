@@ -5,6 +5,7 @@ from rubicon_ml.intake_rubicon.viz import (
     DataframePlotDataSource,
     ExperimentsTableDataSource,
     MetricCorrelationPlotDataSource,
+    MetricListComparisonDataSource,
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "ExperimentsTableDataSource",
     "MetricCorrelationPlotDataSource",
     "DataframePlotDataSource",
+    "MetricListComparisonDataSource",
 ]
