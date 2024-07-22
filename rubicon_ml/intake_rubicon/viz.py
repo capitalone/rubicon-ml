@@ -82,7 +82,7 @@ class MetricListComparisonDataSource(VizDataSourceMixin):
         super().__init__(metadata=metadata)
 
     def _get_schema(self):
-        """Creates a Dataframe Plot visualization and sets it as the visualization object attribute"""
+        """Creates a Metric List Comparison visualization and sets it as the visualization object attribute"""
         from rubicon_ml.viz import MetricListsComparison
 
         self._visualization_object = MetricListsComparison(**self._catalog_data)

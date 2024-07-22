@@ -140,6 +140,7 @@ def _build_catalog(experiments, visualization):
         catalog["sources"][experiment_catalog_name] = appended_experiment_catalog
 
     # create visualization entry to the catalog file
+    # visualization is an ExperimentsTable
     if visualization is not None:
         if isinstance(visualization, ExperimentsTable):
             appended_visualization_catalog = {
@@ -156,6 +157,7 @@ def _build_catalog(experiments, visualization):
             }
             catalog["sources"]["experiment_table"] = appended_visualization_catalog
 
+        # vizualization is a MetricCorrelationPlot
         if isinstance(visualization, MetricCorrelationPlot):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_metric_correlation_plot",
@@ -167,7 +169,7 @@ def _build_catalog(experiments, visualization):
             }
             catalog["sources"]["metric_correlation_plot"] = appended_visualization_catalog
 
-        # vizualization is an DataframePlot   tests/unit/intake_rubicon/test_publish.py
+        # vizualization is a DataframePlot
         if isinstance(visualization, DataframePlot):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_dataframe_plot",
@@ -183,7 +185,7 @@ def _build_catalog(experiments, visualization):
 
         # append visualization object to end of catalog file
 
-        # vizualization is an MetricListsComparison
+        # vizualization is a MetricListsComparison
         if isinstance(visualization, MetricListsComparison):
             appended_visualization_catalog = {
                 "driver": "rubicon_ml_metric_list",
