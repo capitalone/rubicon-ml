@@ -67,23 +67,24 @@ class DataframePlotDataSource(VizDataSourceMixin):
 
         return super()._get_schema()
 
-    class MetricListComparisonDataSource(VizDataSourceMixin):
-        """An Intake data source for reading `rubicon` Metric List Comparison visualizations."""
 
-        version = __version__
+class MetricListComparisonDataSource(VizDataSourceMixin):
+    """An Intake data source for reading `rubicon` Metric List Comparison visualizations."""
 
-        container = "python"
-        name = "rubicon_ml_metric_list"
+    version = __version__
 
-        def __init__(self, metadata=None, **catalog_data):
-            self._catalog_data = catalog_data or {}
+    container = "python"
+    name = "rubicon_ml_metric_list"
 
-            super().__init__(metadata=metadata)
+    def __init__(self, metadata=None, **catalog_data):
+        self._catalog_data = catalog_data or {}
 
-        def _get_schema(self):
-            """Creates a Dataframe Plot visualization and sets it as the visualization object attribute"""
-            from rubicon_ml.viz import MetricListsComparison
+        super().__init__(metadata=metadata)
 
-            self._visualization_object = MetricListsComparison(**self._catalog_data)
+    def _get_schema(self):
+        """Creates a Dataframe Plot visualization and sets it as the visualization object attribute"""
+        from rubicon_ml.viz import MetricListsComparison
 
-            return super()._get_schema()
+        self._visualization_object = MetricListsComparison(**self._catalog_data)
+
+        return super()._get_schema()
