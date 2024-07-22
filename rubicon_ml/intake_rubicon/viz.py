@@ -66,7 +66,7 @@ class DataframePlotDataSource(VizDataSourceMixin):
         self._visualization_object = DataframePlot(**self._catalog_data)
 
         return super()._get_schema()
-    
+
     class MetricListComparisonDataSource(VizDataSourceMixin):
         """An Intake data source for reading `rubicon` Metric List Comparison visualizations."""
 
@@ -87,4 +87,3 @@ class DataframePlotDataSource(VizDataSourceMixin):
             self._visualization_object = MetricListsComparison(**self._catalog_data)
 
             return super()._get_schema()
-
