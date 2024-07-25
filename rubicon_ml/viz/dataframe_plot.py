@@ -92,8 +92,10 @@ class DataframePlot(VizBase):
         count = 0
 
         for experiment in self.experiments:
-            if (len(experiment.dataframes())==0) :
-                print(f"WARNING: Experiment {experiment.name} does not have any dataframes logged to it. ")
+            if len(experiment.dataframes()) == 0:
+                print(
+                    f"WARNING: Experiment {experiment.name} does not have any dataframes logged to it. "
+                )
                 continue
             count += 1
             dataframe = experiment.dataframe(name=self.dataframe_name)
@@ -121,7 +123,7 @@ class DataframePlot(VizBase):
                 len(self.experiments),
             )
 
-        if (count == 0):
+        if count == 0:
             raise Exception(f"No dataframe with name {self.dataframe_name} found!")
 
     def register_callbacks(self, link_experiment_table=False):
