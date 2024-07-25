@@ -43,7 +43,7 @@ class DataframePlot(VizBase):
 
     def __init__(
         self,
-        dataframe_name,
+        dataframe_name=None,
         experiments=None,
         plotting_func=px.line,
         plotting_func_kwargs={},
@@ -51,9 +51,14 @@ class DataframePlot(VizBase):
         y=None,
     ):
         super().__init__(dash_title="plot dataframes")
-
-        self.dataframe_name = dataframe_name
         self.experiments = experiments
+        if experiments != None:
+            if len(experiments[0].dataframes()) == 0:
+                raise Exception("No dataframe logged to experiment")
+            else:
+                self.dataframe_name = self.experiments[0].dataframes()[0].name
+        else:
+            self.dataframe_name = dataframe_name
         self.plotting_func = plotting_func
         self.plotting_func_kwargs = plotting_func_kwargs
         self.x = x
