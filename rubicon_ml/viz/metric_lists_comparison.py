@@ -38,7 +38,7 @@ class MetricListsComparison(VizBase):
     ):
         super().__init__(dash_title="compare metric lists")
 
-        if column_names == None:
+        if column_names is None:
             self.column_names = []
         else:
             self.column_names = column_names
