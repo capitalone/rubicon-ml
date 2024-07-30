@@ -1,9 +1,10 @@
+import warnings
+
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 from dash import dcc, html
 from dash.dependencies import Input, Output
-import warnings
 
 from rubicon_ml.viz.base import VizBase
 from rubicon_ml.viz.common.colors import (
@@ -92,11 +93,12 @@ class DataframePlot(VizBase):
         self.data_df = None
 
         for experiment in self.experiments:
-
             try:
                 dataframe = experiment.dataframe(name=self.dataframe_name)
             except:
-                warnings.warn(f"Experiment {experiment.id} does not have any dataframes logged to it.")
+                warnings.warn(
+                    f"Experiment {experiment.id} does not have any dataframes logged to it."
+                )
                 continue
 
             data_df = dataframe.get_data()
@@ -125,7 +127,7 @@ class DataframePlot(VizBase):
             if self.data_df.empty:
                 raise Exception(f"No dataframe with name {self.dataframe_name} found!")
         except:
-            if self.data_df==None:
+            if self.data_df == None:
                 raise Exception(f"No dataframe with name {self.dataframe_name} found!")
 
     def register_callbacks(self, link_experiment_table=False):
