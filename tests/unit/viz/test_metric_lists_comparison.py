@@ -4,9 +4,10 @@ from dash import Dash
 from rubicon_ml.viz import MetricListsComparison
 
 
-def test_metric_lists_comparison(viz_experiments):
+@pytest.mark.parametrize("column_names", [["var_0", "var_1", "var_2", "var_3", "var_4"], None])
+def test_metric_lists_comparison(viz_experiments, column_names):
     metric_comparison = MetricListsComparison(
-        column_names=["var_0", "var_1", "var_2", "var_3", "var_4"],
+        column_names=column_names,
         experiments=viz_experiments,
         selected_metric="test metric 2",
     )
@@ -19,7 +20,10 @@ def test_metric_lists_comparison(viz_experiments):
         expected_experiment_ids.remove(experiment.id)
 
     assert len(expected_experiment_ids) == 0
-    assert metric_comparison.column_names == ["var_0", "var_1", "var_2", "var_3", "var_4"]
+    if column_names is None:
+        assert metric_comparison.column_names == []
+    else:
+        assert metric_comparison.column_names == ["var_0", "var_1", "var_2", "var_3", "var_4"]
     assert metric_comparison.selected_metric == "test metric 2"
 
 
