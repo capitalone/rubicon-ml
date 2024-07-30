@@ -95,7 +95,7 @@ class DataframePlot(VizBase):
         for experiment in self.experiments:
             try:
                 dataframe = experiment.dataframe(name=self.dataframe_name)
-            except:
+            except Exception:
                 warnings.warn(
                     f"Experiment {experiment.id} does not have any dataframes logged to it."
                 )
@@ -123,12 +123,8 @@ class DataframePlot(VizBase):
             self.plotting_func_kwargs["color_discrete_sequence"] = get_rubicon_colorscale(
                 len(self.experiments),
             )
-        try:
-            if self.data_df.empty:
-                raise Exception(f"No dataframe with name {self.dataframe_name} found!")
-        except:
-            if self.data_df == None:
-                raise Exception(f"No dataframe with name {self.dataframe_name} found!")
+        if self.data_df is None:
+            raise Exception(f"No dataframe with name {self.dataframe_name} found!")
 
     def register_callbacks(self, link_experiment_table=False):
         outputs = [
