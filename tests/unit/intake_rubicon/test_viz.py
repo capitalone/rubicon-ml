@@ -107,7 +107,7 @@ def test_metric_list_source():
     visualization = source.read()
 
     assert visualization is not None
-    assert visualization.column_names == catalog_data_sample["column_names"]
+    assert visualization.column_names == []
     assert visualization.selected_metric == catalog_data_sample["selected_metric"]
 
     source.close()
