@@ -82,5 +82,5 @@ def test_dataframe_not_logged_all_experiments(viz_experiments):
         if len(exp.dataframes()) != 0:
             no_df_experiments = no_df_experiments.append(exp)
     dataframe_plot = DataframePlot("test dataframe", experiments=no_df_experiments)
-    with pytest.raises(Exception) as e_info:
+    with pytest.raises(Exception):
         assert dataframe_plot.load_experiment_data()
