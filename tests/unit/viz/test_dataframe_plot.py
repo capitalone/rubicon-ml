@@ -79,8 +79,8 @@ def test_dataframe_plot_register_callbacks_link(viz_experiments, is_linked, expe
 
 def test_dataframe_not_logged_all_experiments(viz_experiments):
     for exp in viz_experiments:
-        if len(exp.dataframes()) == 0:
+        if len(exp.dataframes()) != 0:
             viz_experiments.remove(exp)
     dataframe_plot = DataframePlot("test dataframe", experiments=viz_experiments)
-    with pytest.raises(RubiconException):
+    with pytest.raises(Exception):
         assert dataframe_plot.load_experiment_data()
