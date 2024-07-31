@@ -1,7 +1,6 @@
 import pytest
 from dash import Dash
 
-from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.viz import DataframePlot
 
 
