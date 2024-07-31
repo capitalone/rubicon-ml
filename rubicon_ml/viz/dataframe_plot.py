@@ -6,6 +6,7 @@ import plotly.express as px
 from dash import dcc, html
 from dash.dependencies import Input, Output
 
+from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.viz.base import VizBase
 from rubicon_ml.viz.common.colors import (
     get_rubicon_colorscale,
@@ -95,7 +96,7 @@ class DataframePlot(VizBase):
         for experiment in self.experiments:
             try:
                 dataframe = experiment.dataframe(name=self.dataframe_name)
-            except Exception:
+            except RubiconException as e:
                 warnings.warn(
                     f"Experiment {experiment.id} does not have any dataframes logged to it."
                 )
