@@ -96,7 +96,7 @@ class DataframePlot(VizBase):
         for experiment in self.experiments:
             try:
                 dataframe = experiment.dataframe(name=self.dataframe_name)
-            except RubiconException as e:
+            except RubiconException:
                 warnings.warn(
                     f"Experiment {experiment.id} does not have any dataframes logged to it."
                 )
