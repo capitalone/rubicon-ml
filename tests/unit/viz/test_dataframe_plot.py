@@ -1,6 +1,7 @@
 import pytest
 from dash import Dash
 
+from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.viz import DataframePlot
 
 
@@ -81,5 +82,5 @@ def test_dataframe_not_logged_all_experiments(viz_experiments):
         if len(exp.dataframes()) == 0:
             viz_experiments.remove(exp)
     dataframe_plot = DataframePlot("test dataframe", experiments=viz_experiments)
-    with pytest.raises(Exception):
+    with pytest.raises(RubiconException):
         assert dataframe_plot.load_experiment_data()

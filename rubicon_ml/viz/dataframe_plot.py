@@ -125,7 +125,7 @@ class DataframePlot(VizBase):
                 len(self.experiments),
             )
         if self.data_df is None:
-            raise Exception(f"No dataframe with name {self.dataframe_name} found!")
+            raise RubiconException(f"No dataframe with name {self.dataframe_name} found!")
 
     def register_callbacks(self, link_experiment_table=False):
         outputs = [
