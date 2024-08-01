@@ -305,9 +305,9 @@ def viz_experiments_no_dataframes(rubicon_and_project_client):
     """Returns a list of experiments with the parameters, metrics, and dataframes
     required to test the `viz` module.
     """
-    rubicon, project = rubicon_and_project_client
+    _, project = rubicon_and_project_client
 
-    dates = pd.date_range(start="1/1/2010", end="12/1/2020", freq="MS")
+    # dates = pd.date_range(start="1/1/2010", end="12/1/2020", freq="MS")
 
     for i in range(0, 10):
         experiment = project.log_experiment(
@@ -333,13 +333,6 @@ def viz_experiments_no_dataframes(rubicon_and_project_client):
             name="test metric 3",
             value=[random.random() for _ in range(0, 5)],
             tags=["a", "b"],
-        )
-
-        data = np.array(
-            [
-                list(dates),
-                np.linspace(random.randint(0, 15000), random.randint(0, 15000), len(dates)),
-            ]
         )
 
     return project.experiments()
