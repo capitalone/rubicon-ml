@@ -1,6 +1,7 @@
 import pytest
 from dash import Dash
 
+from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.viz import DataframePlot
 
 
@@ -74,3 +75,24 @@ def test_dataframe_plot_register_callbacks_link(viz_experiments, is_linked, expe
 
     assert registered_callback_name == "update_dataframe_plot"
     assert registered_callback_len_input == expected
+
+
+def test_dataframe_no_experiments():
+    dataframe_plot = DataframePlot("test dataframe", experiments=[])
+    with pytest.raises(RubiconException):
+        dataframe_plot.load_experiment_data()
+
+
+def test_cant_find_dataframes_raise_exception(viz_experiments_no_dataframes):
+    for exp in viz_experiments_no_dataframes:
+        if len(exp.dataframes()) > 0:
+            viz_experiments_no_dataframes.remove(exp)
+    dataframe_plot = DataframePlot("test dataframe", experiments=viz_experiments_no_dataframes)
+    with pytest.raises(RubiconException):
+        dataframe_plot.load_experiment_data()
+
+
+def test_wrong_dataframe_name(viz_experiments):
+    dataframe_plot = DataframePlot("no_name", experiments=viz_experiments)
+    with pytest.raises(RubiconException):
+        dataframe_plot.load_experiment_data()
