@@ -1,9 +1,12 @@
+import warnings
+
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 from dash import dcc, html
 from dash.dependencies import Input, Output
 
+from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.viz.base import VizBase
 from rubicon_ml.viz.common.colors import (
     get_rubicon_colorscale,
@@ -97,14 +100,14 @@ class DataframePlot(VizBase):
         count = 0
 
         for experiment in self.experiments:
-            if len(experiment.dataframes()) == 0:
-                print(
-                    f"WARNING: Experiment {experiment.name} does not have any dataframes logged to it. "
+            try:
+                dataframe = experiment.dataframe(name=self.dataframe_name)
+            except RubiconException:
+                warnings.warn(
+                    f"Experiment {experiment.id} does not have any dataframes logged to it."
                 )
                 continue
-            count += 1
-            dataframe = experiment.dataframe(name=self.dataframe_name)
-
+                
             data_df = dataframe.get_data()
             data_df["experiment_id"] = experiment.id
 
@@ -127,6 +130,8 @@ class DataframePlot(VizBase):
             self.plotting_func_kwargs["color_discrete_sequence"] = get_rubicon_colorscale(
                 len(self.experiments),
             )
+        if self.data_df is None:
+            raise RubiconException(f"No dataframe with name {self.dataframe_name} found!")
 
         if count == 0:
             raise Exception(f"No dataframe with name {self.dataframe_name} found!")
