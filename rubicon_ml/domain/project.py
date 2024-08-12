@@ -74,7 +74,7 @@ class Project:
             self.id = str(uuid.uuid4())
 
         if kwargs:  # replaces `dataclass` behavior of erroring on unexpected kwargs
-            LOGGER.warn(
+            LOGGER.warning(
                 f"{self.__class__.__name__}.__init__() got an unexpected keyword "
                 f"argument(s): `{'`, `'.join([key for key in kwargs])}`"
             )
