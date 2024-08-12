@@ -12,10 +12,10 @@ from rubicon_ml.domain.project import Project
 def test_domain_extra_kwargs(domain_cls, required_kwargs):
     with mock.patch(
         f"rubicon_ml.domain.{domain_cls.__name__.lower()}.LOGGER.warning"
-    ) as logger_warning:
+    ) as mock_logger_warning:
         domain = domain_cls(extra="extra", **required_kwargs)
 
-    logger_warning.assert_called_once_with(
+    mock_logger_warning.assert_called_once_with(
         f"{domain_cls.__name__}.__init__() got an unexpected keyword argument(s): `extra`",
     )
 

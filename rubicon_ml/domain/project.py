@@ -29,7 +29,7 @@ class Project:
         `None`.
     id : str, optional
         The project's unique identifier. Defaults to `None` and uses `uuid.uuid4`
-        to generate a unique ID. `id` should be left `None` to allow for automatic
+        to generate a unique ID. `id` should be left as `None` to allow for automatic
         generation.
     training_metadata : rubicon_ml.domain.utils.TrainingMetadata, optional
         Additional metadata pertaining to any data this project was trained on.
@@ -38,7 +38,7 @@ class Project:
 
     name: str
 
-    created_at: Optional[datetime] = None
+    created_at: Optional[datetime.datetime] = None
     description: Optional[str] = None
     github_url: Optional[str] = None
     id: Optional[str] = None
@@ -47,7 +47,7 @@ class Project:
     def __init__(
         self,
         name: str,
-        created_at: Optional[datetime] = None,
+        created_at: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
         github_url: Optional[str] = None,
         id: Optional[str] = None,
