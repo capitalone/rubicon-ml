@@ -1,17 +1,16 @@
-import datetime
-import logging
-import uuid
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
-if TYPE_CHECKING:
-    from rubicon_ml.domain.utils import TrainingMetadata
+from rubicon_ml.domain.mixin import InitMixin
 
-LOGGER = logging.getLogger()
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    from rubicon_ml.domain.utils import TrainingMetadata
 
 
 @dataclass(init=False)
-class Project:
+class Project(InitMixin):
     """A domain-level project.
 
     Parameters
@@ -37,8 +36,7 @@ class Project:
     """
 
     name: str
-
-    created_at: Optional[datetime.datetime] = None
+    created_at: Optional["datetime"] = None
     description: Optional[str] = None
     github_url: Optional[str] = None
     id: Optional[str] = None
@@ -47,7 +45,7 @@ class Project:
     def __init__(
         self,
         name: str,
-        created_at: Optional[datetime.datetime] = None,
+        created_at: Optional["datetime"] = None,
         description: Optional[str] = None,
         github_url: Optional[str] = None,
         id: Optional[str] = None,
@@ -56,25 +54,11 @@ class Project:
     ):
         """Initialize this domain project."""
 
-        self.name = name
+        self._check_extra_kwargs(kwargs)
 
-        self.created_at = created_at
+        self.name = name
+        self.created_at = self._init_created_at(created_at)
         self.description = description
         self.github_url = github_url
-        self.id = id
+        self.id = self._init_id(id)
         self.training_metadata = training_metadata
-
-        if self.created_at is None:
-            try:  # `datetime.UTC` added & `datetime.utcnow` deprecated in Python 3.11
-                self.created_at = datetime.datetime.now(datetime.UTC)
-            except AttributeError:
-                self.created_at = datetime.datetime.utcnow()
-
-        if self.id is None:
-            self.id = str(uuid.uuid4())
-
-        if kwargs:  # replaces `dataclass` behavior of erroring on unexpected kwargs
-            LOGGER.warning(
-                f"{self.__class__.__name__}.__init__() got an unexpected keyword "
-                f"argument(s): `{'`, `'.join([key for key in kwargs])}`"
-            )
