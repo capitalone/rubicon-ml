@@ -16,11 +16,12 @@ class Experiment(CommentMixin, InitMixin, TagMixin):
     project_name : str
         The name of the project the experiment belongs to.
     branch_name : str, optional
-        The name of the git branch associated with the experiment.
+        The name of the git branch associated with the experiment. Defaults to `None`.
     comments : list of str, optional
-        Additional text information and observations about the experiment.
+        Additional text information and observations about the experiment. Defaults to
+        `None`.
     commit_hash : str, optional
-        The hash of the git commit associated with the experiment.
+        The hash of the git commit associated with the experiment. Defaults to `None`.
     created_at : datetime, optional
         The date and time the experiment was created. Defaults to `None` and uses
         `datetime.datetime.now` to generate a UTC timestamp. `created_at` should be
@@ -32,11 +33,11 @@ class Experiment(CommentMixin, InitMixin, TagMixin):
         to generate a unique ID. `id` should be left as `None` to allow for automatic
         generation.
     model_name : str, optional
-        The name of the model associated with the experiment.
+        The name of the model associated with the experiment. Defaults to `None`.
     name : str, optional
-        The experiment's name.
+        The experiment's name. Defaults to `None`.
     tags : list of str, optional
-        The values this experiment is tagged with.
+        The values this experiment is tagged with. Defaults to `None`.
     training_metadata : rubicon_ml.domain.utils.TrainingMetadata, optional
         Additional metadata pertaining to any data this experiment was trained on.
         Defaults to `None`.
@@ -44,28 +45,28 @@ class Experiment(CommentMixin, InitMixin, TagMixin):
 
     project_name: str
     branch_name: Optional[str] = None
-    comments: List[str] = None
+    comments: Optional[List[str]] = None
     commit_hash: Optional[str] = None
     created_at: Optional["datetime"] = None
     description: Optional[str] = None
     id: Optional[str] = None
     model_name: Optional[str] = None
     name: Optional[str] = None
-    tags: List[str] = None
+    tags: Optional[List[str]] = None
     training_metadata: Optional["TrainingMetadata"] = None
 
     def __init__(
         self,
         project_name: str,
         branch_name: Optional[str] = None,
-        comments: List[str] = None,
+        comments: Optional[List[str]] = None,
         commit_hash: Optional[str] = None,
         created_at: Optional["datetime"] = None,
         description: Optional[str] = None,
         id: Optional[str] = None,
         model_name: Optional[str] = None,
         name: Optional[str] = None,
-        tags: List[str] = None,
+        tags: Optional[List[str]] = None,
         training_metadata: Optional["TrainingMetadata"] = None,
         **kwargs,
     ):
