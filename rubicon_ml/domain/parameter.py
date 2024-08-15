@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(init=False)
-class Parameter(TagMixin, InitMixin, CommentMixin):
+class Parameter(CommentMixin, InitMixin, TagMixin):
     """A domain-level parameter.
 
     name : str

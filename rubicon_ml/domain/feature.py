@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(init=False)
-class Feature(TagMixin, InitMixin, CommentMixin):
+class Feature(CommentMixin, InitMixin, TagMixin):
     """A domain-level feature.
 
     name : str

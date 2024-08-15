@@ -10,7 +10,7 @@ DIRECTIONALITY_VALUES = ["score", "loss"]
 
 
 @dataclass(init=False)
-class Metric(TagMixin, InitMixin, CommentMixin):
+class Metric(CommentMixin, InitMixin, TagMixin):
     """A domain-level metric.
 
     name : str
