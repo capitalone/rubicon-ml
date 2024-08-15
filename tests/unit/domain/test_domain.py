@@ -2,14 +2,15 @@ from unittest import mock
 
 import pytest
 
-from rubicon_ml.domain import Experiment, Project
+from rubicon_ml.domain import Experiment, Feature, Project
 
 
 @pytest.mark.parametrize(
     ["domain_cls", "required_kwargs"],
     [
-        (Project, {"name": "test_domain_extra_kwargs"}),
         (Experiment, {"project_name": "test_domain_extra_kwargs"}),
+        (Feature, {"name": "test_domain_extra_kwargs"}),
+        (Project, {"name": "test_domain_extra_kwargs"}),
     ],
 )
 def test_domain_extra_kwargs(domain_cls, required_kwargs):
