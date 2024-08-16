@@ -11,6 +11,7 @@ import fsspec
 import pandas as pd
 
 from rubicon_ml import domain
+from rubicon_ml.domain.utils.uuid import uuid4
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
 
@@ -1140,7 +1141,7 @@ class BaseRepository:
         tag_metadata_root = self._get_tag_metadata_root(
             project_name, experiment_id, entity_identifier, entity_type
         )
-        tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
+        tag_metadata_path = f"{tag_metadata_root}/tags_{uuid4()}.json"
 
         self._persist_domain({"added_tags": tags}, tag_metadata_path)
 
@@ -1174,7 +1175,7 @@ class BaseRepository:
         tag_metadata_root = self._get_tag_metadata_root(
             project_name, experiment_id, entity_identifier, entity_type
         )
-        tag_metadata_path = f"{tag_metadata_root}/tags_{domain.utils.uuid.uuid4()}.json"
+        tag_metadata_path = f"{tag_metadata_root}/tags_{uuid4()}.json"
 
         self._persist_domain({"removed_tags": tags}, tag_metadata_path)
 
@@ -1274,7 +1275,7 @@ class BaseRepository:
         comment_metadata_root = self._get_comment_metadata_root(
             project_name, experiment_id, entity_identifier, entity_type
         )
-        comment_metadata_path = f"{comment_metadata_root}/comments_{domain.utils.uuid.uuid4()}.json"
+        comment_metadata_path = f"{comment_metadata_root}/comments_{uuid4()}.json"
 
         self._persist_domain({"added_comments": comments}, comment_metadata_path)
 
@@ -1308,7 +1309,7 @@ class BaseRepository:
         comment_metadata_root = self._get_comment_metadata_root(
             project_name, experiment_id, entity_identifier, entity_type
         )
-        comment_metadata_path = f"{comment_metadata_root}/comments_{domain.utils.uuid.uuid4()}.json"
+        comment_metadata_path = f"{comment_metadata_root}/comments_{uuid4()}.json"
 
         self._persist_domain({"removed_comments": comments}, comment_metadata_path)
 
