@@ -562,3 +562,67 @@ def make_classification_dask_df(make_classification_df):
     X_df, y_da = dd.from_pandas(X, npartitions=1), da.from_array(y)
 
     return X_df, y_da
+
+
+@pytest.fixture
+def project_json():
+    """JSON representation of a project."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def experiment_json():
+    """JSON representation of an experiment."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def feature_json():
+    """JSON representation of a feature."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def metric_json():
+    """JSON representation of a metric."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def parameter_json():
+    """JSON representation of a parameter."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def artifact_json():
+    """JSON representation of an artifact."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def dataframe_json():
+    """JSON representation of a dataframe."""
+    return {"id": uuid.uuid4()}
+
+
+@pytest.fixture
+def json_entities(
+    artifact_json,
+    dataframe_json,
+    experiment_json,
+    feature_json,
+    metric_json,
+    parameter_json,
+    project_json,
+):
+    """JSON representations of each entity in the rubicon-ml data model."""
+    return {
+        "artifact": artifact_json,
+        "dataframe": dataframe_json,
+        "experiment": experiment_json,
+        "feature": feature_json,
+        "metric": metric_json,
+        "parameter": parameter_json,
+        "project": project_json,
+    }
