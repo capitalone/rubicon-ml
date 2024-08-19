@@ -1,3 +1,4 @@
+import datetime
 import os
 import random
 import uuid
@@ -567,62 +568,47 @@ def make_classification_dask_df(make_classification_df):
 @pytest.fixture
 def project_json():
     """JSON representation of a project."""
-    return {"id": uuid.uuid4()}
+    return {
+        "name": "test project",
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test project description",
+        "github_url": "github.com",
+        "id": str(uuid.uuid4()),
+        "training_metadata": [["training", "metadata"]],
+    }
 
 
 @pytest.fixture
 def experiment_json():
     """JSON representation of an experiment."""
-    return {"id": uuid.uuid4()}
+    return {"id": str(uuid.uuid4())}
 
 
 @pytest.fixture
 def feature_json():
     """JSON representation of a feature."""
-    return {"id": uuid.uuid4()}
+    return {"id": str(uuid.uuid4())}
 
 
 @pytest.fixture
 def metric_json():
     """JSON representation of a metric."""
-    return {"id": uuid.uuid4()}
+    return {"id": str(uuid.uuid4())}
 
 
 @pytest.fixture
 def parameter_json():
     """JSON representation of a parameter."""
-    return {"id": uuid.uuid4()}
+    return {"id": str(uuid.uuid4())}
 
 
 @pytest.fixture
 def artifact_json():
     """JSON representation of an artifact."""
-    return {"id": uuid.uuid4()}
+    return {"id": str(uuid.uuid4())}
 
 
 @pytest.fixture
 def dataframe_json():
     """JSON representation of a dataframe."""
-    return {"id": uuid.uuid4()}
-
-
-@pytest.fixture
-def json_entities(
-    artifact_json,
-    dataframe_json,
-    experiment_json,
-    feature_json,
-    metric_json,
-    parameter_json,
-    project_json,
-):
-    """JSON representations of each entity in the rubicon-ml data model."""
-    return {
-        "artifact": artifact_json,
-        "dataframe": dataframe_json,
-        "experiment": experiment_json,
-        "feature": feature_json,
-        "metric": metric_json,
-        "parameter": parameter_json,
-        "project": project_json,
-    }
+    return {"id": str(uuid.uuid4())}
