@@ -33,7 +33,9 @@ def test_read_regression(
         expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
         expected_project_path = os.path.join(expected_project_dir, "metadata.json")
 
-        filesystem.mkdirs(os.path.dirname(expected_project_path), exist_ok=True)
+        filesystem.mkdirs(
+            os.path.dirname(expected_project_path), exist_ok=True
+        )  # TODO: NO DIRNAME (ALL)
         with filesystem.open(expected_project_path, "w") as file:
             file.write(json.dumps(project_json))
 
@@ -124,17 +126,25 @@ def test_read_regression(
         expected_artifact_project_path = os.path.join(
             expected_artifact_project_dir, "metadata.json"
         )
+        expected_artifact_project_data_path = os.path.join(expected_artifact_project_dir, "data")
 
-        filesystem.mkdirs(os.path.dirname(expected_artifact_project_path), exist_ok=True)
+        filesystem.mkdirs(expected_artifact_project_dir, exist_ok=True)
         with filesystem.open(expected_artifact_project_path, "w") as file:
             file.write(json.dumps(artifact_project_json))
+        with filesystem.open(expected_artifact_project_data_path, "wb") as file:
+            file.write(TEST_ARTIFACT_BINARY)
 
         artifact_project = repository.get_artifact_metadata(
             project_json["name"],
             artifact_project_json["id"],
         ).__dict__
+        artifact_project_data = repository.get_artifact_data(
+            project_json["name"],
+            artifact_project_json["id"],
+        )
 
         assert artifact_project == artifact_project_json
+        assert artifact_project_data == TEST_ARTIFACT_BINARY
 
         expected_artifact_experiment_dir = os.path.join(
             expected_experiment_dir,
@@ -144,18 +154,29 @@ def test_read_regression(
         expected_artifact_experiment_path = os.path.join(
             expected_artifact_experiment_dir, "metadata.json"
         )
+        expected_artifact_experiment_data_path = os.path.join(
+            expected_artifact_experiment_dir, "data"
+        )
 
-        filesystem.mkdirs(os.path.dirname(expected_artifact_experiment_path), exist_ok=True)
+        filesystem.mkdirs(expected_artifact_experiment_dir, exist_ok=True)
         with filesystem.open(expected_artifact_experiment_path, "w") as file:
             file.write(json.dumps(artifact_experiment_json))
+        with filesystem.open(expected_artifact_experiment_data_path, "wb") as file:
+            file.write(TEST_ARTIFACT_BINARY)
 
         artifact_experiment = repository.get_artifact_metadata(
             project_json["name"],
             artifact_experiment_json["id"],
             experiment_json["id"],
         ).__dict__
+        artifact_experiment_data = repository.get_artifact_data(
+            project_json["name"],
+            artifact_experiment_json["id"],
+            experiment_json["id"],
+        )
 
         assert artifact_experiment == artifact_experiment_json
+        assert artifact_experiment_data == TEST_ARTIFACT_BINARY
 
         expected_dataframe_project_dir = os.path.join(
             expected_project_dir,
@@ -165,17 +186,28 @@ def test_read_regression(
         expected_dataframe_project_path = os.path.join(
             expected_dataframe_project_dir, "metadata.json"
         )
+        expected_dataframe_project_data_dir = os.path.join(expected_dataframe_project_dir, "data")
+        expected_dataframe_project_data_path = os.path.join(
+            expected_dataframe_project_data_dir, "data.parquet"
+        )
 
-        filesystem.mkdirs(os.path.dirname(expected_dataframe_project_path), exist_ok=True)
+        filesystem.mkdirs(expected_dataframe_project_dir, exist_ok=True)
+        filesystem.mkdirs(expected_dataframe_project_data_dir, exist_ok=True)
         with filesystem.open(expected_dataframe_project_path, "w") as file:
             file.write(json.dumps(dataframe_project_json))
+        TEST_DATAFRAME.to_parquet(expected_dataframe_project_data_path)
 
         dataframe_project = repository.get_dataframe_metadata(
             project_json["name"],
             dataframe_project_json["id"],
         ).__dict__
+        dataframe_project_data = repository.get_dataframe_data(
+            project_json["name"],
+            dataframe_project_json["id"],
+        )
 
         assert dataframe_project == dataframe_project_json
+        assert dataframe_project_data.equals(TEST_DATAFRAME)
 
         expected_dataframe_experiment_dir = os.path.join(
             expected_experiment_dir,
@@ -185,18 +217,32 @@ def test_read_regression(
         expected_dataframe_experiment_path = os.path.join(
             expected_dataframe_experiment_dir, "metadata.json"
         )
+        expected_dataframe_experiment_data_dir = os.path.join(
+            expected_dataframe_experiment_dir, "data"
+        )
+        expected_dataframe_experiment_data_path = os.path.join(
+            expected_dataframe_experiment_data_dir, "data.parquet"
+        )
 
-        filesystem.mkdirs(os.path.dirname(expected_dataframe_experiment_path), exist_ok=True)
+        filesystem.mkdirs(expected_dataframe_experiment_dir, exist_ok=True)
+        filesystem.mkdirs(expected_dataframe_experiment_data_dir, exist_ok=True)
         with filesystem.open(expected_dataframe_experiment_path, "w") as file:
             file.write(json.dumps(dataframe_experiment_json))
+        TEST_DATAFRAME.to_parquet(expected_dataframe_experiment_data_path)
 
         dataframe_experiment = repository.get_dataframe_metadata(
             project_json["name"],
             dataframe_experiment_json["id"],
             experiment_json["id"],
         ).__dict__
+        dataframe_experiment_data = repository.get_dataframe_data(
+            project_json["name"],
+            dataframe_experiment_json["id"],
+            experiment_json["id"],
+        )
 
         assert dataframe_experiment == dataframe_experiment_json
+        assert dataframe_experiment_data.equals(TEST_DATAFRAME)
 
 
 def test_read_write_regression(
@@ -276,8 +322,13 @@ def test_read_write_regression(
             project_json["name"],
             artifact_project_json["id"],
         ).__dict__
+        artifact_project_data = repository.get_artifact_data(
+            project_json["name"],
+            artifact_project_json["id"],
+        )
 
         assert artifact_project == artifact_project_json
+        assert artifact_project_data == TEST_ARTIFACT_BINARY
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
@@ -290,8 +341,14 @@ def test_read_write_regression(
             artifact_experiment_json["id"],
             experiment_json["id"],
         ).__dict__
+        artifact_experiment_data = repository.get_artifact_data(
+            project_json["name"],
+            artifact_experiment_json["id"],
+            experiment_json["id"],
+        )
 
         assert artifact_experiment == artifact_experiment_json
+        assert artifact_experiment_data == TEST_ARTIFACT_BINARY
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
@@ -302,8 +359,13 @@ def test_read_write_regression(
             project_json["name"],
             dataframe_project_json["id"],
         ).__dict__
+        dataframe_project_data = repository.get_dataframe_data(
+            project_json["name"],
+            dataframe_project_json["id"],
+        )
 
         assert dataframe_project == dataframe_project_json
+        assert dataframe_project_data.equals(TEST_DATAFRAME)
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
@@ -316,8 +378,14 @@ def test_read_write_regression(
             dataframe_experiment_json["id"],
             experiment_json["id"],
         ).__dict__
+        dataframe_experiment_data = repository.get_dataframe_data(
+            project_json["name"],
+            dataframe_experiment_json["id"],
+            experiment_json["id"],
+        )
 
         assert dataframe_experiment == dataframe_experiment_json
+        assert dataframe_experiment_data.equals(TEST_DATAFRAME)
 
 
 def test_write_regression(
@@ -430,11 +498,15 @@ def test_write_regression(
         expected_artifact_project_path = os.path.join(
             expected_artifact_project_dir, "metadata.json"
         )
+        expected_artifact_project_data_path = os.path.join(expected_artifact_project_dir, "data")
 
         with filesystem.open(expected_artifact_project_path, "r") as file:
             artifact_project = json.loads(file.read())
+        with filesystem.open(expected_artifact_project_data_path, "rb") as file:
+            artifact_project_data = file.read()
 
         assert artifact_project == artifact_project_json
+        assert artifact_project_data == TEST_ARTIFACT_BINARY
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
@@ -451,11 +523,17 @@ def test_write_regression(
         expected_artifact_experiment_path = os.path.join(
             expected_artifact_experiment_dir, "metadata.json"
         )
+        expected_artifact_experiment_data_path = os.path.join(
+            expected_artifact_experiment_dir, "data"
+        )
 
         with filesystem.open(expected_artifact_experiment_path, "r") as file:
             artifact_experiment = json.loads(file.read())
+        with filesystem.open(expected_artifact_experiment_data_path, "rb") as file:
+            artifact_experiment_data = file.read()
 
         assert artifact_experiment == artifact_experiment_json
+        assert artifact_experiment_data == TEST_ARTIFACT_BINARY
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
@@ -471,11 +549,16 @@ def test_write_regression(
         expected_dataframe_project_path = os.path.join(
             expected_dataframe_project_dir, "metadata.json"
         )
+        expected_dataframe_project_data_path = os.path.join(
+            expected_dataframe_project_dir, "data", "data.parquet"
+        )
 
         with filesystem.open(expected_dataframe_project_path, "r") as file:
             dataframe_project = json.loads(file.read())
+        dataframe_project_data = pd.read_parquet(expected_dataframe_project_data_path)
 
         assert dataframe_project == dataframe_project_json
+        assert dataframe_project_data.equals(TEST_DATAFRAME)
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
@@ -492,8 +575,13 @@ def test_write_regression(
         expected_dataframe_experiment_path = os.path.join(
             expected_dataframe_experiment_dir, "metadata.json"
         )
+        expected_dataframe_experiment_data_path = os.path.join(
+            expected_dataframe_experiment_dir, "data", "data.parquet"
+        )
 
         with filesystem.open(expected_dataframe_experiment_path, "r") as file:
             dataframe_experiment = json.loads(file.read())
+        dataframe_experiment_data = pd.read_parquet(expected_dataframe_experiment_data_path)
 
         assert dataframe_experiment == dataframe_experiment_json
+        assert dataframe_experiment_data.equals(TEST_DATAFRAME)
