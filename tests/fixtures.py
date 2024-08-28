@@ -599,19 +599,44 @@ def experiment_json():
 @pytest.fixture
 def feature_json():
     """JSON representation of a feature."""
-    return {"id": str(uuid.uuid4())}
+    return {
+        "name": "test feature",
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test feature description",
+        "id": str(uuid.uuid4()),
+        "importance": 1.0,
+        "tags": ["tag_a", "tag_b"],
+    }
 
 
 @pytest.fixture
 def metric_json():
     """JSON representation of a metric."""
-    return {"id": str(uuid.uuid4())}
+    return {
+        "name": "test metric",
+        "value": 1.0,
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test metric description",
+        "directionality": "score",
+        "id": str(uuid.uuid4()),
+        "tags": ["tag_a", "tag_b"],
+    }
 
 
 @pytest.fixture
 def parameter_json():
     """JSON representation of a parameter."""
-    return {"id": str(uuid.uuid4())}
+    return {
+        "name": "test parameter",
+        "value": 1.0,
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test parameter description",
+        "id": str(uuid.uuid4()),
+        "tags": ["tag_a", "tag_b"],
+    }
 
 
 @pytest.fixture
