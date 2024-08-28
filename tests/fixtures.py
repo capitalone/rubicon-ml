@@ -581,7 +581,19 @@ def project_json():
 @pytest.fixture
 def experiment_json():
     """JSON representation of an experiment."""
-    return {"id": str(uuid.uuid4())}
+    return {
+        "project_name": "test project",
+        "branch_name": "test-branch",
+        "comments": ["comment a", "comment b"],
+        "commit_hash": "abcde01",
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test experiment description",
+        "id": str(uuid.uuid4()),
+        "model_name": "test model",
+        "name": "test experiment",
+        "tags": ["tag_a", "tag_b"],
+        "training_metadata": [["training", "metadata"]],
+    }
 
 
 @pytest.fixture

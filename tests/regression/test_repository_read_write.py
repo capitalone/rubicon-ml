@@ -24,11 +24,8 @@ def test_read_regression(
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
         repository = LocalRepository(root_dir=root_dir)
 
-        expected_project_path = os.path.join(
-            root_dir,
-            slugify(project_json["name"]),
-            "metadata.json",
-        )
+        expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
+        expected_project_path = os.path.join(expected_project_dir, "metadata.json")
 
         filesystem.mkdirs(os.path.dirname(expected_project_path), exist_ok=True)
         with filesystem.open(expected_project_path, "w") as file:
@@ -37,6 +34,24 @@ def test_read_regression(
         project = repository.get_project(project_json["name"]).__dict__
 
         assert project == project_json
+
+        expected_experiment_dir = os.path.join(
+            expected_project_dir,
+            "experiments",
+            experiment_json["id"],
+        )
+        expected_experiment_path = os.path.join(expected_experiment_dir, "metadata.json")
+
+        filesystem.mkdirs(os.path.dirname(expected_experiment_path), exist_ok=True)
+        with filesystem.open(expected_experiment_path, "w") as file:
+            file.write(json.dumps(experiment_json))
+
+        experiment = repository.get_experiment(
+            project_json["name"],
+            experiment_json["id"],
+        ).__dict__
+
+        assert experiment == experiment_json
 
 
 def test_read_write_regression(
@@ -58,6 +73,14 @@ def test_read_write_regression(
 
         assert project == project_json
 
+        repository.create_experiment(domain.Experiment(**experiment_json))
+        experiment = repository.get_experiment(
+            project_json["name"],
+            experiment_json["id"],
+        ).__dict__
+
+        assert experiment == experiment_json
+
 
 def test_write_regression(
     artifact_json,
@@ -77,13 +100,24 @@ def test_write_regression(
 
         repository.create_project(domain.Project(**project_json))
 
-        expected_project_path = os.path.join(
-            root_dir,
-            slugify(project_json["name"]),
-            "metadata.json",
-        )
+        expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
+        expected_project_path = os.path.join(expected_project_dir, "metadata.json")
 
         with filesystem.open(expected_project_path, "r") as file:
             project = json.loads(file.read())
 
         assert project == project_json
+
+        repository.create_experiment(domain.Experiment(**experiment_json))
+
+        expected_experiment_dir = os.path.join(
+            expected_project_dir,
+            "experiments",
+            experiment_json["id"],
+        )
+        expected_experiment_path = os.path.join(expected_experiment_dir, "metadata.json")
+
+        with filesystem.open(expected_experiment_path, "r") as file:
+            experiment = json.loads(file.read())
+
+        assert experiment == experiment_json
