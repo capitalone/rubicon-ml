@@ -573,7 +573,7 @@ def project_json():
         "created_at": datetime.datetime(2024, 1, 1),
         "description": "test project description",
         "github_url": "github.com",
-        "id": str(uuid.uuid4()),
+        "id": "ccf6b8f8-a166-4084-a51f-4f2b6afd2ad9",
         "training_metadata": [["training", "metadata"]],
     }
 
@@ -588,7 +588,7 @@ def experiment_json():
         "commit_hash": "abcde01",
         "created_at": datetime.datetime(2024, 1, 1),
         "description": "test experiment description",
-        "id": str(uuid.uuid4()),
+        "id": "69e374cd-220b-4cda-9608-52277b38a976",
         "model_name": "test model",
         "name": "test experiment",
         "tags": ["tag_a", "tag_b"],
@@ -640,12 +640,56 @@ def parameter_json():
 
 
 @pytest.fixture
-def artifact_json():
-    """JSON representation of an artifact."""
-    return {"id": str(uuid.uuid4())}
+def artifact_project_json():
+    """JSON representation of an artifact belonging to a project."""
+    return {
+        "name": "test artifact",
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test parameter description",
+        "id": str(uuid.uuid4()),
+        "parent_id": "ccf6b8f8-a166-4084-a51f-4f2b6afd2ad9",
+        "tags": ["tag_a", "tag_b"],
+    }
 
 
 @pytest.fixture
-def dataframe_json():
-    """JSON representation of a dataframe."""
-    return {"id": str(uuid.uuid4())}
+def artifact_experiment_json():
+    """JSON representation of an artifact belonging to an experiment."""
+    return {
+        "name": "test artifact",
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test parameter description",
+        "id": str(uuid.uuid4()),
+        "parent_id": "69e374cd-220b-4cda-9608-52277b38a976",
+        "tags": ["tag_a", "tag_b"],
+    }
+
+
+@pytest.fixture
+def dataframe_project_json():
+    """JSON representation of a dataframe belonging to a project."""
+    return {
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test parameter description",
+        "id": str(uuid.uuid4()),
+        "name": "test dataframe",
+        "parent_id": "ccf6b8f8-a166-4084-a51f-4f2b6afd2ad9",
+        "tags": ["tag_a", "tag_b"],
+    }
+
+
+@pytest.fixture
+def dataframe_experiment_json():
+    """JSON representation of a dataframe belonging to an experiment."""
+    return {
+        "comments": ["comment a", "comment b"],
+        "created_at": datetime.datetime(2024, 1, 1),
+        "description": "test parameter description",
+        "id": str(uuid.uuid4()),
+        "name": "test dataframe",
+        "parent_id": "69e374cd-220b-4cda-9608-52277b38a976",
+        "tags": ["tag_a", "tag_b"],
+    }

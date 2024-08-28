@@ -2,15 +2,21 @@ import os
 import tempfile
 
 import fsspec
+import pandas as pd
 
 from rubicon_ml import domain
 from rubicon_ml.repository import LocalRepository
 from rubicon_ml.repository.utils import json, slugify
 
+TEST_ARTIFACT_BINARY = b"test"
+TEST_DATAFRAME = pd.DataFrame([[0]])
+
 
 def test_read_regression(
-    artifact_json,
-    dataframe_json,
+    artifact_project_json,
+    artifact_experiment_json,
+    dataframe_project_json,
+    dataframe_experiment_json,
     experiment_json,
     feature_json,
     metric_json,
@@ -110,10 +116,94 @@ def test_read_regression(
 
         assert parameter == parameter_json
 
+        expected_artifact_project_dir = os.path.join(
+            expected_project_dir,
+            "artifacts",
+            artifact_project_json["id"],
+        )
+        expected_artifact_project_path = os.path.join(
+            expected_artifact_project_dir, "metadata.json"
+        )
+
+        filesystem.mkdirs(os.path.dirname(expected_artifact_project_path), exist_ok=True)
+        with filesystem.open(expected_artifact_project_path, "w") as file:
+            file.write(json.dumps(artifact_project_json))
+
+        artifact_project = repository.get_artifact_metadata(
+            project_json["name"],
+            artifact_project_json["id"],
+        ).__dict__
+
+        assert artifact_project == artifact_project_json
+
+        expected_artifact_experiment_dir = os.path.join(
+            expected_experiment_dir,
+            "artifacts",
+            artifact_experiment_json["id"],
+        )
+        expected_artifact_experiment_path = os.path.join(
+            expected_artifact_experiment_dir, "metadata.json"
+        )
+
+        filesystem.mkdirs(os.path.dirname(expected_artifact_experiment_path), exist_ok=True)
+        with filesystem.open(expected_artifact_experiment_path, "w") as file:
+            file.write(json.dumps(artifact_experiment_json))
+
+        artifact_experiment = repository.get_artifact_metadata(
+            project_json["name"],
+            artifact_experiment_json["id"],
+            experiment_json["id"],
+        ).__dict__
+
+        assert artifact_experiment == artifact_experiment_json
+
+        expected_dataframe_project_dir = os.path.join(
+            expected_project_dir,
+            "dataframes",
+            dataframe_project_json["id"],
+        )
+        expected_dataframe_project_path = os.path.join(
+            expected_dataframe_project_dir, "metadata.json"
+        )
+
+        filesystem.mkdirs(os.path.dirname(expected_dataframe_project_path), exist_ok=True)
+        with filesystem.open(expected_dataframe_project_path, "w") as file:
+            file.write(json.dumps(dataframe_project_json))
+
+        dataframe_project = repository.get_dataframe_metadata(
+            project_json["name"],
+            dataframe_project_json["id"],
+        ).__dict__
+
+        assert dataframe_project == dataframe_project_json
+
+        expected_dataframe_experiment_dir = os.path.join(
+            expected_experiment_dir,
+            "dataframes",
+            dataframe_experiment_json["id"],
+        )
+        expected_dataframe_experiment_path = os.path.join(
+            expected_dataframe_experiment_dir, "metadata.json"
+        )
+
+        filesystem.mkdirs(os.path.dirname(expected_dataframe_experiment_path), exist_ok=True)
+        with filesystem.open(expected_dataframe_experiment_path, "w") as file:
+            file.write(json.dumps(dataframe_experiment_json))
+
+        dataframe_experiment = repository.get_dataframe_metadata(
+            project_json["name"],
+            dataframe_experiment_json["id"],
+            experiment_json["id"],
+        ).__dict__
+
+        assert dataframe_experiment == dataframe_experiment_json
+
 
 def test_read_write_regression(
-    artifact_json,
-    dataframe_json,
+    artifact_project_json,
+    artifact_experiment_json,
+    dataframe_project_json,
+    dataframe_experiment_json,
     experiment_json,
     feature_json,
     metric_json,
@@ -177,10 +267,64 @@ def test_read_write_regression(
 
         assert parameter == parameter_json
 
+        repository.create_artifact(
+            domain.Artifact(**artifact_project_json),
+            TEST_ARTIFACT_BINARY,
+            project_json["name"],
+        )
+        artifact_project = repository.get_artifact_metadata(
+            project_json["name"],
+            artifact_project_json["id"],
+        ).__dict__
+
+        assert artifact_project == artifact_project_json
+
+        repository.create_artifact(
+            domain.Artifact(**artifact_experiment_json),
+            TEST_ARTIFACT_BINARY,
+            project_json["name"],
+            experiment_json["id"],
+        )
+        artifact_experiment = repository.get_artifact_metadata(
+            project_json["name"],
+            artifact_experiment_json["id"],
+            experiment_json["id"],
+        ).__dict__
+
+        assert artifact_experiment == artifact_experiment_json
+
+        repository.create_dataframe(
+            domain.Dataframe(**dataframe_project_json),
+            TEST_DATAFRAME,
+            project_json["name"],
+        )
+        dataframe_project = repository.get_dataframe_metadata(
+            project_json["name"],
+            dataframe_project_json["id"],
+        ).__dict__
+
+        assert dataframe_project == dataframe_project_json
+
+        repository.create_dataframe(
+            domain.Dataframe(**dataframe_experiment_json),
+            TEST_DATAFRAME,
+            project_json["name"],
+            experiment_json["id"],
+        )
+        dataframe_experiment = repository.get_dataframe_metadata(
+            project_json["name"],
+            dataframe_experiment_json["id"],
+            experiment_json["id"],
+        ).__dict__
+
+        assert dataframe_experiment == dataframe_experiment_json
+
 
 def test_write_regression(
-    artifact_json,
-    dataframe_json,
+    artifact_project_json,
+    artifact_experiment_json,
+    dataframe_project_json,
+    dataframe_experiment_json,
     experiment_json,
     feature_json,
     metric_json,
@@ -271,3 +415,85 @@ def test_write_regression(
             parameter = json.loads(file.read())
 
         assert parameter == parameter_json
+
+        repository.create_artifact(
+            domain.Artifact(**artifact_project_json),
+            TEST_ARTIFACT_BINARY,
+            project_json["name"],
+        )
+
+        expected_artifact_project_dir = os.path.join(
+            expected_project_dir,
+            "artifacts",
+            artifact_project_json["id"],
+        )
+        expected_artifact_project_path = os.path.join(
+            expected_artifact_project_dir, "metadata.json"
+        )
+
+        with filesystem.open(expected_artifact_project_path, "r") as file:
+            artifact_project = json.loads(file.read())
+
+        assert artifact_project == artifact_project_json
+
+        repository.create_artifact(
+            domain.Artifact(**artifact_experiment_json),
+            TEST_ARTIFACT_BINARY,
+            project_json["name"],
+            experiment_json["id"],
+        )
+
+        expected_artifact_experiment_dir = os.path.join(
+            expected_experiment_dir,
+            "artifacts",
+            artifact_experiment_json["id"],
+        )
+        expected_artifact_experiment_path = os.path.join(
+            expected_artifact_experiment_dir, "metadata.json"
+        )
+
+        with filesystem.open(expected_artifact_experiment_path, "r") as file:
+            artifact_experiment = json.loads(file.read())
+
+        assert artifact_experiment == artifact_experiment_json
+
+        repository.create_dataframe(
+            domain.Dataframe(**dataframe_project_json),
+            TEST_DATAFRAME,
+            project_json["name"],
+        )
+
+        expected_dataframe_project_dir = os.path.join(
+            expected_project_dir,
+            "dataframes",
+            dataframe_project_json["id"],
+        )
+        expected_dataframe_project_path = os.path.join(
+            expected_dataframe_project_dir, "metadata.json"
+        )
+
+        with filesystem.open(expected_dataframe_project_path, "r") as file:
+            dataframe_project = json.loads(file.read())
+
+        assert dataframe_project == dataframe_project_json
+
+        repository.create_dataframe(
+            domain.Dataframe(**dataframe_experiment_json),
+            TEST_DATAFRAME,
+            project_json["name"],
+            experiment_json["id"],
+        )
+
+        expected_dataframe_experiment_dir = os.path.join(
+            expected_experiment_dir,
+            "dataframes",
+            dataframe_experiment_json["id"],
+        )
+        expected_dataframe_experiment_path = os.path.join(
+            expected_dataframe_experiment_dir, "metadata.json"
+        )
+
+        with filesystem.open(expected_dataframe_experiment_path, "r") as file:
+            dataframe_experiment = json.loads(file.read())
+
+        assert dataframe_experiment == dataframe_experiment_json
