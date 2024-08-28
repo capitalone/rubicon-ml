@@ -33,9 +33,7 @@ def test_read_regression(
         expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
         expected_project_path = os.path.join(expected_project_dir, "metadata.json")
 
-        filesystem.mkdirs(
-            os.path.dirname(expected_project_path), exist_ok=True
-        )  # TODO: NO DIRNAME (ALL)
+        filesystem.mkdirs(expected_project_dir, exist_ok=True)
         with filesystem.open(expected_project_path, "w") as file:
             file.write(json.dumps(project_json))
 
@@ -50,7 +48,7 @@ def test_read_regression(
         )
         expected_experiment_path = os.path.join(expected_experiment_dir, "metadata.json")
 
-        filesystem.mkdirs(os.path.dirname(expected_experiment_path), exist_ok=True)
+        filesystem.mkdirs(expected_experiment_dir, exist_ok=True)
         with filesystem.open(expected_experiment_path, "w") as file:
             file.write(json.dumps(experiment_json))
 
@@ -68,7 +66,7 @@ def test_read_regression(
         )
         expected_feature_path = os.path.join(expected_feature_dir, "metadata.json")
 
-        filesystem.mkdirs(os.path.dirname(expected_feature_path), exist_ok=True)
+        filesystem.mkdirs(expected_feature_dir, exist_ok=True)
         with filesystem.open(expected_feature_path, "w") as file:
             file.write(json.dumps(feature_json))
 
@@ -87,7 +85,7 @@ def test_read_regression(
         )
         expected_metric_path = os.path.join(expected_metric_dir, "metadata.json")
 
-        filesystem.mkdirs(os.path.dirname(expected_metric_path), exist_ok=True)
+        filesystem.mkdirs(expected_metric_dir, exist_ok=True)
         with filesystem.open(expected_metric_path, "w") as file:
             file.write(json.dumps(metric_json))
 
@@ -106,7 +104,7 @@ def test_read_regression(
         )
         expected_parameter_path = os.path.join(expected_parameter_dir, "metadata.json")
 
-        filesystem.mkdirs(os.path.dirname(expected_parameter_path), exist_ok=True)
+        filesystem.mkdirs(expected_parameter_dir, exist_ok=True)
         with filesystem.open(expected_parameter_path, "w") as file:
             file.write(json.dumps(parameter_json))
 
