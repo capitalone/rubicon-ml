@@ -1,5 +1,6 @@
 import os
 import tempfile
+import uuid
 
 import fsspec
 import pandas as pd
@@ -8,6 +9,8 @@ from rubicon_ml import domain
 from rubicon_ml.repository import LocalRepository
 from rubicon_ml.repository.utils import json, slugify
 
+TAGS_TO_ADD = ["added_a", "added_b"]
+TAGS_TO_REMOVE = ["added_a"]
 TEST_ARTIFACT_BINARY = b"test"
 TEST_DATAFRAME = pd.DataFrame([[0]])
 
@@ -29,6 +32,25 @@ def test_read_regression(
     with tempfile.TemporaryDirectory() as temp_dir_name:
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
         repository = LocalRepository(root_dir=root_dir)
+
+        def __test_additional_tags(tag_dir, project_name, **entity_identification_kwargs):
+            tag_path = os.path.join(tag_dir, f"tags_{uuid.uuid4()}.json")
+            with filesystem.open(tag_path, "w") as file:
+                file.write(json.dumps({"added_tags": TAGS_TO_ADD}))
+
+            tag_path = os.path.join(tag_dir, f"tags_{uuid.uuid4()}.json")
+            with filesystem.open(tag_path, "w") as file:
+                file.write(json.dumps({"removed_tags": TAGS_TO_REMOVE}))
+
+            additional_tags = repository.get_tags(
+                project_name,
+                **entity_identification_kwargs,
+            )
+
+            return (
+                additional_tags[0]["added_tags"] == TAGS_TO_ADD
+                and additional_tags[1]["removed_tags"] == TAGS_TO_REMOVE
+            )
 
         expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
         expected_project_path = os.path.join(expected_project_dir, "metadata.json")
@@ -58,6 +80,13 @@ def test_read_regression(
         ).__dict__
 
         assert experiment == experiment_json
+        assert __test_additional_tags(
+            expected_experiment_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=experiment_json["id"],
+            entity_type="Experiment",
+        )
 
         expected_feature_dir = os.path.join(
             expected_experiment_dir,
@@ -77,6 +106,13 @@ def test_read_regression(
         ).__dict__
 
         assert feature == feature_json
+        assert __test_additional_tags(
+            expected_feature_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=feature_json["name"],
+            entity_type="Feature",
+        )
 
         expected_metric_dir = os.path.join(
             expected_experiment_dir,
@@ -96,6 +132,13 @@ def test_read_regression(
         ).__dict__
 
         assert metric == metric_json
+        assert __test_additional_tags(
+            expected_metric_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=metric_json["name"],
+            entity_type="Metric",
+        )
 
         expected_parameter_dir = os.path.join(
             expected_experiment_dir,
@@ -115,6 +158,13 @@ def test_read_regression(
         ).__dict__
 
         assert parameter == parameter_json
+        assert __test_additional_tags(
+            expected_parameter_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=parameter_json["name"],
+            entity_type="Parameter",
+        )
 
         expected_artifact_project_dir = os.path.join(
             expected_project_dir,
@@ -143,6 +193,12 @@ def test_read_regression(
 
         assert artifact_project == artifact_project_json
         assert artifact_project_data == TEST_ARTIFACT_BINARY
+        assert __test_additional_tags(
+            expected_artifact_project_dir,
+            project_json["name"],
+            entity_identifier=artifact_project_json["id"],
+            entity_type="Artifact",
+        )
 
         expected_artifact_experiment_dir = os.path.join(
             expected_experiment_dir,
@@ -175,6 +231,13 @@ def test_read_regression(
 
         assert artifact_experiment == artifact_experiment_json
         assert artifact_experiment_data == TEST_ARTIFACT_BINARY
+        assert __test_additional_tags(
+            expected_artifact_experiment_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=artifact_experiment_json["id"],
+            entity_type="Artifact",
+        )
 
         expected_dataframe_project_dir = os.path.join(
             expected_project_dir,
@@ -206,6 +269,12 @@ def test_read_regression(
 
         assert dataframe_project == dataframe_project_json
         assert dataframe_project_data.equals(TEST_DATAFRAME)
+        assert __test_additional_tags(
+            expected_dataframe_project_dir,
+            project_json["name"],
+            entity_identifier=dataframe_project_json["id"],
+            entity_type="Dataframe",
+        )
 
         expected_dataframe_experiment_dir = os.path.join(
             expected_experiment_dir,
@@ -241,6 +310,13 @@ def test_read_regression(
 
         assert dataframe_experiment == dataframe_experiment_json
         assert dataframe_experiment_data.equals(TEST_DATAFRAME)
+        assert __test_additional_tags(
+            expected_dataframe_experiment_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=dataframe_experiment_json["id"],
+            entity_type="Dataframe",
+        )
 
 
 def test_read_write_regression(
@@ -259,6 +335,27 @@ def test_read_write_regression(
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
         repository = LocalRepository(root_dir=root_dir)
 
+        def __test_additional_tags(project_name, **entity_identification_kwargs):
+            repository.add_tags(
+                project_name,
+                TAGS_TO_ADD,
+                **entity_identification_kwargs,
+            )
+            repository.remove_tags(
+                project_name,
+                TAGS_TO_REMOVE,
+                **entity_identification_kwargs,
+            )
+            additional_tags = repository.get_tags(
+                project_name,
+                **entity_identification_kwargs,
+            )
+
+            return (
+                additional_tags[0]["added_tags"] == TAGS_TO_ADD
+                and additional_tags[1]["removed_tags"] == TAGS_TO_REMOVE
+            )
+
         repository.create_project(domain.Project(**project_json))
         project = repository.get_project(project_json["name"]).__dict__
 
@@ -271,6 +368,12 @@ def test_read_write_regression(
         ).__dict__
 
         assert experiment == experiment_json
+        assert __test_additional_tags(
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=experiment_json["id"],
+            entity_type="Experiment",
+        )
 
         repository.create_feature(
             domain.Feature(**feature_json),
@@ -284,6 +387,12 @@ def test_read_write_regression(
         ).__dict__
 
         assert feature == feature_json
+        assert __test_additional_tags(
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=feature_json["name"],
+            entity_type="Feature",
+        )
 
         repository.create_metric(
             domain.Metric(**metric_json),
@@ -297,6 +406,12 @@ def test_read_write_regression(
         ).__dict__
 
         assert metric == metric_json
+        assert __test_additional_tags(
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=metric_json["name"],
+            entity_type="Metric",
+        )
 
         repository.create_parameter(
             domain.Parameter(**parameter_json),
@@ -310,6 +425,12 @@ def test_read_write_regression(
         ).__dict__
 
         assert parameter == parameter_json
+        assert __test_additional_tags(
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=parameter_json["name"],
+            entity_type="Parameter",
+        )
 
         repository.create_artifact(
             domain.Artifact(**artifact_project_json),
@@ -327,6 +448,11 @@ def test_read_write_regression(
 
         assert artifact_project == artifact_project_json
         assert artifact_project_data == TEST_ARTIFACT_BINARY
+        assert __test_additional_tags(
+            project_json["name"],
+            entity_identifier=artifact_project_json["id"],
+            entity_type="Artifact",
+        )
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
@@ -347,6 +473,12 @@ def test_read_write_regression(
 
         assert artifact_experiment == artifact_experiment_json
         assert artifact_experiment_data == TEST_ARTIFACT_BINARY
+        assert __test_additional_tags(
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=artifact_experiment_json["id"],
+            entity_type="Artifact",
+        )
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
@@ -364,6 +496,11 @@ def test_read_write_regression(
 
         assert dataframe_project == dataframe_project_json
         assert dataframe_project_data.equals(TEST_DATAFRAME)
+        assert __test_additional_tags(
+            project_json["name"],
+            entity_identifier=dataframe_project_json["id"],
+            entity_type="Dataframe",
+        )
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
@@ -384,6 +521,12 @@ def test_read_write_regression(
 
         assert dataframe_experiment == dataframe_experiment_json
         assert dataframe_experiment_data.equals(TEST_DATAFRAME)
+        assert __test_additional_tags(
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=dataframe_experiment_json["id"],
+            entity_type="Dataframe",
+        )
 
 
 def test_write_regression(
@@ -403,6 +546,33 @@ def test_write_regression(
     with tempfile.TemporaryDirectory() as temp_dir_name:
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
         repository = LocalRepository(root_dir=root_dir)
+
+        def __test_additional_tags(tag_dir, project_name, **entity_identification_kwargs):
+            is_passing = True
+
+            repository.add_tags(
+                project_name,
+                TAGS_TO_ADD,
+                **entity_identification_kwargs,
+            )
+            repository.remove_tags(
+                project_name,
+                TAGS_TO_REMOVE,
+                **entity_identification_kwargs,
+            )
+
+            tag_path = os.path.join(tag_dir, "tags_*.json")
+            tag_files = filesystem.glob(tag_path, detail=True)
+            for tag_file in tag_files:
+                with filesystem.open(tag_file, "r") as file:
+                    tags = json.loads(file.read())
+
+                    if "added_tags" in tags:
+                        is_passing &= tags["added_tags"] == TAGS_TO_ADD
+                    if "removed_tags" in tags:
+                        is_passing &= tags["removed_tags"] == TAGS_TO_REMOVE
+
+            return is_passing
 
         repository.create_project(domain.Project(**project_json))
 
@@ -427,6 +597,13 @@ def test_write_regression(
             experiment = json.loads(file.read())
 
         assert experiment == experiment_json
+        assert __test_additional_tags(
+            expected_experiment_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=experiment_json["id"],
+            entity_type="Experiment",
+        )
 
         repository.create_feature(
             domain.Feature(**feature_json),
@@ -445,6 +622,13 @@ def test_write_regression(
             feature = json.loads(file.read())
 
         assert feature == feature_json
+        assert __test_additional_tags(
+            expected_feature_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=feature_json["name"],
+            entity_type="Feature",
+        )
 
         repository.create_metric(
             domain.Metric(**metric_json),
@@ -463,6 +647,13 @@ def test_write_regression(
             metric = json.loads(file.read())
 
         assert metric == metric_json
+        assert __test_additional_tags(
+            expected_metric_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=metric_json["name"],
+            entity_type="Metric",
+        )
 
         repository.create_parameter(
             domain.Parameter(**parameter_json),
@@ -481,6 +672,13 @@ def test_write_regression(
             parameter = json.loads(file.read())
 
         assert parameter == parameter_json
+        assert __test_additional_tags(
+            expected_parameter_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=parameter_json["name"],
+            entity_type="Parameter",
+        )
 
         repository.create_artifact(
             domain.Artifact(**artifact_project_json),
@@ -505,6 +703,12 @@ def test_write_regression(
 
         assert artifact_project == artifact_project_json
         assert artifact_project_data == TEST_ARTIFACT_BINARY
+        assert __test_additional_tags(
+            expected_artifact_project_dir,
+            project_json["name"],
+            entity_identifier=artifact_project_json["id"],
+            entity_type="Artifact",
+        )
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
@@ -532,6 +736,13 @@ def test_write_regression(
 
         assert artifact_experiment == artifact_experiment_json
         assert artifact_experiment_data == TEST_ARTIFACT_BINARY
+        assert __test_additional_tags(
+            expected_artifact_experiment_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=artifact_experiment_json["id"],
+            entity_type="Artifact",
+        )
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
@@ -557,6 +768,12 @@ def test_write_regression(
 
         assert dataframe_project == dataframe_project_json
         assert dataframe_project_data.equals(TEST_DATAFRAME)
+        assert __test_additional_tags(
+            expected_dataframe_project_dir,
+            project_json["name"],
+            entity_identifier=dataframe_project_json["id"],
+            entity_type="Dataframe",
+        )
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
@@ -583,3 +800,10 @@ def test_write_regression(
 
         assert dataframe_experiment == dataframe_experiment_json
         assert dataframe_experiment_data.equals(TEST_DATAFRAME)
+        assert __test_additional_tags(
+            expected_dataframe_experiment_dir,
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=dataframe_experiment_json["id"],
+            entity_type="Dataframe",
+        )
