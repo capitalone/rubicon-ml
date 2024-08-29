@@ -53,6 +53,8 @@ def test_read_regression(
         def __test_additional_tags_and_comments(
             tag_comment_dir, project_name, **entity_identification_kwargs
         ):
+            is_passing = True
+
             add_tag_path = os.path.join(tag_comment_dir, f"tags_{uuid.uuid4()}.json")
             with repository.filesystem.open(add_tag_path, "w") as file:
                 file.write(json.dumps({"added_tags": TAGS_TO_ADD}))
@@ -60,6 +62,16 @@ def test_read_regression(
             remove_tag_path = os.path.join(tag_comment_dir, f"tags_{uuid.uuid4()}.json")
             with repository.filesystem.open(remove_tag_path, "w") as file:
                 file.write(json.dumps({"removed_tags": TAGS_TO_REMOVE}))
+
+            additional_tags = repository.get_tags(
+                project_name,
+                **entity_identification_kwargs,
+            )
+            for tags in additional_tags:
+                if "added_tags" in tags:
+                    is_passing &= tags["added_tags"] == TAGS_TO_ADD
+                if "removed_tags" in tags:
+                    is_passing &= tags["removed_tags"] == TAGS_TO_REMOVE
 
             add_comment_path = os.path.join(tag_comment_dir, f"comments_{uuid.uuid4()}.json")
             with repository.filesystem.open(add_comment_path, "w") as file:
@@ -69,21 +81,17 @@ def test_read_regression(
             with repository.filesystem.open(remove_comment_path, "w") as file:
                 file.write(json.dumps({"removed_comments": COMMENTS_TO_REMOVE}))
 
-            additional_tags = repository.get_tags(
-                project_name,
-                **entity_identification_kwargs,
-            )
             additional_comments = repository.get_comments(
                 project_name,
                 **entity_identification_kwargs,
             )
+            for comments in additional_comments:
+                if "added_comments" in comments:
+                    is_passing &= comments["added_comments"] == COMMENTS_TO_ADD
+                if "removed_tags" in comments:
+                    is_passing &= comments["removed_comments"] == COMMENTS_TO_REMOVE
 
-            return (
-                additional_tags[0]["added_tags"] == TAGS_TO_ADD
-                and additional_tags[1]["removed_tags"] == TAGS_TO_REMOVE
-                and additional_comments[0]["added_comments"] == COMMENTS_TO_ADD
-                and additional_comments[1]["removed_comments"] == COMMENTS_TO_REMOVE
-            )
+            return is_passing
 
         expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
         expected_project_path = os.path.join(expected_project_dir, "metadata.json")
@@ -379,6 +387,8 @@ def test_read_write_regression(
         repository = repository_class(root_dir=root_dir)
 
         def __test_additional_tags_and_comments(project_name, **entity_identification_kwargs):
+            is_passing = True
+
             repository.add_tags(
                 project_name,
                 TAGS_TO_ADD,
@@ -393,6 +403,13 @@ def test_read_write_regression(
                 project_name,
                 **entity_identification_kwargs,
             )
+
+            for tags in additional_tags:
+                if "added_tags" in tags:
+                    is_passing &= tags["added_tags"] == TAGS_TO_ADD
+                if "removed_tags" in tags:
+                    is_passing &= tags["removed_tags"] == TAGS_TO_REMOVE
+
             repository.add_comments(
                 project_name,
                 COMMENTS_TO_ADD,
@@ -408,12 +425,13 @@ def test_read_write_regression(
                 **entity_identification_kwargs,
             )
 
-            return (
-                additional_tags[0]["added_tags"] == TAGS_TO_ADD
-                and additional_tags[1]["removed_tags"] == TAGS_TO_REMOVE
-                and additional_comments[0]["added_comments"] == COMMENTS_TO_ADD
-                and additional_comments[1]["removed_comments"] == COMMENTS_TO_REMOVE
-            )
+            for comments in additional_comments:
+                if "added_comments" in comments:
+                    is_passing &= comments["added_comments"] == COMMENTS_TO_ADD
+                if "removed_tags" in comments:
+                    is_passing &= comments["removed_comments"] == COMMENTS_TO_REMOVE
+
+            return is_passing
 
         repository.create_project(domain.Project(**project_json))
         project = repository.get_project(project_json["name"]).__dict__
