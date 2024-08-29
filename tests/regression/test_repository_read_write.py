@@ -1,22 +1,28 @@
+import contextlib
 import os
 import tempfile
 import uuid
 
-import fsspec
 import pandas as pd
+import pytest
 
 from rubicon_ml import domain
-from rubicon_ml.repository import LocalRepository
+from rubicon_ml.repository import LocalRepository, MemoryRepository
 from rubicon_ml.repository.utils import json, slugify
 
 ARTIFACT_BINARY = b"artifact"
 COMMENTS_TO_ADD = ["comment_a", "comment_b"]
 COMMENTS_TO_REMOVE = ["comment_a"]
 DATAFRAME = pd.DataFrame([[0]])
+REPOSITORIES_TO_TEST = [  # TODO: find local/CI S3 testing solution
+    LocalRepository,
+    MemoryRepository,
+]
 TAGS_TO_ADD = ["added_a", "added_b"]
 TAGS_TO_REMOVE = ["added_a"]
 
 
+@pytest.mark.parametrize("repository_class", REPOSITORIES_TO_TEST)
 def test_read_regression(
     artifact_project_json,
     artifact_experiment_json,
@@ -27,31 +33,40 @@ def test_read_regression(
     metric_json,
     parameter_json,
     project_json,
+    repository_class,
 ):
-    """Tests that `rubicon_ml` can read each domain entity from the filesystem."""
-    filesystem = fsspec.filesystem("file")
+    """Tests that `rubicon_ml` can read each domain entity from the filesystem.
 
-    with tempfile.TemporaryDirectory() as temp_dir_name:
+    The `MemoryRepository` skips dataframe tests as the `pandas` API can not be
+    used to write directly to memory. Dataframe regression tests are covered by
+    `test_read_write_regression`.
+    """
+    if repository_class == LocalRepository:
+        temp_dir_context = tempfile.TemporaryDirectory()
+    else:
+        temp_dir_context = contextlib.nullcontext(enter_result="./test_read_regression/")
+
+    with temp_dir_context as temp_dir_name:
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
-        repository = LocalRepository(root_dir=root_dir)
+        repository = repository_class(root_dir=root_dir)
 
         def __test_additional_tags_and_comments(
             tag_comment_dir, project_name, **entity_identification_kwargs
         ):
             add_tag_path = os.path.join(tag_comment_dir, f"tags_{uuid.uuid4()}.json")
-            with filesystem.open(add_tag_path, "w") as file:
+            with repository.filesystem.open(add_tag_path, "w") as file:
                 file.write(json.dumps({"added_tags": TAGS_TO_ADD}))
 
             remove_tag_path = os.path.join(tag_comment_dir, f"tags_{uuid.uuid4()}.json")
-            with filesystem.open(remove_tag_path, "w") as file:
+            with repository.filesystem.open(remove_tag_path, "w") as file:
                 file.write(json.dumps({"removed_tags": TAGS_TO_REMOVE}))
 
             add_comment_path = os.path.join(tag_comment_dir, f"comments_{uuid.uuid4()}.json")
-            with filesystem.open(add_comment_path, "w") as file:
+            with repository.filesystem.open(add_comment_path, "w") as file:
                 file.write(json.dumps({"added_comments": COMMENTS_TO_ADD}))
 
             remove_comment_path = os.path.join(tag_comment_dir, f"comments_{uuid.uuid4()}.json")
-            with filesystem.open(remove_comment_path, "w") as file:
+            with repository.filesystem.open(remove_comment_path, "w") as file:
                 file.write(json.dumps({"removed_comments": COMMENTS_TO_REMOVE}))
 
             additional_tags = repository.get_tags(
@@ -73,8 +88,8 @@ def test_read_regression(
         expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
         expected_project_path = os.path.join(expected_project_dir, "metadata.json")
 
-        filesystem.mkdirs(expected_project_dir, exist_ok=True)
-        with filesystem.open(expected_project_path, "w") as file:
+        repository.filesystem.mkdirs(expected_project_dir, exist_ok=True)
+        with repository.filesystem.open(expected_project_path, "w") as file:
             file.write(json.dumps(project_json))
 
         project = repository.get_project(project_json["name"]).__dict__
@@ -88,8 +103,8 @@ def test_read_regression(
         )
         expected_experiment_path = os.path.join(expected_experiment_dir, "metadata.json")
 
-        filesystem.mkdirs(expected_experiment_dir, exist_ok=True)
-        with filesystem.open(expected_experiment_path, "w") as file:
+        repository.filesystem.mkdirs(expected_experiment_dir, exist_ok=True)
+        with repository.filesystem.open(expected_experiment_path, "w") as file:
             file.write(json.dumps(experiment_json))
 
         experiment = repository.get_experiment(
@@ -113,8 +128,8 @@ def test_read_regression(
         )
         expected_feature_path = os.path.join(expected_feature_dir, "metadata.json")
 
-        filesystem.mkdirs(expected_feature_dir, exist_ok=True)
-        with filesystem.open(expected_feature_path, "w") as file:
+        repository.filesystem.mkdirs(expected_feature_dir, exist_ok=True)
+        with repository.filesystem.open(expected_feature_path, "w") as file:
             file.write(json.dumps(feature_json))
 
         feature = repository.get_feature(
@@ -139,8 +154,8 @@ def test_read_regression(
         )
         expected_metric_path = os.path.join(expected_metric_dir, "metadata.json")
 
-        filesystem.mkdirs(expected_metric_dir, exist_ok=True)
-        with filesystem.open(expected_metric_path, "w") as file:
+        repository.filesystem.mkdirs(expected_metric_dir, exist_ok=True)
+        with repository.filesystem.open(expected_metric_path, "w") as file:
             file.write(json.dumps(metric_json))
 
         metric = repository.get_metric(
@@ -165,8 +180,8 @@ def test_read_regression(
         )
         expected_parameter_path = os.path.join(expected_parameter_dir, "metadata.json")
 
-        filesystem.mkdirs(expected_parameter_dir, exist_ok=True)
-        with filesystem.open(expected_parameter_path, "w") as file:
+        repository.filesystem.mkdirs(expected_parameter_dir, exist_ok=True)
+        with repository.filesystem.open(expected_parameter_path, "w") as file:
             file.write(json.dumps(parameter_json))
 
         parameter = repository.get_parameter(
@@ -194,10 +209,10 @@ def test_read_regression(
         )
         expected_artifact_project_data_path = os.path.join(expected_artifact_project_dir, "data")
 
-        filesystem.mkdirs(expected_artifact_project_dir, exist_ok=True)
-        with filesystem.open(expected_artifact_project_path, "w") as file:
+        repository.filesystem.mkdirs(expected_artifact_project_dir, exist_ok=True)
+        with repository.filesystem.open(expected_artifact_project_path, "w") as file:
             file.write(json.dumps(artifact_project_json))
-        with filesystem.open(expected_artifact_project_data_path, "wb") as file:
+        with repository.filesystem.open(expected_artifact_project_data_path, "wb") as file:
             file.write(ARTIFACT_BINARY)
 
         artifact_project = repository.get_artifact_metadata(
@@ -230,10 +245,10 @@ def test_read_regression(
             expected_artifact_experiment_dir, "data"
         )
 
-        filesystem.mkdirs(expected_artifact_experiment_dir, exist_ok=True)
-        with filesystem.open(expected_artifact_experiment_path, "w") as file:
+        repository.filesystem.mkdirs(expected_artifact_experiment_dir, exist_ok=True)
+        with repository.filesystem.open(expected_artifact_experiment_path, "w") as file:
             file.write(json.dumps(artifact_experiment_json))
-        with filesystem.open(expected_artifact_experiment_data_path, "wb") as file:
+        with repository.filesystem.open(expected_artifact_experiment_data_path, "wb") as file:
             file.write(ARTIFACT_BINARY)
 
         artifact_experiment = repository.get_artifact_metadata(
@@ -257,86 +272,90 @@ def test_read_regression(
             entity_type="Artifact",
         )
 
-        expected_dataframe_project_dir = os.path.join(
-            expected_project_dir,
-            "dataframes",
-            dataframe_project_json["id"],
-        )
-        expected_dataframe_project_path = os.path.join(
-            expected_dataframe_project_dir, "metadata.json"
-        )
-        expected_dataframe_project_data_dir = os.path.join(expected_dataframe_project_dir, "data")
-        expected_dataframe_project_data_path = os.path.join(
-            expected_dataframe_project_data_dir, "data.parquet"
-        )
+        if repository_class != MemoryRepository:
+            expected_dataframe_project_dir = os.path.join(
+                expected_project_dir,
+                "dataframes",
+                dataframe_project_json["id"],
+            )
+            expected_dataframe_project_path = os.path.join(
+                expected_dataframe_project_dir, "metadata.json"
+            )
+            expected_dataframe_project_data_dir = os.path.join(
+                expected_dataframe_project_dir, "data"
+            )
+            expected_dataframe_project_data_path = os.path.join(
+                expected_dataframe_project_data_dir, "data.parquet"
+            )
 
-        filesystem.mkdirs(expected_dataframe_project_dir, exist_ok=True)
-        filesystem.mkdirs(expected_dataframe_project_data_dir, exist_ok=True)
-        with filesystem.open(expected_dataframe_project_path, "w") as file:
-            file.write(json.dumps(dataframe_project_json))
-        DATAFRAME.to_parquet(expected_dataframe_project_data_path)
+            repository.filesystem.mkdirs(expected_dataframe_project_dir, exist_ok=True)
+            repository.filesystem.mkdirs(expected_dataframe_project_data_dir, exist_ok=True)
+            with repository.filesystem.open(expected_dataframe_project_path, "w") as file:
+                file.write(json.dumps(dataframe_project_json))
+            DATAFRAME.to_parquet(expected_dataframe_project_data_path)
 
-        dataframe_project = repository.get_dataframe_metadata(
-            project_json["name"],
-            dataframe_project_json["id"],
-        ).__dict__
-        dataframe_project_data = repository.get_dataframe_data(
-            project_json["name"],
-            dataframe_project_json["id"],
-        )
+            dataframe_project = repository.get_dataframe_metadata(
+                project_json["name"],
+                dataframe_project_json["id"],
+            ).__dict__
+            dataframe_project_data = repository.get_dataframe_data(
+                project_json["name"],
+                dataframe_project_json["id"],
+            )
 
-        assert dataframe_project == dataframe_project_json
-        assert dataframe_project_data.equals(DATAFRAME)
-        assert __test_additional_tags_and_comments(
-            expected_dataframe_project_dir,
-            project_json["name"],
-            entity_identifier=dataframe_project_json["id"],
-            entity_type="Dataframe",
-        )
+            assert dataframe_project == dataframe_project_json
+            assert dataframe_project_data.equals(DATAFRAME)
+            assert __test_additional_tags_and_comments(
+                expected_dataframe_project_dir,
+                project_json["name"],
+                entity_identifier=dataframe_project_json["id"],
+                entity_type="Dataframe",
+            )
 
-        expected_dataframe_experiment_dir = os.path.join(
-            expected_experiment_dir,
-            "dataframes",
-            dataframe_experiment_json["id"],
-        )
-        expected_dataframe_experiment_path = os.path.join(
-            expected_dataframe_experiment_dir, "metadata.json"
-        )
-        expected_dataframe_experiment_data_dir = os.path.join(
-            expected_dataframe_experiment_dir, "data"
-        )
-        expected_dataframe_experiment_data_path = os.path.join(
-            expected_dataframe_experiment_data_dir, "data.parquet"
-        )
+            expected_dataframe_experiment_dir = os.path.join(
+                expected_experiment_dir,
+                "dataframes",
+                dataframe_experiment_json["id"],
+            )
+            expected_dataframe_experiment_path = os.path.join(
+                expected_dataframe_experiment_dir, "metadata.json"
+            )
+            expected_dataframe_experiment_data_dir = os.path.join(
+                expected_dataframe_experiment_dir, "data"
+            )
+            expected_dataframe_experiment_data_path = os.path.join(
+                expected_dataframe_experiment_data_dir, "data.parquet"
+            )
 
-        filesystem.mkdirs(expected_dataframe_experiment_dir, exist_ok=True)
-        filesystem.mkdirs(expected_dataframe_experiment_data_dir, exist_ok=True)
-        with filesystem.open(expected_dataframe_experiment_path, "w") as file:
-            file.write(json.dumps(dataframe_experiment_json))
-        DATAFRAME.to_parquet(expected_dataframe_experiment_data_path)
+            repository.filesystem.mkdirs(expected_dataframe_experiment_dir, exist_ok=True)
+            repository.filesystem.mkdirs(expected_dataframe_experiment_data_dir, exist_ok=True)
+            with repository.filesystem.open(expected_dataframe_experiment_path, "w") as file:
+                file.write(json.dumps(dataframe_experiment_json))
+            DATAFRAME.to_parquet(expected_dataframe_experiment_data_path)
 
-        dataframe_experiment = repository.get_dataframe_metadata(
-            project_json["name"],
-            dataframe_experiment_json["id"],
-            experiment_json["id"],
-        ).__dict__
-        dataframe_experiment_data = repository.get_dataframe_data(
-            project_json["name"],
-            dataframe_experiment_json["id"],
-            experiment_json["id"],
-        )
+            dataframe_experiment = repository.get_dataframe_metadata(
+                project_json["name"],
+                dataframe_experiment_json["id"],
+                experiment_json["id"],
+            ).__dict__
+            dataframe_experiment_data = repository.get_dataframe_data(
+                project_json["name"],
+                dataframe_experiment_json["id"],
+                experiment_json["id"],
+            )
 
-        assert dataframe_experiment == dataframe_experiment_json
-        assert dataframe_experiment_data.equals(DATAFRAME)
-        assert __test_additional_tags_and_comments(
-            expected_dataframe_experiment_dir,
-            project_json["name"],
-            experiment_id=experiment_json["id"],
-            entity_identifier=dataframe_experiment_json["id"],
-            entity_type="Dataframe",
-        )
+            assert dataframe_experiment == dataframe_experiment_json
+            assert dataframe_experiment_data.equals(DATAFRAME)
+            assert __test_additional_tags_and_comments(
+                expected_dataframe_experiment_dir,
+                project_json["name"],
+                experiment_id=experiment_json["id"],
+                entity_identifier=dataframe_experiment_json["id"],
+                entity_type="Dataframe",
+            )
 
 
+@pytest.mark.parametrize("repository_class", REPOSITORIES_TO_TEST)
 def test_read_write_regression(
     artifact_project_json,
     artifact_experiment_json,
@@ -347,11 +366,17 @@ def test_read_write_regression(
     metric_json,
     parameter_json,
     project_json,
+    repository_class,
 ):
     """Tests that `rubicon_ml` can read each domain entity that it wrote."""
-    with tempfile.TemporaryDirectory() as temp_dir_name:
+    if repository_class == LocalRepository:
+        temp_dir_context = tempfile.TemporaryDirectory()
+    else:
+        temp_dir_context = contextlib.nullcontext(enter_result="./test_read_write_regression/")
+
+    with temp_dir_context as temp_dir_name:
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
-        repository = LocalRepository(root_dir=root_dir)
+        repository = repository_class(root_dir=root_dir)
 
         def __test_additional_tags_and_comments(project_name, **entity_identification_kwargs):
             repository.add_tags(
@@ -563,6 +588,7 @@ def test_read_write_regression(
         )
 
 
+@pytest.mark.parametrize("repository_class", REPOSITORIES_TO_TEST)
 def test_write_regression(
     artifact_project_json,
     artifact_experiment_json,
@@ -573,13 +599,22 @@ def test_write_regression(
     metric_json,
     parameter_json,
     project_json,
+    repository_class,
 ):
-    """Tests that `rubicon_ml` can write each domain entity to the filesystem."""
-    filesystem = fsspec.filesystem("file")
+    """Tests that `rubicon_ml` can write each domain entity to the filesystem.
 
-    with tempfile.TemporaryDirectory() as temp_dir_name:
+    The `MemoryRepository` skips dataframe tests as the `pandas` API can not be
+    used to read directly from memory. Dataframe regression tests are covered by
+    `test_read_write_regression`.
+    """
+    if repository_class == LocalRepository:
+        temp_dir_context = tempfile.TemporaryDirectory()
+    else:
+        temp_dir_context = contextlib.nullcontext(enter_result="./test_write_regression/")
+
+    with temp_dir_context as temp_dir_name:
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
-        repository = LocalRepository(root_dir=root_dir)
+        repository = repository_class(root_dir=root_dir)
 
         def __test_additional_tags_and_comments(
             tag_dir, project_name, **entity_identification_kwargs
@@ -598,9 +633,9 @@ def test_write_regression(
             )
 
             tag_path = os.path.join(tag_dir, "tags_*.json")
-            tag_files = filesystem.glob(tag_path, detail=True)
+            tag_files = repository.filesystem.glob(tag_path, detail=True)
             for tag_file in tag_files:
-                with filesystem.open(tag_file, "r") as file:
+                with repository.filesystem.open(tag_file, "r") as file:
                     tags = json.loads(file.read())
 
                     if "added_tags" in tags:
@@ -620,9 +655,9 @@ def test_write_regression(
             )
 
             comment_path = os.path.join(tag_dir, "comments_*.json")
-            comment_files = filesystem.glob(comment_path, detail=True)
+            comment_files = repository.filesystem.glob(comment_path, detail=True)
             for comment_file in comment_files:
-                with filesystem.open(comment_file, "r") as file:
+                with repository.filesystem.open(comment_file, "r") as file:
                     comments = json.loads(file.read())
 
                     if "added_comments" in comments:
@@ -637,7 +672,7 @@ def test_write_regression(
         expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
         expected_project_path = os.path.join(expected_project_dir, "metadata.json")
 
-        with filesystem.open(expected_project_path, "r") as file:
+        with repository.filesystem.open(expected_project_path, "r") as file:
             project = json.loads(file.read())
 
         assert project == project_json
@@ -651,7 +686,7 @@ def test_write_regression(
         )
         expected_experiment_path = os.path.join(expected_experiment_dir, "metadata.json")
 
-        with filesystem.open(expected_experiment_path, "r") as file:
+        with repository.filesystem.open(expected_experiment_path, "r") as file:
             experiment = json.loads(file.read())
 
         assert experiment == experiment_json
@@ -676,7 +711,7 @@ def test_write_regression(
         )
         expected_feature_path = os.path.join(expected_feature_dir, "metadata.json")
 
-        with filesystem.open(expected_feature_path, "r") as file:
+        with repository.filesystem.open(expected_feature_path, "r") as file:
             feature = json.loads(file.read())
 
         assert feature == feature_json
@@ -701,7 +736,7 @@ def test_write_regression(
         )
         expected_metric_path = os.path.join(expected_metric_dir, "metadata.json")
 
-        with filesystem.open(expected_metric_path, "r") as file:
+        with repository.filesystem.open(expected_metric_path, "r") as file:
             metric = json.loads(file.read())
 
         assert metric == metric_json
@@ -726,7 +761,7 @@ def test_write_regression(
         )
         expected_parameter_path = os.path.join(expected_parameter_dir, "metadata.json")
 
-        with filesystem.open(expected_parameter_path, "r") as file:
+        with repository.filesystem.open(expected_parameter_path, "r") as file:
             parameter = json.loads(file.read())
 
         assert parameter == parameter_json
@@ -754,9 +789,9 @@ def test_write_regression(
         )
         expected_artifact_project_data_path = os.path.join(expected_artifact_project_dir, "data")
 
-        with filesystem.open(expected_artifact_project_path, "r") as file:
+        with repository.filesystem.open(expected_artifact_project_path, "r") as file:
             artifact_project = json.loads(file.read())
-        with filesystem.open(expected_artifact_project_data_path, "rb") as file:
+        with repository.filesystem.open(expected_artifact_project_data_path, "rb") as file:
             artifact_project_data = file.read()
 
         assert artifact_project == artifact_project_json
@@ -787,9 +822,9 @@ def test_write_regression(
             expected_artifact_experiment_dir, "data"
         )
 
-        with filesystem.open(expected_artifact_experiment_path, "r") as file:
+        with repository.filesystem.open(expected_artifact_experiment_path, "r") as file:
             artifact_experiment = json.loads(file.read())
-        with filesystem.open(expected_artifact_experiment_data_path, "rb") as file:
+        with repository.filesystem.open(expected_artifact_experiment_data_path, "rb") as file:
             artifact_experiment_data = file.read()
 
         assert artifact_experiment == artifact_experiment_json
@@ -802,71 +837,73 @@ def test_write_regression(
             entity_type="Artifact",
         )
 
-        repository.create_dataframe(
-            domain.Dataframe(**dataframe_project_json),
-            DATAFRAME,
-            project_json["name"],
-        )
+        if repository_class != MemoryRepository:
+            repository.create_dataframe(
+                domain.Dataframe(**dataframe_project_json),
+                DATAFRAME,
+                project_json["name"],
+            )
 
-        expected_dataframe_project_dir = os.path.join(
-            expected_project_dir,
-            "dataframes",
-            dataframe_project_json["id"],
-        )
-        expected_dataframe_project_path = os.path.join(
-            expected_dataframe_project_dir, "metadata.json"
-        )
-        expected_dataframe_project_data_path = os.path.join(
-            expected_dataframe_project_dir, "data", "data.parquet"
-        )
+            expected_dataframe_project_dir = os.path.join(
+                expected_project_dir,
+                "dataframes",
+                dataframe_project_json["id"],
+            )
+            expected_dataframe_project_path = os.path.join(
+                expected_dataframe_project_dir, "metadata.json"
+            )
+            expected_dataframe_project_data_path = os.path.join(
+                expected_dataframe_project_dir, "data", "data.parquet"
+            )
 
-        with filesystem.open(expected_dataframe_project_path, "r") as file:
-            dataframe_project = json.loads(file.read())
-        dataframe_project_data = pd.read_parquet(expected_dataframe_project_data_path)
+            with repository.filesystem.open(expected_dataframe_project_path, "r") as file:
+                dataframe_project = json.loads(file.read())
+            dataframe_project_data = pd.read_parquet(expected_dataframe_project_data_path)
 
-        assert dataframe_project == dataframe_project_json
-        assert dataframe_project_data.equals(DATAFRAME)
-        assert __test_additional_tags_and_comments(
-            expected_dataframe_project_dir,
-            project_json["name"],
-            entity_identifier=dataframe_project_json["id"],
-            entity_type="Dataframe",
-        )
+            assert dataframe_project == dataframe_project_json
+            assert dataframe_project_data.equals(DATAFRAME)
+            assert __test_additional_tags_and_comments(
+                expected_dataframe_project_dir,
+                project_json["name"],
+                entity_identifier=dataframe_project_json["id"],
+                entity_type="Dataframe",
+            )
 
-        repository.create_dataframe(
-            domain.Dataframe(**dataframe_experiment_json),
-            DATAFRAME,
-            project_json["name"],
-            experiment_json["id"],
-        )
+            repository.create_dataframe(
+                domain.Dataframe(**dataframe_experiment_json),
+                DATAFRAME,
+                project_json["name"],
+                experiment_json["id"],
+            )
 
-        expected_dataframe_experiment_dir = os.path.join(
-            expected_experiment_dir,
-            "dataframes",
-            dataframe_experiment_json["id"],
-        )
-        expected_dataframe_experiment_path = os.path.join(
-            expected_dataframe_experiment_dir, "metadata.json"
-        )
-        expected_dataframe_experiment_data_path = os.path.join(
-            expected_dataframe_experiment_dir, "data", "data.parquet"
-        )
+            expected_dataframe_experiment_dir = os.path.join(
+                expected_experiment_dir,
+                "dataframes",
+                dataframe_experiment_json["id"],
+            )
+            expected_dataframe_experiment_path = os.path.join(
+                expected_dataframe_experiment_dir, "metadata.json"
+            )
+            expected_dataframe_experiment_data_path = os.path.join(
+                expected_dataframe_experiment_dir, "data", "data.parquet"
+            )
 
-        with filesystem.open(expected_dataframe_experiment_path, "r") as file:
-            dataframe_experiment = json.loads(file.read())
-        dataframe_experiment_data = pd.read_parquet(expected_dataframe_experiment_data_path)
+            with repository.filesystem.open(expected_dataframe_experiment_path, "r") as file:
+                dataframe_experiment = json.loads(file.read())
+            dataframe_experiment_data = pd.read_parquet(expected_dataframe_experiment_data_path)
 
-        assert dataframe_experiment == dataframe_experiment_json
-        assert dataframe_experiment_data.equals(DATAFRAME)
-        assert __test_additional_tags_and_comments(
-            expected_dataframe_experiment_dir,
-            project_json["name"],
-            experiment_id=experiment_json["id"],
-            entity_identifier=dataframe_experiment_json["id"],
-            entity_type="Dataframe",
-        )
+            assert dataframe_experiment == dataframe_experiment_json
+            assert dataframe_experiment_data.equals(DATAFRAME)
+            assert __test_additional_tags_and_comments(
+                expected_dataframe_experiment_dir,
+                project_json["name"],
+                experiment_id=experiment_json["id"],
+                entity_identifier=dataframe_experiment_json["id"],
+                entity_type="Dataframe",
+            )
 
 
+@pytest.mark.parametrize("repository_class", REPOSITORIES_TO_TEST)
 def test_delete_regression(
     artifact_project_json,
     artifact_experiment_json,
@@ -874,13 +911,17 @@ def test_delete_regression(
     dataframe_experiment_json,
     experiment_json,
     project_json,
+    repository_class,
 ):
     """Tests that `rubicon_ml` can delete artifacts and dataframes from the filesystem."""
-    filesystem = fsspec.filesystem("file")
+    if repository_class == LocalRepository:
+        temp_dir_context = tempfile.TemporaryDirectory()
+    else:
+        temp_dir_context = contextlib.nullcontext(enter_result="./test_delete_regression/")
 
-    with tempfile.TemporaryDirectory() as temp_dir_name:
+    with temp_dir_context as temp_dir_name:
         root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
-        repository = LocalRepository(root_dir=root_dir)
+        repository = repository_class(root_dir=root_dir)
 
         repository.create_artifact(
             domain.Artifact(**artifact_project_json),
@@ -896,14 +937,14 @@ def test_delete_regression(
             "metadata.json",
         )
 
-        assert filesystem.exists(expected_artifact_project_path)
+        assert repository.filesystem.exists(expected_artifact_project_path)
 
         repository.delete_artifact(
             project_json["name"],
             artifact_project_json["id"],
         )
 
-        assert not filesystem.exists(expected_artifact_project_path)
+        assert not repository.filesystem.exists(expected_artifact_project_path)
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
@@ -924,7 +965,7 @@ def test_delete_regression(
             "metadata.json",
         )
 
-        assert filesystem.exists(expected_artifact_experiment_path)
+        assert repository.filesystem.exists(expected_artifact_experiment_path)
 
         repository.delete_artifact(
             project_json["name"],
@@ -932,7 +973,7 @@ def test_delete_regression(
             experiment_json["id"],
         )
 
-        assert not filesystem.exists(expected_artifact_experiment_path)
+        assert not repository.filesystem.exists(expected_artifact_experiment_path)
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
@@ -947,14 +988,14 @@ def test_delete_regression(
             "metadata.json",
         )
 
-        assert filesystem.exists(expected_dataframe_project_path)
+        assert repository.filesystem.exists(expected_dataframe_project_path)
 
         repository.delete_dataframe(
             project_json["name"],
             dataframe_project_json["id"],
         )
 
-        assert not filesystem.exists(expected_dataframe_project_path)
+        assert not repository.filesystem.exists(expected_dataframe_project_path)
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
@@ -970,7 +1011,7 @@ def test_delete_regression(
             "metadata.json",
         )
 
-        assert filesystem.exists(expected_dataframe_experiment_path)
+        assert repository.filesystem.exists(expected_dataframe_experiment_path)
 
         repository.delete_dataframe(
             project_json["name"],
@@ -978,4 +1019,4 @@ def test_delete_regression(
             experiment_json["id"],
         )
 
-        assert not filesystem.exists(expected_dataframe_experiment_path)
+        assert not repository.filesystem.exists(expected_dataframe_experiment_path)
