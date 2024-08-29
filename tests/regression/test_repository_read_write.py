@@ -9,12 +9,12 @@ from rubicon_ml import domain
 from rubicon_ml.repository import LocalRepository
 from rubicon_ml.repository.utils import json, slugify
 
+ARTIFACT_BINARY = b"artifact"
 COMMENTS_TO_ADD = ["comment_a", "comment_b"]
 COMMENTS_TO_REMOVE = ["comment_a"]
+DATAFRAME = pd.DataFrame([[0]])
 TAGS_TO_ADD = ["added_a", "added_b"]
 TAGS_TO_REMOVE = ["added_a"]
-TEST_ARTIFACT_BINARY = b"test"
-TEST_DATAFRAME = pd.DataFrame([[0]])
 
 
 def test_read_regression(
@@ -198,7 +198,7 @@ def test_read_regression(
         with filesystem.open(expected_artifact_project_path, "w") as file:
             file.write(json.dumps(artifact_project_json))
         with filesystem.open(expected_artifact_project_data_path, "wb") as file:
-            file.write(TEST_ARTIFACT_BINARY)
+            file.write(ARTIFACT_BINARY)
 
         artifact_project = repository.get_artifact_metadata(
             project_json["name"],
@@ -210,7 +210,7 @@ def test_read_regression(
         )
 
         assert artifact_project == artifact_project_json
-        assert artifact_project_data == TEST_ARTIFACT_BINARY
+        assert artifact_project_data == ARTIFACT_BINARY
         assert __test_additional_tags_and_comments(
             expected_artifact_project_dir,
             project_json["name"],
@@ -234,7 +234,7 @@ def test_read_regression(
         with filesystem.open(expected_artifact_experiment_path, "w") as file:
             file.write(json.dumps(artifact_experiment_json))
         with filesystem.open(expected_artifact_experiment_data_path, "wb") as file:
-            file.write(TEST_ARTIFACT_BINARY)
+            file.write(ARTIFACT_BINARY)
 
         artifact_experiment = repository.get_artifact_metadata(
             project_json["name"],
@@ -248,7 +248,7 @@ def test_read_regression(
         )
 
         assert artifact_experiment == artifact_experiment_json
-        assert artifact_experiment_data == TEST_ARTIFACT_BINARY
+        assert artifact_experiment_data == ARTIFACT_BINARY
         assert __test_additional_tags_and_comments(
             expected_artifact_experiment_dir,
             project_json["name"],
@@ -274,7 +274,7 @@ def test_read_regression(
         filesystem.mkdirs(expected_dataframe_project_data_dir, exist_ok=True)
         with filesystem.open(expected_dataframe_project_path, "w") as file:
             file.write(json.dumps(dataframe_project_json))
-        TEST_DATAFRAME.to_parquet(expected_dataframe_project_data_path)
+        DATAFRAME.to_parquet(expected_dataframe_project_data_path)
 
         dataframe_project = repository.get_dataframe_metadata(
             project_json["name"],
@@ -286,7 +286,7 @@ def test_read_regression(
         )
 
         assert dataframe_project == dataframe_project_json
-        assert dataframe_project_data.equals(TEST_DATAFRAME)
+        assert dataframe_project_data.equals(DATAFRAME)
         assert __test_additional_tags_and_comments(
             expected_dataframe_project_dir,
             project_json["name"],
@@ -313,7 +313,7 @@ def test_read_regression(
         filesystem.mkdirs(expected_dataframe_experiment_data_dir, exist_ok=True)
         with filesystem.open(expected_dataframe_experiment_path, "w") as file:
             file.write(json.dumps(dataframe_experiment_json))
-        TEST_DATAFRAME.to_parquet(expected_dataframe_experiment_data_path)
+        DATAFRAME.to_parquet(expected_dataframe_experiment_data_path)
 
         dataframe_experiment = repository.get_dataframe_metadata(
             project_json["name"],
@@ -327,7 +327,7 @@ def test_read_regression(
         )
 
         assert dataframe_experiment == dataframe_experiment_json
-        assert dataframe_experiment_data.equals(TEST_DATAFRAME)
+        assert dataframe_experiment_data.equals(DATAFRAME)
         assert __test_additional_tags_and_comments(
             expected_dataframe_experiment_dir,
             project_json["name"],
@@ -468,7 +468,7 @@ def test_read_write_regression(
 
         repository.create_artifact(
             domain.Artifact(**artifact_project_json),
-            TEST_ARTIFACT_BINARY,
+            ARTIFACT_BINARY,
             project_json["name"],
         )
         artifact_project = repository.get_artifact_metadata(
@@ -481,7 +481,7 @@ def test_read_write_regression(
         )
 
         assert artifact_project == artifact_project_json
-        assert artifact_project_data == TEST_ARTIFACT_BINARY
+        assert artifact_project_data == ARTIFACT_BINARY
         assert __test_additional_tags_and_comments(
             project_json["name"],
             entity_identifier=artifact_project_json["id"],
@@ -490,7 +490,7 @@ def test_read_write_regression(
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
-            TEST_ARTIFACT_BINARY,
+            ARTIFACT_BINARY,
             project_json["name"],
             experiment_json["id"],
         )
@@ -506,7 +506,7 @@ def test_read_write_regression(
         )
 
         assert artifact_experiment == artifact_experiment_json
-        assert artifact_experiment_data == TEST_ARTIFACT_BINARY
+        assert artifact_experiment_data == ARTIFACT_BINARY
         assert __test_additional_tags_and_comments(
             project_json["name"],
             experiment_id=experiment_json["id"],
@@ -516,7 +516,7 @@ def test_read_write_regression(
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
-            TEST_DATAFRAME,
+            DATAFRAME,
             project_json["name"],
         )
         dataframe_project = repository.get_dataframe_metadata(
@@ -529,7 +529,7 @@ def test_read_write_regression(
         )
 
         assert dataframe_project == dataframe_project_json
-        assert dataframe_project_data.equals(TEST_DATAFRAME)
+        assert dataframe_project_data.equals(DATAFRAME)
         assert __test_additional_tags_and_comments(
             project_json["name"],
             entity_identifier=dataframe_project_json["id"],
@@ -538,7 +538,7 @@ def test_read_write_regression(
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
-            TEST_DATAFRAME,
+            DATAFRAME,
             project_json["name"],
             experiment_json["id"],
         )
@@ -554,7 +554,7 @@ def test_read_write_regression(
         )
 
         assert dataframe_experiment == dataframe_experiment_json
-        assert dataframe_experiment_data.equals(TEST_DATAFRAME)
+        assert dataframe_experiment_data.equals(DATAFRAME)
         assert __test_additional_tags_and_comments(
             project_json["name"],
             experiment_id=experiment_json["id"],
@@ -740,7 +740,7 @@ def test_write_regression(
 
         repository.create_artifact(
             domain.Artifact(**artifact_project_json),
-            TEST_ARTIFACT_BINARY,
+            ARTIFACT_BINARY,
             project_json["name"],
         )
 
@@ -760,7 +760,7 @@ def test_write_regression(
             artifact_project_data = file.read()
 
         assert artifact_project == artifact_project_json
-        assert artifact_project_data == TEST_ARTIFACT_BINARY
+        assert artifact_project_data == ARTIFACT_BINARY
         assert __test_additional_tags_and_comments(
             expected_artifact_project_dir,
             project_json["name"],
@@ -770,7 +770,7 @@ def test_write_regression(
 
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
-            TEST_ARTIFACT_BINARY,
+            ARTIFACT_BINARY,
             project_json["name"],
             experiment_json["id"],
         )
@@ -793,7 +793,7 @@ def test_write_regression(
             artifact_experiment_data = file.read()
 
         assert artifact_experiment == artifact_experiment_json
-        assert artifact_experiment_data == TEST_ARTIFACT_BINARY
+        assert artifact_experiment_data == ARTIFACT_BINARY
         assert __test_additional_tags_and_comments(
             expected_artifact_experiment_dir,
             project_json["name"],
@@ -804,7 +804,7 @@ def test_write_regression(
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_project_json),
-            TEST_DATAFRAME,
+            DATAFRAME,
             project_json["name"],
         )
 
@@ -825,7 +825,7 @@ def test_write_regression(
         dataframe_project_data = pd.read_parquet(expected_dataframe_project_data_path)
 
         assert dataframe_project == dataframe_project_json
-        assert dataframe_project_data.equals(TEST_DATAFRAME)
+        assert dataframe_project_data.equals(DATAFRAME)
         assert __test_additional_tags_and_comments(
             expected_dataframe_project_dir,
             project_json["name"],
@@ -835,7 +835,7 @@ def test_write_regression(
 
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
-            TEST_DATAFRAME,
+            DATAFRAME,
             project_json["name"],
             experiment_json["id"],
         )
@@ -857,7 +857,7 @@ def test_write_regression(
         dataframe_experiment_data = pd.read_parquet(expected_dataframe_experiment_data_path)
 
         assert dataframe_experiment == dataframe_experiment_json
-        assert dataframe_experiment_data.equals(TEST_DATAFRAME)
+        assert dataframe_experiment_data.equals(DATAFRAME)
         assert __test_additional_tags_and_comments(
             expected_dataframe_experiment_dir,
             project_json["name"],
@@ -865,3 +865,117 @@ def test_write_regression(
             entity_identifier=dataframe_experiment_json["id"],
             entity_type="Dataframe",
         )
+
+
+def test_delete_regression(
+    artifact_project_json,
+    artifact_experiment_json,
+    dataframe_project_json,
+    dataframe_experiment_json,
+    experiment_json,
+    project_json,
+):
+    """Tests that `rubicon_ml` can delete artifacts and dataframes from the filesystem."""
+    filesystem = fsspec.filesystem("file")
+
+    with tempfile.TemporaryDirectory() as temp_dir_name:
+        root_dir = os.path.join(temp_dir_name, "test-rubicon-ml")
+        repository = LocalRepository(root_dir=root_dir)
+
+        repository.create_artifact(
+            domain.Artifact(**artifact_project_json),
+            ARTIFACT_BINARY,
+            project_json["name"],
+        )
+
+        expected_project_dir = os.path.join(root_dir, slugify(project_json["name"]))
+        expected_artifact_project_path = os.path.join(
+            expected_project_dir,
+            "artifacts",
+            artifact_project_json["id"],
+            "metadata.json",
+        )
+
+        assert filesystem.exists(expected_artifact_project_path)
+
+        repository.delete_artifact(
+            project_json["name"],
+            artifact_project_json["id"],
+        )
+
+        assert not filesystem.exists(expected_artifact_project_path)
+
+        repository.create_artifact(
+            domain.Artifact(**artifact_experiment_json),
+            ARTIFACT_BINARY,
+            project_json["name"],
+            experiment_json["id"],
+        )
+
+        expected_experiment_dir = os.path.join(
+            expected_project_dir,
+            "experiments",
+            experiment_json["id"],
+        )
+        expected_artifact_experiment_path = os.path.join(
+            expected_experiment_dir,
+            "artifacts",
+            artifact_experiment_json["id"],
+            "metadata.json",
+        )
+
+        assert filesystem.exists(expected_artifact_experiment_path)
+
+        repository.delete_artifact(
+            project_json["name"],
+            artifact_experiment_json["id"],
+            experiment_json["id"],
+        )
+
+        assert not filesystem.exists(expected_artifact_experiment_path)
+
+        repository.create_dataframe(
+            domain.Dataframe(**dataframe_project_json),
+            DATAFRAME,
+            project_json["name"],
+        )
+
+        expected_dataframe_project_path = os.path.join(
+            expected_project_dir,
+            "dataframes",
+            dataframe_project_json["id"],
+            "metadata.json",
+        )
+
+        assert filesystem.exists(expected_dataframe_project_path)
+
+        repository.delete_dataframe(
+            project_json["name"],
+            dataframe_project_json["id"],
+        )
+
+        assert not filesystem.exists(expected_dataframe_project_path)
+
+        repository.create_dataframe(
+            domain.Dataframe(**dataframe_experiment_json),
+            DATAFRAME,
+            project_json["name"],
+            experiment_json["id"],
+        )
+
+        expected_dataframe_experiment_path = os.path.join(
+            expected_experiment_dir,
+            "dataframes",
+            dataframe_experiment_json["id"],
+            "metadata.json",
+        )
+
+        assert filesystem.exists(expected_dataframe_experiment_path)
+
+        repository.delete_dataframe(
+            project_json["name"],
+            dataframe_experiment_json["id"],
+            experiment_json["id"],
+        )
+
+        assert not filesystem.exists(expected_dataframe_experiment_path)
