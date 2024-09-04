@@ -1,3 +1,6 @@
+import warnings
+
+
 def _check_for_prefect_extras():
     try:
         import prefect  # noqa F401
@@ -7,6 +10,12 @@ def _check_for_prefect_extras():
 
         raise ImportError(message)
 
+
+warnings.warn(
+    "The `rubicon_ml.workflow.prefect` module is deprecated and will be removed in an upcoming release."
+    "`rubicon_ml` can still be leveraged within custom tasks.",
+    DeprecationWarning,
+)
 
 _check_for_prefect_extras()
 

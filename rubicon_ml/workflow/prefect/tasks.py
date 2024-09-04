@@ -1,6 +1,14 @@
+import warnings
+
 from prefect import task
 
 from rubicon_ml import Rubicon
+
+warnings.warn(
+    "The `rubicon_ml.workflow.prefect.tasks` module is deprecated and will be removed in an upcoming release."
+    "`rubicon_ml` can still be leveraged within custom tasks.",
+    DeprecationWarning,
+)
 
 
 @task
