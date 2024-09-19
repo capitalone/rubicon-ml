@@ -119,6 +119,7 @@ def rubicon_local_filesystem_client():
     rubicon = Rubicon(
         persistence="filesystem",
         root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubicon"),
+        storage_option_a="test",  # should be ignored when logging local dfs
     )
 
     # teardown after yield
@@ -221,7 +222,7 @@ def test_dataframe():
 def memory_repository():
     """Setup an in-memory repository and clean it up afterwards."""
     root_dir = "/in-memory-root"
-    repository = MemoryRepository(root_dir)
+    repository = MemoryRepository(root_dir, storage_option_a="test")
 
     yield repository
     repository.filesystem.rm(root_dir, recursive=True)
