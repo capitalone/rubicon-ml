@@ -26,6 +26,8 @@ if TYPE_CHECKING:
         DOMAIN_TYPES,
     )
 
+REMOTE_PROTOCOLS = ["s3"]
+
 
 class FSSpecRepositoryABC(RepositoryABC):
     """rubicon-ml backend repository for `fsspec` based filesystems.
@@ -35,8 +37,10 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def __init__(self, root_dir: str, **storage_options):
         """"""
-        self.filesystem = fsspec.filesystem(self.protocol, **storage_options)
         self.root_dir = root_dir
+        self.storage_options = storage_options
+
+        self.filesystem = fsspec.filesystem(self.protocol, **self.storage_options)
 
     @abstractmethod
     def _get_protocol(self) -> str:
@@ -237,6 +241,9 @@ class FSSpecRepositoryABC(RepositoryABC):
         acceptable_types = ["dask", "pandas", "polars"]
         read_kwargs = {}
 
+        if self.protocol in REMOTE_PROTOCOLS:
+            read_kwargs["storage_options"] = self.storage_options
+
         if df_type == "dask":
             df_library = try_import_dask_dataframe()
             read_kwargs["engine"] = "pyarrow"
@@ -330,14 +337,19 @@ class FSSpecRepositoryABC(RepositoryABC):
 
     def _write_dataframe(self, data: "DATAFRAME_TYPES", location: str, *args):
         """"""
+        write_kwargs = {}
+
+        if self.protocol in REMOTE_PROTOCOLS:
+            write_kwargs["storage_options"] = self.storage_options
+
         if safe_is_dask_dataframe(data):
-            data.to_parquet(location, engine="pyarrow")
+            data.to_parquet(location, engine="pyarrow", **write_kwargs)
         else:
             self.filesystem.mkdirs(location, exist_ok=True)
             file_location = os.path.join(location, "data.parquet")
 
             if safe_is_pandas_dataframe(data):
-                data.to_parquet(file_location, engine="pyarrow")
+                data.to_parquet(file_location, engine="pyarrow", **write_kwargs)
             else:
                 data.write_parquet(file_location)
 
