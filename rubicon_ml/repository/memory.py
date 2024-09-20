@@ -28,6 +28,8 @@ class MemoryRepository(LocalRepository):
     PROTOCOL = "memory"
 
     def __init__(self, root_dir=None, **storage_options):
+        self._df_storage_options = {}  # should only be non-empty for S3 logging
+
         self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/") if root_dir is not None else "/root"
 
