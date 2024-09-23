@@ -21,7 +21,7 @@ def test_deprecations():
 
 
 def test_missing_prefect_extra_raises_error():
-    install_prefect_message = "Install `prefect` with `pip install rubicon[prefect]`."
+    install_prefect_message = "Install `prefect` with `pip install prefect<=2.20.3,>=2.16.5`."
 
     with patch.dict(sys.modules, {"prefect": None}):
         with pytest.raises(ImportError) as e:
