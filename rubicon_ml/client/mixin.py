@@ -275,6 +275,12 @@ class ArtifactMixin:
             if use_mojo:
                 model_data_path = f"{temp_dir_name}/{artifact_name}.zip"
                 h2o_model.save_mojo(path=model_data_path)
+
+                artifact = self.log_artifact(
+                    name=artifact_name,
+                    data_directory=model_data_path,
+                    **log_artifact_kwargs,
+                )
             else:
                 model_data_path = h2o.save_model(
                     h2o_model,
@@ -283,11 +289,11 @@ class ArtifactMixin:
                     path=temp_dir_name,
                 )
 
-            artifact = self.log_artifact(
-                name=artifact_name,
-                data_path=model_data_path,
-                **log_artifact_kwargs,
-            )
+                artifact = self.log_artifact(
+                    name=artifact_name,
+                    data_path=model_data_path,
+                    **log_artifact_kwargs,
+                )
 
         return artifact
 
