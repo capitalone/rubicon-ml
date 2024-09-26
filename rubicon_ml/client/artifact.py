@@ -71,7 +71,7 @@ class Artifact(Base, TagMixin, CommentMixin):
     @failsafe
     def get_data(
         self,
-        deserialize: Optional[Literal["h2o", "pickle", "xgboost"]] = None,
+        deserialize: Optional[Literal["h2o_binary", "h2o_mojo", "pickle", "xgboost"]] = None,
         unpickle: bool = False,  # TODO: deprecate & move to `deserialize`
     ):
         """Loads the data associated with this artifact and
@@ -82,7 +82,8 @@ class Artifact(Base, TagMixin, CommentMixin):
         deseralize : str, optional
             Method to use to deseralize this artifact's data.
             * None to disable deseralization and return the raw data.
-            * "h2o" to use `h2o.load_model` to load the data.
+            * "h2o_binary" to use `h2o.load_model` to load the data.
+            * "h2o_mojo" to use `h2o.import_mojo` to load the data.
             * "pickle" to use pickles to load the data.
             * "xgboost" to use xgboost's JSON loader to load the data as a fitted model.
             Defaults to None.
@@ -119,10 +120,16 @@ class Artifact(Base, TagMixin, CommentMixin):
             except Exception as err:
                 return_err = err
             else:
-                if deserialize == "h2o":
+                if deserialize == "h2o_binary":
                     import h2o
 
                     data = h2o.load_model(
+                        repo._get_artifact_data_path(project_name, experiment_id, self.id)
+                    )
+                elif deserialize == "h2o_mojo":
+                    import h2o
+
+                    data = h2o.import_mojo(
                         repo._get_artifact_data_path(project_name, experiment_id, self.id)
                     )
                 elif deserialize == "pickle":
