@@ -71,7 +71,7 @@ class Artifact(Base, TagMixin, CommentMixin):
     @failsafe
     def get_data(
         self,
-        deserialize: Optional[Literal["h2o_binary", "h2o_mojo", "pickle", "xgboost"]] = None,
+        deserialize: Optional[Literal["h2o", "h2o_binary", "h2o_mojo", "pickle", "xgboost"]] = None,
         unpickle: bool = False,  # TODO: deprecate & move to `deserialize`
     ):
         """Loads the data associated with this artifact and

@@ -163,6 +163,7 @@ def test_download_location(mock_open, project_client):
 @pytest.mark.parametrize(
     ["use_mojo", "deserialization_method"],
     [
+        (False, "h2o"),
         (False, "h2o_binary"),
         (True, "h2o_mojo"),
     ],
