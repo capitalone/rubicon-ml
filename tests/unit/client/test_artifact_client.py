@@ -8,8 +8,8 @@ import pandas as pd
 import pytest
 import xgboost
 from h2o import H2OFrame
-from h2o.estimators.random_forest import H2ORandomForestEstimator
 from h2o.estimators.generic import H2OGenericEstimator
+from h2o.estimators.random_forest import H2ORandomForestEstimator
 
 from rubicon_ml import domain
 from rubicon_ml.client import Artifact, Rubicon
@@ -168,7 +168,10 @@ def test_download_location(mock_open, project_client):
     ],
 )
 def test_get_data_deserialize_h2o(
-    make_classification_df, rubicon_local_filesystem_client_with_project, use_mojo, deserialization_method
+    make_classification_df,
+    rubicon_local_filesystem_client_with_project,
+    use_mojo,
+    deserialization_method,
 ):
     """Test logging `h2o` model data."""
     _, project = rubicon_local_filesystem_client_with_project
