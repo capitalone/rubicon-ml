@@ -111,4 +111,6 @@ def test_estimator_h2o_schema_train(
     model_artifact = experiment.artifact(name=schema_cls.__name__)
 
     assert len(project.schema_["parameters"]) == len(experiment.parameters())
-    assert model_artifact.get_data(deserialize="h2o").__class__.__name__ == schema_cls.__name__
+    assert (
+        model_artifact.get_data(deserialize="h2o_binary").__class__.__name__ == schema_cls.__name__
+    )

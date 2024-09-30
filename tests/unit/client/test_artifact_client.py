@@ -8,6 +8,7 @@ import pandas as pd
 import pytest
 import xgboost
 from h2o import H2OFrame
+from h2o.estimators.generic import H2OGenericEstimator
 from h2o.estimators.random_forest import H2ORandomForestEstimator
 
 from rubicon_ml import domain
@@ -159,8 +160,19 @@ def test_download_location(mock_open, project_client):
     mock_file().write.assert_called_once_with(data)
 
 
+@pytest.mark.parametrize(
+    ["use_mojo", "deserialization_method"],
+    [
+        (False, "h2o"),
+        (False, "h2o_binary"),
+        (True, "h2o_mojo"),
+    ],
+)
 def test_get_data_deserialize_h2o(
-    make_classification_df, rubicon_local_filesystem_client_with_project
+    make_classification_df,
+    rubicon_local_filesystem_client_with_project,
+    use_mojo,
+    deserialization_method,
 ):
     """Test logging `h2o` model data."""
     _, project = rubicon_local_filesystem_client_with_project
@@ -181,10 +193,13 @@ def test_get_data_deserialize_h2o(
         y=target_name,
     )
 
-    artifact = project.log_h2o_model(h2o_model)
-    artifact_data = artifact.get_data(deserialize="h2o")
+    artifact = project.log_h2o_model(h2o_model, use_mojo=use_mojo)
+    artifact_data = artifact.get_data(deserialize=deserialization_method)
 
-    assert artifact_data.__class__ == h2o_model.__class__
+    if use_mojo:
+        assert isinstance(artifact_data, H2OGenericEstimator)
+    else:
+        assert artifact_data.__class__ == h2o_model.__class__
 
 
 def test_get_data_deserialize_xgboost(
