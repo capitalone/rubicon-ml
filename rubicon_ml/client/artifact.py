@@ -82,7 +82,7 @@ class Artifact(Base, TagMixin, CommentMixin):
         deseralize : str, optional
             Method to use to deseralize this artifact's data.
             * None to disable deseralization and return the raw data.
-            * "h2o_binary" to use `h2o.load_model` to load the data.
+            * "h2o" or "h2o_binary" to use `h2o.load_model` to load the data.
             * "h2o_mojo" to use `h2o.import_mojo` to load the data.
             * "pickle" to use pickles to load the data.
             * "xgboost" to use xgboost's JSON loader to load the data as a fitted model.
@@ -102,6 +102,13 @@ class Artifact(Base, TagMixin, CommentMixin):
             )
             deserialize = "pickle"
 
+        if deserialize == "h2o":
+            warnings.warn(
+                "'deserialize' method 'h2o' will be deprecated in a future release,"
+                " please use 'h2o_binary' instead.",
+                DeprecationWarning,
+            )
+
         for repo in self.repositories or []:
             try:
                 if deserialize == "xgboost":
@@ -120,7 +127,10 @@ class Artifact(Base, TagMixin, CommentMixin):
             except Exception as err:
                 return_err = err
             else:
-                if deserialize == "h2o_binary":
+                if deserialize in [
+                    "h2o",
+                    "h2o_binary",
+                ]:  # "h2o" will be deprecated in a future release
                     import h2o
 
                     data = h2o.load_model(
