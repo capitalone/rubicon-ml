@@ -23,7 +23,6 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: '3.9'
-        miniforge-variant: Miniforge
         channels: conda-forge
         channel-priority: true
         activate-environment: rubicon-ml-docs
