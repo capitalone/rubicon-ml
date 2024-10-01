@@ -25,7 +25,6 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: ${{ matrix.python-version }}
-        miniforge-variant: Miniforge
         channels: conda-forge
         channel-priority: true  
         activate-environment: rubicon-ml-dev
