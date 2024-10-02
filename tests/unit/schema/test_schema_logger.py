@@ -110,10 +110,10 @@ def test_log_artifacts_with_schema(objects_to_log, rubicon_project, artifact_sch
         object_b.__class__,
     )
 
-    def custom_logging_func(self, obj):
+    def custom_logging_func(self, obj, test_param):
         self.custom_logging_func_called = True
 
-    artifact_schema["artifacts"].append({"self": "custom_logging_func"})
+    artifact_schema["artifacts"].append({"self": "custom_logging_func", "test_param": "test"})
 
     with mock.patch.object(
         rubicon_ml.client.experiment.Experiment,

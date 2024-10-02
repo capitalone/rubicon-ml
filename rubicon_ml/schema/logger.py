@@ -184,7 +184,9 @@ class SchemaMixin:
                 if "self" in artifact:
                     logging_func_name = artifact.pop("self")
                     logging_func = getattr(experiment, logging_func_name)
-                    logging_func(obj, **artifact)  # key-values in rest of dictionary are passed as arguments
+                    logging_func(
+                        obj, **artifact
+                    )  # key-values in rest of dictionary are passed as arguments
                 else:
                     data_object = _get_data_object(obj, artifact)
 
