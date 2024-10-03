@@ -182,10 +182,12 @@ class SchemaMixin:
                     experiment.log_artifact(name=obj.__class__.__name__, data_object=obj)
             elif isinstance(artifact, dict):
                 if "self" in artifact:
-                    logging_func_name = artifact.pop("self")
+                    logging_func_name = artifact["self"]
                     logging_func = getattr(experiment, logging_func_name)
+
+                    # Get remaining artifact logging function parameters and run with func
                     logging_func(
-                        obj, **artifact
+                        obj, **dict((k, v) for k, v in artifact.items() if k != "self")
                     )  # key-values in rest of dictionary are passed as arguments
                 else:
                     data_object = _get_data_object(obj, artifact)
