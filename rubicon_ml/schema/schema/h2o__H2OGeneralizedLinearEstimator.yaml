@@ -121,10 +121,13 @@ parameters:
     value_attr: prior
   - name: rand_family
     value_attr: rand_family
+    optional: true
   - name: rand_link
     value_attr: rand_link
+    optional: true
   - name: random_columns
     value_attr: random_columns
+    optional: true
   - name: remove_collinear_columns
     value_attr: remove_collinear_columns
   - name: response_column
