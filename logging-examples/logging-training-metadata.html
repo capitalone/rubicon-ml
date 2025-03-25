@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Logging Plots as PNGs" href="logging-plots.html" /><link rel="prev" title="Ignoring Exceptions with Failure Modes" href="../tutorials/failure-modes.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>Logging Training Metadata - rubicon-ml v0.10.3</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+        <title>Logging Training Metadata - rubicon-ml v0.10.4</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.3</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +197,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -332,9 +332,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_from_s3</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_output_path</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">boto3</span>
-    <span class="kn">from</span> <span class="nn">botocore.config</span> <span class="kn">import</span> <span class="n">Config</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_from_s3</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_output_path</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">botocore.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
 
     <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 
@@ -351,7 +351,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_from_s3</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_output_path</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_from_s3</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_output_path</span><span class="p">):</span>
     <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 </div>
@@ -361,7 +361,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rubicon</span>
 
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
@@ -509,7 +509,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
 
 
 <span class="n">S3TrainingMetadata</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;S3TrainingMetadata&quot;</span><span class="p">,</span> <span class="s2">&quot;config bucket keys&quot;</span><span class="p">)</span>

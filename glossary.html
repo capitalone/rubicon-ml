@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQs" href="faqs.html" /><link rel="prev" title="Visualize Logged Dataframes" href="logging-examples/visualizing-logged-dataframes.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>Glossary - rubicon-ml v0.10.3</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+        <title>Glossary - rubicon-ml v0.10.4</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.3</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -304,7 +304,7 @@
 <h2>Project (<a class="reference internal" href="api_reference.html#library-reference-project"><span class="std std-ref">rubicon_ml.Project</span></a>)<a class="headerlink" href="#project-rubicon-ml-project" title="Link to this heading">¶</a></h2>
 <p>A <strong>project</strong> is a collection of <strong>experiments</strong>, <strong>dataframes</strong>, and <strong>artifacts</strong>
 identified by a unique name.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rubicon</span>
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Glossary&quot;</span><span class="p">)</span>
@@ -361,7 +361,7 @@ columns) that provides value to the model developer and/or reviewer when visuali
 <p>For example, confusion matrices, feature importance tables and marginal residuals can
 all be logged as a <strong>dataframe</strong>.</p>
 <p>A <strong>dataframe</strong> is logged to a <strong>project</strong> or an <strong>experiment</strong>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">confusion_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span>

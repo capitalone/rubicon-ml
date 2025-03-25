@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Link Plots to Features" href="../logging-examples/logging-feature-plots.html" /><link rel="prev" title="Integrate with Prefect" href="integration-prefect-workflows.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>Integrate with Scikit-learn - rubicon-ml v0.10.3</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+        <title>Integrate with Scikit-learn - rubicon-ml v0.10.4</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.3</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +197,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -314,14 +314,14 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_classification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
-<span class="kn">from</span> <span class="nn">rubicon_ml.sklearn</span> <span class="kn">import</span> <span class="n">RubiconPipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rubicon</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml.sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">RubiconPipeline</span>
 
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span><span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
@@ -401,11 +401,11 @@ metrics: [(&#39;score&#39;, 0.88)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TfidfTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SGDClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span>
 
 
 <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;alt.atheism&quot;</span><span class="p">,</span> <span class="s2">&quot;talk.religion.misc&quot;</span><span class="p">]</span>
@@ -418,10 +418,10 @@ metrics: [(&#39;score&#39;, 0.88)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
-<span class="kn">from</span> <span class="nn">rubicon_ml.sklearn</span> <span class="kn">import</span> <span class="n">FilterEstimatorLogger</span><span class="p">,</span> <span class="n">RubiconPipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rubicon</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml.sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterEstimatorLogger</span><span class="p">,</span> <span class="n">RubiconPipeline</span>
 
 
 <span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RUBICON_ROOT&quot;</span><span class="p">,</span> <span class="s2">&quot;rubicon-root&quot;</span><span class="p">)</span>
@@ -519,7 +519,7 @@ Best score: 0.9276708493998214
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dashboard</span>
 
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">())</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="n">in_background</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Sharing Experiments" href="sharing-experiments.html" /><link rel="prev" title="Welcome to the rubicon-ml Docs!" href="../index.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>Logging Experiments - rubicon-ml v0.10.3</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+        <title>Logging Experiments - rubicon-ml v0.10.4</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.3</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +197,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -335,7 +335,7 @@ Requirement already satisfied: six&gt;=1.5 in /Users/nvd215/opt/miniconda3/envs/
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">palmerpenguins</span> <span class="kn">import</span> <span class="n">load_penguins</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">palmerpenguins</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_penguins</span>
 
 <span class="n">penguins_df</span> <span class="o">=</span> <span class="n">load_penguins</span><span class="p">()</span>
 <span class="n">target_values</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
@@ -451,7 +451,7 @@ target classes (species): [&#39;Adelie&#39; &#39;Gentoo&#39; &#39;Chinstrap&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
 
 <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">]:</span>
     <span class="n">penguins_df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
@@ -567,7 +567,7 @@ target classes (species): [0 2 1]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">train_penguins_df</span><span class="p">,</span> <span class="n">test_penguins_df</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">.30</span><span class="p">)</span>
 
@@ -595,9 +595,9 @@ target classes (species): [0 2 1]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
 
 <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span>
 <span class="n">classifier_n_neighbors</span> <span class="o">=</span> <span class="mi">5</span>
@@ -629,7 +629,7 @@ target classes (species): [0 2 1]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml</span> <span class="kn">import</span> <span class="n">Rubicon</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rubicon</span>
 
 <span class="n">rubicon</span> <span class="o">=</span> <span class="n">Rubicon</span><span class="p">(</span>
     <span class="n">persistence</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">,</span>
@@ -683,7 +683,7 @@ metrics: [(&#39;accuracy&#39;, 0.7307692307692307)]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">clone</span>
 
 <span class="k">for</span> <span class="n">imputer_strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span> <span class="s2">&quot;most_frequent&quot;</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">classifier_n_neighbors</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]:</span>
@@ -746,8 +746,8 @@ experiments:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">experiments</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;parameter search&quot;</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 

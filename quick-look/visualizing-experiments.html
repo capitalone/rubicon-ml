@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Ignoring Exceptions with Failure Modes" href="../tutorials/failure-modes.html" /><link rel="prev" title="Sharing Experiments" href="sharing-experiments.html" />
 
     <link rel="shortcut icon" href="../_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>Visualizing Experiments - rubicon-ml v0.10.3</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+        <title>Visualizing Experiments - rubicon-ml v0.10.4</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.3</div></div></a>
+      <a href="../index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.4</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +197,7 @@
     <img class="sidebar-logo only-dark" src="../_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.3</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.4</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -312,8 +312,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">intake</span>
-<span class="kn">import</span> <span class="nn">rubicon_ml</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">intake</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rubicon_ml</span>
 
 <span class="n">catalog</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_catalog</span><span class="p">(</span><span class="s2">&quot;./penguin_catalog.yml&quot;</span><span class="p">)</span>
 
@@ -330,7 +330,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">ExperimentsTable</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentsTable</span>
 
 <span class="n">ExperimentsTable</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -356,7 +356,7 @@ Dash is running on http://127.0.0.1:8050/
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rubicon_ml.viz</span> <span class="kn">import</span> <span class="n">Dashboard</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rubicon_ml.viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dashboard</span>
 
 <span class="n">Dashboard</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">)</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="n">run_server_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8051</span><span class="p">})</span>
 </pre></div>
