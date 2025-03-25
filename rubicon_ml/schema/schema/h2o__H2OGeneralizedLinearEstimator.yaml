@@ -62,6 +62,7 @@ parameters:
     value_attr: gradient_epsilon
   - name: HGLM
     value_attr: HGLM
+    optional: true
   - name: ignore_const_cols
     value_attr: ignore_const_cols
   - name: ignored_columns
