@@ -168,3 +168,4 @@ Install and configure pre-commit to automatically run `black`, `flake8`, and
 Now `pre-commit` will run automatically on git commit and will ensure consistent
 code format throughout the project. You can format without committing via
 `pre-commit run` or skip these checks with `git commit --no-verify`.
+
