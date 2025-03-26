@@ -50,11 +50,12 @@ def test_notebook_is_executed_in_order(notebook_filename):
 
 
 IGNORE_EXECUTE_NOTEBOOK_FILENAMES = [
-    "classification.ipynb",
-    "failure-modes.ipynb",
-    "integration-prefect-workflows.ipynb",
-    "logging-feature-plots.ipynb",
-    "visualizing-experiments.ipynb",
+    "classification.ipynb",  # too slow on GH actions
+    "failure-modes.ipynb",  # supposed to fail
+    "integration-prefect-workflows.ipynb",  # no prefect on GH actions server
+    "integration-sklearn.ipynb",  # dataset download is flaky on GH actions
+    "logging-feature-plots.ipynb",  # viz runs until terminated manually
+    "visualizing-experiments.ipynb",  # viz runs until terminated manually
 ]
 EXECUTE_NOTEBOOK_FILENAMES = [
     n for n in NOTEBOOK_FILENAMES if os.path.split(n)[-1] not in IGNORE_EXECUTE_NOTEBOOK_FILENAMES
