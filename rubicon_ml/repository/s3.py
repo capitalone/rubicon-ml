@@ -1,3 +1,5 @@
+import fsspec
+
 from rubicon_ml.repository import BaseRepository
 from rubicon_ml.repository.utils import json
 
@@ -17,6 +19,12 @@ class S3Repository(BaseRepository):
     """
 
     PROTOCOL = "s3"
+
+    def __init__(self, root_dir: str, **storage_options):
+        self._df_storage_options = storage_options
+
+        self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
+        self.root_dir = root_dir.rstrip("/")
 
     def _persist_bytes(self, bytes_data, path):
         """Persists the raw bytes `bytes_data` to the S3

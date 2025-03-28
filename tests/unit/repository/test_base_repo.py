@@ -403,7 +403,11 @@ def test_persist_dataframe(mock_to_parquet, memory_repository):
     # calls `BaseRepository._persist_dataframe` despite class using `MemoryRepository`
     super(MemoryRepository, repository)._persist_dataframe(df, path)
 
-    mock_to_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
+    mock_to_parquet.assert_called_once_with(
+        f"{path}/data.parquet",
+        engine="pyarrow",
+        storage_options={},
+    )
 
 
 @patch("polars.DataFrame.write_parquet")
@@ -426,7 +430,11 @@ def test_read_dataframe(mock_read_parquet, memory_repository):
     # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
     super(MemoryRepository, repository)._read_dataframe(path)
 
-    mock_read_parquet.assert_called_once_with(f"{path}/data.parquet", engine="pyarrow")
+    mock_read_parquet.assert_called_once_with(
+        f"{path}/data.parquet",
+        engine="pyarrow",
+        storage_options={},
+    )
 
 
 def test_read_dataframe_value_error(memory_repository):

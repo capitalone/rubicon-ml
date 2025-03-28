@@ -244,6 +244,7 @@ class ArtifactMixin:
         h2o_model,
         artifact_name: Optional[str] = None,
         export_cross_validation_predictions: bool = False,
+        use_mojo: bool = False,
         **log_artifact_kwargs,
     ) -> Artifact:
         """Log an `h2o` model as an artifact using `h2o.save_model`.
@@ -256,6 +257,9 @@ class ArtifactMixin:
             The name of the artifact. Defaults to None, using `h2o_model`'s class name.
         export_cross_validation_predictions: bool, optional (default False)
             Passed directly to `h2o.save_model`.
+        use_mojo: bool, optional (default False)
+            Whether to log the model in MOJO format. If False, the model will be
+            logged in binary format.
         log_artifact_kwargs : dict
             Additional kwargs to be passed directly to `self.log_artifact`.
         """
@@ -268,12 +272,16 @@ class ArtifactMixin:
             artifact_name = h2o_model.__class__.__name__
 
         with tempfile.TemporaryDirectory() as temp_dir_name:
-            model_data_path = h2o.save_model(
-                h2o_model,
-                export_cross_validation_predictions=export_cross_validation_predictions,
-                filename=artifact_name,
-                path=temp_dir_name,
-            )
+            if use_mojo:
+                model_data_path = f"{temp_dir_name}/{artifact_name}.zip"
+                h2o_model.download_mojo(path=model_data_path)
+            else:
+                model_data_path = h2o.save_model(
+                    h2o_model,
+                    export_cross_validation_predictions=export_cross_validation_predictions,
+                    filename=artifact_name,
+                    path=temp_dir_name,
+                )
 
             artifact = self.log_artifact(
                 name=artifact_name,

@@ -43,6 +43,8 @@ class BaseRepository:
     """
 
     def __init__(self, root_dir: str, **storage_options):
+        self._df_storage_options = {}  # should only be non-empty for S3 logging
+
         self.filesystem = fsspec.filesystem(self.PROTOCOL, **storage_options)
         self.root_dir = root_dir.rstrip("/")
 
@@ -614,7 +616,7 @@ class BaseRepository:
             df.write_parquet(path)
         else:
             # Dask or pandas
-            df.to_parquet(path, engine="pyarrow")
+            df.to_parquet(path, engine="pyarrow", storage_options=self._df_storage_options)
 
     def _read_dataframe(self, path, df_type: Literal["pandas", "dask", "polars"] = "pandas"):
         """Reads the dataframe `df` from the configured filesystem."""
@@ -623,7 +625,7 @@ class BaseRepository:
 
         if df_type == "pandas":
             path = f"{path}/data.parquet"
-            df = pd.read_parquet(path, engine="pyarrow")
+            df = pd.read_parquet(path, engine="pyarrow", storage_options=self._df_storage_options)
         elif df_type == "polars":
             try:
                 from polars import read_parquet
@@ -633,7 +635,7 @@ class BaseRepository:
                     "to read dataframes with `df_type`='polars'. `pip install polars` "
                     "or `conda install polars` to continue."
                 )
-            df = read_parquet(path)
+            df = read_parquet(path, storage_options=self._df_storage_options)
 
         elif df_type == "dask":
             try:
@@ -645,7 +647,7 @@ class BaseRepository:
                     "or `conda install dask` to continue."
                 )
 
-            df = dd.read_parquet(path, engine="pyarrow")
+            df = dd.read_parquet(path, engine="pyarrow", storage_options=self._df_storage_options)
         else:
             raise ValueError(f"`df_type` must be one of {acceptable_types}")
 

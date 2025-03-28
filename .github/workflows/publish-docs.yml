@@ -20,10 +20,9 @@ jobs:
         # fetch all tags so `versioneer` can properly determine current version
         fetch-depth: 0
     - name: Set up Python
-      uses: conda-incubator/setup-miniconda@v2
+      uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: '3.9'
-        miniforge-variant: Mambaforge
         channels: conda-forge
         channel-priority: true
         activate-environment: rubicon-ml-docs
