@@ -546,8 +546,11 @@ class BaseRepository:
 
         return artifact_data
 
-    def pipe_artifact_data(self, source, destination, interval=1.0):
-        with self.filesystem.open(source, "r") as source_file, self.filesystem.open(
+    def stream_artifact_data(self, source, destination, interval=1.0):
+        if source.startswith("s3:"):
+            raise RubiconException("Streaming is currently only available from local file sources.")
+
+        with open(source, "r") as source_file, self.filesystem.open(
             destination, "w"
         ) as destination_file:
             source_file.seek(0, os.SEEK_END)
