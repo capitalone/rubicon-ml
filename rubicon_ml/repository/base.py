@@ -1,6 +1,7 @@
 import os
 import shutil
 import tempfile
+import time
 import warnings
 from datetime import datetime
 from json import JSONDecodeError
@@ -544,6 +545,23 @@ class BaseRepository:
         )
 
         return artifact_data
+
+    def pipe_artifact_data(self, source, destination, interval=1.0):
+        with self.filesystem.open(source, "r") as source_file, self.filesystem.open(
+            destination, "w"
+        ) as destination_file:
+            source_file.seek(0, os.SEEK_END)
+
+            while True:
+                where = source_file.tell()
+                line = source_file.readline()
+
+                if line:
+                    destination_file.write(line)
+                    destination_file.flush()
+                else:
+                    time.sleep(interval)
+                    source_file.seek(where)
 
     def delete_artifact(self, project_name, artifact_id, experiment_id=None):
         """Delete an artifact from the configured filesystem.

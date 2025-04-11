@@ -10,6 +10,7 @@ import warnings
 import zipfile
 from datetime import datetime
 from pathlib import Path
+from threading import Thread
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, TextIO, Union
 
 import fsspec
@@ -190,6 +191,42 @@ class ArtifactMixin:
             repo.create_artifact(artifact, data_bytes, project_name, experiment_id=experiment_id)
 
         return client.Artifact(artifact, self)
+
+    @failsafe
+    def stream_artifact(
+        self,
+        data_path: str,
+        interval: float = 1.0,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        comments: Optional[List[str]] = None,
+    ) -> Union[Thread, List[Thread]]:
+        artifact = self.log_artifact(
+            data_path=data_path,
+            name=name,
+            description=description,
+            tags=tags,
+            comments=comments,
+        )
+
+        project_name, experiment_id = self._get_identifiers()
+
+        for repository in self.repositories:
+            artifact_data_path = repository._get_artifact_data_path(
+                project_name=project_name,
+                experiment_id=experiment_id,
+                artifact_id=artifact.id,
+            )
+
+            thread = Thread(
+                target=repository.pipe_artifact_data,
+                args=(data_path, artifact_data_path, interval),
+                daemon=True,
+            )
+            thread.start()
+
+        return artifact
 
     def _get_environment_bytes(self, export_cmd: List[str]) -> bytes:
         """Get the working environment as a sequence of bytes.
