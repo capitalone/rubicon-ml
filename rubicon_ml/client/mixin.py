@@ -11,7 +11,7 @@ import zipfile
 from datetime import datetime
 from pathlib import Path
 from threading import Thread
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, TextIO, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, TextIO, Union
 
 import fsspec
 
@@ -199,6 +199,7 @@ class ArtifactMixin:
         interval: float = 1.0,
         name: Optional[str] = None,
         description: Optional[str] = None,
+        stream_from: Literal["end", "start"] = "start",
         tags: Optional[List[str]] = None,
         comments: Optional[List[str]] = None,
     ) -> Union[Thread, List[Thread]]:
@@ -221,7 +222,7 @@ class ArtifactMixin:
 
             thread = Thread(
                 target=repository.stream_artifact_data,
-                args=(data_path, artifact_data_path, interval),
+                args=(data_path, artifact_data_path, interval, stream_from),
                 daemon=True,
             )
             thread.start()
