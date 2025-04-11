@@ -546,14 +546,15 @@ class BaseRepository:
 
         return artifact_data
 
-    def stream_artifact_data(self, source, destination, interval=1.0):
+    def stream_artifact_data(self, source, destination, interval=1.0, stream_from="start"):
         if source.startswith("s3:"):
             raise RubiconException("Streaming is currently only available from local file sources.")
 
         with open(source, "r") as source_file, self.filesystem.open(
             destination, "w"
         ) as destination_file:
-            source_file.seek(0, os.SEEK_END)
+            seek_location = os.SEEK_SET if stream_from == "start" else os.SEEK_END
+            source_file.seek(0, seek_location)
 
             while True:
                 where = source_file.tell()
