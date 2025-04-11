@@ -1,5 +1,7 @@
+import logging
 import subprocess
 import tempfile
+import time
 import warnings
 from pathlib import Path
 from unittest import mock
@@ -243,6 +245,32 @@ def test_log_h2o_model_raises_error(project_client):
         project.log_h2o_model(h2o_model, tags=["h2o"])
 
     assert "`h2o` models cannot be logged in memory" in str(error)
+
+
+def test_stream_artifact(project_client):
+    """Test streaming an artifact from a log file."""
+    project = project_client
+
+    with tempfile.NamedTemporaryFile() as temp_file:
+        logger = logging.getLogger("test_logger")
+        logger.setLevel(logging.INFO)
+
+        handler = logging.FileHandler(temp_file.name)
+        logger.addHandler(handler)
+
+        artifact = project.stream_artifact(temp_file.name, interval=0.1)
+
+        for i in range(5):
+            assert len(artifact.get_data().decode().splitlines()) == i
+
+            logger.info(f"message {i}")
+
+            time.sleep(0.5)  # allow time for `interval` polling
+
+    artifact_data = artifact.get_data().decode()
+
+    for i in range(5):
+        assert f"message {i}" in artifact_data
 
 
 def test_artifacts(project_client):
