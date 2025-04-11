@@ -220,7 +220,7 @@ class ArtifactMixin:
             )
 
             thread = Thread(
-                target=repository.pipe_artifact_data,
+                target=repository.stream_artifact_data,
                 args=(data_path, artifact_data_path, interval),
                 daemon=True,
             )
