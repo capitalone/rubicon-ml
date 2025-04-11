@@ -247,30 +247,48 @@ def test_log_h2o_model_raises_error(project_client):
     assert "`h2o` models cannot be logged in memory" in str(error)
 
 
-def test_stream_artifact(project_client):
-    """Test streaming an artifact from a log file."""
+@pytest.mark.parametrize("stream_from", ["start", "end"])
+def test_stream_artifact(project_client, stream_from):
+    """Test streaming an artifact from a log file.
+
+    Results are eventually consistent as long as daemon thread is running, so
+    sleeping is required to check intermediary results.
+    """
     project = project_client
+    interval = 0.025
 
     with tempfile.NamedTemporaryFile() as temp_file:
+        handler = logging.FileHandler(temp_file.name)
         logger = logging.getLogger("test_logger")
         logger.setLevel(logging.INFO)
-
-        handler = logging.FileHandler(temp_file.name)
         logger.addHandler(handler)
+        logger.info("pre-artifact message")
 
-        artifact = project.stream_artifact(temp_file.name, interval=0.1)
+        artifact = project.stream_artifact(
+            temp_file.name, interval=interval, stream_from=stream_from
+        )
+        time.sleep(interval)  # allow time for daemon thread to start
 
-        for i in range(5):
-            assert len(artifact.get_data().decode().splitlines()) == i
+        num_starting_lines = 1 if stream_from == "start" else 0
+        num_log_lines = 5
+
+        for i in range(num_log_lines):
+            assert len(artifact.get_data().decode().splitlines()) == num_starting_lines + i
 
             logger.info(f"message {i}")
+            time.sleep(2 * interval)  # allow time for `interval` polling
 
-            time.sleep(0.5)  # allow time for `interval` polling
+    final_artifact_data = artifact.get_data().decode().splitlines()
 
-    artifact_data = artifact.get_data().decode()
+    assert len(final_artifact_data) == num_starting_lines + num_log_lines
+
+    if stream_from == "start":
+        assert "pre-artifact message" in final_artifact_data
+    else:
+        assert "pre-artifact message" not in final_artifact_data
 
     for i in range(5):
-        assert f"message {i}" in artifact_data
+        assert f"message {i}" in final_artifact_data
 
 
 def test_artifacts(project_client):
