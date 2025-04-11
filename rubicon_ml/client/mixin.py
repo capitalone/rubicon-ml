@@ -203,6 +203,7 @@ class ArtifactMixin:
         tags: Optional[List[str]] = None,
         comments: Optional[List[str]] = None,
     ) -> Union[Thread, List[Thread]]:
+        project_name, experiment_id = self._get_identifiers()
         artifact = self.log_artifact(
             data_path=data_path,
             name=name,
@@ -211,18 +212,17 @@ class ArtifactMixin:
             comments=comments,
         )
 
-        project_name, experiment_id = self._get_identifiers()
-
         for repository in self.repositories:
-            artifact_data_path = repository._get_artifact_data_path(
-                project_name=project_name,
-                experiment_id=experiment_id,
-                artifact_id=artifact.id,
-            )
-
             thread = Thread(
                 target=repository.stream_artifact_data,
-                args=(data_path, artifact_data_path, interval, stream_from),
+                args=(
+                    data_path,
+                    artifact.id,
+                    project_name,
+                    experiment_id,
+                    interval,
+                    stream_from,
+                ),
                 daemon=True,
             )
             thread.start()
