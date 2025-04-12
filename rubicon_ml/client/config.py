@@ -12,6 +12,7 @@ from rubicon_ml.repository import (
 from rubicon_ml.repository.v2 import (
     BaseRepositoryV2,
     LocalRepositoryV2,
+    LoggerRepositoryV2,
     MemoryRepositoryV2,
     S3RepositoryV2,
 )
@@ -40,12 +41,13 @@ class Config:
         are passed directly to the underlying filesystem class.
     """
 
-    PERSISTENCE_TYPES = ["filesystem", "memory", "filesystem:v2", "memory:v2"]
+    PERSISTENCE_TYPES = ["filesystem", "memory", "filesystem:v2", "logger:v2", "memory:v2"]
     REPOSITORIES: Dict[str, Union[Type[BaseRepository], Type[BaseRepositoryV2]]] = {
         "filesystem-local": LocalRepository,
         "filesystem:v2-local": LocalRepositoryV2,
         "filesystem-s3": S3Repository,
         "filesystem:v2-s3": S3RepositoryV2,
+        "logger:v2-custom": LoggerRepositoryV2,
         "memory-memory": MemoryRepository,
         "memory:v2-memory": MemoryRepositoryV2,
     }

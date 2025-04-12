@@ -4,6 +4,7 @@ from rubicon_ml.repository.v2.fsspec import (
     MemoryRepository,
     S3Repository,
 )
+from rubicon_ml.repository.v2.logger import LoggerRepository
 
 
 class V1CompatibilityMixin:
@@ -36,5 +37,11 @@ class MemoryRepositoryV2(MemoryRepository, V1CompatibilityMixin):
 
 class S3RepositoryV2(S3Repository, V1CompatibilityMixin):
     """`S3Repository` alias for testing and integration."""
+
+    pass
+
+
+class LoggerRepositoryV2(LoggerRepository, V1CompatibilityMixin):
+    """`LoggerRepository` alias for testing and integration."""
 
     pass
