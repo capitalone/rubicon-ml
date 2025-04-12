@@ -548,38 +548,36 @@ class BaseRepository:
 
     def stream_artifact_data(
         self,
-        source,
+        source_filename,
         artifact_id,
         project_name,
         experiment_id=None,
         interval=1.0,
         stream_from="start",
     ):
-        if source.startswith("s3:"):
+        if source_filename.startswith("s3:"):
             raise RubiconException("Streaming is currently only available from local file sources.")
 
-        destination = self._get_artifact_data_path(
+        dest = self._get_artifact_data_path(
             project_name=project_name,
             experiment_id=experiment_id,
             artifact_id=artifact_id,
         )
 
-        with open(source, "r") as source_file, self.filesystem.open(
-            destination, "w"
-        ) as destination_file:
+        with open(source_filename, "r") as src_file, self.filesystem.open(dest, "w") as dest_file:
             seek_location = os.SEEK_SET if stream_from == "start" else os.SEEK_END
-            source_file.seek(0, seek_location)
+            src_file.seek(0, seek_location)
 
             while True:
-                where = source_file.tell()
-                line = source_file.readline()
+                where = src_file.tell()
+                line = src_file.readline()
 
                 if line:
-                    destination_file.write(line)
-                    destination_file.flush()
+                    dest_file.write(line)
+                    dest_file.flush()
                 else:
                     time.sleep(interval)
-                    source_file.seek(where)
+                    src_file.seek(where)
 
     def delete_artifact(self, project_name, artifact_id, experiment_id=None):
         """Delete an artifact from the configured filesystem.

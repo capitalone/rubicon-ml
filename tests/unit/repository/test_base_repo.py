@@ -1,4 +1,7 @@
 import sys
+import tempfile
+import threading
+import time
 import uuid
 from unittest.mock import patch
 
@@ -364,6 +367,61 @@ def test_get_artifact_data_throws_error_if_not_found(memory_repository):
         repository.get_artifact_data(project.name, missing_artifact_id)
 
     assert f"No data for artifact with id `{missing_artifact_id}`" in str(e)
+
+
+@pytest.mark.parametrize("stream_from", ["end", "start"])
+def test_stream_artifact_data(memory_repository, stream_from):
+    repository = memory_repository
+    project = _create_project(repository)
+    artifact = _create_artifact(repository, project=project, artifact_data=b"")
+
+    interval = 0.025
+    num_starting_lines = 1 if stream_from == "start" else 0
+    num_log_lines = 5
+
+    with tempfile.NamedTemporaryFile() as temp_file:
+        temp_file.write("pre-streaming message\n".encode())
+        temp_file.flush()
+
+        thread = threading.Thread(
+            target=repository.stream_artifact_data,
+            args=(
+                temp_file.name,
+                artifact.id,
+                project.name,
+                None,
+                interval,
+                stream_from,
+            ),
+            daemon=True,
+        )
+        thread.start()
+
+        time.sleep(interval)  # allow time for daemon thread to start
+
+        for i in range(num_log_lines):
+            temp_file.write(f"message {i}\n".encode())
+            temp_file.flush()
+
+        time.sleep(2 * interval)  # allow time for `interval` polling
+
+    artifact_root = f"{repository.root_dir}/{slugify(project.name)}/artifacts/{artifact.id}"
+    artifact_data_path = f"{artifact_root}/data"
+
+    assert repository.filesystem.exists(artifact_data_path)
+
+    with repository.filesystem.open(artifact_data_path) as f:
+        artifact_data = f.read().decode().splitlines()
+
+    assert len(artifact_data) == num_starting_lines + num_log_lines
+
+    if stream_from == "start":
+        assert "pre-streaming message" in artifact_data
+    else:
+        assert "pre-artifact message" not in artifact_data
+
+    for i in range(num_log_lines):
+        assert f"message {i}" in artifact_data
 
 
 def test_delete_artifact(memory_repository):

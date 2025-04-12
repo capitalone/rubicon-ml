@@ -247,7 +247,7 @@ def test_log_h2o_model_raises_error(project_client):
     assert "`h2o` models cannot be logged in memory" in str(error)
 
 
-@pytest.mark.parametrize("stream_from", ["start", "end"])
+@pytest.mark.parametrize("stream_from", ["end", "start"])
 def test_stream_artifact(project_client, stream_from):
     """Test streaming an artifact from a log file.
 
@@ -255,22 +255,22 @@ def test_stream_artifact(project_client, stream_from):
     sleeping is required to check intermediary results.
     """
     project = project_client
+
     interval = 0.025
+    num_starting_lines = 1 if stream_from == "start" else 0
+    num_log_lines = 5
 
     with tempfile.NamedTemporaryFile() as temp_file:
         handler = logging.FileHandler(temp_file.name)
         logger = logging.getLogger("test_logger")
         logger.setLevel(logging.INFO)
         logger.addHandler(handler)
-        logger.info("pre-artifact message")
+        logger.info("pre-streaming message")
 
         artifact = project.stream_artifact(
             temp_file.name, interval=interval, stream_from=stream_from
         )
         time.sleep(interval)  # allow time for daemon thread to start
-
-        num_starting_lines = 1 if stream_from == "start" else 0
-        num_log_lines = 5
 
         for i in range(num_log_lines):
             assert len(artifact.get_data().decode().splitlines()) == num_starting_lines + i
@@ -283,11 +283,11 @@ def test_stream_artifact(project_client, stream_from):
     assert len(final_artifact_data) == num_starting_lines + num_log_lines
 
     if stream_from == "start":
-        assert "pre-artifact message" in final_artifact_data
+        assert "pre-streaming message" in final_artifact_data
     else:
         assert "pre-artifact message" not in final_artifact_data
 
-    for i in range(5):
+    for i in range(num_log_lines):
         assert f"message {i}" in final_artifact_data
 
 
