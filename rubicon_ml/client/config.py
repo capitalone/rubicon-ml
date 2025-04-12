@@ -9,8 +9,8 @@ from rubicon_ml.repository import (
     MemoryRepository,
     S3Repository,
 )
-from rubicon_ml.repository.v2.base import BaseRepositoryV2
-from rubicon_ml.repository.v2.fsspec import (
+from rubicon_ml.repository.v2 import (
+    BaseRepositoryV2,
     LocalRepositoryV2,
     MemoryRepositoryV2,
     S3RepositoryV2,
