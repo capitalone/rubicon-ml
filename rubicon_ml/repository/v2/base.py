@@ -1,73 +1,135 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class BaseRepository(ABC):
     """Abstract base for rubicon-ml backend repositories."""
 
-    # core read/writes
+    # core domain read/writes
 
     @abstractmethod
-    def read_domain(self, *args, **kwargs):
+    def read_domain(self, *args: Any, **kwargs: Any):
         ...
 
     @abstractmethod
-    def read_domains(self, *args, **kwargs):
+    def read_domains(self, *args: Any, **kwargs: Any):
         ...
 
     @abstractmethod
-    def write_domain(self, *args, **kwargs):
+    def write_domain(self, *args: Any, **kwargs: Any):
         ...
 
     # binary read/writes
 
     @abstractmethod
-    def read_artifact_data(self, *args, **kwargs):
+    def read_artifact_data(self, *args: Any, **kwargs: Any):
         ...
 
     @abstractmethod
-    def write_artifact_data(self, *args, **kwargs):
+    def stream_artifact_data(self, *args: Any, **kwargs: Any):
         ...
 
     @abstractmethod
-    def read_dataframe_data(self, *args, **kwargs):
+    def write_artifact_data(self, *args: Any, **kwargs: Any):
         ...
 
     @abstractmethod
-    def write_dataframe_data(self, *args, **kwargs):
+    def read_dataframe_data(self, *args: Any, **kwargs: Any):
         ...
 
-    # domain read/writes
+    @abstractmethod
+    def write_dataframe_data(self, *args: Any, **kwargs: Any):
+        ...
 
-    def read_project_metadata(self, *args, **kwargs):
+    # domain entity read/writes
+
+    def read_project_metadata(self, *args: Any, **kwargs: Any):
         project = self.read_domain(*args, **kwargs)
 
         return project
 
-    def read_projects_metadata(self, *args, **kwargs):
+    def read_projects_metadata(self, *args: Any, **kwargs: Any):
         projects = self.read_domains(*args, **kwargs)
 
         return projects
 
-    def write_project_metadata(self, *args, **kwargs):
+    def write_project_metadata(self, *args: Any, **kwargs: Any):
         self.write_domain(*args, **kwargs)
 
-    def read_experiment_metadata(self, *args, **kwargs):
+    def read_experiment_metadata(self, *args: Any, **kwargs: Any):
         experiment = self.read_domain(*args, **kwargs)
 
         return experiment
 
-    def read_experiments_metadata(self, *args, **kwargs):
+    def read_experiments_metadata(self, *args: Any, **kwargs: Any):
         experiments = self.read_domains(*args, **kwargs)
 
         return experiments
 
-    def write_experiment_metadata(self, *args, **kwargs):
+    def write_experiment_metadata(self, *args: Any, **kwargs: Any):
         self.write_domain(*args, **kwargs)
 
-    # TODO: features, metrics, parameters, artifacts, dataframes
+    def read_artifact_metadata(self, *args: Any, **kwargs: Any):
+        artifact = self.read_domain(*args, **kwargs)
 
+        return artifact
 
-class BaseRepositoryV2(BaseRepository):
-    """`BaseRepository` alias for testing and integration."""
+    def read_artifacts_metadata(self, *args: Any, **kwargs: Any):
+        artifacts = self.read_domains(*args, **kwargs)
 
-    pass
+        return artifacts
+
+    def write_artifact_metadata(self, *args: Any, **kwargs: Any):
+        self.write_domain(*args, **kwargs)
+
+    def read_dataframe_metadata(self, *args: Any, **kwargs: Any):
+        dataframe = self.read_domain(*args, **kwargs)
+
+        return dataframe
+
+    def read_dataframes_metadata(self, *args: Any, **kwargs: Any):
+        dataframes = self.read_domains(*args, **kwargs)
+
+        return dataframes
+
+    def write_dataframe_metadata(self, *args: Any, **kwargs: Any):
+        self.write_domain(*args, **kwargs)
+
+    def read_feature_metadata(self, *args: Any, **kwargs: Any):
+        feature = self.read_domain(*args, **kwargs)
+
+        return feature
+
+    def read_features_metadata(self, *args: Any, **kwargs: Any):
+        features = self.read_domains(*args, **kwargs)
+
+        return features
+
+    def write_feature_metadata(self, *args: Any, **kwargs: Any):
+        self.write_domain(*args, **kwargs)
+
+    def read_metric_metadata(self, *args: Any, **kwargs: Any):
+        metric = self.read_domain(*args, **kwargs)
+
+        return metric
+
+    def read_metrics_metadata(self, *args: Any, **kwargs: Any):
+        metrics = self.read_domains(*args, **kwargs)
+
+        return metrics
+
+    def write_metric_metadata(self, *args: Any, **kwargs: Any):
+        self.write_domain(*args, **kwargs)
+
+    def read_parameter_metadata(self, *args: Any, **kwargs: Any):
+        parameter = self.read_domain(*args, **kwargs)
+
+        return parameter
+
+    def read_parameters_metadata(self, *args: Any, **kwargs: Any):
+        parameters = self.read_domains(*args, **kwargs)
+
+        return parameters
+
+    def write_parameter_metadata(self, *args: Any, **kwargs: Any):
+        self.write_domain(*args, **kwargs)
