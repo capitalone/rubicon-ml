@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from rubicon_ml.repository.v2.base import BaseRepository
 from rubicon_ml.repository.v2.fsspec import (
@@ -21,6 +21,12 @@ class V1CompatibilityMixin:
 
     def create_project(self, project: "domain.Project"):
         self.write_project_metadata(project)
+
+    def get_project(self, project_name: str) -> "domain.Project":
+        return self.read_project_metadata(project_name)
+
+    def get_projects(self) -> List["domain.Project"]:
+        return self.read_projects_metadata()
 
 
 class BaseRepositoryV2(BaseRepository, V1CompatibilityMixin):

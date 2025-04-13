@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
-if TYPE_CHECKING:
-    from rubicon_ml import domain
+from rubicon_ml import domain
 
 
 class BaseRepository(ABC):
@@ -46,17 +45,17 @@ class BaseRepository(ABC):
 
     # domain entity read/writes
 
-    def read_project_metadata(self, *args: Any, **kwargs: Any):
-        project = self.read_domain(*args, **kwargs)
+    def read_project_metadata(self, project_name: str):
+        project = self.read_domain(project_name)
 
         return project
 
-    def read_projects_metadata(self, *args: Any, **kwargs: Any):
-        projects = self.read_domains(*args, **kwargs)
+    def read_projects_metadata(self):
+        projects = self.read_domains(domain_type=domain.Project)
 
         return projects
 
-    def write_project_metadata(self, project: "domain.Project"):
+    def write_project_metadata(self, project: domain.Project):
         self.write_domain(project)
 
     def read_experiment_metadata(self, *args: Any, **kwargs: Any):
