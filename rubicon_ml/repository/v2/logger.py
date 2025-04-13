@@ -50,7 +50,12 @@ class LoggerRepository(DomainOnlyMixin, WriteOnlyMixin, BaseRepository):
 
     # core read/writes
 
-    def write_domain(self, domain: "DOMAIN_TYPES"):
+    def write_domain(
+        self,
+        domain: "DOMAIN_TYPES",
+        project_name: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+    ):
         self.logger.log(
             self.logger.getEffectiveLevel(),
             self.log_template.format(
