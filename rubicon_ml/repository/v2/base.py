@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from rubicon_ml import domain
 
 
 class BaseRepository(ABC):
@@ -53,8 +56,8 @@ class BaseRepository(ABC):
 
         return projects
 
-    def write_project_metadata(self, *args: Any, **kwargs: Any):
-        self.write_domain(*args, **kwargs)
+    def write_project_metadata(self, project: "domain.Project"):
+        self.write_domain(project)
 
     def read_experiment_metadata(self, *args: Any, **kwargs: Any):
         experiment = self.read_domain(*args, **kwargs)

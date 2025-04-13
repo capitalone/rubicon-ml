@@ -1,9 +1,8 @@
-import json
 import logging
 from typing import TYPE_CHECKING, Any, Optional
 
-from rubcion_ml.exceptions import RubiconNotImplementedError
-
+from rubicon_ml.exceptions import RubiconNotImplementedError
+from rubicon_ml.repository.utils import json
 from rubicon_ml.repository.v2.base import BaseRepository
 
 if TYPE_CHECKING:
@@ -13,11 +12,26 @@ if TYPE_CHECKING:
 class LoggerRepository(BaseRepository):
     """Builtin `logging.Logger`-based backend."""
 
-    def __init__(self, logger: Optional[logging.Logger] = None, **kwargs):
+    def __init__(
+        self,
+        log_template: str = "rubicon-ml::{name}::{metadata}",
+        logger: Optional[logging.Logger] = None,
+        **kwargs,
+    ):
+        if log_template == "":
+            log_template = "{metadata}"
+
+        if "{metadata}" not in log_template:
+            raise ValueError("`log_template` must contain '{metadata}' placeholder.")
+
+        self.log_template = log_template
         self.logger = logger if logger else self._make_default_logger()
 
     def _make_default_logger(self):
-        return logging.Logger(name="rubicon-ml")
+        logger = logging.Logger(name="rubicon-ml")
+        logger.setLevel(logging.INFO)
+
+        return logger
 
     # core read/writes
 
@@ -28,7 +42,13 @@ class LoggerRepository(BaseRepository):
         raise RubiconNotImplementedError(f"{self.__class__.__name__} is write-only.")
 
     def write_domain(self, domain: "DOMAIN_TYPES"):
-        self.logger.info(json.dumps(domain))
+        self.logger.log(
+            self.logger.getEffectiveLevel(),
+            self.log_template.format(
+                name=domain.__class__.__name__.lower(),
+                metadata=json.dumps(domain),
+            ),
+        )
 
     # binary read/writes
 
@@ -50,5 +70,5 @@ class LoggerRepository(BaseRepository):
 
     def write_dataframe_data(self, *args: Any, **kwargs: Any):
         raise RubiconNotImplementedError(
-            f"{self.__class__.__name__} does not support logging of dataframe data."
+            f"{self.__class__.__name__} does not support logging of binary dataframe data."
         )
