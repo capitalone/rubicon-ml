@@ -53,8 +53,13 @@ class LoggerRepository(DomainOnlyMixin, WriteOnlyMixin, BaseRepository):
     def write_domain(
         self,
         domain: "DOMAIN_TYPES",
-        project_name: Optional[str] = None,
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
         experiment_id: Optional[str] = None,
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
     ):
         self.logger.log(
             self.logger.getEffectiveLevel(),

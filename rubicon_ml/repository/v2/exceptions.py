@@ -1,6 +1,9 @@
-from typing import Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from rubicon_ml.exceptions import RubiconException
+
+if TYPE_CHECKING:
+    from rubicon_ml.domain import DomainsVar
 
 
 class RubiconNotImplementedError(RubiconException):
@@ -13,10 +16,24 @@ class WriteOnlyMixin:
 
     # core reads
 
-    def read_domain(self, *args: Any, **kwargs: Any):
+    def read_domain(
+        self,
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+    ):
         self._raise_write_only_exception()
 
-    def read_domains(self, *args: Any, **kwargs: Any):
+    def read_domains(
+        self,
+        domain_cls: "DomainsVar",
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
         self._raise_write_only_exception()
 
     # binary reads
