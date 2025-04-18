@@ -10,6 +10,7 @@ notebooks/quick-look/*.yml
 .DS_Store
 *.py[cod]
 *.egg-info/**
+*.swp
 **/dask-worker-space/
 **/rubicon-root/
 **/.ipynb_checkpoints/
