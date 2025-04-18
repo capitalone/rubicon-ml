@@ -16,6 +16,7 @@ DOMAIN_TYPES = Union[Artifact, Dataframe, Experiment, Feature, Metric, Parameter
 DomainsVar = TypeVar(
     "DomainsVar", Artifact, Dataframe, Experiment, Feature, Metric, Parameter, Project
 )
+DOMAIN_CLASS_TYPES = DomainsVar
 
 
 __all__ = [

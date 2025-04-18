@@ -29,7 +29,7 @@ class LoggerRepository(DomainOnlyMixin, WriteOnlyMixin, BaseRepository):
         self.log_template = log_template
         self.logger = logger if logger else self._make_default_logger()
 
-    def _make_default_logger(self):
+    def _make_default_logger(self) -> logging.Logger:
         default_log_level = logging.WARN
         default_log_name = "rubicon-ml"
 

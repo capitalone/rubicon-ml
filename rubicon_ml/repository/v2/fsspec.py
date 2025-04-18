@@ -1,15 +1,16 @@
 import logging
 from abc import abstractmethod
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, List, Optional
 
 import fsspec
 
+from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
 from rubicon_ml.repository.v2.base import BaseRepository
 
 if TYPE_CHECKING:
-    from rubicon_ml.domain import DOMAIN_TYPES, DomainsVar
+    from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 LOGGER = logging.Logger(__name__)
 
@@ -24,8 +25,18 @@ class FsspecRepository(BaseRepository):
         self._filesystem = None
 
     @abstractmethod
-    def _get_filesystem(self):
+    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
         ...
+
+    def _make_exists_error_message(
+        self, domain_cls: "DOMAIN_CLASS_TYPES", domain_identifier: str
+    ) -> str:
+        return f"{domain_cls.__name__} '{domain_identifier}' already exists."
+
+    def _make_not_found_error_message(
+        self, domain_cls: "DOMAIN_CLASS_TYPES", domain_identifier: str
+    ) -> str:
+        return f"{domain_cls.__name__} '{domain_identifier}' was not found."
 
     def _make_path(
         self,
@@ -36,33 +47,41 @@ class FsspecRepository(BaseRepository):
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ):
+    ) -> (Path, str):
         path = Path(self.root_dir, slugify(project_name))
+        domain_identifier = project_name
 
         if experiment_id is not None:
             path = Path(path, "experiments", experiment_id)
+            domain_identifier = experiment_id
 
         if artifact_id is not None:
             path = Path(path, "artifacts", artifact_id)
+            domain_identifier = artifact_id
 
         if dataframe_id is not None:
             path = Path(path, "dataframes", dataframe_id)
+            domain_identifier = dataframe_id
 
         if feature_name is not None:
             path = Path(path, "features", slugify(feature_name))
+            domain_identifier = feature_name
 
         if metric_name is not None:
             path = Path(path, "metrics", slugify(metric_name))
+            domain_identifier = metric_name
 
         if parameter_name is not None:
             path = Path(path, "parameters", slugify(parameter_name))
+            domain_identifier = parameter_name
 
-        return Path(path, "metadata.json")
+        return path, domain_identifier
 
     # core read/writes
 
     def read_domain(
         self,
+        domain_cls: "DOMAIN_CLASS_TYPES",
         project_name: str,
         artifact_id: Optional[str] = None,
         dataframe_id: Optional[str] = None,
@@ -70,15 +89,35 @@ class FsspecRepository(BaseRepository):
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ):
-        return
+    ) -> "DOMAIN_TYPES":
+        path_root, domain_identifier = self._make_path(
+            project_name,
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+            feature_name=feature_name,
+            metric_name=metric_name,
+            parameter_name=parameter_name,
+        )
+        path = Path(path_root, "metadata.json")
+
+        LOGGER.warn(path)  # TODO: REMOVE
+
+        try:
+            domain_file = self.filesystem.open(path)
+        except FileNotFoundError:
+            error_message = self._make_not_found_error_message(domain_cls, domain_identifier)
+
+            raise RubiconException(error_message)
+
+        return domain_cls(**json.load(domain_file))
 
     def read_domains(
         self,
-        domain_cls: "DomainsVar",
+        domain_cls: "DOMAIN_CLASS_TYPES",
         project_name: str,
         experiment_id: Optional[str] = None,
-    ):
+    ) -> List["DOMAIN_TYPES"]:
         return
 
     def write_domain(
@@ -92,7 +131,7 @@ class FsspecRepository(BaseRepository):
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
     ):
-        path = self._make_path(
+        path_root, domain_identifier = self._make_path(
             project_name,
             artifact_id=artifact_id,
             dataframe_id=dataframe_id,
@@ -102,9 +141,16 @@ class FsspecRepository(BaseRepository):
             parameter_name=parameter_name,
         )
 
+        self.filesystem.mkdirs(path_root, exist_ok=True)
+
+        path = Path(path_root, "metadata.json")
+
         LOGGER.warn(path)  # TODO: REMOVE
 
-        self.filesystem.mkdirs(path.parent, exist_ok=True)
+        if self.filesystem.exists(path):
+            error_message = self._make_exists_error_message(domain.__class__, domain_identifier)
+
+            raise RubiconException(error_message)
 
         with self.filesystem.open(path, "w") as domain_file:
             domain_file.write(json.dumps(domain))
@@ -127,7 +173,7 @@ class FsspecRepository(BaseRepository):
         return
 
     @property
-    def filesystem(self):
+    def filesystem(self) -> fsspec.spec.AbstractFileSystem:
         if self._filesystem is None:
             self._filesystem = self._get_filesystem()
 
@@ -137,19 +183,19 @@ class FsspecRepository(BaseRepository):
 class LocalRepository(FsspecRepository):
     """Local filesystem repository leveraging `fsspec`."""
 
-    def _get_filesystem(self):
+    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
         return fsspec.filesystem("local", **self.storage_options)
 
 
 class MemoryRepository(FsspecRepository):
     """In-memory filesystem repository leveraging `fsspec`."""
 
-    def _get_filesystem(self):
+    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
         return fsspec.filesystem("memory", **self.storage_options)
 
 
 class S3Repository(FsspecRepository):
     """S3 filesystem repository leveraging `fsspec`."""
 
-    def _get_filesystem(self):
+    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
         return fsspec.filesystem("s3", **self.storage_options)
