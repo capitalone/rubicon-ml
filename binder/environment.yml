@@ -1,9 +1,0 @@
-name: rubicon-ml-binder
-channels:
-  - conda-forge
-dependencies:
-  - python>=3.8
-  - pip
-
-  - jupyter-server-proxy
-  - rubicon-ml>=0.8.0
