@@ -28,7 +28,8 @@ at the root of the repository.
 
 .. code-block:: shell
 
-   conda env create -f environment.yml
+   conda create -n rubicon-ml-dev python=3.11
+   conda activate rubicon-ml-dev
 
 Building ``rubicon_ml``
 =======================
@@ -37,7 +38,7 @@ After you've cloned the repository, use ``pip`` to install ``rubicon_ml`` locall
 
 .. code-block:: shell
 
-   python -m pip install -e .[all]
+   python -m pip install -e './[dev]'
 
 Style
 =====
@@ -79,24 +80,11 @@ example notebooks directly from our repo. To reduce the complexity of our
 documentation builds, we only commit executed notebooks to the repo so
 ``nbsphinx`` doesn't have to spend time executing them itself.
 
-To build the documentation locally, use the environment YAML file in the
-``docs`` directory to create a new ``conda`` environment with all necessary
-tools:
+To build the documentation locally, use the provided Makefile:
 
 .. code-block:: shell
 
-   cd docs/
-   conda env create -f docs-environment.yml
-
-Activate the new environment, install a local copy of ``rubicon_ml``, and
-use the ``make html`` command from the ``docs`` directory to build the
-documentation locally.
-
-.. code-block:: shell
-
-   conda activate rubicon-ml-docs
-   pip install --no-deps -e ../
-   make html
+   make clean html
 
 The newly built documentation can be opened in a browser.
 
