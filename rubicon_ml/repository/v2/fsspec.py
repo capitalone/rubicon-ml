@@ -1,5 +1,6 @@
 import logging
 from abc import abstractmethod
+from json import JSONDecodeError
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Optional
 
@@ -25,31 +26,24 @@ class FsspecRepository(BaseRepository):
         self._filesystem = None
 
     @abstractmethod
-    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
-        ...
-
-    def _make_exists_error_message(
-        self, domain_cls: "DOMAIN_CLASS_TYPES", domain_identifier: str
-    ) -> str:
-        return f"{domain_cls.__name__} '{domain_identifier}' already exists."
-
-    def _make_not_found_error_message(
-        self, domain_cls: "DOMAIN_CLASS_TYPES", domain_identifier: str
-    ) -> str:
-        return f"{domain_cls.__name__} '{domain_identifier}' was not found."
+    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem: ...
 
     def _make_path(
         self,
-        project_name: str,
+        project_name: Optional[str] = None,
         artifact_id: Optional[str] = None,
         dataframe_id: Optional[str] = None,
         experiment_id: Optional[str] = None,
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ) -> (Path, str):
-        path = Path(self.root_dir, slugify(project_name))
-        domain_identifier = project_name
+    ) -> (Path, Optional[str]):
+        path = Path(self.root_dir)
+        domain_identifier = None
+
+        if project_name is not None:
+            path = Path(path, slugify(project_name))
+            domain_identifier = project_name
 
         if experiment_id is not None:
             path = Path(path, "experiments", experiment_id)
@@ -101,24 +95,48 @@ class FsspecRepository(BaseRepository):
         )
         path = Path(path_root, "metadata.json")
 
-        LOGGER.warn(path)  # TODO: REMOVE
-
         try:
             domain_file = self.filesystem.open(path)
         except FileNotFoundError:
-            error_message = self._make_not_found_error_message(domain_cls, domain_identifier)
-
-            raise RubiconException(error_message)
+            raise RubiconException(f"{domain_cls.__name__} '{domain_identifier}' was not found.")
 
         return domain_cls(**json.load(domain_file))
 
     def read_domains(
         self,
         domain_cls: "DOMAIN_CLASS_TYPES",
-        project_name: str,
+        project_name: Optional[str] = None,
         experiment_id: Optional[str] = None,
     ) -> List["DOMAIN_TYPES"]:
-        return
+        domains = []
+        path_root, _ = self._make_path(project_name, experiment_id=experiment_id)
+
+        if project_name:
+            path_root = Path(path_root, f"{domain_cls.__name__.lower()}s")
+
+        try:
+            metadata_file_paths = [
+                Path(metadata_path.get("name"), "metadata.json")
+                for metadata_path in self.filesystem.ls(path_root, detail=True)
+                if metadata_path.get("type", metadata_path.get("StorageClass")).lower()
+                == "directory"
+            ]
+        except FileNotFoundError:
+            return []
+
+        for path, metadata in self.filesystem.cat(metadata_file_paths, on_error="return").items():
+            if isinstance(metadata, FileNotFoundError):
+                LOGGER.warn(f"Ignoring non-rubicon-ml-metadata at {path}.")
+            else:
+                try:
+                    domain = domain_cls(**json.loads(metadata))
+                    domains.append(domain)
+                except (JSONDecodeError, TypeError):
+                    LOGGER.warn(f"Failed to load {domain_cls.__name__.lower()} at {path}.")
+
+        domains.sort(key=lambda d: d.created_at)
+
+        return domains
 
     def write_domain(
         self,
@@ -140,17 +158,14 @@ class FsspecRepository(BaseRepository):
             metric_name=metric_name,
             parameter_name=parameter_name,
         )
-
         self.filesystem.mkdirs(path_root, exist_ok=True)
 
         path = Path(path_root, "metadata.json")
 
-        LOGGER.warn(path)  # TODO: REMOVE
-
         if self.filesystem.exists(path):
-            error_message = self._make_exists_error_message(domain.__class__, domain_identifier)
-
-            raise RubiconException(error_message)
+            raise RubiconException(
+                f"{domain.__class__.__name__} '{domain_identifier}' already exists."
+            )
 
         with self.filesystem.open(path, "w") as domain_file:
             domain_file.write(json.dumps(domain))

@@ -22,8 +22,7 @@ class BaseRepository(ABC):
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ) -> "DOMAIN_TYPES":
-        ...
+    ) -> "DOMAIN_TYPES": ...
 
     @abstractmethod
     def read_domains(
@@ -31,8 +30,7 @@ class BaseRepository(ABC):
         domain_cls: "DOMAIN_CLASS_TYPES",
         project_name: str,
         experiment_id: Optional[str] = None,
-    ) -> List["DOMAIN_TYPES"]:
-        ...
+    ) -> List["DOMAIN_TYPES"]: ...
 
     @abstractmethod
     def write_domain(
@@ -45,30 +43,24 @@ class BaseRepository(ABC):
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ):
-        ...
+    ): ...
 
     # binary read/writes
 
     @abstractmethod
-    def read_artifact_data(self, *args: Any, **kwargs: Any):
-        ...
+    def read_artifact_data(self, *args: Any, **kwargs: Any): ...
 
     @abstractmethod
-    def stream_artifact_data(self, *args: Any, **kwargs: Any):
-        ...
+    def stream_artifact_data(self, *args: Any, **kwargs: Any): ...
 
     @abstractmethod
-    def write_artifact_data(self, *args: Any, **kwargs: Any):
-        ...
+    def write_artifact_data(self, *args: Any, **kwargs: Any): ...
 
     @abstractmethod
-    def read_dataframe_data(self, *args: Any, **kwargs: Any):
-        ...
+    def read_dataframe_data(self, *args: Any, **kwargs: Any): ...
 
     @abstractmethod
-    def write_dataframe_data(self, *args: Any, **kwargs: Any):
-        ...
+    def write_dataframe_data(self, *args: Any, **kwargs: Any): ...
 
     # domain entity read/writes
 
