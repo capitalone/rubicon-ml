@@ -2793,7 +2793,7 @@ only the error’s text, each increment shows another line of the traceback.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> leverages <code class="docutils literal notranslate"><span class="pre">intake</span></code> to easily share sets of experiments.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubicon_ml.publish">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualization_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ExperimentsTable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MetricCorrelationPlot</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataframePlot</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MetricListsComparison</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_catalog_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.publish" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.</span></span><span class="sig-name descname"><span class="pre">publish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualization_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable" title="rubicon_ml.viz.ExperimentsTable"><span class="pre">ExperimentsTable</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot" title="rubicon_ml.viz.MetricCorrelationPlot"><span class="pre">MetricCorrelationPlot</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#rubicon_ml.viz.DataframePlot" title="rubicon_ml.viz.DataframePlot"><span class="pre">DataframePlot</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison" title="rubicon_ml.viz.MetricListsComparison"><span class="pre">MetricListsComparison</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_catalog_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.publish" title="Link to this definition">¶</a></dt>
 <dd><p>Publish experiments to an <cite>intake</cite> catalog that can be
 read by the <cite>intake-rubicon</cite> driver.</p>
 <dl class="field-list simple">
@@ -3238,13 +3238,720 @@ is completed. (docstring source: Scikit-Learn)</p>
 <span id="library-reference-viz"></span><h2>viz<a class="headerlink" href="#viz" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> offers visualization leveraging <strong>Dash</strong> and <strong>Plotly</strong>.
 Each of the following classes are standalone widgets.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubicon_ml.viz.DataframePlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.viz.</span></span><span class="sig-name descname"><span class="pre">DataframePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiments=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting_func=&lt;function</span> <span class="pre">line&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting_func_kwargs={}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot" title="Link to this definition">¶</a></dt>
+<dd><p>Plot the dataframes with name <cite>dataframe_name</cite> logged to the
+experiments <cite>experiments</cite> on a shared axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dataframe_name</strong><span class="classifier">str</span></dt><dd><p>The name of the dataframe to plot. A dataframe with name
+<cite>dataframe_name</cite> must be logged to each experiment in <cite>experiments</cite>.</p>
+</dd>
+<dt><strong>experiments</strong><span class="classifier">list of rubicon_ml.client.experiment.Experiment, optional</span></dt><dd><p>The experiments to visualize. Defaults to None. Can be set as
+attribute after instantiation.</p>
+</dd>
+<dt><strong>plotting_func</strong><span class="classifier">function, optional</span></dt><dd><p>The <cite>plotly.express</cite> plotting function used to visualize the
+dataframes. Available options can be found at
+<a class="reference external" href="https://plotly.com/python-api-reference/plotly.express.html">https://plotly.com/python-api-reference/plotly.express.html</a>.
+Defaults to <cite>plotly.express.line</cite>.</p>
+</dd>
+<dt><strong>plotting_func_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed to <cite>plotting_func</cite>. Available options
+can be found in the documentation of the individual functions at the
+URL above.</p>
+</dd>
+<dt><strong>x</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the column in the dataframes with name <cite>dataframe_name</cite>
+to plot across the x-axis.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the column in the dataframes with name <cite>dataframe_name</cite>
+to plot across the y-axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.DataframePlot.serve">
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot.serve" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.DataframePlot.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.DataframePlot.show" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rubicon_ml.viz.ExperimentsTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.viz.</span></span><span class="sig-name descname"><span class="pre">ExperimentsTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_selectable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_query_tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_query_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_query_tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_query_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize the experiments <cite>experiments</cite> and their metadata, metrics,
+and parameters in a tabular format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiments</strong><span class="classifier">list of rubicon_ml.client.experiment.Experiment, optional</span></dt><dd><p>The experiments to visualize. Defaults to None. Can be set as
+attribute after instantiation.</p>
+</dd>
+<dt><strong>is_selectable</strong><span class="classifier">bool, optional</span></dt><dd><p>True to enable selection of the rows in the table, False otherwise.
+Defaults to True.</p>
+</dd>
+<dt><strong>metric_names</strong><span class="classifier">list of str</span></dt><dd><p>If provided, only show the metrics with names in the given list. If
+<cite>metric_query_tags</cite> are also provided, this will only select metrics
+from the tag-filtered results.</p>
+</dd>
+<dt><strong>metric_query_tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>If provided, only show the metrics with the given tags in the table.</p>
+</dd>
+<dt><strong>metric_query_type</strong><span class="classifier">‘and’ or ‘or’, optional</span></dt><dd><p>When <cite>metric_query_tags</cite> are given, ‘and’ shows the metrics with all of
+the given tags and ‘or’ shows the metrics with any of the given tags.</p>
+</dd>
+<dt><strong>parameter_names</strong><span class="classifier">list of str</span></dt><dd><p>If provided, only show the parameters with names in the given list. If
+<cite>parameter_query_tags</cite> are also provided, this will only select
+parameters from the tag-filtered results.</p>
+</dd>
+<dt><strong>parameter_query_tags</strong><span class="classifier">list of str, optional</span></dt><dd><p>If provided, only show the parameters with the given tags in the table.</p>
+</dd>
+<dt><strong>parameter_query_type</strong><span class="classifier">‘and’ or ‘or’, optional</span></dt><dd><p>When <cite>parameter_query_tags</cite> are given, ‘and’ shows the paramters with
+all of the given tags and ‘or’ shows the parameters with any of the
+given tags.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.ExperimentsTable.serve">
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable.serve" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.ExperimentsTable.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.ExperimentsTable.show" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rubicon_ml.viz.MetricCorrelationPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.viz.</span></span><span class="sig-name descname"><span class="pre">MetricCorrelationPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize the correlation between the parameters and metrics logged
+to the experiments <cite>experiments</cite> using a parallel coordinates plot.</p>
+<p>More info on parallel coordinates plots can be found here:
+<a class="reference external" href="https://plotly.com/python/parallel-coordinates-plot/">https://plotly.com/python/parallel-coordinates-plot/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiments</strong><span class="classifier">list of rubicon_ml.client.experiment.Experiment, optional</span></dt><dd><p>The experiments to visualize. Defaults to None. Can be set as
+attribute after instantiation.</p>
+</dd>
+<dt><strong>metric_names</strong><span class="classifier">list of str</span></dt><dd><p>The names of the metrics to load. Defaults to None, which loads all
+metrics logged to the experiments <cite>experiments</cite>.</p>
+</dd>
+<dt><strong>parameter_names</strong><span class="classifier">list of str</span></dt><dd><p>The names of the parameters to load. Defaults to None, which loads all
+parameters logged to the experiments <cite>experiments</cite>.</p>
+</dd>
+<dt><strong>selected_metric</strong><span class="classifier">str</span></dt><dd><p>The name of the metric to display at launch. Defaults to None, which
+selects the metric loaded first.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.MetricCorrelationPlot.serve">
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot.serve" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.MetricCorrelationPlot.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricCorrelationPlot.show" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rubicon_ml.viz.MetricListsComparison">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.viz.</span></span><span class="sig-name descname"><span class="pre">MetricListsComparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize lists of metrics logged to the experiments <cite>experiments</cite> as
+an annotated heatmap.</p>
+<p>More info on annotated heatmaps can be found here:
+<a class="reference external" href="https://plotly.com/python/annotated-heatmap/">https://plotly.com/python/annotated-heatmap/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>column_names</strong><span class="classifier">list of str</span></dt><dd><p>Titles to use for each column in the heatmap. Defaults to None.</p>
+</dd>
+<dt><strong>experiments</strong><span class="classifier">list of rubicon_ml.client.experiment.Experiment, optional</span></dt><dd><p>The experiments to visualize. Defaults to None. Can be set as
+attribute after instantiation.</p>
+</dd>
+<dt><strong>selected_metric</strong><span class="classifier">str</span></dt><dd><p>The name of the metric to display at launch. Defaults to None, which
+selects the metric loaded first.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.MetricListsComparison.serve">
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison.serve" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.MetricListsComparison.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.MetricListsComparison.show" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <p>Widgets can be combined into an interactive dashboard.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubicon_ml.viz.Dashboard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rubicon_ml.viz.</span></span><span class="sig-name descname"><span class="pre">Dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widgets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_experiment_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard" title="Link to this definition">¶</a></dt>
+<dd><p>Compose visualizations into a dashboard to view multiple widgets at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiments</strong><span class="classifier">list of rubicon_ml.client.experiment.Experiment</span></dt><dd><p>The experiments to visualize.</p>
+</dd>
+<dt><strong>widgets</strong><span class="classifier">list of lists of superclasses of rubicon_ml.viz.base.VizBase, optional</span></dt><dd><p>The widgets to compose in this dashboard. The widgets should be instantiated
+without experiments prior to passing as an argument to <cite>Dashboard</cite>. Defaults
+to a stacked layout of an ExperimentsTable and a MetricCorrelationPlot.</p>
+</dd>
+<dt><strong>link_experiment_table</strong><span class="classifier">bool, optional</span></dt><dd><p>True to enable the callbacks that allow instances of <cite>ExperimentsTable</cite> to
+update the experiment inputs of the other widgets in this dashboard. False
+otherwise. Defaults to True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.Dashboard.serve">
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jupyter_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'external'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'inline'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jupyterlab'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tab'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'external'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard.serve" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>in_background</strong><span class="classifier">bool, optional</span></dt><dd><p>DEPRECATED. Background processing is now handled by <cite>jupyter_mode</cite>.</p>
+</dd>
+<dt><strong>jupyter_mode</strong><span class="classifier">“external”, “inline”, “jupyterlab”, or “tab”, optional</span></dt><dd><p>How to render the dashboard when running from Jupyterlab.
+* “external” to serve the dashboard at an external link.
+* “inline” to render the dashboard in the current notebook’s output</p>
+<blockquote>
+<div><p>cell.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>“jupyterlab” to render the dashboard in a new window within the
+current Jupyterlab session.</p></li>
+<li><p>“tab” to serve the dashboard at an external link and open a new
+browser tab to said link.</p></li>
+</ul>
+<p>Defaults to “external”.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rubicon_ml.viz.Dashboard.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_frame_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_server_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.viz.Dashboard.show" title="Link to this definition">¶</a></dt>
+<dd><p>Serve the Dash app on the next available port to render the visualization.</p>
+<p>Additionally, renders the visualization inline in the current Jupyter notebook.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>i_frame_kwargs: dict, optional</strong></dt><dd><p>DEPRECATED. Use <cite>height</cite> and <cite>width</cite> instead.</p>
+</dd>
+<dt><strong>dash_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to the newly instantiated
+Dash object. Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#dash.dash">https://dash.plotly.com/reference#dash.dash</a>.</p>
+</dd>
+<dt><strong>run_server_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments to be passed along to <cite>Dash.run_server</cite>.
+Available options can be found at
+<a class="reference external" href="https://dash.plotly.com/reference#app.run_server">https://dash.plotly.com/reference#app.run_server</a>. Most commonly,
+the ‘port’ argument can be provided here to serve the app on a
+specific port.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The height of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">int, str or None, optional</span></dt><dd><p>The width of the inline visualizaiton. Integers represent number
+of pixels, strings represent a percentage of the window and must
+end with ‘%’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="workflow-prefect">
 <span id="library-reference-workflow"></span><h2>workflow.prefect<a class="headerlink" href="#workflow-prefect" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> contains wrappers for the workflow management engine
 <strong>Prefect</strong>. These <strong>tasks</strong> represent a Prefect-ified <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>
 client.</p>
+<span class="target" id="module-rubicon_ml.workflow.prefect"></span><dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.create_experiment_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">create_experiment_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.create_experiment_task" title="Link to this definition">¶</a></dt>
+<dd><p>Create an experiment within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+create a new experiment under an existing project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>project</strong><span class="classifier">rubicon.client.Project</span></dt><dd><p>The project under which the experiment will be created.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Keyword arguments to be passed to
+<cite>Project.log_experiment</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Experiment</dt><dd><p>The created experiment.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.get_or_create_project_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">get_or_create_project_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.get_or_create_project_task" title="Link to this definition">¶</a></dt>
+<dd><p>Get or create a project within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+create a new project or get an existing one. It should
+be the entry point to any <cite>prefect</cite> flow that logs
+data to Rubicon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>persistence</strong><span class="classifier">str</span></dt><dd><p>The persistence type to be passed to the
+<cite>Rubicon</cite> constructor.</p>
+</dd>
+<dt><strong>root_dir</strong><span class="classifier">str</span></dt><dd><p>The root directory to be passed to the
+<cite>Rubicon</cite> constructor.</p>
+</dd>
+<dt><strong>project_name</strong><span class="classifier">str</span></dt><dd><p>The name of the project to get or create.</p>
+</dd>
+<dt><strong>auto_git_enabled</strong><span class="classifier">bool, optional</span></dt><dd><p>True to use the <cite>git</cite> command to automatically log
+relevant repository information to projects and
+experiments logged with the client instance created
+in this task, False otherwise. Defaults to False.</p>
+</dd>
+<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
+are passed directly to the underlying filesystem class.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>Rubicon.create_project</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Project</dt><dd><p>The project with name <cite>project_name</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_artifact_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_artifact_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_artifact_task" title="Link to this definition">¶</a></dt>
+<dd><p>Log an artifact within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+log an artifact to an existing project or experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>parent</strong><span class="classifier">rubicon.client.Project or rubicon.client.Experiment</span></dt><dd><p>The project or experiment to log the artifact to.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Keyword arguments to be passed to
+<cite>Project.log_artifact</cite> or <cite>Experiment.log_artifact</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Artifact</dt><dd><p>The logged artifact.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_dataframe_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_dataframe_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_dataframe_task" title="Link to this definition">¶</a></dt>
+<dd><p>Log a dataframe within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+log a dataframe to an existing project or experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>parent</strong><span class="classifier">rubicon.client.Project or rubicon.client.Experiment</span></dt><dd><p>The project or experiment to log the dataframe to.</p>
+</dd>
+<dt><strong>df</strong><span class="classifier">pandas.DataFrame or dask.dataframe.DataFrame</span></dt><dd><p>The <cite>pandas</cite> or <cite>dask</cite> dataframe to log.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>Project.log_dataframe</cite> or <cite>Experiment.log_dataframe</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Dataframe</dt><dd><p>The logged dataframe.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_feature_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_feature_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_feature_task" title="Link to this definition">¶</a></dt>
+<dd><p>Log a feature within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+log a feature to an existing experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment to log a new feature to.</p>
+</dd>
+<dt><strong>feature_name</strong><span class="classifier">str</span></dt><dd><p>The name of the feature to log. Passed to
+<cite>Experiment.log_feature</cite> as <cite>name</cite>.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>Experiment.log_feature</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Feature</dt><dd><p>The logged feature.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_metric_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_metric_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_metric_task" title="Link to this definition">¶</a></dt>
+<dd><p>Log a metric within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+log a metric to an existing experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment to log a new metric to.</p>
+</dd>
+<dt><strong>metric_name</strong><span class="classifier">str</span></dt><dd><p>The name of the metric to log. Passed to
+<cite>Experiment.log_metric</cite> as <cite>name</cite>.</p>
+</dd>
+<dt><strong>metric_value</strong><span class="classifier">str</span></dt><dd><p>The value of the metric to log. Passed to
+<cite>Experiment.log_metric</cite> as <cite>value</cite>.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>Experiment.log_metric</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Metric</dt><dd><p>The logged metric.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_parameter_task">
+<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_parameter_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_parameter_task" title="Link to this definition">¶</a></dt>
+<dd><p>Log a parameter within a <cite>prefect</cite> flow.</p>
+<p>This <cite>prefect</cite> task can be used within a flow to
+log a parameter to an existing experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment to log a new parameter to.</p>
+</dd>
+<dt><strong>parameter_name</strong><span class="classifier">str</span></dt><dd><p>The name of the parameter to log. Passed to
+<cite>Experiment.log_parameter</cite> as <cite>name</cite>.</p>
+</dd>
+<dt><strong>parameter_value</strong><span class="classifier">str</span></dt><dd><p>The value of the parameter to log. Passed to
+<cite>Experiment.log_parameter</cite> as <cite>value</cite>.</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
+<cite>Experiment.log_parameter</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>rubicon.client.Parameter</dt><dd><p>The logged parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -3556,8 +4263,44 @@ client.</p>
 <li><a class="reference internal" href="#rubicon_ml.sklearn.pipeline.make_pipeline"><code class="docutils literal notranslate"><span class="pre">make_pipeline()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#viz">viz</a></li>
-<li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a></li>
+<li><a class="reference internal" href="#viz">viz</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.DataframePlot"><code class="docutils literal notranslate"><span class="pre">DataframePlot</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.DataframePlot.serve"><code class="docutils literal notranslate"><span class="pre">DataframePlot.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.DataframePlot.show"><code class="docutils literal notranslate"><span class="pre">DataframePlot.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable"><code class="docutils literal notranslate"><span class="pre">ExperimentsTable</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable.serve"><code class="docutils literal notranslate"><span class="pre">ExperimentsTable.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.ExperimentsTable.show"><code class="docutils literal notranslate"><span class="pre">ExperimentsTable.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot"><code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot.serve"><code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricCorrelationPlot.show"><code class="docutils literal notranslate"><span class="pre">MetricCorrelationPlot.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison"><code class="docutils literal notranslate"><span class="pre">MetricListsComparison</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison.serve"><code class="docutils literal notranslate"><span class="pre">MetricListsComparison.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.MetricListsComparison.show"><code class="docutils literal notranslate"><span class="pre">MetricListsComparison.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubicon_ml.viz.Dashboard"><code class="docutils literal notranslate"><span class="pre">Dashboard</span></code></a><ul>
+<li><a class="reference internal" href="#rubicon_ml.viz.Dashboard.serve"><code class="docutils literal notranslate"><span class="pre">Dashboard.serve()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.viz.Dashboard.show"><code class="docutils literal notranslate"><span class="pre">Dashboard.show()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a><ul>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.create_experiment_task"><code class="docutils literal notranslate"><span class="pre">create_experiment_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.get_or_create_project_task"><code class="docutils literal notranslate"><span class="pre">get_or_create_project_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_artifact_task"><code class="docutils literal notranslate"><span class="pre">log_artifact_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_dataframe_task"><code class="docutils literal notranslate"><span class="pre">log_dataframe_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_feature_task"><code class="docutils literal notranslate"><span class="pre">log_feature_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_metric_task"><code class="docutils literal notranslate"><span class="pre">log_metric_task()</span></code></a></li>
+<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_parameter_task"><code class="docutils literal notranslate"><span class="pre">log_parameter_task()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
