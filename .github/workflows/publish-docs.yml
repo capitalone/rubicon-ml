@@ -15,21 +15,20 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         # fetch all tags so `versioneer` can properly determine current version
         fetch-depth: 0
     - name: Set up Python
-      uses: conda-incubator/setup-miniconda@v3
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
-        channels: conda-forge
-        channel-priority: true
-        activate-environment: rubicon-ml-docs
-        environment-file: docs/docs-environment.yml
-    - name: Install rubicon-ml
+        python-version: '3.11'
+    - name: Install dependencies
       run: |
-        pip install --no-deps -e .
+        python -m pip install --upgrade pip
+        pip install -e "./[docs]"
+    - name: Install pandoc binary
+      run: sudo apt-get install pandoc
     - name: Build
       run: |
         cd docs

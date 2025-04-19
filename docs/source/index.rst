@@ -89,14 +89,6 @@ For a preview, take a look at the :ref:`Visualizations<Visualizations>` section 
 
     pip install rubicon-ml[viz]
 
-The ``prefect`` extra installs the requirements necessary for using the `Prefect <https://prefect.io>`_
-tasks in the ``rubicon_ml.workflow`` module. Take a look at the `Prefect integration`_
-to see the library integrated into a simple Prefect flow.
-
-.. code-block:: console
-
-    pip install rubicon-ml[prefect]
-
 To install all extra modules, use the ``all`` extra.
 
 .. code-block:: console
