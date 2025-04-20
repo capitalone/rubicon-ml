@@ -48,13 +48,20 @@ class BaseRepository(ABC):
     # binary read/writes
 
     @abstractmethod
-    def read_artifact_data(self, *args: Any, **kwargs: Any): ...
+    def read_artifact_data(
+        self,
+        artifact_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> bytes: ...
 
     @abstractmethod
-    def stream_artifact_data(self, *args: Any, **kwargs: Any): ...
-
-    @abstractmethod
-    def write_artifact_data(self, *args: Any, **kwargs: Any): ...
+    def write_artifact_data(
+        self,
+        artifact_domain: domain.Artifact,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ): ...
 
     @abstractmethod
     def read_dataframe_data(self, *args: Any, **kwargs: Any): ...

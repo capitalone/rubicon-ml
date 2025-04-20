@@ -60,6 +60,11 @@ class V1CompatibilityMixin:
     ) -> List["domain.Artifact"]:
         return self.read_artifacts_metadata(project_name, experiment_id)
 
+    def get_artifact_data(
+        self, project_name: str, artifact_id: str, experiment_id: Optional[str] = None
+    ) -> bytes:
+        return self.read_artifact_data(artifact_id, project_name, experiment_id)
+
     def create_dataframe(
         self,
         dataframe: "domain.Dataframe",

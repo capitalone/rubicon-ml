@@ -25,9 +25,6 @@ class FsspecRepository(BaseRepository):
 
         self._filesystem = None
 
-    @abstractmethod
-    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem: ...
-
     def _make_path(
         self,
         project_name: Optional[str] = None,
@@ -134,7 +131,7 @@ class FsspecRepository(BaseRepository):
                 except (JSONDecodeError, TypeError):
                     LOGGER.warn(f"Failed to load {domain_cls.__name__.lower()} at {path}.")
 
-        domains.sort(key=lambda d: d.created_at)
+        domains.sort(key=lambda domain: domain.created_at)
 
         return domains
 
@@ -172,14 +169,47 @@ class FsspecRepository(BaseRepository):
 
     # binary read/writes
 
-    def read_artifact_data(self, *args: Any, **kwargs: Any):
-        return
+    def read_artifact_data(
+        self,
+        artifact_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> bytes:
+        path_root, _ = self._make_path(
+            project_name,
+            artifact_id=artifact_id,
+            experiment_id=experiment_id,
+        )
+        path = Path(path_root, "data")
 
-    def write_artifact_data(self, *args: Any, **kwargs: Any):
-        return
+        try:
+            artifact_data_file = self.filesystem.open(path, "rb")
+        except FileNotFoundError:
+            raise RubiconException(f"Artifact '{artifact_id}' data was not found.")
 
-    def stream_artifact_data(self, *args: Any, **kwargs: Any):
-        return
+        return artifact_data_file.read()
+
+    def write_artifact_data(
+        self,
+        artifact_data: bytes,
+        artifact_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
+        path_root, _ = self._make_path(
+            project_name,
+            artifact_id=artifact_id,
+            experiment_id=experiment_id,
+        )
+        self.filesystem.mkdirs(path_root, exist_ok=True)
+
+        path = Path(path_root, "data")
+
+        if self.filesystem.exists(path):
+            raise RubiconException(f"Artifact '{artifact_id}' data already exists.")
+
+        with self.filesystem.open(path, "wb") as artifact_data_file:
+            artifact_data_file.write(artifact_data)
 
     def read_dataframe_data(self, *args: Any, **kwargs: Any):
         return
@@ -190,27 +220,34 @@ class FsspecRepository(BaseRepository):
     @property
     def filesystem(self) -> fsspec.spec.AbstractFileSystem:
         if self._filesystem is None:
-            self._filesystem = self._get_filesystem()
+            self._filesystem = fsspec.filesystem(self.protocol, **self.storage_options)
 
         return self._filesystem
+
+    @property
+    @abstractmethod
+    def protocol(self) -> str: ...
 
 
 class LocalRepository(FsspecRepository):
     """Local filesystem repository leveraging `fsspec`."""
 
-    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
-        return fsspec.filesystem("local", **self.storage_options)
+    @property
+    def protocol(self) -> str:
+        return "local"
 
 
 class MemoryRepository(FsspecRepository):
     """In-memory filesystem repository leveraging `fsspec`."""
 
-    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
-        return fsspec.filesystem("memory", **self.storage_options)
+    @property
+    def protocol(self) -> str:
+        return "memory"
 
 
 class S3Repository(FsspecRepository):
     """S3 filesystem repository leveraging `fsspec`."""
 
-    def _get_filesystem(self) -> fsspec.spec.AbstractFileSystem:
-        return fsspec.filesystem("s3", **self.storage_options)
+    @property
+    def protocol(self) -> str:
+        return "s3"
