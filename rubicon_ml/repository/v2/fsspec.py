@@ -2,10 +2,11 @@ import logging
 from abc import abstractmethod
 from json import JSONDecodeError
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Union
 
 import fsspec
 
+from rubicon_ml.domain.utils.uuid import uuid4
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
 from rubicon_ml.repository.v2.base import BaseRepository
@@ -105,43 +106,81 @@ class FsspecRepository(BaseRepository):
 
     def read_domains(
         self,
-        domain_cls: "DOMAIN_CLASS_TYPES",
-        project_name: Optional[str] = None,
+        domain_cls: Union["DOMAIN_CLASS_TYPES", Literal["CommentUpdate", "TagUpdate"]],
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
         experiment_id: Optional[str] = None,
-    ) -> List["DOMAIN_TYPES"]:
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+        project_name: Optional[str] = None,
+    ) -> List[Union["DOMAIN_TYPES", Dict]]:
         domains = []
-        path_root, _ = self._make_path(project_name, experiment_id=experiment_id)
+        path_root, _ = self._make_path(
+            project_name,
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+            feature_name=feature_name,
+            metric_name=metric_name,
+            parameter_name=parameter_name,
+        )
 
-        if project_name:
+        if not isinstance(domain_cls, str) and project_name:
             path_root = Path(path_root, f"{domain_cls.__name__.lower()}s")
 
+        if domain_cls == "CommentUpdate":
+            path = Path(path_root, "comments_*.json")
+        elif domain_cls == "TagUpdate":
+            path = Path(path_root, "tags_*.json")
+
         try:
-            metadata_file_paths = [
-                Path(metadata_path.get("name"), "metadata.json")
-                for metadata_path in self.filesystem.ls(path_root, detail=True)
-                if metadata_path.get("type", metadata_path.get("StorageClass")).lower()
-                == "directory"
-            ]
+            if isinstance(domain_cls, str):
+                metadata_file_paths = self.filesystem.glob(str(path), detail=True)
+            else:
+                metadata_file_paths = [
+                    Path(metadata_path.get("name"), "metadata.json")
+                    for metadata_path in self.filesystem.ls(path_root, detail=True)
+                    if metadata_path.get("type", metadata_path.get("StorageClass")).lower()
+                    == "directory"
+                ]
         except FileNotFoundError:
             return []
+
+        if not metadata_file_paths:
+            return []
+
+        if isinstance(domain_cls, str):
+            metadata_file_paths = metadata_file_paths.values()
+            metadata_file_paths_with_timestamps = [
+                (p.get("created", p.get("LastModified")), p.get("name"))
+                for p in metadata_file_paths
+            ]
+            metadata_file_paths_with_timestamps.sort()
+            metadata_file_paths = [p[1] for p in metadata_file_paths_with_timestamps]
 
         for path, metadata in self.filesystem.cat(metadata_file_paths, on_error="return").items():
             if isinstance(metadata, FileNotFoundError):
                 LOGGER.warn(f"Ignoring non-rubicon-ml-metadata at {path}.")
             else:
                 try:
-                    domain = domain_cls(**json.loads(metadata))
-                    domains.append(domain)
+                    if isinstance(domain_cls, str):
+                        domain = json.loads(metadata)
+                    else:
+                        domain = domain_cls(**json.loads(metadata))
                 except (JSONDecodeError, TypeError):
-                    LOGGER.warn(f"Failed to load {domain_cls.__name__.lower()} at {path}.")
+                    LOGGER.warn(f"Failed to load {domain_cls} at {path}.")
 
-        domains.sort(key=lambda domain: domain.created_at)
+                domains.append(domain)
+
+        if not isinstance(domain_cls, str):
+            domains.sort(key=lambda domain: domain.created_at)
 
         return domains
 
     def write_domain(
         self,
-        domain: "DOMAIN_TYPES",
+        domain: Union["DOMAIN_TYPES", Dict],
         project_name: str,
         artifact_id: Optional[str] = None,
         dataframe_id: Optional[str] = None,
@@ -161,7 +200,15 @@ class FsspecRepository(BaseRepository):
         )
         self.filesystem.mkdirs(path_root, exist_ok=True)
 
-        path = Path(path_root, "metadata.json")
+        if isinstance(domain, dict):
+            if "added_comments" in domain or "removed_comments" in domain:
+                path = Path(path_root, f"comments_{uuid4()}.json")
+            elif "added_tags" in domain or "removed_tags" in domain:
+                path = Path(path_root, f"tags_{uuid4()}.json")
+            else:
+                raise ValueError(f"Unknown domain entity: {domain}.")
+        else:
+            path = Path(path_root, "metadata.json")
 
         if self.filesystem.exists(path):
             raise RubiconException(

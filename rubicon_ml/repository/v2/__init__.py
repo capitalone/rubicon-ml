@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Literal, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Union
 
 from rubicon_ml.repository.v2.base import BaseRepository
 from rubicon_ml.repository.v2.fsspec import (
@@ -22,6 +22,18 @@ class V1CompatibilityMixin:
     For use in integration testing. Will be removed later after any necessary
     client updates.
     """
+
+    def _get_tag_and_comment_identifier_kwargs(
+        self, entity_identifier: str, entity_type: str, experiment_id: Optional[str]
+    ):
+        entity_identifier_kwargs = {"experiment_id": experiment_id}
+
+        if entity_type in ["Artifact", "Dataframe"]:
+            entity_identifier_kwargs[f"{entity_type.lower()}_id"] = entity_identifier
+        elif entity_type in ["Feature", "Metric", "Parameter"]:
+            entity_identifier_kwargs[f"{entity_type.lower()}_name"] = entity_identifier
+
+        return entity_identifier_kwargs
 
     def create_project(self, project: "domain.Project"):
         self.write_project_metadata(project)
@@ -129,6 +141,110 @@ class V1CompatibilityMixin:
 
     def get_parameters(self, project_name: str, experiment_id: str) -> List["domain.Parameter"]:
         return self.read_parameters_metadata(project_name, experiment_id)
+
+    def add_comments(
+        self,
+        project_name: str,
+        comments: List[str],
+        experiment_id: Optional[str],
+        entity_identifier: Optional[str],
+        entity_type: str,
+    ):
+        self.write_comment_update_metadata(
+            {"added_comments": comments},
+            project_name,
+            **self._get_tag_and_comment_identifier_kwargs(
+                entity_identifier,
+                entity_type,
+                experiment_id,
+            ),
+        )
+
+    def get_comments(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        entity_identifier: Optional[str],
+        entity_type: str,
+    ) -> List[Dict]:
+        return self.read_comment_updates_metadata(
+            project_name,
+            **self._get_tag_and_comment_identifier_kwargs(
+                entity_identifier,
+                entity_type,
+                experiment_id,
+            ),
+        )
+
+    def remove_comments(
+        self,
+        project_name: str,
+        comments: List[str],
+        experiment_id: Optional[str],
+        entity_identifier: Optional[str],
+        entity_type: str,
+    ):
+        self.write_comment_update_metadata(
+            {"removed_comments": comments},
+            project_name,
+            **self._get_tag_and_comment_identifier_kwargs(
+                entity_identifier,
+                entity_type,
+                experiment_id,
+            ),
+        )
+
+    def add_tags(
+        self,
+        project_name: str,
+        tags: List[str],
+        experiment_id: Optional[str],
+        entity_identifier: Optional[str],
+        entity_type: str,
+    ):
+        self.write_tag_update_metadata(
+            {"added_tags": tags},
+            project_name,
+            **self._get_tag_and_comment_identifier_kwargs(
+                entity_identifier,
+                entity_type,
+                experiment_id,
+            ),
+        )
+
+    def get_tags(
+        self,
+        project_name: str,
+        experiment_id: Optional[str],
+        entity_identifier: Optional[str],
+        entity_type: str,
+    ) -> List[Dict]:
+        return self.read_tag_updates_metadata(
+            project_name,
+            **self._get_tag_and_comment_identifier_kwargs(
+                entity_identifier,
+                entity_type,
+                experiment_id,
+            ),
+        )
+
+    def remove_tags(
+        self,
+        project_name: str,
+        tags: List[str],
+        experiment_id: Optional[str],
+        entity_identifier: Optional[str],
+        entity_type: str,
+    ):
+        self.write_tag_update_metadata(
+            {"removed_tags": tags},
+            project_name,
+            **self._get_tag_and_comment_identifier_kwargs(
+                entity_identifier,
+                entity_type,
+                experiment_id,
+            ),
+        )
 
 
 class BaseRepositoryV2(BaseRepository, V1CompatibilityMixin):

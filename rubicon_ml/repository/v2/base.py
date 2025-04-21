@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, List, Literal, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Union
 
 from rubicon_ml import domain
 
@@ -31,15 +31,20 @@ class BaseRepository(ABC):
     @abstractmethod
     def read_domains(
         self,
-        domain_cls: "DOMAIN_CLASS_TYPES",
-        project_name: str,
+        domain_cls: Union["DOMAIN_CLASS_TYPES", Literal["CommentUpdate", "TagUpdate"]],
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
         experiment_id: Optional[str] = None,
-    ) -> List["DOMAIN_TYPES"]: ...
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+        project_name: Optional[str] = None,
+    ) -> List[Union["DOMAIN_TYPES", Dict]]: ...
 
     @abstractmethod
     def write_domain(
         self,
-        domain: "DOMAIN_TYPES",
+        domain: Union["DOMAIN_TYPES", Dict],
         project_name: str,
         artifact_id: Optional[str] = None,
         dataframe_id: Optional[str] = None,
@@ -223,4 +228,94 @@ class BaseRepository(ABC):
     ):
         self.write_domain(
             parameter, project_name, experiment_id=experiment_id, parameter_name=parameter.name
+        )
+
+    def read_comment_updates_metadata(
+        self,
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+    ):
+        comment_updates = self.read_domains(
+            "CommentUpdate",
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+            feature_name=feature_name,
+            metric_name=metric_name,
+            parameter_name=parameter_name,
+            project_name=project_name,
+        )
+
+        return comment_updates
+
+    def write_comment_update_metadata(
+        self,
+        comment_update: Dict,
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+    ):
+        self.write_domain(
+            comment_update,
+            project_name,
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+            feature_name=feature_name,
+            metric_name=metric_name,
+            parameter_name=parameter_name,
+        )
+
+    def read_tag_updates_metadata(
+        self,
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+    ):
+        tag_updates = self.read_domains(
+            "TagUpdate",
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+            feature_name=feature_name,
+            metric_name=metric_name,
+            parameter_name=parameter_name,
+            project_name=project_name,
+        )
+
+        return tag_updates
+
+    def write_tag_update_metadata(
+        self,
+        tag_update: Dict,
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+    ):
+        self.write_domain(
+            tag_update,
+            project_name,
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+            feature_name=feature_name,
+            metric_name=metric_name,
+            parameter_name=parameter_name,
         )
