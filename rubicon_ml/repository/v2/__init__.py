@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, List, Literal, Optional, Union
 
 from rubicon_ml.repository.v2.base import BaseRepository
 from rubicon_ml.repository.v2.fsspec import (
@@ -9,6 +9,10 @@ from rubicon_ml.repository.v2.fsspec import (
 from rubicon_ml.repository.v2.logger import LoggerRepository
 
 if TYPE_CHECKING:
+    import dask.dataframe as dd
+    import pandas as pd
+    import polars as pl
+
     from rubicon_ml import domain
 
 
@@ -84,6 +88,15 @@ class V1CompatibilityMixin:
         self, project_name: str, experiment_id: Optional[str] = None
     ) -> List["domain.Dataframe"]:
         return self.read_dataframes_metadata(project_name, experiment_id)
+
+    def get_dataframe_data(
+        self,
+        project_name: str,
+        dataframe_id: str,
+        experiment_id: Optional[str] = None,
+        df_type: Literal["pandas", "dask", "polars"] = "pandas",
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]:
+        return self.read_dataframe_data(dataframe_id, df_type, project_name, experiment_id)
 
     def get_feature(
         self, project_name: str, experiment_id: str, feature_name: str

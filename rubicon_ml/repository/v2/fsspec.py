@@ -2,7 +2,7 @@ import logging
 from abc import abstractmethod
 from json import JSONDecodeError
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Optional
+from typing import TYPE_CHECKING, Any, List, Literal, Optional, Union
 
 import fsspec
 
@@ -11,6 +11,10 @@ from rubicon_ml.repository.utils import json, slugify
 from rubicon_ml.repository.v2.base import BaseRepository
 
 if TYPE_CHECKING:
+    import dask.dataframe as dd
+    import pandas as pd
+    import polars as pl
+
     from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 LOGGER = logging.Logger(__name__)
@@ -211,11 +215,83 @@ class FsspecRepository(BaseRepository):
         with self.filesystem.open(path, "wb") as artifact_data_file:
             artifact_data_file.write(artifact_data)
 
-    def read_dataframe_data(self, *args: Any, **kwargs: Any):
-        return
+    def read_dataframe_data(
+        self,
+        dataframe_id: str,
+        dataframe_type: Literal["dask", "dd", "pandas", "pd", "polars", "pl"],
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]:
+        path_root, _ = self._make_path(
+            project_name,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+        )
+        path = Path(path_root, "data")
 
-    def write_dataframe_data(self, *args: Any, **kwargs: Any):
-        return
+        import_error_message = (
+            f"`rubicon_ml` requires `{dataframe_type}` to read dataframes with "
+            f"`dataframe_type`='{dataframe_type}'. `pip install {{}}` and try again."
+        )
+
+        if dataframe_type in ["dask", "dd"]:
+            try:
+                import dask.dataframe as dd
+            except ImportError:
+                raise RubiconException(import_error_message.format("dask[dataframe]"))
+
+            dataframe_data = dd.read_parquet(
+                path, engine="pyarrow", storage_options=self.storage_options
+            )
+        elif dataframe_type in ["pandas", "pd"]:
+            try:
+                import pandas as pd
+            except ImportError:
+                raise RubiconException(import_error_message.format("pandas"))
+
+            path = Path(path, "data.parquet")
+            dataframe_data = pd.read_parquet(
+                path, engine="pyarrow", storage_options=self.storage_options
+            )
+        elif dataframe_type in ["polars", "pl"]:
+            try:
+                import polars as pl
+            except ImportError:
+                raise RubiconException(import_error_message.format("polars"))
+
+            dataframe_data = pl.read_parquet(path, storage_options=self.storage_options)
+        else:
+            raise ValueError(
+                "`dataframe_type` must be one of 'dask' (or 'dd'), 'pandas' (or 'pd') or "
+                "'polars' (or 'pl')."
+            )
+
+        return dataframe_data
+
+    def write_dataframe_data(
+        self,
+        dataframe_data: Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"],
+        dataframe_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
+        path_root, _ = self._make_path(
+            project_name,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+        )
+        self.filesystem.mkdirs(path_root, exist_ok=True)
+
+        path = Path(path_root, "data")
+
+        if not hasattr(dataframe_data, "compute"):
+            self.filesystem.mkdirs(path, exist_ok=True)
+            path = Path(path, "data.parquet")
+
+        if hasattr(dataframe_data, "write_parquet"):
+            dataframe_data.write_parquet(path, storage_options=self.storage_options)
+        else:
+            dataframe_data.to_parquet(path, engine="pyarrow", storage_options=self.storage_options)
 
     @property
     def filesystem(self) -> fsspec.spec.AbstractFileSystem:

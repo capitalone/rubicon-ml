@@ -1,9 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, List, Optional
+from typing import TYPE_CHECKING, List, Literal, Optional, Union
 
 from rubicon_ml import domain
 
 if TYPE_CHECKING:
+    import dask.dataframe as dd
+    import pandas as pd
+    import polars as pl
+
     from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 
@@ -64,10 +68,22 @@ class BaseRepository(ABC):
     ): ...
 
     @abstractmethod
-    def read_dataframe_data(self, *args: Any, **kwargs: Any): ...
+    def read_dataframe_data(
+        self,
+        dataframe_id: str,
+        dataframe_type: Literal["dask", "dd", "pandas", "pd", "polars", "pl"],
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]: ...
 
     @abstractmethod
-    def write_dataframe_data(self, *args: Any, **kwargs: Any): ...
+    def write_dataframe_data(
+        self,
+        dataframe_data: Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"],
+        dataframe_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ): ...
 
     # domain entity read/writes
 
