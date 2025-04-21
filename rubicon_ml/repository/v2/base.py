@@ -67,7 +67,7 @@ class BaseRepository(ABC):
     @abstractmethod
     def write_artifact_data(
         self,
-        artifact_domain: domain.Artifact,
+        artifact_data: bytes,
         project_name: str,
         experiment_id: Optional[str] = None,
     ): ...
@@ -93,27 +93,19 @@ class BaseRepository(ABC):
     # domain entity read/writes
 
     def read_project_metadata(self, project_name: str) -> domain.Project:
-        project = self.read_domain(domain.Project, project_name)
-
-        return project
+        return self.read_domain(domain.Project, project_name)
 
     def read_projects_metadata(self) -> List[domain.Project]:
-        projects = self.read_domains(domain.Project)
-
-        return projects
+        return self.read_domains(domain.Project)
 
     def write_project_metadata(self, project: domain.Project):
         self.write_domain(project, project.name)
 
     def read_experiment_metadata(self, project_name: str, experiment_id: str) -> domain.Experiment:
-        experiment = self.read_domain(domain.Experiment, project_name, experiment_id=experiment_id)
-
-        return experiment
+        return self.read_domain(domain.Experiment, project_name, experiment_id=experiment_id)
 
     def read_experiments_metadata(self, project_name: str) -> List[domain.Experiment]:
-        experiments = self.read_domains(domain.Experiment, project_name)
-
-        return experiments
+        return self.read_domains(domain.Experiment, project_name)
 
     def write_experiment_metadata(self, experiment: domain.Experiment):
         self.write_domain(experiment, experiment.project_name, experiment_id=experiment.id)
@@ -121,18 +113,14 @@ class BaseRepository(ABC):
     def read_artifact_metadata(
         self, project_name: str, artifact_id: str, experiment_id: Optional[str] = None
     ) -> domain.Artifact:
-        artifact = self.read_domain(
+        return self.read_domain(
             domain.Artifact, project_name, artifact_id=artifact_id, experiment_id=experiment_id
         )
-
-        return artifact
 
     def read_artifacts_metadata(
         self, project_name: str, experiment_id: Optional[str] = None
     ) -> List[domain.Artifact]:
-        artifacts = self.read_domains(domain.Artifact, project_name, experiment_id=experiment_id)
-
-        return artifacts
+        return self.read_domains(domain.Artifact, project_name, experiment_id=experiment_id)
 
     def write_artifact_metadata(
         self, artifact: domain.Artifact, project_name: str, experiment_id: Optional[str] = None
@@ -144,18 +132,14 @@ class BaseRepository(ABC):
     def read_dataframe_metadata(
         self, project_name: str, dataframe_id: str, experiment_id: Optional[str] = None
     ) -> domain.Dataframe:
-        dataframe = self.read_domain(
+        return self.read_domain(
             domain.Dataframe, project_name, dataframe_id=dataframe_id, experiment_id=experiment_id
         )
-
-        return dataframe
 
     def read_dataframes_metadata(
         self, project_name: str, experiment_id: Optional[str] = None
     ) -> List[domain.Dataframe]:
-        dataframes = self.read_domains(domain.Dataframe, project_name, experiment_id=experiment_id)
-
-        return dataframes
+        return self.read_domains(domain.Dataframe, project_name, experiment_id=experiment_id)
 
     def write_dataframe_metadata(
         self, dataframe: domain.Dataframe, project_name: str, experiment_id: Optional[str] = None
@@ -167,16 +151,12 @@ class BaseRepository(ABC):
     def read_feature_metadata(
         self, project_name: str, experiment_id: str, feature_name: str
     ) -> domain.Feature:
-        feature = self.read_domain(
+        return self.read_domain(
             domain.Feature, project_name, experiment_id=experiment_id, feature_name=feature_name
         )
 
-        return feature
-
     def read_features_metadata(self, project_name: str, experiment_id: str) -> List[domain.Feature]:
-        features = self.read_domains(domain.Feature, project_name, experiment_id=experiment_id)
-
-        return features
+        return self.read_domains(domain.Feature, project_name, experiment_id=experiment_id)
 
     def write_feature_metadata(
         self, feature: domain.Feature, project_name: str, experiment_id: str
@@ -188,16 +168,12 @@ class BaseRepository(ABC):
     def read_metric_metadata(
         self, project_name: str, experiment_id: str, metric_name: str
     ) -> domain.Metric:
-        metric = self.read_domain(
+        return self.read_domain(
             domain.Metric, project_name, experiment_id=experiment_id, metric_name=metric_name
         )
 
-        return metric
-
     def read_metrics_metadata(self, project_name: str, experiment_id: str) -> List[domain.Metric]:
-        metrics = self.read_domains(domain.Metric, project_name, experiment_id=experiment_id)
-
-        return metrics
+        return self.read_domains(domain.Metric, project_name, experiment_id=experiment_id)
 
     def write_metric_metadata(self, metric: domain.Metric, project_name: str, experiment_id: str):
         self.write_domain(
@@ -207,21 +183,17 @@ class BaseRepository(ABC):
     def read_parameter_metadata(
         self, project_name: str, experiment_id: str, parameter_name: str
     ) -> domain.Parameter:
-        parameter = self.read_domain(
+        return self.read_domain(
             domain.Parameter,
             project_name,
             experiment_id=experiment_id,
             parameter_name=parameter_name,
         )
 
-        return parameter
-
     def read_parameters_metadata(
         self, project_name: str, experiment_id: str
     ) -> List[domain.Parameter]:
-        parameters = self.read_domains(domain.Parameter, project_name, experiment_id=experiment_id)
-
-        return parameters
+        return self.read_domains(domain.Parameter, project_name, experiment_id=experiment_id)
 
     def write_parameter_metadata(
         self, parameter: domain.Parameter, project_name: str, experiment_id: str
@@ -240,7 +212,7 @@ class BaseRepository(ABC):
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
     ):
-        comment_updates = self.read_domains(
+        return self.read_domains(
             "CommentUpdate",
             artifact_id=artifact_id,
             dataframe_id=dataframe_id,
@@ -250,8 +222,6 @@ class BaseRepository(ABC):
             parameter_name=parameter_name,
             project_name=project_name,
         )
-
-        return comment_updates
 
     def write_comment_update_metadata(
         self,
@@ -285,7 +255,7 @@ class BaseRepository(ABC):
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
     ):
-        tag_updates = self.read_domains(
+        return self.read_domains(
             "TagUpdate",
             artifact_id=artifact_id,
             dataframe_id=dataframe_id,
@@ -295,8 +265,6 @@ class BaseRepository(ABC):
             parameter_name=parameter_name,
             project_name=project_name,
         )
-
-        return tag_updates
 
     def write_tag_update_metadata(
         self,

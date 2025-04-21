@@ -1,5 +1,5 @@
 import logging
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Dict, Optional, Union
 
 from rubicon_ml.repository.utils import json
 from rubicon_ml.repository.v2.base import BaseRepository
@@ -52,7 +52,7 @@ class LoggerRepository(DomainOnlyMixin, WriteOnlyMixin, BaseRepository):
 
     def write_domain(
         self,
-        domain: "DOMAIN_TYPES",
+        domain: Union["DOMAIN_TYPES", Dict],
         project_name: str,
         artifact_id: Optional[str] = None,
         dataframe_id: Optional[str] = None,

@@ -1,9 +1,13 @@
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Union
 
 from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
-    from rubicon_ml.domain import DomainsVar
+    import dask.dataframe as dd
+    import pandas as pd
+    import polars as pl
+
+    from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
 
 
 class RubiconNotImplementedError(RubiconException):
@@ -25,23 +29,39 @@ class WriteOnlyMixin:
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ):
+    ) -> "DOMAIN_TYPES":
         self._raise_write_only_exception()
 
     def read_domains(
         self,
-        domain_cls: "DomainsVar",
-        project_name: str,
+        domain_cls: Union["DOMAIN_CLASS_TYPES", Literal["CommentUpdate", "TagUpdate"]],
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
         experiment_id: Optional[str] = None,
-    ):
+        feature_name: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        parameter_name: Optional[str] = None,
+        project_name: Optional[str] = None,
+    ) -> List[Union["DOMAIN_TYPES", Dict]]:
         self._raise_write_only_exception()
 
     # binary reads
 
-    def read_artifact_data(self, *args: Any, **kwargs: Any):
+    def read_artifact_data(
+        self,
+        artifact_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> bytes:
         self._raise_write_only_exception()
 
-    def read_dataframe_data(self, *args: Any, **kwargs: Any):
+    def read_dataframe_data(
+        self,
+        dataframe_id: str,
+        dataframe_type: Literal["dask", "dd", "pandas", "pd", "polars", "pl"],
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]:
         self._raise_write_only_exception()
 
 
@@ -53,17 +73,36 @@ class DomainOnlyMixin:
 
     # binary read/writes
 
-    def read_artifact_data(self, *args: Any, **kwargs: Any):
+    def read_artifact_data(
+        self,
+        artifact_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> bytes:
         self._raise_domain_only_exception()
 
-    def stream_artifact_data(self, *args: Any, **kwargs: Any):
+    def write_artifact_data(
+        self,
+        artifact_data: bytes,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
         self._raise_domain_only_exception()
 
-    def write_artifact_data(self, *args: Any, **kwargs: Any):
+    def read_dataframe_data(
+        self,
+        dataframe_id: str,
+        dataframe_type: Literal["dask", "dd", "pandas", "pd", "polars", "pl"],
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]:
         self._raise_domain_only_exception()
 
-    def read_dataframe_data(self, *args: Any, **kwargs: Any):
-        self._raise_domain_only_exception()
-
-    def write_dataframe_data(self, *args: Any, **kwargs: Any):
+    def write_dataframe_data(
+        self,
+        dataframe_data: Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"],
+        dataframe_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
         self._raise_domain_only_exception()
