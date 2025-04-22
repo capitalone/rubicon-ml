@@ -1,20 +1,13 @@
 import os
 import subprocess
-from typing import Dict, Optional, Tuple, Type, Union
+from typing import Dict, Optional, Tuple, Type
 
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import (
-    BaseRepository,
-    LocalRepository,
-    MemoryRepository,
-    S3Repository,
-)
 from rubicon_ml.repository.v2 import (
-    BaseRepositoryV2,
-    LocalRepositoryV2,
-    LoggerRepositoryV2,
-    MemoryRepositoryV2,
-    S3RepositoryV2,
+    BaseRepositoryV2 as BaseRepository,
+    LocalRepositoryV2 as LocalRepository,
+    MemoryRepositoryV2 as MemoryRepository,
+    S3RepositoryV2 as S3Repository,
 )
 
 
@@ -41,15 +34,11 @@ class Config:
         are passed directly to the underlying filesystem class.
     """
 
-    PERSISTENCE_TYPES = ["filesystem", "memory", "filesystem:v2", "logger:v2", "memory:v2"]
-    REPOSITORIES: Dict[str, Union[Type[BaseRepository], Type[BaseRepositoryV2]]] = {
-        "filesystem-local": LocalRepository,
-        "filesystem:v2-local": LocalRepositoryV2,
-        "filesystem-s3": S3Repository,
-        "filesystem:v2-s3": S3RepositoryV2,
-        "logger:v2-custom": LoggerRepositoryV2,
+    PERSISTENCE_TYPES = ["filesystem", "memory"]
+    REPOSITORIES: Dict[str, Type[BaseRepository]] = {
         "memory-memory": MemoryRepository,
-        "memory:v2-memory": MemoryRepositoryV2,
+        "filesystem-local": LocalRepository,
+        "filesystem-s3": S3Repository,
     }
 
     def __init__(
@@ -94,9 +83,9 @@ class Config:
 
     def _get_protocol(self) -> str:
         """Get the file protocol of the configured root directory."""
-        if "memory" in self.persistence:
+        if self.persistence == "memory":
             return "memory"
-        elif "filesystem" in self.persistence:
+        elif self.persistence == "filesystem":
             if self.root_dir.startswith("s3://"):
                 return "s3"
             else:
