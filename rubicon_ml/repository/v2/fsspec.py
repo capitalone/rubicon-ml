@@ -1,4 +1,5 @@
 import logging
+import pickle
 from abc import abstractmethod
 from json import JSONDecodeError
 from pathlib import Path
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     import pandas as pd
     import polars as pl
 
-    from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
+    from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES, Artifact, Dataframe
 
 LOGGER = logging.Logger(__name__)
 
@@ -177,6 +178,26 @@ class FsspecRepository(BaseRepository):
             domains.sort(key=lambda domain: domain.created_at)
 
         return domains
+
+    def remove_domain(
+        self,
+        domain_cls: Union["Artifact", "Dataframe"],
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+    ):
+        path_root, domain_identifier = self._make_path(
+            project_name,
+            artifact_id=artifact_id,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+        )
+
+        try:
+            self.filesystem.rm(str(path_root), recursive=True)
+        except FileNotFoundError:
+            raise RubiconException(f"{domain_cls.__name__} '{domain_identifier}' was not found.")
 
     def write_domain(
         self,
@@ -362,6 +383,50 @@ class LocalRepository(FsspecRepository):
 
 class MemoryRepository(FsspecRepository):
     """In-memory filesystem repository leveraging `fsspec`."""
+
+    def __init__(self, root_dir: Optional[str] = None, **storage_options: Any):
+        root_dir = root_dir if root_dir else "/rubicon-root"
+
+        super().__init__(root_dir, **storage_options)
+
+        if not self.filesystem.exists(self.root_dir):
+            self.filesystem.mkdirs(self.root_dir)
+
+    def read_dataframe_data(
+        self,
+        dataframe_id: str,
+        dataframe_type: Literal["dask", "dd", "pandas", "pd", "polars", "pl"],
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]:
+        path_root, _ = self._make_path(
+            project_name,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+        )
+        path = Path(path_root, "data")
+
+        with self.filesystem.open(path, "rb") as dataframe_data_file:
+            dataframe_data = pickle.load(dataframe_data_file)
+
+        return dataframe_data
+
+    def write_dataframe_data(
+        self,
+        dataframe_data: Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"],
+        dataframe_id: str,
+        project_name: str,
+        experiment_id: Optional[str] = None,
+    ):
+        path_root, _ = self._make_path(
+            project_name,
+            dataframe_id=dataframe_id,
+            experiment_id=experiment_id,
+        )
+        path = Path(path_root, "data")
+
+        with self.filesystem.open(path, "wb") as dataframe_data_file:
+            pickle.dump(dataframe_data, dataframe_data_file)
 
     @property
     def protocol(self) -> str:

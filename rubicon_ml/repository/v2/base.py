@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     import pandas as pd
     import polars as pl
 
-    from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES
+    from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES, Artifact, Dataframe
 
 
 class BaseRepository(ABC):
@@ -40,6 +40,16 @@ class BaseRepository(ABC):
         parameter_name: Optional[str] = None,
         project_name: Optional[str] = None,
     ) -> List[Union["DOMAIN_TYPES", Dict]]: ...
+
+    @abstractmethod
+    def remove_domain(
+        self,
+        domain_cls: Union["Artifact", "Dataframe"],
+        project_name: str,
+        artifact_id: Optional[str] = None,
+        dataframe_id: Optional[str] = None,
+        experiment_id: Optional[str] = None,
+    ): ...
 
     @abstractmethod
     def write_domain(
@@ -105,7 +115,7 @@ class BaseRepository(ABC):
         return self.read_domain(domain.Experiment, project_name, experiment_id=experiment_id)
 
     def read_experiments_metadata(self, project_name: str) -> List[domain.Experiment]:
-        return self.read_domains(domain.Experiment, project_name)
+        return self.read_domains(domain.Experiment, project_name=project_name)
 
     def write_experiment_metadata(self, experiment: domain.Experiment):
         self.write_domain(experiment, experiment.project_name, experiment_id=experiment.id)
@@ -120,7 +130,16 @@ class BaseRepository(ABC):
     def read_artifacts_metadata(
         self, project_name: str, experiment_id: Optional[str] = None
     ) -> List[domain.Artifact]:
-        return self.read_domains(domain.Artifact, project_name, experiment_id=experiment_id)
+        return self.read_domains(
+            domain.Artifact, experiment_id=experiment_id, project_name=project_name
+        )
+
+    def remove_artifact_metadata(
+        self, project_name: str, artifact_id: str, experiment_id: Optional[str] = None
+    ):
+        return self.remove_domain(
+            domain.Artifact, project_name, artifact_id=artifact_id, experiment_id=experiment_id
+        )
 
     def write_artifact_metadata(
         self, artifact: domain.Artifact, project_name: str, experiment_id: Optional[str] = None
@@ -139,7 +158,16 @@ class BaseRepository(ABC):
     def read_dataframes_metadata(
         self, project_name: str, experiment_id: Optional[str] = None
     ) -> List[domain.Dataframe]:
-        return self.read_domains(domain.Dataframe, project_name, experiment_id=experiment_id)
+        return self.read_domains(
+            domain.Dataframe, experiment_id=experiment_id, project_name=project_name
+        )
+
+    def remove_dataframe_metadata(
+        self, project_name: str, dataframe_id: str, experiment_id: Optional[str] = None
+    ):
+        return self.remove_domain(
+            domain.Dataframe, project_name, dataframe_id=dataframe_id, experiment_id=experiment_id
+        )
 
     def write_dataframe_metadata(
         self, dataframe: domain.Dataframe, project_name: str, experiment_id: Optional[str] = None
@@ -156,7 +184,9 @@ class BaseRepository(ABC):
         )
 
     def read_features_metadata(self, project_name: str, experiment_id: str) -> List[domain.Feature]:
-        return self.read_domains(domain.Feature, project_name, experiment_id=experiment_id)
+        return self.read_domains(
+            domain.Feature, experiment_id=experiment_id, project_name=project_name
+        )
 
     def write_feature_metadata(
         self, feature: domain.Feature, project_name: str, experiment_id: str
@@ -173,7 +203,9 @@ class BaseRepository(ABC):
         )
 
     def read_metrics_metadata(self, project_name: str, experiment_id: str) -> List[domain.Metric]:
-        return self.read_domains(domain.Metric, project_name, experiment_id=experiment_id)
+        return self.read_domains(
+            domain.Metric, experiment_id=experiment_id, project_name=project_name
+        )
 
     def write_metric_metadata(self, metric: domain.Metric, project_name: str, experiment_id: str):
         self.write_domain(
@@ -193,7 +225,9 @@ class BaseRepository(ABC):
     def read_parameters_metadata(
         self, project_name: str, experiment_id: str
     ) -> List[domain.Parameter]:
-        return self.read_domains(domain.Parameter, project_name, experiment_id=experiment_id)
+        return self.read_domains(
+            domain.Parameter, experiment_id=experiment_id, project_name=project_name
+        )
 
     def write_parameter_metadata(
         self, parameter: domain.Parameter, project_name: str, experiment_id: str

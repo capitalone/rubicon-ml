@@ -66,6 +66,11 @@ class V1CompatibilityMixin:
         self.write_artifact_metadata(artifact, project_name, experiment_id)
         self.write_artifact_data(data, artifact.id, project_name, experiment_id)
 
+    def delete_artifact(
+        self, project_name: str, artifact_id: str, experiment_id: Optional[str] = None
+    ):
+        self.remove_artifact_metadata(project_name, artifact_id, experiment_id)
+
     def get_artifact_metadata(
         self, project_name: str, artifact_id: str, experiment_id: Optional[str] = None
     ) -> "domain.Artifact":
@@ -90,6 +95,11 @@ class V1CompatibilityMixin:
     ):
         self.write_dataframe_metadata(dataframe, project_name, experiment_id)
         self.write_dataframe_data(data, dataframe.id, project_name, experiment_id)
+
+    def delete_dataframe(
+        self, project_name: str, dataframe_id: str, experiment_id: Optional[str] = None
+    ):
+        self.remove_dataframe_metadata(project_name, dataframe_id, experiment_id)
 
     def get_dataframe_metadata(
         self, project_name: str, dataframe_id: str, experiment_id: Optional[str] = None
@@ -245,6 +255,10 @@ class V1CompatibilityMixin:
                 experiment_id,
             ),
         )
+
+    @property
+    def PROTOCOL(self):
+        return self.protocol
 
 
 class BaseRepositoryV2(BaseRepository, V1CompatibilityMixin):
