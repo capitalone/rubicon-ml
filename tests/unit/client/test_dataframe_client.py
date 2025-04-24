@@ -1,7 +1,7 @@
 import pytest
 
 from rubicon_ml import domain
-from rubicon_ml.client import Dataframe, Rubicon
+from rubicon_ml.client import Dataframe
 from rubicon_ml.exceptions import RubiconException
 
 
@@ -33,17 +33,11 @@ def test_get_data(project_client, test_dataframe):
     assert logged_df.get_data().compute().equals(df.compute())
 
 
-def test_get_data_multiple_backend_error(test_dataframe):
-    rb = Rubicon(
-        composite_config=[
-            {"persistence": "memory", "root_dir": "./memory/rootA"},
-            {"persistence": "memory", "root_dir": "./memory/rootB"},
-        ]
-    )
-    project = rb.create_project("test")
+def test_get_data_multiple_backend_error(rubicon_composite_client, test_dataframe):
+    project = rubicon_composite_client.create_project("test")
     df = test_dataframe
     logged_df = project.log_dataframe(df)
-    for repo in rb.repositories:
+    for repo in rubicon_composite_client.repositories:
         repo.delete_dataframe(project.name, logged_df.id)
     with pytest.raises(RubiconException) as e:
         logged_df.get_data()
