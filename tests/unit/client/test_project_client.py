@@ -108,7 +108,7 @@ def test_experiments_log_and_retrieval(project_client):
     assert experiment2.id in [e.id for e in project.experiments()]
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_experiments")
+@mock.patch("rubicon_ml.repository.v2.V1CompatibilityMixin.get_experiments")
 def test_get_experiments_multiple_backend_error(mock_get_experiments, project_composite_client):
     project = project_composite_client
 
@@ -154,7 +154,7 @@ def test_get_experiment_fails_neither_set(project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_experiment")
+@mock.patch("rubicon_ml.repository.v2.V1CompatibilityMixin.get_experiment")
 def test_get_experiment_multiple_backend_error(mock_get_experiment, project_composite_client):
     project = project_composite_client
 

@@ -157,7 +157,7 @@ def test_get_project_fails_neither_set(rubicon_and_project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_project")
+@mock.patch("rubicon_ml.repository.v2.V1CompatibilityMixin.get_project")
 def test_get_project_multiple_backend_error(mock_get_project, rubicon_composite_client):
     rubicon = rubicon_composite_client
 
@@ -179,7 +179,7 @@ def test_get_projects(rubicon_client):
     assert projects[1].name == "Project B"
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_projects")
+@mock.patch("rubicon_ml.repository.v2.V1CompatibilityMixin.get_projects")
 def test_get_projects_multiple_backend_error(mock_get_projects, rubicon_composite_client):
     rubicon = rubicon_composite_client
 
