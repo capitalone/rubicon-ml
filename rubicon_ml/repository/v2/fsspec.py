@@ -308,34 +308,39 @@ class FsspecRepository(BaseRepository):
         if dataframe_type in ["dask", "dd"]:
             try:
                 import dask.dataframe as dd
-            except ImportError:
-                raise RubiconException(import_error_message.format("dask[dataframe]"))
+            except ImportError as error:
+                raise RubiconException(import_error_message.format("dask[dataframe]")) from error
 
-            dataframe_data = dd.read_parquet(
-                path, engine="pyarrow", storage_options=self.storage_options
-            )
+            dataframe_library = dd
+            read_parquet_kwargs = {"engine": "pyarrow", "storage_options": self.storage_options}
         elif dataframe_type in ["pandas", "pd"]:
             try:
                 import pandas as pd
-            except ImportError:
-                raise RubiconException(import_error_message.format("pandas"))
+            except ImportError as error:
+                raise RubiconException(import_error_message.format("pandas")) from error
 
             path = Path(path, "data.parquet")
-            dataframe_data = pd.read_parquet(
-                path, engine="pyarrow", storage_options=self.storage_options
-            )
+
+            dataframe_library = pd
+            read_parquet_kwargs = {"engine": "pyarrow", "storage_options": self.storage_options}
         elif dataframe_type in ["polars", "pl"]:
             try:
                 import polars as pl
-            except ImportError:
-                raise RubiconException(import_error_message.format("polars"))
+            except ImportError as error:
+                raise RubiconException(import_error_message.format("polars")) from error
 
-            dataframe_data = pl.read_parquet(path, storage_options=self.storage_options)
+            dataframe_library = pl
+            read_parquet_kwargs = {"storage_options": self.storage_options}
         else:
             raise ValueError(
                 "`dataframe_type` must be one of 'dask' (or 'dd'), 'pandas' (or 'pd') or "
                 "'polars' (or 'pl')."
             )
+
+        try:
+            dataframe_data = dataframe_library.read_parquet(path, **read_parquet_kwargs)
+        except FileNotFoundError as error:
+            raise RubiconException(f"Dataframe '{dataframe_id}' data was not found.") from error
 
         return dataframe_data
 
@@ -413,8 +418,11 @@ class MemoryRepository(FsspecRepository):
         )
         path = Path(path_root, "data")
 
-        with self.filesystem.open(path, "rb") as dataframe_data_file:
-            dataframe_data = pickle.load(dataframe_data_file)
+        try:
+            with self.filesystem.open(path, "rb") as dataframe_data_file:
+                dataframe_data = pickle.load(dataframe_data_file)
+        except FileNotFoundError as error:
+            raise RubiconException(f"Dataframe '{dataframe_id}' data was not found.") from error
 
         return dataframe_data
 
