@@ -26,7 +26,10 @@ class FsspecRepository(BaseRepository):
     """Base repository for `fsspec`-based backends."""
 
     def __init__(self, root_dir: Optional[str] = None, **storage_options: Any):
-        self.root_dir = root_dir
+        if root_dir is None:
+            raise ValueError(f"`root_dir` for `{self.__class__.__name__}` can not be None.")
+
+        self.root_dir_path = Path(root_dir)
         self.storage_options = storage_options
 
         self._filesystem = None
@@ -41,8 +44,8 @@ class FsspecRepository(BaseRepository):
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
     ) -> (Path, Optional[str]):
-        path = Path(self.root_dir)
         domain_identifier = None
+        path = self.root_dir_path
 
         if project_name is not None:
             path = Path(path, slugify(project_name))
@@ -371,6 +374,10 @@ class FsspecRepository(BaseRepository):
     @property
     @abstractmethod
     def protocol(self) -> str: ...
+
+    @property
+    def root_dir(self) -> str:
+        return str(self.root_dir_path)
 
 
 class LocalRepository(FsspecRepository):
