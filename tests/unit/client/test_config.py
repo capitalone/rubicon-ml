@@ -4,7 +4,11 @@ import pytest
 
 from rubicon_ml.client import Config
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import LocalRepository, MemoryRepository, S3Repository
+from rubicon_ml.repository.v2 import (
+    LocalRepositoryV2 as LocalRepository,
+    MemoryRepositoryV2 as MemoryRepository,
+    S3RepositoryV2 as S3Repository,
+)
 
 
 def test_parameters():
