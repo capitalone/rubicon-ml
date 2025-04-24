@@ -78,7 +78,7 @@ def rubicon_client():
     """
     from rubicon_ml import Rubicon
 
-    rubicon = Rubicon(persistence="memory", root_dir="./")
+    rubicon = Rubicon(persistence="memory", root_dir="/")
 
     # teardown after yield
     yield rubicon
