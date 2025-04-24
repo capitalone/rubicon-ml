@@ -43,7 +43,7 @@ def test_set_repository(rubicon_client):
 
 def test_repository_storage_options():
     storage_options = {"key": "secret"}
-    rubicon_memory = Rubicon(persistence="memory", root_dir="./", **storage_options)
+    rubicon_memory = Rubicon(persistence="memory", root_dir="/", **storage_options)
     rubicon_s3 = Rubicon(persistence="filesystem", root_dir="s3://nothing", **storage_options)
 
     assert rubicon_memory.config.repository.filesystem.storage_options["key"] == "secret"
@@ -53,7 +53,7 @@ def test_repository_storage_options():
 def test_multi_repository_storage_options():
     storage_options = {"key": "secret"}
     composite_config = [
-        {"persistence": "memory", "root_dir": "./"},
+        {"persistence": "memory", "root_dir": "/"},
         {"persistence": "filesystem", "root_dir": "s3://nothing"},
     ]
 
