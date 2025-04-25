@@ -41,4 +41,4 @@ def test_get_data_multiple_backend_error(rubicon_composite_client, test_datafram
         repo.delete_dataframe(project.name, logged_df.id)
     with pytest.raises(RubiconException) as e:
         logged_df.get_data()
-    assert f"No data for dataframe with id `{logged_df.id}`" in str(e)
+    assert f"Dataframe '{logged_df.id}' data was not found" in str(e)
