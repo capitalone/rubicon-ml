@@ -392,14 +392,14 @@ class LocalRepository(FsspecRepository):
 
     @property
     def protocol(self) -> str:
-        return "local"
+        return "file"
 
 
 class MemoryRepository(FsspecRepository):
     """In-memory filesystem repository leveraging `fsspec`."""
 
     def __init__(self, root_dir: Optional[str] = None, **storage_options: Any):
-        root_dir = root_dir if root_dir else "/rubicon-root"
+        root_dir = root_dir if root_dir else "/root"
 
         super().__init__(root_dir, **storage_options)
 
