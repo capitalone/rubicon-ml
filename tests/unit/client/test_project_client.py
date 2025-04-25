@@ -352,7 +352,7 @@ def test_archive_all_experiments(rubicon_local_filesystem_client_with_project):
     project.log_experiment(name="experiment3")
     archive_path = project.archive()
 
-    assert project.repository._exists(archive_path)
+    assert project.repository.filesystem.exists(archive_path)
 
 
 def test_archive_select_experiments(rubicon_local_filesystem_client_with_project):
@@ -362,7 +362,7 @@ def test_archive_select_experiments(rubicon_local_filesystem_client_with_project
     project.log_experiment(name="experiment3")
     zip_archive_filename = project.archive([experiment1, experiment2])
 
-    assert project.repository._exists(zip_archive_filename)
+    assert project.repository.filesystem.exists(zip_archive_filename)
 
 
 def test_archive_bad_remote_rubicon():
@@ -404,7 +404,7 @@ def test_archive_remote_rubicon():
     projectB.log_experiment(name="experiment2")
     zip_archive_filename = projectB.archive(remote_rubicon=rubiconA)
 
-    assert projectA.repository._exists(zip_archive_filename)
+    assert projectA.repository.filesystem.exists(zip_archive_filename)
 
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
@@ -457,12 +457,12 @@ def test_experiments_from_archive():
     projectB.log_experiment(name="experiment4")
 
     experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
-    og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
+    og_num_exps_B = len(projectB.repository.filesystem.ls(experiments_dirB))
     assert og_num_exps_B == 2
 
     projectB.experiments_from_archive(remote_rubicon=rubiconA)
 
-    new_num_expsB = len(projectB.repository._ls(experiments_dirB))
+    new_num_expsB = len(projectB.repository.filesystem.ls(experiments_dirB))
     assert new_num_expsB == 4
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
@@ -497,12 +497,12 @@ def test_experiments_from_archive_latest_only():
     projectA.archive([experiment6, experiment7])
 
     experiments_dirB = os.path.join(root_dirB, slugify(projectB.name), "experiments")
-    og_num_exps_B = len(projectB.repository._ls(experiments_dirB))
+    og_num_exps_B = len(projectB.repository.filesystem.ls(experiments_dirB))
     assert og_num_exps_B == 2
 
     projectB.experiments_from_archive(remote_rubicon=rubiconA, latest_only=True)
 
-    new_num_expsB = len(projectB.repository._ls(experiments_dirB))
+    new_num_expsB = len(projectB.repository.filesystem.ls(experiments_dirB))
     assert new_num_expsB == 4
     rubiconA.repository.filesystem.rm(rubiconA.config.root_dir, recursive=True)
     rubiconB.repository.filesystem.rm(rubiconB.config.root_dir, recursive=True)
