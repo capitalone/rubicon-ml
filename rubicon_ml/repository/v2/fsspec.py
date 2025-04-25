@@ -376,7 +376,7 @@ class FsspecRepository(BaseRepository):
             dataframe_data = dataframe_library.read_parquet(path, **read_parquet_kwargs)
         except FileNotFoundError as error:
             raise RubiconException(
-                f"No data for dataframe with id `{dataframe_id}` found."
+                f"`{dataframe_type}` dataframe '{dataframe_id}' data was not found."
             ) from error
 
         return dataframe_data
