@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Union
 
 from rubicon_ml.repository.v2.base import BaseRepository
+from rubicon_ml.repository.v2.deprecated import ArchiveMixin
 from rubicon_ml.repository.v2.fsspec import (
     LocalRepository,
     MemoryRepository,
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     from rubicon_ml import domain
 
 
-class V1CompatibilityMixin:
+class V1CompatibilityMixin(ArchiveMixin):
     """Mixin to make V2 repositories compaitble with the client.
 
     For use in integration testing. Will be removed later after any necessary
