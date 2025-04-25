@@ -78,6 +78,7 @@ class BaseRepository(ABC):
     def write_artifact_data(
         self,
         artifact_data: bytes,
+        artifact_id: str,
         project_name: str,
         experiment_id: Optional[str] = None,
     ): ...

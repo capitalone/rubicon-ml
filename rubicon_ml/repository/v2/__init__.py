@@ -36,13 +36,13 @@ class V1CompatibilityMixin(ArchiveMixin):
             if len(path_parts) == 2 and path_parts[0]:
                 entity_type, entity_identifier = path_parts
 
-                if entity_type in ["artifact", "dataframe", "experiment"]:
-                    entity_identifier_kwargs[f"{entity_type}_id"] = entity_identifier
+                if entity_type in ["artifacts", "dataframes", "experiments"]:
+                    entity_identifier_kwargs[f"{entity_type[:-1]}_id"] = entity_identifier
                 else:
                     entity_identifier = entity_identifier.replace("-", " ")
 
-                    if entity_type in ["feature", "metric", "parameter"]:
-                        entity_identifier_kwargs[f"{entity_type}_name"] = entity_identifier
+                    if entity_type in ["features", "metrics", "parameters"]:
+                        entity_identifier_kwargs[f"{entity_type[:-1]}_name"] = entity_identifier
                     else:
                         entity_identifier_kwargs["project_name"] = entity_identifier
 
@@ -104,6 +104,13 @@ class V1CompatibilityMixin(ArchiveMixin):
         path_root, _ = self._make_path(project_name=project_name, **tag_identifier_kwargs)
 
         return path_root
+
+    def _persist_bytes(self, bytes_data, path):
+        domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)
+        artifact_id = domain_identifier_kwargs.pop("artifact_id")
+        project_name = domain_identifier_kwargs.pop("project_name")
+
+        self.write_artifact_data(bytes_data, artifact_id, project_name, **domain_identifier_kwargs)
 
     def _persist_domain(self, domain, path):
         domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)

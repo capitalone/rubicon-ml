@@ -17,13 +17,17 @@ def test_initialization():
 
 
 @patch("s3fs.core.S3FileSystem.open")
-def test_persist_bytes(mock_open):
+@patch("s3fs.core.S3FileSystem.exists")
+def test_persist_bytes(mock_exists, mock_open):
+    mock_exists.return_value = False
+
     bytes_data = b"test data {uuid.uuid4()}"
-    bytes_path = "s3://bucket/root/path/to/data"
+    bytes_path = f"s3://bucket/root/project-name/artifacts/{uuid.uuid4()}/data"
 
     s3_repo = S3Repository(root_dir="s3://bucket/root")
     s3_repo._persist_bytes(bytes_data, bytes_path)
 
+    mock_exists.assert_called_once_with(bytes_path)
     mock_open.assert_called_once_with(bytes_path, "wb")
 
 

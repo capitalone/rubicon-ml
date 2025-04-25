@@ -21,7 +21,7 @@ def test_initialization():
 @patch("fsspec.implementations.local.LocalFileSystem.mkdirs")
 def test_persist_bytes(mock_mkdirs, mock_open):
     bytes_data = b"test data {uuid.uuid4()}"
-    bytes_path = "/local/root/path/to/data"
+    bytes_path = f"/local/root/project-name/artifacts/{uuid.uuid4()}/data"
 
     local_repo = LocalRepository(root_dir="/local/root")
     local_repo._persist_bytes(bytes_data, bytes_path)
