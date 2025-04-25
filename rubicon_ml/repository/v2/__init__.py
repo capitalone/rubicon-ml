@@ -169,9 +169,9 @@ class V1CompatibilityMixin(ArchiveMixin):
         self,
         project_name: str,
         comments: List[str],
-        experiment_id: Optional[str],
-        entity_identifier: Optional[str],
-        entity_type: str,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ):
         self.write_comment_update_metadata(
             {"added_comments": comments},
@@ -186,9 +186,9 @@ class V1CompatibilityMixin(ArchiveMixin):
     def get_comments(
         self,
         project_name: str,
-        experiment_id: Optional[str],
-        entity_identifier: Optional[str],
-        entity_type: str,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ) -> List[Dict]:
         return self.read_comment_updates_metadata(
             project_name,
@@ -203,9 +203,9 @@ class V1CompatibilityMixin(ArchiveMixin):
         self,
         project_name: str,
         comments: List[str],
-        experiment_id: Optional[str],
-        entity_identifier: Optional[str],
-        entity_type: str,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ):
         self.write_comment_update_metadata(
             {"removed_comments": comments},
@@ -221,9 +221,9 @@ class V1CompatibilityMixin(ArchiveMixin):
         self,
         project_name: str,
         tags: List[str],
-        experiment_id: Optional[str],
-        entity_identifier: Optional[str],
-        entity_type: str,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ):
         self.write_tag_update_metadata(
             {"added_tags": tags},
@@ -238,9 +238,9 @@ class V1CompatibilityMixin(ArchiveMixin):
     def get_tags(
         self,
         project_name: str,
-        experiment_id: Optional[str],
-        entity_identifier: Optional[str],
-        entity_type: str,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ) -> List[Dict]:
         return self.read_tag_updates_metadata(
             project_name,
@@ -255,9 +255,9 @@ class V1CompatibilityMixin(ArchiveMixin):
         self,
         project_name: str,
         tags: List[str],
-        experiment_id: Optional[str],
-        entity_identifier: Optional[str],
-        entity_type: str,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ):
         self.write_tag_update_metadata(
             {"removed_tags": tags},
