@@ -10,7 +10,6 @@ from dask import dataframe as dd
 from rubicon_ml import domain
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
-from rubicon_ml.repository.v2 import MemoryRepositoryV2 as MemoryRepository
 
 # -------- Helpers --------
 
@@ -395,13 +394,12 @@ def test_delete_artifact_throws_error_if_not_found(memory_repository):
 
 
 @patch("pandas.DataFrame.to_parquet")
-def test_persist_dataframe(mock_to_parquet, memory_repository):
-    repository = memory_repository
+def test_persist_dataframe(mock_to_parquet, local_repository):
+    repository = local_repository
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
     path = "./local/root"
 
-    # calls `BaseRepository._persist_dataframe` despite class using `MemoryRepository`
-    super(MemoryRepository, repository)._persist_dataframe(df, path)
+    repository._persist_dataframe(df, path)
 
     mock_to_parquet.assert_called_once_with(
         f"{path}/data.parquet",
@@ -411,24 +409,22 @@ def test_persist_dataframe(mock_to_parquet, memory_repository):
 
 
 @patch("polars.DataFrame.write_parquet")
-def test_persist_dataframe_polars(mock_write_parquet, memory_repository):
-    repository = memory_repository
+def test_persist_dataframe_polars(mock_write_parquet, local_repository):
+    repository = local_repository
     df = pl.DataFrame({"a": [1, 2], "b": [3, 4]})
     path = "./local/root"
 
-    # calls `BaseRepository._persist_dataframe` despite class using `MemoryRepository`
-    super(MemoryRepository, repository)._persist_dataframe(df, path)
+    repository._persist_dataframe(df, path)
 
     mock_write_parquet.assert_called_once_with(f"{path}")
 
 
 @patch("pandas.read_parquet")
-def test_read_dataframe(mock_read_parquet, memory_repository):
-    repository = memory_repository
+def test_read_dataframe(mock_read_parquet, local_repository):
+    repository = local_repository
     path = "./local/root"
 
-    # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
-    super(MemoryRepository, repository)._read_dataframe(path)
+    repository._read_dataframe(path)
 
     mock_read_parquet.assert_called_once_with(
         f"{path}/data.parquet",
@@ -437,25 +433,23 @@ def test_read_dataframe(mock_read_parquet, memory_repository):
     )
 
 
-def test_read_dataframe_value_error(memory_repository):
-    repository = memory_repository
+def test_read_dataframe_value_error(local_repository):
+    repository = local_repository
     path = "./local/root"
 
     with pytest.raises(ValueError) as e:
-        # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
-        super(MemoryRepository, repository)._read_dataframe(path, df_type="INVALID")
+        repository._read_dataframe(path, df_type="INVALID")
 
     assert "`df_type` must be one of " in str(e)
 
 
-def test_read_dataframe_import_error(memory_repository):
-    repository = memory_repository
+def test_read_dataframe_import_error(local_repository):
+    repository = local_repository
     path = "./local/root"
 
     with patch.dict(sys.modules, {"dask": None}):
         with pytest.raises(RubiconException) as e:
-            # calls `BaseRepository._read_dataframe` despite class using `MemoryRepository`
-            super(MemoryRepository, repository)._read_dataframe(path, df_type="dask")
+            repository._read_dataframe(path, df_type="dask")
 
     assert "`rubicon_ml` requires `dask` to be installed" in str(e)
 

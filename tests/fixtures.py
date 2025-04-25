@@ -12,7 +12,10 @@ from dask.distributed import Client
 from sklearn.datasets import make_classification
 
 from rubicon_ml import Rubicon
-from rubicon_ml.repository.v2 import MemoryRepositoryV2 as MemoryRepository
+from rubicon_ml.repository.v2 import (
+    LocalRepositoryV2 as LocalRepository,
+    MemoryRepositoryV2 as MemoryRepository,
+)
 
 
 class _AnotherObject:
@@ -216,6 +219,18 @@ def test_dataframe():
         pd.DataFrame.from_records([[0, 1]], columns=["a", "b"]),
         npartitions=1,
     )
+
+
+@pytest.fixture
+def local_repository():
+    """Setup an local repository and clean it up afterwards."""
+    root_dir = "./local-root"
+    repository = LocalRepository(root_dir)
+
+    yield repository
+
+    if repository.filesystem.exists(root_dir):
+        repository.filesystem.rm(root_dir, recursive=True)
 
 
 @pytest.fixture
