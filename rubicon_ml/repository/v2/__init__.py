@@ -32,6 +32,18 @@ class V1CompatibilityMixin(ArchiveMixin):
         )
         return f"{path_root}/data"
 
+    def _get_artifact_metadata_root(
+        self, project_name: str, experiment_id: Optional[str] = None
+    ) -> str:
+        path_root, _ = self._make_path(experiment_id=experiment_id, project_name=project_name)
+        return f"{path_root}/artifacts"
+
+    def _get_dataframe_metadata_root(
+        self, project_name: str, experiment_id: Optional[str] = None
+    ) -> str:
+        path_root, _ = self._make_path(experiment_id=experiment_id, project_name=project_name)
+        return f"{path_root}/dataframes"
+
     def _get_experiment_metadata_root(self, project_name: str) -> str:
         path_root, _ = self._make_path(project_name=project_name)
         return f"{path_root}/experiments"
@@ -47,6 +59,25 @@ class V1CompatibilityMixin(ArchiveMixin):
             entity_identifier_kwargs[f"{entity_type.lower()}_name"] = entity_identifier
 
         return entity_identifier_kwargs
+
+    def _get_tag_metadata_root(
+        self,
+        project_name,
+        experiment_id: Optional[str] = None,
+        entity_identifier: Optional[str] = None,
+        entity_type: Optional[str] = None,
+    ) -> str:
+        if experiment_id is None and entity_identifier is None:
+            raise ValueError("`experiment_id` and `entity_identifier` can not both be `None`.")
+
+        tag_identifier_kwargs = self._get_tag_and_comment_identifier_kwargs(
+            entity_identifier,
+            entity_type,
+            experiment_id,
+        )
+        path_root, _ = self._make_path(project_name=project_name, **tag_identifier_kwargs)
+
+        return path_root
 
     def create_project(self, project: "domain.Project"):
         self.write_project_metadata(project)
