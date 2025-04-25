@@ -105,6 +105,6 @@ def test_search_cli_exp_fail(rubicon_local_filesystem_client_with_project):
     )
 
     assert "No --root-dir or --project-name provided. Exiting..." in result_a.output
-    assert "Project 'NON-EXISTENT-PROJECT' was not found." in result_b.output
+    assert "No project with name 'NON-EXISTENT-PROJECT' found." in result_b.output
     assert result_a.exit_code == 1
     assert result_b.exit_code == 1

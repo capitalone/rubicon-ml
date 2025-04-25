@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Union
 
 import fsspec
 
-from rubicon_ml.domain.utils.uuid import uuid4
+from rubicon_ml.domain.utils.uuid import uuid, uuid4
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.utils import json, slugify
 from rubicon_ml.repository.v2.base import BaseRepository
@@ -34,6 +34,25 @@ class FsspecRepository(BaseRepository):
         self.storage_options = storage_options
 
         self._filesystem = None
+
+    def _make_not_found_exception(
+        self, domain_cls: "DOMAIN_CLASS_TYPES", domain_identifier: str
+    ) -> RubiconException:
+        cls_name = domain_cls.__name__.lower()
+
+        try:
+            _ = uuid.UUID(str(domain_identifier))
+        except ValueError:
+            domain_identifier_type = "name"
+            quote_char = "'"
+        else:
+            domain_identifier_type = "id"
+            quote_char = "`"
+
+        return RubiconException(
+            f"No {cls_name} with {domain_identifier_type} "
+            f"{quote_char}{domain_identifier}{quote_char} found."
+        )
 
     def _make_path(
         self,
@@ -105,7 +124,7 @@ class FsspecRepository(BaseRepository):
         try:
             domain_file = self.filesystem.open(path)
         except FileNotFoundError:
-            raise RubiconException(f"{domain_cls.__name__} '{domain_identifier}' was not found.")
+            raise self._make_not_found_exception(domain_cls, domain_identifier)
 
         return domain_cls(**json.load(domain_file))
 
@@ -201,7 +220,7 @@ class FsspecRepository(BaseRepository):
         try:
             self.filesystem.rm(path_root, recursive=True)
         except FileNotFoundError:
-            raise RubiconException(f"{domain_cls.__name__} '{domain_identifier}' was not found.")
+            raise self._make_not_found_exception(domain_cls, domain_identifier)
 
     def write_domain(
         self,
@@ -236,8 +255,18 @@ class FsspecRepository(BaseRepository):
             path = f"{path_root}/metadata.json"
 
         if self.filesystem.exists(path):
+            try:
+                _ = uuid.UUID(str(domain_identifier))
+            except ValueError:
+                domain_identifier_type = "name"
+                quote_char = "'"
+            else:
+                domain_identifier_type = "id"
+                quote_char = "`"
+
             raise RubiconException(
-                f"{domain.__class__.__name__} '{domain_identifier}' already exists."
+                f"{domain.__class__.__name__} with {domain_identifier_type} "
+                f"{quote_char}{domain_identifier}{quote_char} already exists."
             )
 
         with self.filesystem.open(path, "w") as domain_file:
@@ -261,7 +290,7 @@ class FsspecRepository(BaseRepository):
         try:
             artifact_data_file = self.filesystem.open(path, "rb")
         except FileNotFoundError:
-            raise RubiconException(f"Artifact '{artifact_id}' data was not found.")
+            raise RubiconException(f"No data for artifact with id `{artifact_id}` found.")
 
         return artifact_data_file.read()
 
@@ -282,7 +311,7 @@ class FsspecRepository(BaseRepository):
         path = f"{path_root}/data"
 
         if self.filesystem.exists(path):
-            raise RubiconException(f"Artifact '{artifact_id}' data already exists.")
+            raise RubiconException(f"Data for artifact with id `{artifact_id}` already exists.")
 
         with self.filesystem.open(path, "wb") as artifact_data_file:
             artifact_data_file.write(artifact_data)
@@ -342,7 +371,7 @@ class FsspecRepository(BaseRepository):
             dataframe_data = dataframe_library.read_parquet(path, **read_parquet_kwargs)
         except FileNotFoundError as error:
             raise RubiconException(
-                f"`{dataframe_type}` dataframe '{dataframe_id}' data was not found."
+                f"No data for dataframe with id `{dataframe_id}` found."
             ) from error
 
         return dataframe_data
@@ -424,7 +453,9 @@ class MemoryRepository(FsspecRepository):
             with self.filesystem.open(path, "rb") as dataframe_data_file:
                 dataframe_data = pickle.load(dataframe_data_file)
         except FileNotFoundError as error:
-            raise RubiconException(f"Dataframe '{dataframe_id}' data was not found.") from error
+            raise RubiconException(
+                f"No data for dataframe with id `{dataframe_id}` found."
+            ) from error
 
         return dataframe_data
 
