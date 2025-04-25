@@ -2,7 +2,6 @@ import logging
 import pickle
 from abc import abstractmethod
 from json import JSONDecodeError
-from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Union
 
 import fsspec
@@ -29,7 +28,7 @@ class FsspecRepository(BaseRepository):
         if root_dir is None:
             raise ValueError(f"`root_dir` for `{self.__class__.__name__}` can not be None.")
 
-        self.root_dir_path = Path(root_dir)
+        self.root_dir = root_dir.rstrip("/")
         self.storage_options = storage_options
 
         self._filesystem = None
@@ -43,36 +42,36 @@ class FsspecRepository(BaseRepository):
         feature_name: Optional[str] = None,
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
-    ) -> (Path, Optional[str]):
+    ) -> (str, Optional[str]):
         domain_identifier = None
-        path = self.root_dir_path
+        path = self.root_dir
 
         if project_name is not None:
-            path = Path(path, slugify(project_name))
+            path += f"/{slugify(project_name)}"
             domain_identifier = project_name
 
         if experiment_id is not None:
-            path = Path(path, "experiments", experiment_id)
+            path += f"/experiments/{experiment_id}"
             domain_identifier = experiment_id
 
         if artifact_id is not None:
-            path = Path(path, "artifacts", artifact_id)
+            path += f"/artifacts/{artifact_id}"
             domain_identifier = artifact_id
 
         if dataframe_id is not None:
-            path = Path(path, "dataframes", dataframe_id)
+            path += f"/dataframes/{dataframe_id}"
             domain_identifier = dataframe_id
 
         if feature_name is not None:
-            path = Path(path, "features", slugify(feature_name))
+            path += f"/features/{slugify(feature_name)}"
             domain_identifier = feature_name
 
         if metric_name is not None:
-            path = Path(path, "metrics", slugify(metric_name))
+            path += f"/metrics/{slugify(metric_name)}"
             domain_identifier = metric_name
 
         if parameter_name is not None:
-            path = Path(path, "parameters", slugify(parameter_name))
+            path += f"/parameters/{slugify(parameter_name)}"
             domain_identifier = parameter_name
 
         return path, domain_identifier
@@ -99,7 +98,7 @@ class FsspecRepository(BaseRepository):
             metric_name=metric_name,
             parameter_name=parameter_name,
         )
-        path = Path(path_root, "metadata.json")
+        path = f"{path_root}/metadata.json"
 
         try:
             domain_file = self.filesystem.open(path)
@@ -131,19 +130,19 @@ class FsspecRepository(BaseRepository):
         )
 
         if not isinstance(domain_cls, str) and project_name:
-            path_root = Path(path_root, f"{domain_cls.__name__.lower()}s")
+            path_root += f"/{domain_cls.__name__.lower()}s"
 
         if domain_cls == "CommentUpdate":
-            path = Path(path_root, "comments_*.json")
+            path = f"{path_root}/comments_*.json"
         elif domain_cls == "TagUpdate":
-            path = Path(path_root, "tags_*.json")
+            path = f"{path_root}/tags_*.json"
 
         try:
             if isinstance(domain_cls, str):
-                metadata_file_paths = self.filesystem.glob(str(path), detail=True)
+                metadata_file_paths = self.filesystem.glob(path, detail=True)
             else:
                 metadata_file_paths = [
-                    Path(metadata_path.get("name"), "metadata.json")
+                    f"{metadata_path.get('name')}/metadata.json"
                     for metadata_path in self.filesystem.ls(path_root, detail=True)
                     if metadata_path.get("type", metadata_path.get("StorageClass")).lower()
                     == "directory"
@@ -198,7 +197,7 @@ class FsspecRepository(BaseRepository):
         )
 
         try:
-            self.filesystem.rm(str(path_root), recursive=True)
+            self.filesystem.rm(path_root, recursive=True)
         except FileNotFoundError:
             raise RubiconException(f"{domain_cls.__name__} '{domain_identifier}' was not found.")
 
@@ -226,13 +225,13 @@ class FsspecRepository(BaseRepository):
 
         if isinstance(domain, dict):
             if "added_comments" in domain or "removed_comments" in domain:
-                path = Path(path_root, f"comments_{uuid4()}.json")
+                path = f"{path_root}/comments_{uuid4()}.json"
             elif "added_tags" in domain or "removed_tags" in domain:
-                path = Path(path_root, f"tags_{uuid4()}.json")
+                path = f"{path_root}/tags_{uuid4()}.json"
             else:
                 raise ValueError(f"Unknown domain entity: {domain}.")
         else:
-            path = Path(path_root, "metadata.json")
+            path = f"{path_root}/metadata.json"
 
         if self.filesystem.exists(path):
             raise RubiconException(
@@ -255,7 +254,7 @@ class FsspecRepository(BaseRepository):
             artifact_id=artifact_id,
             experiment_id=experiment_id,
         )
-        path = Path(path_root, "data")
+        path = f"{path_root}/data"
 
         try:
             artifact_data_file = self.filesystem.open(path, "rb")
@@ -278,7 +277,7 @@ class FsspecRepository(BaseRepository):
         )
         self.filesystem.mkdirs(path_root, exist_ok=True)
 
-        path = Path(path_root, "data")
+        path = f"{path_root}/data"
 
         if self.filesystem.exists(path):
             raise RubiconException(f"Artifact '{artifact_id}' data already exists.")
@@ -298,7 +297,7 @@ class FsspecRepository(BaseRepository):
             dataframe_id=dataframe_id,
             experiment_id=experiment_id,
         )
-        path = Path(path_root, "data")
+        path = f"{path_root}/data"
 
         import_error_message = (
             f"`rubicon_ml` requires `{dataframe_type}` to read dataframes with "
@@ -319,7 +318,7 @@ class FsspecRepository(BaseRepository):
             except ImportError as error:
                 raise RubiconException(import_error_message.format("pandas")) from error
 
-            path = Path(path, "data.parquet")
+            path += "/data.parquet"
 
             dataframe_library = pd
             read_parquet_kwargs = {"engine": "pyarrow", "storage_options": self.storage_options}
@@ -358,11 +357,11 @@ class FsspecRepository(BaseRepository):
         )
         self.filesystem.mkdirs(path_root, exist_ok=True)
 
-        path = Path(path_root, "data")
+        path = f"{path_root}/data"
 
         if not hasattr(dataframe_data, "compute"):
             self.filesystem.mkdirs(path, exist_ok=True)
-            path = Path(path, "data.parquet")
+            path += "/data.parquet"
 
         if hasattr(dataframe_data, "write_parquet"):
             dataframe_data.write_parquet(path, storage_options=self.storage_options)
@@ -379,10 +378,6 @@ class FsspecRepository(BaseRepository):
     @property
     @abstractmethod
     def protocol(self) -> str: ...
-
-    @property
-    def root_dir(self) -> str:
-        return str(self.root_dir_path)
 
 
 class LocalRepository(FsspecRepository):
@@ -416,7 +411,7 @@ class MemoryRepository(FsspecRepository):
             dataframe_id=dataframe_id,
             experiment_id=experiment_id,
         )
-        path = Path(path_root, "data")
+        path = f"{path_root}/data"
 
         try:
             with self.filesystem.open(path, "rb") as dataframe_data_file:
@@ -438,7 +433,7 @@ class MemoryRepository(FsspecRepository):
             dataframe_id=dataframe_id,
             experiment_id=experiment_id,
         )
-        path = Path(path_root, "data")
+        path = f"{path_root}/data"
 
         with self.filesystem.open(path, "wb") as dataframe_data_file:
             pickle.dump(dataframe_data, dataframe_data_file)

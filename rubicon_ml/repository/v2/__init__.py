@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import TYPE_CHECKING, Dict, List, Literal, Optional, Union
 
 from rubicon_ml.repository.v2.base import BaseRepository
@@ -30,11 +29,11 @@ class V1CompatibilityMixin:
         path_root, _ = self._make_path(
             artifact_id=artifact_id, experiment_id=experiment_id, project_name=project_name
         )
-        return str(Path(path_root, "data"))
+        return f"{path_root}/data"
 
     def _get_experiment_metadata_root(self, project_name: str) -> str:
         path_root, _ = self._make_path(project_name=project_name)
-        return str(Path(path_root, "experiments"))
+        return f"{path_root}/experiments"
 
     def _get_tag_and_comment_identifier_kwargs(
         self, entity_identifier: str, entity_type: str, experiment_id: Optional[str]
