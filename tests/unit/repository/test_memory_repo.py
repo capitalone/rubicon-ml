@@ -1,4 +1,5 @@
 import pickle
+import uuid
 
 import fsspec
 import pandas as pd
@@ -15,7 +16,7 @@ def test_initialization():
 
 
 def test_persist_dataframe():
-    path = "/memory/root/data"
+    path = f"/root/project-name/dataframes/{uuid.uuid4()}/data"
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
 
     memory_repo = MemoryRepository()

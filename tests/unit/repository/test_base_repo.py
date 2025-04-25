@@ -397,7 +397,7 @@ def test_delete_artifact_throws_error_if_not_found(memory_repository):
 def test_persist_dataframe(mock_to_parquet, local_repository):
     repository = local_repository
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
-    path = "./local/root"
+    path = f"./local-root/project-name/dataframes/{uuid.uuid4()}/data"
 
     repository._persist_dataframe(df, path)
 
@@ -412,17 +412,17 @@ def test_persist_dataframe(mock_to_parquet, local_repository):
 def test_persist_dataframe_polars(mock_write_parquet, local_repository):
     repository = local_repository
     df = pl.DataFrame({"a": [1, 2], "b": [3, 4]})
-    path = "./local/root"
+    path = f"./local-root/project-name/dataframes/{uuid.uuid4()}/data"
 
     repository._persist_dataframe(df, path)
 
-    mock_write_parquet.assert_called_once_with(f"{path}")
+    mock_write_parquet.assert_called_once_with(f"{path}/data.parquet", storage_options={})
 
 
 @patch("pandas.read_parquet")
 def test_read_dataframe(mock_read_parquet, local_repository):
     repository = local_repository
-    path = "./local/root"
+    path = f"./local-root/project-name/dataframes/{uuid.uuid4()}/data"
 
     repository._read_dataframe(path)
 
@@ -435,7 +435,7 @@ def test_read_dataframe(mock_read_parquet, local_repository):
 
 def test_read_dataframe_value_error(local_repository):
     repository = local_repository
-    path = "./local/root"
+    path = f"./local-root/project-name/dataframes/{uuid.uuid4()}/data"
 
     with pytest.raises(ValueError) as e:
         repository._read_dataframe(path, df_type="INVALID")
@@ -445,7 +445,7 @@ def test_read_dataframe_value_error(local_repository):
 
 def test_read_dataframe_import_error(local_repository):
     repository = local_repository
-    path = "./local/root"
+    path = f"./local-root/project-name/dataframes/{uuid.uuid4()}/data"
 
     with patch.dict(sys.modules, {"dask": None}):
         with pytest.raises(RubiconException) as e:

@@ -105,14 +105,23 @@ class V1CompatibilityMixin(ArchiveMixin):
 
         return path_root
 
-    def _persist_bytes(self, bytes_data, path):
+    def _persist_bytes(self, bytes_data: bytes, path: str):
         domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)
         artifact_id = domain_identifier_kwargs.pop("artifact_id")
         project_name = domain_identifier_kwargs.pop("project_name")
 
         self.write_artifact_data(bytes_data, artifact_id, project_name, **domain_identifier_kwargs)
 
-    def _persist_domain(self, domain, path):
+    def _persist_dataframe(
+        self, df: Union["pd.DataFrame", "dd.DataFrame", "pl.DataFrame"], path: str
+    ):
+        domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)
+        dataframe_id = domain_identifier_kwargs.pop("dataframe_id")
+        project_name = domain_identifier_kwargs.pop("project_name")
+
+        self.write_dataframe_data(df, dataframe_id, project_name, **domain_identifier_kwargs)
+
+    def _persist_domain(self, domain: "domain.DOMAIN_TYPES", path: str):
         domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)
         project_name = domain_identifier_kwargs.pop("project_name")
 

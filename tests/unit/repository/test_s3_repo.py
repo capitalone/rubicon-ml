@@ -65,11 +65,12 @@ def test_persist_domain_throws_error(mock_open):
 def test_persist_dataframe(mock_to_parquet, mock_mkdirs):
     s3_repo = S3Repository(root_dir="s3://bucket/root", storage_option_a="test")
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
+    path = f"{s3_repo.root_dir}/project-name/dataframes/{uuid.uuid4()}/data"
 
-    s3_repo._persist_dataframe(df, s3_repo.root_dir)
+    s3_repo._persist_dataframe(df, path)
 
     mock_to_parquet.assert_called_once_with(
-        f"{s3_repo.root_dir}/data.parquet",
+        f"{path}/data.parquet",
         engine="pyarrow",
         storage_options={"storage_option_a": "test"},
     )
