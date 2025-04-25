@@ -7,8 +7,11 @@ import pandas as pd
 import pytest
 
 from rubicon_ml import domain
-from rubicon_ml.repository import LocalRepository, MemoryRepository
 from rubicon_ml.repository.utils import json, slugify
+from rubicon_ml.repository.v2 import (
+    LocalRepositoryV2 as LocalRepository,
+    MemoryRepositoryV2 as MemoryRepository,
+)
 
 ARTIFACT_BINARY = b"artifact"
 COMMENTS_TO_ADD = ["comment_a", "comment_b"]

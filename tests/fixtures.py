@@ -12,7 +12,7 @@ from dask.distributed import Client
 from sklearn.datasets import make_classification
 
 from rubicon_ml import Rubicon
-from rubicon_ml.repository import MemoryRepository
+from rubicon_ml.repository.v2 import MemoryRepositoryV2 as MemoryRepository
 
 
 class _AnotherObject:
@@ -120,7 +120,6 @@ def rubicon_local_filesystem_client():
     rubicon = Rubicon(
         persistence="filesystem",
         root_dir=os.path.join(os.path.dirname(os.path.realpath(__file__)), "rubicon"),
-        storage_option_a="test",  # should be ignored when logging local dfs
     )
 
     # teardown after yield

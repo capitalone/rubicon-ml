@@ -6,8 +6,8 @@ import fsspec
 import pytest
 
 from rubicon_ml import domain
-from rubicon_ml.repository import LocalRepository
 from rubicon_ml.repository.utils import slugify
+from rubicon_ml.repository.v2 import LocalRepositoryV2 as LocalRepository
 
 
 def test_initialization():

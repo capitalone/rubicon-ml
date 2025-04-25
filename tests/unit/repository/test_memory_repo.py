@@ -3,7 +3,7 @@ import pickle
 import fsspec
 import pandas as pd
 
-from rubicon_ml.repository import MemoryRepository
+from rubicon_ml.repository.v2 import MemoryRepositoryV2 as MemoryRepository
 
 
 def test_initialization():

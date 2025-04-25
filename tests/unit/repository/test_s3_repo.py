@@ -6,8 +6,8 @@ import pytest
 import s3fs
 
 from rubicon_ml import domain
-from rubicon_ml.repository import S3Repository
 from rubicon_ml.repository.utils import slugify
+from rubicon_ml.repository.v2 import S3RepositoryV2 as S3Repository
 
 
 def test_initialization():

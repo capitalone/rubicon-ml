@@ -9,8 +9,8 @@ from dask import dataframe as dd
 
 from rubicon_ml import domain
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import MemoryRepository
 from rubicon_ml.repository.utils import json, slugify
+from rubicon_ml.repository.v2 import MemoryRepositoryV2 as MemoryRepository
 
 # -------- Helpers --------
 
