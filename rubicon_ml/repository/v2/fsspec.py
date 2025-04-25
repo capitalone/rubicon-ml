@@ -397,13 +397,13 @@ class FsspecRepository(BaseRepository):
 
         path = f"{path_root}/data"
 
-        if not hasattr(dataframe_data, "compute"):
-            self._make_directories(path)
-            path += "/data.parquet"
-
         if hasattr(dataframe_data, "write_parquet"):
             dataframe_data.write_parquet(path, storage_options=self.storage_options)
         else:
+            if not hasattr(dataframe_data, "compute"):
+                self._make_directories(path)
+                path += "/data.parquet"
+
             dataframe_data.to_parquet(path, engine="pyarrow", storage_options=self.storage_options)
 
     @property

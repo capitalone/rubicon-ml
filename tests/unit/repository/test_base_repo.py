@@ -416,7 +416,7 @@ def test_persist_dataframe_polars(mock_write_parquet, local_repository):
 
     repository._persist_dataframe(df, path)
 
-    mock_write_parquet.assert_called_once_with(f"{path}/data.parquet", storage_options={})
+    mock_write_parquet.assert_called_once_with(path, storage_options={})
 
 
 @patch("pandas.read_parquet")
