@@ -28,13 +28,17 @@ def test_persist_bytes(mock_open):
 
 
 @patch("s3fs.core.S3FileSystem.open")
-def test_persist_domain(mock_open):
+@patch("s3fs.core.S3FileSystem.exists")
+def test_persist_domain(mock_exists, mock_open):
+    mock_exists.return_value = False
+
     project = domain.Project(f"Test Project {uuid.uuid4()}")
     project_metadata_path = f"s3://bucket/root/{slugify(project.name)}/metadata.json"
 
     s3_repo = S3Repository(root_dir="s3://bucket/root")
     s3_repo._persist_domain(project, project_metadata_path)
 
+    mock_exists.assert_called_once_with(project_metadata_path)
     mock_open.assert_called_once_with(project_metadata_path, "w")
 
 
