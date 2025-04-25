@@ -35,6 +35,9 @@ class FsspecRepository(BaseRepository):
 
         self._filesystem = None
 
+    def _make_directories(self, path: str):
+        self.filesystem.mkdirs(path, exist_ok=True)
+
     def _make_not_found_exception(
         self, domain_cls: "DOMAIN_CLASS_TYPES", domain_identifier: str
     ) -> RubiconException:
@@ -233,6 +236,7 @@ class FsspecRepository(BaseRepository):
         metric_name: Optional[str] = None,
         parameter_name: Optional[str] = None,
     ):
+        domain_dump = json.dumps(domain)
         path_root, domain_identifier = self._make_path(
             project_name,
             artifact_id=artifact_id,
@@ -242,7 +246,6 @@ class FsspecRepository(BaseRepository):
             metric_name=metric_name,
             parameter_name=parameter_name,
         )
-        self.filesystem.mkdirs(path_root, exist_ok=True)
 
         if isinstance(domain, dict):
             if "added_comments" in domain or "removed_comments" in domain:
@@ -269,8 +272,10 @@ class FsspecRepository(BaseRepository):
                 f"{quote_char}{domain_identifier}{quote_char} already exists."
             )
 
+        self._make_directories(path_root)
+
         with self.filesystem.open(path, "w") as domain_file:
-            domain_file.write(json.dumps(domain))
+            domain_file.write(domain_dump)
 
     # binary read/writes
 
@@ -306,7 +311,7 @@ class FsspecRepository(BaseRepository):
             artifact_id=artifact_id,
             experiment_id=experiment_id,
         )
-        self.filesystem.mkdirs(path_root, exist_ok=True)
+        self._make_directories(path_root)
 
         path = f"{path_root}/data"
 
@@ -388,12 +393,12 @@ class FsspecRepository(BaseRepository):
             dataframe_id=dataframe_id,
             experiment_id=experiment_id,
         )
-        self.filesystem.mkdirs(path_root, exist_ok=True)
+        self._make_directories(path_root)
 
         path = f"{path_root}/data"
 
         if not hasattr(dataframe_data, "compute"):
-            self.filesystem.mkdirs(path, exist_ok=True)
+            self._make_directories(path)
             path += "/data.parquet"
 
         if hasattr(dataframe_data, "write_parquet"):
@@ -433,7 +438,7 @@ class MemoryRepository(FsspecRepository):
         super().__init__(root_dir, **storage_options)
 
         if not self.filesystem.exists(self.root_dir):
-            self.filesystem.mkdirs(self.root_dir)
+            self._make_directories(self.root_dir)
 
     def read_dataframe_data(
         self,
@@ -483,6 +488,9 @@ class MemoryRepository(FsspecRepository):
 
 class S3Repository(FsspecRepository):
     """S3 filesystem repository leveraging `fsspec`."""
+
+    def _make_directories(self, path: str):
+        pass
 
     @property
     def protocol(self) -> str:

@@ -24,6 +24,44 @@ class V1CompatibilityMixin(ArchiveMixin):
     client updates.
     """
 
+    # helpers
+
+    def _get_identifier_kwargs_from_path(self, path: str) -> Dict:
+        entity_identifier_kwargs = {}
+        split_path = path.split("/")[:-1]
+
+        for i in range(len(split_path) - 1, 0, -2):
+            path_parts = split_path[i - 1 : i + 1]
+
+            if len(path_parts) == 2 and path_parts[0]:
+                entity_type, entity_identifier = path_parts
+
+                if entity_type in ["artifact", "dataframe", "experiment"]:
+                    entity_identifier_kwargs[f"{entity_type}_id"] = entity_identifier
+                else:
+                    entity_identifier = entity_identifier.replace("-", " ")
+
+                    if entity_type in ["feature", "metric", "parameter"]:
+                        entity_identifier_kwargs[f"{entity_type}_name"] = entity_identifier
+                    else:
+                        entity_identifier_kwargs["project_name"] = entity_identifier
+
+        return entity_identifier_kwargs
+
+    def _get_tag_and_comment_identifier_kwargs(
+        self, entity_identifier: str, entity_type: str, experiment_id: Optional[str]
+    ) -> Dict:
+        entity_identifier_kwargs = {"experiment_id": experiment_id}
+
+        if entity_type in ["Artifact", "Dataframe"]:
+            entity_identifier_kwargs[f"{entity_type.lower()}_id"] = entity_identifier
+        elif entity_type in ["Feature", "Metric", "Parameter"]:
+            entity_identifier_kwargs[f"{entity_type.lower()}_name"] = entity_identifier
+
+        return entity_identifier_kwargs
+
+    # method forwarders for compatibility
+
     def _get_artifact_data_path(
         self, project_name: str, experiment_id: Optional[str], artifact_id: str
     ) -> str:
@@ -48,18 +86,6 @@ class V1CompatibilityMixin(ArchiveMixin):
         path_root, _ = self._make_path(project_name=project_name)
         return f"{path_root}/experiments"
 
-    def _get_tag_and_comment_identifier_kwargs(
-        self, entity_identifier: str, entity_type: str, experiment_id: Optional[str]
-    ):
-        entity_identifier_kwargs = {"experiment_id": experiment_id}
-
-        if entity_type in ["Artifact", "Dataframe"]:
-            entity_identifier_kwargs[f"{entity_type.lower()}_id"] = entity_identifier
-        elif entity_type in ["Feature", "Metric", "Parameter"]:
-            entity_identifier_kwargs[f"{entity_type.lower()}_name"] = entity_identifier
-
-        return entity_identifier_kwargs
-
     def _get_tag_metadata_root(
         self,
         project_name,
@@ -78,6 +104,12 @@ class V1CompatibilityMixin(ArchiveMixin):
         path_root, _ = self._make_path(project_name=project_name, **tag_identifier_kwargs)
 
         return path_root
+
+    def _persist_domain(self, domain, path):
+        domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)
+        project_name = domain_identifier_kwargs.pop("project_name")
+
+        self.write_domain(domain, project_name, **domain_identifier_kwargs)
 
     def create_project(self, project: "domain.Project"):
         self.write_project_metadata(project)
