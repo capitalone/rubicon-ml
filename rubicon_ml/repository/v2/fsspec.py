@@ -1,5 +1,6 @@
 import logging
 import pickle
+import warnings
 from abc import abstractmethod
 from json import JSONDecodeError
 from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Union
@@ -19,6 +20,7 @@ if TYPE_CHECKING:
     from rubicon_ml.domain import DOMAIN_CLASS_TYPES, DOMAIN_TYPES, Artifact, Dataframe
 
 LOGGER = logging.Logger(__name__)
+logging.captureWarnings(True)
 
 
 class FsspecRepository(BaseRepository):
@@ -164,7 +166,7 @@ class FsspecRepository(BaseRepository):
 
         for path, metadata in self.filesystem.cat(metadata_file_paths, on_error="return").items():
             if isinstance(metadata, FileNotFoundError):
-                LOGGER.warn(f"Ignoring non-rubicon-ml-metadata at {path}.")
+                warnings.warn(f"Ignoring {path}. `rubicon-ml` metadata not found.")
             else:
                 try:
                     if isinstance(domain_cls, str):
@@ -172,7 +174,7 @@ class FsspecRepository(BaseRepository):
                     else:
                         domain = domain_cls(**json.loads(metadata))
                 except (JSONDecodeError, TypeError):
-                    LOGGER.warn(f"Failed to load {domain_cls} at {path}.")
+                    warnings.warn(f"Failed to load {domain_cls} at {path}.")
 
                 domains.append(domain)
 
@@ -339,7 +341,9 @@ class FsspecRepository(BaseRepository):
         try:
             dataframe_data = dataframe_library.read_parquet(path, **read_parquet_kwargs)
         except FileNotFoundError as error:
-            raise RubiconException(f"Dataframe '{dataframe_id}' data was not found.") from error
+            raise RubiconException(
+                f"`{dataframe_type}` dataframe '{dataframe_id}' data was not found."
+            ) from error
 
         return dataframe_data
 
@@ -382,6 +386,9 @@ class FsspecRepository(BaseRepository):
 
 class LocalRepository(FsspecRepository):
     """Local filesystem repository leveraging `fsspec`."""
+
+    def __init__(self, root_dir: Optional[str] = None):
+        super().__init__(root_dir)
 
     @property
     def protocol(self) -> str:
