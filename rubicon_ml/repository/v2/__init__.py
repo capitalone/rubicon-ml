@@ -127,6 +127,17 @@ class V1CompatibilityMixin(ArchiveMixin):
 
         self.write_domain(domain, project_name, **domain_identifier_kwargs)
 
+    def _read_dataframe(
+        self, path: str, df_type: Literal["pandas", "dask", "polars"] = "pandas"
+    ) -> Union["dd.DataFrame", "pd.DataFrame", "pl.DataFrame"]:
+        domain_identifier_kwargs = self._get_identifier_kwargs_from_path(path)
+        dataframe_id = domain_identifier_kwargs.pop("dataframe_id")
+        project_name = domain_identifier_kwargs.pop("project_name")
+
+        return self.read_dataframe_data(
+            dataframe_id, df_type, project_name, **domain_identifier_kwargs
+        )
+
     def create_project(self, project: "domain.Project"):
         self.write_project_metadata(project)
 

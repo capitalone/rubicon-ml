@@ -336,8 +336,8 @@ class FsspecRepository(BaseRepository):
         path = f"{path_root}/data"
 
         import_error_message = (
-            f"`rubicon_ml` requires `{dataframe_type}` to read dataframes with "
-            f"`dataframe_type`='{dataframe_type}'. `pip install {{}}` and try again."
+            f"`rubicon_ml` requires `{dataframe_type}` to be installed to read dataframes with "
+            f"`df_type`='{dataframe_type}'. `pip install {{}}` and try again."
         )
 
         if dataframe_type in ["dask", "dd"]:
@@ -368,7 +368,7 @@ class FsspecRepository(BaseRepository):
             read_parquet_kwargs = {"storage_options": self.storage_options}
         else:
             raise ValueError(
-                "`dataframe_type` must be one of 'dask' (or 'dd'), 'pandas' (or 'pd') or "
+                "`df_type` must be one of 'dask' (or 'dd'), 'pandas' (or 'pd') or "
                 "'polars' (or 'pl')."
             )
 

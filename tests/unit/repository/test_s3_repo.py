@@ -79,10 +79,12 @@ def test_persist_dataframe(mock_to_parquet, mock_mkdirs):
 @patch("pandas.read_parquet")
 def test_read_dataframe(mock_read_parquet):
     s3_repo = S3Repository(root_dir="s3://bucket/root", storage_option_a="test")
-    s3_repo._read_dataframe(s3_repo.root_dir)
+    path = f"{s3_repo.root_dir}/project-name/dataframes/{uuid.uuid4()}/data"
+
+    s3_repo._read_dataframe(path)
 
     mock_read_parquet.assert_called_once_with(
-        f"{s3_repo.root_dir}/data.parquet",
+        f"{path}/data.parquet",
         engine="pyarrow",
         storage_options={"storage_option_a": "test"},
     )

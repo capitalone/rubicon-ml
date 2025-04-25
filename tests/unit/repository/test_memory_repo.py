@@ -27,7 +27,7 @@ def test_persist_dataframe():
 
 
 def test_read_dataframe():
-    path = "/memory/root/data"
+    path = f"/root/project-name/dataframes/{uuid.uuid4()}/data"
     df = pd.DataFrame([[0, 1], [1, 0]], columns=["a", "b"])
 
     memory_repo = MemoryRepository()
