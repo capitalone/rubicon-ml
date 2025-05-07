@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contribute a schema" href="contribute-schema.html" /><link rel="prev" title="Representing model metadata with a schema" href="schema-representation.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Contributing - rubicon-ml v0.10.4</title>
+        <title>Contributing - rubicon-ml v0.10.5</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.4</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.5</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.4</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.5</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -318,14 +318,15 @@ as an upstream remote:</p>
 <h2>Creating a Development Environment<a class="headerlink" href="#creating-a-development-environment" title="Link to this heading">¶</a></h2>
 <p>We have a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment YAML file with all the necessary dependencies
 at the root of the repository.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>rubicon-ml-dev<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11
+conda<span class="w"> </span>activate<span class="w"> </span>rubicon-ml-dev
 </pre></div>
 </div>
 </section>
 <section id="building-rubicon-ml">
 <h2>Building <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code><a class="headerlink" href="#building-rubicon-ml" title="Link to this heading">¶</a></h2>
 <p>After you’ve cloned the repository, use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> locally:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>all<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;./[dev]&#39;</span>
 </pre></div>
 </div>
 </section>
@@ -361,19 +362,8 @@ generate a library reference.</p>
 example notebooks directly from our repo. To reduce the complexity of our
 documentation builds, we only commit executed notebooks to the repo so
 <code class="docutils literal notranslate"><span class="pre">nbsphinx</span></code> doesn’t have to spend time executing them itself.</p>
-<p>To build the documentation locally, use the environment YAML file in the
-<code class="docutils literal notranslate"><span class="pre">docs</span></code> directory to create a new <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment with all necessary
-tools:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs/
-conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>docs-environment.yml
-</pre></div>
-</div>
-<p>Activate the new environment, install a local copy of <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>, and
-use the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> command from the <code class="docutils literal notranslate"><span class="pre">docs</span></code> directory to build the
-documentation locally.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>rubicon-ml-docs
-pip<span class="w"> </span>install<span class="w"> </span>--no-deps<span class="w"> </span>-e<span class="w"> </span>../
-make<span class="w"> </span>html
+<p>To build the documentation locally, use the provided Makefile:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>clean<span class="w"> </span>html
 </pre></div>
 </div>
 <p>The newly built documentation can be opened in a browser.</p>
