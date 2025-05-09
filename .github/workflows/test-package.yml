@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e './[all,qa,test]'
     - name: Install build dependencies
-      if: ${{ matrix.python-version }} == '3.12'
+      if: ${{ matrix.python-version == '3.12' }}
       run: |
         pip install -e './[build]'
     - name: Check formatting with black
@@ -43,7 +43,7 @@ jobs:
       run: |
         flake8 .
     - name: Validate build
-      if: ${{ matrix.python-version }} == '3.12'
+      if: ${{ matrix.python-version == '3.12' }}
       run: |
         python setup.py sdist bdist_wheel
         pip install dist/rubicon_ml-*.whl
