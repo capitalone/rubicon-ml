@@ -41,7 +41,7 @@ jobs:
     - name: Validate build
       run: |
         python setup.py sdist bdist_wheel
-        pip install dist/rubicon_ml-*.whl
+        pip install dist/rubicon*ml-*.whl
     - name: Test with pytest
       run: |
         pytest
