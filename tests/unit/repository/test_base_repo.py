@@ -418,7 +418,7 @@ def test_stream_artifact_data(memory_repository, stream_from):
     if stream_from == "start":
         assert "pre-streaming message" in artifact_data
     else:
-        assert "pre-artifact message" not in artifact_data
+        assert "pre-streaming message" not in artifact_data
 
     for i in range(num_log_lines):
         assert f"message {i}" in artifact_data

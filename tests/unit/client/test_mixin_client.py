@@ -285,7 +285,7 @@ def test_stream_artifact(project_client, stream_from):
     if stream_from == "start":
         assert "pre-streaming message" in final_artifact_data
     else:
-        assert "pre-artifact message" not in final_artifact_data
+        assert "pre-streaming message" not in final_artifact_data
 
     for i in range(num_log_lines):
         assert f"message {i}" in final_artifact_data
