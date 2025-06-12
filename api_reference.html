@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Representing model metadata with a schema" href="schema-representation.html" /><link rel="prev" title="FAQs" href="faqs.html" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>API Reference - rubicon-ml v0.10.5</title>
+        <title>API Reference - rubicon-ml v0.11.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -168,7 +168,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.10.5</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.11.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.10.5</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.11.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -3744,214 +3744,6 @@ end with ‘%’.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code> contains wrappers for the workflow management engine
 <strong>Prefect</strong>. These <strong>tasks</strong> represent a Prefect-ified <code class="docutils literal notranslate"><span class="pre">rubicon_ml</span></code>
 client.</p>
-<span class="target" id="module-rubicon_ml.workflow.prefect"></span><dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.create_experiment_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">create_experiment_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.create_experiment_task" title="Link to this definition">¶</a></dt>
-<dd><p>Create an experiment within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-create a new experiment under an existing project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>project</strong><span class="classifier">rubicon.client.Project</span></dt><dd><p>The project under which the experiment will be created.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Keyword arguments to be passed to
-<cite>Project.log_experiment</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Experiment</dt><dd><p>The created experiment.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.get_or_create_project_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">get_or_create_project_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_git_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.get_or_create_project_task" title="Link to this definition">¶</a></dt>
-<dd><p>Get or create a project within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-create a new project or get an existing one. It should
-be the entry point to any <cite>prefect</cite> flow that logs
-data to Rubicon.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>persistence</strong><span class="classifier">str</span></dt><dd><p>The persistence type to be passed to the
-<cite>Rubicon</cite> constructor.</p>
-</dd>
-<dt><strong>root_dir</strong><span class="classifier">str</span></dt><dd><p>The root directory to be passed to the
-<cite>Rubicon</cite> constructor.</p>
-</dd>
-<dt><strong>project_name</strong><span class="classifier">str</span></dt><dd><p>The name of the project to get or create.</p>
-</dd>
-<dt><strong>auto_git_enabled</strong><span class="classifier">bool, optional</span></dt><dd><p>True to use the <cite>git</cite> command to automatically log
-relevant repository information to projects and
-experiments logged with the client instance created
-in this task, False otherwise. Defaults to False.</p>
-</dd>
-<dt><strong>storage_options</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments specific to the protocol being chosen. They
-are passed directly to the underlying filesystem class.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
-<cite>Rubicon.create_project</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Project</dt><dd><p>The project with name <cite>project_name</cite>.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_artifact_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_artifact_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_artifact_task" title="Link to this definition">¶</a></dt>
-<dd><p>Log an artifact within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-log an artifact to an existing project or experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>parent</strong><span class="classifier">rubicon.client.Project or rubicon.client.Experiment</span></dt><dd><p>The project or experiment to log the artifact to.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Keyword arguments to be passed to
-<cite>Project.log_artifact</cite> or <cite>Experiment.log_artifact</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Artifact</dt><dd><p>The logged artifact.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_dataframe_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_dataframe_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_dataframe_task" title="Link to this definition">¶</a></dt>
-<dd><p>Log a dataframe within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-log a dataframe to an existing project or experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>parent</strong><span class="classifier">rubicon.client.Project or rubicon.client.Experiment</span></dt><dd><p>The project or experiment to log the dataframe to.</p>
-</dd>
-<dt><strong>df</strong><span class="classifier">pandas.DataFrame or dask.dataframe.DataFrame</span></dt><dd><p>The <cite>pandas</cite> or <cite>dask</cite> dataframe to log.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
-<cite>Project.log_dataframe</cite> or <cite>Experiment.log_dataframe</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Dataframe</dt><dd><p>The logged dataframe.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_feature_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_feature_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_feature_task" title="Link to this definition">¶</a></dt>
-<dd><p>Log a feature within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-log a feature to an existing experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment to log a new feature to.</p>
-</dd>
-<dt><strong>feature_name</strong><span class="classifier">str</span></dt><dd><p>The name of the feature to log. Passed to
-<cite>Experiment.log_feature</cite> as <cite>name</cite>.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
-<cite>Experiment.log_feature</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Feature</dt><dd><p>The logged feature.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_metric_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_metric_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_metric_task" title="Link to this definition">¶</a></dt>
-<dd><p>Log a metric within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-log a metric to an existing experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment to log a new metric to.</p>
-</dd>
-<dt><strong>metric_name</strong><span class="classifier">str</span></dt><dd><p>The name of the metric to log. Passed to
-<cite>Experiment.log_metric</cite> as <cite>name</cite>.</p>
-</dd>
-<dt><strong>metric_value</strong><span class="classifier">str</span></dt><dd><p>The value of the metric to log. Passed to
-<cite>Experiment.log_metric</cite> as <cite>value</cite>.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
-<cite>Experiment.log_metric</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Metric</dt><dd><p>The logged metric.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rubicon_ml.workflow.prefect.log_parameter_task">
-<span class="sig-prename descclassname"><span class="pre">rubicon_ml.workflow.prefect.</span></span><span class="sig-name descname"><span class="pre">log_parameter_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rubicon_ml.workflow.prefect.log_parameter_task" title="Link to this definition">¶</a></dt>
-<dd><p>Log a parameter within a <cite>prefect</cite> flow.</p>
-<p>This <cite>prefect</cite> task can be used within a flow to
-log a parameter to an existing experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>experiment</strong><span class="classifier">rubicon.client.Experiment</span></dt><dd><p>The experiment to log a new parameter to.</p>
-</dd>
-<dt><strong>parameter_name</strong><span class="classifier">str</span></dt><dd><p>The name of the parameter to log. Passed to
-<cite>Experiment.log_parameter</cite> as <cite>name</cite>.</p>
-</dd>
-<dt><strong>parameter_value</strong><span class="classifier">str</span></dt><dd><p>The value of the parameter to log. Passed to
-<cite>Experiment.log_parameter</cite> as <cite>value</cite>.</p>
-</dd>
-<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Additional keyword arguments to be passed to
-<cite>Experiment.log_parameter</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>rubicon.client.Parameter</dt><dd><p>The logged parameter.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 </section>
 
@@ -4291,16 +4083,7 @@ log a parameter to an existing experiment.</p>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a><ul>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.create_experiment_task"><code class="docutils literal notranslate"><span class="pre">create_experiment_task()</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.get_or_create_project_task"><code class="docutils literal notranslate"><span class="pre">get_or_create_project_task()</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_artifact_task"><code class="docutils literal notranslate"><span class="pre">log_artifact_task()</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_dataframe_task"><code class="docutils literal notranslate"><span class="pre">log_dataframe_task()</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_feature_task"><code class="docutils literal notranslate"><span class="pre">log_feature_task()</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_metric_task"><code class="docutils literal notranslate"><span class="pre">log_metric_task()</span></code></a></li>
-<li><a class="reference internal" href="#rubicon_ml.workflow.prefect.log_parameter_task"><code class="docutils literal notranslate"><span class="pre">log_parameter_task()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#workflow-prefect">workflow.prefect</a></li>
 </ul>
 </li>
 </ul>
