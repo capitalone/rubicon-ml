@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
     defaults:
       run:
         shell: bash -l {0}
@@ -25,28 +25,31 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Install & set up uv
+      run: |
+        python -m pip install --upgrade uv
+        uv venv --python $(which python)
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e './[all,qa,test]'
+        uv sync --extra all --extra qa --extra test
     - name: Install build dependencies
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.13' }}
       run: |
-        pip install -e './[build]'
+        uv sync --extra build
     - name: Check formatting with black
       run: |
-        black --check .
+        uv run black --check .
     - name: Check imports with isort
       run: |
-        isort -c .
+        uv run isort -c .
     - name: Lint with flake8
       run: |
-        flake8 .
+        uv run flake8 .
     - name: Validate build
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.13' }}
       run: |
-        python setup.py sdist bdist_wheel
-        pip install dist/rubicon_ml-*.whl
+        uv run python -m build
+        uv pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
       run: |
-        pytest
+        uv run pytest
