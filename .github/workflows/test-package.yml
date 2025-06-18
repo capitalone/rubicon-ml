@@ -13,50 +13,38 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
-    defaults:
-      run:
-        shell: bash -l {0}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
-        # fetch all tags so `versioneer` can properly determine current version
-        fetch-depth: 0
+        fetch-depth: 0  # fetch all tags for `versioneer`
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install & set up uv
-      run: |
-        python -m pip install --upgrade uv
-        uv venv --python $(which python)
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+    - name: Clean uv.lock
+      run: rm -f uv.lock
+      continue-on-error: true  # don't fail if uv.lock doesn't exist
     - name: Install dependencies
       run: |
-        source .venv/bin/activate
+        uv venv --python $(which python)
         uv sync --extra all --extra qa --extra test
     - name: Install build dependencies
       if: ${{ matrix.python-version == '3.13' }}
-      run: |
-        source .venv/bin/activate
-        uv sync --extra build
+      run: uv sync --extra build
     - name: Check formatting with black
-      run: |
-        source .venv/bin/activate
-        uv run black --check .
+      run: uv run black --check .
     - name: Check imports with isort
-      run: |
-        source .venv/bin/activate
-        uv run isort -c .
+      run: uv run isort -c .
     - name: Lint with flake8
-      run: |
-        source .venv/bin/activate
-        uv run flake8 .
+      run: uv run flake8 .
     - name: Validate build
       if: ${{ matrix.python-version == '3.13' }}
       run: |
-        source .venv/bin/activate
         uv run python -m build
         uv pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
-      run: |
-        source .venv/bin/activate
-        uv run pytest
+      run: uv run pytest
