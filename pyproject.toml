@@ -36,7 +36,7 @@ dynamic = ["version"]
 all = ["rubicon-ml[s3,viz]"]
 build = [
     "build",
-    "setuptools>=80.3.1",
+    "setuptools",
     "twine",
     "wheel"
 ]
@@ -57,7 +57,7 @@ qa = [
     "flake8",
     "isort",
     "pre-commit",
-    "versioneer"
+    "versioneer[toml]"
 ]
 s3 = ["s3fs<=2025.5.1,>=0.4"]
 test = [
@@ -94,7 +94,7 @@ Documentation = "https://capitalone.github.io/rubicon-ml/"
 "Source Code" = "https://github.com/capitalone/rubicon-ml"
 
 [build-system]
-requires = ["setuptools>=61.0", "wheel", "versioneer[toml]"]
+requires = ["setuptools", "versioneer[toml]"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]

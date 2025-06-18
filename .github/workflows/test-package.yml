@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
     - uses: actions/checkout@v4
       with:
@@ -25,26 +25,27 @@ jobs:
       uses: astral-sh/setup-uv@v6
       with:
         version: "latest"
-    - name: Clean uv.lock
-      run: rm -f uv.lock
-      continue-on-error: true  # don't fail if uv.lock doesn't exist
     - name: Install dependencies
+      if: ${{ matrix.python-version != '3.12' }}
       run: |
         uv venv --python $(which python)
         uv sync --extra all --extra qa --extra test
-    - name: Install build dependencies
-      if: ${{ matrix.python-version == '3.13' }}
-      run: uv sync --extra build
+    - name: Install build dependencies (other versions)
+      if: ${{ matrix.python-version == '3.12' }}
+      run: |
+        uv venv --python $(which python)
+        uv sync --extra all --extra build --extra qa --extra test
     - name: Check formatting with black
       run: uv run black --check .
     - name: Check imports with isort
       run: uv run isort -c .
     - name: Lint with flake8
       run: uv run flake8 .
+    - name: Test with pytest
+      run: uv run pytest
     - name: Validate build
-      if: ${{ matrix.python-version == '3.13' }}
+      if: ${{ matrix.python-version == '3.12' }}
       run: |
         uv run python -m build
         uv pip install dist/rubicon_ml-*.whl
-    - name: Test with pytest
-      run: uv run pytest
+        uv run python -c "import rubicon_ml; print(rubicon_ml.__version__)"
