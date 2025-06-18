@@ -31,25 +31,32 @@ jobs:
         uv venv --python $(which python)
     - name: Install dependencies
       run: |
+        source .venv/bin/activate
         uv sync --extra all --extra qa --extra test
     - name: Install build dependencies
       if: ${{ matrix.python-version == '3.13' }}
       run: |
+        source .venv/bin/activate
         uv sync --extra build
     - name: Check formatting with black
       run: |
+        source .venv/bin/activate
         uv run black --check .
     - name: Check imports with isort
       run: |
+        source .venv/bin/activate
         uv run isort -c .
     - name: Lint with flake8
       run: |
+        source .venv/bin/activate
         uv run flake8 .
     - name: Validate build
       if: ${{ matrix.python-version == '3.13' }}
       run: |
+        source .venv/bin/activate
         uv run python -m build
         uv pip install dist/rubicon_ml-*.whl
     - name: Test with pytest
       run: |
+        source .venv/bin/activate
         uv run pytest
