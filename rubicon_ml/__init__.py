@@ -1,7 +1,8 @@
-from ._version import get_versions
+# from ._version import get_versions
 
-__version__ = get_versions()["version"]
-del get_versions
+# __version__ = get_versions()["version"]
+# del get_versions
+__version__ = "0.11.0"
 
 from rubicon_ml.client import (  # noqa: E402
     Artifact,

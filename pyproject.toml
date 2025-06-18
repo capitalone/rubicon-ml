@@ -30,7 +30,8 @@ dependencies = [
     "PyYAML<=6.0.2,>=5.4.0",
     "scikit-learn<=1.7.0,>=0.22.0"
 ]
-dynamic = ["version"]
+# dynamic = ["version"]
+version = "0.11.0"
 
 [project.optional-dependencies]
 all = ["rubicon-ml[s3,viz]"]
