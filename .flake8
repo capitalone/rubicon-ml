@@ -1,0 +1,6 @@
+# TODO: USE RUFF INSTEAD
+
+[flake8]
+exclude = .ipynb_checkpoints, .venv, docs, build, rubicon_ml/_version.py, versioneer.py
+max-line-length = 88
+ignore = E731,E741,W503,E203,E501
