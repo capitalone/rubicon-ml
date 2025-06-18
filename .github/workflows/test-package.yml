@@ -30,7 +30,7 @@ jobs:
       run: |
         uv venv --python $(which python)
         uv sync --extra all --extra qa --extra test
-    - name: Install build dependencies (other versions)
+    - name: Install dependencies (with build)
       if: ${{ matrix.python-version == '3.12' }}
       run: |
         uv venv --python $(which python)

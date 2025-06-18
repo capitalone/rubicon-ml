@@ -57,8 +57,7 @@ qa = [
     "edgetest",
     "flake8",
     "isort",
-    "pre-commit",
-    "versioneer[toml]"
+    "pre-commit"
 ]
 s3 = ["s3fs<=2025.5.1,>=0.4"]
 test = [
@@ -66,8 +65,11 @@ test = [
     "h2o",
     "ipykernel",
     "jupyterlab",
+    "kaleido==0.2.1",
     "lightgbm",
     "nbconvert",
+    "palmerpenguins",
+    "Pillow",
     "polars<1.0",
     "pytest",
     "pytest-cov",
@@ -95,7 +97,7 @@ Documentation = "https://capitalone.github.io/rubicon-ml/"
 "Source Code" = "https://github.com/capitalone/rubicon-ml"
 
 [build-system]
-requires = ["setuptools", "versioneer[toml]"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
@@ -142,11 +144,6 @@ xfail_strict = true
 
 [tool.edgetest.envs.core]
 python_version = "3.11"
-deps = [
-    "kaleido",
-    "palmerpenguins",
-    "Pillow"
-]
 extras = ["dev"]
 upgrade = [
     "click",
