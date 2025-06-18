@@ -112,7 +112,7 @@ parentdir_prefix_version = "rubicon-ml-"
 
 [tool.black]
 line-length = 100
-exclude = "(versioneer.py|_version.py)"
+exclude = "(versioneer.py|_version.py|\\.venv)"
 
 [tool.flake8]
 exclude = ["versioneer.py", "rubicon_ml/_version.py", "docs", ".ipynb_checkpoints"]
