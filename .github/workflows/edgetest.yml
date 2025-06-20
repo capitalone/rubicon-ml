@@ -1,5 +1,8 @@
-# This workflow runs edgetest on rubicon @ At 10:00AM UTC on every day-of-week from Sunday through Thursday.
-# https://github.com/fdosani/run-edgetest-action
+# Runs edgetest to manage dependency upgrades
+#
+# Public actions used:
+#   - https://github.com/actions/checkout
+#   - https://github.com/edgetest-dev/run-edgetest-action
 
 name: Run edgetest
 on:

@@ -1,6 +1,10 @@
-# This workflow builds and publishes the latest docs to
-# the `gh-pages` branch.
-# For more details: https://github.com/marketplace/actions/deploy-to-github-pages
+# Publishes documentation to GitHub Pages
+#
+# Public actions used:
+#   - https://github.com/actions/checkout
+#   - https://github.com/actions/setup-python
+#   - https://github.com/marketplace/actions/github-pages-deploy-action
+
 name: Publish docs
 
 on:

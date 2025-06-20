@@ -3,7 +3,6 @@
 # Public actions used:
 #   - https://github.com/actions/checkout
 #   - https://github.com/actions/setup-python
-#   - https://github.com/pypa/gh-action-pypi-publish (optional for future use)
 
 name: Publish to PyPi
 
