@@ -18,10 +18,10 @@ name: Validate PR title
 on:
   pull_request:  # runs against `main` and integration branches
     branches: ['main', '**/integration/**']
-  type:  # runs when PRs are opened or their titles are edited
-    - edited
-    - opened
-    - reopened
+    type:  # runs when PRs are opened or their titles are edited
+      - edited
+      - opened
+      - reopened
 
 jobs:
   build:
