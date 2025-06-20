@@ -1,25 +1,28 @@
-# This workflow publishes the package to pypi.
-# For more details:
-# https://docs.github.com/en/actions/guides/building-and-testing-python#publishing-to-package-registries
+# Publishes the package to PyPI when a release PR is merged
+#
+# Public actions used:
+#   - https://github.com/actions/checkout
+#   - https://github.com/actions/setup-python
+#   - https://github.com/pypa/gh-action-pypi-publish (optional for future use)
+
 name: Publish to PyPi
 
 on:
-  release:
-    types: [created]
+  pull_request:
+    types: [closed]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   deploy:
+    if: |
+      (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      # fetch all tags so `versioneer` can properly determine current version
-      with:
-        fetch-depth: 0
-    - name: Check if current commit is tagged
-      # fails and cancels release if the current commit is not tagged
-      run: |
-        git describe --exact-match --tags
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -32,9 +35,8 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
     - name: Test build
-      # fails and cancels release if the built package fails to import
-      run: |
-        pip install dist/*.whl
+      run: |  # fails and cancels release if the built package fails to import
+        pip install dist/rubicon_ml-*.whl
         python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
     - name: Publish
       env:
