@@ -1,3 +1,5 @@
+__version__ = "0.11.0"
+
 from rubicon_ml.client import (  # noqa: E402
     Artifact,
     Dataframe,
@@ -25,4 +27,3 @@ __all__ = [
     "RubiconJSON",
     "set_failure_mode",
 ]
-__version__ = "0.11.0"
