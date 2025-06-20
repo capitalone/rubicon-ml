@@ -4,20 +4,17 @@
 #   - https://github.com/actions/checkout
 #   - https://github.com/actions/setup-python
 
-name: Publish to PyPi
+name: Publish to PyPI
 
 on:
   pull_request:
     types: [closed]
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   deploy:
-    if: |
-      (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) ||
-      github.event_name == 'workflow_dispatch'
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -33,14 +30,27 @@ jobs:
     - name: Build
       run: |
         python setup.py sdist bdist_wheel
-    - name: Test build
-      run: |  # fails and cancels release if the built package fails to import
+    - name: Test build & get version
+      id: get_version
+      run: |
         pip install dist/rubicon_ml-*.whl
-        python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
-    - name: Publish
+        VERSION=$(python -c 'import rubicon_ml; print(rubicon_ml.__version__)')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+    - name: Publish to PyPI
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         TWINE_REPOSITORY: pypi
       run: |
         twine upload dist/*
+    - name: Create GitHub tag & release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RELEASE_NOTES: ${{ github.event.pull_request.body }}
+        VERSION: ${{ steps.get_version.outputs.version }}
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git tag "$VERSION"
+        git push origin "$VERSION"
+        gh release create "$VERSION" --title "v$VERSION" --notes "$RELEASE_NOTES"
