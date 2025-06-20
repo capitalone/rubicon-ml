@@ -15,12 +15,11 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - id: run-edgetest
-        uses: edgetest-dev/run-edgetest-action@v1.6
-        with:
-          edgetest-flags: '-c setup.cfg --export'
-          base-branch: 'main'
-          skip-pr: 'false'
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - id: run-edgetest
+      uses: edgetest-dev/run-edgetest-action@v1.6
+      with:
+        edgetest-flags: '-c setup.cfg --export'
+        base-branch: 'main'
+        skip-pr: 'false'

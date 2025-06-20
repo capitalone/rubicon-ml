@@ -11,16 +11,11 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v3
-      with:
-        # fetch all tags so `versioneer` can properly determine current version
-        fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
