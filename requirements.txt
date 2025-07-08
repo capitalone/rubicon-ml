@@ -20,7 +20,7 @@ numpy==2.2.6
     #   pandas
     #   scikit-learn
     #   scipy
-pandas==2.3.0
+pandas==2.3.1
     # via rubicon-ml (setup.cfg)
 platformdirs==4.3.8
     # via intake
