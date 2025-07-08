@@ -11,6 +11,9 @@ jobs:
   edgetest:
     runs-on: ubuntu-latest
     name: running edgetest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
         with:
