@@ -15,8 +15,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -36,6 +34,8 @@ jobs:
         make html
     - name: Publish
       uses: JamesIves/github-pages-deploy-action@v4
+      permissions:
+        pages: write
       with:
         branch: gh-pages
         folder: docs/build/html
