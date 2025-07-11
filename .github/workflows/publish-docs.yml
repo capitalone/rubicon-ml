@@ -39,7 +39,7 @@ jobs:
     - name: Build docs
       run: |
         cd docs
-        make html
+        uv run make html
     - name: Publish docs
       uses: JamesIves/github-pages-deploy-action@v4
       with:
