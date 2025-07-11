@@ -23,6 +23,6 @@ jobs:
     - id: run-edgetest
       uses: edgetest-dev/run-edgetest-action@v1.6
       with:
-        edgetest-flags: '-c setup.cfg --export'
+        edgetest-flags: '-c pyproject.toml --export'
         base-branch: 'main'
         skip-pr: 'false'
