@@ -34,8 +34,8 @@ jobs:
       run: |
         uv venv --python $(which python)
         uv sync --extra docs
-    # - name: Install pandoc binary  # not sure if this is necessary anymore
-    #   run: sudo apt-get install pandoc
+    - name: Install pandoc binary
+      run: sudo apt-get install pandoc
     - name: Build docs
       run: |
         cd docs
