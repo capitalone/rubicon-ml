@@ -3,6 +3,7 @@
 # Public actions used:
 #   - https://github.com/actions/checkout
 #   - https://github.com/actions/setup-python
+#   - https://github.com/astral-sh/setup-uv
 
 name: Run tests
 
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -23,29 +24,31 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: 'latest'
     - name: Install dependencies
+      if: ${{ matrix.python-version != '3.12' }}
       run: |
-        python -m pip install --upgrade pip
-        pip install -e './[all,ops,test]'
-    - name: Install build dependencies
+        uv venv --python $(which python)
+        uv sync --extra all --extra ops --extra test
+    - name: Install dependencies with build
       if: ${{ matrix.python-version == '3.12' }}
       run: |
-        pip install -e './[build]'
+        uv venv --python $(which python)
+        uv sync --extra all --extra build --extra ops --extra test
     - name: Check formatting with black
-      run: |
-        black --check .
+      run: uv run black --check .
     - name: Check imports with isort
-      run: |
-        isort -c .
+      run: uv run isort -c .
     - name: Lint with flake8
-      run: |
-        flake8 .
+      run: uv run flake8 .
+    - name: Test with pytest
+      run: uv run pytest
     - name: Validate build
       if: ${{ matrix.python-version == '3.12' }}
       run: |
-        python setup.py sdist bdist_wheel
-        pip install dist/rubicon_ml-*.whl
-        python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
-    - name: Test with pytest
-      run: |
-        pytest
+        uv run python -m build
+        uv pip install dist/rubicon_ml-*.whl
+        uv run python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
