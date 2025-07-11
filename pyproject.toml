@@ -1,2 +1,11 @@
 [tool.black]
 line-length = 100
+
+[bumpver]
+current_version = "0.11.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+
+[bumpver.file_patterns]
+"pyproject.toml" = ['current_version = "{version}"']
+"rubicon_ml/__init__.py" = ['__version__ = "{version}"']
+"setup.cfg" = ['version = {version}']
