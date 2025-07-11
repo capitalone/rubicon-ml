@@ -1,25 +1,24 @@
-# This workflow publishes the package to pypi.
-# For more details:
-# https://docs.github.com/en/actions/guides/building-and-testing-python#publishing-to-package-registries
-name: Publish to PyPi
+# Publishes the package to PyPI when a release PR is merged
+#
+# Public actions used:
+#   - https://github.com/actions/checkout
+#   - https://github.com/actions/setup-python
+
+name: Publish to PyPI
 
 on:
-  release:
-    types: [created]
-  workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   deploy:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      # fetch all tags so `versioneer` can properly determine current version
-      with:
-        fetch-depth: 0
-    - name: Check if current commit is tagged
-      # fails and cancels release if the current commit is not tagged
-      run: |
-        git describe --exact-match --tags
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -31,15 +30,27 @@ jobs:
     - name: Build
       run: |
         python setup.py sdist bdist_wheel
-    - name: Test build
-      # fails and cancels release if the built package fails to import
+    - name: Test build & get version
+      id: get_version
       run: |
-        pip install dist/*.whl
-        python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
-    - name: Publish
+        pip install dist/rubicon_ml-*.whl
+        VERSION=$(python -c 'import rubicon_ml; print(rubicon_ml.__version__)')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+    - name: Publish to PyPI
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         TWINE_REPOSITORY: pypi
       run: |
         twine upload dist/*
+    - name: Create GitHub tag & release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RELEASE_NOTES: ${{ github.event.pull_request.body }}
+        VERSION: ${{ steps.get_version.outputs.version }}
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git tag "$VERSION"
+        git push origin "$VERSION"
+        gh release create "$VERSION" --title "v$VERSION" --notes "$RELEASE_NOTES"

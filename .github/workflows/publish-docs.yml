@@ -1,6 +1,10 @@
-# This workflow builds and publishes the latest docs to
-# the `gh-pages` branch.
-# For more details: https://github.com/marketplace/actions/deploy-to-github-pages
+# Publishes documentation to GitHub Pages
+#
+# Public actions used:
+#   - https://github.com/actions/checkout
+#   - https://github.com/actions/setup-python
+#   - https://github.com/marketplace/actions/github-pages-deploy-action
+
 name: Publish docs
 
 on:
@@ -11,16 +15,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
     permissions:
       contents: write
+      pages: write
     steps:
-    - uses: actions/checkout@v3
-      with:
-        # fetch all tags so `versioneer` can properly determine current version
-        fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
