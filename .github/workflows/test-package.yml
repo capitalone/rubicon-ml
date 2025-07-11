@@ -17,9 +17,8 @@ jobs:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # fetch all tags for `versioneer`
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
@@ -46,6 +45,7 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         pip install dist/rubicon_ml-*.whl
+        python -c 'import rubicon_ml; print(rubicon_ml.__version__)'
     - name: Test with pytest
       run: |
         pytest

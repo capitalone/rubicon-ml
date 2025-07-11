@@ -1,13 +1,13 @@
-# Validates that the PR title follows the conventional commits format:
+# Validates that the PR title follows the conventional commits format, i.e.:
 #
-#   feat(logger): add S3 backend repository
-#   |   |         |__ subject
-#   |   |____________ scope (optional)
-#   |________________ type
-#
-#   test: mock S3 repository tests
+#   feat: add S3 backend repository (#100)
 #   |     |__________ subject
 #   |________________ type
+#
+#   ops(edgetest): changes by run-edgetest action (#101)
+#   |  |           |__ subject
+#   |  |______________ scope (optional)
+#   |_________________ type
 #
 # Public actions used:
 #   - https://github.com/actions/checkout
@@ -27,9 +27,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # fetch all tags for `versioneer`
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Validate PR title
       uses: amannn/action-semantic-pull-request@v5
       env:
