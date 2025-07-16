@@ -2,7 +2,7 @@
 #    uv pip compile --output-file=requirements.txt setup.cfg
 click==8.2.1
     # via rubicon-ml (setup.cfg)
-fsspec==2025.5.1
+fsspec==2025.7.0
     # via
     #   rubicon-ml (setup.cfg)
     #   intake
