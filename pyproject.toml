@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.9.0"
 authors = [
     { name = "Ryan Soley" },
-    { name = "CapitalOne" }
+    { name = "Capital One" }
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -52,12 +52,10 @@ docs = [
     "sphinx-copybutton"
 ]
 ops = [
-    "black",
     "bumpver",
     "edgetest",
-    "flake8",
-    "isort",
-    "pre-commit"
+    "pre-commit",
+    "ruff"
 ]
 s3 = ["s3fs<=2025.7.0,>=0.4"]
 test = [
@@ -117,22 +115,6 @@ packages = ["rubicon_ml"]
 [tool.setuptools.package-data]
 rubicon_ml = ["py.typed"]
 
-[tool.black]
-line-length = 100
-
-[tool.isort]
-line_length = 88
-skip = [
-    ".venv",
-    "build",
-    "rubicon_ml/client/__init__.py",
-]
-filter_files = true
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-combine_as_imports = true
-
 [tool.pytest.ini_options]
 markers = [
     "run_notebooks: tests that run Jupyter notebooks",
@@ -158,3 +140,14 @@ upgrade = [
     "scikit-learn"
 ]
 command = "pytest"
+
+[tool.ruff]
+line-length = 100
+exclude = [
+    ".ipynb_checkpoints",
+    ".venv",
+    "binder",
+    "build",
+    "docs",
+    "notebooks",
+]

@@ -38,12 +38,10 @@ jobs:
       run: |
         uv venv --python $(which python)
         uv sync --extra all --extra build --extra ops --extra test
-    - name: Check formatting with black
-      run: uv run black --check .
-    - name: Check imports with isort
-      run: uv run isort -c .
-    - name: Lint with flake8
-      run: uv run flake8 .
+    - name: Lint with ruff
+      run: uv run ruff check
+    - name: Check format with ruff
+      run: uv run ruff format
     - name: Test with pytest
       run: uv run pytest
     - name: Validate build
