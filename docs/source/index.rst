@@ -67,9 +67,6 @@ Alternatively:
 
     pip install rubicon-ml
 
-.. warning::
-    rubicon-ml version 0.3.0+ requires Python version 3.8+
-
 Extras
 ------
 
@@ -155,7 +152,7 @@ To install all extra modules, use the ``all`` extra.
    :hidden:
    :caption: Community
 
-   contributing.rst
+   developer-guide.rst
    contribute-schema.rst
    Changelog<https://github.com/capitalone/rubicon-ml/releases>
    Feedback<https://github.com/capitalone/rubicon-ml/issues/new/choose>
