@@ -148,12 +148,6 @@ exclude = [
     ".venv",
     "docs",
     "build",
-    "rubicon_ml/client/__init__.py"
-]
-extend-ignore = [
-    "E731",  # do not assign a lambda expression, use a def
-    "E741",  # ambiguous variable name
-    "W503",  # line break before binary operator
-    "E203",  # whitespace before ':'
-    "E501"   # line too long (handled by line-length)
+    "notebooks",
+    # "rubicon_ml/client/__init__.py"
 ]
