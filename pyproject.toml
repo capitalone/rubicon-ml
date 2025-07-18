@@ -3,7 +3,7 @@ name = "rubicon-ml"
 description = "AI/ML lifecycle metadata logger with configurable backends"
 license = { text = "Apache License, Version 2.0" }
 readme = "README.md"
-requires-python = ">=3.8.0"
+requires-python = ">=3.9.0"
 authors = [
     { name = "Ryan Soley" },
     { name = "CapitalOne" }
@@ -26,9 +26,9 @@ dependencies = [
     "jsonpath-ng<=1.7.0,>=1.5.3",
     "numpy<=2.3.0,>=1.22.0",
     "pandas<=2.3.0,>=1.0.0",
-    "pyarrow<=20.0.0,>=14.0.1",
+    "pyarrow<=21.0.0,>=14.0.1",
     "PyYAML<=6.0.2,>=5.4.0",
-    "scikit-learn<=1.7.0,>=0.22.0"
+    "scikit-learn<=1.7.1,>=0.22.0"
 ]
 version = "0.11.0"
 

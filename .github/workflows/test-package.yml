@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -29,12 +29,12 @@ jobs:
       with:
         version: 'latest'
     - name: Install dependencies
-      if: ${{ matrix.python-version != '3.12' }}
+      if: ${{ matrix.python-version != '3.13' }}
       run: |
         uv venv --python $(which python)
         uv sync --extra all --extra ops --extra test
     - name: Install dependencies with build
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.13' }}
       run: |
         uv venv --python $(which python)
         uv sync --extra all --extra build --extra ops --extra test
@@ -47,7 +47,7 @@ jobs:
     - name: Test with pytest
       run: uv run pytest
     - name: Validate build
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.13' }}
       run: |
         uv run python -m build
         uv pip install dist/rubicon_ml-*.whl
