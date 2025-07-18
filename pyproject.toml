@@ -146,8 +146,8 @@ line-length = 100
 exclude = [
     ".ipynb_checkpoints",
     ".venv",
-    "docs",
+    "binder",
     "build",
+    "docs",
     "notebooks",
-    # "rubicon_ml/client/__init__.py"
 ]
