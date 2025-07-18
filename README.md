@@ -8,6 +8,8 @@
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=binder%2Fwelcome.ipynb)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
 ## Purpose
@@ -19,9 +21,6 @@ directly with the model code that produced them to ensure full auditability and
 reproducibility for both developers and stakeholders alike. While experimenting,
 the dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
-
-p.s. If you're looking for Rubicon, the Java/ObjC Python bridge, visit
-[this](https://pypi.org/project/rubicon/) instead.
 
 ---
 
@@ -114,19 +113,11 @@ pip install rubicon-ml
 
 ## Develop
 
-We recommended setting up a development environment with
-[`uv`](https://github.com/astral-sh/uv):
+To contribute, check out our
+[developer guide](https://capitalone.github.io/rubicon-ml/developer-guide.html)
+for the latest instructions on setting up your local developer environment.
 
-```bash
-uv venv --python 3.12
-uv sync --extra dev
-```
-
-This will create a virtual environment and install all development dependencies.
-All future `uv` invocations from the rubicon-ml repository will leverage the new
-environment.
-
-## Testing
+## Tests
 
 The tests are separated into unit and integration tests. They can be run
 directly in the `uv` environment via `uv run pytest tests/unit` or `uv run pytest
@@ -155,15 +146,25 @@ are run (i.e. not during CICD). These tests include:
     **Note**: When simply running `uv run pytest`, `-m "not write_files"` is the
     default. So, we need to also apply it when disabling notebook tests.
 
-## Code Formatting
+## Style
 
-Install and configure pre-commit to automatically run `black`, `flake8`, and
-`isort` during commits:
+We use `ruff` for linting and formatting. To check and update the code style, run:
+
+```
+uv run ruff check --fix
+uv run ruff format
+```
+
+Install and configure pre-commit to automatically run `ruff` during commits:
 * [install pre-commit](https://pre-commit.com/#installation)
-* run `pre-commit install` to set up the git hook scripts
+* run `uv run pre-commit install` to set up the git hook scripts
 
 Now `pre-commit` will run automatically on git commit and will ensure consistent
 code format throughout the project. You can format without committing via
 `uv run pre-commit run --all-files` or skip these checks with `git commit
 --no-verify`.
 
+---
+
+If you're looking for Rubicon, the Java & Objective C to Python bridge, visit
+[here](https://pypi.org/project/rubicon/).
