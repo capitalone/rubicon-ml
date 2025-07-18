@@ -3,7 +3,7 @@ name = "rubicon-ml"
 description = "AI/ML lifecycle metadata logger with configurable backends"
 license = { text = "Apache License, Version 2.0" }
 readme = "README.md"
-requires-python = ">=3.8.0"
+requires-python = ">=3.9.0"
 authors = [
     { name = "Ryan Soley" },
     { name = "CapitalOne" }
