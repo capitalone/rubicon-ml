@@ -278,7 +278,7 @@ def make_pipeline(
     *steps,
     experiment_kwargs={"name": "RubiconPipeline experiment"},
     memory=None,
-    verbose=False
+    verbose=False,
 ):
     """Wrapper around RubicionPipeline(). Does not require naming for estimators.
     Their names are set to the lowercase strings of their types.

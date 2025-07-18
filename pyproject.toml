@@ -1,2 +1,160 @@
+[project]
+name = "rubicon-ml"
+description = "AI/ML lifecycle metadata logger with configurable backends"
+license = { text = "Apache License, Version 2.0" }
+readme = "README.md"
+requires-python = ">=3.8.0"
+authors = [
+    { name = "Ryan Soley" },
+    { name = "CapitalOne" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Documentation",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3"
+]
+dependencies = [
+    "click<=8.2.1,>=7.1",
+    "fsspec<=2025.7.0,>=2021.4.0",
+    "intake<=2.0.8,>=0.5.2",
+    "jsonpath-ng<=1.7.0,>=1.5.3",
+    "numpy<=2.3.0,>=1.22.0",
+    "pandas<=2.3.0,>=1.0.0",
+    "pyarrow<=20.0.0,>=14.0.1",
+    "PyYAML<=6.0.2,>=5.4.0",
+    "scikit-learn<=1.7.0,>=0.22.0"
+]
+version = "0.11.0"
+
+[project.optional-dependencies]
+all = ["rubicon-ml[s3,viz]"]
+build = [
+    "build",
+    "setuptools",
+    "twine",
+    "wheel"
+]
+dev = ["rubicon-ml[build,docs,ops,s3,test,viz]"]
+docs = [
+    "furo",
+    "ipython",
+    "nbsphinx",
+    "numpydoc",
+    "pandoc",
+    "rubicon-ml[viz]",
+    "sphinx",
+    "sphinx-copybutton"
+]
+ops = [
+    "black",
+    "bumpver",
+    "edgetest",
+    "flake8",
+    "isort",
+    "pre-commit"
+]
+s3 = ["s3fs<=2025.7.0,>=0.4"]
+test = [
+    "dask[dataframe,distributed]<2025.4.0",
+    "h2o",
+    "ipykernel",
+    "jupyterlab",
+    "kaleido==0.2.1",
+    "lightgbm",
+    "nbconvert",
+    "palmerpenguins",
+    "Pillow",
+    "polars<1.0",
+    "pytest",
+    "pytest-cov",
+    "xgboost"
+]
+ui = ["rubicon-ml[viz]"]
+viz = [
+    "dash<=2.18.2,>=2.11.0",
+    "dash-bootstrap-components<=1.7.1,>=1.0.0"
+]
+
+[project.entry-points."intake.drivers"]
+rubicon_ml_experiment = "rubicon_ml.intake_rubicon.experiment:ExperimentSource"
+rubicon_ml_experiment_table = "rubicon_ml.intake_rubicon.viz:ExperimentsTableDataSource"
+rubicon_ml_metric_correlation_plot = "rubicon_ml.intake_rubicon.viz:MetricCorrelationPlotDataSource"
+rubicon_ml_dataframe_plot = "rubicon_ml.intake_rubicon.viz:DataframePlotDataSource"
+rubicon_ml_metric_list = "rubicon_ml.intake_rubicon.viz:MetricListComparisonDataSource"
+
+[project.scripts]
+rubicon_ml = "rubicon_ml.cli:cli"
+
+[project.urls]
+Documentation = "https://capitalone.github.io/rubicon-ml/"
+"Bug Tracker" = "https://github.com/capitalone/rubicon-ml/issues"
+"Source Code" = "https://github.com/capitalone/rubicon-ml"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[bumpver]
+current_version = "0.11.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+
+[bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"',
+]
+"rubicon_ml/__init__.py" = ['__version__ = "{version}"']
+
+[tool.setuptools]
+packages = ["rubicon_ml"]
+
+[tool.setuptools.package-data]
+rubicon_ml = ["py.typed"]
+
 [tool.black]
 line-length = 100
+
+[tool.isort]
+line_length = 88
+skip = [
+    ".venv",
+    "build",
+    "rubicon_ml/client/__init__.py",
+]
+filter_files = true
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "run_notebooks: tests that run Jupyter notebooks",
+    "write_files: tests that physically write files to local and S3 filesystems",
+]
+addopts = "--cov=./rubicon_ml --cov-report=term-missing --cov-fail-under=90 -m='not write_files'"
+minversion = "3.2"
+xfail_strict = true
+
+[tool.edgetest.envs.core]
+python_version = "3.12"
+extras = ["dev"]
+upgrade = [
+    "click",
+    "fsspec",
+    "intake",
+    "jsonpath-ng",
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "PyYAML",
+    "s3fs",
+    "scikit-learn"
+]
+command = "pytest"
