@@ -7,10 +7,9 @@
 
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=binder%2Fwelcome.ipynb)
-[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=binder%2Fwelcome.ipynb)
 
 ## Purpose
 
@@ -132,7 +131,7 @@ are run (i.e. not during CICD). These tests include:
   tests are disabled. To enable them, run:
 
     ```
-    pytest -m "write_files" --s3-path "s3://my-bucket/my-key"
+    uv run pytest -m "write_files" --s3-path "s3://my-bucket/my-key"
     ```
 
 * Integration tests that run Jupyter notebooks. These tests are a bit slower
@@ -140,7 +139,7 @@ are run (i.e. not during CICD). These tests include:
   By default, they are enabled. To disable them, run:
 
     ```
-    pytest -m "not run_notebooks and not write_files"
+    uv run pytest -m "not run_notebooks and not write_files"
     ```
 
     **Note**: When simply running `uv run pytest`, `-m "not write_files"` is the
