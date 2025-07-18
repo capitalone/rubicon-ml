@@ -631,8 +631,7 @@ class DataframeMixin:
                 raise RubiconException(f"No dataframe found with name '{name}'.")
             elif len(dataframes) > 1:
                 warnings.warn(
-                    f"Multiple dataframes found with name '{name}'."
-                    " Returning most recently logged."
+                    f"Multiple dataframes found with name '{name}'. Returning most recently logged."
                 )
 
             dataframe = dataframes[-1]

@@ -132,20 +132,3 @@ Widgets can be combined into an interactive dashboard.
 
 .. autoclass:: rubicon_ml.viz.Dashboard
    :members: serve, show
-
-.. _library-reference-workflow:
-
-workflow.prefect
-================
-``rubicon_ml`` contains wrappers for the workflow management engine
-**Prefect**. These **tasks** represent a Prefect-ified ``rubicon_ml``
-client.
-
-.. automodule:: rubicon_ml.workflow.prefect
-.. autofunction:: rubicon_ml.workflow.prefect.create_experiment_task
-.. autofunction:: rubicon_ml.workflow.prefect.get_or_create_project_task
-.. autofunction:: rubicon_ml.workflow.prefect.log_artifact_task
-.. autofunction:: rubicon_ml.workflow.prefect.log_dataframe_task
-.. autofunction:: rubicon_ml.workflow.prefect.log_feature_task
-.. autofunction:: rubicon_ml.workflow.prefect.log_metric_task
-.. autofunction:: rubicon_ml.workflow.prefect.log_parameter_task

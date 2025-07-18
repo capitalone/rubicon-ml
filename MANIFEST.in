@@ -1,7 +1,4 @@
 graft rubicon_ml/viz/assets
 graft rubicon_ml/viz/assets/css
 
-include versioneer.py
-include rubicon_ml/_version.py
-
 recursive-include rubicon_ml/schema *.yaml

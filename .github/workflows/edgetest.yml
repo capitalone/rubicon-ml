@@ -1,5 +1,8 @@
-# This workflow runs edgetest on rubicon @ At 10:00AM UTC on every day-of-week from Sunday through Thursday.
-# https://github.com/fdosani/run-edgetest-action
+# Runs edgetest to manage dependency upgrades
+#
+# Public actions used:
+#   - https://github.com/actions/checkout
+#   - https://github.com/edgetest-dev/run-edgetest-action
 
 name: Run edgetest
 on:
@@ -15,12 +18,11 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - id: run-edgetest
-        uses: edgetest-dev/run-edgetest-action@v1.6
-        with:
-          edgetest-flags: '-c setup.cfg --export'
-          base-branch: 'main'
-          skip-pr: 'false'
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - id: run-edgetest
+      uses: edgetest-dev/run-edgetest-action@v1.6
+      with:
+        edgetest-flags: '-c pyproject.toml --export'
+        base-branch: 'main'
+        skip-pr: 'false'

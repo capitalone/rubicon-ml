@@ -114,26 +114,23 @@ pip install rubicon-ml
 
 ## Develop
 
-The project uses conda to manage environments. First, install
-[conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
-Then use conda to setup a development environment:
+We recommended setting up a development environment with
+[`uv`](https://github.com/astral-sh/uv):
 
 ```bash
-conda env create -f environment.yml
-conda activate rubicon-ml-dev
+uv venv --python 3.12
+uv sync --extra dev
 ```
 
-Finally, install `rubicon_ml` locally into the newly created environment.
-
-```bash
-pip install -e ".[all]"
-```
+This will create a virtual environment and install all development dependencies.
+All future `uv` invocations from the rubicon-ml repository will leverage the new
+environment.
 
 ## Testing
 
 The tests are separated into unit and integration tests. They can be run
-directly in the activated dev environment via `pytest tests/unit` or `pytest
-tests/integration`. Or by simply running `pytest` to execute all of them.
+directly in the `uv` environment via `uv run pytest tests/unit` or `uv run pytest
+tests/integration`. Or by simply running `uv run pytest` to execute all of them.
 
 **Note**: some integration tests are intentionally `marked` to control when they
 are run (i.e. not during CICD). These tests include:
@@ -155,7 +152,7 @@ are run (i.e. not during CICD). These tests include:
     pytest -m "not run_notebooks and not write_files"
     ```
 
-    **Note**: When simply running `pytest`, `-m "not write_files"` is the
+    **Note**: When simply running `uv run pytest`, `-m "not write_files"` is the
     default. So, we need to also apply it when disabling notebook tests.
 
 ## Code Formatting
@@ -167,5 +164,6 @@ Install and configure pre-commit to automatically run `black`, `flake8`, and
 
 Now `pre-commit` will run automatically on git commit and will ensure consistent
 code format throughout the project. You can format without committing via
-`pre-commit run` or skip these checks with `git commit --no-verify`.
+`uv run pre-commit run --all-files` or skip these checks with `git commit
+--no-verify`.
 
