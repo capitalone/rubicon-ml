@@ -109,23 +109,8 @@ version_pattern = "MAJOR.MINOR.PATCH"
 ]
 "rubicon_ml/__init__.py" = ['__version__ = "{version}"']
 
-[tool.setuptools]
-packages = ["rubicon_ml"]
-
-[tool.setuptools.package-data]
-rubicon_ml = ["py.typed"]
-
-[tool.pytest.ini_options]
-markers = [
-    "run_notebooks: tests that run Jupyter notebooks",
-    "write_files: tests that physically write files to local and S3 filesystems",
-]
-addopts = "--cov=./rubicon_ml --cov-report=term-missing --cov-fail-under=90 -m='not write_files'"
-minversion = "3.2"
-xfail_strict = true
-
-[tool.edgetest.envs.core]
-python_version = "3.12"
+[edgetest.envs.core]
+python_version = "3.13"
 extras = ["dev"]
 upgrade = [
     "click",
@@ -140,6 +125,21 @@ upgrade = [
     "scikit-learn"
 ]
 command = "pytest"
+
+[tool.setuptools]
+packages = ["rubicon_ml"]
+
+[tool.setuptools.package-data]
+rubicon_ml = ["py.typed"]
+
+[tool.pytest.ini_options]
+markers = [
+    "run_notebooks: tests that run Jupyter notebooks",
+    "write_files: tests that physically write files to local and S3 filesystems",
+]
+addopts = "--cov=./rubicon_ml --cov-report=term-missing --cov-fail-under=90 -m='not write_files'"
+minversion = "3.2"
+xfail_strict = true
 
 [tool.ruff]
 line-length = 100
