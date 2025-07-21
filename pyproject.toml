@@ -95,7 +95,7 @@ Documentation = "https://capitalone.github.io/rubicon-ml/"
 "Source Code" = "https://github.com/capitalone/rubicon-ml"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [bumpver]
@@ -126,6 +126,7 @@ upgrade = [
 command = "pytest"
 
 [tool.setuptools]
+include-package-data = true
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
