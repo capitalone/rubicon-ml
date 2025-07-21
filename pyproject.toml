@@ -130,7 +130,12 @@ include-package-data = true
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
-rubicon_ml = ["py.typed"]
+rubicon_ml = [
+    "schema/schema/*.yaml",
+    "viz/assets/*",
+    "viz/assets/css/*",
+    "py.typed",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
