@@ -69,7 +69,7 @@ def test_notebooks_execute_without_error(notebook_filename):
     notebook = read_notebook_file(notebook_filename)
     resources = {"metadata": {"path": os.path.dirname(notebook_filename)}}
 
-    preprocessor = ExecutePreprocessor(kernel_name="python3", timeout=60)
+    preprocessor = ExecutePreprocessor(timeout=60)
     preprocessor.preprocess(notebook, resources=resources)
 
     repo_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
