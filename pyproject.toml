@@ -127,6 +127,7 @@ command = "pytest"
 
 [tool.setuptools]
 packages = ["rubicon_ml"]
+package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
 rubicon_ml = ["py.typed"]
