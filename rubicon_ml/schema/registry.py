@@ -12,6 +12,7 @@ RUBICON_SCHEMA_REGISTRY = {
     "h2o__H2OGradientBoostingEstimator": lambda: _load_schema(
         os.path.join("schema", "h2o__H2OGradientBoostingEstimator.yaml")
     ),
+    "h2o__ModelBase": lambda: _load_schema(os.path.join("schema", "h2o__H2OModelBase.yaml")),
     "h2o__H2ORandomForestEstimator": lambda: _load_schema(
         os.path.join("schema", "h2o__H2ORandomForestEstimator.yaml")
     ),

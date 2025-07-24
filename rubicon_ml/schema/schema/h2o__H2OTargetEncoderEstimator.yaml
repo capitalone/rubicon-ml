@@ -1,4 +1,5 @@
 name: h2o__H2OTargetEncoderEstimator
+extends: h2o__ModelBase
 version: 1.0.0
 
 compatibility:
