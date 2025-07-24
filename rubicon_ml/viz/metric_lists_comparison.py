@@ -148,8 +148,7 @@ class MetricListsComparison(VizBase):
                         experiment_ids.append(experiment_id[:7])
 
             header_right_text = (
-                f"over {len(experiment_ids)} experiment"
-                f"{'s' if len(experiment_ids) != 1 else ''}"
+                f"over {len(experiment_ids)} experiment{'s' if len(experiment_ids) != 1 else ''}"
             )
 
             if len(heatmap_data) == 0:

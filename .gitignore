@@ -4,6 +4,7 @@ docs/source/**/*.ipynb
 docs/source/**/*.png
 docs/source/**/data
 notebooks/quick-look/*.yml
+uv.lock
 .coverage
 .coverage.*
 .cache/**

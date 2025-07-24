@@ -7,8 +7,9 @@
 
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/rubicon-ml.svg)](https://anaconda.org/conda-forge/rubicon-ml)
 [![PyPi Version](https://img.shields.io/pypi/v/rubicon_ml.svg)](https://pypi.org/project/rubicon-ml/)
+[![ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/capitalone/rubicon-ml/main?labpath=binder%2Fwelcome.ipynb)
-
 
 ## Purpose
 
@@ -19,9 +20,6 @@ directly with the model code that produced them to ensure full auditability and
 reproducibility for both developers and stakeholders alike. While experimenting,
 the dashboard makes it easy to explore, filter, visualize, and share
 recorded work.
-
-p.s. If you're looking for Rubicon, the Java/ObjC Python bridge, visit
-[this](https://pypi.org/project/rubicon/) instead.
 
 ---
 
@@ -114,26 +112,15 @@ pip install rubicon-ml
 
 ## Develop
 
-The project uses conda to manage environments. First, install
-[conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
-Then use conda to setup a development environment:
+To contribute, check out our
+[developer guide](https://capitalone.github.io/rubicon-ml/developer-guide.html)
+for the latest instructions on setting up your local developer environment.
 
-```bash
-conda env create -f environment.yml
-conda activate rubicon-ml-dev
-```
-
-Finally, install `rubicon_ml` locally into the newly created environment.
-
-```bash
-pip install -e ".[all]"
-```
-
-## Testing
+## Tests
 
 The tests are separated into unit and integration tests. They can be run
-directly in the activated dev environment via `pytest tests/unit` or `pytest
-tests/integration`. Or by simply running `pytest` to execute all of them.
+directly in the `uv` environment via `uv run pytest tests/unit` or `uv run pytest
+tests/integration`. Or by simply running `uv run pytest` to execute all of them.
 
 **Note**: some integration tests are intentionally `marked` to control when they
 are run (i.e. not during CICD). These tests include:
@@ -144,7 +131,7 @@ are run (i.e. not during CICD). These tests include:
   tests are disabled. To enable them, run:
 
     ```
-    pytest -m "write_files" --s3-path "s3://my-bucket/my-key"
+    uv run pytest -m "write_files" --s3-path "s3://my-bucket/my-key"
     ```
 
 * Integration tests that run Jupyter notebooks. These tests are a bit slower
@@ -152,20 +139,31 @@ are run (i.e. not during CICD). These tests include:
   By default, they are enabled. To disable them, run:
 
     ```
-    pytest -m "not run_notebooks and not write_files"
+    uv run pytest -m "not run_notebooks and not write_files"
     ```
 
-    **Note**: When simply running `pytest`, `-m "not write_files"` is the
+    **Note**: When simply running `uv run pytest`, `-m "not write_files"` is the
     default. So, we need to also apply it when disabling notebook tests.
 
-## Code Formatting
+## Style
 
-Install and configure pre-commit to automatically run `black`, `flake8`, and
-`isort` during commits:
+We use `ruff` for linting and formatting. To check and update the code style, run:
+
+```
+uv run ruff check --fix
+uv run ruff format
+```
+
+Install and configure pre-commit to automatically run `ruff` during commits:
 * [install pre-commit](https://pre-commit.com/#installation)
-* run `pre-commit install` to set up the git hook scripts
+* run `uv run pre-commit install` to set up the git hook scripts
 
 Now `pre-commit` will run automatically on git commit and will ensure consistent
 code format throughout the project. You can format without committing via
-`pre-commit run` or skip these checks with `git commit --no-verify`.
+`uv run pre-commit run --all-files` or skip these checks with `git commit
+--no-verify`.
 
+---
+
+If you're looking for Rubicon, the Java & Objective C to Python bridge, visit
+[here](https://pypi.org/project/rubicon/).

@@ -5,6 +5,3 @@ exclude_lines =
     raise NotImplementedError
     if __name__ == .__main__.:
     if TYPE_CHECKING:
-omit =
-    versioneer.py
-    rubicon_ml/_version.py
