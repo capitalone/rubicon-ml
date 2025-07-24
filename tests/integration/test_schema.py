@@ -146,11 +146,14 @@ def test_estimator_h2o_schema_train(
 
     if extended_schema:
         # Make sure the extended schema parameters are set properly with the schema from registry
-        assert len(registry.get_schema(f"h2o__{schema_cls.__name__}")["parameters"]) == len(
-            experiment.parameters()
-        )
+        expected_schema = registry.get_schema(f"h2o__{schema_cls.__name__}")
     else:
-        assert len(project.schema_["parameters"]) == len(experiment.parameters())
+        expected_schema = project.schema_
+
+    assert len(expected_schema["metrics"]) == len(experiment.metrics())
+    assert len(expected_schema["parameters"]) == len(experiment.parameters())
+
+    assert experiment.parameter(name="actual_params")
     assert (
         model_artifact.get_data(deserialize=deserialize_method).__class__.__name__ == artifact_name
     )
