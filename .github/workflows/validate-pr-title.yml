@@ -44,6 +44,7 @@ jobs:
           ops
           perf
           refactor
+          release
           revert
           style
           test
