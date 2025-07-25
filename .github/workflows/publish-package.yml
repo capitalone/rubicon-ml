@@ -47,7 +47,7 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         TWINE_REPOSITORY: pypi
       run: |
-        twine upload dist/*
+        uv run twine upload dist/*
     - name: Create GitHub tag & release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
