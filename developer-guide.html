@@ -8,7 +8,7 @@
         <link rel="prefetch" href="_static/images/rubicon_ml_logo_only.svg" as="image" />
 
     <link rel="shortcut icon" href="_static/rubicon_ml_logo_favicon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2025.07.19 -->
-        <title>Developer Guide - rubicon-ml v0.11.0</title>
+        <title>Developer Guide - rubicon-ml v0.12.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.11.0</div></div></a>
+      <a href="index.html"><div class="brand"><div class='version'>rubicon-ml v0.12.0</div></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -197,7 +197,7 @@
     <img class="sidebar-logo only-dark" src="_static/images/rubicon_ml_logo_only.svg" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.11.0</div></span>
+  <span class="sidebar-brand-text"><div class='version'>rubicon-ml v0.12.0</div></span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -320,7 +320,7 @@ remote:</p>
 <section id="create-a-development-environment">
 <h2>Create a Development Environment<a class="headerlink" href="#create-a-development-environment" title="Link to this heading">¶</a></h2>
 <p>We recommended setting up a development environment with
-[<code class="docutils literal notranslate"><span class="pre">uv</span></code>](<a class="reference external" href="https://github.com/astral-sh/uv">https://github.com/astral-sh/uv</a>):</p>
+<a href="#id1"><span class="problematic" id="id2">`uv https://github.com/astral-sh/uv`_</span></a>:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.13
 </pre></div>
 </div>
@@ -379,12 +379,14 @@ To skip these checks, run <code class="docutils literal notranslate"><span class
 <h2>Cut a Release<a class="headerlink" href="#cut-a-release" title="Link to this heading">¶</a></h2>
 <p>To release a new version of rubicon-ml, follow these steps to open a release PR. Then
 rubicon-ml’s CICD will handle the rest.</p>
-<p>First, update the project’s version number with <code class="docutils literal notranslate"><span class="pre">bumpver</span></code>:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>bumpver<span class="w"> </span>update<span class="w"> </span>--patch
+<p>First, checkout a new release branch following the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> naming convention,
+where <code class="docutils literal notranslate"><span class="pre">x.y.z</span></code> is the version to be released. Then, update the project’s version
+throughout the codebase with <code class="docutils literal notranslate"><span class="pre">bumpver</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>bumpver<span class="w"> </span>update<span class="w"> </span>--set-version<span class="w"> </span>x.y.z
 </pre></div>
 </div>
-<p>Other valid options are <code class="docutils literal notranslate"><span class="pre">--minor</span></code> and <code class="docutils literal notranslate"><span class="pre">--major</span></code>. This will update the version
-accordingly, following the <code class="docutils literal notranslate"><span class="pre">MAJOR.MINOR.PATCH</span></code> pattern.</p>
+<p>Other valid options are <code class="docutils literal notranslate"><span class="pre">--patch</span></code>, <code class="docutils literal notranslate"><span class="pre">--minor</span></code> and <code class="docutils literal notranslate"><span class="pre">--major</span></code>. These will update the
+version accordingly, following the <code class="docutils literal notranslate"><span class="pre">MAJOR.MINOR.PATCH</span></code> pattern.</p>
 <p>Next, commit and push your changes. Then open a PR using the release pull request
 template. Follow the instructions in the template to populate the PR body. This will
 become the contents of the release notes for the new version, so make sure it is
