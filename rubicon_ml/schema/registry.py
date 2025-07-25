@@ -23,7 +23,8 @@ AVAILABLE_SCHEMA = [
     "xgboost__DaskXGBRegressor",
 ]
 RUBICON_SCHEMA_REGISTRY = {
-    lambda: _load_schema(os.path.join("schema", f"{schema}.yaml")) for schema in AVAILABLE_SCHEMA
+    schema: (lambda s=schema: _load_schema(os.path.join("schema", f"{s}.yaml")))
+    for schema in AVAILABLE_SCHEMA
 }
 
 
