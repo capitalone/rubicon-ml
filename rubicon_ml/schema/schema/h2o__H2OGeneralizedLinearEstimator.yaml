@@ -11,8 +11,6 @@ docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/modeling.html#h2ogen
 artifacts:
   - self: log_h2o_model
 parameters:
-  - name: actual_params
-    value_func: actual_params
   - name: alpha
     value_attr: alpha
   - name: auc_type
