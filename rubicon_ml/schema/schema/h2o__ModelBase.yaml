@@ -1,0 +1,24 @@
+name: h2o__ModelBase
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.44.0.1
+docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/model_categories.html#h2o.model.model_base.ModelBase
+
+parameters:
+  - name: actual_params
+    value_attr: actual_params
+  - name: model_id
+    value_attr: model_id
+metrics:
+  - name: auc
+    value_func: auc
+    optional: true
+  - name: aucpr
+    value_func: aucpr
+    optional: true
+  - name: logloss
+    value_func: logloss
+    optional: true

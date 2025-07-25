@@ -5,45 +5,26 @@ from typing import Any, List
 
 import yaml
 
+AVAILABLE_SCHEMA = [
+    "h2o__ModelBase",
+    "h2o__H2OGeneralizedLinearEstimator",
+    "h2o__H2OGradientBoostingEstimator",
+    "h2o__H2ORandomForestEstimator",
+    "h2o__H2OTargetEncoderEstimator",
+    "h2o__H2OXGBoostEstimator",
+    "lightgbm__LGBMModel",
+    "lightgbm__LGBMClassifier",
+    "lightgbm__LGBMRegressor",
+    "sklearn__RandomForestClassifier",
+    "xgboost__XGBModel",
+    "xgboost__XGBClassifier",
+    "xgboost__XGBRegressor",
+    "xgboost__DaskXGBClassifier",
+    "xgboost__DaskXGBRegressor",
+]
 RUBICON_SCHEMA_REGISTRY = {
-    "h2o__H2OGeneralizedLinearEstimator": lambda: _load_schema(
-        os.path.join("schema", "h2o__H2OGeneralizedLinearEstimator.yaml")
-    ),
-    "h2o__H2OGradientBoostingEstimator": lambda: _load_schema(
-        os.path.join("schema", "h2o__H2OGradientBoostingEstimator.yaml")
-    ),
-    "h2o__H2ORandomForestEstimator": lambda: _load_schema(
-        os.path.join("schema", "h2o__H2ORandomForestEstimator.yaml")
-    ),
-    "h2o__H2OTargetEncoderEstimator": lambda: _load_schema(
-        os.path.join("schema", "h2o__H2OTargetEncoderEstimator.yaml")
-    ),
-    "h2o__H2OXGBoostEstimator": lambda: _load_schema(
-        os.path.join("schema", "h2o__H2OXGBoostEstimator.yaml")
-    ),
-    "lightgbm__LGBMModel": lambda: _load_schema(os.path.join("schema", "lightgbm__LGBMModel.yaml")),
-    "lightgbm__LGBMClassifier": lambda: _load_schema(
-        os.path.join("schema", "lightgbm__LGBMClassifier.yaml")
-    ),
-    "lightgbm__LGBMRegressor": lambda: _load_schema(
-        os.path.join("schema", "lightgbm__LGBMRegressor.yaml")
-    ),
-    "sklearn__RandomForestClassifier": lambda: _load_schema(
-        os.path.join("schema", "sklearn__RandomForestClassifier.yaml")
-    ),
-    "xgboost__XGBModel": lambda: _load_schema(os.path.join("schema", "xgboost__XGBModel.yaml")),
-    "xgboost__XGBClassifier": lambda: _load_schema(
-        os.path.join("schema", "xgboost__XGBClassifier.yaml")
-    ),
-    "xgboost__XGBRegressor": lambda: _load_schema(
-        os.path.join("schema", "xgboost__XGBRegressor.yaml")
-    ),
-    "xgboost__DaskXGBClassifier": lambda: _load_schema(
-        os.path.join("schema", "xgboost__DaskXGBClassifier.yaml")
-    ),
-    "xgboost__DaskXGBRegressor": lambda: _load_schema(
-        os.path.join("schema", "xgboost__DaskXGBRegressor.yaml")
-    ),
+    schema: (lambda s=schema: _load_schema(os.path.join("schema", f"{s}.yaml")))
+    for schema in AVAILABLE_SCHEMA
 }
 
 
