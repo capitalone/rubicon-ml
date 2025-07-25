@@ -148,7 +148,11 @@ def test_estimator_h2o_schema_train(
     root_schema = registry.get_schema("h2o__ModelBase")
     schema = registry.get_schema(f"h2o__{schema_cls.__name__}")
 
-    assert isinstance(experiment.parameter(name="actual_params"), dict)
-    assert len(root_schema["metrics"]) == len(experiment.metrics())
-    assert len(schema["parameters"]) == len(experiment.parameters())
+    assert isinstance(experiment.parameter(name="actual_params").value, dict)
+    assert len(root_schema.get("metrics", [])) + len(schema.get("metrics", [])) == len(
+        experiment.metrics()
+    )
+    assert len(root_schema.get("parameters", [])) + len(schema.get("parameters", [])) == len(
+        experiment.parameters()
+    )
     assert model_artifact_data.__class__.__name__ == artifact_name
