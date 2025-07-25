@@ -26,7 +26,7 @@ Create a Development Environment
 ================================
 
 We recommended setting up a development environment with
-[``uv``](https://github.com/astral-sh/uv):
+`uv https://github.com/astral-sh/uv`_:
 
 .. code-block:: shell
 
@@ -103,14 +103,16 @@ Cut a Release
 To release a new version of rubicon-ml, follow these steps to open a release PR. Then
 rubicon-ml's CICD will handle the rest.
 
-First, update the project's version number with ``bumpver``:
+First, checkout a new release branch following the ``release/vx.y.z`` naming convention,
+where ``x.y.z`` is the version to be released. Then, update the project's version
+throughout the codebase with ``bumpver``:
 
 .. code-block:: shell
 
-   uv run bumpver update --patch
+   uv run bumpver update --set-version x.y.z
 
-Other valid options are ``--minor`` and ``--major``. This will update the version
-accordingly, following the ``MAJOR.MINOR.PATCH`` pattern.
+Other valid options are ``--patch``, ``--minor`` and ``--major``. These will update the
+version accordingly, following the ``MAJOR.MINOR.PATCH`` pattern.
 
 Next, commit and push your changes. Then open a PR using the release pull request
 template. Follow the instructions in the template to populate the PR body. This will
