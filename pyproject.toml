@@ -161,3 +161,8 @@ exclude = [
     "docs",
     "notebooks",
 ]
+
+[tool.pyproject-fmt]
+column_width = 1
+indent = 4
+keep_full_version = true
