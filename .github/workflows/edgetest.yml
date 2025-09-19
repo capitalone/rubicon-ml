@@ -20,7 +20,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
     - id: run-edgetest
+      name: Run edgetest
       uses: edgetest-dev/run-edgetest-action@v1.6
       with:
         base-branch: 'main'
