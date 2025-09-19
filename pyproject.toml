@@ -20,15 +20,15 @@ classifiers = [
     "Programming Language :: Python :: 3"
 ]
 dependencies = [
-    "click<=8.2.1,>=7.1",
-    "fsspec<=2025.7.0,>=2021.4.0",
+    "click<=8.3.0,>=7.1",
+    "fsspec<=2025.9.0,>=2021.4.0",
     "intake<=2.0.8,>=0.5.2",
     "jsonpath-ng<=1.7.0,>=1.5.3",
-    "numpy<=2.3.0,>=1.22.0",
-    "pandas<=2.3.0,>=1.0.0",
+    "numpy<=2.3.3,>=1.22.0",
+    "pandas<=2.3.2,>=1.0.0",
     "pyarrow<=21.0.0,>=14.0.1",
     "PyYAML<=6.0.2,>=5.4.0",
-    "scikit-learn<=1.7.1,>=0.22.0"
+    "scikit-learn<=1.7.2,>=0.22.0"
 ]
 version = "0.12.1"
 
@@ -57,7 +57,7 @@ ops = [
     "pre-commit",
     "ruff"
 ]
-s3 = ["s3fs<=2025.7.0,>=0.4"]
+s3 = ["s3fs<=2025.9.0,>=0.4"]
 test = [
     "dask[dataframe,distributed]<2025.4.0",
     "h2o",
