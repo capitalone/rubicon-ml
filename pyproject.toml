@@ -110,6 +110,7 @@ version_pattern = "MAJOR.MINOR.PATCH"
 "rubicon_ml/__init__.py" = ['__version__ = "{version}"']
 
 [edgetest.envs.core]
+python_version = "3.12"
 extras = ["dev"]
 upgrade = [
     "click",
