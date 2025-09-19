@@ -12,17 +12,18 @@ on:
 
 jobs:
   edgetest:
-    runs-on: ubuntu-latest
-    name: running edgetest
+    name: Run edgetest
     permissions:
       contents: write
       pull-requests: write
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
     - id: run-edgetest
       uses: edgetest-dev/run-edgetest-action@v1.6
       with:
-        edgetest-flags: '-c pyproject.toml --export'
         base-branch: 'main'
+        edgetest-flags: '-c pyproject.toml --export'
+        python-version: 3.12
         skip-pr: 'false'
