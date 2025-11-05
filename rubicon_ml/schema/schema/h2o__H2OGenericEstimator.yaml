@@ -1,0 +1,17 @@
+name: h2o__H2OGenericEstimator
+version: 1.0.0
+
+compatibility:
+  lightgbm:
+    max_version:
+    min_version: 3.44.0.1
+docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/model_categories.html#h2o.model.model_base.ModelBase
+
+artifacts:
+  - self: log_h2o_model
+parameters:
+  - name: model_key
+    value_attr: model_key
+    optional: true
+  - name: path
+    value_attr: path
