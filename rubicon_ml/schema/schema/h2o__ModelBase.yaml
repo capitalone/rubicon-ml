@@ -7,6 +7,8 @@ compatibility:
     min_version: 3.44.0.1
 docs_url: https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/model_categories.html#h2o.model.model_base.ModelBase
 
+artifacts:
+  - self: log_h2o_model
 parameters:
   - name: actual_params
     value_attr: actual_params
