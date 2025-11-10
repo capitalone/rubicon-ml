@@ -8,6 +8,7 @@ import yaml
 AVAILABLE_SCHEMA = [
     "h2o__ModelBase",
     "h2o__H2OGeneralizedLinearEstimator",
+    "h2o__H2OGenericEstimator",
     "h2o__H2OGradientBoostingEstimator",
     "h2o__H2ORandomForestEstimator",
     "h2o__H2OTargetEncoderEstimator",

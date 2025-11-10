@@ -4,6 +4,8 @@
 #   - https://github.com/actions/checkout
 #   - https://github.com/actions/setup-python
 #   - https://github.com/astral-sh/setup-uv
+#
+# TODO: fix for private mirrors
 
 name: Publish to PyPI
 

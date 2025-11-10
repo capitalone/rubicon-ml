@@ -7,7 +7,7 @@ requires = [
 
 [project]
 name = "rubicon-ml"
-version = "0.13.1"
+version = "0.13.2"
 
 description = "AI/ML lifecycle metadata logger with configurable backends"
 readme = "README.md"
@@ -154,7 +154,7 @@ minversion = "3.2"
 xfail_strict = true
 
 [bumpver]
-current_version = "0.13.1"
+current_version = "0.13.2"
 version_pattern = "MAJOR.MINOR.PATCH"
 
 [bumpver.file_patterns]
