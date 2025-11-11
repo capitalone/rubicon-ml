@@ -1,3 +1,4 @@
+import logging
 import os
 import tempfile
 from typing import List, Optional
@@ -10,37 +11,57 @@ from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository import BaseRepository
 from rubicon_ml.repository.utils import json
 
+LOGGER = logging.getLogger(__name__)
+
 
 class WandBRepository(BaseRepository):
-    """Repository for reading and writing Rubicon data to Weights & Biases.
+    """Repository for reading and writing rubicon-ml data to Weights & Biases.
 
-    This repository maps Rubicon concepts to W&B as follows:
-    - Rubicon Projects → W&B Projects
-    - Rubicon Experiments → W&B Runs
-    - Rubicon Parameters → W&B Config
-    - Rubicon Features → W&B Config (w/ importances as Metrics)
-    - Rubicon Metrics → W&B Metrics
-    - Rubicon Artifacts → W&B Artifacts
-    - Rubicon Dataframes → W&B Tables (and Artifacts for retrieval)
+    The `WandBRepository` is experimental and may contain breaking changes in future versions.
+    If you encounter any bugs or missing features, open an issue on GitHub.
+
+    This repository maps rubicon-ml concepts to W&B as follows:
+    - rubicon-ml Projects → W&B Projects
+    - rubicon-ml Experiments → W&B Runs
+    - rubicon-ml Parameters → W&B Config
+    - rubicon-ml Features → W&B Config (w/ importances as Metrics)
+    - rubicon-ml Metrics → W&B Metrics
+    - rubicon-ml Artifacts → W&B Artifacts
+    - rubicon-ml Dataframes → W&B Tables (and Artifacts for retrieval)
 
     Parameters
     ----------
     entity : str, optional
         The W&B entity (username or team) to use for reading data.
         If not provided, will use the default entity from wandb config.
+    root_dir : str, optional
+        NOT USED. Required for backwards compatibility. Will be removed in a future version.
+    warn : bool, optional
+        Whether to warn about the experimental nature of this repository. Defaults to true.
     **storage_options
         Additional options passed to W&B API initialization.
     """
 
     WANDB = wandb
 
-    def __init__(self, entity: Optional[str] = None, **storage_options):
-        self.root_dir = "WANDB"
+    def __init__(
+        self,
+        entity: Optional[str] = None,
+        root_dir: str = "WANDB",
+        warn: bool = True,
+        **storage_options,
+    ):
+        if warn:
+            LOGGER.warning(
+                "The `WandBRepository` is experimental and may contain breaking changes in future versions. "
+                "If you encounter any bugs or missing features, open an issue on GitHub."
+            )
+
+        self.root_dir = root_dir
 
         self.entity = entity
         self.storage_options = storage_options
 
-        self._api = None
         self._current_artifact_bytes = None
         self._current_dataframe = None
         self._current_project = None
@@ -49,12 +70,16 @@ class WandBRepository(BaseRepository):
 
     @property
     def api(self) -> wandb.Api:
-        """Lazy initialization of W&B API client."""
-        if self._api is None:
-            self.storage_options.pop("root_dir")
-            self._api = self.WANDB.Api(**self.storage_options)
+        """Get a W&B API client.
 
-        return self._api
+        The W&B API client needs to be reinitialized each usage to guarantee full data retrieval.
+
+        Returns
+        -------
+        wandb.Api
+            The W&B API client.
+        """
+        return self.WANDB.Api(**self.storage_options)
 
     def _get_wandb_path(self, project_name: str, run_id: Optional[str] = None) -> str:
         """Construct a W&B path for API calls.
@@ -118,8 +143,8 @@ class WandBRepository(BaseRepository):
         domain_obj : domain object
             The domain object to serialize and store.
         """
-        metadata = json.dumps(domain_obj)
-        self.WANDB.config.update({key: metadata})
+        # serialize domain object ourselves to leverage rubicon-ml's custom serializers
+        self.WANDB.config.update({key: json.dumps(domain_obj)})
 
     def _read_domain_from_config(self, run, metadata_key: str, domain_class):
         """Reconstruct a domain object from stored metadata.
@@ -138,8 +163,18 @@ class WandBRepository(BaseRepository):
         domain object or None
             The reconstructed domain object, or None if not found.
         """
-        if metadata_key in run.config:
-            data = json.loads(run.config[metadata_key])
+        config = run.config
+        if isinstance(config, str):
+            config = json.loads(config)
+
+        if metadata_key in config:
+            # we double serialize domain objects, so we need to deserialize the value again
+            try:
+                data = json.loads(config[metadata_key]["value"])
+            except TypeError:
+                # experiments don't have a value key
+                data = json.loads(config[metadata_key])
+
             return domain_class(**data)
 
         return None
@@ -161,10 +196,20 @@ class WandBRepository(BaseRepository):
         list
             List of reconstructed domain objects (empty list if none found).
         """
+        config = run.config
+        if isinstance(config, str):
+            config = json.loads(config)
+
         objects = []
-        for key in run.config.keys():
-            if key.startswith(prefix):
-                data = json.loads(run.config[key])
+        for metadata_key in config.keys():
+            if metadata_key.startswith(prefix):
+                # we double serialize domain objects, so we need to deserialize the value again
+                try:
+                    data = json.loads(config[metadata_key]["value"])
+                except TypeError:
+                    # experiments don't have a value key
+                    data = json.loads(config[metadata_key])
+
                 objects.append(domain_class(**data))
 
         return objects
@@ -191,10 +236,7 @@ class WandBRepository(BaseRepository):
 
     def _glob(self, globstring):
         """W&B backend doesn't use filesystem paths."""
-        raise RubiconException(
-            "The W&B backend doesn't support direct file access. "
-            "Use the specific get_* methods instead."
-        )
+        return []
 
     def _ls_directories_only(self, path):
         """W&B backend doesn't use filesystem paths."""
@@ -227,14 +269,19 @@ class WandBRepository(BaseRepository):
             if entity.tags:
                 run_config["tags"] = entity.tags
 
-            self.WANDB.init(**run_config)
+            run = self.WANDB.init(**run_config)
+
+            entity.id = run.id  # for accurate W&B retrieval
+            if entity.name is None:
+                entity.name = run.name
+
             self._persist_domain_to_config("_rubicon_experiment_metadata", entity)
 
         elif isinstance(entity, domain.Feature):
             self._persist_domain_to_config(f"_rubicon_feature_{entity.name}", entity)
 
             if entity.importance is not None:
-                self.WANDB.log({f"feature_importance_{entity.name}": entity.importance})
+                self.WANDB.log({f"{entity.name}_importance": entity.importance})
 
         elif isinstance(entity, domain.Metric):
             self.WANDB.log({entity.name: entity.value})
@@ -256,7 +303,10 @@ class WandBRepository(BaseRepository):
                 artifact.add_file(temp_path, name=entity.name)
                 artifact.save()
 
-                self._persist_domain_to_config(f"_rubicon_artifact_{entity.id}", entity)
+                entity_id = entity.id
+                entity.id = entity.name  # for accurate W&B retrieval
+
+                self._persist_domain_to_config(f"_rubicon_artifact_{entity_id}", entity)
             finally:
                 if os.path.exists(temp_path):
                     os.unlink(temp_path)
@@ -269,7 +319,7 @@ class WandBRepository(BaseRepository):
 
             try:
                 artifact = self.WANDB.Artifact(
-                    name=f"dataframe_{entity.id}",
+                    name=f"dataframe-{entity.id}",
                     type="dataset",
                     description=entity.description or f"Dataframe {entity.name or entity.id}",
                 )
@@ -329,10 +379,12 @@ class WandBRepository(BaseRepository):
             raise RubiconException(f"No project with name '{project_name}' found.") from e
 
         # W&B projects don't have metadata like rubicon-ml projects, so we create a minimal object
-        return domain.Project(
+        self._current_project = domain.Project(
             name=project_name,
             description=f"W&B project {project_name}",
         )
+
+        return self._current_project
 
     def get_projects(self) -> List[domain.Project]:
         """Get the list of projects from W&B.
@@ -401,9 +453,10 @@ class WandBRepository(BaseRepository):
 
         experiments = []
         for run in runs:
-            if "_rubicon_experiment_metadata" in run.config:
-                experiment_data = json.loads(run.config["_rubicon_experiment_metadata"])
-                experiment = domain.Experiment(**experiment_data)
+            experiment = self._read_domain_from_config(
+                run, "_rubicon_experiment_metadata", domain.Experiment
+            )
+            if experiment is not None:
                 experiments.append(experiment)
 
         return experiments
@@ -751,7 +804,7 @@ class WandBRepository(BaseRepository):
             raise RubiconException("experiment_id is required to retrieve dataframes from W&B.")
 
         run = self._get_wandb_run(project_name, experiment_id)
-        artifact_name = f"dataframe_{dataframe_id}"
+        artifact_name = f"dataframe-{dataframe_id}"
 
         try:
             artifact = None
