@@ -4,7 +4,6 @@ import tempfile
 from typing import List, Optional
 
 import pandas as pd
-import wandb
 
 from rubicon_ml import domain
 from rubicon_ml.exceptions import RubiconException
@@ -42,8 +41,6 @@ class WandBRepository(BaseRepository):
         Additional options passed to W&B API initialization.
     """
 
-    WANDB = wandb
-
     def __init__(
         self,
         entity: Optional[str] = None,
@@ -53,8 +50,8 @@ class WandBRepository(BaseRepository):
     ):
         if warn:
             LOGGER.warning(
-                "The `WandBRepository` is experimental and may contain breaking changes in future versions. "
-                "If you encounter any bugs or missing features, open an issue on GitHub."
+                "The `WandBRepository` is experimental and may contain breaking changes in future "
+                "versions. If you encounter any bugs or missing features, open an issue on GitHub."
             )
 
         self.root_dir = root_dir
@@ -69,7 +66,7 @@ class WandBRepository(BaseRepository):
     # ------ WandB Helpers ------
 
     @property
-    def api(self) -> wandb.Api:
+    def api(self):
         """Get a W&B API client.
 
         The W&B API client needs to be reinitialized each usage to guarantee full data retrieval.
@@ -79,7 +76,18 @@ class WandBRepository(BaseRepository):
         wandb.Api
             The W&B API client.
         """
-        return self.WANDB.Api(**self.storage_options)
+        return self.wandb.Api(**self.storage_options)
+
+    @property
+    def wandb(self):
+        try:
+            import wandb
+        except ImportError:
+            raise RubiconException(
+                "Weights & Biases is not installed. `pip install wandb` to use this repository."
+            )
+
+        return wandb
 
     def _get_wandb_path(self, project_name: str, run_id: Optional[str] = None) -> str:
         """Construct a W&B path for API calls.
@@ -144,7 +152,7 @@ class WandBRepository(BaseRepository):
             The domain object to serialize and store.
         """
         # serialize domain object ourselves to leverage rubicon-ml's custom serializers
-        self.WANDB.config.update({key: json.dumps(domain_obj)})
+        self.wandb.config.update({key: json.dumps(domain_obj)})
 
     def _read_domain_from_config(self, run, metadata_key: str, domain_class):
         """Reconstruct a domain object from stored metadata.
@@ -269,7 +277,7 @@ class WandBRepository(BaseRepository):
             if entity.tags:
                 run_config["tags"] = entity.tags
 
-            run = self.WANDB.init(**run_config)
+            run = self.wandb.init(**run_config)
 
             entity.id = run.id  # for accurate W&B retrieval
             if entity.name is None:
@@ -281,14 +289,14 @@ class WandBRepository(BaseRepository):
             self._persist_domain_to_config(f"_rubicon_feature_{entity.name}", entity)
 
             if entity.importance is not None:
-                self.WANDB.log({f"{entity.name}_importance": entity.importance})
+                self.wandb.log({f"{entity.name}_importance": entity.importance})
 
         elif isinstance(entity, domain.Metric):
-            self.WANDB.log({entity.name: entity.value})
+            self.wandb.log({entity.name: entity.value})
             self._persist_domain_to_config(f"_rubicon_metric_{entity.name}", entity)
 
         elif isinstance(entity, domain.Parameter):
-            self.WANDB.config[entity.name] = entity.value
+            self.wandb.config[entity.name] = entity.value
             self._persist_domain_to_config(f"_rubicon_parameter_{entity.name}", entity)
 
         elif isinstance(entity, domain.Artifact):
@@ -299,7 +307,7 @@ class WandBRepository(BaseRepository):
 
             try:
                 self._current_artifact_bytes = None
-                artifact = self.WANDB.Artifact(name=entity.name, type="model")
+                artifact = self.wandb.Artifact(name=entity.name, type="model")
                 artifact.add_file(temp_path, name=entity.name)
                 artifact.save()
 
@@ -318,7 +326,7 @@ class WandBRepository(BaseRepository):
                 self._current_dataframe.to_parquet(temp_path, index=False)
 
             try:
-                artifact = self.WANDB.Artifact(
+                artifact = self.wandb.Artifact(
                     name=f"dataframe-{entity.id}",
                     type="dataset",
                     description=entity.description or f"Dataframe {entity.name or entity.id}",
@@ -330,8 +338,8 @@ class WandBRepository(BaseRepository):
                     os.unlink(temp_path)
 
             # 2. Also log as W&B Table for visualization in UI
-            dataframe_table = self.WANDB.Table(dataframe=self._current_dataframe)
-            self.WANDB.log({entity.name or entity.id: dataframe_table})
+            dataframe_table = self.wandb.Table(dataframe=self._current_dataframe)
+            self.wandb.log({entity.name or entity.id: dataframe_table})
 
             # 3. Store complete dataframe metadata for reconstruction
             self._persist_domain_to_config(f"_rubicon_dataframe_{entity.id}", entity)
