@@ -89,6 +89,7 @@ optional-dependencies.test = [
     "pytest",
     "pytest-cov",
     "xgboost",
+    "wandb",
 ]
 optional-dependencies.ui = [
     "rubicon-ml[viz]",
