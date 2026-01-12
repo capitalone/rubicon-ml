@@ -1,3 +1,1 @@
-jupyter-server-proxy
 rubicon-ml[dev]
-tornado>=6.5
