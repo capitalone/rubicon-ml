@@ -153,7 +153,7 @@ minversion = "3.2"
 xfail_strict = true
 
 [bumpver]
-current_version = "0.13.2"
+current_version = "0.13.3"
 version_pattern = "MAJOR.MINOR.PATCH"
 
 [bumpver.file_patterns]
