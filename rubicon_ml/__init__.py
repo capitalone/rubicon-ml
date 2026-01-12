@@ -1,4 +1,4 @@
-__version__ = "0.13.2"
+__version__ = "0.13.3"
 
 from rubicon_ml.client import (  # noqa: E402
     Artifact,
