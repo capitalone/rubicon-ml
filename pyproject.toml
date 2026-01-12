@@ -7,7 +7,7 @@ requires = [
 
 [project]
 name = "rubicon-ml"
-version = "0.13.2"
+version = "0.13.3"
 
 description = "AI/ML lifecycle metadata logger with configurable backends"
 readme = "README.md"
