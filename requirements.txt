@@ -26,7 +26,7 @@ platformdirs==4.5.1
     # via intake
 ply==3.11
     # via jsonpath-ng
-pyarrow==22.0.0
+pyarrow==23.0.0
     # via rubicon-ml (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via pandas
