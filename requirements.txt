@@ -2,7 +2,7 @@
 #    uv pip compile --output-file=requirements.txt pyproject.toml
 click==8.3.1
     # via rubicon-ml (pyproject.toml)
-fsspec==2026.1.0
+fsspec==2026.2.0
     # via
     #   rubicon-ml (pyproject.toml)
     #   intake
@@ -14,23 +14,21 @@ jsonpath-ng==1.7.0
     # via rubicon-ml (pyproject.toml)
 networkx==3.6.1
     # via intake
-numpy==2.4.1
+numpy==2.4.2
     # via
     #   rubicon-ml (pyproject.toml)
     #   pandas
     #   scikit-learn
     #   scipy
-pandas==2.3.3
+pandas==3.0.0
     # via rubicon-ml (pyproject.toml)
 platformdirs==4.5.1
     # via intake
 ply==3.11
     # via jsonpath-ng
-pyarrow==22.0.0
+pyarrow==23.0.0
     # via rubicon-ml (pyproject.toml)
 python-dateutil==2.9.0.post0
-    # via pandas
-pytz==2025.2
     # via pandas
 pyyaml==6.0.3
     # via
@@ -44,5 +42,3 @@ six==1.17.0
     # via python-dateutil
 threadpoolctl==3.6.0
     # via scikit-learn
-tzdata==2025.3
-    # via pandas
