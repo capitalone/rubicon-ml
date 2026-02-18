@@ -20,13 +20,13 @@ numpy==2.4.2
     #   pandas
     #   scikit-learn
     #   scipy
-pandas==3.0.0
+pandas==3.0.1
     # via rubicon-ml (pyproject.toml)
-platformdirs==4.5.1
+platformdirs==4.9.2
     # via intake
 ply==3.11
     # via jsonpath-ng
-pyarrow==23.0.0
+pyarrow==23.0.1
     # via rubicon-ml (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via pandas
