@@ -6,7 +6,7 @@ fsspec==2026.2.0
     # via
     #   rubicon-ml (pyproject.toml)
     #   intake
-intake==2.0.8
+intake==2.0.9
     # via rubicon-ml (pyproject.toml)
 joblib==1.5.3
     # via scikit-learn
