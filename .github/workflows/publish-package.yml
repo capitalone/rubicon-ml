@@ -17,7 +17,7 @@ on:
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true && (startsWith(github.head_ref, 'release/') || contains(github.head_ref, ':release-'))
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     permissions:
       contents: write
