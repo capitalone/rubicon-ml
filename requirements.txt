@@ -18,7 +18,7 @@ numpy==2.4.4
     #   pandas
     #   scikit-learn
     #   scipy
-pandas==3.0.1
+pandas==3.0.2
     # via rubicon-ml (pyproject.toml)
 platformdirs==4.9.4
     # via intake
