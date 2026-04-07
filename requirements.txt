@@ -2,7 +2,7 @@
 #    uv pip compile --output-file=requirements.txt pyproject.toml
 click==8.3.1
     # via rubicon-ml (pyproject.toml)
-fsspec==2026.2.0
+fsspec==2026.3.0
     # via
     #   rubicon-ml (pyproject.toml)
     #   intake
@@ -12,13 +12,13 @@ joblib==1.5.3
     # via scikit-learn
 networkx==3.6.1
     # via intake
-numpy==2.4.3
+numpy==2.4.4
     # via
     #   rubicon-ml (pyproject.toml)
     #   pandas
     #   scikit-learn
     #   scipy
-pandas==3.0.1
+pandas==3.0.2
     # via rubicon-ml (pyproject.toml)
 platformdirs==4.9.4
     # via intake
