@@ -1,1 +1,1 @@
-rubicon-ml[dev]
+rubicon-ml
