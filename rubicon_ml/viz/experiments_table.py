@@ -1,12 +1,15 @@
+import importlib
+import logging
 import os
 
 import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
 from dash.dependencies import ALL, Input, Output, State
 
-from rubicon_ml.intake_rubicon.publish import publish
 from rubicon_ml.viz.base import VizBase
 from rubicon_ml.viz.common.colors import light_blue, plot_background_blue
+
+LOGGER = logging.getLogger(__name__)
 
 
 class ExperimentsTable(VizBase):
@@ -446,6 +449,15 @@ class ExperimentsTable(VizBase):
                 selected_experiments = [
                     e for e in self.experiments if e.id in selected_experiment_ids
                 ]
+
+                if not importlib.util.find_spec("intake"):
+                    LOGGER.warning(
+                        "`intake` is required to publish experiments. Install it with "
+                        "`pip install rubicon-ml[intake]`."
+                    )
+                    return False
+
+                from rubicon_ml.intake_rubicon.publish import publish
 
                 publish(selected_experiments, publish_path)
 

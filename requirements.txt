@@ -3,15 +3,9 @@
 click==8.3.1
     # via rubicon-ml (pyproject.toml)
 fsspec==2026.3.0
-    # via
-    #   rubicon-ml (pyproject.toml)
-    #   intake
-intake==2.0.9
     # via rubicon-ml (pyproject.toml)
 joblib==1.5.3
     # via scikit-learn
-networkx==3.6.1
-    # via intake
 numpy==2.4.4
     # via
     #   rubicon-ml (pyproject.toml)
@@ -20,16 +14,12 @@ numpy==2.4.4
     #   scipy
 pandas==3.0.2
     # via rubicon-ml (pyproject.toml)
-platformdirs==4.9.4
-    # via intake
 pyarrow==23.0.1
     # via rubicon-ml (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via pandas
 pyyaml==6.0.3
-    # via
-    #   rubicon-ml (pyproject.toml)
-    #   intake
+    # via rubicon-ml (pyproject.toml)
 scikit-learn==1.8.0
     # via rubicon-ml (pyproject.toml)
 scipy==1.17.1

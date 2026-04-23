@@ -1,6 +1,7 @@
 from intake.source import base
 
 from rubicon_ml import __version__
+from rubicon_ml.intake_rubicon import _check_intake
 
 
 class DataSourceMixin(base.DataSource):
@@ -20,6 +21,8 @@ class DataSourceMixin(base.DataSource):
     name = "rubicon_ml"
 
     def __init__(self, urlpath, project_name, metadata=None, storage_options=None, **kwargs):
+        _check_intake()
+
         self._urlpath = urlpath
         self._project_name = project_name
         self._metadata = metadata or {}
@@ -60,6 +63,8 @@ class VizDataSourceMixin(base.DataSource):
         self,
         metadata=None,
     ):
+        _check_intake()
+
         self._metadata = metadata or {}
         self._visualization_object = None
 
