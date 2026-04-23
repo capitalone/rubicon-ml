@@ -34,12 +34,12 @@ classifiers = [
     "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-    "click<=8.3.1,>=7.1",
+    "click<=8.3.3,>=7.1",
     "fsspec<=2026.3.0,>=2021.4.0",
     "intake<=2.0.9,>=0.5.2",
     "numpy<=2.4.4,>=1.22.0",
     "pandas<=3.0.2,>=1.0.0",
-    "pyarrow<=23.0.1,>=14.0.1",
+    "pyarrow<=24.0.0,>=14.0.1",
     "pyyaml<=6.0.3,>=5.4.0",
     "scikit-learn<=1.8.0,>=0.22.0",
 ]
