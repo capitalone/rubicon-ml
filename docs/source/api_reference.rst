@@ -82,11 +82,12 @@ exception_handling
 
 .. autofunction:: rubicon_ml.set_failure_mode
 
-publish
-=======
-``rubicon_ml`` leverages ``intake`` to easily share sets of experiments.
+publish (deprecated)
+====================
+``rubicon_ml.publish`` is deprecated and will be removed in an upcoming release.
+It requires the ``intake`` optional dependency: ``pip install rubicon-ml[intake]``.
 
-.. autofunction:: rubicon_ml.publish
+.. autofunction:: rubicon_ml.intake_rubicon.publish.publish
 
 .. _library-reference-sklearn:
 

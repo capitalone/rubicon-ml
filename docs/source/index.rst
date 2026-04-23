@@ -21,8 +21,6 @@ rubicon-ml's core functionality is broken down into three parts...
 
 * `Logging`_: organize, store, and retrieve model inputs and outputs with various
   backend storage options - powered by fsspec_
-* `Sharing`_: share a selected subset of logged data with collaborators or reviewers
-  - powered by intake_
 * `Visualizing`_: explore and compare logged model metadata with the dashboard and
   other widgets - powered by dash_
 
@@ -160,9 +158,7 @@ To install all extra modules, use the ``all`` extra.
 
 .. _fsspec: https://filesystem-spec.readthedocs.io/en/latest/?badge=latest
 .. _dash: https://dash.plotly.com/
-.. _intake: https://intake.readthedocs.io/en/latest/
 .. _quick look: ./quick-look/logging-experiments.html
 .. _Logging: ./quick-look/logging-experiments.html
-.. _Sharing: ./quick-look/sharing-experiments.html
 .. _Visualizing: ./quick-look/visualizing-experiments.html
 .. _Prefect integration: ./integrations/integration-prefect-workflows.html

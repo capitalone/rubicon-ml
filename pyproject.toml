@@ -36,7 +36,6 @@ classifiers = [
 dependencies = [
     "click<=8.3.1,>=7.1",
     "fsspec<=2026.3.0,>=2021.4.0",
-    "intake<=2.0.9,>=0.5.2",
     "numpy<=2.4.4,>=1.22.0",
     "pandas<=3.0.2,>=1.0.0",
     "pyarrow<=23.0.1,>=14.0.1",
@@ -44,7 +43,7 @@ dependencies = [
     "scikit-learn<=1.8.0,>=0.22.0",
 ]
 optional-dependencies.all = [
-    "rubicon-ml[jsonpath,s3,viz]",
+    "rubicon-ml[intake,jsonpath,s3,viz]",
 ]
 optional-dependencies.build = [
     "build",
@@ -53,7 +52,7 @@ optional-dependencies.build = [
     "wheel",
 ]
 optional-dependencies.dev = [
-    "rubicon-ml[build,docs,jsonpath,ops,s3,test,viz]",
+    "rubicon-ml[build,docs,intake,jsonpath,ops,s3,test,viz]",
 ]
 optional-dependencies.docs = [
     "furo",
@@ -61,9 +60,12 @@ optional-dependencies.docs = [
     "nbsphinx",
     "numpydoc",
     "pandoc",
-    "rubicon-ml[jsonpath,viz]",
+    "rubicon-ml[intake,jsonpath,viz]",
     "sphinx",
     "sphinx-copybutton",
+]
+optional-dependencies.intake = [
+    "intake<=2.0.9,>=0.5.2",
 ]
 optional-dependencies.jsonpath = [
     "jsonpath-ng<=1.8.0,>=1.5.3",
@@ -178,7 +180,6 @@ extras = [
 upgrade = [
     "click",
     "fsspec",
-    "intake",
     "jsonpath-ng",
     "numpy",
     "pandas",

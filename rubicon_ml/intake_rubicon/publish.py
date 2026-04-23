@@ -3,6 +3,8 @@ from typing import TYPE_CHECKING, Optional, Union
 import fsspec
 import yaml
 
+from rubicon_ml.intake_rubicon import _check_intake
+
 if TYPE_CHECKING:
     from rubicon_ml.viz import DataframePlot
     from rubicon_ml.viz.experiments_table import ExperimentsTable
@@ -41,6 +43,7 @@ def publish(
         The YAML string representation of the `intake` catalog
         containing the experiments `experiments`.
     """
+    _check_intake()
 
     if base_catalog_filepath is not None:
         return _update_catalog(
