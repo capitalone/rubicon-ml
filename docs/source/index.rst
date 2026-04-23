@@ -142,6 +142,7 @@ To install all extra modules, use the ``all`` extra.
    :caption: Reference
 
    api_reference.rst
+   backend-repositories.rst
    schema-representation.rst
 
 .. toctree::
