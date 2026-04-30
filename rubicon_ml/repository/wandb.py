@@ -129,6 +129,9 @@ class WandBRepository(BaseRepository):
             }
             run_config.update(self.wandb_init_kwargs)
 
+            if self.entity:
+                run_config["entity"] = self.entity
+
             self._active_run = self.wandb.init(**run_config)
 
         return self._active_run
@@ -346,6 +349,8 @@ class WandBRepository(BaseRepository):
             }
             run_config.update(self.wandb_init_kwargs)
 
+            if self.entity:
+                run_config["entity"] = self.entity
             if entity.name:
                 run_config["name"] = entity.name
             if entity.tags:
