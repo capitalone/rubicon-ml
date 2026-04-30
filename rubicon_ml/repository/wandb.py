@@ -10,13 +10,13 @@ import pandas as pd
 from rubicon_ml import domain
 from rubicon_ml.domain.utils.uuid import uuid4
 from rubicon_ml.exceptions import RubiconException
-from rubicon_ml.repository import BaseRepository
+from rubicon_ml.repository.fsspec import FsspecRepository
 from rubicon_ml.repository.utils import json, slugify
 
 LOGGER = logging.getLogger(__name__)
 
 
-class WandBRepository(BaseRepository):
+class WandBRepository(FsspecRepository):
     """Repository for reading and writing rubicon-ml data to Weights & Biases.
 
     The `WandBRepository` is experimental and may contain breaking changes in future versions.
