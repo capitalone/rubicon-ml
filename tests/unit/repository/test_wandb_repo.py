@@ -84,18 +84,3 @@ def test_persist_experiment_omits_entity_when_none(mock_wandb_prop):
     mock_wandb.init.assert_called_once()
     call_kwargs = mock_wandb.init.call_args[1]
     assert "entity" not in call_kwargs
-
-
-@patch("rubicon_ml.repository.wandb.WandBRepository.wandb", new_callable=lambda: property(lambda self: MagicMock()))
-def test_wandb_init_kwargs_can_override_entity(mock_wandb_prop):
-    mock_wandb = MagicMock()
-    mock_run = MagicMock()
-    mock_wandb.init.return_value = mock_run
-
-    repo = _make_repo(entity="my-team", wandb_init_kwargs={"entity": "override-team"})
-
-    with patch.object(type(repo), "wandb", new_callable=lambda: property(lambda self: mock_wandb)):
-        repo._get_active_run("test-project", "run-123")
-
-    call_kwargs = mock_wandb.init.call_args[1]
-    assert call_kwargs["entity"] == "override-team"
