@@ -1,6 +1,7 @@
 import warnings
 
 from rubicon_ml.repository.base import RepositoryBase
+from rubicon_ml.repository.composite import CompositeRepository
 from rubicon_ml.repository.fsspec import FsspecRepository
 from rubicon_ml.repository.local import LocalRepository
 from rubicon_ml.repository.memory import MemoryRepository
@@ -26,6 +27,7 @@ class BaseRepository(FsspecRepository):
 
 __all__ = [
     "BaseRepository",
+    "CompositeRepository",
     "FsspecRepository",
     "LocalRepository",
     "MemoryRepository",
