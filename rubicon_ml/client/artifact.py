@@ -51,22 +51,10 @@ class Artifact(Base, TagMixin, CommentMixin):
     def _get_data(self):
         """Loads the data associated with this artifact."""
         project_name, experiment_id = self.parent._get_identifiers()
-        return_err = None
 
-        self._data = None
-
-        for repo in self.repositories or []:
-            try:
-                self._data = repo.get_artifact_data(
-                    project_name, self.id, experiment_id=experiment_id
-                )
-            except Exception as err:
-                return_err = err
-            else:
-                return
-
-        if self._data is None:
-            self._raise_rubicon_exception(return_err)
+        self._data = self.repository.read_artifact_data(
+            project_name, self.id, experiment_id=experiment_id
+        )
 
     @failsafe
     def get_data(
@@ -93,7 +81,6 @@ class Artifact(Base, TagMixin, CommentMixin):
             **Deprecated**: Please use `deserialize="pickle"` in the future.
         """
         project_name, experiment_id = self.parent._get_identifiers()
-        return_err = None
 
         if unpickle:
             warnings.warn(
@@ -109,45 +96,35 @@ class Artifact(Base, TagMixin, CommentMixin):
                 DeprecationWarning,
             )
 
-        for repo in self.repositories or []:
-            try:
-                if deserialize == "xgboost":
-                    # xgboost can only handle string file name locations
-                    import xgboost
+        if deserialize == "xgboost":
+            import xgboost
 
-                    artifact_data_path = repo._get_artifact_data_path(
-                        project_name, experiment_id, self.id
-                    )
-                    data = xgboost.Booster()
-                    data.load_model(artifact_data_path)
-                else:
-                    data = repo.get_artifact_data(
-                        project_name, self.id, experiment_id=experiment_id
-                    )
-            except Exception as err:
-                return_err = err
-            else:
-                if deserialize in [
-                    "h2o",
-                    "h2o_binary",
-                ]:  # "h2o" will be deprecated in a future release
-                    import h2o
+            artifact_data_path = self.repository._get_artifact_data_path(
+                project_name, experiment_id, self.id
+            )
+            data = xgboost.Booster()
+            data.load_model(artifact_data_path)
+        else:
+            data = self.repository.read_artifact_data(
+                project_name, self.id, experiment_id=experiment_id
+            )
 
-                    data = h2o.load_model(
-                        repo._get_artifact_data_path(project_name, experiment_id, self.id)
-                    )
-                elif deserialize == "h2o_mojo":
-                    import h2o
+        if deserialize in ["h2o", "h2o_binary"]:
+            import h2o
 
-                    data = h2o.import_mojo(
-                        repo._get_artifact_data_path(project_name, experiment_id, self.id)
-                    )
-                elif deserialize == "pickle":
-                    data = pickle.loads(data)
+            data = h2o.load_model(
+                self.repository._get_artifact_data_path(project_name, experiment_id, self.id)
+            )
+        elif deserialize == "h2o_mojo":
+            import h2o
 
-                return data
+            data = h2o.import_mojo(
+                self.repository._get_artifact_data_path(project_name, experiment_id, self.id)
+            )
+        elif deserialize == "pickle":
+            data = pickle.loads(data)
 
-        self._raise_rubicon_exception(return_err)
+        return data
 
     @failsafe
     def get_json(self):
