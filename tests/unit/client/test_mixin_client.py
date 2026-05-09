@@ -258,14 +258,14 @@ def test_artifacts(project_client):
     assert artifact_b.id in [a.id for a in artifacts]
 
 
-@mock.patch("rubicon_ml.repository.FsspecRepository.get_artifacts_metadata")
-def test_artifacts_multiple_backend_error(mock_get_artifacts_metadata, project_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domains")
+def test_artifacts_multiple_backend_error(mock_read_domains, project_composite_client):
     project = project_composite_client
 
-    mock_get_artifacts_metadata.side_effect = _raise_error
+    mock_read_domains.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.artifacts(project)
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_artifacts_by_name(project_client):
@@ -358,16 +358,16 @@ def test_artifact_by_id(project_client):
     assert artifact_name == "test.txt"
 
 
-@mock.patch("rubicon_ml.repository.FsspecRepository.get_artifact_metadata")
-def test_artifact_multiple_backend_error(mock_get_artifact_metadata, project_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domain")
+def test_artifact_multiple_backend_error(mock_read_domain, project_composite_client):
     project = project_composite_client
     data = b"content"
     artifact = ArtifactMixin.log_artifact(project, data_bytes=data, name="test.txt")
 
-    mock_get_artifact_metadata.side_effect = _raise_error
+    mock_read_domain.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         ArtifactMixin.artifact(project, id=artifact.id)
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_delete_artifacts(project_client):
@@ -412,14 +412,14 @@ def test_dataframes(project_client, test_dataframe):
     assert dataframe_b.id in [d.id for d in dataframes]
 
 
-@mock.patch("rubicon_ml.repository.FsspecRepository.get_dataframes_metadata")
-def test_dataframes_multiple_backend_error(mock_get_dataframes_metadata, project_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domains")
+def test_dataframes_multiple_backend_error(mock_read_domains, project_composite_client):
     project = project_composite_client
 
-    mock_get_dataframes_metadata.side_effect = _raise_error
+    mock_read_domains.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         DataframeMixin.dataframes(project)
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_dataframes_by_name(project_client, test_dataframe):
@@ -454,17 +454,17 @@ def test_dataframe_by_id(project_client, test_dataframe):
     assert dataframe_a.id == dataframe_b.id
 
 
-@mock.patch("rubicon_ml.repository.FsspecRepository.get_dataframe_metadata")
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domain")
 def test_dataframe_multiple_backend_error(
-    mock_get_dataframe_metadata, project_composite_client, test_dataframe
+    mock_read_domain, project_composite_client, test_dataframe
 ):
     project = project_composite_client
     dataframe = DataframeMixin.log_dataframe(project, test_dataframe)
 
-    mock_get_dataframe_metadata.side_effect = _raise_error
+    mock_read_domain.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         DataframeMixin.dataframe(project, id=dataframe.id)
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_dataframe_warning(project_client, test_dataframe):
@@ -627,18 +627,15 @@ def test_remove_tags(project_client):
     assert experiment.tags == []
 
 
-@mock.patch("rubicon_ml.repository.FsspecRepository.get_tags")
-def test_tags_multiple_backend_error(mock_get_tags, project_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domains")
+def test_tags_multiple_backend_error(mock_read_domains, project_composite_client):
     project = project_composite_client
     experiment = project.log_experiment(tags=["x", "y"])
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_tags.side_effect = _raise_error
+    mock_read_domains.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         experiment.tags()
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_add_comments(project_client):
@@ -659,15 +656,12 @@ def test_remove_comments(project_client):
     assert experiment.comments == []
 
 
-@mock.patch("rubicon_ml.repository.FsspecRepository.get_comments")
-def test_comments_multiple_backend_error(mock_get_comments, project_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domains")
+def test_comments_multiple_backend_error(mock_read_domains, project_composite_client):
     project = project_composite_client
     experiment = project.log_experiment(comments=["comment 1", "comment 2"])
 
-    def raise_error():
-        raise RubiconException()
-
-    mock_get_comments.side_effect = _raise_error
+    mock_read_domains.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         experiment.comments()
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)

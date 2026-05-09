@@ -3,6 +3,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from rubicon_ml import domain
+from rubicon_ml.domain.comment_update import CommentUpdate
+from rubicon_ml.domain.tag_update import TagUpdate
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository import WandBRepository
 from rubicon_ml.repository.base import RepositoryBase
@@ -341,9 +343,9 @@ class TestTags:
         repo._active_run = mock_run
 
         with _patch_wandb(repo, mock_wandb):
-            repo.add_tags(
+            repo.write_domain(
+                TagUpdate(added_tags=["tag_a"]),
                 "proj",
-                ["tag_a"],
                 experiment_id="run-123",
                 entity_identifier="run-123",
                 entity_type="Experiment",
@@ -358,9 +360,9 @@ class TestTags:
         repo._active_run = mock_run
 
         with _patch_wandb(repo, mock_wandb):
-            repo.remove_tags(
+            repo.write_domain(
+                TagUpdate(removed_tags=["tag_a"]),
                 "proj",
-                ["tag_a"],
                 experiment_id="run-123",
                 entity_identifier="run-123",
                 entity_type="Experiment",
@@ -372,21 +374,27 @@ class TestTags:
     def test_add_tags_requires_experiment_id(self):
         repo = _make_repo()
         with pytest.raises(RubiconException, match="experiment_id is required"):
-            repo.add_tags("proj", ["tag"])
+            repo.write_domain(
+                TagUpdate(added_tags=["tag"]),
+                "proj",
+            )
 
     def test_get_tags_requires_experiment_id(self):
         repo = _make_repo()
         with pytest.raises(RubiconException, match="experiment_id is required"):
-            repo.get_tags("proj")
+            repo.read_domains(TagUpdate, "proj")
 
 
 class TestComments:
     def test_add_comments_requires_experiment_id(self):
         repo = _make_repo()
         with pytest.raises(RubiconException, match="experiment_id is required"):
-            repo.add_comments("proj", ["comment"])
+            repo.write_domain(
+                CommentUpdate(added_comments=["comment"]),
+                "proj",
+            )
 
     def test_get_comments_requires_experiment_id(self):
         repo = _make_repo()
         with pytest.raises(RubiconException, match="experiment_id is required"):
-            repo.get_comments("proj")
+            repo.read_domains(CommentUpdate, "proj")

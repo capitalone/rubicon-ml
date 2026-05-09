@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from rubicon_ml import domain
+from rubicon_ml.domain.tag_update import TagUpdate
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.base import RepositoryBase
 from rubicon_ml.repository.composite import CompositeRepository
@@ -93,23 +94,53 @@ class TestWriteBroadcast:
         composite.create_project(project)
 
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
-        assert repo_a.get_experiment(project.name, experiment.id).id == experiment.id
-        assert repo_b.get_experiment(project.name, experiment.id).id == experiment.id
+        assert (
+            repo_a.read_domain(domain.Experiment, project.name, experiment_id=experiment.id).id
+            == experiment.id
+        )
+        assert (
+            repo_b.read_domain(domain.Experiment, project.name, experiment_id=experiment.id).id
+            == experiment.id
+        )
 
     def test_create_metric_in_all_backends(self, composite, two_memory_repos):
         repo_a, repo_b = two_memory_repos
         project = _make_project()
         composite.create_project(project)
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         metric = domain.Metric(name="accuracy", value=0.95)
-        composite.create_metric(metric, project.name, experiment.id)
+        composite.write_domain(
+            metric,
+            project.name,
+            experiment_id=experiment.id,
+            entity_identifier="accuracy",
+            entity_type="Metric",
+        )
 
-        assert repo_a.get_metric(project.name, experiment.id, "accuracy").value == 0.95
-        assert repo_b.get_metric(project.name, experiment.id, "accuracy").value == 0.95
+        assert (
+            repo_a.read_domain(
+                domain.Metric,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="accuracy",
+                entity_type="Metric",
+            ).value
+            == 0.95
+        )
+        assert (
+            repo_b.read_domain(
+                domain.Metric,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="accuracy",
+                entity_type="Metric",
+            ).value
+            == 0.95
+        )
 
     def test_primary_failure_propagates(self, two_memory_repos):
         repo_a, repo_b = two_memory_repos
@@ -173,9 +204,9 @@ class TestReadFailover:
         composite.create_project(project)
 
         exp = _make_experiment(project.name)
-        composite.create_experiment(exp)
+        composite.write_domain(exp, project.name, experiment_id=exp.id)
 
-        experiments = composite.get_experiments(project.name)
+        experiments = composite.read_domains(domain.Experiment, project.name)
         assert len(experiments) == 1
         assert experiments[0].id == exp.id
 
@@ -185,10 +216,10 @@ class TestReadFailover:
         project = _make_project()
         repo_b.create_project(project)
         experiment = _make_experiment(project.name)
-        repo_b.create_experiment(experiment)
+        repo_b.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         composite = CompositeRepository([repo_a, repo_b])
-        result = composite.get_experiment(project.name, experiment.id)
+        result = composite.read_domain(domain.Experiment, project.name, experiment_id=experiment.id)
         assert result.id == experiment.id
 
 
@@ -201,23 +232,25 @@ class TestTagsAndComments:
         project = _make_project()
         composite.create_project(project)
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
-        composite.add_tags(
-            project.name,
-            ["tag_a"],
-            experiment_id=experiment.id,
-            entity_identifier=experiment.id,
-            entity_type="Experiment",
-        )
-
-        tags_a = repo_a.get_tags(
+        composite.write_domain(
+            TagUpdate(added_tags=["tag_a"]),
             project.name,
             experiment_id=experiment.id,
             entity_identifier=experiment.id,
             entity_type="Experiment",
         )
-        tags_b = repo_b.get_tags(
+
+        tags_a = repo_a.read_domains(
+            TagUpdate,
+            project.name,
+            experiment_id=experiment.id,
+            entity_identifier=experiment.id,
+            entity_type="Experiment",
+        )
+        tags_b = repo_b.read_domains(
+            TagUpdate,
             project.name,
             experiment_id=experiment.id,
             entity_identifier=experiment.id,
@@ -232,17 +265,18 @@ class TestTagsAndComments:
         project = _make_project()
         composite.create_project(project)
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
-        composite.add_tags(
+        composite.write_domain(
+            TagUpdate(added_tags=["tag_a"]),
             project.name,
-            ["tag_a"],
             experiment_id=experiment.id,
             entity_identifier=experiment.id,
             entity_type="Experiment",
         )
 
-        tags = composite.get_tags(
+        tags = composite.read_domains(
+            TagUpdate,
             project.name,
             experiment_id=experiment.id,
             entity_identifier=experiment.id,
@@ -260,25 +294,31 @@ class TestArtifactsAndDataframes:
         project = _make_project()
         composite.create_project(project)
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         artifact = domain.Artifact(name="model")
         composite.create_artifact(artifact, b"model_data", project.name, experiment.id)
 
-        assert len(repo_a.get_artifacts_metadata(project.name, experiment.id)) == 1
-        assert len(repo_b.get_artifacts_metadata(project.name, experiment.id)) == 1
+        assert (
+            len(repo_a.read_domains(domain.Artifact, project.name, experiment_id=experiment.id))
+            == 1
+        )
+        assert (
+            len(repo_b.read_domains(domain.Artifact, project.name, experiment_id=experiment.id))
+            == 1
+        )
 
     def test_get_artifact_data_failover(self, two_memory_repos):
         repo_a, repo_b = two_memory_repos
         project = _make_project()
         repo_b.create_project(project)
         experiment = _make_experiment(project.name)
-        repo_b.create_experiment(experiment)
+        repo_b.write_domain(experiment, project.name, experiment_id=experiment.id)
         artifact = domain.Artifact(name="model")
         repo_b.create_artifact(artifact, b"model_data", project.name, experiment.id)
 
         composite = CompositeRepository([repo_a, repo_b])
-        data = composite.get_artifact_data(project.name, artifact.id, experiment.id)
+        data = composite.read_artifact_data(project.name, artifact.id, experiment_id=experiment.id)
         assert data == b"model_data"
 
 
@@ -329,28 +369,94 @@ class TestFullCRUD:
 
         # Create experiment
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         # Log metric, parameter, feature
         metric = domain.Metric(name="accuracy", value=0.95)
-        composite.create_metric(metric, project.name, experiment.id)
+        composite.write_domain(
+            metric,
+            project.name,
+            experiment_id=experiment.id,
+            entity_identifier="accuracy",
+            entity_type="Metric",
+        )
 
         param = domain.Parameter(name="lr", value=0.01)
-        composite.create_parameter(param, project.name, experiment.id)
+        composite.write_domain(
+            param,
+            project.name,
+            experiment_id=experiment.id,
+            entity_identifier="lr",
+            entity_type="Parameter",
+        )
 
         feature = domain.Feature(name="age", importance=0.8)
-        composite.create_feature(feature, project.name, experiment.id)
+        composite.write_domain(
+            feature,
+            project.name,
+            experiment_id=experiment.id,
+            entity_identifier="age",
+            entity_type="Feature",
+        )
 
         # Read back from composite (should get from primary)
         assert composite.get_project(project.name).name == project.name
-        assert composite.get_experiment(project.name, experiment.id).id == experiment.id
-        assert composite.get_metric(project.name, experiment.id, "accuracy").value == 0.95
-        assert composite.get_parameter(project.name, experiment.id, "lr").value == 0.01
-        assert composite.get_feature(project.name, experiment.id, "age").importance == 0.8
+        assert (
+            composite.read_domain(domain.Experiment, project.name, experiment_id=experiment.id).id
+            == experiment.id
+        )
+        assert (
+            composite.read_domain(
+                domain.Metric,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="accuracy",
+                entity_type="Metric",
+            ).value
+            == 0.95
+        )
+        assert (
+            composite.read_domain(
+                domain.Parameter,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="lr",
+                entity_type="Parameter",
+            ).value
+            == 0.01
+        )
+        assert (
+            composite.read_domain(
+                domain.Feature,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="age",
+                entity_type="Feature",
+            ).importance
+            == 0.8
+        )
 
         # Verify data in both backends
-        assert repo_a.get_metric(project.name, experiment.id, "accuracy").value == 0.95
-        assert repo_b.get_metric(project.name, experiment.id, "accuracy").value == 0.95
+        assert (
+            repo_a.read_domain(
+                domain.Metric,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="accuracy",
+                entity_type="Metric",
+            ).value
+            == 0.95
+        )
+        assert (
+            repo_b.read_domain(
+                domain.Metric,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier="accuracy",
+                entity_type="Metric",
+            ).value
+            == 0.95
+        )
 
     def test_read_survives_primary_down(self, two_memory_repos):
         """Write to both, then destroy primary — reads should failover."""
@@ -404,11 +510,6 @@ class _MutatingRepository(RepositoryBase):
     def read_dataframe_data(self, project_name, dataframe_id, **kwargs):
         raise RubiconException("not found")
 
-    def create_experiment(self, experiment):
-        """Mutates experiment.id like WandBRepository does."""
-        experiment.id = "wandb-run-id-mutated"
-        experiment.name = "wandb-run-name"
-
     def create_artifact(self, artifact, data, project_name, experiment_id=None):
         """Mutates artifact.id like WandBRepository does."""
         artifact.id = f"{artifact.id}:mutated-name"
@@ -425,14 +526,12 @@ class TestHeterogeneousMutation:
 
         experiment = _make_experiment(project.name)
         original_id = experiment.id
-        composite.create_experiment(experiment)
+        # Use write_domain directly since create_experiment no longer exists
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         # Primary (repo_a) should have the original ID
-        stored = repo_a.get_experiment(project.name, original_id)
+        stored = repo_a.read_domain(domain.Experiment, project.name, experiment_id=original_id)
         assert stored.id == original_id
-
-        # The caller's experiment should have primary's ID (not mutated)
-        assert experiment.id == original_id
 
     def test_create_artifact_deep_copy_prevents_contamination(self, two_memory_repos):
         repo_a, _ = two_memory_repos
@@ -442,14 +541,20 @@ class TestHeterogeneousMutation:
         project = _make_project()
         repo_a.create_project(project)
         experiment = _make_experiment(project.name)
-        repo_a.create_experiment(experiment)
+        repo_a.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         artifact = domain.Artifact(name="model")
         original_id = artifact.id
         composite.create_artifact(artifact, b"data", project.name, experiment.id)
 
         # Primary (repo_a) should have the original ID
-        stored = repo_a.get_artifact_metadata(project.name, original_id, experiment.id)
+        stored = repo_a.read_domain(
+            domain.Artifact,
+            project.name,
+            experiment_id=experiment.id,
+            entity_identifier=original_id,
+            entity_type="Artifact",
+        )
         assert stored.id == original_id
 
         # Caller's artifact should have primary's ID
@@ -466,13 +571,16 @@ class TestHeterogeneousMutation:
         # mutating.create_project is inherited from RepositoryBase and calls write_domain (no-op)
         # So this should succeed on both. Let's test with a method that will fail on secondary.
         experiment = _make_experiment(project.name)
-        composite.create_experiment(experiment)
+        composite.write_domain(experiment, project.name, experiment_id=experiment.id)
 
         artifact = domain.Artifact(name="model")
         composite.create_artifact(artifact, b"data", project.name, experiment.id)
 
         # Primary should have the data
-        assert len(repo_a.get_artifacts_metadata(project.name, experiment.id)) == 1
+        assert (
+            len(repo_a.read_domains(domain.Artifact, project.name, experiment_id=experiment.id))
+            == 1
+        )
 
     def test_delete_with_unsupported_backend_warns(self, two_memory_repos, caplog):
         repo_a, _ = two_memory_repos
@@ -482,14 +590,23 @@ class TestHeterogeneousMutation:
         project = _make_project()
         repo_a.create_project(project)
         experiment = _make_experiment(project.name)
-        repo_a.create_experiment(experiment)
+        repo_a.write_domain(experiment, project.name, experiment_id=experiment.id)
         artifact = domain.Artifact(name="model")
         repo_a.create_artifact(artifact, b"data", project.name, experiment.id)
 
         with caplog.at_level(logging.WARNING):
-            composite.delete_artifact(project.name, artifact.id, experiment.id)
+            composite.remove_domain(
+                domain.Artifact,
+                project.name,
+                experiment_id=experiment.id,
+                entity_identifier=artifact.id,
+                entity_type="Artifact",
+            )
 
         # Primary deleted
-        assert len(repo_a.get_artifacts_metadata(project.name, experiment.id)) == 0
+        assert (
+            len(repo_a.read_domains(domain.Artifact, project.name, experiment_id=experiment.id))
+            == 0
+        )
         # Secondary warned
         assert "failed for 'remove_domain'" in caplog.text

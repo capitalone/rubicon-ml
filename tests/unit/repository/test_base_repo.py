@@ -8,6 +8,8 @@ import pytest
 from dask import dataframe as dd
 
 from rubicon_ml import domain
+from rubicon_ml.domain.comment_update import CommentUpdate
+from rubicon_ml.domain.tag_update import TagUpdate
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository import MemoryRepository
 from rubicon_ml.repository.utils import json, slugify
@@ -32,7 +34,7 @@ def _create_experiment(repository, project=None, tags=[], comments=[]):
         tags=[],
         comments=[],
     )
-    repository.create_experiment(experiment)
+    repository.write_domain(experiment, project.name, experiment_id=experiment.id)
 
     return experiment
 
@@ -104,7 +106,13 @@ def _create_feature(repository, experiment=None):
         experiment = _create_experiment(repository)
 
     feature = domain.Feature(name=f"Test Feature {uuid.uuid4()}")
-    repository.create_feature(feature, experiment.project_name, experiment.id)
+    repository.write_domain(
+        feature,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_identifier=feature.name,
+        entity_type="Feature",
+    )
 
     return feature
 
@@ -114,7 +122,13 @@ def _create_metric(repository, experiment=None):
         experiment = _create_experiment(repository)
 
     metric = domain.Metric(name=f"Test Metric {uuid.uuid4()}", value=24)
-    repository.create_metric(metric, experiment.project_name, experiment.id)
+    repository.write_domain(
+        metric,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_identifier=metric.name,
+        entity_type="Metric",
+    )
 
     return metric
 
@@ -124,7 +138,13 @@ def _create_parameter(repository, experiment=None):
         experiment = _create_experiment(repository)
 
     parameter = domain.Parameter(name=f"Test Parameter {uuid.uuid4()}", value=8)
-    repository.create_parameter(parameter, experiment.project_name, experiment.id)
+    repository.write_domain(
+        parameter,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_identifier=parameter.name,
+        entity_type="Parameter",
+    )
 
     return parameter
 
@@ -216,7 +236,9 @@ def test_create_experiment(memory_repository):
 def test_get_experiment(memory_repository):
     repository = memory_repository
     written_experiment = _create_experiment(repository)
-    experiment = repository.get_experiment(written_experiment.project_name, written_experiment.id)
+    experiment = repository.read_domain(
+        domain.Experiment, written_experiment.project_name, experiment_id=written_experiment.id
+    )
 
     assert experiment.id == written_experiment.id
     assert experiment.name == written_experiment.name
@@ -229,7 +251,7 @@ def test_get_experiment_throws_error_if_not_found(memory_repository):
     missing_experiment_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.get_experiment(project.name, missing_experiment_id)
+        repository.read_domain(domain.Experiment, project.name, experiment_id=missing_experiment_id)
 
     assert f"No experiment with id `{missing_experiment_id}`" in str(e)
 
@@ -238,7 +260,7 @@ def test_get_experiments(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_experiments = [_create_experiment(repository, project=project) for _ in range(0, 3)]
-    experiments = repository.get_experiments(project.name)
+    experiments = repository.read_domains(domain.Experiment, project.name)
 
     assert len(experiments) == 3
 
@@ -253,7 +275,7 @@ def test_get_experiments(memory_repository):
 def test_get_experiments_with_no_results(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    experiments = repository.get_experiments(project.name)
+    experiments = repository.read_domains(domain.Experiment, project.name)
 
     assert experiments == []
 
@@ -303,7 +325,12 @@ def test_get_artifact(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_artifact = _create_artifact(repository, project=project)
-    artifact = repository.get_artifact_metadata(project.name, written_artifact.id)
+    artifact = repository.read_domain(
+        domain.Artifact,
+        project.name,
+        entity_identifier=written_artifact.id,
+        entity_type="Artifact",
+    )
 
     assert artifact.id == written_artifact.id
     assert artifact.name == written_artifact.name
@@ -316,7 +343,12 @@ def test_get_artifact_throws_error_if_not_found(memory_repository):
     missing_artifact_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.get_artifact_metadata(project.name, missing_artifact_id)
+        repository.read_domain(
+            domain.Artifact,
+            project.name,
+            entity_identifier=missing_artifact_id,
+            entity_type="Artifact",
+        )
 
     assert f"No artifact with id `{missing_artifact_id}`" in str(e)
 
@@ -325,7 +357,7 @@ def test_get_artifacts(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_artifacts = [_create_artifact(repository, project=project) for _ in range(0, 3)]
-    artifacts = repository.get_artifacts_metadata(project.name)
+    artifacts = repository.read_domains(domain.Artifact, project.name)
 
     artifact_ids = [a.id for a in written_artifacts]
     for artifact in artifacts:
@@ -339,7 +371,7 @@ def test_get_artifacts(memory_repository):
 def test_get_artifacts_no_results(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    artifacts = repository.get_artifacts_metadata(project.name)
+    artifacts = repository.read_domains(domain.Artifact, project.name)
 
     assert artifacts == []
 
@@ -350,7 +382,7 @@ def test_get_artifact_data(memory_repository):
     artifact_data = b"test artifact data"
 
     artifact = _create_artifact(repository, project=project, artifact_data=artifact_data)
-    data = repository.get_artifact_data(project.name, artifact.id)
+    data = repository.read_artifact_data(project.name, artifact.id)
 
     assert artifact_data == data
 
@@ -361,7 +393,7 @@ def test_get_artifact_data_throws_error_if_not_found(memory_repository):
     missing_artifact_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.get_artifact_data(project.name, missing_artifact_id)
+        repository.read_artifact_data(project.name, missing_artifact_id)
 
     assert f"No data for artifact with id `{missing_artifact_id}`" in str(e)
 
@@ -372,10 +404,20 @@ def test_delete_artifact(memory_repository):
     artifact_data = b"test artifact data"
     artifact = _create_artifact(repository, project=project, artifact_data=artifact_data)
 
-    repository.delete_artifact(project.name, artifact.id)
+    repository.remove_domain(
+        domain.Artifact,
+        project.name,
+        entity_identifier=artifact.id,
+        entity_type="Artifact",
+    )
 
     with pytest.raises(RubiconException) as e:
-        repository.get_artifact_metadata(project.name, artifact.id)
+        repository.read_domain(
+            domain.Artifact,
+            project.name,
+            entity_identifier=artifact.id,
+            entity_type="Artifact",
+        )
 
     assert f"No artifact with id `{artifact.id}`" in str(e)
 
@@ -386,7 +428,12 @@ def test_delete_artifact_throws_error_if_not_found(memory_repository):
     missing_artifact_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.delete_artifact(project.name, missing_artifact_id)
+        repository.remove_domain(
+            domain.Artifact,
+            project.name,
+            entity_identifier=missing_artifact_id,
+            entity_type="Artifact",
+        )
 
     assert f"No artifact with id `{missing_artifact_id}`" in str(e)
 
@@ -552,9 +599,14 @@ def test_get_polars_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_dataframe = _create_polars_dataframe(repository, project=project)
-    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+    dataframe = repository.read_domain(
+        domain.Dataframe,
+        project.name,
+        entity_identifier=written_dataframe.id,
+        entity_type="Dataframe",
+    )
 
-    data = repository.get_dataframe_data(project.name, written_dataframe.id, df_type="polars")
+    data = repository.read_dataframe_data(project.name, written_dataframe.id, df_type="polars")
     assert not data.is_empty()
 
     assert dataframe.id == written_dataframe.id
@@ -565,9 +617,14 @@ def test_get_pandas_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_dataframe = _create_pandas_dataframe(repository, project=project)
-    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+    dataframe = repository.read_domain(
+        domain.Dataframe,
+        project.name,
+        entity_identifier=written_dataframe.id,
+        entity_type="Dataframe",
+    )
 
-    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    data = repository.read_dataframe_data(project.name, written_dataframe.id)
     assert not data.empty
 
     assert dataframe.id == written_dataframe.id
@@ -578,9 +635,14 @@ def test_get_pandas_multi_index_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_dataframe = _create_pandas_dataframe(repository, project=project, multi_index=True)
-    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+    dataframe = repository.read_domain(
+        domain.Dataframe,
+        project.name,
+        entity_identifier=written_dataframe.id,
+        entity_type="Dataframe",
+    )
 
-    data = repository.get_dataframe_data(project.name, written_dataframe.id)
+    data = repository.read_dataframe_data(project.name, written_dataframe.id)
     assert not data.empty
 
     assert dataframe.id == written_dataframe.id
@@ -591,9 +653,14 @@ def test_get_dask_dataframe(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
     written_dataframe = _create_dask_dataframe(repository, project=project)
-    dataframe = repository.get_dataframe_metadata(project.name, written_dataframe.id)
+    dataframe = repository.read_domain(
+        domain.Dataframe,
+        project.name,
+        entity_identifier=written_dataframe.id,
+        entity_type="Dataframe",
+    )
 
-    data = repository.get_dataframe_data(project.name, written_dataframe.id, df_type="dask")
+    data = repository.read_dataframe_data(project.name, written_dataframe.id, df_type="dask")
     assert not data.compute().empty
 
     assert dataframe.id == written_dataframe.id
@@ -606,7 +673,12 @@ def test_get_dataframe_throws_error_if_not_found(memory_repository):
     missing_dataframe_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.get_dataframe_metadata(project.name, missing_dataframe_id)
+        repository.read_domain(
+            domain.Dataframe,
+            project.name,
+            entity_identifier=missing_dataframe_id,
+            entity_type="Dataframe",
+        )
 
     assert f"No dataframe with id `{missing_dataframe_id}`" in str(e)
 
@@ -617,7 +689,7 @@ def test_get_dataframes(memory_repository):
     written_dataframes = [
         _create_pandas_dataframe(repository, project=project) for _ in range(0, 3)
     ]
-    dataframes = repository.get_dataframes_metadata(project.name)
+    dataframes = repository.read_domains(domain.Dataframe, project.name)
 
     dataframe_ids = [d.id for d in written_dataframes]
     for dataframe in dataframes:
@@ -631,7 +703,7 @@ def test_get_dataframes(memory_repository):
 def test_get_dataframes_no_results(memory_repository):
     repository = memory_repository
     project = _create_project(repository)
-    dataframes = repository.get_dataframes_metadata(project.name)
+    dataframes = repository.read_domains(domain.Dataframe, project.name)
 
     assert dataframes == []
 
@@ -643,7 +715,7 @@ def test_get_dataframe_data(memory_repository):
     dataframe_data = dd.from_pandas(dataframe_data, npartitions=1)
 
     dataframe = _create_pandas_dataframe(repository, project=project, dataframe_data=dataframe_data)
-    data = repository.get_dataframe_data(project.name, dataframe.id)
+    data = repository.read_dataframe_data(project.name, dataframe.id)
 
     assert dataframe_data.compute().equals(data.compute())
 
@@ -654,7 +726,7 @@ def test_get_dataframe_data_throws_error_if_not_found(memory_repository):
     missing_dataframe_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.get_dataframe_data(project.name, missing_dataframe_id)
+        repository.read_dataframe_data(project.name, missing_dataframe_id)
 
     assert f"No data for dataframe with id `{missing_dataframe_id}`" in str(e)
 
@@ -664,10 +736,20 @@ def test_delete_dataframe(memory_repository):
     project = _create_project(repository)
     dataframe = _create_pandas_dataframe(repository, project=project)
 
-    repository.delete_dataframe(project.name, dataframe.id)
+    repository.remove_domain(
+        domain.Dataframe,
+        project.name,
+        entity_identifier=dataframe.id,
+        entity_type="Dataframe",
+    )
 
     with pytest.raises(RubiconException) as e:
-        repository.get_dataframe_metadata(project.name, dataframe.id)
+        repository.read_domain(
+            domain.Dataframe,
+            project.name,
+            entity_identifier=dataframe.id,
+            entity_type="Dataframe",
+        )
 
     assert f"No dataframe with id `{dataframe.id}`" in str(e)
 
@@ -678,7 +760,12 @@ def test_delete_dataframes_throws_error_if_not_found(memory_repository):
     missing_dataframe_id = uuid.uuid4()
 
     with pytest.raises(RubiconException) as e:
-        repository.delete_dataframe(project.name, missing_dataframe_id)
+        repository.remove_domain(
+            domain.Dataframe,
+            project.name,
+            entity_identifier=missing_dataframe_id,
+            entity_type="Dataframe",
+        )
 
     assert f"No dataframe with id `{missing_dataframe_id}`" in str(e)
 
@@ -707,7 +794,13 @@ def test_create_feature_throws_error_if_duplicate(memory_repository):
     feature = _create_feature(repository, experiment=experiment)
 
     with pytest.raises(RubiconException) as e:
-        repository.create_feature(feature, experiment.project_name, experiment.id)
+        repository.write_domain(
+            feature,
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_identifier=feature.name,
+            entity_type="Feature",
+        )
 
     assert f"'{feature.name}' already exists" in str(e)
 
@@ -716,7 +809,13 @@ def test_get_feature(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     written_feature = _create_feature(repository, experiment=experiment)
-    feature = repository.get_feature(experiment.project_name, experiment.id, written_feature.name)
+    feature = repository.read_domain(
+        domain.Feature,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_identifier=written_feature.name,
+        entity_type="Feature",
+    )
 
     assert feature.id == written_feature.id
     assert feature.name == written_feature.name
@@ -728,7 +827,13 @@ def test_get_feature_throws_error_if_not_found(memory_repository):
     missing_feature_name = "missing feature"
 
     with pytest.raises(RubiconException) as e:
-        repository.get_feature(experiment.project_name, experiment.id, missing_feature_name)
+        repository.read_domain(
+            domain.Feature,
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_identifier=missing_feature_name,
+            entity_type="Feature",
+        )
 
     assert f"No feature with name '{missing_feature_name}'" in str(e)
 
@@ -737,7 +842,9 @@ def test_get_features(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     written_features = [_create_feature(repository, experiment=experiment) for _ in range(0, 3)]
-    features = repository.get_features(experiment.project_name, experiment.id)
+    features = repository.read_domains(
+        domain.Feature, experiment.project_name, experiment_id=experiment.id
+    )
 
     assert len(features) == 3
 
@@ -753,7 +860,9 @@ def test_get_features(memory_repository):
 def test_get_features_with_no_results(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    features = repository.get_features(experiment.project_name, experiment.id)
+    features = repository.read_domains(
+        domain.Feature, experiment.project_name, experiment_id=experiment.id
+    )
 
     assert features == []
 
@@ -782,7 +891,13 @@ def test_create_metric_throws_error_if_duplicate(memory_repository):
     metric = _create_metric(repository, experiment=experiment)
 
     with pytest.raises(RubiconException) as e:
-        repository.create_metric(metric, experiment.project_name, experiment.id)
+        repository.write_domain(
+            metric,
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_identifier=metric.name,
+            entity_type="Metric",
+        )
 
     assert f"'{metric.name}' already exists" in str(e)
 
@@ -791,7 +906,13 @@ def test_get_metric(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     written_metric = _create_metric(repository, experiment=experiment)
-    metric = repository.get_metric(experiment.project_name, experiment.id, written_metric.name)
+    metric = repository.read_domain(
+        domain.Metric,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_identifier=written_metric.name,
+        entity_type="Metric",
+    )
 
     assert metric.id == written_metric.id
     assert metric.name == written_metric.name
@@ -803,7 +924,13 @@ def test_get_metric_throws_error_if_not_found(memory_repository):
     missing_metric_name = "missing metric"
 
     with pytest.raises(RubiconException) as e:
-        repository.get_metric(experiment.project_name, experiment.id, missing_metric_name)
+        repository.read_domain(
+            domain.Metric,
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_identifier=missing_metric_name,
+            entity_type="Metric",
+        )
 
     assert f"No metric with name '{missing_metric_name}'" in str(e)
 
@@ -812,7 +939,9 @@ def test_get_metrics(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     written_metrics = [_create_metric(repository, experiment=experiment) for _ in range(0, 3)]
-    metrics = repository.get_metrics(experiment.project_name, experiment.id)
+    metrics = repository.read_domains(
+        domain.Metric, experiment.project_name, experiment_id=experiment.id
+    )
 
     assert len(metrics) == 3
 
@@ -827,7 +956,9 @@ def test_get_metrics(memory_repository):
 def test_get_metrics_with_no_results(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    metrics = repository.get_metrics(experiment.project_name, experiment.id)
+    metrics = repository.read_domains(
+        domain.Metric, experiment.project_name, experiment_id=experiment.id
+    )
 
     assert metrics == []
 
@@ -856,7 +987,13 @@ def test_create_parameter_throws_error_if_duplicate(memory_repository):
     parameter = _create_parameter(repository, experiment=experiment)
 
     with pytest.raises(RubiconException) as e:
-        repository.create_parameter(parameter, experiment.project_name, experiment.id)
+        repository.write_domain(
+            parameter,
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_identifier=parameter.name,
+            entity_type="Parameter",
+        )
 
     assert f"'{parameter.name}' already exists" in str(e)
 
@@ -865,8 +1002,12 @@ def test_get_parameter(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     written_parameter = _create_parameter(repository, experiment=experiment)
-    parameter = repository.get_parameter(
-        experiment.project_name, experiment.id, written_parameter.name
+    parameter = repository.read_domain(
+        domain.Parameter,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_identifier=written_parameter.name,
+        entity_type="Parameter",
     )
 
     assert parameter.id == written_parameter.id
@@ -879,7 +1020,13 @@ def test_get_parameter_throws_error_if_not_found(memory_repository):
     missing_parameter_name = "missing parameter"
 
     with pytest.raises(RubiconException) as e:
-        repository.get_parameter(experiment.project_name, experiment.id, missing_parameter_name)
+        repository.read_domain(
+            domain.Parameter,
+            experiment.project_name,
+            experiment_id=experiment.id,
+            entity_identifier=missing_parameter_name,
+            entity_type="Parameter",
+        )
 
     assert f"No parameter with name '{missing_parameter_name}'" in str(e)
 
@@ -888,7 +1035,9 @@ def test_get_parameters(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
     written_parameters = [_create_parameter(repository, experiment=experiment) for _ in range(0, 3)]
-    parameters = repository.get_parameters(experiment.project_name, experiment.id)
+    parameters = repository.read_domains(
+        domain.Parameter, experiment.project_name, experiment_id=experiment.id
+    )
 
     assert len(parameters) == 3
 
@@ -903,7 +1052,9 @@ def test_get_parameters(memory_repository):
 def test_get_parameters_with_no_results(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    parameters = repository.get_parameters(experiment.project_name, experiment.id)
+    parameters = repository.read_domains(
+        domain.Parameter, experiment.project_name, experiment_id=experiment.id
+    )
 
     assert parameters == []
 
@@ -977,9 +1128,9 @@ def test_get_root_without_experiment_or_dataframe_throws_error(memory_repository
 def test_add_tags(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    repository.add_tags(
+    repository.write_domain(
+        TagUpdate(added_tags=["wow"]),
         experiment.project_name,
-        ["wow"],
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
@@ -999,9 +1150,9 @@ def test_add_tags(memory_repository):
 def test_remove_tags(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository, tags=["wow"])
-    repository.remove_tags(
+    repository.write_domain(
+        TagUpdate(removed_tags=["wow"]),
         experiment.project_name,
-        ["wow"],
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
@@ -1021,48 +1172,53 @@ def test_remove_tags(memory_repository):
 def test_get_tags(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository, tags=["wow"])
-    repository.add_tags(
+    repository.write_domain(
+        TagUpdate(added_tags=["cool"]),
         experiment.project_name,
-        ["cool"],
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
-    repository.remove_tags(
-        experiment.project_name,
-        ["wow"],
-        experiment_id=experiment.id,
-        entity_type=experiment.__class__.__name__,
-    )
-
-    tags = repository.get_tags(
+    repository.write_domain(
+        TagUpdate(removed_tags=["wow"]),
         experiment.project_name,
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
 
-    assert {"added_tags": ["cool"]} in tags
-    assert {"removed_tags": ["wow"]} in tags
+    tag_updates = repository.read_domains(
+        TagUpdate,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    added = [tu for tu in tag_updates if tu.added_tags]
+    removed = [tu for tu in tag_updates if tu.removed_tags]
+
+    assert any(tu.added_tags == ["cool"] for tu in added)
+    assert any(tu.removed_tags == ["wow"] for tu in removed)
 
 
 def test_get_tags_with_no_results(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
 
-    tags = repository.get_tags(
+    tag_updates = repository.read_domains(
+        TagUpdate,
         experiment.project_name,
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
 
-    assert tags == []
+    assert tag_updates == []
 
 
 def test_add_comments(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    repository.add_comments(
+    repository.write_domain(
+        CommentUpdate(added_comments=["this is a comment"]),
         experiment.project_name,
-        ["this is a comment"],
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
@@ -1082,9 +1238,9 @@ def test_add_comments(memory_repository):
 def test_remove_comments(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository, comments=["this is a comment"])
-    repository.remove_comments(
+    repository.write_domain(
+        CommentUpdate(removed_comments=["this is a comment"]),
         experiment.project_name,
-        ["this is a comment"],
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
@@ -1104,30 +1260,32 @@ def test_remove_comments(memory_repository):
 def test_get_comments(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
-    repository.add_comments(
-        experiment.project_name,
-        ["this is a comment"],
-        experiment_id=experiment.id,
-        entity_type=experiment.__class__.__name__,
-    )
-
-    comments = repository.get_comments(
+    repository.write_domain(
+        CommentUpdate(added_comments=["this is a comment"]),
         experiment.project_name,
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
 
-    assert {"added_comments": ["this is a comment"]} in comments
+    comment_updates = repository.read_domains(
+        CommentUpdate,
+        experiment.project_name,
+        experiment_id=experiment.id,
+        entity_type=experiment.__class__.__name__,
+    )
+
+    assert any(cu.added_comments == ["this is a comment"] for cu in comment_updates)
 
 
 def test_get_comments_with_no_results(memory_repository):
     repository = memory_repository
     experiment = _create_experiment(repository)
 
-    comments = repository.get_comments(
+    comment_updates = repository.read_domains(
+        CommentUpdate,
         experiment.project_name,
         experiment_id=experiment.id,
         entity_type=experiment.__class__.__name__,
     )
 
-    assert comments == []
+    assert comment_updates == []

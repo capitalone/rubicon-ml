@@ -7,6 +7,8 @@ import pandas as pd
 import pytest
 
 from rubicon_ml import domain
+from rubicon_ml.domain.comment_update import CommentUpdate
+from rubicon_ml.domain.tag_update import TagUpdate
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository import LocalRepository, MemoryRepository, WandBRepository
 from rubicon_ml.repository.utils import json, slugify
@@ -40,15 +42,16 @@ def _test_read_additional_tags_and_comments(
     with repository.filesystem.open(remove_tag_path, "w") as file:
         file.write(json.dumps({"removed_tags": TAGS_TO_REMOVE}))
 
-    additional_tags = repository.get_tags(
+    additional_tags = repository.read_domains(
+        TagUpdate,
         project_name,
         **entity_identification_kwargs,
     )
-    for tags in additional_tags:
-        if "added_tags" in tags:
-            is_passing &= tags["added_tags"] == TAGS_TO_ADD
-        if "removed_tags" in tags:
-            is_passing &= tags["removed_tags"] == TAGS_TO_REMOVE
+    for tag_update in additional_tags:
+        if tag_update.added_tags:
+            is_passing &= tag_update.added_tags == TAGS_TO_ADD
+        if tag_update.removed_tags:
+            is_passing &= tag_update.removed_tags == TAGS_TO_REMOVE
 
     add_comment_path = os.path.join(tag_comment_dir, f"comments_{uuid.uuid4()}.json")
     with repository.filesystem.open(add_comment_path, "w") as file:
@@ -58,15 +61,16 @@ def _test_read_additional_tags_and_comments(
     with repository.filesystem.open(remove_comment_path, "w") as file:
         file.write(json.dumps({"removed_comments": COMMENTS_TO_REMOVE}))
 
-    additional_comments = repository.get_comments(
+    additional_comments = repository.read_domains(
+        CommentUpdate,
         project_name,
         **entity_identification_kwargs,
     )
-    for comments in additional_comments:
-        if "added_comments" in comments:
-            is_passing &= comments["added_comments"] == COMMENTS_TO_ADD
-        if "removed_tags" in comments:
-            is_passing &= comments["removed_comments"] == COMMENTS_TO_REMOVE
+    for comment_update in additional_comments:
+        if comment_update.added_comments:
+            is_passing &= comment_update.added_comments == COMMENTS_TO_ADD
+        if comment_update.removed_comments:
+            is_passing &= comment_update.removed_comments == COMMENTS_TO_REMOVE
 
     return is_passing
 
@@ -121,9 +125,10 @@ def test_read_experiment_regression(experiment_json, project_json, repository_cl
         with repository.filesystem.open(expected_experiment_path, "w") as file:
             file.write(json.dumps(experiment_json))
 
-        experiment = repository.get_experiment(
+        experiment = repository.read_domain(
+            domain.Experiment,
             project_json["name"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
         ).__dict__
 
         assert experiment == experiment_json
@@ -168,10 +173,12 @@ def test_read_feature_regression(
         with repository.filesystem.open(expected_feature_path, "w") as file:
             file.write(json.dumps(feature_json))
 
-        feature = repository.get_feature(
+        feature = repository.read_domain(
+            domain.Feature,
             project_json["name"],
-            experiment_json["id"],
-            feature_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=feature_json["name"],
+            entity_type="Feature",
         ).__dict__
 
         assert feature == feature_json
@@ -216,10 +223,12 @@ def test_read_metric_regression(
         with repository.filesystem.open(expected_metric_path, "w") as file:
             file.write(json.dumps(metric_json))
 
-        metric = repository.get_metric(
+        metric = repository.read_domain(
+            domain.Metric,
             project_json["name"],
-            experiment_json["id"],
-            metric_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=metric_json["name"],
+            entity_type="Metric",
         ).__dict__
 
         assert metric == metric_json
@@ -264,10 +273,12 @@ def test_read_parameter_regression(
         with repository.filesystem.open(expected_parameter_path, "w") as file:
             file.write(json.dumps(parameter_json))
 
-        parameter = repository.get_parameter(
+        parameter = repository.read_domain(
+            domain.Parameter,
             project_json["name"],
-            experiment_json["id"],
-            parameter_json["name"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=parameter_json["name"],
+            entity_type="Parameter",
         ).__dict__
 
         assert parameter == parameter_json
@@ -316,11 +327,13 @@ def test_read_artifact_project_regression(
         with repository.filesystem.open(expected_artifact_project_data_path, "wb") as file:
             file.write(ARTIFACT_BINARY)
 
-        artifact_project = repository.get_artifact_metadata(
+        artifact_project = repository.read_domain(
+            domain.Artifact,
             project_json["name"],
-            artifact_project_json["id"],
+            entity_identifier=artifact_project_json["id"],
+            entity_type="Artifact",
         ).__dict__
-        artifact_project_data = repository.get_artifact_data(
+        artifact_project_data = repository.read_artifact_data(
             project_json["name"],
             artifact_project_json["id"],
         )
@@ -376,15 +389,17 @@ def test_read_artifact_experiment_regression(
         with repository.filesystem.open(expected_artifact_experiment_data_path, "wb") as file:
             file.write(ARTIFACT_BINARY)
 
-        artifact_experiment = repository.get_artifact_metadata(
+        artifact_experiment = repository.read_domain(
+            domain.Artifact,
             project_json["name"],
-            artifact_experiment_json["id"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=artifact_experiment_json["id"],
+            entity_type="Artifact",
         ).__dict__
-        artifact_experiment_data = repository.get_artifact_data(
+        artifact_experiment_data = repository.read_artifact_data(
             project_json["name"],
             artifact_experiment_json["id"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
         )
 
         assert artifact_experiment == artifact_experiment_json
@@ -435,9 +450,11 @@ def test_read_dataframe_project_regression(
         with repository.filesystem.open(expected_dataframe_project_path, "w") as file:
             file.write(json.dumps(dataframe_project_json))
 
-        dataframe_project = repository.get_dataframe_metadata(
+        dataframe_project = repository.read_domain(
+            domain.Dataframe,
             project_json["name"],
-            dataframe_project_json["id"],
+            entity_identifier=dataframe_project_json["id"],
+            entity_type="Dataframe",
         ).__dict__
 
         assert dataframe_project == dataframe_project_json
@@ -460,7 +477,7 @@ def test_read_dataframe_project_regression(
             repository.filesystem.mkdirs(expected_dataframe_project_data_dir, exist_ok=True)
             DATAFRAME.to_parquet(expected_dataframe_project_data_path)
 
-            dataframe_project_data = repository.get_dataframe_data(
+            dataframe_project_data = repository.read_dataframe_data(
                 project_json["name"],
                 dataframe_project_json["id"],
             )
@@ -507,10 +524,12 @@ def test_read_dataframe_experiment_regression(
         with repository.filesystem.open(expected_dataframe_experiment_path, "w") as file:
             file.write(json.dumps(dataframe_experiment_json))
 
-        dataframe_experiment = repository.get_dataframe_metadata(
+        dataframe_experiment = repository.read_domain(
+            domain.Dataframe,
             project_json["name"],
-            dataframe_experiment_json["id"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=dataframe_experiment_json["id"],
+            entity_type="Dataframe",
         ).__dict__
 
         assert dataframe_experiment == dataframe_experiment_json
@@ -534,34 +553,34 @@ def test_read_dataframe_experiment_regression(
             repository.filesystem.mkdirs(expected_dataframe_experiment_data_dir, exist_ok=True)
             DATAFRAME.to_parquet(expected_dataframe_experiment_data_path)
 
-            dataframe_experiment_data = repository.get_dataframe_data(
+            dataframe_experiment_data = repository.read_dataframe_data(
                 project_json["name"],
                 dataframe_experiment_json["id"],
-                experiment_json["id"],
+                experiment_id=experiment_json["id"],
             )
 
             assert dataframe_experiment_data.equals(DATAFRAME)
 
 
 def _write_additional_tags_and_comments(repository, project_name, **entity_identification_kwargs):
-    repository.add_tags(
+    repository.write_domain(
+        TagUpdate(added_tags=TAGS_TO_ADD),
         project_name,
-        TAGS_TO_ADD,
         **entity_identification_kwargs,
     )
-    repository.remove_tags(
+    repository.write_domain(
+        TagUpdate(removed_tags=TAGS_TO_REMOVE),
         project_name,
-        TAGS_TO_REMOVE,
         **entity_identification_kwargs,
     )
-    repository.add_comments(
+    repository.write_domain(
+        CommentUpdate(added_comments=COMMENTS_TO_ADD),
         project_name,
-        COMMENTS_TO_ADD,
         **entity_identification_kwargs,
     )
-    repository.remove_comments(
+    repository.write_domain(
+        CommentUpdate(removed_comments=COMMENTS_TO_REMOVE),
         project_name,
-        COMMENTS_TO_REMOVE,
         **entity_identification_kwargs,
     )
 
@@ -571,27 +590,29 @@ def _test_read_write_additional_tags_and_comments(
 ):
     is_passing = True
 
-    additional_tags = repository.get_tags(
+    additional_tags = repository.read_domains(
+        TagUpdate,
         project_name,
         **entity_identification_kwargs,
     )
 
-    for tags in additional_tags:
-        if "added_tags" in tags:
-            is_passing &= tags["added_tags"] == TAGS_TO_ADD
-        if "removed_tags" in tags:
-            is_passing &= tags["removed_tags"] == TAGS_TO_REMOVE
+    for tag_update in additional_tags:
+        if tag_update.added_tags:
+            is_passing &= tag_update.added_tags == TAGS_TO_ADD
+        if tag_update.removed_tags:
+            is_passing &= tag_update.removed_tags == TAGS_TO_REMOVE
 
-    additional_comments = repository.get_comments(
+    additional_comments = repository.read_domains(
+        CommentUpdate,
         project_name,
         **entity_identification_kwargs,
     )
 
-    for comments in additional_comments:
-        if "added_comments" in comments:
-            is_passing &= comments["added_comments"] == COMMENTS_TO_ADD
-        if "removed_tags" in comments:
-            is_passing &= comments["removed_comments"] == COMMENTS_TO_REMOVE
+    for comment_update in additional_comments:
+        if comment_update.added_comments:
+            is_passing &= comment_update.added_comments == COMMENTS_TO_ADD
+        if comment_update.removed_comments:
+            is_passing &= comment_update.removed_comments == COMMENTS_TO_REMOVE
 
     return is_passing
 
@@ -634,7 +655,9 @@ def test_read_write_experiment_regression(experiment_json, project_json, reposit
         domain_project = domain.Project(**project_json)
         domain_experiment = domain.Experiment(**experiment_json)
         repository.create_project(domain_project)
-        repository.create_experiment(domain_experiment)
+        repository.write_domain(
+            domain_experiment, domain_project.name, experiment_id=domain_experiment.id
+        )
 
         _write_additional_tags_and_comments(
             repository,
@@ -647,9 +670,10 @@ def test_read_write_experiment_regression(experiment_json, project_json, reposit
         if repository_class == WandBRepository:
             repository.finish()
 
-        experiment = repository.get_experiment(
+        experiment = repository.read_domain(
+            domain.Experiment,
             domain_project.name,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
         ).__dict__
 
         assert experiment == domain_experiment.__dict__
@@ -687,16 +711,22 @@ def test_read_write_feature_regression(
         domain_experiment = domain.Experiment(**experiment_json)
         domain_feature = domain.Feature(**feature_json)
         repository.create_project(domain_project)
-        repository.create_experiment(domain_experiment)
+        repository.write_domain(
+            domain_experiment, domain_project.name, experiment_id=domain_experiment.id
+        )
 
         if is_existing_experiment and repository_class == WandBRepository:
             repository.finish()
-            repository.get_experiment(domain_project.name, domain_experiment.id)
+            repository.read_domain(
+                domain.Experiment, domain_project.name, experiment_id=domain_experiment.id
+            )
 
-        repository.create_feature(
+        repository.write_domain(
             domain_feature,
             domain_project.name,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_feature.name,
+            entity_type="Feature",
         )
 
         _write_additional_tags_and_comments(
@@ -710,10 +740,12 @@ def test_read_write_feature_regression(
         if repository_class == WandBRepository:
             repository.finish()
 
-        feature = repository.get_feature(
+        feature = repository.read_domain(
+            domain.Feature,
             domain_project.name,
-            domain_experiment.id,
-            domain_feature.name,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_feature.name,
+            entity_type="Feature",
         ).__dict__
 
         assert feature == domain_feature.__dict__
@@ -754,16 +786,22 @@ def test_read_write_metric_regression(
         domain_experiment = domain.Experiment(**experiment_json)
         domain_metric = domain.Metric(**metric_json)
         repository.create_project(domain_project)
-        repository.create_experiment(domain_experiment)
+        repository.write_domain(
+            domain_experiment, domain_project.name, experiment_id=domain_experiment.id
+        )
 
         if is_existing_experiment and repository_class == WandBRepository:
             repository.finish()
-            repository.get_experiment(domain_project.name, domain_experiment.id)
+            repository.read_domain(
+                domain.Experiment, domain_project.name, experiment_id=domain_experiment.id
+            )
 
-        repository.create_metric(
+        repository.write_domain(
             domain_metric,
             domain_project.name,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_metric.name,
+            entity_type="Metric",
         )
 
         _write_additional_tags_and_comments(
@@ -777,10 +815,12 @@ def test_read_write_metric_regression(
         if repository_class == WandBRepository:
             repository.finish()
 
-        metric = repository.get_metric(
+        metric = repository.read_domain(
+            domain.Metric,
             domain_project.name,
-            domain_experiment.id,
-            domain_metric.name,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_metric.name,
+            entity_type="Metric",
         ).__dict__
 
         assert metric == domain_metric.__dict__
@@ -821,16 +861,22 @@ def test_read_write_parameter_regression(
         domain_experiment = domain.Experiment(**experiment_json)
         domain_parameter = domain.Parameter(**parameter_json)
         repository.create_project(domain_project)
-        repository.create_experiment(domain_experiment)
+        repository.write_domain(
+            domain_experiment, domain_project.name, experiment_id=domain_experiment.id
+        )
 
         if is_existing_experiment and repository_class == WandBRepository:
             repository.finish()
-            repository.get_experiment(domain_project.name, domain_experiment.id)
+            repository.read_domain(
+                domain.Experiment, domain_project.name, experiment_id=domain_experiment.id
+            )
 
-        repository.create_parameter(
+        repository.write_domain(
             domain_parameter,
             domain_project.name,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_parameter.name,
+            entity_type="Parameter",
         )
 
         _write_additional_tags_and_comments(
@@ -844,10 +890,12 @@ def test_read_write_parameter_regression(
         if repository_class == WandBRepository:
             repository.finish()
 
-        parameter = repository.get_parameter(
+        parameter = repository.read_domain(
+            domain.Parameter,
             domain_project.name,
-            domain_experiment.id,
-            domain_parameter.name,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_parameter.name,
+            entity_type="Parameter",
         ).__dict__
 
         assert parameter == domain_parameter.__dict__
@@ -911,11 +959,13 @@ def test_read_write_artifact_project_regression(
             entity_type="Artifact",
         )
 
-        artifact_project = repository.get_artifact_metadata(
+        artifact_project = repository.read_domain(
+            domain.Artifact,
             domain_project.name,
-            domain_artifact.id,
+            entity_identifier=domain_artifact.id,
+            entity_type="Artifact",
         ).__dict__
-        artifact_project_data = repository.get_artifact_data(
+        artifact_project_data = repository.read_artifact_data(
             domain_project.name,
             domain_artifact.id,
         )
@@ -955,11 +1005,15 @@ def test_read_write_artifact_experiment_regression(
         domain_experiment = domain.Experiment(**experiment_json)
         domain_artifact = domain.Artifact(**artifact_experiment_json)
         repository.create_project(domain_project)
-        repository.create_experiment(domain_experiment)
+        repository.write_domain(
+            domain_experiment, domain_project.name, experiment_id=domain_experiment.id
+        )
 
         if is_existing_experiment and repository_class == WandBRepository:
             repository.finish()
-            repository.get_experiment(domain_project.name, domain_experiment.id)
+            repository.read_domain(
+                domain.Experiment, domain_project.name, experiment_id=domain_experiment.id
+            )
 
         repository.create_artifact(
             domain_artifact,
@@ -979,15 +1033,17 @@ def test_read_write_artifact_experiment_regression(
         if repository_class == WandBRepository:
             repository.finish()
 
-        artifact_experiment = repository.get_artifact_metadata(
+        artifact_experiment = repository.read_domain(
+            domain.Artifact,
             domain_project.name,
-            domain_artifact.id,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_artifact.id,
+            entity_type="Artifact",
         ).__dict__
-        artifact_experiment_data = repository.get_artifact_data(
+        artifact_experiment_data = repository.read_artifact_data(
             domain_project.name,
             domain_artifact.id,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
         )
 
         assert artifact_experiment == domain_artifact.__dict__
@@ -1052,11 +1108,13 @@ def test_read_write_dataframe_project_regression(
             entity_type="Dataframe",
         )
 
-        dataframe_project = repository.get_dataframe_metadata(
+        dataframe_project = repository.read_domain(
+            domain.Dataframe,
             domain_project.name,
-            domain_dataframe.id,
+            entity_identifier=domain_dataframe.id,
+            entity_type="Dataframe",
         ).__dict__
-        dataframe_project_data = repository.get_dataframe_data(
+        dataframe_project_data = repository.read_dataframe_data(
             domain_project.name,
             domain_dataframe.id,
         )
@@ -1096,11 +1154,15 @@ def test_read_write_dataframe_experiment_regression(
         domain_experiment = domain.Experiment(**experiment_json)
         domain_dataframe = domain.Dataframe(**dataframe_experiment_json)
         repository.create_project(domain_project)
-        repository.create_experiment(domain_experiment)
+        repository.write_domain(
+            domain_experiment, domain_project.name, experiment_id=domain_experiment.id
+        )
 
         if is_existing_experiment and repository_class == WandBRepository:
             repository.finish()
-            repository.get_experiment(domain_project.name, domain_experiment.id)
+            repository.read_domain(
+                domain.Experiment, domain_project.name, experiment_id=domain_experiment.id
+            )
 
         repository.create_dataframe(
             domain_dataframe,
@@ -1120,15 +1182,17 @@ def test_read_write_dataframe_experiment_regression(
         if repository_class == WandBRepository:
             repository.finish()
 
-        dataframe_experiment = repository.get_dataframe_metadata(
+        dataframe_experiment = repository.read_domain(
+            domain.Dataframe,
             domain_project.name,
-            domain_dataframe.id,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
+            entity_identifier=domain_dataframe.id,
+            entity_type="Dataframe",
         ).__dict__
-        dataframe_experiment_data = repository.get_dataframe_data(
+        dataframe_experiment_data = repository.read_dataframe_data(
             domain_project.name,
             domain_dataframe.id,
-            domain_experiment.id,
+            experiment_id=domain_experiment.id,
         )
 
         assert dataframe_experiment == domain_dataframe.__dict__
@@ -1150,14 +1214,14 @@ def _test_write_additional_tags_and_comments(
 ):
     is_passing = True
 
-    repository.add_tags(
+    repository.write_domain(
+        TagUpdate(added_tags=TAGS_TO_ADD),
         project_name,
-        TAGS_TO_ADD,
         **entity_identification_kwargs,
     )
-    repository.remove_tags(
+    repository.write_domain(
+        TagUpdate(removed_tags=TAGS_TO_REMOVE),
         project_name,
-        TAGS_TO_REMOVE,
         **entity_identification_kwargs,
     )
 
@@ -1172,14 +1236,14 @@ def _test_write_additional_tags_and_comments(
             if "removed_tags" in tags:
                 is_passing &= tags["removed_tags"] == TAGS_TO_REMOVE
 
-    repository.add_comments(
+    repository.write_domain(
+        CommentUpdate(added_comments=COMMENTS_TO_ADD),
         project_name,
-        COMMENTS_TO_ADD,
         **entity_identification_kwargs,
     )
-    repository.remove_comments(
+    repository.write_domain(
+        CommentUpdate(removed_comments=COMMENTS_TO_REMOVE),
         project_name,
-        COMMENTS_TO_REMOVE,
         **entity_identification_kwargs,
     )
 
@@ -1242,7 +1306,11 @@ def test_write_experiment_regression(
         repository = repository_class(root_dir=root_dir)
 
         repository.create_project(domain.Project(**project_json))
-        repository.create_experiment(domain.Experiment(**experiment_json))
+        repository.write_domain(
+            domain.Experiment(**experiment_json),
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+        )
 
         expected_experiment_dir = os.path.join(
             root_dir,
@@ -1284,11 +1352,17 @@ def test_write_feature_regression(
         repository = repository_class(root_dir=root_dir)
 
         repository.create_project(domain.Project(**project_json))
-        repository.create_experiment(domain.Experiment(**experiment_json))
-        repository.create_feature(
+        repository.write_domain(
+            domain.Experiment(**experiment_json),
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+        )
+        repository.write_domain(
             domain.Feature(**feature_json),
             project_json["name"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=feature_json["name"],
+            entity_type="Feature",
         )
 
         expected_feature_dir = os.path.join(
@@ -1333,11 +1407,17 @@ def test_write_metric_regression(
         repository = repository_class(root_dir=root_dir)
 
         repository.create_project(domain.Project(**project_json))
-        repository.create_experiment(domain.Experiment(**experiment_json))
-        repository.create_metric(
+        repository.write_domain(
+            domain.Experiment(**experiment_json),
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+        )
+        repository.write_domain(
             domain.Metric(**metric_json),
             project_json["name"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=metric_json["name"],
+            entity_type="Metric",
         )
 
         expected_metric_dir = os.path.join(
@@ -1382,11 +1462,17 @@ def test_write_parameter_regression(
         repository = repository_class(root_dir=root_dir)
 
         repository.create_project(domain.Project(**project_json))
-        repository.create_experiment(domain.Experiment(**experiment_json))
-        repository.create_parameter(
+        repository.write_domain(
+            domain.Experiment(**experiment_json),
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+        )
+        repository.write_domain(
             domain.Parameter(**parameter_json),
             project_json["name"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=parameter_json["name"],
+            entity_type="Parameter",
         )
 
         expected_parameter_dir = os.path.join(
@@ -1485,7 +1571,11 @@ def test_write_artifact_experiment_regression(
         repository = repository_class(root_dir=root_dir)
 
         repository.create_project(domain.Project(**project_json))
-        repository.create_experiment(domain.Experiment(**experiment_json))
+        repository.write_domain(
+            domain.Experiment(**experiment_json),
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+        )
         repository.create_artifact(
             domain.Artifact(**artifact_experiment_json),
             ARTIFACT_BINARY,
@@ -1609,7 +1699,11 @@ def test_write_dataframe_experiment_regression(
         repository = repository_class(root_dir=root_dir)
 
         repository.create_project(domain.Project(**project_json))
-        repository.create_experiment(domain.Experiment(**experiment_json))
+        repository.write_domain(
+            domain.Experiment(**experiment_json),
+            project_json["name"],
+            experiment_id=experiment_json["id"],
+        )
         repository.create_dataframe(
             domain.Dataframe(**dataframe_experiment_json),
             DATAFRAME,
@@ -1686,9 +1780,11 @@ def test_delete_artifact_project_regression(
 
         assert repository.filesystem.exists(expected_artifact_project_path)
 
-        repository.delete_artifact(
+        repository.remove_domain(
+            domain.Artifact,
             project_json["name"],
-            artifact_project_json["id"],
+            entity_identifier=artifact_project_json["id"],
+            entity_type="Artifact",
         )
 
         assert not repository.filesystem.exists(expected_artifact_project_path)
@@ -1734,10 +1830,12 @@ def test_delete_artifact_experiment_regression(
 
         assert repository.filesystem.exists(expected_artifact_experiment_path)
 
-        repository.delete_artifact(
+        repository.remove_domain(
+            domain.Artifact,
             project_json["name"],
-            artifact_experiment_json["id"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=artifact_experiment_json["id"],
+            entity_type="Artifact",
         )
 
         assert not repository.filesystem.exists(expected_artifact_experiment_path)
@@ -1776,9 +1874,11 @@ def test_delete_dataframe_project_regression(
 
         assert repository.filesystem.exists(expected_dataframe_project_path)
 
-        repository.delete_dataframe(
+        repository.remove_domain(
+            domain.Dataframe,
             project_json["name"],
-            dataframe_project_json["id"],
+            entity_identifier=dataframe_project_json["id"],
+            entity_type="Dataframe",
         )
 
         assert not repository.filesystem.exists(expected_dataframe_project_path)
@@ -1821,10 +1921,12 @@ def test_delete_dataframe_experiment_regression(
 
         assert repository.filesystem.exists(expected_dataframe_experiment_path)
 
-        repository.delete_dataframe(
+        repository.remove_domain(
+            domain.Dataframe,
             project_json["name"],
-            dataframe_experiment_json["id"],
-            experiment_json["id"],
+            experiment_id=experiment_json["id"],
+            entity_identifier=dataframe_experiment_json["id"],
+            entity_type="Dataframe",
         )
 
         assert not repository.filesystem.exists(expected_dataframe_experiment_path)
