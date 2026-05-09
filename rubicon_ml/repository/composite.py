@@ -132,13 +132,13 @@ class CompositeRepository(RepositoryBase):
     def read_dataframe_data(self, project_name, dataframe_id, **kwargs):
         return self._failover("read_dataframe_data", project_name, dataframe_id, **kwargs)
 
-    # -------- Convenience Overrides: Writes (broadcast) --------
+    # -------- Convenience Overrides --------
+    # Only methods that have genuinely different per-backend semantics
+    # need explicit overrides here. Everything else flows through the
+    # 8 abstract method implementations above.
 
     def create_project(self, project):
         self._broadcast("create_project", project)
-
-    def create_experiment(self, experiment):
-        self._broadcast_with_copy("create_experiment", experiment)
 
     def create_artifact(self, artifact, data, project_name, experiment_id=None):
         self._broadcast_with_copy(
@@ -150,87 +150,14 @@ class CompositeRepository(RepositoryBase):
             "create_dataframe", dataframe, data, project_name, experiment_id=experiment_id
         )
 
-    def create_feature(self, feature, project_name, experiment_id):
-        self._broadcast("create_feature", feature, project_name, experiment_id)
-
-    def create_metric(self, metric, project_name, experiment_id):
-        self._broadcast("create_metric", metric, project_name, experiment_id)
-
-    def create_parameter(self, parameter, project_name, experiment_id):
-        self._broadcast("create_parameter", parameter, project_name, experiment_id)
-
-    def add_tags(
-        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        self._broadcast(
-            "add_tags",
-            project_name,
-            tags,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=entity_type,
-        )
-
-    def remove_tags(
-        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        self._broadcast(
-            "remove_tags",
-            project_name,
-            tags,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=entity_type,
-        )
-
-    def add_comments(
-        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        self._broadcast(
-            "add_comments",
-            project_name,
-            comments,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=entity_type,
-        )
-
-    def remove_comments(
-        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        self._broadcast(
-            "remove_comments",
-            project_name,
-            comments,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=entity_type,
-        )
-
-    # -------- Convenience Overrides: Reads (failover) --------
-
-    def get_tags(self, project_name, experiment_id=None, entity_identifier=None, entity_type=None):
-        return self._failover(
-            "get_tags",
-            project_name,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=entity_type,
-        )
-
-    def get_comments(
-        self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        return self._failover(
-            "get_comments",
-            project_name,
-            experiment_id=experiment_id,
-            entity_identifier=entity_identifier,
-            entity_type=entity_type,
-        )
-
     def get_projects(self):
         return self._failover("get_projects")
+
+    def _get_artifact_data_path(self, project_name, experiment_id, artifact_id):
+        """Delegate to primary backend for artifact data path (used by xgboost/h2o deserialization)."""
+        return self._repositories[0]._get_artifact_data_path(
+            project_name, experiment_id, artifact_id
+        )
 
     # -------- Special --------
 

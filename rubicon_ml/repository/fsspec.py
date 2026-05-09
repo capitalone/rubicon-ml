@@ -394,10 +394,22 @@ class FsspecRepository(RepositoryBase):
             path = self._get_dataframe_metadata_path(project_name, experiment_id, entity_identifier)
         elif isinstance(domain_obj, domain.Feature):
             path = self._get_feature_metadata_path(project_name, experiment_id, entity_identifier)
+            if self._exists(path):
+                raise RubiconException(
+                    f"A feature with name '{entity_identifier}' already exists."
+                )
         elif isinstance(domain_obj, domain.Metric):
             path = self._get_metric_metadata_path(project_name, experiment_id, entity_identifier)
+            if self._exists(path):
+                raise RubiconException(
+                    f"A metric with name '{entity_identifier}' already exists."
+                )
         elif isinstance(domain_obj, domain.Parameter):
             path = self._get_parameter_metadata_path(project_name, experiment_id, entity_identifier)
+            if self._exists(path):
+                raise RubiconException(
+                    f"A parameter with name '{entity_identifier}' already exists."
+                )
         elif isinstance(domain_obj, TagUpdate):
             tag_root = self._get_tag_metadata_root(
                 project_name, experiment_id, entity_identifier, entity_type
@@ -587,108 +599,6 @@ class FsspecRepository(RepositoryBase):
                 "`dask` dataframe."
             )
 
-    # -------- Convenience Method Overrides (tags/comments) --------
-    # FsspecRepository reads tag/comment JSON directly from the filesystem
-    # to preserve the exact on-disk format (single-key dicts like {"added_tags": [...]}).
-    # This overrides RepositoryBase's default which goes through TagUpdate.__dict__
-    # and would add empty-list keys.
-
-    def add_tags(
-        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Persist tags to the filesystem."""
-        tag_metadata_root = self._get_tag_metadata_root(
-            project_name, experiment_id, entity_identifier, entity_type
-        )
-        tag_metadata_path = f"{tag_metadata_root}/tags_{uuid4()}.json"
-
-        self._persist_domain({"added_tags": tags}, tag_metadata_path)
-
-    def remove_tags(
-        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Remove tags from the filesystem."""
-        tag_metadata_root = self._get_tag_metadata_root(
-            project_name, experiment_id, entity_identifier, entity_type
-        )
-        tag_metadata_path = f"{tag_metadata_root}/tags_{uuid4()}.json"
-
-        self._persist_domain({"removed_tags": tags}, tag_metadata_path)
-
-    def get_tags(self, project_name, experiment_id=None, entity_identifier=None, entity_type=None):
-        """Retrieve tags from the filesystem.
-
-        Returns
-        -------
-        list of dict
-            A list of dictionaries with one key each,
-            ``added_tags`` or ``removed_tags``.
-        """
-        tag_metadata_root = self._get_tag_metadata_root(
-            project_name, experiment_id, entity_identifier, entity_type
-        )
-        tag_metadata_glob = f"{tag_metadata_root}/tags_*.json"
-
-        tag_paths = self._glob(tag_metadata_glob)
-        if len(tag_paths) == 0:
-            return []
-
-        sorted_tag_paths = self._sort_tag_paths(tag_paths)
-
-        tag_data = self._cat([p for _, p in sorted_tag_paths])
-        sorted_tag_data = [json.loads(tag_data[p]) for _, p in sorted_tag_paths]
-
-        return sorted_tag_data
-
-    def add_comments(
-        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Persist comments to the filesystem."""
-        comment_metadata_root = self._get_comment_metadata_root(
-            project_name, experiment_id, entity_identifier, entity_type
-        )
-        comment_metadata_path = f"{comment_metadata_root}/comments_{uuid4()}.json"
-
-        self._persist_domain({"added_comments": comments}, comment_metadata_path)
-
-    def remove_comments(
-        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Remove comments from the filesystem."""
-        comment_metadata_root = self._get_comment_metadata_root(
-            project_name, experiment_id, entity_identifier, entity_type
-        )
-        comment_metadata_path = f"{comment_metadata_root}/comments_{uuid4()}.json"
-
-        self._persist_domain({"removed_comments": comments}, comment_metadata_path)
-
-    def get_comments(
-        self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Retrieve comments from the filesystem.
-
-        Returns
-        -------
-        list of dict
-            A list of dictionaries with one key each,
-            ``added_comments`` or ``removed_comments``.
-        """
-        comment_metadata_root = self._get_comment_metadata_root(
-            project_name, experiment_id, entity_identifier, entity_type
-        )
-        comment_metadata_glob = f"{comment_metadata_root}/comments_*.json"
-
-        comment_paths = self._glob(comment_metadata_glob)
-        if len(comment_paths) == 0:
-            return []
-
-        sorted_comment_paths = self._sort_tag_paths(comment_paths)
-
-        comment_data = self._cat([p for _, p in sorted_comment_paths])
-        sorted_comment_data = [json.loads(comment_data[p]) for _, p in sorted_comment_paths]
-
-        return sorted_comment_data
-
     # -------- Convenience Method Overrides (existence checks) --------
 
     def create_project(self, project: domain.Project):
@@ -702,66 +612,6 @@ class FsspecRepository(RepositoryBase):
             raise RubiconException(f"A project with name '{project.name}' already exists.")
 
         self.write_domain(project, project.name)
-
-    def create_feature(self, feature, project_name, experiment_id):
-        """Persist a feature to the filesystem.
-
-        Raises ``RubiconException`` if a feature with the same name already exists.
-        """
-        feature_metadata_path = self._get_feature_metadata_path(
-            project_name, experiment_id, feature.name
-        )
-
-        if self._exists(feature_metadata_path):
-            raise RubiconException(f"A feature with name '{feature.name}' already exists.")
-
-        self.write_domain(
-            feature,
-            project_name,
-            experiment_id=experiment_id,
-            entity_identifier=feature.name,
-            entity_type="Feature",
-        )
-
-    def create_metric(self, metric, project_name, experiment_id):
-        """Persist a metric to the filesystem.
-
-        Raises ``RubiconException`` if a metric with the same name already exists.
-        """
-        metric_metadata_path = self._get_metric_metadata_path(
-            project_name, experiment_id, metric.name
-        )
-
-        if self._exists(metric_metadata_path):
-            raise RubiconException(f"A metric with name '{metric.name}' already exists.")
-
-        self.write_domain(
-            metric,
-            project_name,
-            experiment_id=experiment_id,
-            entity_identifier=metric.name,
-            entity_type="Metric",
-        )
-
-    def create_parameter(self, parameter, project_name, experiment_id):
-        """Persist a parameter to the filesystem.
-
-        Raises ``RubiconException`` if a parameter with the same name already exists.
-        """
-        parameter_metadata_path = self._get_parameter_metadata_path(
-            project_name, experiment_id, parameter.name
-        )
-
-        if self._exists(parameter_metadata_path):
-            raise RubiconException(f"A parameter with name '{parameter.name}' already exists.")
-
-        self.write_domain(
-            parameter,
-            project_name,
-            experiment_id=experiment_id,
-            entity_identifier=parameter.name,
-            entity_type="Parameter",
-        )
 
     # -------- Archiving (filesystem-specific) --------
 

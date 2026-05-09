@@ -8,6 +8,8 @@ from typing import Any, Dict, List, Optional, Type
 import pandas as pd
 
 from rubicon_ml import domain
+from rubicon_ml.domain.comment_update import CommentUpdate
+from rubicon_ml.domain.tag_update import TagUpdate
 from rubicon_ml.domain.utils.uuid import uuid4
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository.base import RepositoryBase
@@ -304,6 +306,53 @@ class WandBRepository(RepositoryBase):
         elif isinstance(domain_obj, domain.Dataframe):
             self._set_config_value(f"_rubicon_dataframe_{domain_obj.id}", json.dumps(domain_obj))
 
+        elif isinstance(domain_obj, TagUpdate):
+            if experiment_id is None:
+                raise RubiconException("experiment_id is required to add/remove tags in W&B.")
+
+            run = self._get_active_run(project_name, experiment_id)
+
+            # Sync with W&B native run.tags for experiment-level tags
+            if entity_type == "Experiment":
+                current_tags = list(run.tags) if run.tags else []
+                if domain_obj.added_tags:
+                    new_tags = current_tags + [
+                        t for t in domain_obj.added_tags if t not in current_tags
+                    ]
+                    run.tags = new_tags
+                elif domain_obj.removed_tags:
+                    new_tags = [t for t in current_tags if t not in domain_obj.removed_tags]
+                    run.tags = new_tags
+
+            key_prefix = self._get_tag_comment_key_prefix(entity_type, entity_identifier, "tags")
+            key = f"{key_prefix}{uuid4()}"
+            if domain_obj.added_tags:
+                run.config[key] = json.dumps(
+                    {"added_tags": domain_obj.added_tags, "_timestamp": time.time()}
+                )
+            else:
+                run.config[key] = json.dumps(
+                    {"removed_tags": domain_obj.removed_tags, "_timestamp": time.time()}
+                )
+
+        elif isinstance(domain_obj, CommentUpdate):
+            if experiment_id is None:
+                raise RubiconException("experiment_id is required to add/remove comments in W&B.")
+
+            run = self._get_active_run(project_name, experiment_id)
+            key_prefix = self._get_tag_comment_key_prefix(
+                entity_type, entity_identifier, "comments"
+            )
+            key = f"{key_prefix}{uuid4()}"
+            if domain_obj.added_comments:
+                run.config[key] = json.dumps(
+                    {"added_comments": domain_obj.added_comments, "_timestamp": time.time()}
+                )
+            else:
+                run.config[key] = json.dumps(
+                    {"removed_comments": domain_obj.removed_comments, "_timestamp": time.time()}
+                )
+
         else:
             raise RubiconException(f"Cannot persist domain object of type {type(domain_obj)}")
 
@@ -479,6 +528,24 @@ class WandBRepository(RepositoryBase):
                 "_rubicon_dataframe_",
                 domain.Dataframe,
             )
+
+        elif domain_cls is TagUpdate:
+            if not experiment_id:
+                raise RubiconException("experiment_id is required to get tags in W&B.")
+            data = self._read_tag_comment_data(
+                project_name, experiment_id, entity_identifier, entity_type, "tags"
+            )
+            return [TagUpdate(**{k: v for k, v in d.items() if k != "_timestamp"}) for d in data]
+
+        elif domain_cls is CommentUpdate:
+            if not experiment_id:
+                raise RubiconException("experiment_id is required to get comments in W&B.")
+            data = self._read_tag_comment_data(
+                project_name, experiment_id, entity_identifier, entity_type, "comments"
+            )
+            return [
+                CommentUpdate(**{k: v for k, v in d.items() if k != "_timestamp"}) for d in data
+            ]
 
         else:
             raise RubiconException(f"Cannot read domains of type {domain_cls}")
@@ -683,90 +750,4 @@ class WandBRepository(RepositoryBase):
         raise RubiconException(
             "The W&B backend doesn't support listing all projects. "
             "Use `get_project(name)` with a specific project name instead."
-        )
-
-    # -------- Convenience Method Overrides: Tags --------
-
-    def add_tags(
-        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Persist tags to W&B, syncing with native W&B run tags for experiments."""
-        if experiment_id is None:
-            raise RubiconException("experiment_id is required to add tags in W&B.")
-
-        run = self._get_active_run(project_name, experiment_id)
-
-        if entity_type == "Experiment":
-            current_tags = list(run.tags) if run.tags else []
-            new_tags = current_tags + [t for t in tags if t not in current_tags]
-            run.tags = new_tags
-
-        key_prefix = self._get_tag_comment_key_prefix(entity_type, entity_identifier, "tags")
-        key = f"{key_prefix}{uuid4()}"
-        run.config[key] = json.dumps({"added_tags": tags, "_timestamp": time.time()})
-
-    def remove_tags(
-        self, project_name, tags, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Remove tags from W&B, syncing with native W&B run tags for experiments."""
-        if experiment_id is None:
-            raise RubiconException("experiment_id is required to remove tags in W&B.")
-
-        run = self._get_active_run(project_name, experiment_id)
-
-        if entity_type == "Experiment":
-            current_tags = list(run.tags) if run.tags else []
-            new_tags = [t for t in current_tags if t not in tags]
-            run.tags = new_tags
-
-        key_prefix = self._get_tag_comment_key_prefix(entity_type, entity_identifier, "tags")
-        key = f"{key_prefix}{uuid4()}"
-        run.config[key] = json.dumps({"removed_tags": tags, "_timestamp": time.time()})
-
-    def get_tags(self, project_name, experiment_id=None, entity_identifier=None, entity_type=None):
-        """Retrieve tags from W&B run config."""
-        if experiment_id is None:
-            raise RubiconException("experiment_id is required to get tags in W&B.")
-
-        return self._read_tag_comment_data(
-            project_name, experiment_id, entity_identifier, entity_type, "tags"
-        )
-
-    # -------- Convenience Method Overrides: Comments --------
-
-    def add_comments(
-        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Persist comments to W&B run config."""
-        if experiment_id is None:
-            raise RubiconException("experiment_id is required to add comments in W&B.")
-
-        run = self._get_active_run(project_name, experiment_id)
-        key_prefix = self._get_tag_comment_key_prefix(entity_type, entity_identifier, "comments")
-        key = f"{key_prefix}{uuid4()}"
-
-        run.config[key] = json.dumps({"added_comments": comments, "_timestamp": time.time()})
-
-    def remove_comments(
-        self, project_name, comments, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Remove comments from W&B run config."""
-        if experiment_id is None:
-            raise RubiconException("experiment_id is required to remove comments in W&B.")
-
-        run = self._get_active_run(project_name, experiment_id)
-        key_prefix = self._get_tag_comment_key_prefix(entity_type, entity_identifier, "comments")
-        key = f"{key_prefix}{uuid4()}"
-
-        run.config[key] = json.dumps({"removed_comments": comments, "_timestamp": time.time()})
-
-    def get_comments(
-        self, project_name, experiment_id=None, entity_identifier=None, entity_type=None
-    ):
-        """Retrieve comments from W&B run config."""
-        if experiment_id is None:
-            raise RubiconException("experiment_id is required to get comments in W&B.")
-
-        return self._read_tag_comment_data(
-            project_name, experiment_id, entity_identifier, entity_type, "comments"
         )
