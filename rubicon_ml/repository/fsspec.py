@@ -395,15 +395,11 @@ class FsspecRepository(RepositoryBase):
         elif isinstance(domain_obj, domain.Feature):
             path = self._get_feature_metadata_path(project_name, experiment_id, entity_identifier)
             if self._exists(path):
-                raise RubiconException(
-                    f"A feature with name '{entity_identifier}' already exists."
-                )
+                raise RubiconException(f"A feature with name '{entity_identifier}' already exists.")
         elif isinstance(domain_obj, domain.Metric):
             path = self._get_metric_metadata_path(project_name, experiment_id, entity_identifier)
             if self._exists(path):
-                raise RubiconException(
-                    f"A metric with name '{entity_identifier}' already exists."
-                )
+                raise RubiconException(f"A metric with name '{entity_identifier}' already exists.")
         elif isinstance(domain_obj, domain.Parameter):
             path = self._get_parameter_metadata_path(project_name, experiment_id, entity_identifier)
             if self._exists(path):

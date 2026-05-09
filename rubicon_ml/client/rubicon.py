@@ -57,9 +57,7 @@ class Rubicon:
                 for config in composite_config
             ]
             self._config = configs[0]
-            self._config.repository = CompositeRepository(
-                [c.repository for c in configs]
-            )
+            self._config.repository = CompositeRepository([c.repository for c in configs])
         else:
             self._config = Config(
                 persistence=persistence,
@@ -130,9 +128,7 @@ class Rubicon:
         instance._config.repository = CompositeRepository(repos)
         instance._config.persistence = "composite"
         instance._config.root_dir = repos[0].root_dir
-        instance._config.is_auto_git_enabled = any(
-            rb.is_auto_git_enabled() for rb in rubicons
-        )
+        instance._config.is_auto_git_enabled = any(rb.is_auto_git_enabled() for rb in rubicons)
         return instance
 
     def __add__(self, other: "Rubicon") -> "Rubicon":

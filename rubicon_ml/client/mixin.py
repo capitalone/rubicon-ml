@@ -188,7 +188,9 @@ class ArtifactMixin:
         )
 
         project_name, experiment_id = self._get_identifiers()
-        self.repository.create_artifact(artifact, data_bytes, project_name, experiment_id=experiment_id)
+        self.repository.create_artifact(
+            artifact, data_bytes, project_name, experiment_id=experiment_id
+        )
 
         return client.Artifact(artifact, self)
 

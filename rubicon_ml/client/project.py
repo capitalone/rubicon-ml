@@ -293,9 +293,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             tags,
             comments,
         )
-        self.repository.write_domain(
-            experiment, self.name, experiment_id=experiment.id
-        )
+        self.repository.write_domain(experiment, self.name, experiment_id=experiment.id)
 
         return Experiment(experiment, self)
 
@@ -332,9 +330,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             return experiments[-1]
         else:
             experiment = Experiment(
-                self.repository.read_domain(
-                    domain.Experiment, self.name, experiment_id=id
-                ),
+                self.repository.read_domain(domain.Experiment, self.name, experiment_id=id),
                 self,
             )
             return experiment
@@ -364,8 +360,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             tags = []
 
         experiments = [
-            Experiment(e, self)
-            for e in self.repository.read_domains(domain.Experiment, self.name)
+            Experiment(e, self) for e in self.repository.read_domains(domain.Experiment, self.name)
         ]
         self._experiments = filter_children(experiments, tags, qtype, name)
 
