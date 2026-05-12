@@ -12,7 +12,7 @@ numpy==2.4.4
     #   pandas
     #   scikit-learn
     #   scipy
-pandas==3.0.2
+pandas==3.0.3
     # via rubicon-ml (pyproject.toml)
 pyarrow==24.0.0
     # via rubicon-ml (pyproject.toml)
