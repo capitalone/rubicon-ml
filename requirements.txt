@@ -6,6 +6,8 @@ fsspec==2026.4.0
     # via rubicon-ml (pyproject.toml)
 joblib==1.5.3
     # via scikit-learn
+narwhals==2.22.1
+    # via scikit-learn
 numpy==2.4.6
     # via
     #   rubicon-ml (pyproject.toml)
@@ -20,7 +22,7 @@ python-dateutil==2.9.0.post0
     # via pandas
 pyyaml==6.0.3
     # via rubicon-ml (pyproject.toml)
-scikit-learn==1.8.0
+scikit-learn==1.9.0
     # via rubicon-ml (pyproject.toml)
 scipy==1.17.1
     # via scikit-learn
