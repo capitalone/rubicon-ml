@@ -2,7 +2,7 @@
 #    uv pip compile --output-file=requirements.txt pyproject.toml
 click==8.4.1
     # via rubicon-ml (pyproject.toml)
-fsspec==2026.4.0
+fsspec==2026.6.0
     # via rubicon-ml (pyproject.toml)
 joblib==1.5.3
     # via scikit-learn
