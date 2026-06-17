@@ -293,8 +293,7 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
             tags,
             comments,
         )
-        for repo in self.repositories:
-            repo.create_experiment(experiment)
+        self.repository.write_domain(experiment, self.name, experiment_id=experiment.id)
 
         return Experiment(experiment, self)
 
@@ -330,17 +329,11 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
 
             return experiments[-1]
         else:
-            return_err = None
-
-            for repo in self.repositories:
-                try:
-                    experiment = Experiment(repo.get_experiment(self.name, id), self)
-                except Exception as err:
-                    return_err = err
-                else:
-                    return experiment
-
-            self._raise_rubicon_exception(return_err)
+            experiment = Experiment(
+                self.repository.read_domain(domain.Experiment, self.name, experiment_id=id),
+                self,
+            )
+            return experiment
 
     @failsafe
     def experiments(
@@ -366,19 +359,12 @@ class Project(Base, ArtifactMixin, DataframeMixin, SchemaMixin):
         if tags is None:
             tags = []
 
-        return_err = None
+        experiments = [
+            Experiment(e, self) for e in self.repository.read_domains(domain.Experiment, self.name)
+        ]
+        self._experiments = filter_children(experiments, tags, qtype, name)
 
-        for repo in self.repositories:
-            try:
-                experiments = [Experiment(e, self) for e in repo.get_experiments(self.name)]
-            except Exception as err:
-                return_err = err
-            else:
-                self._experiments = filter_children(experiments, tags, qtype, name)
-
-                return self._experiments
-
-        self._raise_rubicon_exception(return_err)
+        return self._experiments
 
     @failsafe
     def dataframes(

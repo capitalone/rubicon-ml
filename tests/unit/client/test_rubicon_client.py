@@ -60,8 +60,8 @@ def test_multi_repository_storage_options():
     rubicon = Rubicon(composite_config=composite_config, **storage_options)
 
     assert all(
-        config.repository.filesystem.storage_options["key"] == "secret"
-        for config in rubicon.configs
+        repo.filesystem.storage_options["key"] == "secret"
+        for repo in rubicon.repository.repositories
     )
 
 
@@ -157,14 +157,14 @@ def test_get_project_fails_neither_set(rubicon_and_project_client):
     assert "`name` OR `id` required." in str(e.value)
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_project")
-def test_get_project_multiple_backend_error(mock_get_project, rubicon_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_domain")
+def test_get_project_multiple_backend_error(mock_read_domain, rubicon_composite_client):
     rubicon = rubicon_composite_client
 
-    mock_get_project.side_effect = _raise_error
+    mock_read_domain.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         rubicon.get_project(name="Test Project")
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_get_projects(rubicon_client):
@@ -179,14 +179,14 @@ def test_get_projects(rubicon_client):
     assert projects[1].name == "Project B"
 
 
-@mock.patch("rubicon_ml.repository.BaseRepository.get_projects")
+@mock.patch("rubicon_ml.repository.FsspecRepository.get_projects")
 def test_get_projects_multiple_backend_error(mock_get_projects, rubicon_composite_client):
     rubicon = rubicon_composite_client
 
     mock_get_projects.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         rubicon.projects()
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_get_or_create_project(rubicon_client):
@@ -298,3 +298,91 @@ def test_get_project_as_pandas_df(rubicon_and_project_client_with_experiments):
     ddf = rubicon.get_project_as_df(name="Test Project", df_type="pandas")
 
     assert isinstance(ddf, pd.DataFrame)
+
+
+# -------- Compose / __add__ Tests --------
+
+
+def test_rubicon_compose():
+    rb_a = Rubicon(persistence="memory", root_dir="/compose-a")
+    rb_b = Rubicon(persistence="memory", root_dir="/compose-b")
+
+    rb_combined = Rubicon.compose(rb_a, rb_b)
+
+    from rubicon_ml.repository import CompositeRepository
+
+    assert isinstance(rb_combined.repository, CompositeRepository)
+    assert len(rb_combined.repository.repositories) == 2
+
+
+def test_rubicon_compose_requires_two():
+    rb = Rubicon(persistence="memory", root_dir="/single")
+
+    with pytest.raises(ValueError, match="at least 2"):
+        Rubicon.compose(rb)
+
+
+def test_rubicon_add_operator():
+    rb_a = Rubicon(persistence="memory", root_dir="/add-a")
+    rb_b = Rubicon(persistence="memory", root_dir="/add-b")
+
+    rb_combined = rb_a + rb_b
+
+    from rubicon_ml.repository import CompositeRepository
+
+    assert isinstance(rb_combined.repository, CompositeRepository)
+    assert len(rb_combined.repository.repositories) == 2
+
+
+def test_rubicon_add_immutable():
+    rb_a = Rubicon(persistence="memory", root_dir="/immut-a")
+    rb_b = Rubicon(persistence="memory", root_dir="/immut-b")
+
+    rb_combined = rb_a + rb_b
+
+    # Originals are unchanged
+    from rubicon_ml.repository import CompositeRepository, MemoryRepository
+
+    assert isinstance(rb_a.repository, MemoryRepository)
+    assert isinstance(rb_b.repository, MemoryRepository)
+    assert isinstance(rb_combined.repository, CompositeRepository)
+
+
+def test_rubicon_add_chaining():
+    rb_a = Rubicon(persistence="memory", root_dir="/chain-a")
+    rb_b = Rubicon(persistence="memory", root_dir="/chain-b")
+    rb_c = Rubicon(persistence="memory", root_dir="/chain-c")
+
+    rb_combined = rb_a + rb_b + rb_c
+
+    from rubicon_ml.repository import CompositeRepository
+
+    assert isinstance(rb_combined.repository, CompositeRepository)
+
+
+def test_composite_config_uses_composite_repository():
+    rb = Rubicon(
+        composite_config=[
+            {"persistence": "memory", "root_dir": "/cfg-a"},
+            {"persistence": "memory", "root_dir": "/cfg-b"},
+        ]
+    )
+
+    from rubicon_ml.repository import CompositeRepository
+
+    assert isinstance(rb.repository, CompositeRepository)
+    assert len(rb.repository.repositories) == 2
+
+
+def test_rubicon_compose_full_crud():
+    rb_a = Rubicon(persistence="memory", root_dir="/crud-a")
+    rb_b = Rubicon(persistence="memory", root_dir="/crud-b")
+
+    rb = rb_a + rb_b
+
+    project = rb.create_project("test-compose")
+    assert project.name == "test-compose"
+
+    # Data written to both backends
+    assert rb_a.get_project("test-compose").name == "test-compose"
+    assert rb_b.get_project("test-compose").name == "test-compose"

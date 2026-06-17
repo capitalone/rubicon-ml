@@ -103,11 +103,8 @@ def rubicon_composite_client():
     # teardown after yield
     yield rubicon
 
-    for i, repository in enumerate(rubicon.repositories):
-        repository.filesystem.rm(
-            rubicon.configs[i].root_dir,
-            recursive=True,
-        )
+    for child_repo in rubicon.repository.repositories:
+        child_repo.filesystem.rm(child_repo.root_dir, recursive=True)
 
 
 @pytest.fixture

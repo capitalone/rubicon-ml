@@ -1,10 +1,10 @@
 import fsspec
 
-from rubicon_ml.repository import BaseRepository
+from rubicon_ml.repository.fsspec import FsspecRepository
 from rubicon_ml.repository.utils import json
 
 
-class S3Repository(BaseRepository):
+class S3Repository(FsspecRepository):
     """The S3 repository persists Rubicon data to a remote
     S3 bucket.
 

@@ -1,6 +1,7 @@
 import os
 import tempfile
 from pathlib import Path
+from unittest import mock
 from unittest.mock import MagicMock, patch
 
 import h2o
@@ -14,6 +15,10 @@ from h2o.estimators.random_forest import H2ORandomForestEstimator
 from rubicon_ml import domain
 from rubicon_ml.client import Artifact
 from rubicon_ml.exceptions import RubiconException
+
+
+def _raise_error():
+    raise RubiconException()
 
 
 def test_properties(project_client):
@@ -51,15 +56,18 @@ def test_get_json(project_client):
     assert artifact.get_json() == data
 
 
-def test_internal_get_data_multiple_backend_error(rubicon_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_artifact_data")
+def test_internal_get_data_multiple_backend_error(
+    mock_read_artifact_data, rubicon_composite_client
+):
     project = rubicon_composite_client.create_project("test")
     data = b"content"
     artifact = project.log_artifact(name="test.txt", data_bytes=data)
-    for repo in rubicon_composite_client.repositories:
-        repo.delete_artifact(project.name, artifact.id)
+
+    mock_read_artifact_data.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         artifact._get_data()
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 def test_get_data_unpickle_false(project_client):
@@ -105,15 +113,16 @@ def test_get_data_deserialize_with_pickle(project_client):
     assert artifact.get_data(deserialize="pickle").value == test_object.value
 
 
-def test_get_data_multiple_backend_error(rubicon_composite_client):
+@mock.patch("rubicon_ml.repository.FsspecRepository.read_artifact_data")
+def test_get_data_multiple_backend_error(mock_read_artifact_data, rubicon_composite_client):
     project = rubicon_composite_client.create_project("test")
     data = b"content"
     artifact = project.log_artifact(name="test.txt", data_bytes=data)
-    for repo in rubicon_composite_client.repositories:
-        repo.delete_artifact(project.name, artifact.id)
+
+    mock_read_artifact_data.side_effect = _raise_error
     with pytest.raises(RubiconException) as e:
         artifact.get_data()
-    assert "all configured storage backends failed" in str(e)
+    assert "All 2 backends failed" in str(e)
 
 
 @patch("fsspec.implementations.local.LocalFileSystem.open")

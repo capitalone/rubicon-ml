@@ -18,6 +18,8 @@ from rubicon_ml import client, domain
 from rubicon_ml.client.utils.exception_handling import failsafe
 from rubicon_ml.client.utils.tags import TagContainer, filter_children
 from rubicon_ml.domain import Artifact as ArtifactDomain
+from rubicon_ml.domain.comment_update import CommentUpdate
+from rubicon_ml.domain.tag_update import TagUpdate
 from rubicon_ml.exceptions import RubiconException
 
 if TYPE_CHECKING:
@@ -186,8 +188,9 @@ class ArtifactMixin:
         )
 
         project_name, experiment_id = self._get_identifiers()
-        for repo in self.repositories:
-            repo.create_artifact(artifact, data_bytes, project_name, experiment_id=experiment_id)
+        self.repository.create_artifact(
+            artifact, data_bytes, project_name, experiment_id=experiment_id
+        )
 
         return client.Artifact(artifact, self)
 
@@ -384,20 +387,15 @@ class ArtifactMixin:
         if tags is None:
             tags = []
         project_name, experiment_id = self._get_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                artifacts = [
-                    client.Artifact(a, self)
-                    for a in repo.get_artifacts_metadata(project_name, experiment_id=experiment_id)
-                ]
-            except Exception as err:
-                return_err = err
-            else:
-                self._artifacts = filter_children(artifacts, tags, qtype, name)
-                return self._artifacts
 
-        self._raise_rubicon_exception(return_err)
+        artifacts = [
+            client.Artifact(a, self)
+            for a in self.repository.read_domains(
+                domain.Artifact, project_name, experiment_id=experiment_id
+            )
+        ]
+        self._artifacts = filter_children(artifacts, tags, qtype, name)
+        return self._artifacts
 
     @failsafe
     def artifact(self, name: Optional[str] = None, id: Optional[str] = None) -> Artifact:
@@ -432,19 +430,17 @@ class ArtifactMixin:
             return artifact
         else:
             project_name, experiment_id = self._get_identifiers()
-            return_err = None
-            for repo in self.repositories:
-                try:
-                    artifact = client.Artifact(
-                        repo.get_artifact_metadata(project_name, id, experiment_id),
-                        self,
-                    )
-                except Exception as err:
-                    return_err = err
-                else:
-                    return artifact
-
-        self._raise_rubicon_exception(return_err)
+            artifact = client.Artifact(
+                self.repository.read_domain(
+                    domain.Artifact,
+                    project_name,
+                    experiment_id=experiment_id,
+                    entity_identifier=id,
+                    entity_type="Artifact",
+                ),
+                self,
+            )
+            return artifact
 
     @failsafe
     def delete_artifacts(self, ids: List[str]):
@@ -459,8 +455,13 @@ class ArtifactMixin:
         project_name, experiment_id = self._get_identifiers()
 
         for artifact_id in ids:
-            for repo in self.repositories:
-                repo.delete_artifact(project_name, artifact_id, experiment_id=experiment_id)
+            self.repository.remove_domain(
+                domain.Artifact,
+                project_name,
+                experiment_id=experiment_id,
+                entity_identifier=artifact_id,
+                entity_type="Artifact",
+            )
 
     @failsafe
     def log_json(
@@ -558,8 +559,7 @@ class DataframeMixin:
         )
 
         project_name, experiment_id = self._get_identifiers()
-        for repo in self.repositories:
-            repo.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
+        self.repository.create_dataframe(dataframe, df, project_name, experiment_id=experiment_id)
 
         return client.Dataframe(dataframe, self)
 
@@ -590,20 +590,15 @@ class DataframeMixin:
         if tags is None:
             tags = []
         project_name, experiment_id = self._get_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                dataframes = [
-                    client.Dataframe(d, self)
-                    for d in repo.get_dataframes_metadata(project_name, experiment_id=experiment_id)
-                ]
-            except Exception as err:
-                return_err = err
-            else:
-                self._dataframes = filter_children(dataframes, tags, qtype, name)
-                return self._dataframes
 
-        self._raise_rubicon_exception(return_err)
+        dataframes = [
+            client.Dataframe(d, self)
+            for d in self.repository.read_domains(
+                domain.Dataframe, project_name, experiment_id=experiment_id
+            )
+        ]
+        self._dataframes = filter_children(dataframes, tags, qtype, name)
+        return self._dataframes
 
     @failsafe
     def dataframe(self, name: Optional[str] = None, id: Optional[str] = None) -> Dataframe:
@@ -638,21 +633,17 @@ class DataframeMixin:
             return dataframe
         else:
             project_name, experiment_id = self._get_identifiers()
-            return_err = None
-            for repo in self.repositories:
-                try:
-                    dataframe = client.Dataframe(
-                        repo.get_dataframe_metadata(
-                            project_name, experiment_id=experiment_id, dataframe_id=id
-                        ),
-                        self,
-                    )
-                except Exception as err:
-                    return_err = err
-                else:
-                    return dataframe
-
-        self._raise_rubicon_exception(return_err)
+            dataframe = client.Dataframe(
+                self.repository.read_domain(
+                    domain.Dataframe,
+                    project_name,
+                    experiment_id=experiment_id,
+                    entity_identifier=id,
+                    entity_type="Dataframe",
+                ),
+                self,
+            )
+            return dataframe
 
     @failsafe
     def delete_dataframes(self, ids: List[str]):
@@ -667,8 +658,13 @@ class DataframeMixin:
         project_name, experiment_id = self._get_identifiers()
 
         for dataframe_id in ids:
-            for repo in self.repositories:
-                repo.delete_dataframe(project_name, dataframe_id, experiment_id=experiment_id)
+            self.repository.remove_domain(
+                domain.Dataframe,
+                project_name,
+                experiment_id=experiment_id,
+                entity_identifier=dataframe_id,
+                entity_type="Dataframe",
+            )
 
 
 class TagMixin:
@@ -708,14 +704,13 @@ class TagMixin:
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.add_tags(tags)
-        for repo in self.repositories:
-            repo.add_tags(
-                project_name,
-                tags,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
+        self.repository.write_domain(
+            TagUpdate(added_tags=tags),
+            project_name,
+            experiment_id=experiment_id,
+            entity_identifier=entity_identifier,
+            entity_type=self.__class__.__name__,
+        )
 
     @failsafe
     def remove_tags(self, tags: List[str]):
@@ -729,14 +724,13 @@ class TagMixin:
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
 
         self._domain.remove_tags(tags)
-        for repo in self.repositories:
-            repo.remove_tags(
-                project_name,
-                tags,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
+        self.repository.write_domain(
+            TagUpdate(removed_tags=tags),
+            project_name,
+            experiment_id=experiment_id,
+            entity_identifier=entity_identifier,
+            entity_type=self.__class__.__name__,
+        )
 
     def _update_tags(self, tag_data):
         """Add or remove the tags in `tag_data` based on
@@ -750,23 +744,18 @@ class TagMixin:
     def tags(self) -> TagContainer:
         """Get this client object's tags."""
         project_name, experiment_id, entity_identifier = self._get_taggable_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                tag_data = repo.get_tags(
-                    project_name,
-                    experiment_id=experiment_id,
-                    entity_identifier=entity_identifier,
-                    entity_type=self.__class__.__name__,
-                )
-            except Exception as err:
-                return_err = err
-            else:
-                self._update_tags(tag_data)
 
-                return TagContainer(self._domain.tags)
+        tag_updates = self.repository.read_domains(
+            TagUpdate,
+            project_name,
+            experiment_id=experiment_id,
+            entity_identifier=entity_identifier,
+            entity_type=self.__class__.__name__,
+        )
+        tag_data = [u.__dict__ for u in tag_updates]
+        self._update_tags(tag_data)
 
-        self._raise_rubicon_exception(return_err)
+        return TagContainer(self._domain.tags)
 
 
 class CommentMixin:
@@ -808,14 +797,13 @@ class CommentMixin:
         project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
 
         self._domain.add_comments(comments)
-        for repo in self.repositories:
-            repo.add_comments(
-                project_name,
-                comments,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
+        self.repository.write_domain(
+            CommentUpdate(added_comments=comments),
+            project_name,
+            experiment_id=experiment_id,
+            entity_identifier=entity_identifier,
+            entity_type=self.__class__.__name__,
+        )
 
     @failsafe
     def remove_comments(self, comments: List[str]):
@@ -829,14 +817,13 @@ class CommentMixin:
         project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
 
         self._domain.remove_comments(comments)
-        for repo in self.repositories:
-            repo.remove_comments(
-                project_name,
-                comments,
-                experiment_id=experiment_id,
-                entity_identifier=entity_identifier,
-                entity_type=self.__class__.__name__,
-            )
+        self.repository.write_domain(
+            CommentUpdate(removed_comments=comments),
+            project_name,
+            experiment_id=experiment_id,
+            entity_identifier=entity_identifier,
+            entity_type=self.__class__.__name__,
+        )
 
     def _update_comments(self, comment_data):
         """Add or remove the comments in `comment_data` based on
@@ -850,20 +837,15 @@ class CommentMixin:
     def comments(self) -> List[str]:
         """Get this client object's comments."""
         project_name, experiment_id, entity_identifier = self._get_commentable_identifiers()
-        return_err = None
-        for repo in self.repositories:
-            try:
-                comment_data = repo.get_comments(
-                    project_name,
-                    experiment_id=experiment_id,
-                    entity_identifier=entity_identifier,
-                    entity_type=self.__class__.__name__,
-                )
-            except Exception as err:
-                return_err = err
-            else:
-                self._update_comments(comment_data)
 
-                return self._domain.comments
+        comment_updates = self.repository.read_domains(
+            CommentUpdate,
+            project_name,
+            experiment_id=experiment_id,
+            entity_identifier=entity_identifier,
+            entity_type=self.__class__.__name__,
+        )
+        comment_data = [u.__dict__ for u in comment_updates]
+        self._update_comments(comment_data)
 
-        self._raise_rubicon_exception(return_err)
+        return self._domain.comments
