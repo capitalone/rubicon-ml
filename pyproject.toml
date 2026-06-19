@@ -7,7 +7,7 @@ requires = [
 
 [project]
 name = "rubicon-ml"
-version = "0.15.0"
+version = "0.15.1"
 
 description = "AI/ML lifecycle metadata logger with configurable backends"
 readme = "README.md"
@@ -34,13 +34,13 @@ classifiers = [
     "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-    "click<=8.3.3,>=7.1",
-    "fsspec<=2026.4.0,>=2021.4.0",
-    "numpy<=2.4.4,>=1.22.0",
-    "pandas<=3.0.2,>=1.0.0",
+    "click<=8.4.1,>=7.1",
+    "fsspec<=2026.6.0,>=2021.4.0",
+    "numpy<=2.4.6,>=1.22.0",
+    "pandas<=3.0.3,>=1.0.0",
     "pyarrow<=24.0.0,>=14.0.1",
     "pyyaml<=6.0.3,>=5.4.0",
-    "scikit-learn<=1.8.0,>=0.22.0",
+    "scikit-learn<=1.9.0,>=0.22.0",
 ]
 optional-dependencies.all = [
     "rubicon-ml[intake,jsonpath,s3,viz]",
@@ -78,7 +78,7 @@ optional-dependencies.ops = [
     "ruff",
 ]
 optional-dependencies.s3 = [
-    "s3fs<=2026.4.0,>=0.4",
+    "s3fs<=2026.6.0,>=0.4",
 ]
 optional-dependencies.test = [
     "dask[dataframe,distributed]<2025.4.0",
@@ -160,7 +160,7 @@ minversion = "3.2"
 xfail_strict = true
 
 [bumpver]
-current_version = "0.15.0"
+current_version = "0.15.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 
 [bumpver.file_patterns]
