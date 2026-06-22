@@ -8,7 +8,7 @@ joblib==1.5.3
     # via scikit-learn
 narwhals==2.22.1
     # via scikit-learn
-numpy==2.4.6
+numpy==2.5.0
     # via
     #   rubicon-ml (pyproject.toml)
     #   pandas
@@ -24,7 +24,7 @@ pyyaml==6.0.3
     # via rubicon-ml (pyproject.toml)
 scikit-learn==1.9.0
     # via rubicon-ml (pyproject.toml)
-scipy==1.17.1
+scipy==1.18.0
     # via scikit-learn
 six==1.17.0
     # via python-dateutil
