@@ -202,7 +202,7 @@ class Rubicon:
                 except Exception as err:
                     return_err = err
                 else:
-                    return Project(project, self.config)
+                    return Project(project, self.configs)
 
             if len(self.repositories) > 1:
                 raise RubiconException("all configured storage backends failed") from return_err
@@ -287,7 +287,7 @@ class Rubicon:
 
         for repo in self.repositories:
             try:
-                projects = [Project(project, self.config) for project in repo.get_projects()]
+                projects = [Project(project, self.configs) for project in repo.get_projects()]
             except Exception as err:
                 return_err = err
             else:

@@ -298,3 +298,36 @@ def test_get_project_as_pandas_df(rubicon_and_project_client_with_experiments):
     ddf = rubicon.get_project_as_df(name="Test Project", df_type="pandas")
 
     assert isinstance(ddf, pd.DataFrame)
+
+
+def test_get_project_composite_returns_all_configs(rubicon_composite_client):
+    rubicon = rubicon_composite_client
+    rubicon.create_project("Test Project")
+
+    project = rubicon.get_project("Test Project")
+
+    assert project._config == rubicon.configs
+
+
+def test_projects_composite_returns_all_configs(rubicon_composite_client):
+    rubicon = rubicon_composite_client
+    rubicon.create_project("Test Project")
+
+    projects = rubicon.projects()
+
+    assert all(p._config == rubicon.configs for p in projects)
+
+
+def test_get_or_create_project_composite_writes_all_backends(rubicon_composite_client):
+    rubicon = rubicon_composite_client
+    rubicon.repositories[0].create_project(domain.Project("Test Project"))
+
+    project = rubicon.get_or_create_project("Test Project")
+    experiment = project.log_experiment()
+
+    repo_a, repo_b = rubicon.repositories
+    experiments_a = repo_a.get_experiments("Test Project")
+    experiments_b = repo_b.get_experiments("Test Project")
+
+    assert any(e.id == experiment.id for e in experiments_a)
+    assert any(e.id == experiment.id for e in experiments_b)
