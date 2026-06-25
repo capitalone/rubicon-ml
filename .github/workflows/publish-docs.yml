@@ -55,7 +55,7 @@ jobs:
     if: (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: ${{ github.ref_name == 'main' && 'github-pages' || 'github-pages-dev' }}
       url: ${{ steps.upload_pages.outputs.page_url }}
     needs: build
     steps:
