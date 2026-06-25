@@ -19,14 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v6
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
         python-version: 3.12
     - id: run-edgetest
       name: Run edgetest
-      uses: edgetest-dev/run-edgetest-action@v1.6
+      uses: edgetest-dev/run-edgetest-action@fb6dcd4e5f6ee4c87769c9701c472f58b7e9ab6c  # v1.6.0
       with:
         base-branch: 'main'
         edgetest-flags: '-c pyproject.toml --export'
