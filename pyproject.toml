@@ -34,7 +34,7 @@ classifiers = [
     "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-    "click<=8.4.1,>=7.1",
+    "click<=8.4.2,>=7.1",
     "fsspec<=2026.6.0,>=2021.4.0",
     "numpy<=2.5.0,>=1.22.0",
     "pandas<=3.0.3,>=1.0.0",
