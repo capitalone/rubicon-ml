@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    if: (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -52,7 +52,7 @@ jobs:
       with:
         path: docs/build/html/
   deploy:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    if: (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
