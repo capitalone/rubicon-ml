@@ -4,30 +4,36 @@
 #   - https://github.com/actions/checkout
 #   - https://github.com/actions/setup-python
 #   - https://github.com/astral-sh/setup-uv
-#   - https://github.com/marketplace/actions/github-pages-deploy-action
+#   - https://github.com/actions/upload-pages-artifact
+#   - https://github.com/actions/deploy-pages
 
 name: Publish docs
 
 on:
-  release:
-    types: [created]
+  pull_request:
+    types: [closed]
+    branches:
+      - main
   workflow_dispatch:
 
+permissions:
+  contents: write
+  id-token: write
+  pages: write
+
 jobs:
-  build-and-deploy:
+  build:
+    if: (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
     steps:
     - name: Checkout code
-      uses: actions/checkout@v6
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
     - name: Set up Python 3.13
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
       with:
         python-version: '3.13'
     - name: Install uv
-      uses: astral-sh/setup-uv@v6
+      uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39  # v8.2.0
       with:
         version: 'latest'
     - name: Install dependencies
@@ -40,8 +46,19 @@ jobs:
       run: |
         cd docs
         uv run make html
-    - name: Publish docs
-      uses: JamesIves/github-pages-deploy-action@v4
+    - name: Upload docs artifact
+      id: upload_pages
+      uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5.0.0
       with:
-        branch: gh-pages
-        folder: docs/build/html
+        path: docs/build/html/
+  deploy:
+    if: (github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')) || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'github-pages' || 'github-pages-dev' }}
+      url: ${{ steps.upload_pages.outputs.page_url }}
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: upload_pages
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128  # v5.0.0
