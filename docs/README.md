@@ -5,7 +5,7 @@ repository.
 
 ### Development
 
-Create and activate the `conda` environment in the `rubicon/docs`
+Create and activate the `conda` environment in the `rubicon`
 directory and install a local copy of `rubicon_ml`.
 
 ```
