@@ -459,7 +459,7 @@ class ExperimentsTable(VizBase):
 
                 from rubicon_ml.intake_rubicon.publish import publish
 
-                publish(selected_experiments, publish_path)
+                publish(experiments=selected_experiments, output_filepath=publish_path)
 
                 return False
 
