@@ -4,7 +4,7 @@
 repository.
 
 ### Development
-
+#### Conda
 Create and activate the `conda` environment in the `rubicon`
 directory and install a local copy of `rubicon_ml`.
 
@@ -19,6 +19,21 @@ Use the provided Makefile to build the docs locally.
 ```
 cd docs/
 make html
+```
+
+#### UV
+```
+uv venv --python 3.13
+source ./venv/bin/activate
+uv sync --extra docs
+
+```
+
+Use the provided Makefile to build the docs locally.
+
+```
+cd docs/
+uv make clean html
 ```
 
 Never commit built documentation code directly to the `gh-pages` branch.
