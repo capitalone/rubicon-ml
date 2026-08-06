@@ -4,9 +4,9 @@ from typing import Dict, Optional, Tuple, Type
 
 from rubicon_ml.exceptions import RubiconException
 from rubicon_ml.repository import (
-    BaseRepository,
     LocalRepository,
     MemoryRepository,
+    RepositoryBase,
     S3Repository,
     WandBRepository,
 )
@@ -36,7 +36,7 @@ class Config:
     """
 
     PERSISTENCE_TYPES = ["filesystem", "memory", "wandb"]
-    REPOSITORIES: Dict[str, Type[BaseRepository]] = {
+    REPOSITORIES: Dict[str, Type[RepositoryBase]] = {
         "memory-memory": MemoryRepository,
         "filesystem-local": LocalRepository,
         "filesystem-s3": S3Repository,
@@ -95,7 +95,7 @@ class Config:
 
         return "custom"  # catch-all for external backends
 
-    def _get_repository(self) -> BaseRepository:
+    def _get_repository(self) -> RepositoryBase:
         """Get the repository for the configured persistence type."""
         protocol = self._get_protocol()
 

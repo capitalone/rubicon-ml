@@ -486,7 +486,7 @@ class Experiment(Base, ArtifactMixin, DataframeMixin, TagMixin, CommentMixin):
 
     def finish(self, warn=True):
         """Mark the experiment as completed.
-        
+
         Only available on repositories that have a `finish` method:
         - `WandBRepository`
         """

@@ -2,7 +2,7 @@ import pickle
 
 import fsspec
 
-from rubicon_ml.repository import LocalRepository
+from rubicon_ml.repository.local import LocalRepository
 
 
 class MemoryRepository(LocalRepository):
