@@ -76,6 +76,59 @@ def test_safe_environ_raises_error(objects_to_log):
     assert f"'{missing_environ_name}' not set" in str(e)
 
 
+def test_get_value_by_key_reads_from_source_mapping():
+    """``value_key`` reads the value from the source mapping (``actual_params`` by
+    default) rather than the attribute, so values resolved into the mapping win
+    over attribute defaults."""
+
+    class _Model:
+        param_a = 0  # attribute default
+        actual_params = {"param_a": 7}
+
+    value = logger._get_value(_Model(), {"name": "param_a", "value_key": "param_a"})
+
+    assert value == 7
+
+
+def test_get_value_by_key_falls_back_to_attr_when_key_absent():
+    """``value_key`` falls back to attribute access when the source mapping does
+    not contain the key, preserving prior ``value_attr`` behavior."""
+
+    class _Model:
+        param_a = "from_attr"
+        actual_params = {}  # key not present in the mapping
+
+    value = logger._get_value(_Model(), {"name": "param_a", "value_key": "param_a"})
+
+    assert value == "from_attr"
+
+
+def test_get_value_by_key_falls_back_when_source_missing():
+    """``value_key`` falls back to attribute access when the source mapping
+    attribute is absent entirely."""
+
+    class _Model:
+        param_a = "from_attr"  # no ``actual_params`` attribute at all
+
+    value = logger._get_value(_Model(), {"name": "param_a", "value_key": "param_a"})
+
+    assert value == "from_attr"
+
+
+def test_get_value_by_key_custom_source():
+    """``value_source`` overrides the default source mapping name."""
+
+    class _Model:
+        params = {"param_a": 42}
+
+    value = logger._get_value(
+        _Model(),
+        {"name": "param_a", "value_key": "param_a", "value_source": "params"},
+    )
+
+    assert value == 42
+
+
 def test_log_inferred_schema(objects_to_log, rubicon_project, another_object_schema):
     """Testing ``Project.log_with_schema`` can log inferred schema."""
 
