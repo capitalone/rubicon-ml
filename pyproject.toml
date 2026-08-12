@@ -75,7 +75,7 @@ optional-dependencies.ops = [
     "edgetest",
     "pre-commit",
     "pyproject-fmt",
-    "ruff",
+    "ruff<0.16.0",
 ]
 optional-dependencies.s3 = [
     "s3fs<=2026.6.0,>=0.4",
