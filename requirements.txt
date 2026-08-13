@@ -2,13 +2,13 @@
 #    uv pip compile --output-file=requirements.txt pyproject.toml
 click==8.4.2
     # via rubicon-ml (pyproject.toml)
-fsspec==2026.6.0
+fsspec==2026.7.0
     # via rubicon-ml (pyproject.toml)
 joblib==1.5.3
     # via scikit-learn
 narwhals==2.24.0
     # via scikit-learn
-numpy==2.5.1
+numpy==2.5.2
     # via
     #   rubicon-ml (pyproject.toml)
     #   pandas
@@ -16,7 +16,7 @@ numpy==2.5.1
     #   scipy
 pandas==3.0.5
     # via rubicon-ml (pyproject.toml)
-pyarrow==25.0.0
+pyarrow==25.0.1
     # via rubicon-ml (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via pandas
