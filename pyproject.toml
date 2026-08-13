@@ -35,10 +35,10 @@ classifiers = [
 ]
 dependencies = [
     "click<=8.4.2,>=7.1",
-    "fsspec<=2026.6.0,>=2021.4.0",
-    "numpy<=2.5.1,>=1.22.0",
+    "fsspec<=2026.7.0,>=2021.4.0",
+    "numpy<=2.5.2,>=1.22.0",
     "pandas<=3.0.5,>=1.0.0",
-    "pyarrow<=25.0.0,>=14.0.1",
+    "pyarrow<=25.0.1,>=14.0.1",
     "pyyaml<=6.0.3,>=5.4.0",
     "scikit-learn<=1.9.0,>=0.22.0",
 ]
@@ -78,7 +78,7 @@ optional-dependencies.ops = [
     "ruff<0.16.0",
 ]
 optional-dependencies.s3 = [
-    "s3fs<=2026.6.0,>=0.4",
+    "s3fs<=2026.7.0,>=0.4",
 ]
 optional-dependencies.test = [
     "dask[dataframe,distributed]<2025.4.0",
