@@ -20,12 +20,30 @@ def _get_value(obj, entity_schema):
 
     if "value_attr" in entity_schema:
         value = _safe_getattr(obj, entity_schema["value_attr"], optional)
+    if "value_key" in entity_schema:
+        value = _get_dict_value(obj, entity_schema, optional)
     if "value_env" in entity_schema:
         value = _safe_environ(entity_schema["value_env"], optional)
     if "value_func" in entity_schema:
         value = _safe_call_func(obj, entity_schema["value_func"], optional)
 
     return value
+
+
+def _get_dict_value(obj, entity_schema, optional):
+    """Resolve a value from a dict-valued attribute by key.
+
+    Both ``value_dict`` (the attribute holding the mapping) and ``value_key``
+    (the key within that mapping) are required. Reads
+    ``getattr(obj, value_dict)[value_key]``; returns ``None`` when the attribute
+    is not a mapping or does not contain the key.
+    """
+    source = _safe_getattr(obj, entity_schema["value_dict"], optional)
+
+    if isinstance(source, dict):
+        return source.get(entity_schema["value_key"])
+
+    return None
 
 
 def _get_df(obj, entity_schema):
