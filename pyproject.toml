@@ -82,7 +82,7 @@ optional-dependencies.s3 = [
 ]
 optional-dependencies.test = [
     "dask[dataframe,distributed]<2025.4.0",
-    "h2o",
+    "h2o<=3.46.0.11",
     "ipykernel",
     "jupyterlab",
     "kaleido==0.2.1",
