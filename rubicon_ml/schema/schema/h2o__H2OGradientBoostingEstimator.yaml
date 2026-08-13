@@ -12,120 +12,179 @@ artifacts:
   - self: log_h2o_model
 parameters:
   - name: auc_type
+    value_dict: actual_params
     value_key: auc_type
   - name: auto_rebalance
+    value_dict: actual_params
     value_key: auto_rebalance
   - name: balance_classes
+    value_dict: actual_params
     value_key: balance_classes
   - name: build_tree_one_node
+    value_dict: actual_params
     value_key: build_tree_one_node
   - name: calibrate_model
+    value_dict: actual_params
     value_key: calibrate_model
   - name: calibration_method
+    value_dict: actual_params
     value_key: calibration_method
   - name: categorical_encoding
+    value_dict: actual_params
     value_key: categorical_encoding
   - name: check_constant_response
+    value_dict: actual_params
     value_key: check_constant_response
   - name: class_sampling_factors
+    value_dict: actual_params
     value_key: class_sampling_factors
   - name: col_sample_rate
+    value_dict: actual_params
     value_key: col_sample_rate
   - name: col_sample_rate_change_per_level
+    value_dict: actual_params
     value_key: col_sample_rate_change_per_level
   - name: col_sample_rate_per_tree
+    value_dict: actual_params
     value_key: col_sample_rate_per_tree
   - name: custom_distribution_func
+    value_dict: actual_params
     value_key: custom_distribution_func
   - name: custom_metric_func
+    value_dict: actual_params
     value_key: custom_metric_func
   - name: distribution
+    value_dict: actual_params
     value_key: distribution
   - name: export_checkpoints_dir
+    value_dict: actual_params
     value_key: export_checkpoints_dir
   - name: fold_assignment
+    value_dict: actual_params
     value_key: fold_assignment
   - name: fold_column
+    value_dict: actual_params
     value_key: fold_column
   - name: gainslift_bins
+    value_dict: actual_params
     value_key: gainslift_bins
   - name: histogram_type
+    value_dict: actual_params
     value_key: histogram_type
   - name: huber_alpha
+    value_dict: actual_params
     value_key: huber_alpha
   - name: ignore_const_cols
+    value_dict: actual_params
     value_key: ignore_const_cols
   - name: ignored_columns
+    value_dict: actual_params
     value_key: ignored_columns
   - name: in_training_checkpoints_dir
+    value_dict: actual_params
     value_key: in_training_checkpoints_dir
   - name: in_training_checkpoints_tree_interval
+    value_dict: actual_params
     value_key: in_training_checkpoints_tree_interval
   - name: interaction_constraints
+    value_dict: actual_params
     value_key: interaction_constraints
   - name: keep_cross_validation_fold_assignment
+    value_dict: actual_params
     value_key: keep_cross_validation_fold_assignment
   - name: keep_cross_validation_models
+    value_dict: actual_params
     value_key: keep_cross_validation_models
   - name: keep_cross_validation_predictions
+    value_dict: actual_params
     value_key: keep_cross_validation_predictions
   - name: learn_rate
+    value_dict: actual_params
     value_key: learn_rate
   - name: learn_rate_annealing
+    value_dict: actual_params
     value_key: learn_rate_annealing
   - name: max_abs_leafnode_pred
+    value_dict: actual_params
     value_key: max_abs_leafnode_pred
   - name: max_after_balance_size
+    value_dict: actual_params
     value_key: max_after_balance_size
   - name: max_confusion_matrix_size
+    value_dict: actual_params
     value_key: max_confusion_matrix_size
   - name: max_depth
+    value_dict: actual_params
     value_key: max_depth
   - name: max_runtime_secs
+    value_dict: actual_params
     value_key: max_runtime_secs
   - name: min_rows
+    value_dict: actual_params
     value_key: min_rows
   - name: min_split_improvement
+    value_dict: actual_params
     value_key: min_split_improvement
   - name: monotone_constraints
+    value_dict: actual_params
     value_key: monotone_constraints
   - name: nbins
+    value_dict: actual_params
     value_key: nbins
   - name: nbins_cats
+    value_dict: actual_params
     value_key: nbins_cats
   - name: nbins_top_level
+    value_dict: actual_params
     value_key: nbins_top_level
   - name: nfolds
+    value_dict: actual_params
     value_key: nfolds
   - name: ntrees
+    value_dict: actual_params
     value_key: ntrees
   - name: offset_column
+    value_dict: actual_params
     value_key: offset_column
   - name: pred_noise_bandwidth
+    value_dict: actual_params
     value_key: pred_noise_bandwidth
   - name: quantile_alpha
+    value_dict: actual_params
     value_key: quantile_alpha
   - name: r2_stopping
+    value_dict: actual_params
     value_key: r2_stopping
   - name: response_column
+    value_dict: actual_params
     value_key: response_column
   - name: sample_rate
+    value_dict: actual_params
     value_key: sample_rate
   - name: sample_rate_per_class
+    value_dict: actual_params
     value_key: sample_rate_per_class
   - name: score_each_iteration
+    value_dict: actual_params
     value_key: score_each_iteration
   - name: score_tree_interval
+    value_dict: actual_params
     value_key: score_tree_interval
   - name: seed
+    value_dict: actual_params
     value_key: seed
   - name: stopping_metric
+    value_dict: actual_params
     value_key: stopping_metric
   - name: stopping_rounds
+    value_dict: actual_params
     value_key: stopping_rounds
   - name: stopping_tolerance
+    value_dict: actual_params
     value_key: stopping_tolerance
   - name: tweedie_power
+    value_dict: actual_params
     value_key: tweedie_power
   - name: weights_column
+    value_dict: actual_params
     value_key: weights_column

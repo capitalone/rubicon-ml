@@ -76,57 +76,73 @@ def test_safe_environ_raises_error(objects_to_log):
     assert f"'{missing_environ_name}' not set" in str(e)
 
 
-def test_get_value_by_key_reads_from_source_mapping():
-    """``value_key`` reads the value from the source mapping (``actual_params`` by
-    default) rather than the attribute, so values resolved into the mapping win
-    over attribute defaults."""
+def test_get_value_by_key_reads_from_value_dict():
+    """``value_dict`` + ``value_key`` read the value from the named mapping
+    attribute, so values resolved into the mapping win over any same-named
+    attribute default."""
 
     class _Model:
-        param_a = 0  # attribute default
+        param_a = 0  # attribute default (ignored by this path)
         actual_params = {"param_a": 7}
 
-    value = logger._get_value(_Model(), {"name": "param_a", "value_key": "param_a"})
+    value = logger._get_value(
+        _Model(),
+        {"name": "param_a", "value_dict": "actual_params", "value_key": "param_a"},
+    )
 
     assert value == 7
 
 
-def test_get_value_by_key_falls_back_to_attr_when_key_absent():
-    """``value_key`` falls back to attribute access when the source mapping does
-    not contain the key, preserving prior ``value_attr`` behavior."""
-
-    class _Model:
-        param_a = "from_attr"
-        actual_params = {}  # key not present in the mapping
-
-    value = logger._get_value(_Model(), {"name": "param_a", "value_key": "param_a"})
-
-    assert value == "from_attr"
-
-
-def test_get_value_by_key_falls_back_when_source_missing():
-    """``value_key`` falls back to attribute access when the source mapping
-    attribute is absent entirely."""
-
-    class _Model:
-        param_a = "from_attr"  # no ``actual_params`` attribute at all
-
-    value = logger._get_value(_Model(), {"name": "param_a", "value_key": "param_a"})
-
-    assert value == "from_attr"
-
-
-def test_get_value_by_key_custom_source():
-    """``value_source`` overrides the default source mapping name."""
+def test_get_value_by_key_uses_named_dict_not_a_default():
+    """The mapping attribute is taken from ``value_dict`` explicitly; no default
+    (e.g. ``actual_params``) is assumed by the core logger."""
 
     class _Model:
         params = {"param_a": 42}
 
     value = logger._get_value(
         _Model(),
-        {"name": "param_a", "value_key": "param_a", "value_source": "params"},
+        {"name": "param_a", "value_dict": "params", "value_key": "param_a"},
     )
 
     assert value == 42
+
+
+def test_get_value_by_key_returns_none_when_key_absent():
+    """Returns ``None`` when the mapping does not contain the key (no fallback to
+    attribute access)."""
+
+    class _Model:
+        param_a = "from_attr"
+        actual_params = {}  # key not present in the mapping
+
+    value = logger._get_value(
+        _Model(),
+        {"name": "param_a", "value_dict": "actual_params", "value_key": "param_a"},
+    )
+
+    assert value is None
+
+
+def test_get_value_by_key_returns_none_when_dict_missing_and_optional():
+    """Returns ``None`` when the ``value_dict`` attribute is absent and the entity
+    is marked optional."""
+
+    class _Model:
+        param_a = "from_attr"  # no ``actual_params`` attribute at all
+
+    value = logger._get_value(
+        _Model(),
+        {
+            "name": "param_a",
+            "value_dict": "actual_params",
+            "value_key": "param_a",
+            "optional": True,
+        },
+    )
+
+    assert value is None
+
 
 
 def test_log_inferred_schema(objects_to_log, rubicon_project, another_object_schema):
