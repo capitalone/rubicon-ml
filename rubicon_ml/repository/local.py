@@ -1,10 +1,10 @@
 import os
 
-from rubicon_ml.repository import BaseRepository
+from rubicon_ml.repository.fsspec import FsspecRepository
 from rubicon_ml.repository.utils import json
 
 
-class LocalRepository(BaseRepository):
+class LocalRepository(FsspecRepository):
     """The local repository persists Rubicon data to a local
     filesystem.
 

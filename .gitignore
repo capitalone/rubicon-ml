@@ -22,3 +22,7 @@ build/**
 dist/**
 
 !docs/source/_static/images/**/*.png
+
+# wandb
+artifacts/
+wandb/

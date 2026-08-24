@@ -7,7 +7,7 @@ from rubicon_ml.exceptions import RubiconException
 if TYPE_CHECKING:
     from rubicon_ml.client import Config
     from rubicon_ml.domain import DOMAIN_TYPES
-    from rubicon_ml.repository import BaseRepository
+    from rubicon_ml.repository import RepositoryBase
 
 
 class Base:
@@ -45,7 +45,7 @@ class Base:
             raise exception
 
     @property
-    def repository(self) -> Optional[BaseRepository]:
+    def repository(self) -> Optional[RepositoryBase]:
         """Get the repository."""
         if self._config is None:
             return None
@@ -58,7 +58,7 @@ class Base:
         return self._config.repository
 
     @property
-    def repositories(self) -> Optional[List[BaseRepository]]:
+    def repositories(self) -> Optional[List[RepositoryBase]]:
         """Get all repositories."""
         if self._config is None:
             return None
