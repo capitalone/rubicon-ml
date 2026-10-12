@@ -85,7 +85,7 @@ optional-dependencies.test = [
     "h2o<=3.46.0.11",
     "ipykernel",
     "jupyterlab",
-    "kaleido==0.2.1",
+    "kaleido>=1.0.0",
     "lightgbm",
     "nbconvert",
     "palmerpenguins",
