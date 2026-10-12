@@ -417,11 +417,15 @@ class WandBRepository(BaseRepository):
         rubicon.domain.Project
             The project with name `project_name`.
         """
-        if self._current_project is not None:
+        if self._current_project is not None and self._current_project.name == project_name:
             return self._current_project
 
         try:
-            self.api.runs(self._get_wandb_path(project_name), per_page=1)
+            # W&B evaluates `runs` lazily and only queries the server when the result is
+            # iterated or sized, so force evaluation here. Without it, a nonexistent project
+            # never raises and `get_project` fabricates a project for any name -- which breaks
+            # `get_or_create_project`
+            len(self.api.runs(self._get_wandb_path(project_name), per_page=1))
         except Exception as e:
             raise RubiconException(f"No project with name '{project_name}' found.") from e
 
