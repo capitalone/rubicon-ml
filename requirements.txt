@@ -16,7 +16,7 @@ numpy==2.5.2
     #   scipy
 pandas==3.0.5
     # via rubicon-ml (pyproject.toml)
-pyarrow==25.0.1
+pyarrow==26.0.0
     # via rubicon-ml (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via pandas
