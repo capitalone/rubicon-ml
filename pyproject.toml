@@ -1,6 +1,5 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-
 requires = [
     "setuptools>=61.0",
 ]
@@ -8,7 +7,6 @@ requires = [
 [project]
 name = "rubicon-ml"
 version = "0.15.3"
-
 description = "AI/ML lifecycle metadata logger with configurable backends"
 readme = "README.md"
 license = { text = "Apache License, Version 2.0" }
@@ -28,19 +26,20 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Software Development :: Build Tools",
     "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-    "click<=8.4.2,>=7.1",
-    "fsspec<=2026.7.0,>=2021.4.0",
-    "numpy<=2.5.2,>=1.22.0",
-    "pandas<=3.0.5,>=1.0.0",
-    "pyarrow<=25.0.1,>=14.0.1",
+    "click<=8.5.0,>=7.1",
+    "fsspec<=2026.9.0,>=2021.4.0",
+    "numpy<=2.5.4,>=1.22.0",
+    "pandas<=3.1.0,>=1.0.0",
+    "pyarrow<=26.0.0,>=14.0.1",
     "pyyaml<=6.0.3,>=5.4.0",
-    "scikit-learn<=1.9.0,>=0.22.0",
+    "scikit-learn<=1.9.1,>=0.22.0",
 ]
 optional-dependencies.all = [
     "rubicon-ml[intake,jsonpath,s3,viz]",
@@ -68,7 +67,7 @@ optional-dependencies.intake = [
     "intake<=2.0.9,>=0.5.2",
 ]
 optional-dependencies.jsonpath = [
-    "jsonpath-ng<=1.8.0,>=1.5.3",
+    "jsonpath-ng<=1.15.0,>=1.5.3",
 ]
 optional-dependencies.ops = [
     "bumpver",
@@ -78,7 +77,7 @@ optional-dependencies.ops = [
     "ruff<0.16.0",
 ]
 optional-dependencies.s3 = [
-    "s3fs<=2026.7.0,>=0.4",
+    "s3fs<=2026.9.0,>=0.4",
 ]
 optional-dependencies.test = [
     "dask[dataframe,distributed]<2025.4.0",
@@ -104,8 +103,8 @@ optional-dependencies.viz = [
     "dash-bootstrap-components<=1.7.1,>=1.0.0",
 ]
 urls."Bug Tracker" = "https://github.com/capitalone/rubicon-ml/issues"
-urls.Documentation = "https://capitalone.github.io/rubicon-ml/"
 urls."Source Code" = "https://github.com/capitalone/rubicon-ml"
+urls.Documentation = "https://capitalone.github.io/rubicon-ml/"
 scripts.rubicon_ml = "rubicon_ml.cli:cli"
 entry-points."intake.drivers".rubicon_ml_dataframe_plot = "rubicon_ml.intake_rubicon.viz:DataframePlotDataSource"
 entry-points."intake.drivers".rubicon_ml_experiment = "rubicon_ml.intake_rubicon.experiment:ExperimentSource"
@@ -114,23 +113,19 @@ entry-points."intake.drivers".rubicon_ml_metric_correlation_plot = "rubicon_ml.i
 entry-points."intake.drivers".rubicon_ml_metric_list = "rubicon_ml.intake_rubicon.viz:MetricListComparisonDataSource"
 
 [tool.setuptools]
-include-package-data = true
+packages.find.where = [
+    ".",
+]
+packages.find.include = [
+    "rubicon_ml*",
+]
 package-dir = { "" = "." }
-
-[tool.setuptools.package-data]
-rubicon_ml = [
+include-package-data = true
+package-data.rubicon_ml = [
+    "py.typed",
     "schema/schema/*.yaml",
     "viz/assets/*",
     "viz/assets/css/*",
-    "py.typed",
-]
-
-[tool.setuptools.packages.find]
-where = [
-    ".",
-]
-include = [
-    "rubicon_ml*",
 ]
 
 [tool.ruff]
@@ -149,15 +144,15 @@ column_width = 1
 indent = 4
 keep_full_version = true
 
-[tool.pytest.ini_options]
-markers = [
+[tool.pytest]
+ini_options.minversion = "3.2"
+ini_options.addopts = "--cov=./rubicon_ml --cov-fail-under=90 --cov-report=term-missing -m='not write_files and not wandb'"
+ini_options.markers = [
     "run_notebooks: tests that run Jupyter notebooks",
     "wandb: tests that connect to Weights & Biases",
     "write_files: tests that physically write files to local and S3 filesystems",
 ]
-addopts = "--cov=./rubicon_ml --cov-fail-under=90 --cov-report=term-missing -m='not write_files and not wandb'"
-minversion = "3.2"
-xfail_strict = true
+ini_options.xfail_strict = true
 
 [bumpver]
 current_version = "0.15.3"
