@@ -1,3 +1,4 @@
+import sys
 import warnings
 from unittest.mock import patch
 
@@ -32,6 +33,33 @@ def test_cli(mock_get_project, mock_projects, mock_run_server, project_client):
         assert len(caught_warnings) == 2
         assert "`--page-size` option will be deprecated" in str(caught_warnings[0])
         assert "`--project-name` will be a required option" in str(caught_warnings[1])
+
+
+def test_cli_help_without_ui_extras(monkeypatch):
+    # a `None` entry in `sys.modules` makes importing that module raise `ImportError`,
+    # which is what happens when the `ui` extras (dash, dash-bootstrap-components)
+    # are not installed
+    monkeypatch.setitem(sys.modules, "rubicon_ml.viz", None)
+    monkeypatch.delitem(sys.modules, "rubicon_ml.cli", raising=False)
+
+    from rubicon_ml.cli import cli as cli_without_ui_extras
+
+    runner = CliRunner()
+
+    for args in (["--help"], ["search", "--help"]):
+        result = runner.invoke(cli_without_ui_extras, args)
+
+        assert result.exit_code == 0
+
+
+def test_cli_ui_without_ui_extras(monkeypatch):
+    monkeypatch.setitem(sys.modules, "rubicon_ml.viz", None)
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["ui", "--root-dir", "/path/to/root"])
+
+    assert result.exit_code == 1
+    assert "pip install rubicon-ml[ui]" in result.output
 
 
 def _set_up_rubicon_project(project):
