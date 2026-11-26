@@ -7,7 +7,6 @@ import click
 
 from rubicon_ml import Rubicon
 from rubicon_ml.client.rubicon_json import RubiconJSON
-from rubicon_ml.viz import Dashboard
 
 
 @click.group()
@@ -56,6 +55,16 @@ def cli():
 @click.argument("storage_options", nargs=-1, type=click.UNPROCESSED)
 def ui(root_dir, page_size, project_name, host, port, debug, storage_options):
     """Launch the Rubicon Dashboard."""
+    try:
+        from rubicon_ml.viz import Dashboard
+    except ImportError:
+        click.secho(
+            "`ui` extras are required to launch the dashboard. "
+            "Install with `pip install rubicon-ml[ui]`.",
+            fg="red",
+        )
+        sys.exit(1)
+
     if page_size != 10:
         warnings.warn("The `--page-size` option will be deprecated in a future release.")
 
